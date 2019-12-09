@@ -1,0 +1,9 @@
+#!bash
+
+# Download the subsampled shared file, taxonomy and the metadata from Marc Sze's Github
+
+curl -o data/baxter.0.03.subsample.shared https://raw.githubusercontent.com/SchlossLab/Sze_CRCMetaAnalysis_mBio_2018/master/data/process/baxter/baxter.0.03.subsample.shared
+
+curl -o data/metadata.tsv https://raw.githubusercontent.com/SchlossLab/Sze_CRCMetaAnalysis_mBio_2018/master/data/process/baxter/metadata.tsv
+
+curl -o data/baxter.taxonomy https://raw.githubusercontent.com/SchlossLab/Sze_CRCMetaAnalysis_mBio_2018/master/data/process/baxter/baxter.taxonomy
