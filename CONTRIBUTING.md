@@ -65,10 +65,9 @@ If you need a refresher on Git or GitHub, see:
     git push origin new-branch-name
     ```
 
-    If you forget the branch name, you can list existing branches using the command:
-    ```
-    git branch --list
-    ```
+    If you forget the branch name:
+    - Run `git status` to see the branch you currently have checked out (among other things).
+    - You can list existing branches with `git branch --list`.
 
 1. Open a pull request [[example](https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1)].
     1. Open the [repo page](https://github.com/SchlossLab/ML_pipeline_microbiome) in your web browser.
