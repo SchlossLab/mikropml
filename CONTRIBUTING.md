@@ -1,6 +1,6 @@
 # How to Contribute
 
-We use the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) workflow to make our lives easier.
+We use the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) workflow to make our lives easier.
 This means all edits should be made in separate branches -- not the `master` branch.
 Only the project maintainer will make edits or merge on `master`.
 
@@ -48,8 +48,7 @@ If you need a refresher on Git or GitHub, see:
     ```
     git checkout -b new-branch-name
     ```
-    Alternatively, if you don't have write access to the repository, you'll need to
-    [fork the repo](https://help.github.com/en/articles/fork-a-repo) instead and work on your fork.
+    The branch name should reflect the bug or feature it will resolve, or reference the issue number directly.
 
 1. Make your edits.
 
@@ -66,7 +65,7 @@ If you need a refresher on Git or GitHub, see:
 
     In the merge commit message, reference any [issues](https://github.com/SchlossLab/ML_pipeline_microbiome/issues)
     (our To-Do list) that the pull request resolves so the issue is closed automatically.
-    For example, the [commit](https://github.com/GWC-DCMB/ClubCurriculum/commit/e871017fc77fe2023f2488d3c18ae4baaee5b03f)
+    For example, the [commit](https://github.com/SchlossLab/ML_pipeline_microbiome/commit/b7d0c295b71994e83cdd5aec6b26eb881523efdb)
     message I wrote when adding this file was `Add contributing instructions (Resolves #12)`.
 
 1. Push your branch to GitHub.
@@ -85,7 +84,7 @@ If you need a refresher on Git or GitHub, see:
     git branch --list
     ```
 
-1. Open a pull request [[example](https://github.com/GWC-DCMB/ClubCurriculum/pull/21)].
+1. Open a pull request [[example](https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1)].
     1. Open the [repo page](https://github.com/SchlossLab/ML_pipeline_microbiome) in your web browser.
     1. If you want to see what the modifications look like before opening a pull request, you can go to the document you
     modified and change the branch to the left of the file name.
@@ -98,4 +97,6 @@ If you need a refresher on Git or GitHub, see:
     If you have write access to the repo, **don't merge your branch into master**.
     The maintainer will merge it when they decide the branch is ready.
 
-1. Continue to commit & push changes on your branch to update the open pull request.
+1. Continue to commit & push changes on your branch to update the open pull request as needed.
+
+1. Once a pull request is merged, the maintainer may delete the branch if it will no longer be needed in the future.
