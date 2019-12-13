@@ -20,9 +20,9 @@ If you need a refresher on Git or GitHub, see:
         ```
         (All Schlabbies have write access.)
 
-    - **fork** if you do _not_ have write access by pressing the [Fork]((https://help.github.com/en/articles/fork-a-repo)) button on [GitHub](https://github.com/SchlossLab/ML_pipeline_microbiome).
+    - **fork** if you do _not_ have write access by pressing the [Fork]((https://help.github.com/en/articles/fork-a-repo)) button on [GitHub](https://github.com/SchlossLab/ML_pipeline_microbiome), then clone your fork.
 
-1. Move to the repo directory (cloned above during [git setup](#setup).)
+1. Move to the repo directory.
 
     ```
     cd ML_pipeline_microbiome
