@@ -4,37 +4,23 @@ We use the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows
 This means all edits should be made in separate branches -- not the `master` branch.
 Only the project maintainer will make edits or merge on `master`.
 
-View the open issues to see the To-Do list.
+View the open [issues](https://github.com/SchlossLab/ML_pipeline_microbiome/issues) to see the To-Do list.
 If an issue isn't assigned to anyone, we would welcome your contribution!
-
-## Setup
-
-If you haven't already:
-
-1. Configure git on your local machine.
-
-    Use the same email that is associated with your GitHub account.
-    ```
-    git config --global user.name "Firstname Lastname"
-    git config --global user.email "you@email.com"
-    ```
-    More detailed instructions are available in the [Software Carpentry git lesson](http://swcarpentry.github.io/git-novice/02-setup/index.html).
-
-1. Either `clone` or `fork` this repo.
-    - `clone` if you have write access:
-        ```
-        git clone https://github.com/SchlossLab/ML_pipeline_microbiome
-        ```
-        (All Schlabbies have write access.)
-
-    - `fork` if you do _not_ have write access by pressing the [Fork]((https://help.github.com/en/articles/fork-a-repo)) button on [GitHub](https://github.com/SchlossLab/ML_pipeline_microbiome).
 
 If you need a refresher on Git or GitHub, see:
 - Software Carpentry's lesson: [Version Control with Git](http://swcarpentry.github.io/git-novice/)
 - Hadley Wickham's chapter on Git and GitHub in his book [R Packages](http://r-pkgs.had.co.nz/git.html)
 
-
 ## Contributing changes
+
+1. Either `clone` or `fork` this repo.
+    - **clone** if you have write access:
+        ```
+        git clone https://github.com/SchlossLab/ML_pipeline_microbiome
+        ```
+        (All Schlabbies have write access.)
+
+    - **fork** if you do _not_ have write access by pressing the [Fork]((https://help.github.com/en/articles/fork-a-repo)) button on [GitHub](https://github.com/SchlossLab/ML_pipeline_microbiome).
 
 1. Move to the repo directory (cloned above during [git setup](#setup).)
 
