@@ -42,7 +42,7 @@ for (dep in deps){
   library(dep, verbose=FALSE, character.only=TRUE)
 }
 # Load in needed functions and libraries
-source('code/R/model_selection.R')
+source('code/R/tuning_grid.R')
 source('code/R/model_pipeline.R') # has pipeline function defined here (called within generate.AUCs.R)
 source('code/R/generateAUCs.R') # has get_results function defined here
 source('code/R/permutation_importance.R')
