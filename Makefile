@@ -42,7 +42,7 @@ $(TEMP)/best_hp_results_XGBoost_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "XGBoost"
 
 
@@ -56,7 +56,7 @@ $(TEMP)/best_hp_results_Random_Forest_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "Random_Forest"
 
 $(TEMP)/traintime_Decision_Tree_%.csv\
@@ -69,7 +69,7 @@ $(TEMP)/best_hp_results_Decision_Tree_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "Decision_Tree"
 
 $(TEMP)/traintime_RBF_SVM_%.csv\
@@ -82,7 +82,7 @@ $(TEMP)/best_hp_results_RBF_SVM_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "RBF_SVM"
 
 $(TEMP)/traintime_L1_Linear_SVM_%.csv\
@@ -95,7 +95,7 @@ $(TEMP)/best_hp_results_L1_Linear_SVM_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "L1_Linear_SVM"
 
 $(TEMP)/traintime_L2_Linear_SVM_%.csv\
@@ -108,7 +108,7 @@ $(TEMP)/best_hp_results_L2_Linear_SVM_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "L2_Linear_SVM"
 
 $(TEMP)/traintime_L2_Logistic_Regression_%.csv\
@@ -121,7 +121,7 @@ $(TEMP)/best_hp_results_L2_Logistic_Regression_%.csv	:	data/baxter.0.03.subsampl
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
+														$(CODE)/tuning_grid.R
 			Rscript code/learning/main.R $* "L2_Logistic_Regression"
 
 # Create variable names with patterns to describe temporary files
