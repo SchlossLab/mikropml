@@ -42,10 +42,10 @@ for (dep in deps){
   library(dep, verbose=FALSE, character.only=TRUE)
 }
 # Load in needed functions and libraries
-source('code/learning/model_selection.R')
-source('code/learning/model_pipeline.R') # has pipeline function defined here (called within generate.AUCs.R)
-source('code/learning/generateAUCs.R') # has get_results function defined here
-source('code/learning/permutation_importance.R')
+source('code/R/model_selection.R')
+source('code/R/model_pipeline.R') # has pipeline function defined here (called within generate.AUCs.R)
+source('code/R/generateAUCs.R') # has get_results function defined here
+source('code/R/permutation_importance.R')
 ######################################################################
 
 ######################## DATA PREPARATION #############################
@@ -72,7 +72,7 @@ data <- inner_join(meta, shared, by=c("sample"="Group")) %>%
     Dx_Bin== "Cancer" ~ "cancer"
   )) %>%
   select(-sample, -Dx_Bin, -fit_result) %>%
-  drop_na() %>% 
+  drop_na() %>%
   select(dx, everything())
 # We want the diagnosis column to be a factor
 #data$dx <- factor(data$dx)
