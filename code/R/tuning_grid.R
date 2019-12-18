@@ -35,7 +35,7 @@
 ######################################################################
 tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
 
-  # NOTE: Hyperparameters should be a list where the names of the list are the 
+  # NOTE: Hyperparameters should be a list where the names of the list are the
   # hyperparameters and the values are the values to be tested
 
   # set outcome as first column if null
@@ -135,7 +135,7 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
   if(model=="L2_Logistic_Regression") {
    if(is.null(hyperparameters)){
        hyperparameters <- list()
-       hyperparameters$cost <- c(0.0001, 0.001, 0.0025, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 10) # maybe change these default parameters?
+       hyperparameters$cost <- c(1e-6, 1e-5, 1e-4, 1e-3, 0.0025, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 10) # maybe change these default parameters?
     }
     grid <-  expand.grid(cost = hyperparameters$cost,
                          loss = "L2_primal",
@@ -147,7 +147,7 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
   else if (model=="L1_Linear_SVM"){ #
     if(is.null(hyperparameters)){
        hyperparameters <- list()
-       hyperparameters$cost <- c(0.0001, 0.001, 0.01, 0.015, 0.025, 0.05, 0.1, 0.5, 1) # maybe change these default parameters?
+       hyperparameters$cost <- c(1e-6, 1e-5, 1e-4, 1e-3, 0.01, 0.015, 0.025, 0.05, 0.1, 0.5, 1, 10) # maybe change these default parameters?
     }
     grid <- expand.grid(cost = hyperparameters$cost,
                         Loss = "L2")
@@ -156,7 +156,7 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
   else if (model=="L2_Linear_SVM"){
     if(is.null(hyperparameters)){
        hyperparameters <- list()
-       hyperparameters$cost <- c(0.0001, 0.0005, 0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.5, 1) # maybe change these default parameters?
+       hyperparameters$cost <- c(1e-6, 1e-5, 1e-4, 0.0005, 0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.5, 1) # maybe change these default parameters?
     }
     grid <- expand.grid(cost = hyperparameters$cost,
                         Loss = "L2")
@@ -187,9 +187,9 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
       if(n_features > 20000) n_features <- 20000
       # if few features
       if(n_features < 19){ mtry <- 1:6
-      } else { 
+      } else {
         # if many features
-        mtry <- floor(seq(1, n_features, length=6)) 
+        mtry <- floor(seq(1, n_features, length=6))
       }
       # only keep ones with less features than you have
       hyperparameters <- list()
