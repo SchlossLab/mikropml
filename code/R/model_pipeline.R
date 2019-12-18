@@ -37,7 +37,7 @@
 ######################################################################
 
 
-pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=NULL, perm=T){
+pipeline <- function(dataset, model, split_number, perm=T, hyperparameters=NULL, outcome=NA){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in dataset
@@ -196,7 +196,7 @@ pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=N
     rpartProbs <- predict(trained_model, testTransformed, type="prob")
     test_roc <- roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
     test_auc <- test_roc$auc
-  } 
+  }
 
   # ---------------------------------------------------------------------------------->
 
