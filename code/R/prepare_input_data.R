@@ -44,6 +44,7 @@ data <- inner_join(metadata, shared, by=c("sample"="Group")) %>%
   )) %>%
   select(-sample, -Dx_Bin, -fit_result) %>%
   drop_na() %>%
+  head(n=25) %>%
   write_csv("data/input_data.csv")
 
 
