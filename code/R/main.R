@@ -65,7 +65,7 @@ source('code/R/permutation_importance.R')
 #  - Second argument is the model name (one of the list above)
 
 input <- commandArgs(trailingOnly=TRUE)
-dataset <- input[1]
+dataset <- input[1] # Has all the features and the outcome column in a csv file.
 seed <- as.numeric(input[2])
 model <- input[3]
 permutation <- as.numeric(input[4]) # 1 if permutation performed
