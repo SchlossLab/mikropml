@@ -38,12 +38,12 @@ get_results <- function(data, models, split_number, perm=T, outcome=NA, hyperpar
 
     if(perm==T){
         if(file.exists("data/process/sig_flat_corr_matrix.csv")){
-            paste("Running permutation importance")
+            print("Running permutation importance")
         }else{
             stop(paste('Permutation importance can be computed only if you have created a correlation matrix.'))}
     }
     else{
-        paste("Not running permutation importance")
+        print("Not running permutation importance")
     }
 
   # Save results of the modeling pipeline as a list
