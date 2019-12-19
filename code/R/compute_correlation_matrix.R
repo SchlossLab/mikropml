@@ -23,14 +23,14 @@ for (dep in deps){
 compute_correlation_matrix <- function(input_file, outcome){
 
 
-    ####################### READ IN THE INPUT DATA #######################
+    ############### READ IN THE INPUT DATA ###############
     data_corr <- read.csv(input_file) %>%
         select(-outcome) # remove outcome, only keep the OTUs
-    ######################################################################
+    #######################################################
 
 
 
-    ####################### COMPUTE CORRELATION MATRIX ##################
+    ########### COMPUTE CORRELATION MATRIX ##################
     r <- rcorr(as.matrix(data_corr), type="spearman")
 
     adjusted <- p.adjust(r$P, method = "holm")
@@ -50,7 +50,7 @@ compute_correlation_matrix <- function(input_file, outcome){
       filter(cor==1) %>%
       filter(p<0.01) %>%
       write_csv("data/process/sig_flat_corr_matrix.csv")
-    ######################################################################
+    ##########################################################
 
 
 }
