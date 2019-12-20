@@ -45,11 +45,11 @@ data <- inner_join(metadata, shared, by=c("sample"="Group")) %>%
   select(-sample, -Dx_Bin, -fit_result) %>%
   drop_na() %>%
   select(dx, everything()) %>%
-  write_csv("test/data/small_input_data.csv")
+  write_csv("test/data/input_data.csv")
 
 
 #################### CORRELATION MATRIX PREPARATION ########################
 # We make a spearman rank correlation matrix for all the OTUs pairwase
 # We then extract the perfecly and significant (p<0.01) correlated (coefficient=1) OTUs and create a file in data/process
 
-compute_correlation_matrix("test/data/small_input_data.csv", "dx")
+compute_correlation_matrix("test/data/input_data.csv", "dx")
