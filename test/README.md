@@ -9,7 +9,7 @@ Test data: ```data/test_data.csv```
 To run the test code:
 
 ```
-Rscript code/R/main.R data/input_data.csv 1 "L2_Logistic_Regression" 0 "dx"
+Rscript code/R/main.R data/test_data.csv 1 "L2_Logistic_Regression" 0 "dx"
 ```
 
 - __1st argument:__ Input data
