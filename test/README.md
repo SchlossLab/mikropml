@@ -1,6 +1,6 @@
 # Testing the code
 
-Test data: ```data/test_data.csv```
+Test data: ```test/data/small_input_data.csv```
 
 - Has 25 samples.
 - All the OTUs that is in the original dataset and 1 column for the outcome (dx).
@@ -9,7 +9,7 @@ Test data: ```data/test_data.csv```
 ### To run the test code:
 
 ```
-Rscript code/R/main.R data/test_data.csv 1 "L2_Logistic_Regression" 0 "dx"
+Rscript code/R/main.R test/data/test_data.csv 1 "L2_Logistic_Regression" 0 "dx"
 ```
 
 - __1st argument:__ Input data
