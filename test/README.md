@@ -4,7 +4,7 @@ Test data: ```data/test_data.csv```
 
 - Has 25 samples.
 - All the OTUs that is in the original dataset and 1 column for the outcome (dx).
-- Should take 1 minute to run.
+- Should take 60-90 seconds to run.
 
 ### To run the test code:
 
