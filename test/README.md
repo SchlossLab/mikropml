@@ -6,7 +6,7 @@ Test data: ```data/test_data.csv```
 - All the OTUs that is in the original dataset and 1 column for the outcome (dx).
 - Should take 1 minute to run.
 
-To run the test code:
+### To run the test code:
 
 ```
 Rscript code/R/main.R data/test_data.csv 1 "L2_Logistic_Regression" 0 "dx"
@@ -22,7 +22,7 @@ Rscript code/R/main.R data/test_data.csv 1 "L2_Logistic_Regression" 0 "dx"
 
 - __5th argument:__ The outcome we are trying to predict
 
-If the script runs with no problems, then please go and check you are getting the same result as I am.
+### If the script runs with no problems, then please go and check you are getting the same result as I am.
 
 ```
 nano data/temp/best_hp_results_L2_Logistic_Regression_1.csv
