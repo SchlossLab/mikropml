@@ -1,6 +1,7 @@
 # Testing the code
 
 Test data: `data/test_data.csv`
+
     - Has 25 samples.
     - All the OTUs that is in the original dataset and 1 column for the outcome (dx).
     - Should take 1 minute to run.
