@@ -54,7 +54,9 @@ cd ML_pipeline_microbiome
 
 3. This ML pipeline is to predict a binary outcome.
 
-4. Examples of how to run ML pipeline:
+4. Go to `test/README.md` to see how you can use this pipeline with a pre-prepared test dataset.
+
+Examples of how to run ML pipeline:
 
 	1. Run the ML pipeline once (using seed=1) using L2-regularized logistic regression: (Using a different seed will result in the dataset to be split to 80 training set - 20 testing set differently. Different seeds will give slightly different results.)
 
