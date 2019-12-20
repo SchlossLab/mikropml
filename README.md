@@ -106,6 +106,7 @@ cd ML_pipeline_microbiome
 
 	`Rscript code/R/main.R test/data/test_data.csv 100 "Random_Forest" 0 "dx"`
 
+
 		- However, this is time-consuming and not DRY. We can run it paralellized for each datasplit (seed). We do this in our HPC by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/pbs/L2_Logistic_Regression.pbs` script. You can also follow how this is done in our `Makefile`.
 
 	4. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These files will all be saved to `data/temp`. We need to merge these files.
