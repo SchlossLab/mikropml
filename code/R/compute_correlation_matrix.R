@@ -5,23 +5,10 @@
 # This script pulls the input data and computes a correlation matrix
 ######################################################################
 
-
-################### IMPORT LIBRARIES and FUNCTIONS ###################
-# The dependinces for this script are consolidated in the first part
-deps = c("dplyr", "Hmisc", "RcmdrMisc", "tidyverse");
-for (dep in deps){
-  if (dep %in% installed.packages()[,"Package"] == FALSE){
-    install.packages(as.character(dep), quiet=TRUE, repos = "http://cran.us.r-project.org", dependencies=TRUE);
-  }
-  library(dep, verbose=FALSE, character.only=TRUE)
-}
-######################################################################
-
 # Usage: input file - "data/input_data.csv"
 #        outcome - e.g. "dx"
 
 compute_correlation_matrix <- function(input_file, outcome){
-
 
     ############### READ IN THE INPUT DATA ###############
     data_corr <- read.csv(input_file) %>%
@@ -51,6 +38,4 @@ compute_correlation_matrix <- function(input_file, outcome){
       filter(p<0.01) %>%
       write_csv("data/process/sig_flat_corr_matrix.csv")
     ##########################################################
-
-
 }

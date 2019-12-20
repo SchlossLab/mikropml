@@ -9,7 +9,7 @@
 
 ################### IMPORT LIBRARIES and FUNCTIONS ###################
 # The dependinces for this script are consolidated in the first part
-deps = c("tidyverse");
+deps = c("tidyverse", "dplyr", "Hmisc", "RcmdrMisc");
 for (dep in deps){
   if (dep %in% installed.packages()[,"Package"] == FALSE){
     install.packages(as.character(dep), quiet=TRUE, repos = "http://cran.us.r-project.org", dependencies=TRUE);
@@ -44,11 +44,12 @@ data <- inner_join(metadata, shared, by=c("sample"="Group")) %>%
   )) %>%
   select(-sample, -Dx_Bin, -fit_result) %>%
   drop_na() %>%
-  head(n=25) %>%
+  select(dx, everything()) %>%
   write_csv("data/input_data.csv")
 
 
 #################### CORRELATION MATRIX PREPARATION ########################
 # We make a spearman rank correlation matrix for all the OTUs pairwase
 # We then extract the perfecly and significant (p<0.01) correlated (coefficient=1) OTUs and create a file in data/process
+
 compute_correlation_matrix("data/input_data.csv", "dx")
