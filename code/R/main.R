@@ -21,8 +21,7 @@ Options
   --permutation              Whether to perform permutation.
 
 ' -> doc
-################### IMPORT LIBRARIES and FUNCTIONS ###################
-# The dependinces for this script are consolidated in the first part
+
 deps = c(
   "docopt",
   "dplyr",

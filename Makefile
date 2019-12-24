@@ -4,7 +4,7 @@ TABLES = results/tables
 TEMP = data/temp
 PROC = data/process
 FINAL = submission/
-CODE = code/learning
+CODE = code/R
 
 print-%:
 	@echo '$*=$($*)'
@@ -18,8 +18,12 @@ print-%:
 ################################################################################
 
 data/baxter.0.03.subsample.shared\
-data/metadata.tsv	:	code/learning/load_datasets.batch
-	bash code/learning/load_datasets.batch
+data/metadata.tsv	:	code/R/load_datasets.batch
+	bash code/R/load_datasets.batch
+
+data/process/sig_flat_corr_matrix	:	code/R/compute_correlation_matrix.R\
+										code/R/prepare_input_data.R
+	Rscript code/R/prepare_input_data.R
 
 ################################################################################
 #
@@ -42,8 +46,8 @@ $(TEMP)/best_hp_results_XGBoost_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "XGBoost"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "XGBoost"
 
 
 $(TEMP)/traintime_Random_Forest_%.csv\
@@ -56,8 +60,8 @@ $(TEMP)/best_hp_results_Random_Forest_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "Random_Forest"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "Random_Forest"
 
 $(TEMP)/traintime_Decision_Tree_%.csv\
 $(TEMP)/all_imp_features_cor_results_Decision_Tree_%.csv\
@@ -69,8 +73,8 @@ $(TEMP)/best_hp_results_Decision_Tree_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "Decision_Tree"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "Decision_Tree"
 
 $(TEMP)/traintime_RBF_SVM_%.csv\
 $(TEMP)/all_imp_features_cor_results_RBF_SVM_%.csv\
@@ -82,8 +86,8 @@ $(TEMP)/best_hp_results_RBF_SVM_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "RBF_SVM"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "RBF_SVM"
 
 $(TEMP)/traintime_L1_Linear_SVM_%.csv\
 $(TEMP)/all_imp_features_cor_results_L1_Linear_SVM_%.csv\
@@ -95,8 +99,8 @@ $(TEMP)/best_hp_results_L1_Linear_SVM_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "L1_Linear_SVM"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "L1_Linear_SVM"
 
 $(TEMP)/traintime_L2_Linear_SVM_%.csv\
 $(TEMP)/all_imp_features_cor_results_L2_Linear_SVM_%.csv\
@@ -108,8 +112,8 @@ $(TEMP)/best_hp_results_L2_Linear_SVM_%.csv	:	data/baxter.0.03.subsample.shared\
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "L2_Linear_SVM"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "L2_Linear_SVM"
 
 $(TEMP)/traintime_L2_Logistic_Regression_%.csv\
 $(TEMP)/all_imp_features_cor_results_L2_Logistic_Regression_%.csv\
@@ -121,8 +125,8 @@ $(TEMP)/best_hp_results_L2_Logistic_Regression_%.csv	:	data/baxter.0.03.subsampl
 														$(CODE)/model_pipeline.R\
 														$(CODE)/model_interpret.R\
 														$(CODE)/main.R\
-														$(CODE)/model_selection.R
-			Rscript code/learning/main.R $* "L2_Logistic_Regression"
+														$(CODE)/tuning_grid.R
+			Rscript code/R/main.R $* "L2_Logistic_Regression"
 
 # Create variable names with patterns to describe temporary files
 
@@ -166,9 +170,9 @@ $(PROC)/combined_L2_Linear_SVM_$(DATA).tsv\
 $(PROC)/combined_L2_Logistic_Regression_$(DATA).tsv	:	$(L2_LOGISTIC_REGRESSION_COR_IMP_REPS)\
 												$(L1_LINEAR_SVM_COR_IMP_REPS)\
 												$(L2_LINEAR_SVM_COR_IMP_REPS)\
-												code/learning/get_feature_rankings.R\
+												code/R/get_feature_rankings.R\
 												code/merge_feature_ranks.sh
-	Rscript code/learning/get_feature_rankings\
+	Rscript code/R/get_feature_rankings\
 	bash code/merge_feature_ranks.sh
 
 

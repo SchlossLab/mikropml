@@ -15,7 +15,7 @@
 #       4. "Decision_Tree"
 #       5. "Random_Forest"
 #       6. "XGBoost"
-#    Dataset to put to function:
+#    data to put to function:
 #         Features: Hemoglobin levels and 16S rRNA gene sequences in the stool
 #         Labels: - Colorectal lesions of 490 patients.
 #                 - Defined as cancer or not.(Cancer here means: SRN)
@@ -40,26 +40,26 @@ source("code/R/model_selection.R")
 pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
-  # If no outcome specified, use first column in dataset
+  # If no outcome specified, use first column in data
   if(is.na(outcome)){
-    outcome <- colnames(dataset)[1]
+    outcome <- colnames(data)[1]
   }else{
-    # check to see if outcome is in column names of dataset
-    if(!outcome %in% names(dataset)){
-      stop(paste('Outcome',outcome,'not in column names of dataset.'))
+    # check to see if outcome is in column names of data
+    if(!outcome %in% names(data)){
+      stop(paste('Outcome',outcome,'not in column names of data.'))
     }
   }
 
-  # ------------------Pre-process the full Dataset------------------------->
-  # We are doing the pre-processing to the full dataset and then splitting 80-20
+  # ------------------Pre-process the full data------------------------->
+  # We are doing the pre-processing to the full data and then splitting 80-20
   # Scale all features between 0-1
-  preProcValues <- preProcess(dataset, method = "range")
-  dataTransformed <- predict(preProcValues, dataset)
+  preProcValues <- preProcess(data, method = "range")
+  dataTransformed <- predict(preProcValues, data)
   # ----------------------------------------------------------------------->
 
   # Get outcome variables
-  first_outcome = as.character(dataset[,outcome][1])
-  outcome_vals = unique(dataset[,outcome])
+  first_outcome = as.character(data[,outcome][1])
+  outcome_vals = unique(data[,outcome])
   if(length(outcome_vals) != 2) stop('A binary outcome variable is required.')
   second_outcome = as.character(outcome_vals[!outcome_vals == first_outcome])
   print(paste(c('first outcome:','second outcome:'),c(first_outcome,second_outcome)))
@@ -75,7 +75,7 @@ pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=N
 
   # -------------Define hyper-parameter and cv settings-------------------->
   # Define hyper-parameter tuning grid and the training method
-  # Uses function tuning_grid() in file ('code/learning/model_selection.R')
+  # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
   tune <- tuning_grid(trainTransformed, model, outcome, hyperparameters)
   grid <- tune[[1]]
   method <- tune[[2]]
@@ -84,7 +84,7 @@ pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=N
 
   # ---------------------------Train the model ---------------------------->
   # ------------------------------- 1. -------------------------------------
-  # - We train on the 80% of the full dataset.
+  # - We train on the 80% of the full data.
   # - We use the cross-validation and hyper-parameter settings defined above to train
   # ------------------------------- 2. -------------------------------------
   # We use ROC metric for all the models
