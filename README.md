@@ -20,7 +20,7 @@ Contributers:
 ML Pipeline Microbiome
 
 Usage:
-  main.R --seed=<num> --model=<name> --metadata=<tsv> --otu=<tsv> --hyperparams=<tsv> --outcome=<colname> [--permutation]
+  main.R --seed=<num> --model=<name> --metadata=<tsv> --otu=<shared> --hyperparams=<tsv> --outcome=<colname> [--permutation]
   main.R --help
 
 Options
@@ -34,7 +34,7 @@ Options
                                 Random_Forest
                                 XGBoost
   --metadata=<tsv>           Metadata filename in tsv format.
-  --otu=<tsv>                OTU table filename in mothur shared format.
+  --otu=<shared>             OTU table filename in mothur shared format.
   --hyperparams=<tsv>        Hyperparameters filename in tsv format.
   --outcome=<colname>        Outcome column name from the metadata file.
   --permutation              Whether to perform permutation. 
