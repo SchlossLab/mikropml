@@ -1,3 +1,38 @@
+## Usage
+
+### Command Line Interface
+
+```
+ML Pipeline Microbiome
+
+Usage:
+  main.R --seed=<num> --model=<name> --metadata=<tsv> --otu=<tsv> --hyperparams=<tsv> --outcome=<colname> [--permutation]
+  main.R --help
+
+Options
+  -h --help                  Display this help message.
+  --seed=<num>               Random seed.
+  --model=<name>             Model name. options:
+                                L2_Logistic_Regression
+                                L1_Linear_SVM
+                                L2_Linear_SVM
+                                RBF_SVM Decision_Tree
+                                Random_Forest
+                                XGBoost
+  --metadata=<tsv>           Metadata filename in tsv format.
+  --otu=<tsv>                OTU table filename in mothur shared format.
+  --hyperparams=<tsv>        Hyperparameters filename in tsv format.
+  --outcome=<colname>        Outcome column name from the metadata file.
+  --permutation              Whether to perform permutation. 
+
+```
+
+### Example
+
+```
+Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --metadata data/metadata.tsv --otu data/baxter.0.03.subsample.shared --hyperparams data/hyperparams.tsv --outcome dx
+```
+
 ### Overview
 
 	project
@@ -26,7 +61,6 @@
 	| |- references.bib 			# BibTeX formatted references 
 	|
 	|- Makefile	 # Reproduce the manuscript, figures and tables
-
 
 
 ### How to regenerate this repository in R

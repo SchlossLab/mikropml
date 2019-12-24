@@ -35,9 +35,9 @@
 ######################################################################
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
+source("code/R/model_selection.R")
 
-
-pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=NULL, perm=T){
+pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in dataset
@@ -157,7 +157,7 @@ pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=N
   #   if linear: Output the weights of features of linear models
   #   else: Output the feature importances based on random permutation for non-linear models
   # Here we look at the top 20 important features
-  if(perm==T){
+  if(permutation){
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
       # We will use the permutation_importance function here to:
       #     1. Predict held-out test-data
@@ -196,7 +196,7 @@ pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=N
     rpartProbs <- predict(trained_model, testTransformed, type="prob")
     test_roc <- roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
     test_auc <- test_roc$auc
-  } 
+  }
 
   # ---------------------------------------------------------------------------------->
 
