@@ -35,7 +35,6 @@ run_model <-
     function(seed,
              model,
              data_filename,
-             otu_filename,
              hyperparam_filename,
              outcome,
              permutation) {
