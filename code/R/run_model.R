@@ -34,56 +34,13 @@ source("code/R/model_pipeline.R")
 run_model <-
     function(seed,
              model,
-             metadata_filename,
+             data_filename,
              otu_filename,
              hyperparam_filename,
              outcome,
              permutation) {
 
         dir.create(file.path("data", "temp"), showWarnings = FALSE)
-        ######################## DATA PREPARATION #############################
-        # Features: Hemoglobin levels(FIT) and 16S rRNA gene sequences(OTUs) in the stool
-        # Labels: - Colorectal lesions of 490 patients.
-        #         - Defined as cancer or not.(Cancer here means: SRN)
-        #                                     SRNs are adv adenomas+carcinomas
-
-        # Read in metadata and select only sample Id and diagnosis columns
-        meta <- read.delim(metadata_filename, header = T, sep = '\t') %>%
-            select(sample, Dx_Bin, fit_result)
-        # Read in OTU table and remove label and numOtus columns
-        shared <-
-            read.delim(otu_filename,
-                       header = T,
-                       sep = '\t') %>%
-            select(-label, -numOtus)
-        # Merge metadata and OTU table.
-        # Group advanced adenomas and cancers together as cancer and normal, high risk normal and non-advanced adenomas as normal
-        # Then remove the sample ID column
-        data <- inner_join(meta, shared, by = c("sample" = "Group")) %>%
-            mutate(
-                dx = case_when(
-                    Dx_Bin == "Adenoma" ~ "normal",
-                    Dx_Bin == "Normal" ~ "normal",
-                    Dx_Bin == "High Risk Normal" ~ "normal",
-                    Dx_Bin == "adv Adenoma" ~ "cancer",
-                    Dx_Bin == "Cancer" ~ "cancer"
-                )
-            ) %>%
-            select(-sample, -Dx_Bin, -fit_result) %>%
-            drop_na() %>%
-            select(dx, everything())
-        ###################################################################
-
-        ######################## RUN PIPELINE #############################
-        # Choose which classification methods we want to run on command line
-        #                "L2_Logistic_Regression",
-        #                "L1_Linear_SVM",
-        #                "L2_Linear_SVM",
-        #                "RBF_SVM",
-        #                "Decision_Tree",
-        #                "Random_Forest",
-        #                "XGBoost"
-
         set.seed(seed)
         # Start walltime for running model
         tic("model")
@@ -92,14 +49,29 @@ run_model <-
         # example: get_results(data, model, seed, 0, "dx)
         # OR pass as NA
 
+        data <- read.csv(data_filename)
+
+        get_results(data, model, seed, permutation, outcome)
+        if(permutation){
+            if(file.exists("data/process/sig_flat_corr_matrix.csv")){
+                print("Running permutation importance")
+            }else{
+                stop(paste('Permutation importance can be computed only if you have created a correlation matrix.'))}
+        }
+        else{
+            print("Not running permutation importance")
+        }
+
         # Save results of the modeling pipeline as a list
-        results <- pipeline(data, model, seed, outcome=outcome, permutation=permutation)
+        hyperparameters <- NULL # TODO: use hyperparameters csv file
+        results <- pipeline(data, models, split_number, outcome=outcome, permutation=permutation, hyperparameters=hyperparameters)
         # These results have
         # 1. cv_auc,
         # 2. test_auc
         # 3. total_results of all hyper-parameter settings
         # 4. feature importance
 
+        # ------------------------------------------------------------------
         # Create a matrix with cv_aucs and test_aucs from 1 data split
         aucs <- matrix(c(results[[1]], results[[2]]), ncol=2)
         # Convert to dataframe and add a column noting the model name
@@ -109,6 +81,7 @@ run_model <-
             write_csv(path = paste0("data/temp/best_hp_results_", models,"_", split_number, ".csv"))
         # ------------------------------------------------------------------
 
+        # ------------------------------------------------------------------
         # Save results for all hyper-parameters for 1 datasplit and corresponding AUCs
         all_results <- results[3]
         # Convert to dataframe and add a column noting the model name
@@ -117,6 +90,7 @@ run_model <-
             write_csv(path=paste0("data/temp/all_hp_results_", models,"_", split_number, ".csv"))
         # ------------------------------------------------------------------
 
+        # ------------------------------------------------------------------
         # Save all non-correlated feature importance of the model for 1 datasplit
         imp_features <- results[4]
         # Convert to dataframe and add a column noting the model name
@@ -132,16 +106,10 @@ run_model <-
             mutate(model=models) %>%
             write_csv(path=paste0("data/temp/all_imp_features_cor_results_", models,"_", split_number, ".csv"), col_names = TRUE)
 
-
         # Stop walltime for running model
         secs <- toc()
         # Save elapsed time
-        walltime <- secs$toc - secs$tic
+        walltime <- secs$toc-secs$tic
         # Save wall-time
-        write.csv(
-            walltime,
-            file = paste0("data/temp/walltime_", model, "_", seed, ".csv"),
-            row.names = FALSE
-        )
-        ###################################################################
+        write.csv(walltime, file=paste0("data/temp/walltime_", model, "_", seed, ".csv"), row.names=F)
     }

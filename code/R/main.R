@@ -14,9 +14,9 @@ Options
                                 RBF_SVM Decision_Tree
                                 Random_Forest
                                 XGBoost
-  --metadata=<tsv>           Metadata filename in tsv format.
-  --otu=<shared>                OTU table filename in mothur shared format.
-  --hyperparams=<tsv>        Hyperparameters filename in tsv format.
+  --data=<csv>               Dataset filename in csv format.
+  --otu=<shared>             OTU table filename in mothur shared format.
+  --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
   --permutation              Whether to perform permutation.
 
@@ -54,7 +54,7 @@ source("code/R/run_model.R")
 run_model(
   args$seed,
   args$model,
-  args$metadata,
+  args$data,
   args$otu,
   args$hyperparams,
   args$outcome,
