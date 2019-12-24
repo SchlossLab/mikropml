@@ -1,7 +1,7 @@
 'ML Pipeline Microbiome
 
 Usage:
-  main.R --seed=<num> --model=<name> --metadata=<tsv> --hyperparams=<tsv> --outcome=<colname> [--permutation]
+  main.R --seed=<num> --model=<name> --data=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
   main.R --help
 
 Options
