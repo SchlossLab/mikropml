@@ -35,17 +35,18 @@
 ######################################################################
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
-source("code/R/model_selection.R")
+source("code/R/tuning_grid.R")
 
-pipeline <- function(dataset, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
+pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
+  print(paste0('data colnames ',colnames(data)))
   if(is.na(outcome)){
     outcome <- colnames(data)[1]
   }else{
     # check to see if outcome is in column names of data
-    if(!outcome %in% names(data)){
+    if(!outcome %in% colnames(data)){
       stop(paste('Outcome',outcome,'not in column names of data.'))
     }
   }

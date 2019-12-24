@@ -50,12 +50,11 @@ run_model <-
 
         data <- read.csv(data_filename)
 
-        get_results(data, model, seed, permutation, outcome)
         if(permutation){
             if(file.exists("data/process/sig_flat_corr_matrix.csv")){
                 print("Running permutation importance")
             }else{
-                stop(paste('Permutation importance can be computed only if you have created a correlation matrix.'))}
+                stop('Permutation importance can be computed only if you have created a correlation matrix.')}
         }
         else{
             print("Not running permutation importance")
@@ -63,7 +62,7 @@ run_model <-
 
         # Save results of the modeling pipeline as a list
         hyperparameters <- NULL # TODO: use hyperparameters csv file
-        results <- pipeline(data, models, split_number, outcome=outcome, permutation=permutation, hyperparameters=hyperparameters)
+        results <- pipeline(data, model, seed, outcome=outcome, permutation=permutation, hyperparameters=hyperparameters)
         # These results have
         # 1. cv_auc,
         # 2. test_auc
@@ -76,8 +75,8 @@ run_model <-
         # Convert to dataframe and add a column noting the model name
         aucs_dataframe <- data.frame(aucs) %>%
             rename(cv_aucs=X1, test_aucs=X2) %>%
-            mutate(model=models) %>%
-            write_csv(path = paste0("data/temp/best_hp_results_", models,"_", split_number, ".csv"))
+            mutate(model=model) %>%
+            write_csv(path = paste0("data/temp/best_hp_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
         # ------------------------------------------------------------------
@@ -85,8 +84,8 @@ run_model <-
         all_results <- results[3]
         # Convert to dataframe and add a column noting the model name
         dataframe <- data.frame(all_results) %>%
-            mutate(model=models) %>%
-            write_csv(path=paste0("data/temp/all_hp_results_", models,"_", split_number, ".csv"))
+            mutate(model=model) %>%
+            write_csv(path=paste0("data/temp/all_hp_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
         # ------------------------------------------------------------------
@@ -94,16 +93,16 @@ run_model <-
         imp_features <- results[4]
         # Convert to dataframe and add a column noting the model name
         dataframe <- data.frame(imp_features) %>%
-            mutate(model=models) %>%
-            write_csv(path=paste0("data/temp/all_imp_features_non_cor_results_", models,"_", split_number, ".csv"))
+            mutate(model=model) %>%
+            write_csv(path=paste0("data/temp/all_imp_features_non_cor_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
         # Save all correlated feature importance of the model for 1 datasplit
         corr_imp_features <- results[5]
         # Convert to dataframe and add a column noting the model name
         dataframe <- data.frame(corr_imp_features) %>%
-            mutate(model=models) %>%
-            write_csv(path=paste0("data/temp/all_imp_features_cor_results_", models,"_", split_number, ".csv"), col_names = TRUE)
+            mutate(model=model) %>%
+            write_csv(path=paste0("data/temp/all_imp_features_cor_results_", model,"_", seed, ".csv"), col_names = TRUE)
 
         # Stop walltime for running model
         secs <- toc()
