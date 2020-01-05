@@ -42,7 +42,6 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
-  print(paste0('data colnames ',colnames(data)))
   if(is.na(outcome)){
     outcome <- colnames(data)[1]
   }else{
