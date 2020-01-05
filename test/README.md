@@ -8,9 +8,14 @@ Test data: `test/data/small_input_data.csv`
 
 ### To run the test code:
 
-from the command line:
+From the command line:
 ```
 Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
+```
+
+Or you can provide a config file instead (see [test/config.yml](test/config.yml)):
+```
+Rscript code/R/main.R --configfile test/config.yml
 ```
 
 Use the `--permutation` flag if you'd like to run permutation importance:
@@ -18,7 +23,7 @@ Use the `--permutation` flag if you'd like to run permutation importance:
 Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --permutation
 ```
 
-or from R:
+Or run the pipeline directly from R:
 ```R
 source("run_model.R")
 run_model(1, "L2_Logistic_Regression", "test/data/small_input_data.csv", "test/data/hyperparams.csv", "dx", permutation = FALSE)
