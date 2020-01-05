@@ -36,6 +36,7 @@
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
 source("code/R/tuning_grid.R")
+source("code/R/permutation_importance.R")
 
 pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
