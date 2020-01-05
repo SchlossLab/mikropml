@@ -36,12 +36,12 @@
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
 source("code/R/tuning_grid.R")
+source("code/R/permutation_importance.R")
 
 pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
-  print(paste0('data colnames ',colnames(data)))
   if(is.na(outcome)){
     outcome <- colnames(data)[1]
   }else{

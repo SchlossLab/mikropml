@@ -19,7 +19,7 @@ Options
   --data=<csv>               Dataset filename in csv format.
   --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
-  --permutation              Whether to perform permutation.
+  --permutation              Whether to perform permutation importance.
 
 ' -> doc
 

@@ -13,6 +13,11 @@ from the command line:
 Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
 ```
 
+Use the `--permutation` flag if you'd like to run permutation importance:
+```
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --permutation
+```
+
 or from R:
 ```R
 source("run_model.R")
