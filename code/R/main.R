@@ -2,10 +2,12 @@
 
 Usage:
   main.R --seed=<num> --model=<name> --data=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
+  main.R --configfile=<yml>
   main.R --help
 
 Options
   -h --help                  Display this help message.
+  --configfile=<yml>         Config file in yaml format containing all paramters listed below.
   --seed=<num>               Random seed.
   --model=<name>             Model name. options:
                                 L2_Logistic_Regression
@@ -32,7 +34,8 @@ deps = c(
   "kernlab",
   "LiblineaR",
   "pROC",
-  "tidyverse"
+  "tidyverse",
+  "yaml"
 )
 
 for (dep in deps) {
@@ -49,6 +52,10 @@ for (dep in deps) {
 }
 
 args <- docopt(doc)
+if ("configfile" %in% names(args)) {
+  args <- read_yaml(args$configfile)
+}
+
 source("code/R/run_model.R")
 run_model(
   args$seed,
