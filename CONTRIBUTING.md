@@ -70,18 +70,23 @@ If you need a refresher on Git or GitHub, see:
     - You can list existing branches with `git branch --list`.
 
 1. Open a pull request [[example](https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1)].
+    1. If you made multiple commits over a period of time, chances are high that your branch will be behind master. Merge the master branch into your feature branch one more time before opening the PR to make sure everything is up to date. With your branch checked out, run:
+        ```
+        git pull
+        git merge master
+        git push
+        ```
     1. Open the [repo page](https://github.com/SchlossLab/ML_pipeline_microbiome) in your web browser.
     1. If you want to see what the modifications look like before opening a pull request, you can go to the document you
     modified and change the branch to the left of the file name.
     1. Go to the pull requests tab and click `new pull request`.
-    1. Select your branch name to compare to master. If you forked the repo instead of making a branch, select "compare across
-    forks" instead.
+    1. Select your branch name to compare to master. If you forked the repo instead of making a branch, select `compare across forks` instead.
     1. Create the pull request.
 
     A maintainer will review your pull request and may ask you to make additional changes.
     If you have write access to the repo, **don't merge your branch into master**.
     The maintainer will merge it when they decide the branch is ready.
 
-1. Continue to commit & push changes on your branch to update the open pull request as needed.
+1. Continue to pull, commit, & push changes on your branch to update the open pull request as needed.
 
 1. Once a pull request is merged, the maintainer may delete the branch if it will no longer be needed in the future.
