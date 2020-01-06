@@ -1,3 +1,5 @@
+# ML Pipeline Microbiome
+
 Contributers:
 - Begum Topcuoglu
 -
@@ -9,6 +11,40 @@ Contributers:
 -
 -
 -
+
+## Usage
+
+### Command Line Interface
+
+```
+ML Pipeline Microbiome
+
+Usage:
+  main.R --seed=<num> --model=<name> --metadata=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
+  main.R --help
+
+Options
+  -h --help                  Display this help message.
+  --seed=<num>               Random seed.
+  --model=<name>             Model name. options:
+                                L2_Logistic_Regression
+                                L1_Linear_SVM
+                                L2_Linear_SVM
+                                RBF_SVM Decision_Tree
+                                Random_Forest
+                                XGBoost
+  --data=<csv>               Metadata filename in csv format.
+  --hyperparams=<csv>        Hyperparameters filename in csv format.
+  --outcome=<colname>        Outcome column name from the metadata file.
+  --permutation              Whether to perform permutation. 
+
+```
+
+### Example
+
+```
+Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
+```
 
 ### Overview
 
@@ -30,7 +66,6 @@ Contributers:
   	| |- code/  			# any programmatic code to prepare test load_datasets
   	| |- data/				# generated test data to run the model on
 	|- Makefile	 # Reproduce the pipeline
-
 
 
 ### How to regenerate this repository in R

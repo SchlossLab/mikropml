@@ -35,9 +35,10 @@
 ######################################################################
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
+source("code/R/tuning_grid.R")
+source("code/R/permutation_importance.R")
 
-
-pipeline <- function(data, model, split_number, perm=T, hyperparameters=NULL, outcome=NA){
+pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
@@ -45,7 +46,7 @@ pipeline <- function(data, model, split_number, perm=T, hyperparameters=NULL, ou
     outcome <- colnames(data)[1]
   }else{
     # check to see if outcome is in column names of data
-    if(!outcome %in% names(data)){
+    if(!outcome %in% colnames(data)){
       stop(paste('Outcome',outcome,'not in column names of data.'))
     }
   }
@@ -157,7 +158,7 @@ pipeline <- function(data, model, split_number, perm=T, hyperparameters=NULL, ou
   #   if linear: Output the weights of features of linear models
   #   else: Output the feature importances based on random permutation for non-linear models
   # Here we look at the top 20 important features
-  if(perm==T){
+  if(permutation){
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
       # We will use the permutation_importance function here to:
       #     1. Predict held-out test-data
