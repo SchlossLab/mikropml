@@ -70,7 +70,7 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # Only has the correlatons that has:
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
-  corr <- read_csv("data/process/sig_flat_corr_matrix.csv") %>%
+  corr <- read_csv("data/process/big_sig_flat_corr_matrix.csv") %>%
     select(-p, -cor)
   # -------------------------------------------------------------------->
 
@@ -84,9 +84,9 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # Remove the diagnosis column to only keep non-correlated features
   non_correlated_otus <- full %>%
     select(-correlated_otus)
-  
+
   non_correlated_otus[,outcome] <- NULL
-  
+
   non_correlated_otus <- non_correlated_otus %>%
     colnames()
   # -------------------------------------------------------------------->
@@ -121,10 +121,10 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # -------------------------------------------------------------------->
 
 
-  
-  
+
+
   # ----------- Get feature importance of correlated OTUs -------------->
-  
+
   # ------------------------------- 1 --------------------------------------- #
   # Corr dataset has all the correlated OTUs in 2 columns with pairwise correlation
   # But (1) the pairwise correlations are repeated twice one in each column
@@ -135,26 +135,27 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   non_matched_corr <- corr %>% filter(!row %in% column) %>%
     group_by(row)
   # ---------------------------------------------------------------------------- #
-  
+
   # --------------------------------- 2 ---------------------------------------- #
   # We want to see what are the OTUs in each group
   # We use that tidyverse group_split to create a list of the OTUs that are grouped
   split <- group_split(non_matched_corr)
+  elements_no_in_split <- length(split)
   # All the pairwise correlations are now in a list (for each OTU group, there is 1 list entry)
   # For example 1. list entry (split[[1]]) looks like this:
-  
+
   # A tibble: 2 x 2
-  #      row      column  
-  #      <chr>    <chr>   
+  #      row      column
+  #      <chr>    <chr>
   #  1 Otu00462 Otu04448
   #  2 Otu00462 Otu06075
-  # So the nested list structure is still pairwise 
+  # So the nested list structure is still pairwise
   # ---------------------------------------------------------------------------- #
-  
+
   # --------------------------------- 3 ---------------------------------------- #
-    # But that is still to many nested lists and still pairwise. 
+    # But that is still to many nested lists and still pairwise.
   # We want groups of OTUs all together and no repetetion
-  groups <- lapply(1:432, function(i){
+  groups <- lapply(1:elements_no_in_split, function(i){
     grouped_corr_otus <- split[[i]][2] %>%
       add_case(column=unlist(unique(split[[i]][1])))
     return(grouped_corr_otus)
@@ -163,23 +164,23 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # groups[[1]]
   #
   # A tibble: 3 x 1
-  #     column  
-  #     <chr>   
+  #     column
+  #     <chr>
   #  1 Otu04448
   #  2 Otu06075
   #  3 Otu00462
   # ---------------------------------------------------------------------------- #
-  
+
   # --------------------------------------- 4----------------------------------- #
   # The list still had dataframes is them. We want the list entries to be lists as well
-  groups_list <- map(groups[1:432], "column")
-  groups_list_sorted <- map(groups_list[1:432], sort)
+  groups_list <- map(groups[1:elements_no_in_split], "column")
+  groups_list_sorted <- map(groups_list[1:elements_no_in_split], sort)
   # Now it looks like this for each OTU group:
   # > groups_list_sorted[[1]]
   # [1] "Otu00462" "Otu04448" "Otu06075"
   # > groups_list_sorted[[2]]
   # [1] "Otu00520" "Otu04360" "Otu04810" "Otu05861" "Otu06060" "Otu06149" "Otu06477" "Otu07111" "Otu07196" "Otu09376"
-  # This goes all the way to 432 in the list, because there are 432 groups of correlated OTU groups.
+  # This goes all the way to total numbers in list in the list, because there are elements_no_in_split groups of correlated OTU groups.
   # ----------------------------------------------------------------------------- #
 
   # ---------------------------------- 5 ---------------------------------------- #
@@ -196,15 +197,15 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   }))
   print(corr_imp)
   # ------------------------------------------------------------------------------ #
-  
+
   # -------------------------------------- 6 ------------------------------------- #
   # Save non correlated results in a dataframe
-  
+
   # Create a bunch of columns so that each OTU in the group has its own column
   # We use seperate function to break up the grouped list otf OTUs
   # Now correlated OTUs are in one row, seperated by each OTU as columns
   # Last column has the percent AUC change per group of OTUs
-  x <- as.character(seq(0, 432, 1))
+  x <- as.character(seq(0, elements_no_in_split, 1))
   corr_imp_appended <- as.data.frame(corr_imp) %>%
     separate(V2, into = x)
   # Unlist percent auc change to save it as a csv later

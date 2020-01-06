@@ -1,4 +1,5 @@
 data/temp/*
 .DS_Store
-.Rproj
-
+*.Rproj
+*.Rproj.user
+.Rproj.user
