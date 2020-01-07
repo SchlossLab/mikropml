@@ -52,7 +52,7 @@ for (dep in deps) {
 }
 
 args <- docopt(doc)
-if ("configfile" %in% names(args)) {
+if ("configfile" %in% names(args) & !is.null(args$configfile)) {
   args <- read_yaml(args$configfile)
 }
 
