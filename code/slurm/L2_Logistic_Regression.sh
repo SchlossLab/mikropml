@@ -7,7 +7,7 @@
 ###############################
 
 # Name
-#SBATCH --job-name=snakemake
+#SBATCH --job-name=ML_pipeline
 
 # Resources
 # For MPI, increase ntasks-per-node
