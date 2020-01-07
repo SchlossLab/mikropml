@@ -4,7 +4,7 @@ Contributers:
 - Begum Topcuoglu
 - [Kelly Sovacool](https://github.com/kelly-sovacool)
 - Lucas Bishop
--
+- Sarah Tomkovich
 -
 -
 -
