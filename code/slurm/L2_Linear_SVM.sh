@@ -7,7 +7,7 @@
 ###############################
 
 # Name
-#SBATCH --job-name=decisionTree
+#SBATCH --job-name=L2Linear
 
 # Resources
 # For MPI, increase ntasks-per-node
