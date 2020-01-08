@@ -25,7 +25,7 @@ Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/
 
 Or run the pipeline directly from R:
 ```R
-source("run_model.R")
+source("code/R/run_model.R")
 run_model(1, "L2_Logistic_Regression", "test/data/small_input_data.csv", "test/data/hyperparams.csv", "dx", permutation = FALSE)
 ```
 
