@@ -56,17 +56,14 @@ fi
 #                   #
 #####################
 
-# vector index starts at 0 so shift array by one
+# Vector index starts at 0 so shift array by one
 seed=$(($SLURM_ARRAY_TASK_ID - 1))
 
-# print out which model is being run in each job
+# Print out which model is being run in each job
 echo Using "L2 Logistic Regression"
 
 # Using $SLURM_ARRAY_TASK_ID to select parameter set
-make data/temp/best_hp_results_L2_Logistic_Regression_$seed.csv
+Rscript code/R/main.R --seed $seed --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
 
-echo "Script complete"
-echo "sbatch working directory is"
-echo $SLURM_SUBMIT_DIR
+# Printing completed job info
 scontrol show job $SLURM_ARRAY_JOB_ID
-exit

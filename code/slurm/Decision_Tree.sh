@@ -56,18 +56,14 @@ fi
 #                   #
 #####################
 
-# vector index starts at 0 so shift array by one
+# Vector index starts at 0 so shift array by one
 seed=$(($SLURM_ARRAY_TASK_ID - 1))
 
-# print out which model is being run in each job
+# Print out which model is being run in each job
 echo Using "Decision Tree"
 
 # Using $SLURM_ARRAY_TASK_ID to select parameter set
-make data/temp/best_hp_results_Decision_Tree_$seed.csv
-#Rscript code/learning/main.R $seed "Decision_Tree"
+Rscript code/R/main.R --seed $seed --model Decision_Tree --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
 
-echo "Script complete"
-echo "sbatch working directory is"
-echo $SLURM_SUBMIT_DIR
+# Printing completed job info
 scontrol show job $SLURM_ARRAY_JOB_ID
-exit
