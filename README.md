@@ -6,7 +6,7 @@ Contributers:
 - Lucas Bishop
 - Sarah Tomkovich
 - [William L. Close](https://github.com/wclose)
--
+- [Nick Lesniak](https://github.com/nlesniak)
 -
 -
 -
