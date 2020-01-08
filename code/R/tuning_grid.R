@@ -35,8 +35,16 @@
 ######################################################################
 tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
 
-  # NOTE: Hyperparameters should be a list where the names of the list are the
-  # hyperparameters and the values are the values to be tested
+  # NOTE: Hyperparameters should be a csv containing a dataframe 
+  # where the first column is the hyperparameter name
+  # and the second column are the values to be tested
+  if(is.null(hyperparameters)){
+      hyperparameters <- read.csv('data/default_hyperparameters.csv')
+    } else {
+      hyperparameters <- read.csv('data/hyperparameters.csv')
+    }
+  hyperparameters <- split(hyperparameters$val, hyperparameters$param)
+
 
   # set outcome as first column if null
   #if(is.null(outcome)){
@@ -133,10 +141,6 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
 
   # Grid and caret method defined for each classification models
   if(model=="L2_Logistic_Regression") {
-   if(is.null(hyperparameters)){
-       hyperparameters <- list()
-       hyperparameters$cost <- c(1e-6, 1e-5, 1e-4, 1e-3, 0.0025, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 10) # maybe change these default parameters?
-    }
     grid <-  expand.grid(cost = hyperparameters$cost,
                          loss = "L2_primal",
                          # This chooses type=0 for liblinear R package
@@ -145,43 +149,26 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
     method <- "regLogistic"
   }
   else if (model=="L1_Linear_SVM"){ #
-    if(is.null(hyperparameters)){
-       hyperparameters <- list()
-       hyperparameters$cost <- c(1e-6, 1e-5, 1e-4, 1e-3, 0.01, 0.015, 0.025, 0.05, 0.1, 0.5, 1, 10) # maybe change these default parameters?
-    }
     grid <- expand.grid(cost = hyperparameters$cost,
                         Loss = "L2")
     method <- "svmLinear4" # I wrote this function in caret
   }
   else if (model=="L2_Linear_SVM"){
-    if(is.null(hyperparameters)){
-       hyperparameters <- list()
-       hyperparameters$cost <- c(1e-6, 1e-5, 1e-4, 0.0005, 0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.5, 1) # maybe change these default parameters?
-    }
     grid <- expand.grid(cost = hyperparameters$cost,
                         Loss = "L2")
     method <- "svmLinear3" # I changed this function in caret
   }
   else if (model=="RBF_SVM"){
-    if(is.null(hyperparameters)){
-       hyperparameters <- list()
-       hyperparameters$sigma <- c(0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1) # maybe change these default parameters?
-       hyperparameters$C <- c(0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10) # maybe change these default parameters?
-    }
     grid <-  expand.grid(sigma = hyperparameters$sigma,
                          C = hyperparameters$C)
     method <-"svmRadial"
   }
   else if (model=="Decision_Tree"){
-    if(is.null(hyperparameters)){
-       hyperparameters <- list()
-       hyperparameters$maxdepth <- c(1,2,3,4,5,6)
-    }
     grid <-  expand.grid(maxdepth = hyperparameters$maxdepth) # maybe change these default parameters?
     method <-"rpart2"
   }
   else if (model=="Random_Forest"){
-    if(is.null(hyperparameters)){
+    if(is.null(hyperparameters$mtry)){
       # get number of features
       n_features <- ncol(train_data) - 1
       if(n_features > 20000) n_features <- 20000
@@ -192,23 +179,12 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
         mtry <- floor(seq(1, n_features, length=6))
       }
       # only keep ones with less features than you have
-      hyperparameters <- list()
       hyperparameters$mtry <- mtry[mtry <= n_features]
     }
     grid <-  expand.grid(mtry = hyperparameters$mtry)
     method = "rf"
   }
   else if (model=="XGBoost"){
-   if(is.null(hyperparameters)){
-       hyperparameters <- list()
-       hyperparameters$nrounds <- 500 # maybe change these default parameters?
-       hyperparameters$gamma <- 0 # maybe change these default parameters?
-       hyperparameters$eta <- c(0.001, 0.01, 0.1, 1) # maybe change these default parameters?
-       hyperparameters$max_depth <- 8 # maybe change these default parameters?
-       hyperparameters$colsample_bytree <- 0.8 # maybe change these default parameters?
-       hyperparameters$min_child_weight <- 1 # maybe change these default parameters?
-       hyperparameters$subsample <- c(0.4, 0.5, 0.6, 0.7) # maybe change these default parameters?
-    }
     grid <-  expand.grid(nrounds=hyperparameters$nrounds,
                          gamma=hyperparameters$gamma,
                          eta=hyperparameters$eta,
