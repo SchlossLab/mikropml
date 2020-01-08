@@ -197,12 +197,18 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
     rpartProbs <- predict(trained_model, testTransformed, type="prob")
     test_roc <- roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
     test_auc <- test_roc$auc
+
+    # Calculate sensitivity and specificity for 0.5 decision threshold.
+    p_class <- ifelse(rpartProbs$cancer > 0.5, "cancer", "normal")
+    r <- confusionMatrix(as.factor(p_class), testTransformed$dx)
+    sensitivity <- r$byClass[[1]]
+    specificity <- r$byClass[[2]]
   }
 
   # ---------------------------------------------------------------------------------->
 
   # ----------------------------Save metrics as vector ------------------------------->
   # Return all the metrics
-  results <- list(cv_auc, test_auc, results_individual, feature_importance_non_cor, feature_importance_cor, trained_model)
+  results <- list(cv_auc, test_auc, results_individual, feature_importance_non_cor, feature_importance_cor, trained_model, sensitivity, specificity)
   return(results)
 }

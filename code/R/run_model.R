@@ -88,6 +88,15 @@ run_model <-
             write_csv(path=paste0("data/temp/all_hp_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
+        # Save sensitivity and specificity for 0.5 threshold for each datasplit
+
+        threshold_results <- matrix(c(results[[7]], results[[8]]), ncol=2, dimnames = list(c("values"), c("sens", "spec")))
+
+        sensspec <- data.frame(threshold_results) %>%
+            mutate(model=model) %>%
+            write_csv(path=paste0("data/temp/sensspec_results_", model,"_", seed, ".csv"))
+
+
         # ------------------------------------------------------------------
         # Save all non-correlated feature importance of the model for 1 datasplit
         imp_features <- results[4]

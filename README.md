@@ -5,11 +5,11 @@ Contributers:
 - [Kelly Sovacool](https://github.com/kelly-sovacool)
 - Lucas Bishop
 - Sarah Tomkovich
--
--
--
--
--
+- [William L. Close](https://github.com/wclose)
+- [Nick Lesniak](https://github.com/nlesniak)
+- [Ariangela J. Kozik](https://github.com/aj-kozik)
+- [Pat Schloss](https://github.com/pschloss)
+- Katie McBride
 -
 
 ## Usage
@@ -36,7 +36,7 @@ Options
   --data=<csv>               Metadata filename in csv format.
   --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
-  --permutation              Whether to perform permutation. 
+  --permutation              Whether to perform permutation.
 
 ```
 

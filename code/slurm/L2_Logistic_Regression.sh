@@ -9,6 +9,7 @@
 # Name
 #SBATCH --job-name=L2Logistic
 
+
 # Resources
 # For MPI, increase ntasks-per-node
 # For multithreading, increase cpus-per-task
@@ -17,6 +18,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=4GB
 #SBATCH --time=20:00:00
+
 
 # Account
 #SBATCH --account=pschloss1
