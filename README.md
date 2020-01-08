@@ -5,7 +5,7 @@ Contributers:
 - [Kelly Sovacool](https://github.com/kelly-sovacool)
 - Lucas Bishop
 - Sarah Tomkovich
--
+- [William L. Close](https://github.com/wclose)
 -
 -
 -
