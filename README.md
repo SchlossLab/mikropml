@@ -10,6 +10,7 @@ Contributers:
 - [Ariangela J. Kozik](https://github.com/aj-kozik)
 - [Pat Schloss](https://github.com/pschloss)
 - [Samara Rifkin](https://github.com/sbrifkin)
+- Katie McBride
 -
 
 ## Usage
