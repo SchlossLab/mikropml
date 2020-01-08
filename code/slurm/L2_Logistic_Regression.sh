@@ -62,7 +62,7 @@ seed=$(($SLURM_ARRAY_TASK_ID - 1))
 # print out which model is being run in each job
 echo Using "L2 Logistic Regression"
 
-# Using $PBS_ARRAYID to select parameter set
+# Using $SLURM_ARRAY_TASK_ID to select parameter set
 make data/temp/best_hp_results_L2_Logistic_Regression_$seed.csv
 
 echo "Script complete"
