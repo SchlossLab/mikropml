@@ -17,7 +17,7 @@ Contributers:
 
 ### Dependencies
 
-This pipeline depends on R version >=  and the following R packages:
+This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the following R packages:
 
 - docopt
 - dplyr
