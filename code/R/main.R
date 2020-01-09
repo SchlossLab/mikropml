@@ -25,7 +25,6 @@ Options
 
 deps = c(
   "docopt",
-  "dplyr",
   "tictoc",
   "caret" ,
   "rpart",
