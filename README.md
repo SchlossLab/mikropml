@@ -15,6 +15,31 @@ Contributers:
 
 ## Usage
 
+### Dependencies
+
+This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the following R packages:
+
+- docopt
+- tictoc
+- caret
+- rpart
+- xgboost
+- randomForest
+- kernlab
+- LiblineaR
+- pROC
+- tidyverse
+- yaml
+
+You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred package manager.
+
+If you'd like to use [conda](https://conda.io/projects/conda/en/latest/), you can use the provided environment file:
+```
+conda env create -f config/environment.yml
+```
+
+See the [conda documentation](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html#managing-environments) for more on managing & using conda environments.
+
 ### Command Line Interface
 
 ```
@@ -24,7 +49,7 @@ Usage:
   main.R --seed=<num> --model=<name> --metadata=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
   main.R --help
 
-Options
+- Options
   -h --help                  Display this help message.
   --seed=<num>               Random seed.
   --model=<name>             Model name. options:
