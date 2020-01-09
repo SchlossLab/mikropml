@@ -32,12 +32,14 @@ This pipeline depends on R version >=  and the following R packages:
 - tidyverse
 - yaml
 
-You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred manager.
+You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred package manager.
 
 If you'd like to use [conda](https://conda.io/projects/conda/en/latest/), you can use the provided environment file:
 ```
 conda env create -f config/environment.yml
 ```
+
+See the [conda documentation](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html#managing-environments) for more on managing & using conda environments.
 
 ### Command Line Interface
 
