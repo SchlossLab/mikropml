@@ -125,15 +125,15 @@ cd ML_pipeline_microbiome
 
 	- Run the scripts one by one with different seeds:
 
-	`Rscript code/R/main.R test/data/test_data.csv 1 "Random_Forest" 0 "dx"`
+	`Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
-	`Rscript code/R/main.R test/data/test_data.csv 2 "Random_Forest" 0 "dx"`
 
-	`Rscript code/R/main.R test/data/test_data.csv 3 "Random_Forest" 0 "dx"`
+	`Rscript code/R/main.R --seed 2 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
 						`...`
 
-	`Rscript code/R/main.R test/data/test_data.csv 100 "Random_Forest" 0 "dx"`
+	`Rscript code/R/main.R --seed 100 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
+
 
 
 	- However, this is time-consuming and not DRY. We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
