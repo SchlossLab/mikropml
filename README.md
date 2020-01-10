@@ -15,6 +15,31 @@ Contributers:
 
 ## Usage
 
+### Dependencies
+
+This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the following R packages:
+
+- docopt
+- tictoc
+- caret
+- rpart
+- xgboost
+- randomForest
+- kernlab
+- LiblineaR
+- pROC
+- tidyverse
+- yaml
+
+You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred package manager.
+
+If you'd like to use [conda](https://conda.io/projects/conda/en/latest/), you can use the provided environment file:
+```
+conda env create -f config/environment.yml
+```
+
+See the [conda documentation](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html#managing-environments) for more on managing & using conda environments.
+
 ### Command Line Interface
 
 ```
@@ -24,7 +49,7 @@ Usage:
   main.R --seed=<num> --model=<name> --metadata=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
   main.R --help
 
-Options
+- Options
   -h --help                  Display this help message.
   --seed=<num>               Random seed.
   --model=<name>             Model name. options:
@@ -86,13 +111,13 @@ cd ML_pipeline_microbiome
 
 	* Everything needs to be run from project directory.
 
-	* Generate your own input data following the instructions on ...
+	* Generate your own input data following the instructions on ... (KM - on what?)
 
 3. This ML pipeline is to predict a binary outcome.
 
 4. Go to `test/README.md` to see how you can use this pipeline with a pre-prepared test dataset.
 
-5. Examples of how to run ML pipeline:
+5. Examples of how to run ML pipeline: (KM - Maybe split up these as seperate sections? i.e. Section 1 - Prep, Sec 2 - Running the Pipeline)
 
 	1. Run the ML pipeline once (using seed=1) using L2-regularized logistic regression: (Using a different seed will result in the dataset to be split to 80 training set - 20 testing set differently. Different seeds will give slightly different results.)
 
@@ -109,23 +134,23 @@ cd ML_pipeline_microbiome
 	     	* "Random_Forest"
 	     	* "XGBoost"
 
-	So if you want to use a random forest model you'll run:
+	For example- if you want to use a random forest model you'll run:
 
 
-	`Rscript code/R/main.R test/data/test_data.csv 1 "Random_Forest" 0 "dx"`
+	`Rscript code/R/main.R test/data/test_data.csv 1 "Random_Forest" 0 "dx"` (KM - maybe explain what the 0 and "dx" are for as well)
 
 	 2. `Rscript code/R/main.R` sources 4 other scripts that are part of the pipeline.
 
 	 	* To choose the model and model hyperparemeters:`source('code/R/tuning_grid.R')`
 		* This function (and `get_results`) also takes an optional argument to specify your own hyperparameters to be used for cross-validation (`hyperparameters`). This argument should be a list where the names of the list are the hyperparameters and the values are the values to be tested.
 
-		Depending on your ML task, the model hyperparameter range to tune will be different. This is hard-coded for our test study but will be updated to integrate user-defined range in the future (Issue # 10)
+		Depending on your ML task, the model hyperparameter range to tune (KM - I'm not sure what tune means) will be different. This is hard-coded for our test study but will be updated to integrate user-defined range in the future (Issue # 10) (KM - will there be a limit to number of hyperparameters?)
 
 	 	* To preprocess and split the dataset 80-20 and to train the model: `source('code/R/model_pipeline.R')`
 
 	 	* To save the results of each model for each datasplit: `source('code/lR/generateAUCs.R')`
 
-	 	* To interpret the models: `source('code/R/permutation_importance.R')`
+	 	* To interpret the models: `source('code/R/permutation_importance.R')` (KM - are there common signs to look for to know if it was completed successfully?)
 
 	 3. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in many different ways.
 
@@ -143,9 +168,9 @@ cd ML_pipeline_microbiome
 	`Rscript code/R/main.R test/data/test_data.csv 100 "Random_Forest" 0 "dx"`
 
 
-		- However, this is time-consuming and not DRY. We can run it paralellized for each datasplit (seed). We do this in our HPC by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/pbs/L2_Logistic_Regression.pbs` script. You can also follow how this is done in our `Makefile`.
+		- However, this is time-consuming and not DRY. We can run it paralellized for each datasplit (seed). We do this in our HPC (KM - I'm not sure what HPC stands for) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/pbs/L2_Logistic_Regression.pbs` script. You can also follow how this is done in our `Makefile`.
 
-	4. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These files will all be saved to `data/temp`. We need to merge these files.
+	4. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These files will all be saved to `data/temp`. We need to merge these files. (KM - where will the individual files be saved?)
 
 		`bash cat_csv_files.sh`
 
