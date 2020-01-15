@@ -11,7 +11,7 @@ Contributers:
 - [Pat Schloss](https://github.com/pschloss)
 - [Samara Rifkin](https://github.com/sbrifkin)
 - Katie McBride
--
+- [Joshua MA Stough](https://github.com/jmastough)
 
 ## Usage
 
