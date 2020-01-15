@@ -116,7 +116,7 @@ cd ML_pipeline_microbiome
 	 2. `Rscript code/R/main.R` sources 4 other scripts that are part of the pipeline.
 
 	 	* To choose the model and model hyperparemeters:`source('code/R/tuning_grid.R')`
-		* This function (and `get_results`) also takes an optional argument to specify your own hyperparameters to be used for cross-validation (`hyperparameters`). This argument should be a list where the names of the list are the hyperparameters and the values are the values to be tested.
+		* This function (and `get_results`) also takes an optional argument to specify your own hyperparameters to be used for cross-validation (`hyperparameters`). This argument should be a csv filename where the names of the list are the first column "param" is the name of the parameter, the second column "val" is the parameter values to be tested and the third column "model" is the model name.
 
 		Depending on your ML task, the model hyperparameter range to tune will be different. This is hard-coded for our test study but will be updated to integrate user-defined range in the future (Issue # 10)
 
