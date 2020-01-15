@@ -12,6 +12,7 @@ Contributers:
 - [Samara Rifkin](https://github.com/sbrifkin)
 - Katie McBride
 - [Ande Garretto](https://github.com/agarretto96)
+- [Joshua MA Stough](https://github.com/jmastough)
 
 ## Usage
 
@@ -96,24 +97,25 @@ Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --da
 
 ### How to regenerate this repository in R
 
-1. Clone the Github Repository and change directory to the project directory.
+Clone the Github Repository and change directory to the project directory.
 
 ```
 git clone https://github.com/SchlossLab/ML_pipeline_microbiome.git
 cd ML_pipeline_microbiome
 ```
+### Quick start tutorial
 
-2. Everything needs to be run from project directory.
+This ML pipline is intended to predict a binary outcome.
+NOTE: Everything needs to be run from the project directory.
 
-3. Generate your own input data by looking at the `test/data/small_input_data.csv` example.
-	- First column should be the outcome.
-	- Rest of the columns will be the features.
+To test the pipeline with a pre-prepared test dataset, go to `test/README.md`
 
-3. This ML pipeline is to predict a binary outcome.
+1. Generate your own input data and match the formatting to the `test/data/small_input_data.csv` example.
+Specifically:
+	- First column should be the outcome of interest.
+	- Remaining columns should be the features, one feature per column.
 
-4. Go to `test/README.md` to see how you can use this pipeline with a pre-prepared test dataset.
-
-5. The scripts that are part of the pipeline:
+2. This pipeline consists of the following scripts:
 
 	* To choose the model and model hyperparemeters:`code/R/tuning_grid.R`
 
@@ -121,9 +123,9 @@ cd ML_pipeline_microbiome
 
 	* To interpret the models: `code/R/permutation_importance.R`
 
-6. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in many different ways.
+3. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in many different ways.
 
-	- Run the scripts one by one with different seeds:
+	A) Run the scripts one by one with different seeds:
 
 	`Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
@@ -136,7 +138,9 @@ cd ML_pipeline_microbiome
 
 
 
-	- However, this is time-consuming and not DRY. We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script.
+	- However, this is time-consuming and not DRY.
+
+  B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script.
 
 7. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can merge these files and save them to `data/process`.
 
