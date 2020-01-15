@@ -1,6 +1,6 @@
 # ML Pipeline Microbiome
 
-Contributers:
+Contributors:
 - Begum Topcuoglu
 - [Kelly Sovacool](https://github.com/kelly-sovacool)
 - Lucas Bishop
