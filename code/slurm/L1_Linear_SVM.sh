@@ -7,8 +7,7 @@
 ###############################
 
 # Name
-#SBATCH --job-name=L2Logistic
-
+#SBATCH --job-name=L1Linear
 
 # Resources
 # For MPI, increase ntasks-per-node
@@ -18,7 +17,6 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=4GB
 #SBATCH --time=20:00:00
-
 
 # Account
 #SBATCH --account=pschloss1
@@ -47,7 +45,9 @@ fi
 
 
 # Load Modules:
-#  1) R/3.5.0   2) r-biomed-libs/3.5.0
+#  1) R/3.5.0
+#  2)  r-biomed-libs
+#  3) run Rscript code/learning/load_caret_models_flux.R
 
 
 
@@ -62,10 +62,10 @@ fi
 seed=$(($SLURM_ARRAY_TASK_ID - 1))
 
 # Print out which model is being run in each job
-echo Using "L2 Logistic Regression"
+echo Using "L1 Linear SVM"
 
 # Using $SLURM_ARRAY_TASK_ID to select parameter set
-Rscript code/R/main.R --seed $seed --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
+Rscript code/R/main.R --seed $seed --model L1_Linear_SVM --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
 
 # Printing completed job info
 scontrol show job $SLURM_ARRAY_JOB_ID

@@ -25,7 +25,6 @@ Options
 
 deps = c(
   "docopt",
-  "dplyr",
   "tictoc",
   "caret" ,
   "rpart",
@@ -39,16 +38,7 @@ deps = c(
 )
 
 for (dep in deps) {
-  if (!(dep %in% installed.packages())) {
-    install.packages(
-      dep,
-      quiet = TRUE,
-      repos = "http://cran.us.r-project.org",
-      dependencies = TRUE
-    )
-
-  }
-  library(dep, verbose = FALSE, character.only = TRUE)
+  library(dep, character.only = TRUE)
 }
 
 args <- docopt(doc)
