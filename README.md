@@ -121,7 +121,7 @@ Specifically:
 
 2. This pipeline consists of the following scripts:
 
-	* To choose the model and model hyperparemeters:`code/R/tuning_grid.R`
+	* To choose the model and model hyperparemeters:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`hyperparameters`). This argument should be a csv filename where the names of the list are the first column "param" is the name of the parameter, the second column "val" is the parameter values to be tested and the third column "model" is the model name. If `hyperparameters.csv` file is `NULL`, then default values will be used. 
 
 	* To preprocess and split the dataset 80-20 and to train the model: `code/R/model_pipeline.R`
 
@@ -133,8 +133,8 @@ Specifically:
 
 	`Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
-
 	`Rscript code/R/main.R --seed 2 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
+
 
 						`...`
 
