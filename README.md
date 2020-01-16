@@ -80,23 +80,23 @@ Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --da
 	|- README.md       	# the top level description of content (this doc)
 	|- CONTRIBUTING.md	# instructions for how to contribute to your project
 	|- LICENSE.md      	# the license for this project
-  |- ml-pipeline-microbiome.Rproj	# Rstudio project file  
-  |  
+  	|- ml-pipeline-microbiome.Rproj	# Rstudio project file  
+  	|  
 	|- code/          	# any programmatic code
-	| |- R/    					# R code to build model
-	| +- bash/     			# bash scripts to prepare repo
-  |  
+	| |- R/    		# R code to build model
+	| +- bash/     		# bash scripts to prepare repo
+  	|  
 	|- data/           	# raw and primary data, are not changed once created
-	| |- caret_models		# code for running caret (should probably in code/)
+	| |- caret_models	# code for running caret (should probably in code/)
 	| |- process/     	# final combined results as .tsv and .csv files
-	| +- temp/     			# array jobs will dump all the files here.
-  |  
-  |- test/          	# self-contained testing repo
-  | |- code/  				# any programmatic code to prepare test load_datasets
-  | |- data/					# generated test data to run the model on
-  | +- config.yml			# config file for running tests  
-  |  
-	+- config/					# conda configuration file
+	| +- temp/     		# array jobs will dump all the files here.
+  	|  
+  	|- test/          	# self-contained testing repo
+  	| |- code/  		# any programmatic code to prepare test load_datasets
+  	| |- data/		# generated test data to run the model on
+  	| +- config.yml		# config file for running tests  
+  	|  
+	|- config/		# conda configuration file
 
 
 ### How to regenerate this repository in R
