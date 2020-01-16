@@ -84,7 +84,7 @@ Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --da
   	|  
 	|- code/          	# any programmatic code
 	| |- R/    		# R code to build model
-	| +- bash/     		# bash scripts to prepare repo
+	| |- bash/     		# bash scripts to prepare repo
   	|  
 	|- data/           	# raw and primary data, are not changed once created
 	| |- caret_models	# code for running caret (should probably in code/)
@@ -94,7 +94,6 @@ Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --da
   	|- test/          	# self-contained testing repo
   	| |- code/  		# any programmatic code to prepare test load_datasets
   	| |- data/		# generated test data to run the model on
-  	| +- config.yml		# config file for running tests  
   	|  
 	|- config/		# conda configuration file
 
