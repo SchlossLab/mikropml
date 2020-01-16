@@ -10,6 +10,7 @@ Contributors:
 - [Ariangela J. Kozik](https://github.com/aj-kozik)
 - [Pat Schloss](https://github.com/pschloss)
 - [Samara Rifkin](https://github.com/sbrifkin)
+- [Ande Garretto](https://github.com/agarretto96)
 - [Katie McBride](https://github.com/ktmcb)
 - [Joshua MA Stough](https://github.com/jmastough)
 
@@ -108,19 +109,15 @@ cd ML_pipeline_microbiome
 ```
 ### Quick start tutorial
 
-This ML pipline is intended to predict a binary outcome. 
+This ML pipline is intended to predict a binary outcome.
 NOTE: Everything needs to be run from the project directory.
 
-3. Generate your own input data by looking at the `test/data/small_input_data.csv` example.
-	- First column should be the outcome.
-	- Rest of the columns will be the features.
-To test the pipeline with a pre-prepared test dataset, go to `test/README.md` 
-
+To test the pipeline with a pre-prepared test dataset, go to `test/README.md`
 
 1. Generate your own input data and match the formatting to the `test/data/small_input_data.csv` example.
 Specifically:
 	- First column should be the outcome of interest.
-	- Remaining columns should be the features, one feature per column. 
+	- Remaining columns should be the features, one feature per column.
 
 2. This pipeline consists of the following scripts:
 
@@ -142,7 +139,6 @@ Specifically:
 						`...`
 
 	`Rscript code/R/main.R --seed 100 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
-
 
   B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
 
