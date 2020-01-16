@@ -70,18 +70,11 @@ If you need a refresher on Git or GitHub, see:
     - You can list existing branches with `git branch --list`.
 
 1. Open a pull request [[example](https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1)].
-    1. If your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run:
+    1. If you made multiple commits over a period of time, chances are high that your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run:
         ```
         git checkout master
-        git fetch -p origin
-        git merge origin/master
-        git checkout <feature-branch>
-        git merge master
-        git push origin <feature-branch>
-        ```
-    1. If you made multiple commits over a period of time, chances are high that your branch will be behind master. Merge the master branch into your feature branch one more time before opening the PR to make sure everything is up to date. With your branch checked out, run:
-        ```
         git pull
+        git checkout <feature-branch>
         git merge master
         git push
         ```
