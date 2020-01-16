@@ -32,9 +32,12 @@ If you need a refresher on Git or GitHub, see:
 
     Give it a short, descriptive name.
     ```
-    git checkout -b new-branch-name
+    git checkout -b feature-branch-name
     ```
-    The branch name should reflect the bug or feature it will resolve, or reference the issue number directly.
+    The branch name should reflect the bug or feature it will resolve,
+    or reference the issue number directly ([examples](https://github.com/SchlossLab/ML_pipeline_microbiome/branches/all)).
+    [Note: wherever you see `feature-branch-name` in these instructions,
+    replace that with your branch's actual name.]
 
 1. Make your edits.
 
@@ -57,12 +60,12 @@ If you need a refresher on Git or GitHub, see:
 1. Push your branch to GitHub.
     If you're pushing your branch for the first time, you'll have to set the upstream:
     ```
-    git push --set-upstream origin new-branch-name
+    git push --set-upstream origin feature-branch-name
     ```
 
     Otherwise, just push like usual:
     ```
-    git push origin new-branch-name
+    git push origin feature-branch-name
     ```
 
     If you forget the branch name:
@@ -70,18 +73,11 @@ If you need a refresher on Git or GitHub, see:
     - You can list existing branches with `git branch --list`.
 
 1. Open a pull request [[example](https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1)].
-    1. If your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run:
+    1. If you made multiple commits over a period of time, chances are high that your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run:
         ```
         git checkout master
-        git fetch -p origin
-        git merge origin/master
-        git checkout <feature-branch>
-        git merge master
-        git push origin <feature-branch>
-        ```
-    1. If you made multiple commits over a period of time, chances are high that your branch will be behind master. Merge the master branch into your feature branch one more time before opening the PR to make sure everything is up to date. With your branch checked out, run:
-        ```
         git pull
+        git checkout feature-branch-name
         git merge master
         git push
         ```
