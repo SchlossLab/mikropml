@@ -32,9 +32,12 @@ If you need a refresher on Git or GitHub, see:
 
     Give it a short, descriptive name.
     ```
-    git checkout -b new-branch-name
+    git checkout -b feature-branch-name
     ```
-    The branch name should reflect the bug or feature it will resolve, or reference the issue number directly.
+    The branch name should reflect the bug or feature it will resolve,
+    or reference the issue number directly ([examples](https://github.com/SchlossLab/ML_pipeline_microbiome/branches/all)).
+    [Note: wherever you see `feature-branch-name` in these instructions,
+    replace that with your branch's actual name.]
 
 1. Make your edits.
 
@@ -57,12 +60,12 @@ If you need a refresher on Git or GitHub, see:
 1. Push your branch to GitHub.
     If you're pushing your branch for the first time, you'll have to set the upstream:
     ```
-    git push --set-upstream origin new-branch-name
+    git push --set-upstream origin feature-branch-name
     ```
 
     Otherwise, just push like usual:
     ```
-    git push origin new-branch-name
+    git push origin feature-branch-name
     ```
 
     If you forget the branch name:
@@ -74,7 +77,7 @@ If you need a refresher on Git or GitHub, see:
         ```
         git checkout master
         git pull
-        git checkout <feature-branch>
+        git checkout feature-branch-name
         git merge master
         git push
         ```
