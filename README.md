@@ -1,18 +1,19 @@
 # ML Pipeline Microbiome
 
-Contributers:
-- Begum Topcuoglu
+Contributors:
+- [Begum Topcuoglu](https://github.com/BTopcuoglu)
 - [Kelly Sovacool](https://github.com/kelly-sovacool)
-- Lucas Bishop
-- Sarah Tomkovich
+- [Lucas Bishop](https://github.com/lucas-bishop)
+- [Sarah Tomkovich](https://github.com/tomkoset)
 - [William L. Close](https://github.com/wclose)
 - [Nick Lesniak](https://github.com/nlesniak)
 - [Ariangela J. Kozik](https://github.com/aj-kozik)
 - [Pat Schloss](https://github.com/pschloss)
 - [Samara Rifkin](https://github.com/sbrifkin)
-- Katie McBride
 - [Ande Garretto](https://github.com/agarretto96)
+- [Katie McBride](https://github.com/ktmcb)
 - [Joshua MA Stough](https://github.com/jmastough)
+
 
 ## Usage
 
@@ -76,23 +77,26 @@ Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --da
 ### Overview
 
 	project
-	|- README         		# the top level description of content (this doc)
-	|- CONTRIBUTING    		# instructions for how to contribute to your project
-	|- LICENSE         		# the license for this project
-	|
-	|- data/           		# raw and primary data, are not changed once created
-	| |- process/     		# combined results as .tsv and .csv files
-	| |- temp/     			# single seed files generated with main.R that runs the models
-	| |- baxter.0.03.subsample.shared      	# subsampled mothur generated file
-	| |- metadata.tsv     		        # metadata with clinical information
-	|- code/          		# any programmatic code
-	| |- R/    				# R code to build model
-	| |- bash/     			# bash scripts to prepare repo
-	| |- pbs/				# pbs scripts to run on HPC
-  	|- test/          		# self-contained testing repo
-  	| |- code/  			# any programmatic code to prepare test load_datasets
-  	| |- data/				# generated test data to run the model on
-	|- Makefile	 # Reproduce the pipeline
+	|- README.md       	# the top level description of content (this doc)
+	|- CONTRIBUTING.md	# instructions for how to contribute to your project
+	|- LICENSE.md      	# the license for this project
+  |- ml-pipeline-microbiome.Rproj	# Rstudio project file  
+  |  
+	|- code/          	# any programmatic code
+	| |- R/    					# R code to build model
+	| +- bash/     			# bash scripts to prepare repo
+  |  
+	|- data/           	# raw and primary data, are not changed once created
+	| |- caret_models		# code for running caret (should probably in code/)
+	| |- process/     	# final combined results as .tsv and .csv files
+	| +- temp/     			# array jobs will dump all the files here.
+  |  
+  |- test/          	# self-contained testing repo
+  | |- code/  				# any programmatic code to prepare test load_datasets
+  | |- data/					# generated test data to run the model on
+  | +- config.yml			# config file for running tests  
+  |  
+	+- config/					# conda configuration file
 
 
 ### How to regenerate this repository in R
@@ -136,11 +140,8 @@ Specifically:
 
 	`Rscript code/R/main.R --seed 100 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
+  B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
 
-
-	- However, this is time-consuming and not DRY.
-
-  B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script.
 
 7. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can merge these files and save them to `data/process`.
 
