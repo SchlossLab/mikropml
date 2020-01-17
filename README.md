@@ -13,7 +13,7 @@ Contributors:
 - [Ande Garretto](https://github.com/agarretto96)
 - [Katie McBride](https://github.com/ktmcb)
 - [Joshua MA Stough](https://github.com/jmastough)
-
+- [Zena Lapp](https://github.com/zenalapp)
 
 ## Usage
 
@@ -32,6 +32,7 @@ This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the
 - pROC
 - tidyverse
 - yaml
+- MLmetrics
 
 You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred package manager.
 
