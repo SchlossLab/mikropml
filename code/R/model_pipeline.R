@@ -37,7 +37,7 @@
 ######################################################################
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
-source("code/R/functions.R")
+source("code/R/auprc.R")
 
 pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
