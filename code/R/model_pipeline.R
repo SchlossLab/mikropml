@@ -37,6 +37,7 @@
 ######################################################################
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
+source("code/R/functions.R")
 
 pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
 
@@ -212,11 +213,8 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
     test_roc <- roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
     test_auc <- test_roc$auc
     # Calculate the test auprc (area under precision-recall curve)
-    if(names(which.max(table(testTransformed[,outcome]))) == first_outcome){
-      auprc=PRAUC(rpartProbs[[1]],ifelse(testTransformed[,outcome]==first_outcome,0,1))
-    }else{
-      auprc=PRAUC(rpartProbs[[1]],ifelse(testTransformed[,outcome]==first_outcome,1,0))
-    }
+    bin_outcome <- get_binary_outcome(testTransformed[,outcome], first_outcome)
+    auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
     # Calculate sensitivity and specificity for 0.5 decision threshold.
     p_class <- ifelse(rpartProbs$cancer > 0.5, "cancer", "normal")
     r <- confusionMatrix(as.factor(p_class), testTransformed$dx)
