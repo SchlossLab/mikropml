@@ -23,27 +23,30 @@ Options
 
 ' -> doc
 
-deps = c(
-  "docopt",
-  "tictoc",
-  "caret" ,
-  "rpart",
-  "xgboost",
-  "randomForest",
-  "kernlab",
-  "LiblineaR",
-  "pROC",
-  "tidyverse",
-  "yaml"
-)
+# deps = c(
+#   "docopt",
+#   "tictoc",
+#   "caret" ,
+#   "rpart",
+#   "xgboost",
+#   "randomForest",
+#   "kernlab",
+#   "LiblineaR",
+#   "pROC",
+#   "tidyverse",
+#   "yaml",
+# 	"Hmisc",
+# 	"RcmdrMisc"
+# )
+#
+# for (dep in deps) {
+#   library(dep, character.only = TRUE)
+# }
+library(magrittr) #TODO remove later when we make this a package
 
-for (dep in deps) {
-  library(dep, character.only = TRUE)
-}
-
-args <- docopt(doc)
+args <- docopt::docopt(doc)
 if ("configfile" %in% names(args) & !is.null(args$configfile)) {
-  args <- read_yaml(args$configfile)
+  args <- yaml::read_yaml(args$configfile)
 }
 
 source("code/R/run_model.R")

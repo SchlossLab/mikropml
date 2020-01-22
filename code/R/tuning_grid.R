@@ -36,7 +36,7 @@
 ######################################################################
 tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
 
-  # NOTE: Hyperparameters should be a csv containing a dataframe 
+  # NOTE: Hyperparameters should be a csv containing a dataframe
   # where the first column "param" is the hyperparameter name
   # and the second column "val" are the values to be tested
   # and third column "model" is the model being used
@@ -62,13 +62,13 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
 #     2. Return 2class summary and save predictions to calculate cvROC
 #     3. Save the predictions and class probabilities/decision values.
   folds <- 5
-  cvIndex <- createMultiFolds(factor(train_data[,outcome]), folds, times=100)
-  cv <- trainControl(method="repeatedcv",
+  cvIndex <- caret::createMultiFolds(factor(train_data[,outcome]), folds, times=100)
+  cv <- caret::trainControl(method="repeatedcv",
                      number=folds,
                      index = cvIndex,
                      returnResamp="final",
                      classProbs=TRUE,
-                     summaryFunction=twoClassSummary,
+                     summaryFunction=caret::twoClassSummary,
                      indexFinal=NULL,
                      savePredictions = TRUE)
 # # ----------------------------------------------------------------------->

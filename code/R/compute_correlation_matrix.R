@@ -12,7 +12,7 @@ compute_correlation_matrix <- function(input_file, outcome){
 
     ############### READ IN THE INPUT DATA ###############
     data_corr <- read.csv(input_file) %>%
-        select(-outcome) # remove outcome, only keep the OTUs
+        dplyr::select(-outcome) # remove outcome, only keep the OTUs
     #######################################################
 
 
@@ -34,8 +34,8 @@ compute_correlation_matrix <- function(input_file, outcome){
     }
 
     new_r <- flattenCorrMatrix(r$r, r$P) %>%
-      filter(cor==1) %>%
-      filter(p<0.01) %>%
-      write_csv("data/process/sig_flat_corr_matrix.csv")
+      dplyr::filter(cor==1) %>%
+      dplyr::filter(p<0.01) %>%
+      readr::write_csv("data/process/sig_flat_corr_matrix.csv")
     ##########################################################
 }

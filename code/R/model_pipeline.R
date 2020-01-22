@@ -68,7 +68,7 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
 	non_zero_variance_cols <- c(non_zero_variance_cols, apply(data[,2:ncol(data)], 2, sd) != 0)
 	data <- data[,non_zero_variance_cols]
 
-  preProcValues <- preProcess(data, method = "range")	# grab these columns
+  preProcValues <- caret::preProcess(data, method = "range")	# grab these columns
   dataTransformed <- predict(preProcValues, data)
 
   # ----------------------------------------------------------------------->
@@ -83,7 +83,7 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   # ------------------80-20 Datasplit for each seed------------------------->
   # Do the 80-20 data-split
   # Stratified data partitioning %80 training - %20 testing
-  inTraining <- createDataPartition(dataTransformed[,outcome], p = .80, list = FALSE)
+  inTraining <- caret::createDataPartition(dataTransformed[,outcome], p = .80, list = FALSE)
   trainTransformed <- dataTransformed[ inTraining,]
   testTransformed  <- dataTransformed[-inTraining,]
   # ----------------------------------------------------------------------->
@@ -125,10 +125,10 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   print('Machine learning formula:')
   print(f)
   # Start walltime for training model
-  tic("train")
+  tictoc::tic("train")
   if(model=="L2_Logistic_Regression"){
   print(model)
-  trained_model <-  train(f, # label
+  trained_model <-  caret::train(f, # label
                           data=trainTransformed, #total data
                           method = method,
                           trControl = cv,
@@ -138,7 +138,7 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   }
   else if(model=="Random_Forest"){
       print(model)
-      trained_model <-  train(f,
+      trained_model <-  caret::train(f,
                               data=trainTransformed,
                               method = method,
                               trControl = cv,
@@ -148,7 +148,7 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   }
   else{
     print(model)
-    trained_model <-  train(f,
+    trained_model <-  caret::train(f,
                             data=trainTransformed,
                             method = method,
                             trControl = cv,
@@ -156,14 +156,14 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
                             tuneGrid = grid)
   }
   # Stop walltime for running model
-  seconds <- toc()
+  seconds <- tictoc::toc()
   # Save elapsed time
   train_time <- seconds$toc-seconds$tic
   # Save wall-time
   write.csv(train_time, file=paste0("data/temp/traintime_", model, "_", split_number, ".csv"), row.names=F)
   # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
   # Mean cv AUC value over repeats of the best cost parameter during training
-  cv_auc <- getTrainPerf(trained_model)$TrainROC
+  cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
   # Save all results of hyper-parameters and their corresponding meanAUCs over 100 internal repeats
   results_individual <- trained_model$results
   # ---------------------------------------------------------------------------------->
@@ -209,7 +209,7 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
     }
     # Calculate the test-auc for the actual pre-processed held-out data
     rpartProbs <- predict(trained_model, testTransformed, type="prob")
-    test_roc <- roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
+    test_roc <- pROC::roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
     test_auc <- test_roc$auc
 
     # Calculate sensitivity and specificity for 0.5 decision threshold.

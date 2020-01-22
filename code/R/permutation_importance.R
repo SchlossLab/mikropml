@@ -33,22 +33,6 @@
 #   (1) AUC difference for each feature transformation
 ######################################################################
 
-
-################### IMPORT LIBRARIES and FUNCTIONS ###################
-# The dependinces for this script are consolidated in the first part
-deps = c("tictoc", "caret", "pROC", "tidyverse");
-for (dep in deps){
-  if (dep %in% installed.packages()[,"Package"] == FALSE){
-    install.packages(as.character(dep),
-                     quiet=TRUE,
-                     repos = "http://cran.us.r-project.org", dependencies=TRUE);
-  }
-  library(dep, verbose=FALSE, character.only=TRUE)
-}
-######################################################################
-
-
-
 ####################### DEFINE FUNCTION  #############################
 permutation_importance <- function(model, full, first_outcome, outcome){
 
@@ -60,7 +44,7 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
   rpartProbs <- predict(model, full, type="prob")
-  base_roc <- roc(ifelse(full[,outcome]  == first_outcome, 1, 0), rpartProbs[[1]])
+  base_roc <- pROC::roc(ifelse(full[,outcome]  == first_outcome, 1, 0), rpartProbs[[1]])
   base_auc <- base_roc$auc
   # -------------------------------------------------------------------->
 
@@ -70,8 +54,8 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # Only has the correlatons that has:
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
-  corr <- read_csv("data/process/sig_flat_corr_matrix.csv") %>%
-    select(-p, -cor)
+  corr <- readr::read_csv("data/process/sig_flat_corr_matrix.csv") %>%
+    dplyr::select(-p, -cor)
   # -------------------------------------------------------------------->
 
   # ----------- Get the names of correlated OTUs------------------------>
@@ -82,19 +66,18 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # ----------- Get the names of non-correlated OTUs-------------------->
   # Remove those names as columns from full test data
   # Remove the diagnosis column to only keep non-correlated features
-  non_correlated_otus <- full %>%
-    select(-correlated_otus)
+  non_correlated_otus <- full[!(colnames(full) %in% correlated_otus)]
 
   non_correlated_otus[,outcome] <- NULL
 
-  non_correlated_otus <- non_correlated_otus %>%
-    colnames()
+  non_correlated_otus <- colnames(non_correlated_otus)
+
   # -------------------------------------------------------------------->
 
   # ----------- Get feature importance of non-correlated OTUs------------>
   # Start the timer
-  library(tictoc)
-  tic("perm")
+  tictoc::tic("perm")
+
   # Permutate each feature in the non-correlated dimensional feature vector
   # Here we are
   #     1. Permuting the values in the OTU column randomly for each OTU in the list
@@ -109,15 +92,15 @@ permutation_importance <- function(model, full, first_outcome, outcome){
     # Predict the diagnosis outcome with the one-feature-permuted test dataset
     rpartProbs_permuted <- predict(model, full_permuted, type="prob")
     # Calculate the new auc
-    new_auc <- roc(ifelse(full_permuted[,outcome] == first_outcome, 1, 0), rpartProbs_permuted[[1]])$auc
+    new_auc <- pROC::roc(ifelse(full_permuted[,outcome] == first_outcome, 1, 0), rpartProbs_permuted[[1]])$auc
     # Return how does this feature being permuted effect the auc
     return(new_auc)
   }))
   print(non_corr_imp)
   # Save non correlated results in a dataframe.
   non_corr_imp <- as.data.frame(non_corr_imp) %>%
-    mutate(names=factor(non_correlated_otus)) %>%
-    rename(new_auc=V1)
+    dplyr::mutate(names=factor(non_correlated_otus)) %>%
+    dplyr::rename(new_auc=V1)
   # -------------------------------------------------------------------->
 
 
@@ -132,14 +115,15 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # So the first step is:
   # Have each OTU in a group with all the other OTUs its correlated with
   # Each OTU should only be in a group once.
-  non_matched_corr <- corr %>% filter(!row %in% column) %>%
-    group_by(row)
+  non_matched_corr <- corr %>%
+		dplyr::filter(!row %in% column) %>%
+    dplyr::group_by(row)
   # ---------------------------------------------------------------------------- #
 
   # --------------------------------- 2 ---------------------------------------- #
   # We want to see what are the OTUs in each group
   # We use that tidyverse group_split to create a list of the OTUs that are grouped
-  split <- group_split(non_matched_corr)
+  split <- dplyr::group_split(non_matched_corr)
   elements_no_in_split <- length(split)
   # All the pairwise correlations are now in a list (for each OTU group, there is 1 list entry)
   # For example 1. list entry (split[[1]]) looks like this:
@@ -157,7 +141,7 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # We want groups of OTUs all together and no repetetion
   groups <- lapply(1:elements_no_in_split, function(i){
     grouped_corr_otus <- split[[i]][2] %>%
-      add_case(column=unlist(unique(split[[i]][1])))
+      tibble::add_case(column=unlist(unique(split[[i]][1])))
     return(grouped_corr_otus)
   })
   # We remove the nested list to this:
@@ -173,8 +157,8 @@ permutation_importance <- function(model, full, first_outcome, outcome){
 
   # --------------------------------------- 4----------------------------------- #
   # The list still had dataframes is them. We want the list entries to be lists as well
-  groups_list <- map(groups[1:elements_no_in_split], "column")
-  groups_list_sorted <- map(groups_list[1:elements_no_in_split], sort)
+  groups_list <- purrr::map(groups[1:elements_no_in_split], "column")
+  groups_list_sorted <- purrr::map(groups_list[1:elements_no_in_split], sort)
   # Now it looks like this for each OTU group:
   # > groups_list_sorted[[1]]
   # [1] "Otu00462" "Otu04448" "Otu06075"
@@ -191,7 +175,7 @@ permutation_importance <- function(model, full, first_outcome, outcome){
     # Predict the diagnosis outcome with the group-permuted test dataset
     rpartProbs_permuted_corr <- predict(model, full_permuted_corr, type="prob")
     # Calculate the new auc
-    new_auc <- roc(ifelse(full_permuted_corr[,outcome] == first_outcome, 1, 0), rpartProbs_permuted_corr[[1]])$auc
+    new_auc <- pROC::roc(ifelse(full_permuted_corr[,outcome] == first_outcome, 1, 0), rpartProbs_permuted_corr[[1]])$auc
     list <- list(new_auc, unlist(i))
     return(list)
   }))
@@ -220,7 +204,7 @@ permutation_importance <- function(model, full, first_outcome, outcome){
 
 
   # stop timer
-  secs <- toc()
+  secs <- tictic::toc()
   walltime <- secs$toc-secs$tic
   print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
