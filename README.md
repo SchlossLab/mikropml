@@ -106,7 +106,7 @@ Clone the Github Repository and change directory to the project directory.
 git clone https://github.com/SchlossLab/ML_pipeline_microbiome.git
 cd ML_pipeline_microbiome
 ```
-### Quick start tutorial
+### Quick-start Tutorial
 
 This ML pipline is intended to predict a binary outcome.
 NOTE: Everything needs to be run from the project directory.
@@ -120,13 +120,13 @@ Specifically:
 
 2. This pipeline consists of the following scripts:
 
-	* To choose the model and model hyperparemeters:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`hyperparameters`). This argument should be a csv filename where the names of the list are the first column "param" is the name of the parameter, the second column "val" is the parameter values to be tested and the third column "model" is the model name. If `hyperparameters.csv` file is `NULL`, then default values will be used. 
+	* Model and Hyperparameter Selection:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`data/default_hyperparameters.csv`). This argument should be the name of a .csv file. This file must contain three colums. The first column "param" should contain the name of the parameter, the second column should "val" contain the parameter values to be tested and the third column "model" should contain the model name. If `data/default_hyperparameters.csv` file is `NULL`, then default values will be used. 
 
-	* To preprocess and split the dataset 80-20 and to train the model: `code/R/model_pipeline.R`
+	* Preprocessing and splitting the dataset 80-20 to train the model: `code/R/model_pipeline.R`
 
-	* To interpret the models: `code/R/permutation_importance.R`
+	* Model Interpretation: `code/R/permutation_importance.R`
 
-3. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in many different ways.
+3. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in different ways.
 
 	A) Run the scripts one by one with different seeds:
 
@@ -139,9 +139,9 @@ Specifically:
 
 	`Rscript code/R/main.R --seed 100 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
-  B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
+  B) Run it parallelized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
 
 
-7. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can merge these files and save them to `data/process`.
+7. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can then merge these files and save them to `data/process`.
 
 		`bash cat_csv_files.sh`
