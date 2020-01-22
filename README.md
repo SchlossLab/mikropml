@@ -13,7 +13,7 @@ Contributors:
 - [Ande Garretto](https://github.com/agarretto96)
 - [Katie McBride](https://github.com/ktmcb)
 - [Joshua MA Stough](https://github.com/jmastough)
-
+- [Zena Lapp](https://github.com/zenalapp)
 
 ## Usage
 
