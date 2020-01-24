@@ -32,6 +32,7 @@ This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the
 - pROC
 - tidyverse
 - yaml
+- e1071
 
 You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred package manager.
 
