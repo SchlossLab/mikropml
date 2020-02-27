@@ -117,8 +117,18 @@ To test the pipeline with a pre-prepared test dataset, go to `test/README.md`
 Specifically:
 	- First column should be the outcome of interest.
 	- Remaining columns should be the features, one feature per column.
+	
+2. Using the `--permutation` flag turns on Permutation Importance calculation, which identifies the features (i.e. OTUs) most important in prediction by the model. In order for this option to work, `code/R/permutation_importance.R` requires a matrix containing the correlation of each feature to every other feature in the dataset. If your data is formatted as specified above, you can use the `blah` script to generate your own correlation matrix for permutation importance like this:
 
-2. This pipeline consists of the following scripts:
+	`Rscript code/R/generate_corr_matrix.R "path/to/inputfile" "outcome"`
+	
+This script currently takes two arguments:
+	- `"path/to/inputfile"` is the path to your formatted dataset, in quotes.
+	- `"outcome"` is the outcome state to be predicted by the model, in quotes.
+	
+**NOTE**: in the current iteration of this pipeline, running`generate_corr_matrix.R` on your own dataset will overwrite the correlation matrix used in the test data, which will cause errors if you try to run the test model afterwards. The test correlation matrix can be restored using `git checkout data/process/sig_flat_corr_matrix.csv`. Running this command will in turn overwrite the correlation matrix generated from your own dataset.
+
+3. This pipeline consists of the following scripts:
 
 	* To choose the model and model hyperparemeters:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`hyperparameters`). This argument should be a csv filename where the names of the list are the first column "param" is the name of the parameter, the second column "val" is the parameter values to be tested and the third column "model" is the model name. If `hyperparameters.csv` file is `NULL`, then default values will be used. 
 
@@ -126,7 +136,7 @@ Specifically:
 
 	* To interpret the models: `code/R/permutation_importance.R`
 
-3. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in many different ways.
+4. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in many different ways.
 
 	A) Run the scripts one by one with different seeds:
 
@@ -139,9 +149,9 @@ Specifically:
 
 	`Rscript code/R/main.R --seed 100 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
-  B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
+	B) We can run it paralellized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
 
 
-7. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can merge these files and save them to `data/process`.
+5. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can merge these files and save them to `data/process`.
 
 		`bash cat_csv_files.sh`
