@@ -1,10 +1,8 @@
 'ML Pipeline Microbiome
-
 Usage:
-  main.R --seed=<num> --model=<name> --data=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
+  main.R --seed=<num> --model=<name> --data=<csv> --hyperparams=<csv> --outcome=<colname> --level=<level> [--permutation]
   main.R --configfile=<yml>
   main.R --help
-
 Options
   -h --help                  Display this help message.
   --configfile=<yml>         Config file in yaml format containing all paramters listed below.
@@ -20,12 +18,13 @@ Options
   --data=<csv>               Dataset filename in csv format.
   --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
+  --level=<level>     Create folder in data/temp to store results for each tax level
   --permutation              Whether to perform permutation importance.
-
 ' -> doc
 
 deps = c(
   "docopt",
+  "dplyr",
   "tictoc",
   "caret" ,
   "rpart",
@@ -35,7 +34,9 @@ deps = c(
   "LiblineaR",
   "pROC",
   "tidyverse",
-  "yaml"
+  "yaml",
+	"data.table",
+  "e1071"
 )
 
 for (dep in deps) {
@@ -54,5 +55,6 @@ run_model(
   args$data,
   args$hyperparams,
   args$outcome,
+  args$level,
   args$permutation
 )
