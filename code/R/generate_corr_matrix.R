@@ -9,9 +9,6 @@ args <- commandArgs(trailingOnly = TRUE)
 ### and load them in.
 deps = c("tidyverse", "dplyr", "Hmisc", "RcmdrMisc");
 for (dep in deps){
-     if (dep %in% installed.packages()[,"Package"] == FALSE){
-          install.packages(as.character(dep), quiet=TRUE, repos = "http://cran.us.r-project.org", dependencies=TRUE);
-     }
      library(dep, verbose=FALSE, character.only=TRUE)
 }
 source("code/R/compute_correlation_matrix.R")

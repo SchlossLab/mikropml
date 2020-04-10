@@ -37,8 +37,8 @@ deps = c(
   "yaml",
   "MLmetrics",
 	"data.table",
-  "e1071"
-
+  "e1071",
+  "gtools"
 )
 
 for (dep in deps) {

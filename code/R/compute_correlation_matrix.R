@@ -12,7 +12,7 @@ compute_correlation_matrix <- function(input_file, outcome){
 
     ############### READ IN THE INPUT DATA ###############
     data_corr <- read.csv(input_file) %>%
-        select(-outcome) # remove outcome, only keep the OTUs
+        select(-all_of(outcome)) # remove outcome, only keep the OTUs
     #######################################################
 
 

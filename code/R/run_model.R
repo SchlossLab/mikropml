@@ -93,11 +93,11 @@ run_model <-
         # ------------------------------------------------------------------
 
         # Save sensitivity and specificity for 0.5 threshold for each datasplit
-  #     threshold_results <- matrix(c(results[[7]], results[[8]]), ncol=2, dimnames = list(c("values"), c("sens", "spec")))
+       threshold_results <- matrix(c(results[[7]], results[[8]]), ncol=2, dimnames = list(c("values"), c("sens", "spec")))
 
-  #     sensspec <- data.frame(threshold_results) %>%
-  #        mutate(model=model) %>%
-  #         write_csv(path=paste0("data/temp/", level,"/sensspec_results_", model,"_", seed, ".csv"))
+       sensspec <- data.frame(threshold_results) %>%
+          mutate(model=model) %>%
+           write_csv(path=paste0("data/temp/", level,"/sensspec_results_", model,"_", seed, ".csv"))
 
 
         # ------------------------------------------------------------------

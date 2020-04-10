@@ -1,3 +1,4 @@
+# Code written by Zena Lapp
 #' Calculate auprc
 calc_auprc <- function(pred,bin_outcome){
   auprc <- MLmetrics::PRAUC(pred,bin_outcome)
@@ -14,4 +15,3 @@ get_binary_outcome <- function(outcome_vec, first_outcome){
   }
   return(bin_outcome)
 }
-

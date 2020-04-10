@@ -50,7 +50,7 @@ for (dep in deps){
 
 
 ####################### DEFINE FUNCTION  #############################
-permutation_importance <- function(model, full, first_outcome, outcome){
+permutation_importance <- function(model, full, first_outcome, second_outcome, outcome){
 
   # Set outcome as first column if null
   #if(is.null(outcome)){
@@ -63,6 +63,15 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   base_roc <- roc(ifelse(full[,outcome]  == first_outcome, 1, 0), rpartProbs[[1]])
   base_auc <- base_roc$auc
   # -------------------------------------------------------------------->
+
+  # Calculate the test auprc (area under precision-recall curve)
+  bin_outcome <- get_binary_outcome(full[,outcome], first_outcome)
+  auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
+  # Calculate sensitivity and specificity for 0.5 decision threshold.
+  p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
+  r <- confusionMatrix(as.factor(p_class), full[,outcome])
+  sensitivity <- r$byClass[[1]]
+  specificity <- r$byClass[[2]]
 
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
@@ -83,7 +92,7 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   # Remove those names as columns from full test data
   # Remove the diagnosis column to only keep non-correlated features
   non_correlated_otus <- full %>%
-    select(-correlated_otus)
+    select(-all_of(correlated_otus))
 
   non_correlated_otus[,outcome] <- NULL
 
@@ -224,6 +233,6 @@ permutation_importance <- function(model, full, first_outcome, outcome){
   walltime <- secs$toc-secs$tic
   print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
-  roc_results <- list(base_auc, non_corr_imp, correlated_auc_results)
+  roc_results <- list(base_auc, non_corr_imp, correlated_auc_results, sensitivity, specificity, auprc)
   return(roc_results)
 }

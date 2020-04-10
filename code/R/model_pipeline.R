@@ -173,11 +173,14 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
       #     1. Predict held-out test-data
       #     2. Calculate ROC and AUROC values on this prediction
       #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, outcome)
+      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, second_outcome, outcome)
       test_auc <- roc_results[[1]]  # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results
       # Get feature weights
       feature_importance_cor <- trained_model$finalModel$W
+      auprc <-roc_results[[6]]
+      sensitivity <-roc_results[[4]]
+      specificity <-roc_results[[5]]
     }
     else{
       # We will use the permutation_importance function here to:
@@ -188,6 +191,9 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
       test_auc <- roc_results[[1]] # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results of non-cor
       feature_importance_cor <- roc_results[3] # save permutation results of cor
+      auprc <-roc_results[[6]]
+      sensitivity <-roc_results[[4]]
+      specificity <-roc_results[[5]]
     }
   }else{
     print("No permutation test being performed.")
@@ -210,8 +216,8 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
     bin_outcome <- get_binary_outcome(testTransformed[,outcome], first_outcome)
     auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
     # Calculate sensitivity and specificity for 0.5 decision threshold.
-    p_class <- ifelse(rpartProbs$cancer > 0.5, "cancer", "normal")
-    r <- confusionMatrix(as.factor(p_class), testTransformed$dx)
+    p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
+    r <- confusionMatrix(as.factor(p_class), testTransformed[,outcome])
     sensitivity <- r$byClass[[1]]
     specificity <- r$byClass[[2]]
   }
