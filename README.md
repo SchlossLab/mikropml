@@ -21,24 +21,28 @@ Contributors:
 
 This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the following R packages:
 
-- docopt
-- tictoc
-- caret
-- rpart
-- xgboost
-- randomForest
-- kernlab
-- LiblineaR
-- pROC
-- tidyverse
-- yaml
-- e1071
+- "docopt"
+- "dplyr"
+- "tictoc"
+- "caret"
+- "rpart"
+- "xgboost"
+- "randomForest"
+- "kernlab"
+- "LiblineaR"
+- "pROC"
+- "tidyverse"
+- "yaml"
+- "data.table"
+- "e1071"
 
 You can install them with [`install.packages`](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) or your preferred package manager.
 
 If you'd like to use [conda](https://conda.io/projects/conda/en/latest/), you can use the provided environment file:
 ```
 conda env create -f config/environment.yml
+
+conda activate ml
 ```
 
 See the [conda documentation](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html#managing-environments) for more on managing & using conda environments.
@@ -59,7 +63,7 @@ Usage:
                                 L2_Logistic_Regression
                                 L1_Linear_SVM
                                 L2_Linear_SVM
-                                RBF_SVM 
+                                RBF_SVM
                                 Decision_Tree
                                 Random_Forest
                                 XGBoost
@@ -67,13 +71,14 @@ Usage:
   --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
   --permutation              Whether to perform permutation.
+  --level                    The name of the modeling experiment (this will create a sperate folder)
 
 ```
 
 ### Example
 
 ```
-Rscript code/R/main.R --seed 1 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level otu
 ```
 
 ### Overview
@@ -122,7 +127,7 @@ Specifically:
 
 2. This pipeline consists of the following scripts:
 
-	* Model and Hyperparameter Selection:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`data/default_hyperparameters.csv`). This argument should be the name of a .csv file. This file must contain three colums. The first column "param" should contain the name of the parameter, the second column should "val" contain the parameter values to be tested and the third column "model" should contain the model name. If `data/default_hyperparameters.csv` file is `NULL`, then default values will be used. 
+	* Model and Hyperparameter Selection:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`data/default_hyperparameters.csv`). This argument should be the name of a .csv file. This file must contain three colums. The first column "param" should contain the name of the parameter, the second column should "val" contain the parameter values to be tested and the third column "model" should contain the model name. If `data/default_hyperparameters.csv` file is `NULL`, then default values will be used.
 
 	* Preprocessing and splitting the dataset 80-20 to train the model: `code/R/model_pipeline.R`
 
@@ -141,7 +146,7 @@ Specifically:
 
 	`Rscript code/R/main.R --seed 100 --permutation --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx`
 
-  B) Run it parallelized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script. 
+  B) Run it parallelized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `code/slurm/L2_Logistic_Regression.sh` script.
 
 
 7. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can then merge these files and save them to `data/process`.

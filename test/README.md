@@ -10,7 +10,7 @@ Test data: `test/data/small_input_data.csv`
 
 From the command line:
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level otu
 ```
 
 Or you can provide a config file instead (see [config.yml](config.yml)):
@@ -20,7 +20,7 @@ Rscript code/R/main.R --configfile test/config.yml
 
 Use the `--permutation` flag if you'd like to run permutation importance:
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --permutation
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level otu --permutation
 ```
 
 Or run the pipeline directly from R:

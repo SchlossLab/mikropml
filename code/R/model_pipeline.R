@@ -38,7 +38,7 @@
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
 
-pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
+pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, level=NA, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
@@ -78,6 +78,8 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   inTraining <- createDataPartition(dataTransformed[,outcome], p = .80, list = FALSE)
   trainTransformed <- dataTransformed[ inTraining,]
   testTransformed  <- dataTransformed[-inTraining,]
+
+
   # ----------------------------------------------------------------------->
 
   # -------------Define hyper-parameter and cv settings-------------------->

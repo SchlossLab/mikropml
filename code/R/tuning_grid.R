@@ -36,7 +36,7 @@
 ######################################################################
 tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
 
-  # NOTE: Hyperparameters should be a csv containing a dataframe 
+  # NOTE: Hyperparameters should be a csv containing a dataframe
   # where the first column "param" is the hyperparameter name
   # and the second column "val" are the values to be tested
   # and third column "model" is the model being used
