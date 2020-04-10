@@ -15,4 +15,5 @@ dependencies:
   - r-tidyverse=1.2.1
   - r-xgboost=0.90
   - r-yaml=2.2.0
+  - r-MLmetrics=1.1.1
   - r-e1071

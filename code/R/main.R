@@ -35,8 +35,10 @@ deps = c(
   "pROC",
   "tidyverse",
   "yaml",
+  "MLmetrics"
 	"data.table",
   "e1071"
+
 )
 
 for (dep in deps) {
