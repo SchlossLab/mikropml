@@ -187,7 +187,7 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
       #     1. Predict held-out test-data
       #     2. Calculate ROC and AUROC values on this prediction
       #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, outcome)
+      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, second_outcome, outcome)
       test_auc <- roc_results[[1]] # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results of non-cor
       feature_importance_cor <- roc_results[3] # save permutation results of cor
