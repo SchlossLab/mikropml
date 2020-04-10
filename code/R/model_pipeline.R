@@ -39,7 +39,7 @@ source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
 source("code/R/auprc.R")
 
-pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
+pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, level=NA, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
@@ -61,14 +61,6 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   # We are doing the pre-processing to the full data and then splitting 80-20
   # Scale all features between 0-1
 
-	# Identify those columns that have no variance and then remove them. the following code assumes
-	# that the data frame has the outcome variable column first, as was set in the if-else code block
-	# above. This helps us avoid a nuisance warning that OTUs have zero variance.
-	non_zero_variance_cols <- logical()
-	non_zero_variance_cols[outcome] <- TRUE
-	non_zero_variance_cols <- c(non_zero_variance_cols, apply(data[,2:ncol(data)], 2, sd) != 0)
-	data <- data[,non_zero_variance_cols]
-
   preProcValues <- preProcess(data, method = "range")	# grab these columns
   dataTransformed <- predict(preProcValues, data)
 
@@ -87,6 +79,8 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   inTraining <- createDataPartition(dataTransformed[,outcome], p = .80, list = FALSE)
   trainTransformed <- dataTransformed[ inTraining,]
   testTransformed  <- dataTransformed[-inTraining,]
+
+
   # ----------------------------------------------------------------------->
 
   # -------------Define hyper-parameter and cv settings-------------------->

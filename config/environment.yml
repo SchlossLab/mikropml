@@ -1,12 +1,13 @@
 name: ml
 channels:
   - r
+  - conda-forge
 dependencies:
   - r-base=3.6.1
   - r-caret=6.0
   - r-docopt=0.6.1
   - r-kernlab=0.9
-  - r-LiblineaR=2.10
+  - r-liblinear
   - r-pROC=1.14.0
   - r-randomForest=4.6
   - r-rpart=4.1
@@ -15,3 +16,4 @@ dependencies:
   - r-xgboost=0.90
   - r-yaml=2.2.0
   - r-MLmetrics=1.1.1
+  - r-e1071
