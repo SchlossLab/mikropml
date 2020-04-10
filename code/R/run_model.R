@@ -55,7 +55,7 @@ run_model <-
             if(file.exists("data/process/sig_flat_corr_matrix.csv")){
                 print("Running permutation importance")
             }else{
-                stop('Permutation importance can be computed only if you have created a correlation matrix.')}
+                stop('Permutation importance can be computed only if you have created a correlation matrix. Generate your own correlation matrix by using code/R/generate_corr_matrix.R')}
         }
         else{
             print("Not running permutation importance")
