@@ -43,7 +43,7 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
   if(is.null(hyperparameters)){
       hyperparameters <- read.csv('data/default_hyperparameters.csv', stringsAsFactors = F)
     } else {
-      hyperparameters <- read.csv(paste0('data/', hyperparameters))
+      hyperparameters <- read.csv(hyperparameters)
     }
   hyperparameters <- hyperparameters[hyperparameters$model == model, ]
   hyperparameters <- split(hyperparameters$val, hyperparameters$param)
