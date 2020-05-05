@@ -10,7 +10,7 @@ Test data: `test/data/small_input_data.csv`
 
 From the command line:
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level otu
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level testing_model
 ```
 
 Or you can provide a config file instead (see [config.yml](config.yml)):
@@ -20,7 +20,7 @@ Rscript code/R/main.R --configfile test/config.yml
 
 Use the `--permutation` flag if you'd like to run permutation importance:
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level otu --permutation
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level testing_model --permutation
 ```
 
 Or run the pipeline directly from R:
@@ -31,7 +31,7 @@ run_model(1, "L2_Logistic_Regression", "test/data/small_input_data.csv", "test/d
 
 If the script runs without errors, then you can check that the results are correct with:
 ```
-diff data/temp/best_hp_results_L2_Logistic_Regression_1.csv test/data/results/best_hp_results_L2_Logistic_Regression_1.csv
+diff data/temp/testing_model/best_hp_results_L2_Logistic_Regression_1.csv test/data/results/best_hp_results_L2_Logistic_Regression_1.csv
 ```
 
 The diff should be blank if they are exactly the same.
