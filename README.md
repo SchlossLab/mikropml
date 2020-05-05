@@ -55,7 +55,7 @@ See the [conda documentation](https://conda.io/projects/conda/en/latest/user-gui
 ML Pipeline Microbiome
 
 Usage:
-  main.R --seed=<num> --model=<name> --metadata=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
+  main.R --seed=<num> --model=<name> --metadata=<csv> --hyperparams=<csv> --outcome=<colname> --level=<name_of_experiment> [--permutation]
   main.R --help
 
 - Options
@@ -73,14 +73,14 @@ Usage:
   --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
   --permutation              Whether to perform permutation.
-  --level                    The name of the modeling experiment (this will create a sperate folder)
+  --level                    The name of the modeling experiment (this will create a sperate folder to save results)
 
 ```
 
 ### Example
 
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level otu
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level crc_model
 ```
 
 ### Overview
