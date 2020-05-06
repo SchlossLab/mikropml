@@ -122,7 +122,7 @@ NOTE: Everything needs to be run from the project directory.
 
 To test the pipeline with a pre-prepared test dataset, go to `test/README.md`
 
-1. Generate your own input data and match the formatting to the `test/data/small_input_data.csv` example.
+1. Generate your own input data with `code/R/setup_model_data.R` to setup your data. This will preprocess the data and generate the correlation matrix. You need to edit this script to fit your the specific needs of you data. You will subset your data, preprocess it and then generate a correlation matrix. You can specify the limits of the correlation matix within this script. Your output file should match the formatting of the `test/data/small_input_data.csv` example.
 Specifically:
 	- First column should be the outcome of interest.
 	- Remaining columns should be the features, one feature per column.
