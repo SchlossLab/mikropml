@@ -6,17 +6,29 @@
 # This script pulls the input data and computes a correlation matrix
 ######################################################################
 
+
+################### IMPORT LIBRARIES and FUNCTIONS ###################
+# The dependinces for this script are consolidated in the first part
+deps = c("Hmisc", "dplyr", "readr");
+for (dep in deps){
+  if (dep %in% installed.packages()[,"Package"] == FALSE){
+    install.packages(as.character(dep), quiet=TRUE, repos = "http://cran.us.r-project.org", dependencies=TRUE);
+  }
+  library(dep, verbose=FALSE, character.only=TRUE)
+}
+######################################################################
+
 # Usage: input file - "data/input_data.csv"
 #        outcome - e.g. "dx"
-
-compute_correlation_matrix <- function(input_file, outcome){
+#        cor_value - select correlations above or equal to cor_value
+#        p_value - select correlation with value below p_value
+compute_correlation_matrix <- function(input_file, outcome, cor_value = 1, p_value = 0.01){
 
     ############### READ IN THE INPUT DATA ###############
     data_corr <- read_csv(input_file)
     # remove outcome, only keep the features
     data_corr <- data_corr[,!grepl(outcome, names(data_corr))]
     #######################################################
-
 
 
     ########### COMPUTE CORRELATION MATRIX ##################
@@ -36,8 +48,8 @@ compute_correlation_matrix <- function(input_file, outcome){
     }
 
     new_r <- flattenCorrMatrix(r$r, r$P) %>%
-      filter(cor==1) %>%
-      filter(p<0.01) %>%
+      filter(cor>=cor_value) %>%
+      filter(p<p_value) %>%
       write_csv("data/process/sig_flat_corr_matrix.csv")
     ##########################################################
 }
