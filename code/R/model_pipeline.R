@@ -220,6 +220,8 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
     r <- confusionMatrix(as.factor(p_class), testTransformed[,outcome])
     sensitivity <- r$byClass[[1]]
     specificity <- r$byClass[[2]]
+    # best decision threshold (youden method)
+    thr <- coords(test_roc, "best", ret = "threshold")
   }
 
   # ---------------------------------------------------------------------------------->
