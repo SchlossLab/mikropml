@@ -62,7 +62,7 @@ run_model <-
         }
 
         # Save results of the modeling pipeline as a list
-        results <- pipeline(data, model, seed, outcome=outcome, permutation=permutation, level=level, hyperparameters=hyperparameters)
+        results <- model_pipeline(data, model, seed, outcome=outcome, permutation=permutation, level=level, hyperparameters=hyperparameters)
 
         # These results have
         # 1. cv_auc,
