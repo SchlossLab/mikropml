@@ -34,7 +34,7 @@
 ######################################################################
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
-tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
+tuning_grid <- function(train_data, model, outcome, hyperparameters){
 
   # NOTE: Hyperparameters should be a csv containing a dataframe
   # where the first column "param" is the hyperparameter name
