@@ -62,7 +62,6 @@ run_model <-
         }
 
         # Save results of the modeling pipeline as a list
-        hyperparameters <- NULL # TODO: use hyperparameters csv file
         results <- pipeline(data, model, seed, outcome=outcome, permutation=permutation, level=level, hyperparameters=hyperparameters)
 
         # These results have
