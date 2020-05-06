@@ -37,7 +37,7 @@
 ######################################################################
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
-source("code/R/auprc.R")
+source("code/R/calc_auprc.R")
 
 model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NA, level=NA, permutation=TRUE){
 
