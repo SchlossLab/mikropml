@@ -80,7 +80,7 @@ Usage:
 ### Example
 
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams test/data/hyperparams.csv --outcome dx --level crc_model
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level crc_model
 ```
 
 ### Overview
