@@ -1,5 +1,6 @@
 # Author: Begum Topcuoglu
 # Date: 2019-12-19
+# Updated: 2020-05-06 NL
 ######################################################################
 # Description:
 # This script pulls the input data and computes a correlation matrix
@@ -11,8 +12,9 @@
 compute_correlation_matrix <- function(input_file, outcome){
 
     ############### READ IN THE INPUT DATA ###############
-    data_corr <- read.csv(input_file) %>%
-        select(-all_of(outcome)) # remove outcome, only keep the OTUs
+    data_corr <- read_csv(input_file)
+    # remove outcome, only keep the features
+    data_corr <- data_corr[,!grepl(outcome, names(data_corr))]
     #######################################################
 
 
