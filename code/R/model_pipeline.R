@@ -57,13 +57,17 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
 		data <- cbind(temp_data, data[, !(colnames(data) %in% outcome)]) # want the outcome column to appear first
   }
 
-  # ------------------Pre-process the full data------------------------->
-  # We are doing the pre-processing to the full data and then splitting 80-20
-  # Scale all features between 0-1
-
-  preProcValues <- preProcess(data, method = "range")	# grab these columns
-  dataTransformed <- predict(preProcValues, data)
-
+  # ------------------Check data for pre-processing------------------------->
+  # Data is pre-processed in code/R/setup_model_data.R
+  # This removes OTUs with near zero variance and scales 0-1
+  # Then generates a correlation matrix
+  # Test if data has been preprocessed - range 0-1 and are not all 0s
+  feature_summary <- any(c(min(data[,-1]) < 0, 
+    max(data[,-1]) > 1, 
+    any(apply(data[,-1], 2, sum) == 0)))
+  if(feature_summary){
+    stop('Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data')
+  }
 
   # ------------------Randomize features----------------------------------->
   # Randomize feature order, to eliminate any position-dependent effects 
