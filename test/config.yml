@@ -1,6 +1,6 @@
 seed:        1
 model:       L2_Logistic_Regression
 data:        test/data/small_input_data.csv
-hyperparams: test/data/hyperparams.csv
+hyperparams: data/default_hyperparameters.csv
 outcome:     dx
 permutation: FALSE
