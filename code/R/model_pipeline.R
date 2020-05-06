@@ -64,6 +64,13 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   preProcValues <- preProcess(data, method = "range")	# grab these columns
   dataTransformed <- predict(preProcValues, data)
 
+
+  # ------------------Randomize features----------------------------------->
+  # Randomize feature order, to eliminate any position-dependent effects 
+  features <- sample(colnames(dataTransformed[,-1]))
+  dataTransformed <- select(dataTransformed, one_of(outcome), one_of(features))
+
+
   # ----------------------------------------------------------------------->
   # Get outcome variables
   first_outcome = as.character(data[1,outcome])
