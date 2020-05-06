@@ -35,7 +35,7 @@ run_model <-
     function(seed,
              model,
              data_filename,
-             hyperparam_filename,
+             hyperparameters,
              outcome,
              level,
              permutation) {
