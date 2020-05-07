@@ -135,7 +135,7 @@ Specifically:
 
 	* Model Interpretation: `code/R/permutation_importance.R`. Using the `--permutation` flag turns on Permutation Importance calculation, which identifies the features (i.e. OTUs) most important in prediction by the model. In order for this option to work, `code/R/permutation_importance.R` requires a matrix containing the correlation of each feature to every other feature in the dataset. If your data is formatted as specified above, you will generate the required matrix when running `code/R/setup_model_data.R` 
 
-      -  **NOTE**: in the current iteration of this pipeline, running`setup_model_data.R` on your own dataset will overwrite the correlation matrix used in the test data, which will cause errors if you try to run the test model afterwards. The test correlation matrix can be restored using `git checkout data/process/sig_flat_corr_matrix.csv`. Running this command will in turn overwrite the correlation matrix generated from your own dataset.
+      -  **NOTE**: If you generate a correlation matrix indepedent of `code/R/setup_model_data.R`, it must be named `data/process/sig_flat_corr_matrix_LEVEL.csv`, replacing LEVEL with the name of the modeling experiment you use to trun the pipeline.
 
 3. We want to run the pipeline 100 times with different seeds so that we can evaluate variability in modeling results. We can do this in different ways.
 

@@ -22,10 +22,10 @@
 # Be in the project directory.
 
 # The outputs are:
-#   (1) data/process/input_data.csv - CSV with data for machine learning -
+#   (1) data/process/LEVEL_input_data.csv - CSV with data for machine learning -
 #			first column is outcome of interest, 
 #			remaining columns are features, one per column.
-#   (2) data/process/sig_flat_corr_matrix.csv - CSV with correlated features
+#   (2) data/process/sig_flat_corr_matrix_LEVEL.csv - CSV with correlated features
 ######################################################################
 
 meta_file <- ##### insert metadata file name #####
@@ -72,20 +72,24 @@ data <- meta %>%
 	drop_na()
 # ---------------------------------------------------------------------
 
+save_data <- function(data, level){
+	# ---------------------- Process model data ---------------------------
+	# Remove features with near zero variance and scale remaining from 0 to 1
+	preProcValues <- preProcess(data, method = c("nzv", "range"))
+	dataTransformed <- predict(preProcValues, data)
+	# Save data to be used in machine learning pipeline
+	write_csv(dataTransformed, paste0('data/process/', level, '_input_data.csv'))
+	# ---------------------------------------------------------------------
 
-# ---------------------- Process model data ---------------------------
-# Remove features with near zero variance and scale remaining from 0 to 1
-preProcValues <- preProcess(data, method = c("nzv", "range"))
-dataTransformed <- predict(preProcValues, data)
-# Save data to be used in machine learning pipeline
-write_csv(dataTransformed, 'data/process/input_data.csv')
-# ---------------------------------------------------------------------
 
+	# ------------------- Create correlation matrix -----------------------
+	# Create correlation matrix of machine learning data
+	#   filters correlation >= cor_value and p values < p_value
+	#   default values are cor_value = 1, and p_value = 0.1
+	compute_correlation_matrix(input_file = paste0('data/process/', level, '_input_data.csv'), 
+		outcome = 'clearance', level = level,
+		cor_value = 0.8, p_value = 0.05)
+	# ---------------------------------------------------------------------
+}
 
-# ------------------- Create correlation matrix -----------------------
-# Create correlation matrix of machine learning data
-#   filters correlation >= cor_value and p values < p_value
-#   default values are cor_value = 1, and p_value = 0.1
-compute_correlation_matrix('data/process/input_data.csv', 
-	##### insert outcome column name#####, cor_value, p_value)
-# ---------------------------------------------------------------------
+save_data(data, 'otu')

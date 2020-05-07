@@ -20,9 +20,10 @@ for (dep in deps){
 
 # Usage: input file - "data/input_data.csv"
 #        outcome - e.g. "dx"
+#        level - name of modeling experiment
 #        cor_value - select correlations above or equal to cor_value
 #        p_value - select correlation with value below p_value
-compute_correlation_matrix <- function(input_file, outcome, cor_value = 1, p_value = 0.01){
+compute_correlation_matrix <- function(input_file, outcome, level, cor_value = 1, p_value = 0.01){
 
     ############### READ IN THE INPUT DATA ###############
     data_corr <- read_csv(input_file)
@@ -50,6 +51,6 @@ compute_correlation_matrix <- function(input_file, outcome, cor_value = 1, p_val
     new_r <- flattenCorrMatrix(r$r, r$P) %>%
       filter(cor>=cor_value) %>%
       filter(p<p_value) %>%
-      write_csv("data/process/sig_flat_corr_matrix.csv")
+      write_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv"))
     ##########################################################
 }
