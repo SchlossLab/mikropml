@@ -57,18 +57,22 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
 		data <- cbind(temp_data, data[, !(colnames(data) %in% outcome)]) # want the outcome column to appear first
   }
 
-  # ------------------Pre-process the full data------------------------->
-  # We are doing the pre-processing to the full data and then splitting 80-20
-  # Scale all features between 0-1
-
-  preProcValues <- preProcess(data, method = "range")	# grab these columns
-  dataTransformed <- predict(preProcValues, data)
-
+  # ------------------Check data for pre-processing------------------------->
+  # Data is pre-processed in code/R/setup_model_data.R
+  # This removes OTUs with near zero variance and scales 0-1
+  # Then generates a correlation matrix
+  # Test if data has been preprocessed - range 0-1 and are not all 0s
+  feature_summary <- any(c(min(data[,-1]) < 0, 
+    max(data[,-1]) > 1, 
+    any(apply(data[,-1], 2, sum) == 0)))
+  if(feature_summary){
+    stop('Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data')
+  }
 
   # ------------------Randomize features----------------------------------->
   # Randomize feature order, to eliminate any position-dependent effects 
-  features <- sample(colnames(dataTransformed[,-1]))
-  dataTransformed <- select(dataTransformed, one_of(outcome), one_of(features))
+  features <- sample(colnames(data[,-1]))
+  data <- select(data, one_of(outcome), one_of(features))
 
 
   # ----------------------------------------------------------------------->
@@ -83,9 +87,9 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # ------------------80-20 Datasplit for each seed------------------------->
   # Do the 80-20 data-split
   # Stratified data partitioning %80 training - %20 testing
-  inTraining <- createDataPartition(dataTransformed[,outcome], p = .80, list = FALSE)
-  trainTransformed <- dataTransformed[ inTraining,]
-  testTransformed  <- dataTransformed[-inTraining,]
+  inTraining <- createDataPartition(data[,outcome], p = .80, list = FALSE)
+  train_data <- data[ inTraining,]
+  test_data  <- data[-inTraining,]
 
 
   # ----------------------------------------------------------------------->
@@ -93,7 +97,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # -------------Define hyper-parameter and cv settings-------------------->
   # Define hyper-parameter tuning grid and the training method
   # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-  tune <- tuning_grid(trainTransformed, model, outcome, hyperparameters)
+  tune <- tuning_grid(train_data, model, outcome, hyperparameters)
   grid <- tune[[1]]
   method <- tune[[2]]
   cv <- tune[[3]]
@@ -131,7 +135,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   if(model=="L2_Logistic_Regression"){
   print(model)
   trained_model <-  train(f, # label
-                          data=trainTransformed, #total data
+                          data=train_data, #total data
                           method = method,
                           trControl = cv,
                           metric = "ROC",
@@ -141,7 +145,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   else if(model=="Random_Forest"){
       print(model)
       trained_model <-  train(f,
-                              data=trainTransformed,
+                              data=train_data,
                               method = method,
                               trControl = cv,
                               metric = "ROC",
@@ -151,7 +155,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   else{
     print(model)
     trained_model <-  train(f,
-                            data=trainTransformed,
+                            data=train_data,
                             method = method,
                             trControl = cv,
                             metric = "ROC",
@@ -162,7 +166,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # Save elapsed time
   train_time <- seconds$toc-seconds$tic
   # Save wall-time
-  write.csv(train_time, file=paste0("data/temp/traintime_", model, "_", split_number, ".csv"), row.names=F)
+  write.csv(train_time, file=paste0("data/temp/", level, "/traintime_", model, "_", split_number, ".csv"), row.names=F)
   # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
   # Mean cv AUC value over repeats of the best cost parameter during training
   cv_auc <- getTrainPerf(trained_model)$TrainROC
@@ -180,7 +184,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
       #     1. Predict held-out test-data
       #     2. Calculate ROC and AUROC values on this prediction
       #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, second_outcome, outcome)
+      roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, level)
       test_auc <- roc_results[[1]]  # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results
       # Get feature weights
@@ -194,7 +198,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
       #     1. Predict held-out test-data
       #     2. Calculate ROC and AUROC values on this prediction
       #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, second_outcome, outcome)
+      roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, level)
       test_auc <- roc_results[[1]] # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results of non-cor
       feature_importance_cor <- roc_results[3] # save permutation results of cor
@@ -216,15 +220,15 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
       feature_importance_cor <- NULL
     }
     # Calculate the test-auc for the actual pre-processed held-out data
-    rpartProbs <- predict(trained_model, testTransformed, type="prob")
-    test_roc <- roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
+    rpartProbs <- predict(trained_model, test_data, type="prob")
+    test_roc <- roc(ifelse(test_data[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
     test_auc <- test_roc$auc
     # Calculate the test auprc (area under precision-recall curve)
-    bin_outcome <- get_binary_outcome(testTransformed[,outcome], first_outcome)
+    bin_outcome <- get_binary_outcome(test_data[,outcome], first_outcome)
     auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
     # Calculate sensitivity and specificity for 0.5 decision threshold.
     p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
-    r <- confusionMatrix(as.factor(p_class), testTransformed[,outcome])
+    r <- confusionMatrix(as.factor(p_class), test_data[,outcome])
     sensitivity <- r$byClass[[1]]
     specificity <- r$byClass[[2]]
     # best decision threshold (youden method)

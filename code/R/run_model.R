@@ -52,7 +52,7 @@ run_model <-
         data <- data.table::fread(data_filename) %>% data.frame
 
         if(permutation){
-            if(file.exists("data/process/sig_flat_corr_matrix.csv")){
+            if(file.exists(paste0("data/process/sig_flat_corr_matrix_", level, ".csv"))){
                 print("Running permutation importance")
             }else{
                 stop('Permutation importance can be computed only if you have created a correlation matrix. Generate your own correlation matrix by using code/R/generate_corr_matrix.R')}
