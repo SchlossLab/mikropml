@@ -28,21 +28,28 @@
 #   (2) data/process/sig_flat_corr_matrix_LEVEL.csv - CSV with correlated features
 ######################################################################
 
-meta_file <- ##### insert metadata file name #####
-feature_file <- ##### insert features file name #####
+'Setup Data for ML Pipeline Microbiome
+Usage:
+  setp_model_data.R --data=<csv> --outcome=<colname> --level=<level>
+  setp_model_data.R --help
+Options
+  -h --help                  Display this help message.
+  --data=<csv>               Raw Dataset filename in csv format.
+  --outcome=<colname>        Outcome column name from the metadata file.
+  --level=<level>     		 Name of experiment
+' -> doc
 
 ################### IMPORT LIBRARIES and FUNCTIONS ###################
 # The dependinces for this script are consolidated in the first part
-deps = c("tidyverse", "caret", "Hmisc");
-for (dep in deps){
-	if (dep %in% installed.packages()[,"Package"] == FALSE){
-		install.packages(as.character(dep), quiet=TRUE, repos = "http://cran.us.r-project.org", dependencies=TRUE);
-	}
-	library(dep, verbose=FALSE, character.only=TRUE)
+deps = c("docopt", "tidyverse", "caret", "Hmisc")
+for (dep in deps) {
+  library(dep, character.only = TRUE)
 }
+args <- docopt(doc)
 # Load in needed functions and libraries
 source('code/R/compute_correlation_matrix.R')
 ######################################################################
+
 
 
 
@@ -50,27 +57,52 @@ source('code/R/compute_correlation_matrix.R')
 
 
 # ----------------------- Read in data --------------------------------
-# Read in metadata
-meta <- read_tsv(meta_file)  
+# read in data with first column outcome and remaining columns are features
+# if needing to edit your data remove this line and edit inputs to fit your data
+data <- read_csv(args$data)
 
-# Read in OTU table and remove label and numOtus columns
-features <- read_tsv(feature_file)
 # ---------------------------------------------------------------------
 
+if(length(unique(data[,1])) > 2){
+	stop('Data not ready to be processed as is. There maybe columns present that are not outcome or features.
+		Please input a file that has the first column outcome and remaining columns are features.
+		Please edit this file to properly process your input file and remove unused samples/features/columns.')
+}
+# -------------------------------------------------------------------------
+# Use space below to process you data, such as joining metadata to features
+# subselecting samples/features, modifying features
+#	
+#	
+#	# ----------------------- Read in data --------------------------------
+#	meta_file <- ##### insert metadata file name #####
+#	feature_file <- ##### insert features file name #####
+#	
+#	# Read in metadata
+#	meta <- read_tsv(meta_file)  
+#	
+#	# Read in OTU table and remove label and numOtus columns
+#	features <- read_tsv(feature_file)
+#	# ---------------------------------------------------------------------
+#	
+#	
+#	# ----------------- Select samples and features -----------------------
+#	# Filter metadata and select only sample names and outcome columns
+#	# Merge metadata and feature data.
+#	# Then remove the sample name column
+#	data <- meta %>% 
+#		filter(###### insert edits here ########
+#			) %>% 
+#		select(###### select sample names and outcome column #####
+#			) %>% 
+#		inner_join(features, by=c("sample_names"))  %>% 
+#		select(-sample_names) %>% 
+#		drop_na()
+#	# ---------------------------------------------------------------------
+#	
+# -------------------------------------------------------------------------
 
-# ----------------- Select samples and features -----------------------
-# Filter metadata and select only sample names and outcome columns
-# Merge metadata and feature data.
-# Then remove the sample name column
-data <- meta %>% 
-	filter(###### insert edits here ########
-		) %>% 
-	select(###### select sample names and outcome column #####
-		) %>% 
-	inner_join(features, by=c("sample_names"))  %>% 
-	select(-sample_names) %>% 
-	drop_na()
-# ---------------------------------------------------------------------
+
+# ----------------------- Preprocess model data----------------------------
 
 save_data <- function(data, level){
 	# ---------------------- Process model data ---------------------------
@@ -87,9 +119,8 @@ save_data <- function(data, level){
 	#   filters correlation >= cor_value and p values < p_value
 	#   default values are cor_value = 1, and p_value = 0.1
 	compute_correlation_matrix(input_file = paste0('data/process/', level, '_input_data.csv'), 
-		outcome = 'clearance', level = level,
-		cor_value = 0.8, p_value = 0.05)
+		outcome = args$outcome, level = level)
 	# ---------------------------------------------------------------------
 }
 
-save_data(data, 'otu')
+save_data(data, args$level)
