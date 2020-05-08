@@ -80,7 +80,7 @@ Usage:
 ### Example
 
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data test/data/small_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level crc_model
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data data/process/test_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level test
 ```
 
 ### Overview
@@ -122,10 +122,15 @@ NOTE: Everything needs to be run from the project directory.
 
 To test the pipeline with a pre-prepared test dataset, go to `test/README.md`
 
-1. Generate your own input data with `code/R/setup_model_data.R` to setup your data. This will preprocess the data and generate the correlation matrix. You need to edit this script to fit your the specific needs of you data. You will subset your data, preprocess it and then generate a correlation matrix. You can specify the limits of the correlation matix within this script. Your output file should match the formatting of the `test/data/small_input_data.csv` example.
+1. Preproces your own input data with `code/R/setup_model_data.R` to setup your data. 
+```
+Rscript code/R/setup_model_data.R --data test/data/small_input_data.csv --outcome dx --level test 
+```
+This will preprocess the data and generate the correlation matrix. If your data is not already setup to have the first column as the outcome and the remaining columns as features, you need to edit this script to fit your the specific needs of you data. You will subset your data, preprocess it and then generate a correlation matrix. You can specify the limits of the correlation matix within this script. Your output file should match the formatting of the `test/data/small_input_data.csv` example.
 Specifically:
 	- First column should be the outcome of interest.
 	- Remaining columns should be the features, one feature per column.
+This will output a modeling data file LEVEL_input_data.csv and a correlation matrix sig_flat_corr_matrix_LEVEL.csv
 
 2. This pipeline consists of the following scripts:
 

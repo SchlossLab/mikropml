@@ -46,5 +46,5 @@ seed=$(($SLURM_ARRAY_TASK_ID - 1))
 # Making output dir for snakemake cluster logs
 mkdir -p logs/slurm/
 
-Rscript code/R/main.R --seed $seed --model L2_Logistic_Regression --level otu --data  test/data/input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx
+Rscript code/R/main.R --seed $seed --model L2_Logistic_Regression --level test --data  data/procees/test_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx
 
