@@ -150,11 +150,13 @@ This script will output a modeling data file `LEVEL_input_data.csv` and a correl
 
 2. This pipeline consists of the following scripts:
 
-	* Model and Hyperparameter Selection:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`data/default_hyperparameters.csv`). This argument should be the name of a .csv file. This file must contain three colums. The first column "param" should contain the name of the parameter, the second column should "val" contain the parameter values to be tested and the third column "model" should contain the model name. If `data/default_hyperparameters.csv` file is `NULL`, then default values will be used.
+	* Model and Hyperparameter Selection:`code/R/tuning_grid.R`: This function takes an optional argument to specify your own hyperparameters to be used for cross-validation (`data/default_hyperparameters.csv`). This argument should be the name of a .csv file. This file must contain three colums. The first column "param" should contain the name of the parameter, the second column should "val" contain the parameter values to be tested and the third column "model" should contain the model name. We have provided an example table `data/default_hyperparameters.csv` file that can be edited by the user. 
 
-	* Preprocessing and splitting the dataset 80-20 to train the model: `code/R/model_pipeline.R`
+	* Splitting the dataset 80-20 and training the model: `code/R/model_pipeline.R`
 
-	* Model Interpretation: `code/R/permutation_importance.R`. Using the `--permutation` flag turns on Permutation Importance calculation, which identifies the features (i.e. OTUs) most important in prediction by the model. In order for this option to work, `code/R/permutation_importance.R` requires a matrix containing the correlation of each feature to every other feature in the dataset. If your data is formatted as specified above, you will generate the required matrix when running `code/R/setup_model_data.R`
+	* Model interpretation using permutation importance: `code/R/permutation_importance.R`. Using the `--permutation` flag turns on Permutation Importance calculation, which identifies the features (i.e. OTUs) most important in prediction by the model. This analysis permutes non-correlated features individually and correlated features as a group and how much the predictive performance (test auc value) drops by this permutation. For more information please refer to https://www.biorxiv.org/content/10.1101/816090v2 and https://christophm.github.io/interpretable-ml-book/feature-importance.html.
+	
+	In order for this option to work, `code/R/permutation_importance.R` requires a matrix containing the correlation of each feature to every other feature in the dataset. If your data is formatted as specified above, you will generate the required matrix when running `code/R/setup_model_data.R`
 
       -  **NOTE**: If you generate a correlation matrix indepedent of `code/R/setup_model_data.R`, it must be named `data/process/sig_flat_corr_matrix_LEVEL.csv`, replacing LEVEL with the name of the modeling experiment you use to trun the pipeline.
 
@@ -174,6 +176,6 @@ This script will output a modeling data file `LEVEL_input_data.csv` and a correl
   B) Run it parallelized for each datasplit (seed). We do this in our High Performing Computer (Great Lakes) by submitting an array job where the seed is automatically assigned [0-100] and each script is submitted at the same time - an example is present in the `run.sh` script.
 
 
-4. After we run the pipeline 100 times, we will have saved 100 files for AUROC values, 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can then merge these files and save them to `data/process`.
+4. After we run the pipeline 100 times, we will have saved 100 files for AUROC values (best cv and test AUROC values for each datasplit), 100 files for training times, 100 files for AUROC values for each tuned hyperparameter, 100 files for feature importances of perfectly correlated features, 100 files for feature importances of non-perfectly correlated features. These individual files will all be saved to `data/temp`. We can then merge these files and save them to `data/process`.
 
 		`bash bash/cat_csv_files.sh`
