@@ -20,13 +20,13 @@ Rscript code/R/main.R --configfile test/config.yml
 
 Use the `--permutation` flag if you'd like to run permutation importance:
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level testing_model --permutation
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data data/process/test_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level test --permutation
 ```
 
 Or run the pipeline directly from R:
 ```R
 source("code/R/run_model.R")
-run_model(1, "L2_Logistic_Regression", "test/data/small_input_data.csv", "data/default_hyperparameters.csv", "dx", permutation = FALSE)
+run_model(1, "L2_Logistic_Regression", "data/process/test_input_data.csv", "data/default_hyperparameters.csv", "dx", "test", permutation = FALSE)
 ```
 
 If the script runs without errors, then you can check that the results are correct with:
