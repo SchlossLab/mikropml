@@ -79,7 +79,7 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
   # Only has the correlatons that has:
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
-  corr <- read_csv("data/process/sig_flat_corr_matrix.csv") %>%
+  corr <- read_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv") %>%
     select(-p, -cor)
   # -------------------------------------------------------------------->
 
