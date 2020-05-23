@@ -10,7 +10,7 @@ Test data: `test/data/small_input_data.csv`
 
 From the command line:
 ```
-Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  test/data/small_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level testing_model
+Rscript code/R/main.R --seed 1 --model L2_Logistic_Regression --data  data/process/test_input_data.csv --hyperparams data/default_hyperparameters.csv --outcome dx --level test
 ```
 
 Or you can provide a config file instead (see [config.yml](config.yml)):
