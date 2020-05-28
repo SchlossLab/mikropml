@@ -37,7 +37,7 @@
 ######################################################################
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
-source("code/R/calc_auprc.R")
+source("code/R/calc_aucs.R")
 
 model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NA, level=NA, permutation=TRUE){
 
@@ -221,11 +221,16 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
     }
     # Calculate the test-auc for the actual pre-processed held-out data
     rpartProbs <- predict(trained_model, test_data, type="prob")
-    test_roc <- roc(ifelse(test_data[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
-    test_auc <- test_roc$auc
+    aucs <- calc_aucs(rpartProbs, test_data[,outcome])
+    test_auc <- aucs$auroc
+    auprc <- aucs$auprc
+    bin_outcome <- ifelse(test_data[,outcome] == names(rpartProbs)[1], 1, 0)
+    test_roc <- roc(bin_outcome,rpartProbs[[1]],direction='<')
+    #roc(ifelse(test_data[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
+    #test_auc <- test_roc$auc
     # Calculate the test auprc (area under precision-recall curve)
-    bin_outcome <- get_binary_outcome(test_data[,outcome], first_outcome)
-    auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
+    #bin_outcome <- get_binary_outcome(test_data[,outcome], first_outcome)
+    #auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
     # Calculate sensitivity and specificity for 0.5 decision threshold.
     p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
     r <- confusionMatrix(as.factor(p_class), test_data[,outcome])
