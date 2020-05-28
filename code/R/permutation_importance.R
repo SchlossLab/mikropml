@@ -60,13 +60,19 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
   rpartProbs <- predict(model, full, type="prob")
-  base_roc <- roc(ifelse(full[,outcome]  == first_outcome, 1, 0), rpartProbs[[1]])
-  base_auc <- base_roc$auc
+  #base_roc <- roc(ifelse(full[,outcome]  == first_outcome, 1, 0), rpartProbs[[1]])
+  #base_auc <- base_roc$auc
   # -------------------------------------------------------------------->
 
   # Calculate the test auprc (area under precision-recall curve)
-  bin_outcome <- get_binary_outcome(full[,outcome], first_outcome)
-  auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
+  aucs <- calc_aucs(rpartProbs, test_data[,outcome])
+  test_auc <- aucs$auroc
+  auprc <- aucs$auprc
+  bin_outcome <- ifelse(test_data[,outcome] == names(rpartProbs)[1], 1, 0)
+  base_roc <- roc(bin_outcome,rpartProbs[[1]],direction='<')
+  base_auc <- base_roc$auc
+  #bin_outcome <- get_binary_outcome(full[,outcome], first_outcome)
+  #auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
   # Calculate sensitivity and specificity for 0.5 decision threshold.
   p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
   r <- confusionMatrix(as.factor(p_class), full[,outcome])
