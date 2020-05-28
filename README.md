@@ -22,7 +22,6 @@ Contributors:
 This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the following R packages:
 
 
-- MLmetrics
 - "docopt"
 - "dplyr"
 - "tictoc"
@@ -35,6 +34,7 @@ This pipeline depends on [R version >=3.5.3](https://www.r-project.org/) and the
 - "pROC"
 - "tidyverse"
 - "yaml"
+- "PRROC"
 - "data.table"
 - "e1071"
 
