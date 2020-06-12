@@ -59,7 +59,7 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
 
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
-  base_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
+  base_auc <- calc_aucs(model, full, outcome, fewer_samples)$auroc
 
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
