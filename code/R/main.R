@@ -35,7 +35,7 @@ deps = c(
   "pROC",
   "tidyverse",
   "yaml",
-  "MLmetrics",
+  "PRROC",
 	"data.table",
   "e1071",
   "gtools"

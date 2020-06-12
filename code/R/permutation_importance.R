@@ -50,7 +50,9 @@ for (dep in deps){
 
 
 ####################### DEFINE FUNCTION  #############################
-permutation_importance <- function(model, full, first_outcome, second_outcome, outcome, level){
+permutation_importance <- function(model, full, first_outcome, second_outcome, outcome, level, fewer_samples){
+
+
 
   # Set outcome as first column if null
   #if(is.null(outcome)){
@@ -59,19 +61,7 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
 
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
-  rpartProbs <- predict(model, full, type="prob")
-  base_roc <- roc(ifelse(full[,outcome]  == first_outcome, 1, 0), rpartProbs[[1]])
-  base_auc <- base_roc$auc
-  # -------------------------------------------------------------------->
-
-  # Calculate the test auprc (area under precision-recall curve)
-  bin_outcome <- get_binary_outcome(full[,outcome], first_outcome)
-  auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
-  # Calculate sensitivity and specificity for 0.5 decision threshold.
-  p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
-  r <- confusionMatrix(as.factor(p_class), full[,outcome])
-  sensitivity <- r$byClass[[1]]
-  specificity <- r$byClass[[2]]
+  base_auc <- calc_aucs(model, full, outcome, fewer_samples)$auroc
 
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
@@ -118,7 +108,7 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
     # Predict the diagnosis outcome with the one-feature-permuted test dataset
     rpartProbs_permuted <- predict(model, full_permuted, type="prob")
     # Calculate the new auc
-    new_auc <- roc(ifelse(full_permuted[,outcome] == first_outcome, 1, 0), rpartProbs_permuted[[1]])$auc
+    new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
     # Return how does this feature being permuted effect the auc
     return(new_auc)
   }))
@@ -198,13 +188,13 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
     full_permuted_corr <- full
     full_permuted_corr[,unlist(groups_list_sorted[i])] <- sample(full[,unlist(groups_list_sorted[i])])
     # Predict the diagnosis outcome with the group-permuted test dataset
-    rpartProbs_permuted_corr <- predict(model, full_permuted_corr, type="prob")
     # Calculate the new auc
-    new_auc <- roc(ifelse(full_permuted_corr[,outcome] == first_outcome, 1, 0), rpartProbs_permuted_corr[[1]])$auc
+    new_auc <- calc_aucs(model, full_permuted_corr, outcome, fewer_samples)$auroc
     list <- list(new_auc, unlist(i))
     return(list)
   }))
   print(corr_imp)
+  
   # ------------------------------------------------------------------------------ #
 
   # -------------------------------------- 6 ------------------------------------- #
@@ -233,6 +223,6 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
   walltime <- secs$toc-secs$tic
   print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
-  roc_results <- list(base_auc, non_corr_imp, correlated_auc_results, sensitivity, specificity, auprc)
+  roc_results <- list(base_auc, non_corr_imp, correlated_auc_results)
   return(roc_results)
 }

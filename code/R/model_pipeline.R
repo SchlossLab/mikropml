@@ -37,7 +37,7 @@
 ######################################################################
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
-source("code/R/calc_auprc.R")
+source("code/R/calc_aucs.R")
 
 model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NA, level=NA, permutation=TRUE){
 
@@ -82,6 +82,8 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   if(length(outcome_vals) != 2) stop('A binary outcome variable is required.')
   second_outcome = as.character(outcome_vals[!outcome_vals == first_outcome])
   print(paste(c('first outcome:','second outcome:'),c(first_outcome,second_outcome)))
+  # outcome with fewer samples (for calculating AUPRC)
+  fewer_samples = names(which.min(table(data[,outcome])))
 
 
   # ------------------80-20 Datasplit for each seed------------------------->
@@ -173,38 +175,30 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # Save all results of hyper-parameters and their corresponding meanAUCs over 100 internal repeats
   results_individual <- trained_model$results
   # ---------------------------------------------------------------------------------->
+  
+  # Get AUROC and AUPRC
+  # Calculate the test aucs for the actual pre-processed held-out data
+  aucs <- calc_aucs(trained_model, test_data, outcome, fewer_samples)
+  test_auc <- aucs$auroc
+  auprc <- aucs$auprc
 
   # -------------------------- Feature importances ----------------------------------->
   #   if linear: Output the weights of features of linear models
   #   else: Output the feature importances based on random permutation for non-linear models
   # Here we look at the top 20 important features
   if(permutation){
+    # We will use the permutation_importance function here to:
+    #     1. Predict held-out test-data
+    #     2. Calculate ROC and AUROC values on this prediction
+    #     3. Get the feature importances for correlated and uncorrelated feautures
+    roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, level, fewer_samples)
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
-      # We will use the permutation_importance function here to:
-      #     1. Predict held-out test-data
-      #     2. Calculate ROC and AUROC values on this prediction
-      #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, level)
-      test_auc <- roc_results[[1]]  # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results
-      # Get feature weights
-      feature_importance_cor <- trained_model$finalModel$W
-      auprc <-roc_results[[6]]
-      sensitivity <-roc_results[[4]]
-      specificity <-roc_results[[5]]
+      feature_importance_cor <- trained_model$finalModel$W # Get feature weights
     }
     else{
-      # We will use the permutation_importance function here to:
-      #     1. Predict held-out test-data
-      #     2. Calculate ROC and AUROC values on this prediction
-      #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, level)
-      test_auc <- roc_results[[1]] # Predict the base test importance
       feature_importance_non_cor <- roc_results[2] # save permutation results of non-cor
       feature_importance_cor <- roc_results[3] # save permutation results of cor
-      auprc <-roc_results[[6]]
-      sensitivity <-roc_results[[4]]
-      specificity <-roc_results[[5]]
     }
   }else{
     print("No permutation test being performed.")
@@ -219,26 +213,12 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
       # Get feature weights
       feature_importance_cor <- NULL
     }
-    # Calculate the test-auc for the actual pre-processed held-out data
-    rpartProbs <- predict(trained_model, test_data, type="prob")
-    test_roc <- roc(ifelse(test_data[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
-    test_auc <- test_roc$auc
-    # Calculate the test auprc (area under precision-recall curve)
-    bin_outcome <- get_binary_outcome(test_data[,outcome], first_outcome)
-    auprc <- calc_auprc(rpartProbs[[1]], bin_outcome)
-    # Calculate sensitivity and specificity for 0.5 decision threshold.
-    p_class <- ifelse(rpartProbs[[1]] > 0.5, second_outcome, first_outcome)
-    r <- confusionMatrix(as.factor(p_class), test_data[,outcome])
-    sensitivity <- r$byClass[[1]]
-    specificity <- r$byClass[[2]]
-    # best decision threshold (youden method)
-    thr <- coords(test_roc, "best", ret = "threshold")
   }
 
   # ---------------------------------------------------------------------------------->
 
   # ----------------------------Save metrics as vector ------------------------------->
   # Return all the metrics
-  results <- list(cv_auc, test_auc, results_individual, feature_importance_non_cor, feature_importance_cor, trained_model, sensitivity, specificity, auprc)
+  results <- list(cv_auc, test_auc, results_individual, feature_importance_non_cor, feature_importance_cor, trained_model, auprc)
   return(results)
 }
