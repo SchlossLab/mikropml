@@ -191,7 +191,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
     #     1. Predict held-out test-data
     #     2. Calculate ROC and AUROC values on this prediction
     #     3. Get the feature importances for correlated and uncorrelated feautures
-    roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, level, fewer_samples)
+    roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, fewer_samples)
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
       feature_importance_non_cor <- roc_results[2] # save permutation results
       feature_importance_cor <- trained_model$finalModel$W # Get feature weights
