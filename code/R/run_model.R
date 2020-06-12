@@ -72,7 +72,7 @@ run_model <-
 
         # ------------------------------------------------------------------
         # Create a matrix with cv_aucs and test_aucs from 1 data split
-        aucs <- matrix(c(results[[1]], results[[2]], results[[9]]),ncol=3)
+        aucs <- matrix(c(results[[1]], results[[2]], results[[7]]),ncol=3)
         # Convert to dataframe and add a column noting the model name
         aucs_dataframe <- data.frame(aucs) %>%
             rename(cv_aucs=X1, test_aucs=X2, test_auprc=X3) %>%
@@ -92,11 +92,11 @@ run_model <-
         # ------------------------------------------------------------------
 
         # Save sensitivity and specificity for 0.5 threshold for each datasplit
-       threshold_results <- matrix(c(results[[7]], results[[8]]), ncol=2, dimnames = list(c("values"), c("sens", "spec")))
+       #threshold_results <- matrix(c(results[[7]], results[[8]]), ncol=2, dimnames = list(c("values"), c("sens", "spec")))
 
-       sensspec <- data.frame(threshold_results) %>%
-          mutate(model=model) %>%
-           write_csv(path=paste0("data/temp/", level,"/sensspec_results_", model,"_", seed, ".csv"))
+       # sensspec <- data.frame(threshold_results) %>%
+       #    mutate(model=model) %>%
+       #     write_csv(path=paste0("data/temp/", level,"/sensspec_results_", model,"_", seed, ".csv"))
 
 
         # ------------------------------------------------------------------
