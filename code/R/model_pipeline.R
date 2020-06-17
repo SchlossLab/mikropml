@@ -193,24 +193,24 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
     #     3. Get the feature importances for correlated and uncorrelated feautures
     roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level)
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
-      feature_importance_non_cor <- trained_model$finalModel$W # Get feature weights 
-      feature_importance_cor <- roc_results # save permutation results
+      feature_importance_weights <- trained_model$finalModel$W # Get feature weights 
+      feature_importance_perm <- roc_results # save permutation results
     }else{
-      feature_importance_non_cor <- NULL
-      feature_importance_cor <- roc_results # save permutation results of cor
+      feature_importance_weights <- NULL
+      feature_importance_perm <- roc_results # save permutation results of cor
     }
   }else{
     print("No permutation test being performed.")
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
       # Get feature weights
-      feature_importance_non_cor <- trained_model$finalModel$W
+      feature_importance_weights <- trained_model$finalModel$W
       # Get feature weights
-      feature_importance_cor <- NULL
+      feature_importance_perm <- NULL
     }else{
       # Get feature weights
-      feature_importance_non_cor <- NULL
+      feature_importance_weights <- NULL
       # Get feature weights
-      feature_importance_cor <- NULL
+      feature_importance_perm <- NULL
     }
   }
 
@@ -218,6 +218,6 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
 
   # ----------------------------Save metrics as vector ------------------------------->
   # Return all the metrics
-  results <- list(cv_auc, test_auc, results_individual, feature_importance_non_cor, feature_importance_cor, trained_model, auprc)
+  results <- list(cv_auc, test_auc, results_individual, feature_importance_weights, feature_importance_perm, trained_model, auprc)
   return(results)
 }
