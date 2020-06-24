@@ -12,12 +12,10 @@
 # Dependencies and Outputs:
 #    Filenames to put to function:
 #       1. "L2_Logistic_Regression"
-#       2. "L1_Linear_SVM"
-#       3. "L2_Linear_SVM"
-#       4. "RBF_SVM"
-#       5. "Decision_Tree"
-#       6. "Random_Forest"
-#       7. "XGBoost"
+#       2. "RBF_SVM"
+#       3. "Decision_Tree"
+#       4. "Random_Forest"
+#       5. "XGBoost"
 
 # Usage:
 # Call as source when using the function. The function is:
@@ -145,16 +143,6 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters){
                          # which is logistic loss, primal solve for L2 regularized logistic regression
                          epsilon = 0.01) #default epsilon recommended from liblinear
     method <- "regLogistic"
-  }
-  else if (model=="L1_Linear_SVM"){ #
-    grid <- expand.grid(cost = hyperparameters$cost,
-                        Loss = "L2")
-    method <- "svmLinear4" # I wrote this function in caret
-  }
-  else if (model=="L2_Linear_SVM"){
-    grid <- expand.grid(cost = hyperparameters$cost,
-                        Loss = "L2")
-    method <- "svmLinear3" # I changed this function in caret
   }
   else if (model=="RBF_SVM"){
     grid <-  expand.grid(sigma = hyperparameters$sigma,

@@ -15,7 +15,6 @@ source("code/R/model_pipeline.R")
 
 # It will run the following machine learning pipelines:
 #     - L2 Logistic Regression
-#     - L1 and L2 Linear SVM
 #     - RBF SVM
 #     - Decision Tree
 #     - Random Forest
