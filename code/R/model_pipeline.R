@@ -72,7 +72,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # ------------------Randomize features----------------------------------->
   # Randomize feature order, to eliminate any position-dependent effects 
   features <- sample(colnames(data[,-1]))
-  data <- select(data, one_of(outcome), one_of(features))
+  data <- dplyr::select(data, one_of(outcome), one_of(features))
 
   # ----------------------------------------------------------------------->
   # Get outcome variables
