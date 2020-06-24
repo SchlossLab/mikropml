@@ -5,7 +5,7 @@ library(PRROC)
 
 get_pred <- function(trained_model, test_data, fewer_samples){
   # get predictions
-  pred <- predict(trained_model, test_data, type="prob")[[fewer_samples]]
+  pred <- PRROC::predict(trained_model, test_data, type="prob")[[fewer_samples]]
 }
 
 get_bin_outcome <- function(outcome_vec, fewer_samples){
