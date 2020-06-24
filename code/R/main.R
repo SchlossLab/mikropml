@@ -45,9 +45,9 @@ for (dep in deps) {
   library(dep, character.only = TRUE)
 }
 
-args <- docopt(doc)
+args <- docopt::docopt(doc)
 if ("configfile" %in% names(args) & !is.null(args$configfile)) {
-  args <- read_yaml(args$configfile)
+  args <- yaml::read_yaml(args$configfile)
 }
 
 source("code/R/run_model.R")

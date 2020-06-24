@@ -45,7 +45,7 @@ deps = c("docopt", "tidyverse", "caret", "Hmisc")
 for (dep in deps) {
   library(dep, character.only = TRUE)
 }
-args <- docopt(doc)
+args <- docopt::docopt(doc)
 # Load in needed functions and libraries
 source('code/R/compute_correlation_matrix.R')
 ######################################################################
@@ -59,7 +59,7 @@ source('code/R/compute_correlation_matrix.R')
 # ----------------------- Read in data --------------------------------
 # read in data with first column outcome and remaining columns are features
 # if needing to edit your data remove this line and edit inputs to fit your data
-data <- read_csv(args$data)
+data <- readr::read_csv(args$data)
 
 # ---------------------------------------------------------------------
 
@@ -107,10 +107,10 @@ if(length(unique(data[,1])) > 2){
 save_data <- function(data, level){
 	# ---------------------- Process model data ---------------------------
 	# Remove features with near zero variance and scale remaining from 0 to 1
-	preProcValues <- preProcess(data, method = c("nzv", "range"))
+	preProcValues <- caret::preProcess(data, method = c("nzv", "range"))
 	dataTransformed <- predict(preProcValues, data)
 	# Save data to be used in machine learning pipeline
-	write_csv(dataTransformed, paste0('data/process/', level, '_input_data.csv'))
+	readr::write_csv(dataTransformed, paste0('data/process/', level, '_input_data.csv'))
 	# ---------------------------------------------------------------------
 
 

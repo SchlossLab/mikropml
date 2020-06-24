@@ -72,8 +72,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # ------------------Randomize features----------------------------------->
   # Randomize feature order, to eliminate any position-dependent effects 
   features <- sample(colnames(data[,-1]))
-  data <- select(data, one_of(outcome), one_of(features))
-
+  data <- dplyr::select(data, one_of(outcome), one_of(features))
 
   # ----------------------------------------------------------------------->
   # Get outcome variables
@@ -89,11 +88,9 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # ------------------80-20 Datasplit for each seed------------------------->
   # Do the 80-20 data-split
   # Stratified data partitioning %80 training - %20 testing
-  inTraining <- createDataPartition(data[,outcome], p = .80, list = FALSE)
+  inTraining <- caret::createDataPartition(data[,outcome], p = .80, list = FALSE)
   train_data <- data[ inTraining,]
   test_data  <- data[-inTraining,]
-
-
   # ----------------------------------------------------------------------->
 
   # -------------Define hyper-parameter and cv settings-------------------->
@@ -133,10 +130,11 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   print('Machine learning formula:')
   print(f)
   # Start walltime for training model
-  tic("train")
+  tictoc::tic("train")
   if(model=="L2_Logistic_Regression"){
   print(model)
-  trained_model <-  train(f, # label
+    
+  trained_model <-  caret::train(f, # label
                           data=train_data, #total data
                           method = method,
                           trControl = cv,
@@ -146,7 +144,8 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   }
   else if(model=="Random_Forest"){
       print(model)
-      trained_model <-  train(f,
+    
+      trained_model <-  caret::train(f,
                               data=train_data,
                               method = method,
                               trControl = cv,
@@ -156,7 +155,8 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   }
   else{
     print(model)
-    trained_model <-  train(f,
+    
+    trained_model <-  caret::train(f,
                             data=train_data,
                             method = method,
                             trControl = cv,
@@ -164,14 +164,14 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
                             tuneGrid = grid)
   }
   # Stop walltime for running model
-  seconds <- toc()
+  seconds <- tictoc::toc()
   # Save elapsed time
   train_time <- seconds$toc-seconds$tic
   # Save wall-time
   write.csv(train_time, file=paste0("data/temp/", level, "/traintime_", model, "_", split_number, ".csv"), row.names=F)
   # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
   # Mean cv AUC value over repeats of the best cost parameter during training
-  cv_auc <- getTrainPerf(trained_model)$TrainROC
+  cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
   # Save all results of hyper-parameters and their corresponding meanAUCs over 100 internal repeats
   results_individual <- trained_model$results
   # ---------------------------------------------------------------------------------->
@@ -212,6 +212,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
       # Get feature weights
       feature_importance_perm <- NULL
     }
+
   }
 
   # ---------------------------------------------------------------------------------->

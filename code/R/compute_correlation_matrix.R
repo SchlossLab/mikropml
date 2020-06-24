@@ -26,7 +26,7 @@ for (dep in deps){
 compute_correlation_matrix <- function(input_file, outcome, level, cor_value = 1, p_value = 0.01){
 
     ############### READ IN THE INPUT DATA ###############
-    data_corr <- read_csv(input_file)
+    data_corr <- readr::read_csv(input_file)
     # remove outcome, only keep the features
     data_corr <- data_corr[,!grepl(outcome, names(data_corr))]
     #######################################################
@@ -49,8 +49,8 @@ compute_correlation_matrix <- function(input_file, outcome, level, cor_value = 1
     }
 
     new_r <- flattenCorrMatrix(r$r, r$P) %>%
-      filter(cor>=cor_value) %>%
-      filter(p<p_value) %>%
-      write_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv"))
+      dplyr::filter(cor>=cor_value) %>%
+      dplyr::filter(p<p_value) %>%
+      readr::write_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv"))
     ##########################################################
 }
