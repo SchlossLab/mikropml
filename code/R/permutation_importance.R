@@ -124,7 +124,6 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
 
   # ----------- Get feature importance of OTUs------------>
   # Start the timer
-  library(tictoc)
   tictoc::tic("perm")
   # Permutate each feature in the non-correlated dimensional feature vector
   # Here we are
