@@ -33,6 +33,7 @@
 #   (1) AUC difference for each feature transformation
 ######################################################################
 
+
 ####################### DEFINE FUNCTION  #############################
 #' This function groups correlated features together and returns all features as a list (grouped ones together, ungrouped ones individually)
 #'Corr dataset has all the correlated OTUs in 2 columns with pairwise correlation
@@ -42,7 +43,7 @@ group_correlated_features <- function(corr,test_data){
   all_feats = colnames(test_data)[2:ncol(test_data)]
   corr_feats = unique(c(corr$column,corr$row))
   noncorr_feats = all_feats[!all_feats %in% corr_feats]
-  
+
   grps = as.list(noncorr_feats)
   accounted_for = rep(NA,length(all_feats))
   af_length = sum(!is.na(accounted_for))
@@ -104,9 +105,9 @@ find_permuted_auc <- function(model,test_data,outcome,feat, fewer_samples){
 }
 
 permutation_importance <- function(model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level){
-  
 
-  
+
+
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
   # This correlation matrix used Spearman correlation
@@ -114,17 +115,17 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
   corr = readr::read_csv(paste0("data/process/sig_flat_corr_matrix_",level,".csv")) %>% select(-p, -cor)
-
   # -------------------------------------------------------------------->
-  
+
   # get groups of correlated features
-  grps = group_correlated_features(corr, test_data) 
+  grps = group_correlated_features(corr, test_data)
 
   # -------------------------------------------------------------------->
 
+  # ----------- Get feature importance of OTUs------------>
   # Start the timer
+  library(tictoc)
   tictoc::tic("perm")
-
   # Permutate each feature in the non-correlated dimensional feature vector
   # Here we are
   #     1. Permuting the values in the OTU column randomly for each OTU in the list
@@ -133,15 +134,18 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
+  imps <- do.call('rbind', lapply(grps, function(feat){
+    res=find_permuted_auc(model,test_data,outcome,feat,fewer_samples)
+    return(res)
   }))
-  
+
   imps <- as.data.frame(imps) %>%
-    mutate(names=factor(grps))
-  
-  
-  # --------------------------------------------------------------------------- #
+    dplyr::mutate(names=factor(grps))
+
+
+  # -------------------------------------- 6 ------------------------------------- #
   # Save non correlated results in a dataframe
-  
+
   # Create a bunch of columns so that each OTU in the group has its own column
   # We use seperate function to break up the grouped list otf OTUs
   # Now correlated OTUs are in one row, seperated by each OTU as columns
@@ -158,10 +162,10 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
   #   select(-V1, -"0") %>%
   #   select_if(not_all_na)
   # ------------------------------------------------------------------------------ #
-  
-  
+
+
   # stop timer
-  secs <- tictic::toc()
+  secs <- tictoc::toc()
   walltime <- secs$toc-secs$tic
   print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
