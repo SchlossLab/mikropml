@@ -105,7 +105,7 @@ run_model <-
         # Convert to dataframe and add a column noting the model name
        dataframe <- data.frame(imp_features) %>%
            mutate(model=model) %>%
-           write_csv(path=paste0("data/temp/", level,"/all_imp_features_non_cor_results_", model,"_", seed, ".csv"))
+           write_csv(path=paste0("data/temp/", level,"/all_imp_features_weights_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
         # Save all correlated feature importance of the model for 1 datasplit
@@ -113,7 +113,7 @@ run_model <-
         # Convert to dataframe and add a column noting the model name
        dataframe <- data.frame(corr_imp_features) %>%
            mutate(model=model) %>%
-           write_csv(path=paste0("data/temp/", level,"/all_imp_features_cor_results_", model,"_", seed, ".csv"), col_names = TRUE)
+           write_csv(path=paste0("data/temp/", level,"/all_imp_features_perm_results_", model,"_", seed, ".csv"), col_names = TRUE)
 
         # Stop walltime for running model
        secs <- toc()

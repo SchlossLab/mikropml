@@ -22,14 +22,14 @@ for model in "L1_Linear_SVM" "L2_Logistic_Regression" "L2_Linear_SVM" "RBF_SVM" 
 do
   	head -1 $SEARCH_DIR/all_hp_results_"$model"_1.csv  > $SEARCH_DIR/combined_all_hp_results_"$model".csv; tail -n +2 -q $SEARCH_DIR/all_hp_results_"$model"_*.csv >> $SEARCH_DIR/combined_all_hp_results_"$model".csv
         head -1 $SEARCH_DIR/best_hp_results_"$model"_1.csv  > $SEARCH_DIR/combined_best_hp_results_"$model".csv; tail -n +2 -q $SEARCH_DIR/best_hp_results_"$model"_*.csv >> $SEARCH_DIR/combined_best_hp_results_"$model".csv
-        head -1 $SEARCH_DIR/all_imp_features_non_cor_results_"$model"_1.csv > $SEARCH_DIR/combined_all_imp_features_non_cor_results_"$model".csv; tail -n +2 -q $SEARCH_DIR/all_imp_features_non_cor_results_"$model"_*.csv >> $SEARCH_DIR/combined_all_imp_features_non_cor_results_"$model".csv
-	head -1 $SEARCH_DIR/all_imp_features_cor_results_"$model"_1.csv > $SEARCH_DIR/combined_all_imp_features_cor_results_"$model".csv; tail -n +2 -q $SEARCH_DIR/all_imp_features_cor_results_"$model"_*.csv >> $SEARCH_DIR/combined_all_imp_features_cor_results_"$model".csv
+        head -1 $SEARCH_DIR/all_imp_features_weights_results_"$model"_1.csv > $SEARCH_DIR/combined_all_imp_features_weights_results_"$model".csv; tail -n +2 -q $SEARCH_DIR/all_imp_features_weights_results_"$model"_*.csv >> $SEARCH_DIR/combined_all_imp_features_weights_results_"$model".csv
+	head -1 $SEARCH_DIR/all_imp_features_perm_results_"$model"_1.csv > $SEARCH_DIR/combined_all_imp_features_perm_results_"$model".csv; tail -n +2 -q $SEARCH_DIR/all_imp_features_perm_"$model"_*.csv >> $SEARCH_DIR/combined_all_imp_features_perm_results_"$model".csv
         head -1 $SEARCH_DIR/walltime_"$model"_1.csv  > $SEARCH_DIR/walltime_"$model".csv; tail -n +2 -q $SEARCH_DIR/walltime_"$model"_*.csv >> $SEARCH_DIR/walltime_"$model".csv
         head -1 $SEARCH_DIR/traintime_"$model"_1.csv  > $SEARCH_DIR/traintime_"$model".csv; tail -n +2 -q $SEARCH_DIR/traintime_"$model"_*.csv >> $SEARCH_DIR/traintime_"$model".csv
 
         mv $SEARCH_DIR/traintime_"$model".csv $FINAL_DIR/traintime_"$model".csv
         mv $SEARCH_DIR/combined_all_hp_results_"$model".csv $FINAL_DIR/combined_all_hp_results_"$model".csv
         mv $SEARCH_DIR/combined_best_hp_results_"$model".csv $FINAL_DIR/combined_best_hp_results_"$model".csv
-	mv $SEARCH_DIR/combined_all_imp_features_non_cor_results_"$model".csv $FINAL_DIR/combined_all_imp_features_non_cor_results_"$model".csv
-        mv $SEARCH_DIR/combined_all_imp_features_cor_results_"$model".csv $FINAL_DIR/combined_all_imp_features_cor_results_"$model".csv
+	mv $SEARCH_DIR/combined_all_imp_features_weights_results_"$model".csv $FINAL_DIR/combined_all_imp_features_weights_results_"$model".csv
+        mv $SEARCH_DIR/combined_all_imp_features_perm_results_"$model".csv $FINAL_DIR/combined_all_imp_features_perm_results_"$model".csv
 done

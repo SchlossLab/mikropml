@@ -128,7 +128,7 @@ To test the pipeline with a pre-prepared test dataset, go to `test/README.md`
       
       - Remaining columns should be the features, one feature per column.
 
-Then you need to preproces your own input data with `code/R/setup_model_data.R` to setup your data.
+Then you need to preprocesyour own input data with `code/R/setup_model_data.R` to setup your data.
 
 An example:
 

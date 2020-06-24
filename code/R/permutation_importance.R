@@ -50,47 +50,94 @@ for (dep in deps){
 
 
 ####################### DEFINE FUNCTION  #############################
-permutation_importance <- function(model, full, first_outcome, second_outcome, outcome, level, fewer_samples){
+#' This function groups correlated features together and returns all features as a list (grouped ones together, ungrouped ones individually)
+#'Corr dataset has all the correlated OTUs in 2 columns with pairwise correlation
+#'But (1) the pairwise correlations are repeated twice one in each column
+#'    (2) If one OTU is correlated with more than one OTU, we want to group those
+group_correlated_features <- function(corr,test_data){
+  all_feats = colnames(test_data)[2:ncol(test_data)]
+  corr_feats = unique(c(corr$column,corr$row))
+  noncorr_feats = all_feats[!all_feats %in% corr_feats]
+  
+  grps = as.list(noncorr_feats)
+  accounted_for = rep(NA,length(all_feats))
+  af_length = sum(!is.na(accounted_for))
+  c=length(grps)+1
+  for(i in corr_feats){
+    if(i %in% accounted_for) next
+    feats = unique(c(i,corr$row[corr$column == i],corr$column[corr$row == i]))
+    new_feats = T
+    while(new_feats){
+      len_feats = length(feats)
+      for(j in feats){
+        feats = unique(c(feats,j,corr$row[corr$column == j],corr$column[corr$row == j]))
+      }
+      new_feats = length(feats) > len_feats
+    }
+    grps[[c]] = feats
+    af_length_new = sum(af_length,length(feats))
+    accounted_for[(af_length+1):af_length_new] = feats
+    af_length = af_length_new
+    c = c+1
+  }
+  grps = sapply(grps,paste,collapse='|')
+  return(grps)
+}
 
-
-
-  # Set outcome as first column if null
-  #if(is.null(outcome)){
-   # outcome <- colnames(full)[1]
-  #}
-
+#' get permuted AUROC difference for a single feature (or group of features)
+find_permuted_auc <- function(model,test_data,outcome,feat, fewer_samples){
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
-  base_auc <- calc_aucs(model, full, outcome, fewer_samples)$auroc
+  test_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
+  print('test_auc')
+  print(test_auc)
+  print('new_auc')
+  # permute grouped features together
+  fs = strsplit(feat, '\\|')[[1]]
+  # only include ones in the test data split
+  fs = fs[fs %in% colnames(test_data)]
+  print(fs)
+  # get the new AUC and AUC differences
+  auc_diffs <- sapply(0:99, function(s){
+    set.seed(s)
+    full_permuted <- test_data
+    if(length(fs) == 1){
+      full_permuted[,fs] <- sample(full_permuted[,fs])
+    }else{
+      full_permuted[,fs] <- t(sample(data.frame(t(full_permuted[,fs]))))
+    }
+    print(sum(test_data != full_permuted))
+    # Calculate the new auc
+    new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
+    # Return how does this feature being permuted effect the auc
+    return(c(new_auc=new_auc,diff=(test_auc - new_auc)))
+  })
+  auc = mean(auc_diffs['new_auc',])
+  auc_diff = mean(auc_diffs['diff',])
+  print(auc)
+  print(auc_diff)
+  return(c(auc=auc,auc_diff=auc_diff))
+}
 
+permutation_importance <- function(model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level){
+  
+
+  
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
   # This correlation matrix used Spearman correlation
   # Only has the correlatons that has:
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
-  corr <- read_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv")) %>%
-    select(-p, -cor)
+  corr = read_csv(paste0("data/process/sig_flat_corr_matrix_",level,".csv")) %>% select(-p, -cor)
   # -------------------------------------------------------------------->
+  
+  # get groups of correlated features
+  grps = group_correlated_features(corr, test_data) 
 
-  # ----------- Get the names of correlated OTUs------------------------>
-  # Get the correlated unique OTU ids
-  correlated_otus <- unique(c(corr$row, corr$column))
   # -------------------------------------------------------------------->
-
-  # ----------- Get the names of non-correlated OTUs-------------------->
-  # Remove those names as columns from full test data
-  # Remove the diagnosis column to only keep non-correlated features
-  non_correlated_otus <- full %>%
-    select(-all_of(correlated_otus))
-
-  non_correlated_otus[,outcome] <- NULL
-
-  non_correlated_otus <- non_correlated_otus %>%
-    colnames()
-  # -------------------------------------------------------------------->
-
-  # ----------- Get feature importance of non-correlated OTUs------------>
+  
+  # ----------- Get feature importance of OTUs------------>
   # Start the timer
   library(tictoc)
   tic("perm")
@@ -102,127 +149,41 @@ permutation_importance <- function(model, full, first_outcome, second_outcome, o
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
-  non_corr_imp <- do.call('rbind', lapply(non_correlated_otus, function(i){
-    full_permuted <- full
-    full_permuted[,i] <- sample(full[,i])
-    # Predict the diagnosis outcome with the one-feature-permuted test dataset
-    rpartProbs_permuted <- predict(model, full_permuted, type="prob")
-    # Calculate the new auc
-    new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
-    # Return how does this feature being permuted effect the auc
-    return(new_auc)
+  imps <- do.call('rbind', lapply(grps, function(feat){
+    res=find_permuted_auc(model,test_data,outcome,feat,fewer_samples)
+    return(res)
   }))
-  print(non_corr_imp)
-  # Save non correlated results in a dataframe.
-  non_corr_imp <- as.data.frame(non_corr_imp) %>%
-    mutate(names=factor(non_correlated_otus)) %>%
-    rename(new_auc=V1)
-  # -------------------------------------------------------------------->
-
-
-
-
-  # ----------- Get feature importance of correlated OTUs -------------->
-
-  # ------------------------------- 1 --------------------------------------- #
-  # Corr dataset has all the correlated OTUs in 2 columns with pairwise correlation
-  # But (1) the pairwise correlations are repeated twice one in each column
-  #     (2) If one OTU is correlated with more than one OTU, we want to group those
-  # So the first step is:
-  # Have each OTU in a group with all the other OTUs its correlated with
-  # Each OTU should only be in a group once.
-  non_matched_corr <- corr %>% filter(!row %in% column) %>%
-    group_by(row)
-  # ---------------------------------------------------------------------------- #
-
-  # --------------------------------- 2 ---------------------------------------- #
-  # We want to see what are the OTUs in each group
-  # We use that tidyverse group_split to create a list of the OTUs that are grouped
-  split <- group_split(non_matched_corr)
-  elements_no_in_split <- length(split)
-  # All the pairwise correlations are now in a list (for each OTU group, there is 1 list entry)
-  # For example 1. list entry (split[[1]]) looks like this:
-
-  # A tibble: 2 x 2
-  #      row      column
-  #      <chr>    <chr>
-  #  1 Otu00462 Otu04448
-  #  2 Otu00462 Otu06075
-  # So the nested list structure is still pairwise
-  # ---------------------------------------------------------------------------- #
-
-  # --------------------------------- 3 ---------------------------------------- #
-    # But that is still to many nested lists and still pairwise.
-  # We want groups of OTUs all together and no repetetion
-  groups <- lapply(1:elements_no_in_split, function(i){
-    grouped_corr_otus <- split[[i]][2] %>%
-      add_case(column=unlist(unique(split[[i]][1])))
-    return(grouped_corr_otus)
-  })
-  # We remove the nested list to this:
-  # groups[[1]]
-  #
-  # A tibble: 3 x 1
-  #     column
-  #     <chr>
-  #  1 Otu04448
-  #  2 Otu06075
-  #  3 Otu00462
-  # ---------------------------------------------------------------------------- #
-
-  # --------------------------------------- 4----------------------------------- #
-  # The list still had dataframes is them. We want the list entries to be lists as well
-  groups_list <- map(groups[1:elements_no_in_split], "column")
-  groups_list_sorted <- map(groups_list[1:elements_no_in_split], sort)
-  # Now it looks like this for each OTU group:
-  # > groups_list_sorted[[1]]
-  # [1] "Otu00462" "Otu04448" "Otu06075"
-  # > groups_list_sorted[[2]]
-  # [1] "Otu00520" "Otu04360" "Otu04810" "Otu05861" "Otu06060" "Otu06149" "Otu06477" "Otu07111" "Otu07196" "Otu09376"
-  # This goes all the way to total numbers in list in the list, because there are elements_no_in_split groups of correlated OTU groups.
-  # ----------------------------------------------------------------------------- #
-
-  # ---------------------------------- 5 ---------------------------------------- #
-  # Permute the grouped OTUs together and calculate AUC change
-  corr_imp <- do.call('rbind', lapply(groups_list_sorted, function(i){
-    full_permuted_corr <- full
-    full_permuted_corr[,unlist(groups_list_sorted[i])] <- sample(full[,unlist(groups_list_sorted[i])])
-    # Predict the diagnosis outcome with the group-permuted test dataset
-    # Calculate the new auc
-    new_auc <- calc_aucs(model, full_permuted_corr, outcome, fewer_samples)$auroc
-    list <- list(new_auc, unlist(i))
-    return(list)
-  }))
-  print(corr_imp)
   
-  # ------------------------------------------------------------------------------ #
-
+  imps <- as.data.frame(imps) %>%
+    mutate(names=factor(grps))
+  
+  
   # -------------------------------------- 6 ------------------------------------- #
   # Save non correlated results in a dataframe
-
+  
   # Create a bunch of columns so that each OTU in the group has its own column
   # We use seperate function to break up the grouped list otf OTUs
   # Now correlated OTUs are in one row, seperated by each OTU as columns
   # Last column has the percent AUC change per group of OTUs
-  x <- as.character(seq(0, elements_no_in_split, 1))
-  corr_imp_appended <- as.data.frame(corr_imp) %>%
-    separate(V2, into = x)
-  # Unlist percent auc change to save it as a csv later
-  results <- corr_imp_appended %>%
-    mutate(new_auc=unlist(corr_imp_appended$V1))
-  # Only keep the columns that are not all NA
-  not_all_na <- function(x) any(!is.na(x))
-  correlated_auc_results <- results %>%
-    select(-V1, -"0") %>%
-    select_if(not_all_na)
+  # x <- as.character(seq(0, elements_no_in_split, 1))
+  # corr_imp_appended <- as.data.frame(corr_imp) %>%
+  #   separate(V2, into = x)
+  # # Unlist percent auc change to save it as a csv later
+  # results <- corr_imp_appended %>%
+  #   mutate(new_auc=unlist(corr_imp_appended$V1))
+  # # Only keep the columns that are not all NA
+  # not_all_na <- function(x) any(!is.na(x))
+  # correlated_auc_results <- results %>%
+  #   select(-V1, -"0") %>%
+  #   select_if(not_all_na)
   # ------------------------------------------------------------------------------ #
-
-
+  
+  
   # stop timer
   secs <- toc()
   walltime <- secs$toc-secs$tic
   print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
-  roc_results <- list(base_auc, non_corr_imp, correlated_auc_results)
-  return(roc_results)
+  perm_results <- imps #list(base_auc, non_corr_imp, correlated_auc_results)
+  return(perm_results)
 }
