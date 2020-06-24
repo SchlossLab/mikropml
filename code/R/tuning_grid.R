@@ -34,17 +34,13 @@
 ######################################################################
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
-tuning_grid <- function(train_data, model, outcome, hyperparameters=NULL){
+tuning_grid <- function(train_data, model, outcome, hyperparameters){
 
   # NOTE: Hyperparameters should be a csv containing a dataframe
   # where the first column "param" is the hyperparameter name
   # and the second column "val" are the values to be tested
   # and third column "model" is the model being used
-  if(is.null(hyperparameters)){
-      hyperparameters <- read.csv('data/default_hyperparameters.csv', stringsAsFactors = F)
-    } else {
-      hyperparameters <- read.csv(paste0('data/', hyperparameters))
-    }
+  hyperparameters <- read.csv(hyperparameters, stringsAsFactors = F)
   hyperparameters <- hyperparameters[hyperparameters$model == model, ]
   hyperparameters <- split(hyperparameters$val, hyperparameters$param)
 

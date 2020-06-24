@@ -37,8 +37,9 @@
 ######################################################################
 source("code/R/tuning_grid.R")
 source("code/R/permutation_importance.R")
+source("code/R/calc_aucs.R")
 
-pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL, permutation=TRUE){
+model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NA, level=NA, permutation=TRUE){
 
   # -----------------------Get outcome variable----------------------------->
   # If no outcome specified, use first column in data
@@ -56,12 +57,22 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
 		data <- cbind(temp_data, data[, !(colnames(data) %in% outcome)]) # want the outcome column to appear first
   }
 
-  # ------------------Pre-process the full data------------------------->
-  # We are doing the pre-processing to the full data and then splitting 80-20
-  # Scale all features between 0-1
+  # ------------------Check data for pre-processing------------------------->
+  # Data is pre-processed in code/R/setup_model_data.R
+  # This removes OTUs with near zero variance and scales 0-1
+  # Then generates a correlation matrix
+  # Test if data has been preprocessed - range 0-1 and are not all 0s
+  feature_summary <- any(c(min(data[,-1]) < 0, 
+    max(data[,-1]) > 1, 
+    any(apply(data[,-1], 2, sum) == 0)))
+  if(feature_summary){
+    stop('Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data')
+  }
 
-  preProcValues <- caret::preProcess(data, method = "range")	# grab these columns
-  dataTransformed <- predict(preProcValues, data)
+  # ------------------Randomize features----------------------------------->
+  # Randomize feature order, to eliminate any position-dependent effects 
+  features <- sample(colnames(data[,-1]))
+  data <- select(data, one_of(outcome), one_of(features))
 
   # ----------------------------------------------------------------------->
   # Get outcome variables
@@ -70,20 +81,22 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   if(length(outcome_vals) != 2) stop('A binary outcome variable is required.')
   second_outcome = as.character(outcome_vals[!outcome_vals == first_outcome])
   print(paste(c('first outcome:','second outcome:'),c(first_outcome,second_outcome)))
+  # outcome with fewer samples (for calculating AUPRC)
+  fewer_samples = names(which.min(table(data[,outcome])))
 
 
   # ------------------80-20 Datasplit for each seed------------------------->
   # Do the 80-20 data-split
   # Stratified data partitioning %80 training - %20 testing
-  inTraining <- caret::createDataPartition(dataTransformed[,outcome], p = .80, list = FALSE)
-  trainTransformed <- dataTransformed[ inTraining,]
-  testTransformed  <- dataTransformed[-inTraining,]
+  inTraining <- caret::createDataPartition(data[,outcome], p = .80, list = FALSE)
+  train_data <- data[ inTraining,]
+  test_data  <- data[-inTraining,]
   # ----------------------------------------------------------------------->
 
   # -------------Define hyper-parameter and cv settings-------------------->
   # Define hyper-parameter tuning grid and the training method
   # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-  tune <- tuning_grid(trainTransformed, model, outcome, hyperparameters)
+  tune <- tuning_grid(train_data, model, outcome, hyperparameters)
   grid <- tune[[1]]
   method <- tune[[2]]
   cv <- tune[[3]]
@@ -120,8 +133,9 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   tictoc::tic("train")
   if(model=="L2_Logistic_Regression"){
   print(model)
+    
   trained_model <-  caret::train(f, # label
-                          data=trainTransformed, #total data
+                          data=train_data, #total data
                           method = method,
                           trControl = cv,
                           metric = "ROC",
@@ -130,8 +144,9 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   }
   else if(model=="Random_Forest"){
       print(model)
+    
       trained_model <-  caret::train(f,
-                              data=trainTransformed,
+                              data=train_data,
                               method = method,
                               trControl = cv,
                               metric = "ROC",
@@ -140,8 +155,9 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   }
   else{
     print(model)
+    
     trained_model <-  caret::train(f,
-                            data=trainTransformed,
+                            data=train_data,
                             method = method,
                             trControl = cv,
                             metric = "ROC",
@@ -152,69 +168,57 @@ pipeline <- function(data, model, split_number, outcome=NA, hyperparameters=NULL
   # Save elapsed time
   train_time <- seconds$toc-seconds$tic
   # Save wall-time
-  write.csv(train_time, file=paste0("data/temp/traintime_", model, "_", split_number, ".csv"), row.names=F)
+  write.csv(train_time, file=paste0("data/temp/", level, "/traintime_", model, "_", split_number, ".csv"), row.names=F)
   # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
   # Mean cv AUC value over repeats of the best cost parameter during training
   cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
   # Save all results of hyper-parameters and their corresponding meanAUCs over 100 internal repeats
   results_individual <- trained_model$results
   # ---------------------------------------------------------------------------------->
+  
+  # Get AUROC and AUPRC
+  # Calculate the test aucs for the actual pre-processed held-out data
+  aucs <- calc_aucs(trained_model, test_data, outcome, fewer_samples)
+  test_auc <- aucs$auroc
+  auprc <- aucs$auprc
 
   # -------------------------- Feature importances ----------------------------------->
   #   if linear: Output the weights of features of linear models
   #   else: Output the feature importances based on random permutation for non-linear models
   # Here we look at the top 20 important features
   if(permutation){
+    # We will use the permutation_importance function here to:
+    #     1. Predict held-out test-data
+    #     2. Calculate ROC and AUROC values on this prediction
+    #     3. Get the feature importances for correlated and uncorrelated feautures
+    roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level)
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
-      # We will use the permutation_importance function here to:
-      #     1. Predict held-out test-data
-      #     2. Calculate ROC and AUROC values on this prediction
-      #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, outcome)
-      test_auc <- roc_results[[1]]  # Predict the base test importance
-      feature_importance_non_cor <- roc_results[2] # save permutation results
-      # Get feature weights
-      feature_importance_cor <- trained_model$finalModel$W
-    }
-    else{
-      # We will use the permutation_importance function here to:
-      #     1. Predict held-out test-data
-      #     2. Calculate ROC and AUROC values on this prediction
-      #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <- permutation_importance(trained_model, testTransformed, first_outcome, outcome)
-      test_auc <- roc_results[[1]] # Predict the base test importance
-      feature_importance_non_cor <- roc_results[2] # save permutation results of non-cor
-      feature_importance_cor <- roc_results[3] # save permutation results of cor
+      feature_importance_weights <- trained_model$finalModel$W # Get feature weights 
+      feature_importance_perm <- roc_results # save permutation results
+    }else{
+      feature_importance_weights <- NULL
+      feature_importance_perm <- roc_results # save permutation results of cor
     }
   }else{
     print("No permutation test being performed.")
     if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
       # Get feature weights
-      feature_importance_non_cor <- trained_model$finalModel$W
+      feature_importance_weights <- trained_model$finalModel$W
       # Get feature weights
-      feature_importance_cor <- trained_model$finalModel$W
+      feature_importance_perm <- NULL
     }else{
       # Get feature weights
-      feature_importance_non_cor <- NULL
+      feature_importance_weights <- NULL
       # Get feature weights
-      feature_importance_cor <- NULL
+      feature_importance_perm <- NULL
     }
-    # Calculate the test-auc for the actual pre-processed held-out data
-    rpartProbs <- predict(trained_model, testTransformed, type="prob")
-    test_roc <- pROC::roc(ifelse(testTransformed[,outcome] == first_outcome, 1, 0), rpartProbs[[1]])
-    test_auc <- test_roc$auc
 
-    # Calculate sensitivity and specificity for 0.5 decision threshold.
-    p_class <- ifelse(rpartProbs$cancer > 0.5, "cancer", "normal")
-    r <- confusionMatrix(as.factor(p_class), testTransformed$dx)
-    sensitivity <- r$byClass[[1]]
-    specificity <- r$byClass[[2]]
   }
 
   # ---------------------------------------------------------------------------------->
 
   # ----------------------------Save metrics as vector ------------------------------->
   # Return all the metrics
-  results <- list(cv_auc, test_auc, results_individual, feature_importance_non_cor, feature_importance_cor, trained_model, sensitivity, specificity)
+  results <- list(cv_auc, test_auc, results_individual, feature_importance_weights, feature_importance_perm, trained_model, auprc)
   return(results)
 }

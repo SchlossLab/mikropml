@@ -1,10 +1,8 @@
 'ML Pipeline Microbiome
-
 Usage:
-  main.R --seed=<num> --model=<name> --data=<csv> --hyperparams=<csv> --outcome=<colname> [--permutation]
+  main.R --seed=<num> --model=<name> --data=<csv> --hyperparams=<csv> --outcome=<colname> --level=<level> [--permutation]
   main.R --configfile=<yml>
   main.R --help
-
 Options
   -h --help                  Display this help message.
   --configfile=<yml>         Config file in yaml format containing all paramters listed below.
@@ -13,36 +11,39 @@ Options
                                 L2_Logistic_Regression
                                 L1_Linear_SVM
                                 L2_Linear_SVM
-                                RBF_SVM Decision_Tree
+                                RBF_SVM
+                                Decision_Tree
                                 Random_Forest
                                 XGBoost
   --data=<csv>               Dataset filename in csv format.
   --hyperparams=<csv>        Hyperparameters filename in csv format.
   --outcome=<colname>        Outcome column name from the metadata file.
+  --level=<level>     Create folder in data/temp to store results for each tax level
   --permutation              Whether to perform permutation importance.
-
 ' -> doc
 
-# deps = c(
-#   "docopt",
-#   "tictoc",
-#   "caret" ,
-#   "rpart",
-#   "xgboost",
-#   "randomForest",
-#   "kernlab",
-#   "LiblineaR",
-#   "pROC",
-#   "tidyverse",
-#   "yaml",
-# 	"Hmisc",
-# 	"RcmdrMisc"
-# )
-#
-# for (dep in deps) {
-#   library(dep, character.only = TRUE)
-# }
-library(magrittr) #TODO remove later when we make this a package
+deps = c(
+  "docopt",
+  "dplyr",
+  "tictoc",
+  "caret" ,
+  "rpart",
+  "xgboost",
+  "randomForest",
+  "kernlab",
+  "LiblineaR",
+  "pROC",
+  "tidyverse",
+  "yaml",
+  "PRROC",
+	"data.table",
+  "e1071",
+  "gtools"
+)
+
+for (dep in deps) {
+  library(dep, character.only = TRUE)
+}
 
 args <- docopt::docopt(doc)
 if ("configfile" %in% names(args) & !is.null(args$configfile)) {
@@ -56,5 +57,6 @@ run_model(
   args$data,
   args$hyperparams,
   args$outcome,
+  args$level,
   args$permutation
 )

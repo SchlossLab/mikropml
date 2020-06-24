@@ -73,9 +73,5 @@ subsample,0.4,XGBoost
 subsample,0.5,XGBoost
 subsample,0.6,XGBoost
 subsample,0.7,XGBoost
-mtry,1,Random_Forest
-mtry,2,Random_Forest
-mtry,3,Random_Forest
-mtry,4,Random_Forest
-mtry,5,Random_Forest
-mtry,6,Random_Forest
+mtry,500,Random_Forest
+mtry,1000,Random_Forest

@@ -35,11 +35,12 @@ run_model <-
     function(seed,
              model,
              data_filename,
-             hyperparam_filename,
+             hyperparameters,
              outcome,
+             level,
              permutation) {
 
-        dir.create(file.path("data", "temp"), showWarnings = FALSE)
+        dir.create(file.path("data", "temp", level), showWarnings = FALSE)
         set.seed(seed)
         # Start walltime for running model
         tictoc::tic("model")
@@ -48,21 +49,21 @@ run_model <-
         # example: get_results(data, model, seed, 0, "dx)
         # OR pass as NA
 
-        data <- read.csv(data_filename)
+        data <- data.table::fread(data_filename) %>% data.frame
 
         if(permutation){
-            if(file.exists("data/process/sig_flat_corr_matrix.csv")){
+            if(file.exists(paste0("data/process/sig_flat_corr_matrix_", level, ".csv"))){
                 print("Running permutation importance")
             }else{
-                stop('Permutation importance can be computed only if you have created a correlation matrix.')}
+                stop('Permutation importance can be computed only if you have created a correlation matrix. Generate your own correlation matrix by using code/R/generate_corr_matrix.R')}
         }
         else{
             print("Not running permutation importance")
         }
 
         # Save results of the modeling pipeline as a list
-        hyperparameters <- NULL # TODO: use hyperparameters csv file
-        results <- pipeline(data, model, seed, outcome=outcome, permutation=permutation, hyperparameters=hyperparameters)
+        results <- model_pipeline(data, model, seed, outcome=outcome, permutation=permutation, level=level, hyperparameters=hyperparameters)
+
         # These results have
         # 1. cv_auc,
         # 2. test_auc
@@ -71,12 +72,12 @@ run_model <-
 
         # ------------------------------------------------------------------
         # Create a matrix with cv_aucs and test_aucs from 1 data split
-        aucs <- matrix(c(results[[1]], results[[2]]), ncol=2)
+        aucs <- matrix(c(results[[1]], results[[2]], results[[7]]),ncol=3)
         # Convert to dataframe and add a column noting the model name
         aucs_dataframe <- data.frame(aucs) %>%
-            dplyr::rename(cv_aucs=X1, test_aucs=X2) %>%
+            dplyr::rename(cv_aucs=X1, test_aucs=X2, test_auprc=X3) %>%
             dplyr::mutate(model=model) %>%
-            readr::write_csv(path = paste0("data/temp/best_hp_results_", model,"_", seed, ".csv"))
+            readr::write_csv(path = paste0("data/temp/", level,"/best_hp_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
         # ------------------------------------------------------------------
@@ -84,17 +85,9 @@ run_model <-
         all_results <- results[3]
         # Convert to dataframe and add a column noting the model name
         dataframe <- data.frame(all_results) %>%
-            dplyr::mutate(model=model) %>%
-            readr::write_csv(path=paste0("data/temp/all_hp_results_", model,"_", seed, ".csv"))
+           dplyr::mutate(model=model) %>%
+           write_csv(path=paste0("data/temp/", level,"/all_hp_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
-
-        # Save sensitivity and specificity for 0.5 threshold for each datasplit
-
-        threshold_results <- matrix(c(results[[7]], results[[8]]), ncol=2, dimnames = list(c("values"), c("sens", "spec")))
-
-        sensspec <- data.frame(threshold_results) %>%
-            dplyr::mutate(model=model) %>%
-            readr::write_csv(path=paste0("data/temp/sensspec_results_", model,"_", seed, ".csv"))
 
 
         # ------------------------------------------------------------------
@@ -102,21 +95,21 @@ run_model <-
         imp_features <- results[4]
         # Convert to dataframe and add a column noting the model name
         dataframe <- data.frame(imp_features) %>%
-            dplyr::mutate(model=model) %>%
-            readr::write_csv(path=paste0("data/temp/all_imp_features_non_cor_results_", model,"_", seed, ".csv"))
+           dplyr::mutate(model=model) %>%
+           readr::write_csv(path=paste0("data/temp/", level,"/all_imp_features_weights_results_", model,"_", seed, ".csv"))
         # ------------------------------------------------------------------
 
         # Save all correlated feature importance of the model for 1 datasplit
         corr_imp_features <- results[5]
         # Convert to dataframe and add a column noting the model name
         dataframe <- data.frame(corr_imp_features) %>%
-            dplyr::mutate(model=model) %>%
-            readr::write_csv(path=paste0("data/temp/all_imp_features_cor_results_", model,"_", seed, ".csv"), col_names = TRUE)
+           dplyr::mutate(model=model) %>%
+           readr::write_csv(path=paste0("data/temp/", level,"/all_imp_features_perm_results_", model,"_", seed, ".csv"), col_names = TRUE)
 
         # Stop walltime for running model
         secs <- tictoc::toc()
         # Save elapsed time
         walltime <- secs$toc-secs$tic
         # Save wall-time
-        write.csv(walltime, file=paste0("data/temp/walltime_", model, "_", seed, ".csv"), row.names=F)
+        write.csv(walltime, file=paste0("data/temp/", level,"/walltime_", model, "_", seed, ".csv"), row.names=F)
     }
