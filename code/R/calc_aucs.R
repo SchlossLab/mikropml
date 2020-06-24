@@ -5,7 +5,7 @@ library(PRROC)
 
 get_pred <- function(trained_model, test_data, fewer_samples){
   # get predictions
-  pred <- PRROC::predict(trained_model, test_data, type="prob")[[fewer_samples]]
+  pred <- predict(trained_model, test_data, type="prob")[[fewer_samples]]
 }
 
 get_bin_outcome <- function(outcome_vec, fewer_samples){
@@ -15,12 +15,12 @@ get_bin_outcome <- function(outcome_vec, fewer_samples){
 
 calc_auroc <- function(pred,bin_outcome){
   # calculate auroc
-  auroc <- roc.curve(pred, weights.class0 = bin_outcome)$auc
+  auroc <- PRROC::roc.curve(pred, weights.class0 = bin_outcome)$auc
 }
 
 calc_auprc <- function(pred,bin_outcome){
   # calculate auprc
-  auprc <- pr.curve(pred, weights.class0 = bin_outcome)$auc.integral
+  auprc <- PRROC::pr.curve(pred, weights.class0 = bin_outcome)$auc.integral
 }
 
 # wrapper function to calculate aucs
