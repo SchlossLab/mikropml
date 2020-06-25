@@ -10,11 +10,10 @@
 # Dependencies and Outputs:
 #    Model to put to function:
 #       1. "L2_Logistic_Regression"
-#       2. "L2_Linear_SVM"
-#       3. "RBF_SVM"
-#       4. "Decision_Tree"
-#       5. "Random_Forest"
-#       6. "XGBoost"
+#       2. "RBF_SVM"
+#       3. "Decision_Tree"
+#       4. "Random_Forest"
+#       5. "XGBoost"
 #    data to put to function:
 #         Features: Hemoglobin levels and 16S rRNA gene sequences in the stool
 #         Labels: - Colorectal lesions of 490 patients.
@@ -62,15 +61,15 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # This removes OTUs with near zero variance and scales 0-1
   # Then generates a correlation matrix
   # Test if data has been preprocessed - range 0-1 and are not all 0s
-  feature_summary <- any(c(min(data[,-1]) < 0, 
-    max(data[,-1]) > 1, 
+  feature_summary <- any(c(min(data[,-1]) < 0,
+    max(data[,-1]) > 1,
     any(apply(data[,-1], 2, sum) == 0)))
   if(feature_summary){
     stop('Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data')
   }
 
   # ------------------Randomize features----------------------------------->
-  # Randomize feature order, to eliminate any position-dependent effects 
+  # Randomize feature order, to eliminate any position-dependent effects
   features <- sample(colnames(data[,-1]))
   data <- dplyr::select(data, one_of(outcome), one_of(features))
 
@@ -133,7 +132,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   tictoc::tic("train")
   if(model=="L2_Logistic_Regression"){
   print(model)
-    
+
   trained_model <-  caret::train(f, # label
                           data=train_data, #total data
                           method = method,
@@ -144,7 +143,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   }
   else if(model=="Random_Forest"){
       print(model)
-    
+
       trained_model <-  caret::train(f,
                               data=train_data,
                               method = method,
@@ -155,7 +154,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   }
   else{
     print(model)
-    
+
     trained_model <-  caret::train(f,
                             data=train_data,
                             method = method,
@@ -175,7 +174,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
   # Save all results of hyper-parameters and their corresponding meanAUCs over 100 internal repeats
   results_individual <- trained_model$results
   # ---------------------------------------------------------------------------------->
-  
+
   # Get AUROC and AUPRC
   # Calculate the test aucs for the actual pre-processed held-out data
   aucs <- calc_aucs(trained_model, test_data, outcome, fewer_samples)
@@ -192,8 +191,8 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
     #     2. Calculate ROC and AUROC values on this prediction
     #     3. Get the feature importances for correlated and uncorrelated feautures
     roc_results <- permutation_importance(trained_model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level)
-    if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
-      feature_importance_weights <- trained_model$finalModel$W # Get feature weights 
+    if(model=="L2_Logistic_Regression"){
+      feature_importance_weights <- trained_model$finalModel$W # Get feature weights
       feature_importance_perm <- roc_results # save permutation results
     }else{
       feature_importance_weights <- NULL
@@ -201,7 +200,7 @@ model_pipeline <- function(data, model, split_number, outcome=NA, hyperparameter
     }
   }else{
     print("No permutation test being performed.")
-    if(model=="L1_Linear_SVM" || model=="L2_Linear_SVM" || model=="L2_Logistic_Regression"){
+    if(model=="L2_Logistic_Regression"){
       # Get feature weights
       feature_importance_weights <- trained_model$finalModel$W
       # Get feature weights

@@ -9,8 +9,6 @@ Options
   --seed=<num>               Random seed.
   --model=<name>             Model name. options:
                                 L2_Logistic_Regression
-                                L1_Linear_SVM
-                                L2_Linear_SVM
                                 RBF_SVM
                                 Decision_Tree
                                 Random_Forest
