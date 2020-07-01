@@ -49,7 +49,7 @@ compute_correlation_matrix <-
       data.frame(
         row = rownames(cormat)[row(cormat)[ut]],
         column = rownames(cormat)[col(cormat)[ut]],
-        cor  = (cormat)[ut],
+        cor = (cormat)[ut],
         p = pmat[ut]
       )
     }

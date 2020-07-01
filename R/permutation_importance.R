@@ -52,33 +52,33 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #' @examples
-group_correlated_features <- function(corr,test_data){
-  all_feats = colnames(test_data)[2:ncol(test_data)]
-  corr_feats = unique(c(corr$column,corr$row))
-  noncorr_feats = all_feats[!all_feats %in% corr_feats]
+group_correlated_features <- function(corr, test_data) {
+  all_feats <- colnames(test_data)[2:ncol(test_data)]
+  corr_feats <- unique(c(corr$column, corr$row))
+  noncorr_feats <- all_feats[!all_feats %in% corr_feats]
 
-  grps = as.list(noncorr_feats)
-  accounted_for = rep(NA,length(all_feats))
-  af_length = sum(!is.na(accounted_for))
-  c=length(grps)+1
-  for(i in corr_feats){
-    if(i %in% accounted_for) next
-    feats = unique(c(i,corr$row[corr$column == i],corr$column[corr$row == i]))
-    new_feats = T
-    while(new_feats){
-      len_feats = length(feats)
-      for(j in feats){
-        feats = unique(c(feats,j,corr$row[corr$column == j],corr$column[corr$row == j]))
+  grps <- as.list(noncorr_feats)
+  accounted_for <- rep(NA, length(all_feats))
+  af_length <- sum(!is.na(accounted_for))
+  c <- length(grps) + 1
+  for (i in corr_feats) {
+    if (i %in% accounted_for) next
+    feats <- unique(c(i, corr$row[corr$column == i], corr$column[corr$row == i]))
+    new_feats <- T
+    while (new_feats) {
+      len_feats <- length(feats)
+      for (j in feats) {
+        feats <- unique(c(feats, j, corr$row[corr$column == j], corr$column[corr$row == j]))
       }
-      new_feats = length(feats) > len_feats
+      new_feats <- length(feats) > len_feats
     }
-    grps[[c]] = feats
-    af_length_new = sum(af_length,length(feats))
-    accounted_for[(af_length+1):af_length_new] = feats
-    af_length = af_length_new
-    c = c+1
+    grps[[c]] <- feats
+    af_length_new <- sum(af_length, length(feats))
+    accounted_for[(af_length + 1):af_length_new] <- feats
+    af_length <- af_length_new
+    c <- c + 1
   }
-  grps = sapply(grps,paste,collapse='|')
+  grps <- sapply(grps, paste, collapse = "|")
   return(grps)
 }
 
@@ -96,38 +96,38 @@ group_correlated_features <- function(corr,test_data){
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #' @examples
-find_permuted_auc <- function(model,test_data,outcome,feat, fewer_samples){
+find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
   test_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
-  print('test_auc')
+  print("test_auc")
   print(test_auc)
-  print('new_auc')
+  print("new_auc")
   # permute grouped features together
-  fs = strsplit(feat, '\\|')[[1]]
+  fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
-  fs = fs[fs %in% colnames(test_data)]
+  fs <- fs[fs %in% colnames(test_data)]
   print(fs)
   # get the new AUC and AUC differences
-  auc_diffs <- sapply(0:99, function(s){
+  auc_diffs <- sapply(0:99, function(s) {
     set.seed(s)
     full_permuted <- test_data
-    if(length(fs) == 1){
-      full_permuted[,fs] <- sample(full_permuted[,fs])
-    }else{
-      full_permuted[,fs] <- t(sample(data.frame(t(full_permuted[,fs]))))
+    if (length(fs) == 1) {
+      full_permuted[, fs] <- sample(full_permuted[, fs])
+    } else {
+      full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
     }
     print(sum(test_data != full_permuted))
     # Calculate the new auc
     new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
     # Return how does this feature being permuted effect the auc
-    return(c(new_auc=new_auc,diff=(test_auc - new_auc)))
+    return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
   })
-  auc = mean(auc_diffs['new_auc',])
-  auc_diff = mean(auc_diffs['diff',])
+  auc <- mean(auc_diffs["new_auc", ])
+  auc_diff <- mean(auc_diffs["diff", ])
   print(auc)
   print(auc_diff)
-  return(c(auc=auc,auc_diff=auc_diff))
+  return(c(auc = auc, auc_diff = auc_diff))
 }
 
 #' Title
@@ -145,7 +145,7 @@ find_permuted_auc <- function(model,test_data,outcome,feat, fewer_samples){
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #' @examples
-permutation_importance <- function(model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level){
+permutation_importance <- function(model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level) {
 
 
 
@@ -156,12 +156,12 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
   # TODO: don't read csv, take a df
-  corr = readr::read_csv(paste0("data/process/sig_flat_corr_matrix_",level,".csv")) %>%
-    dplyr::select(-p, -cor)  #TODO: maybe shouldn't hard-code column names?
+  corr <- readr::read_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv")) %>%
+    dplyr::select(-p, -cor) # TODO: maybe shouldn't hard-code column names?
   # -------------------------------------------------------------------->
 
   # get groups of correlated features
-  grps = group_correlated_features(corr, test_data)
+  grps <- group_correlated_features(corr, test_data)
 
   # -------------------------------------------------------------------->
 
@@ -176,13 +176,13 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
-  imps <- do.call('rbind', lapply(grps, function(feat){
-    res=find_permuted_auc(model,test_data,outcome,feat,fewer_samples)
+  imps <- do.call("rbind", lapply(grps, function(feat) {
+    res <- find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
     return(res)
   }))
 
   imps <- as.data.frame(imps) %>%
-    dplyr::mutate(names=factor(grps))
+    dplyr::mutate(names = factor(grps))
 
 
   # -------------------------------------- 6 ------------------------------------- #
@@ -208,9 +208,9 @@ permutation_importance <- function(model, test_data, first_outcome, second_outco
 
   # stop timer
   secs <- tictoc::toc()
-  walltime <- secs$toc-secs$tic
+  walltime <- secs$toc - secs$tic
   print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
-  perm_results <- imps #list(base_auc, non_corr_imp, correlated_auc_results)
+  perm_results <- imps # list(base_auc, non_corr_imp, correlated_auc_results)
   return(perm_results)
 }

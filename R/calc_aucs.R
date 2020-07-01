@@ -11,9 +11,9 @@
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @examples
-get_pred <- function(trained_model, test_data, fewer_samples){
+get_pred <- function(trained_model, test_data, fewer_samples) {
   # get predictions
-  pred <- stats::predict(trained_model, test_data, type="prob")[[fewer_samples]]
+  pred <- stats::predict(trained_model, test_data, type = "prob")[[fewer_samples]]
 }
 
 #' Title
@@ -26,7 +26,7 @@ get_pred <- function(trained_model, test_data, fewer_samples){
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-get_bin_outcome <- function(outcome_vec, fewer_samples){
+get_bin_outcome <- function(outcome_vec, fewer_samples) {
   # get binary outcome to calculate aucs (1 is outcome with fewer samples, 0 is outcome with more samples)
   bin_outcome <- ifelse(outcome_vec == fewer_samples, 1, 0)
 }
@@ -41,7 +41,7 @@ get_bin_outcome <- function(outcome_vec, fewer_samples){
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-calc_auroc <- function(pred,bin_outcome){
+calc_auroc <- function(pred, bin_outcome) {
   # calculate auroc
   auroc <- PRROC::roc.curve(pred, weights.class0 = bin_outcome)$auc
 }
@@ -56,7 +56,7 @@ calc_auroc <- function(pred,bin_outcome){
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-calc_auprc <- function(pred,bin_outcome){
+calc_auprc <- function(pred, bin_outcome) {
   # calculate auprc
   auprc <- PRROC::pr.curve(pred, weights.class0 = bin_outcome)$auc.integral
 }
@@ -74,13 +74,11 @@ calc_auprc <- function(pred,bin_outcome){
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-calc_aucs <- function(trained_model, test_data, outcome, fewer_samples){
+calc_aucs <- function(trained_model, test_data, outcome, fewer_samples) {
   pred <- get_pred(trained_model, test_data, fewer_samples)
-  outcome_vec <- test_data[,outcome]
+  outcome_vec <- test_data[, outcome]
   bin_outcome <- get_bin_outcome(outcome_vec, fewer_samples)
   auroc <- calc_auroc(pred, bin_outcome)
   auprc <- calc_auprc(pred, bin_outcome)
-  return(list(auroc=auroc, auprc=auprc))
+  return(list(auroc = auroc, auprc = auprc))
 }
-
-
