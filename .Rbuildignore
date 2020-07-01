@@ -6,3 +6,4 @@
 ^Contributing\.md$
 ^config\.yml$
 ^\.github$
+^covr_report\.Rds$

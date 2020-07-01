@@ -30,4 +30,25 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("SchlossLab/mikRopML")
 ```
+
 ## Example
+
+TODO
+
+## Test coverage
+
+```{r, include=FALSE}
+# Inspired by https://github.com/r-lib/covr/issues/207
+library(dplyr)
+covr_report <- readRDS("covr_report.Rds")
+cov_tally <- covr::tally_coverage(covr_report, by="line")
+cov_summary <- cov_tally %>%
+    group_by(filename) %>%
+    summarize(coverage = round(sum(value) / n() * 100, 1))
+overall_cov <- round(covr::percent_coverage(covr_report), 1)
+```
+**Overall: `r overall_cov`%**
+
+```{r, echo=FALSE}
+knitr::kable(cov_summary)
+```
