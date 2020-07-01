@@ -39,4 +39,7 @@ Imports:
     stats,
     utils
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

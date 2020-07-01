@@ -3,3 +3,4 @@ data/temp/*
 *.Rproj
 *.Rproj.user
 .Rproj.user
+inst/doc
