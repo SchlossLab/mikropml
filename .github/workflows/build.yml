@@ -53,17 +53,17 @@ jobs:
           git status
           Rscript -e 'usethis::use_tidy_style()'
           git add .
-          git difmit \
+          git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '🎨 Style R code'
-    || echo "No changes to commit"   - name: Docs
+          -m '🎨 Style R code' || echo "No changes to commit"
+      - name: Docs
         run: |
           Rscript -e "devtools::build_site()"
           git add docs
-          git diffit \
+          git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m "📑 Build docs site"
-     || echo "No changes to commit"  - uses: r-lib/actions/pr-push@master
+          -m "📑 Build docs site" || echo "No changes to commit"
+      - uses: r-lib/actions/pr-push@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
