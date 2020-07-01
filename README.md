@@ -7,7 +7,10 @@
 
 <!-- badges: start -->
 
+![build](https://github.com/SchlossLab/ML_pipeline_microbiome/workflows/build/badge.svg)
 <!-- badges: end -->
+
+TODO: short description of what it does & why
 
 ## Installation
 
