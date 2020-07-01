@@ -1,0 +1,69 @@
+name: build
+
+on:
+  pull_request:
+    branches:
+    - master
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: r-lib/actions/pr-fetch@master
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
+        run: Rscript -e "install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'covr', 'pkgdown', 'rcmdcheck', 'remotes'))" -e "remotes::install_deps(dependencies = TRUE)"
+      - name: Configure git
+        run: |
+          git config --local user.email "noreply@github.com"
+          git config --local user.name "GitHub"
+      - name: Document
+        run: |
+          Rscript -e "devtools::document()"
+          git add docs/ man/ NAMESPACE DESCRIPTION
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m '📚 Render Roxygen documentation' || echo "No changes to commit"
+      - name: Check
+        run: |
+          Rscript -e "devtools::check()"
+      - name: Coverage
+        run: |
+          Rscript -e 'new_covr_report <- covr::package_coverage(); old_covr_report <- readRDS("covr_report.Rds"); if (all(covr::tally_coverage(old_covr_report, by="line") != covr::tally_coverage(new_covr_report, by="line"))) { saveRDS(new_covr_report, file="covr_report.Rds")}'
+          git add covr_report.Rds
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m '📊 Report test coverage' || echo "No changes to commit"
+      - name: Render README
+        run: |
+          Rscript -e 'rmarkdown::render("README.Rmd")'
+          git add README.md
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m '📄 Render README.Rmd' || echo "No changes to commit"
+      - name: Style
+        run: |
+          git status
+          Rscript -e 'usethis::use_tidy_style()'
+          git add .
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m '🎨 Style R code' || echo "No changes to commit"
+      - name: Docs
+        run: |
+          Rscript -e "devtools::build_site()"
+          git add docs
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m "📑 Build docs site" || echo "No changes to commit"
+      - uses: r-lib/actions/pr-push@master
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+

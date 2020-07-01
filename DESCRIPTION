@@ -1,0 +1,45 @@
+Package: mikRopML
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Begüm",
+           family = "Topçuoğlu",
+           role = c("aut", "cre"),
+           email = "topcuoglu.begum@gmail.com"
+           ),
+    person(given = "Patrick",
+           family = "Schloss",
+           role = c("aut"),
+           email = "pschloss@umich.edu"
+           ),
+    person(given = "Zena",
+           family = "Lapp",
+           role = c("aut"),
+           email = "zenalapp@umich.edu"
+           ),
+    person(given = "Kelly",
+           family = "Sovacool",
+           role = c("aut"),
+           email = "sovacool@umich.edu",
+           comment = c(ORCID = "0000-0003-3283-829X")
+           ))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    PRROC,
+    Hmisc,
+    readr,
+    dplyr,
+    caret,
+    tictoc,
+    stats,
+    utils
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
