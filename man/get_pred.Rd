@@ -7,7 +7,11 @@
 get_pred(trained_model, test_data, fewer_samples)
 }
 \arguments{
-\item{fewer_samples}{}
+\item{trained_model}{TODO}
+
+\item{test_data}{TODO}
+
+\item{fewer_samples}{TODO}
 }
 \value{
 

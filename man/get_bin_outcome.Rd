@@ -7,7 +7,9 @@
 get_bin_outcome(outcome_vec, fewer_samples)
 }
 \arguments{
-\item{fewer_samples}{}
+\item{outcome_vec}{TODO}
+
+\item{fewer_samples}{TODO}
 }
 \value{
 

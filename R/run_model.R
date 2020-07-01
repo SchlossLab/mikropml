@@ -32,19 +32,19 @@
 
 #' Title
 #'
-#' @param seed
-#' @param model
-#' @param data_filename
-#' @param hyperparameters
-#' @param outcome
-#' @param level
-#' @param permutation
+#' @param seed TODO
+#' @param model TODO
+#' @param data_filename TODO
+#' @param hyperparameters TODO
+#' @param outcome TODO
+#' @param level TODO
+#' @param permutation TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 run_model <-
   function(seed,
            model,

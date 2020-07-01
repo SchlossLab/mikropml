@@ -31,16 +31,16 @@
 
 #' Title
 #'
-#' @param train_data
-#' @param model
-#' @param outcome
-#' @param hyperparameters
+#' @param train_data TODO
+#' @param model TODO
+#' @param outcome TODO
+#' @param hyperparameters TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 tuning_grid <- function(train_data, model, outcome, hyperparameters) {
 
   # NOTE: Hyperparameters should be a csv containing a dataframe

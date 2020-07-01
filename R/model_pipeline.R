@@ -38,19 +38,19 @@
 
 #' Title
 #'
-#' @param data
-#' @param model
-#' @param split_number
-#' @param outcome
-#' @param hyperparameters
-#' @param level
-#' @param permutation
+#' @param data TODO
+#' @param model TODO
+#' @param split_number TODO
+#' @param outcome TODO
+#' @param hyperparameters TODO
+#' @param level TODO
+#' @param permutation TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 model_pipeline <-
   function(data,
            model,

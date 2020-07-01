@@ -7,7 +7,9 @@
 group_correlated_features(corr, test_data)
 }
 \arguments{
-\item{test_data}{}
+\item{corr}{TODO}
+
+\item{test_data}{TODO}
 }
 \value{
 

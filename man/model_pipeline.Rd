@@ -15,7 +15,19 @@ model_pipeline(
 )
 }
 \arguments{
-\item{permutation}{}
+\item{data}{TODO}
+
+\item{model}{TODO}
+
+\item{split_number}{TODO}
+
+\item{outcome}{TODO}
+
+\item{hyperparameters}{TODO}
+
+\item{level}{TODO}
+
+\item{permutation}{TODO}
 }
 \value{
 

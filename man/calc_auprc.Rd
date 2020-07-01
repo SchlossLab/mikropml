@@ -7,7 +7,9 @@
 calc_auprc(pred, bin_outcome)
 }
 \arguments{
-\item{bin_outcome}{}
+\item{pred}{TODO}
+
+\item{bin_outcome}{TODO}
 }
 \value{
 

@@ -15,7 +15,19 @@ permutation_importance(
 )
 }
 \arguments{
-\item{level}{}
+\item{model}{TODO}
+
+\item{test_data}{TODO}
+
+\item{first_outcome}{TODO}
+
+\item{second_outcome}{TODO}
+
+\item{outcome}{TODO}
+
+\item{fewer_samples}{TODO}
+
+\item{level}{TODO}
 }
 \value{
 

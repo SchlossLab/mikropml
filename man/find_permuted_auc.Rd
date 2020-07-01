@@ -7,7 +7,15 @@
 find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
 }
 \arguments{
-\item{fewer_samples}{}
+\item{model}{TODO}
+
+\item{test_data}{TODO}
+
+\item{outcome}{TODO}
+
+\item{feat}{TODO}
+
+\item{fewer_samples}{TODO}
 }
 \value{
 

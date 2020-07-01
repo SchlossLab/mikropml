@@ -15,7 +15,19 @@ run_model(
 )
 }
 \arguments{
-\item{permutation}{}
+\item{seed}{TODO}
+
+\item{model}{TODO}
+
+\item{data_filename}{TODO}
+
+\item{hyperparameters}{TODO}
+
+\item{outcome}{TODO}
+
+\item{level}{TODO}
+
+\item{permutation}{TODO}
 }
 \value{
 

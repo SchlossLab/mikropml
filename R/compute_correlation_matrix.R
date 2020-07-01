@@ -12,19 +12,20 @@
 #        level - name of modeling experiment
 #        cor_value - select correlations above or equal to cor_value
 #        p_value - select correlation with value below p_value
+
 #' Title
 #'
-#' @param input_file
-#' @param outcome
-#' @param level
-#' @param cor_value
-#' @param p_value
+#' @param input_file TODO
+#' @param outcome TODO
+#' @param level TODO
+#' @param cor_value TODO
+#' @param p_value TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 compute_correlation_matrix <-
   function(input_file,
            outcome,

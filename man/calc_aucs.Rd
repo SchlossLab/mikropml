@@ -7,7 +7,13 @@
 calc_aucs(trained_model, test_data, outcome, fewer_samples)
 }
 \arguments{
-\item{fewer_samples}{}
+\item{trained_model}{TODO}
+
+\item{test_data}{TODO}
+
+\item{outcome}{TODO}
+
+\item{fewer_samples}{TODO}
 }
 \value{
 

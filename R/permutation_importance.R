@@ -44,14 +44,14 @@
 
 #' Title
 #'
-#' @param corr
-#' @param test_data
+#' @param corr TODO
+#' @param test_data TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 group_correlated_features <- function(corr, test_data) {
   all_feats <- colnames(test_data)[2:ncol(test_data)]
   corr_feats <- unique(c(corr$column, corr$row))
@@ -85,17 +85,17 @@ group_correlated_features <- function(corr, test_data) {
 # get permuted AUROC difference for a single feature (or group of features)
 #' Title
 #'
-#' @param model
-#' @param test_data
-#' @param outcome
-#' @param feat
-#' @param fewer_samples
+#' @param model TODO
+#' @param test_data TODO
+#' @param outcome TODO
+#' @param feat TODO
+#' @param fewer_samples TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
@@ -132,19 +132,19 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 
 #' Title
 #'
-#' @param model
-#' @param test_data
-#' @param first_outcome
-#' @param second_outcome
-#' @param outcome
-#' @param fewer_samples
-#' @param level
+#' @param model TODO
+#' @param test_data TODO
+#' @param first_outcome TODO
+#' @param second_outcome TODO
+#' @param outcome TODO
+#' @param fewer_samples TODO
+#' @param level TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#' @examples
+#'
 permutation_importance <- function(model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level) {
 
 

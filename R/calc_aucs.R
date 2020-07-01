@@ -3,14 +3,14 @@
 
 #' Title
 #'
-#' @param trained_model
-#' @param test_data
-#' @param fewer_samples
+#' @param trained_model TODO
+#' @param test_data TODO
+#' @param fewer_samples TODO
 #'
 #' @return
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#' @examples
+#'
 get_pred <- function(trained_model, test_data, fewer_samples) {
   # get predictions
   pred <- stats::predict(trained_model, test_data, type = "prob")[[fewer_samples]]
@@ -18,14 +18,14 @@ get_pred <- function(trained_model, test_data, fewer_samples) {
 
 #' Title
 #'
-#' @param outcome_vec
-#' @param fewer_samples
+#' @param outcome_vec TODO
+#' @param fewer_samples TODO
 #'
 #' @return
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples
+#'
 get_bin_outcome <- function(outcome_vec, fewer_samples) {
   # get binary outcome to calculate aucs (1 is outcome with fewer samples, 0 is outcome with more samples)
   bin_outcome <- ifelse(outcome_vec == fewer_samples, 1, 0)
@@ -33,14 +33,14 @@ get_bin_outcome <- function(outcome_vec, fewer_samples) {
 
 #' Title
 #'
-#' @param pred
-#' @param bin_outcome
+#' @param pred TODO
+#' @param bin_outcome TODO
 #'
 #' @return
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples
+#'
 calc_auroc <- function(pred, bin_outcome) {
   # calculate auroc
   auroc <- PRROC::roc.curve(pred, weights.class0 = bin_outcome)$auc
@@ -48,14 +48,14 @@ calc_auroc <- function(pred, bin_outcome) {
 
 #' Title
 #'
-#' @param pred
-#' @param bin_outcome
+#' @param pred TODO
+#' @param bin_outcome TODO
 #'
 #' @return
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples
+#'
 calc_auprc <- function(pred, bin_outcome) {
   # calculate auprc
   auprc <- PRROC::pr.curve(pred, weights.class0 = bin_outcome)$auc.integral
@@ -64,16 +64,16 @@ calc_auprc <- function(pred, bin_outcome) {
 # wrapper function to calculate aucs
 #' Title
 #'
-#' @param trained_model
-#' @param test_data
-#' @param outcome
-#' @param fewer_samples
+#' @param trained_model TODO
+#' @param test_data TODO
+#' @param outcome TODO
+#' @param fewer_samples TODO
 #'
 #' @return
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples
+#'
 calc_aucs <- function(trained_model, test_data, outcome, fewer_samples) {
   pred <- get_pred(trained_model, test_data, fewer_samples)
   outcome_vec <- test_data[, outcome]

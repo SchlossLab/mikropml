@@ -7,7 +7,13 @@
 tuning_grid(train_data, model, outcome, hyperparameters)
 }
 \arguments{
-\item{hyperparameters}{}
+\item{train_data}{TODO}
+
+\item{model}{TODO}
+
+\item{outcome}{TODO}
+
+\item{hyperparameters}{TODO}
 }
 \value{
 
