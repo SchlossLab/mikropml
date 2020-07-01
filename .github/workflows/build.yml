@@ -68,7 +68,7 @@ jobs:
           || git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m "📑 Build docs site"
-      - name: r-lib/actions/pr-push@master
+      - uses: r-lib/actions/pr-push@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
