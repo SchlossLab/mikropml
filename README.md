@@ -7,7 +7,11 @@
 
 <!-- badges: start -->
 
-![build](https://github.com/SchlossLab/ML_pipeline_microbiome/workflows/build/badge.svg)
+[![build](https://github.com/SchlossLab/mikRopML/workflows/build/badge.svg)](https://github.com/SchlossLab/mikRopML/actions)
+[![docs](https://img.shields.io/badge/docs-here-brightgreen)](https://schlosslab.org/mikRopML/)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 TODO: short description of what it does & why
