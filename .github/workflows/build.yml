@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
     - master
-  push:
-    branches:
-    - master
 
 jobs:
   build:
@@ -19,7 +16,7 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
-        run: Rscript -e "install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'covr', 'pkgdown', 'rcmdcheck', 'remotes'))" -e "remotes::install_deps(dependencies = TRUE)"
+        run: Rscript -e "install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'covr', 'pkgdown', 'rcmdcheck', 'remotes', 'fs'))" -e "remotes::install_deps(dependencies = TRUE)"
       - name: Configure git
         run: |
           git config --local user.email "noreply@github.com"
