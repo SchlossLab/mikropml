@@ -1,0 +1,7 @@
+^mikRopML\.Rproj$
+^\.Rproj\.user$
+examples/
+^README\.Rmd$
+^LICENSE\.md$
+^Contributing\.md$
+^config\.yml$
