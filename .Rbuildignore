@@ -7,3 +7,6 @@
 ^config\.yml$
 ^\.github$
 ^covr_report\.Rds$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
