@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
     - master
-  push:
-    branches:
-    - master
 
 jobs:
   build:
@@ -19,11 +16,19 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
-        run: Rscript -e "install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'covr', 'pkgdown', 'rcmdcheck', 'remotes'))" -e "remotes::install_deps(dependencies = TRUE)"
+        run: Rscript -e "install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'covr', 'pkgdown', 'rcmdcheck', 'remotes', 'fs'))" -e "remotes::install_deps(dependencies = TRUE)"
       - name: Configure git
         run: |
           git config --local user.email "noreply@github.com"
           git config --local user.name "GitHub"
+      - name: Style
+        run: |
+          git status
+          Rscript -e 'usethis::use_tidy_style()'
+          git add .
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m '🎨 Style R code' || echo "No changes to commit"
       - name: Document
         run: |
           Rscript -e "devtools::document()"
@@ -31,9 +36,6 @@ jobs:
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '📚 Render Roxygen documentation' || echo "No changes to commit"
-      - name: Check
-        run: |
-          Rscript -e "devtools::check()"
       - name: Coverage
         run: |
           Rscript -e 'new_covr_report <- covr::package_coverage(); old_covr_report <- readRDS("covr_report.Rds"); if (all(covr::tally_coverage(old_covr_report, by="line") != covr::tally_coverage(new_covr_report, by="line"))) { saveRDS(new_covr_report, file="covr_report.Rds")}'
@@ -48,14 +50,6 @@ jobs:
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '📄 Render README.Rmd' || echo "No changes to commit"
-      - name: Style
-        run: |
-          git status
-          Rscript -e 'usethis::use_tidy_style()'
-          git add .
-          git commit \
-          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '🎨 Style R code' || echo "No changes to commit"
       - name: Docs
         run: |
           Rscript -e "devtools::build_site()"
