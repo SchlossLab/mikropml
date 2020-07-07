@@ -4,6 +4,12 @@ on:
   pull_request:
     branches:
     - master
+    paths:
+    - "**.R"
+    - README.Rmd
+    - DESCRIPTION
+    - NAMESPACE
+    - man/
 
 jobs:
   build:
