@@ -20,7 +20,8 @@ knitr::opts_chunk$set(
 > meek-ROPE em el
 
 <!-- badges: start -->
-[![build](https://github.com/SchlossLab/mikRopML/workflows/build/badge.svg)](https://github.com/SchlossLab/mikRopML/actions)
+[![check](https://github.com/SchlossLab/mikRopML/workflows/check/badge.svg)](https://github.com/SchlossLab/mikRopML/actions)
+[![codecov](https://codecov.io/gh/SchlossLab/mikRopML/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikRopML)
 [![docs](https://img.shields.io/badge/docs-here-brightgreen)](https://schlosslab.org/mikRopML/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -40,21 +41,3 @@ devtools::install_github("SchlossLab/mikRopML")
 ## Example
 
 TODO
-
-## Test coverage
-
-```{r, include=FALSE}
-# Inspired by https://github.com/r-lib/covr/issues/207
-library(dplyr)
-covr_report <- readRDS("covr_report.Rds")
-cov_tally <- covr::tally_coverage(covr_report, by="line")
-cov_summary <- cov_tally %>%
-    group_by(filename) %>%
-    summarize(coverage = round(sum(value) / n() * 100, 1))
-overall_cov <- round(covr::percent_coverage(covr_report), 1)
-```
-**Overall: `r overall_cov`%**
-
-```{r, echo=FALSE}
-knitr::kable(cov_summary)
-```
