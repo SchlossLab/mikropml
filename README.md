@@ -7,7 +7,12 @@
 
 <!-- badges: start -->
 
-![build](https://github.com/SchlossLab/ML_pipeline_microbiome/workflows/build/badge.svg)
+[![check](https://github.com/SchlossLab/mikRopML/workflows/check/badge.svg)](https://github.com/SchlossLab/mikRopML/actions)
+[![codecov](https://codecov.io/gh/SchlossLab/mikRopML/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikRopML)
+[![docs](https://img.shields.io/badge/docs-here-brightgreen)](https://schlosslab.org/mikRopML/)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 TODO: short description of what it does & why
@@ -25,16 +30,3 @@ devtools::install_github("SchlossLab/mikRopML")
 ## Example
 
 TODO
-
-## Test coverage
-
-**Overall: 0%**
-
-| filename                         | coverage |
-| :------------------------------- | -------: |
-| R/calc\_aucs.R                   |        0 |
-| R/compute\_correlation\_matrix.R |        0 |
-| R/model\_pipeline.R              |        0 |
-| R/permutation\_importance.R      |        0 |
-| R/run\_model.R                   |        0 |
-| R/tuning\_grid.R                 |        0 |
