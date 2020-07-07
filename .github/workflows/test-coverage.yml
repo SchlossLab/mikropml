@@ -1,12 +1,9 @@
+name: test-coverage
+
 on:
   push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-name: test-coverage
+    paths:
+    - "**.R"
 
 jobs:
   test-coverage:
