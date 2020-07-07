@@ -1,7 +1,7 @@
 name: build
 
 on:
-  pull_request:
+  push:
     branches:
     - master
     paths:
@@ -38,7 +38,7 @@ jobs:
       - name: Document
         run: |
           Rscript -e "devtools::document()"
-          git add docs/ man/ NAMESPACE DESCRIPTION
+          git add man/ NAMESPACE
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '📚 Render Roxygen documentation' || echo "No changes to commit"

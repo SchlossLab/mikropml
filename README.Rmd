@@ -29,6 +29,7 @@ knitr::opts_chunk$set(
 
 TODO: short description of what it does & why
 
+
 ## Installation
 
 You can install the development version from [GitHub](https://github.com/) with:
@@ -37,6 +38,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("SchlossLab/mikRopML")
 ```
+
 
 ## Example
 
