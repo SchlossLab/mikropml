@@ -36,13 +36,6 @@ jobs:
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '📚 Render Roxygen documentation' || echo "No changes to commit"
-      - name: Coverage
-        run: |
-          Rscript -e 'new_covr_report <- covr::package_coverage(); old_covr_report <- readRDS("covr_report.Rds"); if (all(covr::tally_coverage(old_covr_report, by="line") != covr::tally_coverage(new_covr_report, by="line"))) { saveRDS(new_covr_report, file="covr_report.Rds")}'
-          git add covr_report.Rds
-          git commit \
-          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '📊 Report test coverage' || echo "No changes to commit"
       - name: Render README
         run: |
           Rscript -e 'rmarkdown::render("README.Rmd")'
