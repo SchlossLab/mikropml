@@ -1,3 +1,5 @@
+name: R-CMD-check
+
 on:
   push:
     branches:
@@ -5,8 +7,6 @@ on:
   pull_request:
     branches:
       - master
-
-name: R-CMD-check
 
 jobs:
   R-CMD-check:
