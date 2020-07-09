@@ -1,16 +1,11 @@
 Package: mikRopML
-Title: What the Package Does (One Line, Title Case)
+Title: User-Friendly Machine Learning Package for Binary Classification
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Begüm",
            family = "Topçuoğlu",
            role = c("aut", "cre"),
            email = "topcuoglu.begum@gmail.com"
-           ),
-    person(given = "Patrick",
-           family = "Schloss",
-           role = c("aut"),
-           email = "pschloss@umich.edu"
            ),
     person(given = "Zena",
            family = "Lapp",
@@ -22,7 +17,19 @@ Authors@R: c(
            role = c("aut"),
            email = "sovacool@umich.edu",
            comment = c(ORCID = "0000-0003-3283-829X")
+           ),
+    person(given = "Jenna",
+           family = "Wiens",
+           role = c("aut"),
+           email = "wiensj@umich.edu"
+           ),
+    person(given = "Patrick",
+           family = "Schloss",
+           role = c("aut"),
+           email = "pschloss@umich.edu"
            ))
+URL: https://www.schlosslab.org/mikRopML
+BugReports: https://github.com/SchlossLab/mikRopML/issues
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
