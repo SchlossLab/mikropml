@@ -42,7 +42,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    mlbench
+    mlbench,
+    LiblineaR
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
