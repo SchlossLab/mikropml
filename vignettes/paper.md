@@ -1,5 +1,5 @@
 ---
-title: "mikRopML: insert better title here"
+title: "mikRopML: User-Friendly Machine Learning Package for Binary Classification Problems"
 output: 
   rmarkdown::html_vignette:
     keep_md: true
@@ -27,7 +27,7 @@ affiliations:
     index: 2
   - name: Department of Microbiology & Immunology, University of Michigan
     index: 3
-  - name: Merck
+  - name: Merck & Co., Inc.
     index: 4
 date: 2020
 bibliography: paper.bib

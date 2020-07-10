@@ -1,5 +1,5 @@
 Package: mikRopML
-Title: User-Friendly Machine Learning Package for Binary Classification
+Title: User-Friendly Machine Learning Package for Binary Classification Problems
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Begüm",
