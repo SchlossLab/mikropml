@@ -2,9 +2,9 @@
 % Please edit documentation in R/calc_aucs.R
 \name{calc_aucs}
 \alias{calc_aucs}
-\title{Title}
+\title{Calculate AUROC and AUPRC}
 \usage{
-calc_aucs(trained_model, test_data, outcome, fewer_samples)
+calc_aucs(trained_model, test_data, outcome, outcome_samples)
 }
 \arguments{
 \item{trained_model}{TODO}
@@ -13,13 +13,13 @@ calc_aucs(trained_model, test_data, outcome, fewer_samples)
 
 \item{outcome}{TODO}
 
-\item{fewer_samples}{TODO}
+\item{outcome_samples}{TODO}
 }
 \value{
 
 }
 \description{
-Title
+Calculate AUROC and AUPRC
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

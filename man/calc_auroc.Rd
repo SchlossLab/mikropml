@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_aucs.R
 \name{calc_auroc}
 \alias{calc_auroc}
-\title{Title}
+\title{Calculate AUROC}
 \usage{
 calc_auroc(pred, bin_outcome)
 }
@@ -15,7 +15,7 @@ calc_auroc(pred, bin_outcome)
 
 }
 \description{
-Title
+Calculate AUROC
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

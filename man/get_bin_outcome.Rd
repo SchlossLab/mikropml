@@ -2,20 +2,20 @@
 % Please edit documentation in R/calc_aucs.R
 \name{get_bin_outcome}
 \alias{get_bin_outcome}
-\title{Title}
+\title{Get binary outcome vector for calculating AUCs}
 \usage{
-get_bin_outcome(outcome_vec, fewer_samples)
+get_bin_outcome(outcome_vec, outcome_samples)
 }
 \arguments{
 \item{outcome_vec}{TODO}
 
-\item{fewer_samples}{TODO}
+\item{outcome_samples}{TODO}
 }
 \value{
 
 }
 \description{
-Title
+Get binary outcome vector for calculating AUCs
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

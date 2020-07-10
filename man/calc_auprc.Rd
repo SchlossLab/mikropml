@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_aucs.R
 \name{calc_auprc}
 \alias{calc_auprc}
-\title{Title}
+\title{Calculate AUPRC}
 \usage{
 calc_auprc(pred, bin_outcome)
 }
@@ -15,7 +15,7 @@ calc_auprc(pred, bin_outcome)
 
 }
 \description{
-Title
+Calculate AUPRC
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

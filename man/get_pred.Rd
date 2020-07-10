@@ -2,22 +2,22 @@
 % Please edit documentation in R/calc_aucs.R
 \name{get_pred}
 \alias{get_pred}
-\title{Title}
+\title{Get predictions from trained model and test data}
 \usage{
-get_pred(trained_model, test_data, fewer_samples)
+get_pred(trained_model, test_data, outcome_samples)
 }
 \arguments{
 \item{trained_model}{TODO}
 
 \item{test_data}{TODO}
 
-\item{fewer_samples}{TODO}
+\item{outcome_samples}{TODO}
 }
 \value{
 
 }
 \description{
-Title
+Get predictions from trained model and test data
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
