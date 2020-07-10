@@ -234,7 +234,7 @@ model_pipeline <-
         split_number,
         ".csv"
       ),
-      row.names = F
+      row.names = FALSE
     )
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
     # Mean cv AUC value over repeats of the best cost parameter during training

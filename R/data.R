@@ -15,3 +15,12 @@
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
 #' All other columns are OTU relative abundances.
 "otu_large"
+
+#' A training data partition from `otu_medium`
+"train_data1"
+
+#' A test data partition from `otu_medium`
+"test_data1"
+
+#' A trained model from L2 logistic regression on `train_data1`
+"trained_model1"

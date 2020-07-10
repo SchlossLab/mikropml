@@ -48,7 +48,7 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters) {
   # and the second column "val" are the values to be tested
   # and third column "model" is the model being used
   # TODO: don't read a csv, take a df as input instead
-  hyperparameters <- readr::read_csv(hyperparameters, stringsAsFactors = F)
+  hyperparameters <- readr::read_csv(hyperparameters)
   hyperparameters <- hyperparameters[hyperparameters$model == model, ]
   hyperparameters <- split(hyperparameters$val, hyperparameters$param)
 

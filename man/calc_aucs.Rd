@@ -16,10 +16,13 @@ calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
 \item{outcome_value}{Outcome value of interest}
 }
 \value{
-
+List of auroc and auprc values
 }
 \description{
 Calculate AUROC and AUPRC
+}
+\examples{
+calc_aucs(trained_model1, test_data1, 'dx', 'cancer')
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

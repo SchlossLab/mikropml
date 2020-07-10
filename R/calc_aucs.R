@@ -5,19 +5,20 @@
 #' @param outcome_colname Column name of the outcome variable
 #' @param outcome_value Outcome value of interest
 #'
-#' @return
+#' @return List of auroc and auprc values
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
-#'
+#' @examples
+#' calc_aucs(trained_model1, test_data1, 'dx', 'cancer')
 calc_aucs <-
   function(trained_model,
            test_data,
            outcome_colname,
            outcome_value) {
     pred <- get_prediction(trained_model, test_data, outcome_value)
-    bin_outcomes <- recode_outcome(outcome_colname, outcome_value)
+    bin_outcomes <- recode_outcome(test_data, outcome_colname, outcome_value)
     auroc <- calc_auroc(pred, bin_outcomes)
     auprc <- calc_auprc(pred, bin_outcomes)
     return(list(auroc = auroc, auprc = auprc))
@@ -27,25 +28,28 @@ calc_aucs <-
 #'
 #' @inheritParams calc_aucs
 #'
-#' @return
-#' @export
+#' @return vector of predictions
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
+#' @examples
+#' get_prediction(trained_model1, test_data1, 'cancer')
 get_prediction <- function(trained_model, test_data, outcome_value) {
   return(stats::predict(trained_model, test_data, type = "prob")[[outcome_value]])
 }
 
-#' Recode the outcome column to a binary vector for calculating AUCs
+#' Get the outcome column as a binary vector
 #'
 #' @inheritParams calc_aucs
 #'
 #' @return Outcome column recoded as binary (1 = outcome of interest, 0 = other outcome)
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
-#'
-recode_outcome <- function(outcome_colname, outcome_value) {
+#' @examples
+#' recode_outcome(test_data1, 'dx', 'cancer')
+recode_outcome <- function(test_data, outcome_colname, outcome_value) {
   outcome_vec <- test_data[, outcome_colname]
   return(ifelse(outcome_vec == outcome_value, 1, 0))
 }
@@ -56,10 +60,13 @@ recode_outcome <- function(outcome_colname, outcome_value) {
 #' @param bin_outcomes Binary outcome vector
 #'
 #' @return Area under the receiver-operator characteristic curve
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#'
+#' @examples
+#' prediction <- get_prediction(trained_model1, test_data1, 'cancer')
+#' outcomes <- recode_outcome(test_data1, 'dx', 'cancer')
+#' calc_auroc(prediction, outcomes)
 calc_auroc <- function(pred, bin_outcomes) {
   return(PRROC::roc.curve(pred, weights.class0 = bin_outcomes)$auc)
 }
@@ -69,9 +76,13 @@ calc_auroc <- function(pred, bin_outcomes) {
 #' @inheritParams calc_auroc
 #'
 #' @return Area under the precision-recall curve
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
+#' @examples
+#' prediction <- get_prediction(trained_model1, test_data1, 'cancer')
+#' outcomes <- recode_outcome(test_data1, 'dx', 'cancer')
+#' calc_auprc(prediction, outcomes)
 calc_auprc <- function(pred, bin_outcomes) {
   return(PRROC::pr.curve(pred, weights.class0 = bin_outcomes)$auc.integral)
 }
