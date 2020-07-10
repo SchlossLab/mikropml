@@ -1,80 +1,77 @@
-# Code written by Zena Lapp
-# Calculate auroc and auprc
+#' Calculate AUROC and AUPRC
+#'
+#' @param trained_model trained model from caret
+#' @param test_data dataframe of testing data
+#' @param outcome_colname Column name of the outcome variable
+#' @param outcome_value Outcome value of interest
+#'
+#' @return
+#' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#'
+calc_aucs <-
+  function(trained_model,
+           test_data,
+           outcome_colname,
+           outcome_value) {
+    pred <- get_prediction(trained_model, test_data, outcome_value)
+    bin_outcomes <- recode_outcome(outcome_colname, outcome_value)
+    auroc <- calc_auroc(pred, bin_outcomes)
+    auprc <- calc_auprc(pred, bin_outcomes)
+    return(list(auroc = auroc, auprc = auprc))
+  }
 
 #' Get predictions from trained model and test data
 #'
-#' @param trained_model TODO
-#' @param test_data TODO
-#' @param outcome_samples TODO
+#' @inheritParams calc_aucs
 #'
 #' @return
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_pred <- function(trained_model, test_data, outcome_samples) {
-  pred <- stats::predict(trained_model, test_data, type = "prob")[[outcome_samples]]
+get_prediction <- function(trained_model, test_data, outcome_value) {
+  return(stats::predict(trained_model, test_data, type = "prob")[[outcome_value]])
 }
 
-#' Get binary outcome vector for calculating AUCs
+#' Recode the outcome column to a binary vector for calculating AUCs
 #'
-#' @param outcome_vec TODO
-#' @param outcome_samples TODO
+#' @inheritParams calc_aucs
 #'
-#' @return
+#' @return Outcome column recoded as binary (1 = outcome of interest, 0 = other outcome)
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #'
-get_bin_outcome <- function(outcome_vec, outcome_samples) {
-  # 1 is outcome with fewer samples, 0 is outcome with more samples
-  bin_outcome <- ifelse(outcome_vec == outcome_samples, 1, 0)
+recode_outcome <- function(outcome_colname, outcome_value) {
+  outcome_vec <- test_data[, outcome_colname]
+  return(ifelse(outcome_vec == outcome_value, 1, 0))
 }
 
 #' Calculate AUROC
 #'
-#' @param pred TODO
-#' @param bin_outcome TODO
+#' @param pred Predictions of the trained model on the test data
+#' @param bin_outcomes Binary outcome vector
 #'
-#' @return
+#' @return Area under the receiver-operator characteristic curve
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #'
-calc_auroc <- function(pred, bin_outcome) {
-  auroc <- PRROC::roc.curve(pred, weights.class0 = bin_outcome)$auc
+calc_auroc <- function(pred, bin_outcomes) {
+  return(PRROC::roc.curve(pred, weights.class0 = bin_outcomes)$auc)
 }
 
 #' Calculate AUPRC
 #'
-#' @param pred TODO
-#' @param bin_outcome TODO
+#' @inheritParams calc_auroc
 #'
-#' @return
+#' @return Area under the precision-recall curve
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#'
-calc_auprc <- function(pred, bin_outcome) {
-  auprc <- PRROC::pr.curve(pred, weights.class0 = bin_outcome)$auc.integral
-}
-
-#' Calculate AUROC and AUPRC
-#'
-#' @param trained_model TODO
-#' @param test_data TODO
-#' @param outcome TODO
-#' @param outcome_samples TODO
-#'
-#' @return
-#' @export
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-#'
-calc_aucs <- function(trained_model, test_data, outcome, outcome_samples) {
-  pred <- get_pred(trained_model, test_data, outcome_samples)
-  outcome_vec <- test_data[, outcome]
-  bin_outcome <- get_bin_outcome(outcome_vec, outcome_samples)
-  auroc <- calc_auroc(pred, bin_outcome)
-  auprc <- calc_auprc(pred, bin_outcome)
-  return(list(auroc = auroc, auprc = auprc))
+calc_auprc <- function(pred, bin_outcomes) {
+  return(PRROC::pr.curve(pred, weights.class0 = bin_outcomes)$auc.integral)
 }

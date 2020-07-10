@@ -134,8 +134,6 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #'
 #' @param model TODO
 #' @param test_data TODO
-#' @param first_outcome TODO
-#' @param second_outcome TODO
 #' @param outcome TODO
 #' @param fewer_samples TODO
 #' @param level TODO
@@ -145,7 +143,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-permutation_importance <- function(model, test_data, first_outcome, second_outcome, outcome, fewer_samples, level) {
+permutation_importance <- function(model, test_data, outcome, fewer_samples, level) {
 
 
 

@@ -38,10 +38,11 @@
 
 #' Title
 #'
-#' @param data TODO
+#' @param dataset TODO
 #' @param model TODO
 #' @param split_number TODO
-#' @param outcome TODO
+#' @param outcome_colname TODO
+#' @param outcome_value TODO
 #' @param hyperparameters TODO
 #' @param level TODO
 #' @param permutation TODO
@@ -52,29 +53,59 @@
 #'
 #'
 model_pipeline <-
-  function(data,
+  function(dataset,
            model,
            split_number,
-           outcome = NA,
+           outcome_colname = NA,
+           outcome_value = NA,
            hyperparameters = NA,
            level = NA,
            permutation = TRUE) {
-    # -----------------------Get outcome variable----------------------------->
-    # If no outcome specified, use first column in data
-    if (is.na(outcome)) {
-      outcome <- colnames(data)[1]
+
+    # If no outcome colname specified, use first column in data
+    if (is.na(outcome_colname)) {
+      outcome_colname <- colnames(dataset)[1]
     } else {
       # check to see if outcome is in column names of data
-      if (!outcome %in% colnames(data)) {
-        stop(paste("Outcome", outcome, "not in column names of data."))
+      if (!outcome_colname %in% colnames(dataset)) {
+        stop(paste("Outcome", outcome_colname, "not in column names of data."))
       }
 
       # Let's make sure that the first column in the data frame is the outcome variable
-      temp_data <- data.frame(outcome = data[, outcome])
-      colnames(temp_data) <- outcome
-      data <-
-        cbind(temp_data, data[, !(colnames(data) %in% outcome)]) # want the outcome column to appear first
+      # TODO: is this necessary?
+      temp_data <- data.frame(outcome = dataset[, outcome_colname])
+      colnames(temp_data) <- outcome_colname
+      dataset <-
+        cbind(temp_data, dataset[, !(colnames(dataset) %in% outcome_colname)]) # want the outcome column to appear first
     }
+
+    # check binary outcome
+    num_outcomes <- length(unique(dataset[, outcome_colname]))
+    if (num_outcomes != 2) {
+      stop(
+        paste(
+          "A binary outcome variable is required, but this dataset has",
+          num_outcomes,
+          "outcomes."
+        )
+      )
+    }
+
+    # pick binary outcome value of interest if not provided by user
+    if (is.na(outcome_value)) {
+      outcome_value <-
+        get_outcome_value(dataset, outcome_colname, method = "fewer")
+    } else if (!any(dataset[, outcome_colname] == outcome_value)) {
+      stop(
+        "No rows in the outcome column (", outcome_colname,
+        ") with the outcome of interest (", outcome_value, ") were detected."
+      )
+    }
+
+    print(
+      "Using", outcome_colname, "as the outcome column and", outcome_value,
+      "as the outcome value of interest."
+    )
 
     # ------------------Check data for pre-processing------------------------->
     # Data is pre-processed in code/R/setup_model_data.R
@@ -82,50 +113,36 @@ model_pipeline <-
     # Then generates a correlation matrix
     # Test if data has been preprocessed - range 0-1 and are not all 0s
     feature_summary <- any(c(
-      min(data[, -1]) < 0,
-      max(data[, -1]) > 1,
-      any(apply(data[, -1], 2, sum) == 0)
+      min(dataset[, -1]) < 0,
+      max(dataset[, -1]) > 1,
+      any(apply(dataset[, -1], 2, sum) == 0)
     ))
     if (feature_summary) {
-      stop(
+      stop( # TODO: more informative error message; e.g. explain expected format
         'Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data'
       )
     }
 
     # ------------------Randomize features----------------------------------->
     # Randomize feature order, to eliminate any position-dependent effects
-    features <- sample(colnames(data[, -1]))
-    data <- dplyr::select(data, dplyr::one_of(outcome), dplyr::one_of(features))
+    features <- sample(colnames(dataset[, -1]))
+    dataset <- dplyr::select(dataset, dplyr::one_of(outcome_colname), dplyr::one_of(features))
 
-    # ----------------------------------------------------------------------->
-    # Get outcome variables
-    first_outcome <- as.character(data[1, outcome])
-    outcome_vals <- unique(data[, outcome])
-    if (length(outcome_vals) != 2) {
-      stop("A binary outcome variable is required.")
-    }
-    second_outcome <- as.character(outcome_vals[!outcome_vals == first_outcome])
-    print(paste(
-      c("first outcome:", "second outcome:"),
-      c(first_outcome, second_outcome)
-    ))
-    # outcome with fewer samples (for calculating AUPRC)
-    fewer_samples <- names(which.min(table(data[, outcome])))
 
 
     # ------------------80-20 Datasplit for each seed------------------------->
     # Do the 80-20 data-split
     # Stratified data partitioning %80 training - %20 testing
     inTraining <-
-      caret::createDataPartition(data[, outcome], p = .80, list = FALSE)
-    train_data <- data[inTraining, ]
-    test_data <- data[-inTraining, ]
+      caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)
+    train_data <- dataset[inTraining, ]
+    test_data <- dataset[-inTraining, ]
     # ----------------------------------------------------------------------->
 
     # -------------Define hyper-parameter and cv settings-------------------->
     # Define hyper-parameter tuning grid and the training method
     # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-    tune <- tuning_grid(train_data, model, outcome, hyperparameters)
+    tune <- tuning_grid(train_data, model, outcome_colname, hyperparameters)
     grid <- tune[[1]]
     method <- tune[[2]]
     cv <- tune[[3]]
@@ -155,7 +172,7 @@ model_pipeline <-
     #         We chose ntree=1000 empirically.
     # ----------------------------------------------------------------------->
     # Make formula based on outcome
-    f <- stats::as.formula(paste(outcome, "~ ."))
+    f <- stats::as.formula(paste(outcome_colname, "~ ."))
     print("Machine learning formula:")
     print(f)
     # Start walltime for training model
@@ -229,7 +246,7 @@ model_pipeline <-
     # Get AUROC and AUPRC
     # Calculate the test aucs for the actual pre-processed held-out data
     aucs <-
-      calc_aucs(trained_model, test_data, outcome, fewer_samples)
+      calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
     test_auc <- aucs$auroc
     auprc <- aucs$auprc
 
@@ -246,10 +263,8 @@ model_pipeline <-
         permutation_importance(
           trained_model,
           test_data,
-          first_outcome,
-          second_outcome,
-          outcome,
-          fewer_samples,
+          outcome_colname,
+          outcome_value,
           level
         )
       if (model == "L2_Logistic_Regression") {

@@ -5,23 +5,26 @@
 \title{Title}
 \usage{
 model_pipeline(
-  data,
+  dataset,
   model,
   split_number,
-  outcome = NA,
+  outcome_colname = NA,
+  outcome_value = NA,
   hyperparameters = NA,
   level = NA,
   permutation = TRUE
 )
 }
 \arguments{
-\item{data}{TODO}
+\item{dataset}{TODO}
 
 \item{model}{TODO}
 
 \item{split_number}{TODO}
 
-\item{outcome}{TODO}
+\item{outcome_colname}{TODO}
+
+\item{outcome_value}{TODO}
 
 \item{hyperparameters}{TODO}
 

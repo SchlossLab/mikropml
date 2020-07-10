@@ -4,15 +4,15 @@
 \alias{calc_auprc}
 \title{Calculate AUPRC}
 \usage{
-calc_auprc(pred, bin_outcome)
+calc_auprc(pred, bin_outcomes)
 }
 \arguments{
-\item{pred}{TODO}
+\item{pred}{Predictions of the trained model on the test data}
 
-\item{bin_outcome}{TODO}
+\item{bin_outcomes}{Binary outcome vector}
 }
 \value{
-
+Area under the precision-recall curve
 }
 \description{
 Calculate AUPRC
