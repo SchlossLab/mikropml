@@ -27,21 +27,20 @@ jobs:
         run: |
           git config --local user.email "noreply@github.com"
           git config --local user.name "GitHub"
+      - name: Check
+        run: |
+          Rscript -e 'devtools::check()'
+          git add man/ NAMESPACE
+          git commit \
+          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+          -m '📚 Render Roxygen documentation' || echo "No changes to commit"
       - name: Style
         run: |
-          git status
           Rscript -e 'usethis::use_tidy_style()'
           git add .
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '🎨 Style R code' || echo "No changes to commit"
-      - name: Document
-        run: |
-          Rscript -e "devtools::document()"
-          git add man/ NAMESPACE
-          git commit \
-          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '📚 Render Roxygen documentation' || echo "No changes to commit"
       - name: Render README
         run: |
           Rscript -e 'rmarkdown::render("README.Rmd")'
@@ -61,17 +60,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
-  check:
-    needs: build
-    runs-on: macOS-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@master
-      - name: Install dependencies
-        run: |
-          install.packages(c("remotes", "devtools"))
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-      - name: Check
-        run: devtools::check(force_suggests = TRUE)
-        shell: Rscript {0}
