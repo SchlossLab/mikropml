@@ -215,7 +215,7 @@ model_pipeline <-
         metric = "ROC",
         tuneGrid = grid
       )
-    }
+    } 
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
     # Mean cv AUC value over repeats of the best cost parameter during training
     cv_auc <- caret::getTrainPerf(trained_model)$TrainROC

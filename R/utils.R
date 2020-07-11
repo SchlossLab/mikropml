@@ -12,7 +12,7 @@ dplyr::`%>%`
 #' @param method Method to choose outcome value of interest ("fewer", "first")
 #'
 #' @return outcome value of interest
-#' @export
+#' @noRd
 #'
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
