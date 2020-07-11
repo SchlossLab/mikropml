@@ -22,7 +22,10 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
-        run: Rscript -e "install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'covr', 'pkgdown', 'rcmdcheck', 'remotes', 'fs'))" -e "remotes::install_deps(dependencies = TRUE)"
+        run: |
+          install.packages(c('rmarkdown', 'styler','usethis', 'devtools', 'pkgdown', 'rcmdcheck', 'remotes'))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
       - name: Configure git
         run: |
           git config --local user.email "noreply@github.com"
