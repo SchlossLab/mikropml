@@ -18,9 +18,7 @@ calc_aucs <-
            outcome_colname,
            outcome_value) {
     preds <- get_predictions(trained_model, test_data, outcome_value)
-    print(preds)
     bin_outcomes <- recode_outcome(test_data, outcome_colname, outcome_value)
-    print(bin_outcomes)
     return(list(auroc = calc_auroc(preds, bin_outcomes),
                 auprc = calc_auprc(preds, bin_outcomes)
                 ))

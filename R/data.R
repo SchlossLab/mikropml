@@ -35,15 +35,6 @@
 #' All other columns are OTU relative abundances.
 "otu_small"
 
-#' A training data partition from `otu_medium`
-"train_data1"
-
-#' A test data partition from `otu_medium`
-"test_data1"
-
-#' A trained model from L2 logistic regression on `train_data1`
-"trained_model1"
-
 #' A training data partition from `otu_small`
 "train_data_sm"
 
@@ -52,3 +43,15 @@
 
 #' A trained model from L2 logistic regression on `train_data_sm`
 "trained_model_sm"
+
+#' Results from running the pipline with L2 logistic regression on `otu_small`
+"otu_sm_results"
+
+#' A training data partition from `otu_medium`
+"train_data1"
+
+#' A test data partition from `otu_medium`
+"test_data1"
+
+#' A trained model from L2 logistic regression on `train_data1`
+"trained_model1"

@@ -56,7 +56,8 @@ run_pipeline <-
            outcome_colname = NA,
            outcome_value = NA,
            hyperparameters = default_hyperparams,
-           permutation = TRUE) {
+           permute = FALSE,
+           seed = NA) {
 
     # If no outcome colname specified, use first column in data
     if (is.na(outcome_colname)) {
@@ -123,13 +124,14 @@ run_pipeline <-
     # ------------------Randomize features----------------------------------->
     # Randomize feature order, to eliminate any position-dependent effects
     features <- sample(colnames(dataset[, -1]))
-    dataset <- dplyr::select(dataset, dplyr::one_of(outcome_colname), dplyr::one_of(features))
+    dataset <- dplyr::select(dataset,
+                             dplyr::one_of(outcome_colname),
+                             dplyr::one_of(features))
 
-
-
-    # ------------------80-20 Datasplit for each seed------------------------->
-    # Do the 80-20 data-split
-    # Stratified data partitioning %80 training - %20 testing
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
+    # TODO: optional arg for trainingpartition size
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)
     train_data <- dataset[inTraining, ]
@@ -143,35 +145,10 @@ run_pipeline <-
     grid <- tune[[1]]
     method <- tune[[2]]
     cv <- tune[[3]]
-    # ----------------------------------------------------------------------->
 
-    # ---------------------------Train the model ---------------------------->
-    # ------------------------------- 1. -------------------------------------
-    # - We train on the 80% of the full data.
-    # - We use the cross-validation and hyper-parameter settings defined above to train
-    # ------------------------------- 2. -------------------------------------
-    # We use ROC metric for all the models
-    # To do that I had to make changes to the caret package functions.
-    # The files 'data/caret_models/svmLinear3.R and svmLinear5.R are my functions.
-    # I added 1 line to get Decision Values for linear SVMs:
-    #
-    #           prob = function(modelFit, newdata, submodels = NULL){
-    #             predict(modelFit, newdata, decisionValues = TRUE)$decisionValues
-    #           },
-    #
-    # This line gives decision values instead of probabilities and computes ROC in:
-    #   1. train function with the cross-validataion
-    #   2. final trained model
-    # using decision values and saves them in the variable "prob"
-    # ------------------------------- 3. --------------------------------------
-    # - If the model is logistic regression, we need to add a family=binomial parameter.
-    # - If the model is random forest, we need to add a ntree=1000 parameter.
-    #         We chose ntree=1000 empirically.
-    # ----------------------------------------------------------------------->
     # Make formula based on outcome
     f <- stats::as.formula(paste(outcome_colname, "~ ."))
-    message("Machine learning formula:")
-    message(f)
+
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     if (model == "L2_Logistic_Regression") {
       message(model)
@@ -212,7 +189,7 @@ run_pipeline <-
         metric = "ROC",
         tuneGrid = grid
       )
-    } 
+    }
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
     # Mean cv AUC value over repeats of the best cost parameter during training
     cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
@@ -220,68 +197,33 @@ run_pipeline <-
     results_individual <- trained_model$results
     # ---------------------------------------------------------------------------------->
 
-    # Get AUROC and AUPRC
-    # Calculate the test aucs for the actual pre-processed held-out data
-    aucs <-
-      calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
-    test_auc <- aucs$auroc
-    auprc <- aucs$auprc
+    # Calculate the aucs for the held-out test data
+    test_aucs <- calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
 
-    # -------------------------- Feature importances ----------------------------------->
-    #   if linear: Output the weights of features of linear models
-    #   else: Output the feature importances based on random permutation for non-linear models
-    # Here we look at the top 20 important features
-    if (permutation) {
-      # We will use the permutation_importance function here to:
-      #     1. Predict held-out test-data
-      #     2. Calculate ROC and AUROC values on this prediction
-      #     3. Get the feature importances for correlated and uncorrelated feautures
-      roc_results <-
-        permutation_importance(
-          trained_model,
-          test_data,
-          outcome_colname,
-          outcome_value,
-          level
-        )
-      if (model == "L2_Logistic_Regression") {
-        feature_importance_weights <-
-          trained_model$finalModel$W # Get feature weights
-        feature_importance_perm <-
-          roc_results # save permutation results
-      } else {
-        feature_importance_weights <- NULL
-        feature_importance_perm <-
-          roc_results # save permutation results of cor
-      }
+    if (permute) {
+      message("Performing permutation test")
+      feature_importance_perm <-
+        permutation_importance(dataset,
+                               trained_model,
+                               test_data,
+                               outcome_colname,
+                               outcome_value)
     } else {
-      message("No permutation test being performed.")
-      if (model == "L2_Logistic_Regression") {
-        # Get feature weights
-        feature_importance_weights <- trained_model$finalModel$W
-        # Get feature weights
-        feature_importance_perm <- NULL
-      } else {
-        # Get feature weights
-        feature_importance_weights <- NULL
-        # Get feature weights
-        feature_importance_perm <- NULL
-      }
+      message("Skipping permutation test")
+      feature_importance_perm <- NULL
     }
 
-    # ---------------------------------------------------------------------------------->
+    feature_importance_weights <- ifelse(model == "L2_Logistic_Regression",
+                                         trained_model$finalModel$W,
+                                         NULL)
 
-    # ----------------------------Save metrics as vector ------------------------------->
-    # Return all the metrics
-    results <-
+    return(
       list(
-        cv_auc,
-        test_auc,
-        results_individual,
-        feature_importance_weights,
-        feature_importance_perm,
-        trained_model,
-        auprc
-      )
-    return(results)
+        trained_model = trained_model,
+        cv_auc = cv_auc,
+        test_aucs = test_aucs,
+        results_individual = results_individual,
+        feature_importance_weights = feature_importance_weights,
+        feature_importance_perm = feature_importance_perm
+      ))
   }

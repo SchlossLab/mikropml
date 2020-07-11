@@ -5,19 +5,16 @@
 \title{Title}
 \usage{
 compute_correlation_matrix(
-  input_file,
-  outcome,
-  level,
+  dataset,
+  outcome_colname,
   cor_value = 1,
   p_value = 0.01
 )
 }
 \arguments{
-\item{input_file}{TODO}
+\item{dataset}{TODO}
 
-\item{outcome}{TODO}
-
-\item{level}{TODO}
+\item{outcome_colname}{TODO}
 
 \item{cor_value}{TODO}
 

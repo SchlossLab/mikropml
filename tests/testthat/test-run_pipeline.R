@@ -1,3 +1,14 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
+# test_that("run_pipeline oracle works", {
+#     expect_equal(
+#         run_pipeline(
+#             otu_small,
+#             'L2_Logistic_Regression',
+#             outcome_colname = 'dx',
+#             outcome_value = 'cancer',
+#             hyperparameters = mikRopML::default_hyperparams,
+#             permute = FALSE,
+#             seed = 2019
+#         ),
+#         otu_sm_results
+#     )
+# })

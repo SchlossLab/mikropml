@@ -4,18 +4,24 @@
 \alias{permutation_importance}
 \title{Title}
 \usage{
-permutation_importance(model, test_data, outcome, fewer_samples, level)
+permutation_importance(
+  dataset,
+  model,
+  test_data,
+  outcome_colname,
+  outcome_value
+)
 }
 \arguments{
+\item{dataset}{TODO}
+
 \item{model}{TODO}
 
 \item{test_data}{TODO}
 
-\item{outcome}{TODO}
+\item{outcome_colname}{TODO}
 
-\item{fewer_samples}{TODO}
-
-\item{level}{TODO}
+\item{outcome_values}{TODO}
 }
 \value{
 

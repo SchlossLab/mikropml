@@ -100,14 +100,10 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
   test_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
-  message("test_auc")
-  message(test_auc)
-  message("new_auc")
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
-  message(fs)
   # get the new AUC and AUC differences
   auc_diffs <- sapply(0:99, function(s) {
     set.seed(s)
@@ -117,7 +113,10 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
     } else {
       full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
     }
-    message(sum(test_data != full_permuted))
+
+    # TODO: should this line be an assertion or can we delete it?
+    #message(sum(test_data != full_permuted))
+
     # Calculate the new auc
     new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
     # Return how does this feature being permuted effect the auc
@@ -125,8 +124,6 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   })
   auc <- mean(auc_diffs["new_auc", ])
   auc_diff <- mean(auc_diffs["diff", ])
-  message(auc)
-  message(auc_diff)
   return(c(auc = auc, auc_diff = auc_diff))
 }
 
@@ -143,21 +140,13 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value, pvalue_col = p, corr_col = cor) {
+permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
 
-  # ----------- Read in the correlation matrix of full dataset---------->
-  # Get the correlation matrix made by full dataset
-  # This correlation matrix used Spearman correlation
-  # Only has the correlatons that has:
-  #     1. Coefficient = 1
-  #     2. Adjusted p-value < 0.01
-  # TODO: don't read csv, take a df
-  corr <- compute_correlation_matrix(dataset, 'dx') %>%
-    dplyr::select(-{{ pvalue_col }}, -{{ cor }})
-  # -------------------------------------------------------------------->
+  corr_mat <- compute_correlation_matrix(dataset, 'dx')
+  drop_cols = c('p', 'cor')
+  corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
-  # get groups of correlated features
-  grps <- group_correlated_features(corr, test_data)
+  grps <- group_correlated_features(corr_mat, test_data)
 
   # -------------------------------------------------------------------->
 
