@@ -1,9 +1,6 @@
 name: check
 
 on:
-  pull_request:
-    branches:
-      - master
   push:
     branches:
       - master
@@ -16,9 +13,9 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "devtools"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        run: devtools::check(force_suggests = TRUE)
         shell: Rscript {0}
