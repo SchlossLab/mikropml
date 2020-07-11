@@ -35,14 +35,12 @@ Imports:
     readr,
     dplyr,
     caret,
-    tictoc,
     stats,
     utils
 Suggests: 
     testthat,
     knitr,
-    rmarkdown,
-    mlbench
+    rmarkdown
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

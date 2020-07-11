@@ -145,8 +145,6 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #'
 permutation_importance <- function(model, test_data, outcome, fewer_samples, level) {
 
-
-
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
   # This correlation matrix used Spearman correlation
@@ -164,8 +162,6 @@ permutation_importance <- function(model, test_data, outcome, fewer_samples, lev
   # -------------------------------------------------------------------->
 
   # ----------- Get feature importance of OTUs------------>
-  # Start the timer
-  tictoc::tic("perm")
   # Permutate each feature in the non-correlated dimensional feature vector
   # Here we are
   #     1. Permuting the values in the OTU column randomly for each OTU in the list
@@ -203,11 +199,6 @@ permutation_importance <- function(model, test_data, outcome, fewer_samples, lev
   #   select_if(not_all_na)
   # ------------------------------------------------------------------------------ #
 
-
-  # stop timer
-  secs <- tictoc::toc()
-  walltime <- secs$toc - secs$tic
-  print(walltime)
   # Save the original AUC, non-correlated importances and correlated importances
   perm_results <- imps # list(base_auc, non_corr_imp, correlated_auc_results)
   return(perm_results)
