@@ -1,34 +1,3 @@
-# Author: Begum Topcuoglu
-# Date: 2019-01-14
-######################################################################
-# Description:
-# This function defines:
-#     1. Tuning budget as a grid for the classification methods chosen
-#     2. Cross-validation method (how many repeats and folds)
-#     3. Caret name for the classification method chosen
-######################################################################
-
-######################################################################
-# Dependencies and Outputs:
-#    Filenames to put to function:
-#       1. "L2_Logistic_Regression"
-#       2. "RBF_SVM"
-#       3. "Decision_Tree"
-#       4. "Random_Forest"
-#       5. "XGBoost"
-
-# Usage:
-# Call as source when using the function. The function is:
-#   tuning_grid()
-
-# Output:
-#  List of:
-#     1. Tuning budget as a grid the classification methods chosen
-#     2. Cross-validation method
-#     3. Caret name for the classification method chosen
-######################################################################
-
-
 #' Title
 #'
 #' @param train_data TODO
@@ -47,8 +16,6 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters) {
   # where the first column "param" is the hyperparameter name
   # and the second column "val" are the values to be tested
   # and third column "model" is the model being used
-  # TODO: don't read a csv, take a df as input instead
-  hyperparameters <- readr::read_csv(hyperparameters)
   hyperparameters <- hyperparameters[hyperparameters$model == model, ]
   hyperparameters <- split(hyperparameters$val, hyperparameters$param)
 
@@ -201,12 +168,12 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters) {
     method <- "xgbTree"
   }
   else {
-    print("Model not available")
+    message("Model not available")
   }
   # Return:
   #     1. the hyper-parameter grid to tune
   #     2. the caret function to train with
   #     3, cv method
-  params <- list(grid, method, cv)
+  params <- list(grid=grid, method=method, cv=cv)
   return(params)
 }

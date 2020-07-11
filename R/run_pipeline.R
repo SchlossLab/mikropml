@@ -36,15 +36,13 @@
 #------------------------- DEFINE FUNCTION -------------------#
 ######################################################################
 
-#' Title
+#' Run machine learning pipeline
 #'
 #' @param dataset TODO
 #' @param model TODO
-#' @param split_number TODO
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #' @param hyperparameters TODO
-#' @param level TODO
 #' @param permutation TODO
 #'
 #' @return
@@ -52,14 +50,12 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-model_pipeline <-
+run_pipeline <-
   function(dataset,
            model,
-           split_number,
            outcome_colname = NA,
            outcome_value = NA,
-           hyperparameters = NA,
-           level = NA,
+           hyperparameters = default_hyperparams,
            permutation = TRUE) {
 
     # If no outcome colname specified, use first column in data
@@ -101,27 +97,28 @@ model_pipeline <-
         ") with the outcome of interest (", outcome_value, ") were detected."
       )
     }
-
-    print(
-      "Using", outcome_colname, "as the outcome column and", outcome_value,
-      "as the outcome value of interest."
-    )
+    message(paste0(
+      "Using '", outcome_colname, "' as the outcome column and '", outcome_value,
+      "' as the outcome value of interest."
+    ))
 
     # ------------------Check data for pre-processing------------------------->
     # Data is pre-processed in code/R/setup_model_data.R
     # This removes OTUs with near zero variance and scales 0-1
     # Then generates a correlation matrix
     # Test if data has been preprocessed - range 0-1 and are not all 0s
-    feature_summary <- any(c(
-      min(dataset[, -1]) < 0,
-      max(dataset[, -1]) > 1,
-      any(apply(dataset[, -1], 2, sum) == 0)
-    ))
-    if (feature_summary) {
-      stop( # TODO: more informative error message; e.g. explain expected format
-        'Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data'
-      )
-    }
+    # TODO: is this necessary? should it be optional?
+    # feature_summary <- any(c(
+    #   min(dataset[, -1]) < 0,
+    #   max(dataset[, -1]) > 1,
+    #   any(apply(dataset[, -1], 2, sum) == 0)
+    # ))
+    # if (feature_summary) {
+    # TODO: more informative error message; e.g. explain expected format
+    #   stop(
+    #     'Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data'
+    #   )
+    # }
 
     # ------------------Randomize features----------------------------------->
     # Randomize feature order, to eliminate any position-dependent effects
@@ -173,11 +170,11 @@ model_pipeline <-
     # ----------------------------------------------------------------------->
     # Make formula based on outcome
     f <- stats::as.formula(paste(outcome_colname, "~ ."))
-    print("Machine learning formula:")
-    print(f)
+    message("Machine learning formula:")
+    message(f)
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     if (model == "L2_Logistic_Regression") {
-      print(model)
+      message(model)
 
       trained_model <- caret::train(
         f,
@@ -192,7 +189,7 @@ model_pipeline <-
       )
     }
     else if (model == "Random_Forest") {
-      print(model)
+      message(model)
 
       trained_model <- caret::train(
         f,
@@ -205,7 +202,7 @@ model_pipeline <-
       ) # not tuning ntree
     }
     else {
-      print(model)
+      message(model)
 
       trained_model <- caret::train(
         f,
@@ -258,7 +255,7 @@ model_pipeline <-
           roc_results # save permutation results of cor
       }
     } else {
-      print("No permutation test being performed.")
+      message("No permutation test being performed.")
       if (model == "L2_Logistic_Regression") {
         # Get feature weights
         feature_importance_weights <- trained_model$finalModel$W

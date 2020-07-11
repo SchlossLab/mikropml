@@ -100,14 +100,14 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
   test_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
-  print("test_auc")
-  print(test_auc)
-  print("new_auc")
+  message("test_auc")
+  message(test_auc)
+  message("new_auc")
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
-  print(fs)
+  message(fs)
   # get the new AUC and AUC differences
   auc_diffs <- sapply(0:99, function(s) {
     set.seed(s)
@@ -117,7 +117,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
     } else {
       full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
     }
-    print(sum(test_data != full_permuted))
+    message(sum(test_data != full_permuted))
     # Calculate the new auc
     new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
     # Return how does this feature being permuted effect the auc
@@ -125,25 +125,25 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   })
   auc <- mean(auc_diffs["new_auc", ])
   auc_diff <- mean(auc_diffs["diff", ])
-  print(auc)
-  print(auc_diff)
+  message(auc)
+  message(auc_diff)
   return(c(auc = auc, auc_diff = auc_diff))
 }
 
 #' Title
 #'
+#' @param dataset TODO
 #' @param model TODO
 #' @param test_data TODO
-#' @param outcome TODO
-#' @param fewer_samples TODO
-#' @param level TODO
+#' @param outcome_colname TODO
+#' @param outcome_values TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-permutation_importance <- function(model, test_data, outcome, fewer_samples, level) {
+permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value, pvalue_col = p, corr_col = cor) {
 
   # ----------- Read in the correlation matrix of full dataset---------->
   # Get the correlation matrix made by full dataset
@@ -152,8 +152,8 @@ permutation_importance <- function(model, test_data, outcome, fewer_samples, lev
   #     1. Coefficient = 1
   #     2. Adjusted p-value < 0.01
   # TODO: don't read csv, take a df
-  corr <- readr::read_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv")) %>%
-    dplyr::select(-p, -cor) # TODO: maybe shouldn't hard-code column names?
+  corr <- compute_correlation_matrix(dataset, 'dx') %>%
+    dplyr::select(-{{ pvalue_col }}, -{{ cor }})
   # -------------------------------------------------------------------->
 
   # get groups of correlated features
@@ -171,7 +171,7 @@ permutation_importance <- function(model, test_data, outcome, fewer_samples, lev
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
   imps <- do.call("rbind", lapply(grps, function(feat) {
-    res <- find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
+    res <- find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
     return(res)
   }))
 

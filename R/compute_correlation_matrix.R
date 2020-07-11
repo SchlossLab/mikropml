@@ -9,15 +9,13 @@
 
 # Usage: input file - "data/input_data.csv"
 #        outcome - e.g. "dx"
-#        level - name of modeling experiment
 #        cor_value - select correlations above or equal to cor_value
 #        p_value - select correlation with value below p_value
 
 #' Title
 #'
-#' @param input_file TODO
-#' @param outcome TODO
-#' @param level TODO
+#' @param dataset TODO
+#' @param outcome_colname TODO
 #' @param cor_value TODO
 #' @param p_value TODO
 #'
@@ -27,19 +25,13 @@
 #'
 #'
 compute_correlation_matrix <-
-  function(input_file,
-           outcome,
-           level,
+  function(dataset,
+           outcome_colname,
            cor_value = 1,
            p_value = 0.01) {
-    # TODO: the user should read & tidy the input data; the package functions should just take dataframes and other objects
-    ############### READ IN THE INPUT DATA ###############
-    data_corr <- readr::read_csv(input_file)
     # remove outcome, only keep the features
-    data_corr <- data_corr[, !grepl(outcome, names(data_corr))]
+    data_corr <- dataset[, !grepl(outcome_colname, names(dataset))]
 
-
-    ########### COMPUTE CORRELATION MATRIX ##################
     r <- Hmisc::rcorr(as.matrix(data_corr), type = "spearman")
 
     adjusted <- stats::p.adjust(r$P, method = "holm")
@@ -55,9 +47,9 @@ compute_correlation_matrix <-
       )
     }
 
-    new_r <- flattenCorrMatrix(r$r, r$P) %>%
-      dplyr::filter(cor >= cor_value) %>%
-      dplyr::filter(p < p_value) %>%
-      readr::write_csv(paste0("data/process/sig_flat_corr_matrix_", level, ".csv"))
-    # TODO: don't write csv; return df instead
+    return(
+      flattenCorrMatrix(r$r, r$P) %>%
+        dplyr::filter(cor >= cor_value) %>%
+        dplyr::filter(p < p_value)
+    )
   }
