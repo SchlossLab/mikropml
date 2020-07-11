@@ -3,9 +3,6 @@ title: "mikRopML: User-Friendly Machine Learning Package for Binary Classificati
 output: 
   rmarkdown::html_vignette:
     keep_md: true
-  md_document:
-    variant: 'gfm'
-    preserve_yaml: true
 tags:
   - R
   - machine learning
@@ -25,7 +22,7 @@ authors:
     affiliation: 3
 affiliations:
   - name: Department of Computational Medicine & Bioinformatics, University of Michigan
-    index: 1
+    index: 1q
   - name: Department of Electrical Engineering & Computer Science, University of Michigan
     index: 2
   - name: Department of Microbiology & Immunology, University of Michigan
@@ -52,11 +49,6 @@ library(knitr)
 library(rmarkdown)
 ```
 
-```{r render, include = FALSE, eval = FALSE}
-render('vignettes/paper.Rmd',
-       output_format = md_document(variant = 'gfm', 
-                                   preserve_yaml = TRUE))
-```
 
 # Summary
 

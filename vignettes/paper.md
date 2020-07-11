@@ -3,9 +3,6 @@ title: "mikRopML: User-Friendly Machine Learning Package for Binary Classificati
 output: 
   rmarkdown::html_vignette:
     keep_md: true
-  md_document:
-    variant: 'gfm'
-    preserve_yaml: true
 tags:
   - R
   - machine learning
@@ -25,7 +22,7 @@ authors:
     affiliation: 3
 affiliations:
   - name: Department of Computational Medicine & Bioinformatics, University of Michigan
-    index: 1
+    index: 1q
   - name: Department of Electrical Engineering & Computer Science, University of Michigan
     index: 2
   - name: Department of Microbiology & Immunology, University of Michigan
@@ -40,27 +37,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+
+
+
 # Summary
 
 # Statement of need
 
-example citation (Topçuoğlu et al. 2020)
+example citation [@topcuoglu_framework_2020]
 
 # mikRopML package
 
 # Acknowledgements
 
 # References
-
-<div id="refs" class="references">
-
-<div id="ref-topcuoglu_framework_2020">
-
-Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens,
-and Patrick D. Schloss. 2020. “A Framework for Effective Application of
-Machine Learning to Microbiome-Based Classification Problems.” *mBio* 11
-(3). <https://doi.org/10.1128/mBio.00434-20>.
-
-</div>
-
-</div>
