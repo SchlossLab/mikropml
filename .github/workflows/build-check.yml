@@ -62,6 +62,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
   check:
+    needs: build
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
