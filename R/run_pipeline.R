@@ -59,6 +59,10 @@ run_pipeline <-
            permute = FALSE,
            seed = NA) {
 
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
+
     # If no outcome colname specified, use first column in data
     if (is.na(outcome_colname)) {
       outcome_colname <- colnames(dataset)[1]
@@ -128,9 +132,6 @@ run_pipeline <-
                              dplyr::one_of(outcome_colname),
                              dplyr::one_of(features))
 
-    if (!is.na(seed)) {
-      set.seed(seed)
-    }
     # TODO: optional arg for trainingpartition size
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)

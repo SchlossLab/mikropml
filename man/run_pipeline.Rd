@@ -10,7 +10,8 @@ run_pipeline(
   outcome_colname = NA,
   outcome_value = NA,
   hyperparameters = default_hyperparams,
-  permutation = FALSE
+  permute = FALSE,
+  seed = NA
 )
 }
 \arguments{

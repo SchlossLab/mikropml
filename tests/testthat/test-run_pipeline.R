@@ -9,6 +9,7 @@
 #             permute = FALSE,
 #             seed = 2019
 #         ),
-#         otu_sm_results
+#         otu_sm_results,
+#         tolerance = 0.1
 #     )
 # })
