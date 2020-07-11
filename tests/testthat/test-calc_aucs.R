@@ -8,7 +8,7 @@ outcomes_sm <- c(0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0)
 outcomes_med <- c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
 tol <- 1e-5
 
-test_that("get_prediction works", {
+test_that("get_predictions works", {
     expect_equal(get_predictions(trained_model_sm, test_data_sm, 'cancer'),
                predictions_sm, tolerance = tol)
     expect_equal(get_predictions(trained_model1, test_data1, 'cancer'),
