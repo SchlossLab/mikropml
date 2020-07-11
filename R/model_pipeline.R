@@ -175,8 +175,6 @@ model_pipeline <-
     f <- stats::as.formula(paste(outcome_colname, "~ ."))
     print("Machine learning formula:")
     print(f)
-    # Start walltime for training model
-    tictoc::tic("train")
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     if (model == "L2_Logistic_Regression") {
       print(model)
@@ -217,25 +215,7 @@ model_pipeline <-
         metric = "ROC",
         tuneGrid = grid
       )
-    }
-    # Stop walltime for running model
-    seconds <- tictoc::toc()
-    # Save elapsed time
-    train_time <- seconds$toc - seconds$tic
-    # Save wall-time
-    readr::write_csv(
-      train_time,
-      file = paste0(
-        "data/temp/",
-        level,
-        "/traintime_",
-        model,
-        "_",
-        split_number,
-        ".csv"
-      ),
-      row.names = FALSE
-    )
+    } 
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
     # Mean cv AUC value over repeats of the best cost parameter during training
     cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
