@@ -1,15 +1,12 @@
-name: build
+name: build-check
 
 on:
   pull_request:
     branches:
-    - master
-    paths:
-    - "**.R"
-    - README.Rmd
-    - DESCRIPTION
-    - NAMESPACE
-    - man/
+      - master
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -64,3 +61,16 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
+  check:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "devtools"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Check
+        run: devtools::check(force_suggests = TRUE)
+        shell: Rscript {0}
