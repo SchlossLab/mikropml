@@ -3,6 +3,9 @@ title: "mikRopML: User-Friendly Machine Learning Package for Binary Classificati
 output: 
   rmarkdown::html_vignette:
     keep_md: true
+  md_document:
+    variant: 'gfm'
+    preserve_yaml: true
 tags:
   - R
   - machine learning
@@ -37,12 +40,22 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   eval = FALSE
 )
+```
+```{r lib, include = FALSE}
+library(knitr)
+library(rmarkdown)
+```
+
+```{r render, include = FALSE, eval = FALSE}
+render('vignettes/paper.Rmd',
+       output_format = md_document(variant = 'gfm', 
+                                   preserve_yaml = TRUE))
 ```
 
 # Summary
