@@ -8,9 +8,9 @@
 
 #' Title
 #'
-#' @param cormat TODO
+#' @param cormat correlation matrix computed with stats::cor
 #'
-#' @return
+#' @return flattened correlation matrix (pairs of features their correlation)
 #' @export
 #'
 #' @examples
@@ -26,12 +26,11 @@ flatten_corr_mat <- function(cormat) {
 #' Identify correlated features
 #'
 #' @param features features used for machine learning
-#' @param cor_value select correlations above or equal to cor_value
+#' @param cor_value return correlations above or equal to cor_value (default: 1)
 #'
-#' @return
+#' @return correlated features
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#'
 #'
 get_corr_feats <- function(features, cor_value = 1) {
   # get correlation matrix
