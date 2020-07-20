@@ -6,7 +6,7 @@
 # These functions compute a correlation matrix of the features and return all features that are correlated above a certain threshold.
 ######################################################################
 
-#' Title
+#' Flatten correlation matrix to pairs
 #'
 #' @param cormat correlation matrix computed with stats::cor
 #'
