@@ -21,7 +21,7 @@ permutation_importance(
 
 \item{outcome_colname}{TODO}
 
-\item{outcome_values}{TODO}
+\item{outcome_value}{TODO}
 }
 \value{
 

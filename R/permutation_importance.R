@@ -133,7 +133,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @param model TODO
 #' @param test_data TODO
 #' @param outcome_colname TODO
-#' @param outcome_values TODO
+#' @param outcome_value TODO
 #'
 #' @return
 #' @export
