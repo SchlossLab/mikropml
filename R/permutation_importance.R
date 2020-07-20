@@ -1,47 +1,3 @@
-######################################################################
-# Author: Begum Topcuoglu
-# Date: 2018-03-15
-# Title: Permutation Importance for features in each model
-######################################################################
-
-######################################################################
-# Description:
-
-# This script will read in:
-#     - Trained model
-#     - Pre-processed held-out test data
-
-
-
-# It will run the following:
-#     - Predict the held-out test data for one data-split
-#     - Permutate each feature in the test data randomly
-#     - Predict transformed test data for each permutation
-#     - Substract transformed prediction auc from original prediction auc
-#     - Determine which feature makes the biggest difference in auc
-######################################################################
-
-######################################################################
-# Dependencies and Outputs:
-
-#     - The funtion needs transformed test set
-#     - Trained model for one data-split
-
-# Be in the project directory.
-
-# The outputs are:
-#   (1) AUC difference for each feature transformation
-######################################################################
-
-
-####################### DEFINE FUNCTION  #############################
-#  This function groups correlated features together and returns all features as a list (grouped ones together, ungrouped ones individually)
-# Corr dataset has all the correlated OTUs in 2 columns with pairwise correlation
-# But (1) the pairwise correlations are repeated twice one in each column
-#    (2) If one OTU is correlated with more than one OTU, we want to group those
-
-
-
 #' Title
 #'
 #' @param corr TODO
@@ -50,7 +6,6 @@
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#'
 #'
 group_correlated_features <- function(corr, test_data) {
   all_feats <- colnames(test_data)[2:ncol(test_data)]
@@ -82,8 +37,7 @@ group_correlated_features <- function(corr, test_data) {
   return(grps)
 }
 
-# get permuted AUROC difference for a single feature (or group of features)
-#' Title
+#' Get permuted AUROC difference for a single feature (or group of features)
 #'
 #' @param model TODO
 #' @param test_data TODO
@@ -94,7 +48,7 @@ group_correlated_features <- function(corr, test_data) {
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#'
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # -----------Get the original testAUC from held-out test data--------->
@@ -133,15 +87,15 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @param model TODO
 #' @param test_data TODO
 #' @param outcome_colname TODO
-#' @param outcome_values TODO
+#' @param outcome_value TODO
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#'
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
-  
+
   # FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
   outcome <- select(dataset,outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]

@@ -1,10 +1,4 @@
-# Author: Begum Topcuoglu
-# Date: 2019-12-19
-# Updated: 2020-05-06 NL
-######################################################################
-# Description:
 # These functions compute a correlation matrix of the features and return all features that are correlated above a certain threshold.
-######################################################################
 
 #' Flatten correlation matrix to pairs
 #'
@@ -12,8 +6,10 @@
 #'
 #' @return flattened correlation matrix (pairs of features their correlation)
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples flatten_corr_mat(data.frame(a=runif(4,-1,1),b=runif(4,-1,1),c=runif(4,-1,1)))
+#' @examples
+#' flatten_corr_mat(data.frame(a=runif(4,-1,1), b=runif(4,-1,1), c=runif(4,-1,1)))
 flatten_corr_mat <- function(cormat) {
   ut <- upper.tri(cormat)
   data.frame(
@@ -30,8 +26,12 @@ flatten_corr_mat <- function(cormat) {
 #'
 #' @return correlated features
 #' @export
-#' @examples set.seed(0); get_corr_feats(data.frame(a=runif(4),b=runif(4),c=runif(4)),0.6)
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' set.seed(0)
+#' get_corr_feats(data.frame(a=runif(4), b=runif(4), c=runif(4)), 0.6)
 #'
 get_corr_feats <- function(features, cor_value = 1) {
   # get correlation matrix
