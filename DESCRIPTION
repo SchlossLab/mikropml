@@ -34,7 +34,8 @@ Imports:
     dplyr,
     caret,
     stats,
-    utils
+    utils,
+    LiblineaR
 Suggests: 
     testthat,
     knitr,
