@@ -2,8 +2,14 @@ name: check
 
 on:
   push:
-    branches:
+    branches: 
       - master
+      - refactor
+  pull_request:
+    branches: 
+      - master
+      - refactor
+    
 
 jobs:
   R-CMD-check:
