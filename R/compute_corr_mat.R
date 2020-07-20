@@ -20,13 +20,12 @@
 #' @export
 #'
 #' @examples
-flatten_corr_mat <- function(cormat, pmat) {
+flatten_corr_mat <- function(cormat) {
   ut <- upper.tri(cormat)
   data.frame(
     row = rownames(cormat)[row(cormat)[ut]],
     column = rownames(cormat)[col(cormat)[ut]],
     cor = (cormat)[ut],
-    p = pmat[ut]
   )
 }
 
@@ -35,7 +34,6 @@ flatten_corr_mat <- function(cormat, pmat) {
 #' @param dataset TODO
 #' @param outcome_colname TODO
 #' @param cor_value TODO
-#' @param p_value TODO
 #'
 #' @return
 #' @export
@@ -45,19 +43,14 @@ flatten_corr_mat <- function(cormat, pmat) {
 compute_corr_mat <-
   function(dataset,
            outcome_colname,
-           cor_value = 1,
-           p_value = 0.01) {
+           cor_value = 1) {
     # remove outcome, only keep the features
     data_corr <- dataset[, !grepl(outcome_colname, names(dataset))]
 
     r <- Hmisc::rcorr(as.matrix(data_corr), type = "spearman")
 
-    adjusted <- stats::p.adjust(r$P, method = "holm")
-    r$P <- adjusted
-
     return(
-      flatten_corr_mat(r$r, r$P) %>%
-        dplyr::filter(cor >= cor_value) %>%
-        dplyr::filter(p < p_value)
+      flatten_corr_mat(r$r) %>%
+        dplyr::filter(cor >= cor_value)
     )
   }
