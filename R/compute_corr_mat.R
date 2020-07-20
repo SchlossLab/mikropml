@@ -47,10 +47,10 @@ compute_corr_mat <-
     # remove outcome, only keep the features
     data_corr <- dataset[, !grepl(outcome_colname, names(dataset))]
 
-    r <- Hmisc::rcorr(as.matrix(data_corr), type = "spearman")
+    cormat <- Hmisc::rcorr(as.matrix(data_corr), type = "spearman")
 
     return(
-      flatten_corr_mat(r$r) %>%
+      flatten_corr_mat(cormat$r) %>%
         dplyr::filter(cor >= cor_value)
     )
   }
