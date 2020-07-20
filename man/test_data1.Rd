@@ -4,9 +4,7 @@
 \name{test_data1}
 \alias{test_data1}
 \title{A test data partition from \code{otu_medium}}
-\format{
-An object of class \code{data.frame} with 12 rows and 6921 columns.
-}
+\format{An object of class \code{data.frame} with 12 rows and 6921 columns.}
 \usage{
 test_data1
 }

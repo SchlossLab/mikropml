@@ -2,8 +2,9 @@
 
 export("%>%")
 export(calc_aucs)
-export(compute_correlation_matrix)
 export(find_permuted_auc)
+export(flatten_corr_mat)
+export(get_corr_feats)
 export(group_correlated_features)
 export(permutation_importance)
 export(run_pipeline)

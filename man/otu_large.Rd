@@ -4,11 +4,9 @@
 \name{otu_large}
 \alias{otu_large}
 \title{Large OTU abundance dataset}
-\format{
-A data frame with 490 rows and 6,921 variables.
+\format{A data frame with 490 rows and 6,921 variables.
 The \code{dx} column is the diagnosis: healthy or cancerous (colorectal).
-All other columns are OTU relative abundances.
-}
+All other columns are OTU relative abundances.}
 \usage{
 otu_large
 }

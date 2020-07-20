@@ -4,11 +4,9 @@
 \name{otu_medium}
 \alias{otu_medium}
 \title{Medium-sized OTU abundance dataset}
-\format{
-A data frame with 60 rows and 6921 variables.
+\format{A data frame with 60 rows and 6921 variables.
 The \code{dx} column is the diagnosis: healthy or cancerous (colorectal).
-All other columns are OTU relative abundances.
-}
+All other columns are OTU relative abundances.}
 \usage{
 otu_medium
 }
