@@ -19,7 +19,7 @@ flatten_corr_mat <- function(cormat) {
   data.frame(
     row = rownames(cormat)[row(cormat)[ut]],
     column = rownames(cormat)[col(cormat)[ut]],
-    cor = (cormat)[ut],
+    cor = (cormat)[ut]
   )
 }
 
