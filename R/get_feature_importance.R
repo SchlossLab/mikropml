@@ -140,7 +140,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
+get_feature_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
 
   corr_mat <- compute_correlation_matrix(dataset, 'dx')
   drop_cols = c('p', 'cor')

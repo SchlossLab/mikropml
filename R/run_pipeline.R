@@ -204,7 +204,7 @@ run_pipeline <-
     if (permute) {
       message("Performing permutation test")
       feature_importance_perm <-
-        permutation_importance(dataset,
+        get_feature_importance(dataset,
                                trained_model,
                                test_data,
                                outcome_colname,
