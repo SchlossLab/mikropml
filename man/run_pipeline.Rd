@@ -25,7 +25,9 @@ run_pipeline(
 
 \item{hyperparameters}{TODO}
 
-\item{permutation}{TODO}
+\item{permute}{TODO}
+
+\item{seed}{random seed (default: NA)}
 }
 \value{
 
