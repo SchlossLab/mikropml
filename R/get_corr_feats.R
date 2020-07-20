@@ -17,8 +17,8 @@
 flatten_corr_mat <- function(cormat) {
   ut <- upper.tri(cormat)
   data.frame(
-    row = rownames(cormat)[row(cormat)[ut]],
-    column = rownames(cormat)[col(cormat)[ut]],
+    feature1 = rownames(cormat)[row(cormat)[ut]],
+    feature2 = rownames(cormat)[col(cormat)[ut]],
     cor = (cormat)[ut]
   )
 }
