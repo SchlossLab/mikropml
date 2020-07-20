@@ -24,7 +24,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-compute_correlation_matrix <-
+compute_corr_mat <-
   function(dataset,
            outcome_colname,
            cor_value = 1,

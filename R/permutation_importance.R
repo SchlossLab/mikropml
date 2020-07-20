@@ -142,7 +142,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #'
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
 
-  corr_mat <- compute_correlation_matrix(dataset, 'dx')
+  corr_mat <- compute_corr_mat(dataset, 'dx')
   drop_cols = c('p', 'cor')
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
