@@ -114,9 +114,6 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
       full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
     }
 
-    # TODO: should this line be an assertion or can we delete it?
-    #message(sum(test_data != full_permuted))
-
     # Calculate the new auc
     new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
     # Return how does this feature being permuted effect the auc
