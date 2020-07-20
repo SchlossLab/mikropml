@@ -43,7 +43,8 @@
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #' @param hyperparameters TODO
-#' @param permutation TODO
+#' @param permute TODO
+#' @param seed random seed (default: NA)
 #'
 #' @return
 #' @export
