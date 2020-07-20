@@ -146,6 +146,7 @@ permutation_importance <- function(dataset, model, test_data, outcome_colname, o
   outcome <- select(dataset,outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]
 
+  # ADD IN OPTION TO CHOOSE CORRELATION THRESHOLD
   corr_mat <- get_corr_feats(features)
   drop_cols <- c('cor')
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
