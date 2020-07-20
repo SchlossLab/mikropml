@@ -141,14 +141,16 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #'
 #'
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
+  
+  # FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
+  outcome <- select(dataset,outcome_colname)
+  features <- dataset[, !grepl(outcome_colname, names(dataset))]
 
-  corr_mat <- compute_corr_mat(dataset, 'dx')
-  drop_cols = c('cor')
+  corr_mat <- compute_corr_mat(features)
+  drop_cols <- c('cor')
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
   grps <- group_correlated_features(corr_mat, test_data)
-
-  # -------------------------------------------------------------------->
 
   # ----------- Get feature importance of OTUs------------>
   # Permutate each feature in the non-correlated dimensional feature vector
@@ -167,28 +169,6 @@ permutation_importance <- function(dataset, model, test_data, outcome_colname, o
   imps <- as.data.frame(imps) %>%
     dplyr::mutate(names = factor(grps))
 
-
-  # -------------------------------------- 6 ------------------------------------- #
-  # Save non correlated results in a dataframe
-
-  # Create a bunch of columns so that each OTU in the group has its own column
-  # We use seperate function to break up the grouped list otf OTUs
-  # Now correlated OTUs are in one row, seperated by each OTU as columns
-  # Last column has the percent AUC change per group of OTUs
-  # x <- as.character(seq(0, elements_no_in_split, 1))
-  # corr_imp_appended <- as.data.frame(corr_imp) %>%
-  #   separate(V2, into = x)
-  # # Unlist percent auc change to save it as a csv later
-  # results <- corr_imp_appended %>%
-  #   mutate(new_auc=unlist(corr_imp_appended$V1))
-  # # Only keep the columns that are not all NA
-  # not_all_na <- function(x) any(!is.na(x))
-  # correlated_auc_results <- results %>%
-  #   select(-V1, -"0") %>%
-  #   select_if(not_all_na)
-  # ------------------------------------------------------------------------------ #
-
-  # Save the original AUC, non-correlated importances and correlated importances
-  perm_results <- imps # list(base_auc, non_corr_imp, correlated_auc_results)
-  return(perm_results)
+  # Save the importances
+  return(imps)
 }

@@ -3,18 +3,12 @@
 # Updated: 2020-05-06 NL
 ######################################################################
 # Description:
-# This script pulls the input data and computes a correlation matrix
+# These functions compute a correlation matrix of the features and return all features that are correlated above a certain threshold.
 ######################################################################
-
-# Usage: input file - "data/input_data.csv"
-#        outcome - e.g. "dx"
-#        cor_value - select correlations above or equal to cor_value
-#        p_value - select correlation with value below p_value
 
 #' Title
 #'
 #' @param cormat TODO
-#' @param pmat TODO
 #'
 #' @return
 #' @export
@@ -29,28 +23,22 @@ flatten_corr_mat <- function(cormat) {
   )
 }
 
-#' Title
+#' Identify correlated features
 #'
-#' @param dataset TODO
-#' @param outcome_colname TODO
-#' @param cor_value TODO
+#' @param features features used for machine learning
+#' @param cor_value select correlations above or equal to cor_value
 #'
 #' @return
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-compute_corr_mat <-
-  function(dataset,
-           outcome_colname,
-           cor_value = 1) {
-    # remove outcome, only keep the features
-    data_corr <- dataset[, !grepl(outcome_colname, names(dataset))]
-
-    cormat <- Hmisc::rcorr(as.matrix(data_corr), type = "spearman")
-
-    return(
-      flatten_corr_mat(cormat$r) %>%
-        dplyr::filter(cor >= cor_value)
-    )
+get_corr_feats <- function(features, cor_value = 1) {
+  # get correlation matrix
+  cormat <- stats::cor(features, method = "spearman")
+  # get correlated features
+  corr_feats <- flatten_corr_mat(cormat) %>%
+    dplyr::filter(cor >= cor_value)
+  # return correlated features
+  return(corr_feats)
   }
