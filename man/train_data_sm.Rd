@@ -4,7 +4,9 @@
 \name{train_data_sm}
 \alias{train_data_sm}
 \title{A training data partition from \code{otu_small}}
-\format{An object of class \code{data.frame} with 48 rows and 6921 columns.}
+\format{
+An object of class \code{data.frame} with 48 rows and 6921 columns.
+}
 \usage{
 train_data_sm
 }

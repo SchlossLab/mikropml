@@ -2,7 +2,7 @@
 % Please edit documentation in R/permutation_importance.R
 \name{find_permuted_auc}
 \alias{find_permuted_auc}
-\title{Title}
+\title{Get permuted AUROC difference for a single feature (or group of features)}
 \usage{
 find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
 }
@@ -21,8 +21,10 @@ find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
 
 }
 \description{
-Title
+Get permuted AUROC difference for a single feature (or group of features)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
+
+Zena Lapp, \email{zenalapp@umich.edu}
 }

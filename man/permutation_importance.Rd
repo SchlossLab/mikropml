@@ -31,4 +31,6 @@ Title
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
+
+Zena Lapp, \email{zenalapp@umich.edu}
 }
