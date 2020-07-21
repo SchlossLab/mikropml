@@ -31,15 +31,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     PRROC,
-    Hmisc,
-    readr,
     dplyr,
     caret,
-    tictoc,
     stats,
-    utils
+    utils,
+    LiblineaR
 Suggests: 
     testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
