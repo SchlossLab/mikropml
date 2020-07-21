@@ -17,18 +17,20 @@ check_package_installed <- function(package_name){
 #' @param fun apply function to use (apply, lapply, sapply, etc.)
 #' @param ... all arguments to input to the apply function (in the correct order)
 #'
-#' @return
+#' @return output of apply function
 #' @export
+#' @author Zena Lapp
 #'
-#' @examples select_apply(fun='sapply',1:10,function(x) x*10)
-select_apply <- function(fun='apply',...){
+#' @examples select_apply(fun='sapply')
+select_apply <- function(fun='apply'){
   installed <- check_package_installed('future.apply')
+  pkg <- 'base'
   if(installed){
-    fun_future = paste0('future_',fun)
-    return(getFromNamespace(fun_future,'future.apply')(...))
-  }else{
-    return(get(fun)(...))
+    fun <- paste0('future_',fun)
+    pkg <- 'future.apply'
   }
+  fn <- utils::getFromNamespace(fun,pkg)
+  return(fn)
 }
 
 #' Group correlated features
@@ -92,7 +94,8 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
   # get the new AUC and AUC differences
-  auc_diffs <- select_apply(fun='sapply',0:99, function(s) {
+  sapply_fn <- select_apply(fun='sapply')
+  auc_diffs <- sapply_fn(0:99, function(s) {
     set.seed(s)
     full_permuted <- test_data
     if (length(fs) == 1) {
@@ -111,7 +114,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   return(c(auc = auc, auc_diff = auc_diff))
 }
 
-#' Title
+#' Get feature importance using permutation method
 #'
 #' @param dataset TODO
 #' @param model TODO
@@ -146,7 +149,8 @@ get_feature_importance <- function(dataset, model, test_data, outcome_colname, o
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
-  imps <- do.call("rbind", select_apply(fun='lapply',grps, function(feat) {
+  lapply_fn <- select_apply('lapply')
+  imps <- do.call("rbind", lapply_fn(grps, function(feat) {
     res <- find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
     return(res)
   }))
