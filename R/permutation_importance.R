@@ -69,7 +69,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
     }
 
     # TODO: should this line be an assertion or can we delete it?
-    #message(sum(test_data != full_permuted))
+    # message(sum(test_data != full_permuted))
 
     # Calculate the new auc
     new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
@@ -97,12 +97,12 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
 
   # FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
-  outcome <- select(dataset,outcome_colname)
+  outcome <- select(dataset, outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]
 
   # ADD IN OPTION TO CHOOSE CORRELATION THRESHOLD
   corr_mat <- get_corr_feats(features)
-  drop_cols <- c('cor')
+  drop_cols <- c("cor")
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
   grps <- group_correlated_features(corr_mat, test_data)

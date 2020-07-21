@@ -59,7 +59,6 @@ run_pipeline <-
            hyperparameters = default_hyperparams,
            permute = FALSE,
            seed = NA) {
-
     if (!is.na(seed)) {
       set.seed(seed)
     }
@@ -129,9 +128,11 @@ run_pipeline <-
     # ------------------Randomize features----------------------------------->
     # Randomize feature order, to eliminate any position-dependent effects
     features <- sample(colnames(dataset[, -1]))
-    dataset <- dplyr::select(dataset,
-                             dplyr::one_of(outcome_colname),
-                             dplyr::one_of(features))
+    dataset <- dplyr::select(
+      dataset,
+      dplyr::one_of(outcome_colname),
+      dplyr::one_of(features)
+    )
 
     # TODO: optional arg for trainingpartition size
     inTraining <-
@@ -205,19 +206,22 @@ run_pipeline <-
     if (permute) {
       message("Performing permutation test")
       feature_importance_perm <-
-        permutation_importance(dataset,
-                               trained_model,
-                               test_data,
-                               outcome_colname,
-                               outcome_value)
+        permutation_importance(
+          dataset,
+          trained_model,
+          test_data,
+          outcome_colname,
+          outcome_value
+        )
     } else {
       message("Skipping permutation test")
       feature_importance_perm <- NULL
     }
 
     feature_importance_weights <- ifelse(model == "L2_Logistic_Regression",
-                                         trained_model$finalModel$W,
-                                         NULL)
+      trained_model$finalModel$W,
+      NULL
+    )
 
     return(
       list(
@@ -227,5 +231,6 @@ run_pipeline <-
         results_individual = results_individual,
         feature_importance_weights = feature_importance_weights,
         feature_importance_perm = feature_importance_perm
-      ))
+      )
+    )
   }

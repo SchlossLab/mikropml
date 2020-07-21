@@ -174,6 +174,6 @@ tuning_grid <- function(train_data, model, outcome, hyperparameters) {
   #     1. the hyper-parameter grid to tune
   #     2. the caret function to train with
   #     3, cv method
-  params <- list(grid=grid, method=method, cv=cv)
+  params <- list(grid = grid, method = method, cv = cv)
   return(params)
 }
