@@ -1,9 +1,42 @@
-#' Title
+
+
+#' Check if package is installed
 #'
-#' @param corr TODO
-#' @param test_data TODO
+#' @param package_name name of package to check
+#'
+#' @return boolean - whether package is installed (T) or not F).
+#' @export
+#'
+#' @examples check_package_installed("base"); check_package_installed("asdf")
+check_package_installed <- function(package_name){
+  return(package_name %in% rownames(installed.packages()))
+}
+
+#' Use future apply if available
+#'
+#' @param fun apply function to use (apply, lapply, sapply, etc.)
+#' @param ... all arguments to input to the apply function (in the correct order)
 #'
 #' @return
+#' @export
+#'
+#' @examples select_apply(fun='sapply',1:10,function(x) x*10)
+select_apply <- function(fun='apply',...){
+  installed <- check_package_installed('future.apply')
+  if(installed){
+    fun_future = paste0('future_',fun)
+    return(getFromNamespace(fun_future,'future.apply')(...))
+  }else{
+    return(get(fun)(...))
+  }
+}
+
+#' Group correlated features
+#'
+#' @param corr output of get_corr_feats (pairs of correlated features)
+#' @param test_data test data from machine learning
+#'
+#' @return 
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
@@ -59,7 +92,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
   # get the new AUC and AUC differences
-  auc_diffs <- sapply(0:99, function(s) {
+  auc_diffs <- select_apply(fun='sapply',0:99, function(s) {
     set.seed(s)
     full_permuted <- test_data
     if (length(fs) == 1) {
@@ -113,7 +146,7 @@ get_feature_importance <- function(dataset, model, test_data, outcome_colname, o
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
-  imps <- do.call("rbind", lapply(grps, function(feat) {
+  imps <- do.call("rbind", select_apply(fun='lapply',grps, function(feat) {
     res <- find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
     return(res)
   }))

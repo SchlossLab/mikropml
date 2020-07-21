@@ -39,7 +39,8 @@ Imports:
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    future.apply
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
