@@ -16,7 +16,7 @@ flattened correlation matrix (pairs of features their correlation)
 Flatten correlation matrix to pairs
 }
 \examples{
-flatten_corr_mat(data.frame(a=runif(4,-1,1), b=runif(4,-1,1), c=runif(4,-1,1)))
+flatten_corr_mat(data.frame(a = runif(4, -1, 1), b = runif(4, -1, 1), c = runif(4, -1, 1)))
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

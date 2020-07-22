@@ -9,7 +9,7 @@
 #'
 #'
 #' @examples
-#' generate_tuning_grid("L2_Logistic_Regression", hp)
+#' generate_tuning_grid("L2_Logistic_Regression", default_hyperparams)
 generate_tuning_grid <- function(model, hyperparameters) {
 
   hyperparameters <- hyperparameters[hyperparameters$model == model, ]
@@ -74,20 +74,6 @@ generate_tuning_grid <- function(model, hyperparameters) {
     method <- "rpart2"
   }
   else if (model == "Random_Forest") {
-    if (is.null(hyperparameters$mtry)) {
-      # get number of features
-      n_features <- ncol(train_data) - 1
-      if (n_features > 20000) n_features <- 20000
-      # if few features
-      if (n_features < 19) {
-        mtry <- 1:6
-      } else {
-        # if many features
-        mtry <- floor(seq(1, n_features, length = 6))
-      }
-      # only keep ones with less features than you have
-      hyperparameters$mtry <- mtry[mtry <= n_features]
-    }
     grid <- expand.grid(mtry = hyperparameters$mtry)
     method <- "rf"
   }

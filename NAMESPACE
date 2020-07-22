@@ -2,11 +2,12 @@
 
 export("%>%")
 export(calc_aucs)
+export(define_cv)
 export(find_permuted_auc)
 export(flatten_corr_mat)
+export(generate_tuning_grid)
 export(get_corr_feats)
 export(group_correlated_features)
 export(permutation_importance)
 export(run_pipeline)
-export(tuning_grid)
 importFrom(dplyr,"%>%")

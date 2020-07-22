@@ -9,7 +9,7 @@
 #'
 #'
 #' @examples
-#' define_cv(train_data, "dx")
+#' define_cv(train_data_sm, "dx")
 define_cv <- function(train_data, outcome_colname) {
   # -------------------------CV method definition--------------------------------------->
   # ADDED cv index to make sure
@@ -20,7 +20,7 @@ define_cv <- function(train_data, outcome_colname) {
   #     2. Return 2class summary and save predictions to calculate cvROC
   #     3. Save the predictions and class probabilities/decision values.
   folds <- 5
-  cvIndex <- caret::createMultiFolds(factor(train_data[, outcome]), folds, times = 100)
+  cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]), folds, times = 100)
   cv <- caret::trainControl(
     method = "repeatedcv",
     number = folds,
