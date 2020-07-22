@@ -1,7 +1,7 @@
 #' Generate the Tuning Grid for Tuning Hyperparameters
 #'
 #' @param method method name (regLogistic, svmRadial, rpart2, rf, xgbTree)
-#' @param hyperparameters Dataframe with hyperparameters. This dataframe should have the first column named as "param" which is the hyperparameter name and the second column "val" which are the values to be tested and third column "model" which is the model being used.
+#' @param hyperparamrs Dataframe or named list of lists of hyperparameters
 #'
 #' @return The tuning grid
 #' @export
@@ -9,49 +9,59 @@
 #'
 #'
 #' @examples
-#' generate_tuning_grid("L2_Logistic_Regression", default_hyperparams)
-generate_tuning_grid <- function(method, hyperparameters) {
-  hyperparameters <- hyperparameters[hyperparameters$model == method, ]
-  hyperparameters <- split(hyperparameters$val, hyperparameters$param)
+#' generate_tuning_grid("regLogistic", default_hyperparams)
+generate_tuning_grid <- function(method, hyperparams) {
+  if (all(names(hyperparams) == c('param', 'val', 'method'))) {
+    hyperparams <- get_method_hyperparams(method, hyperparams)
+  } # otherwise, assumes hyperparams is a named list of lists of hyperparams
+  # TODO: better way to handle hyperparameters
 
   # TODO: named list instead of if/else block? could probably use a quosure to delay evaluation
   if (method == "regLogistic") {
-    grid <- expand.grid(
-      cost = hyperparameters$cost,
-      loss = "L2_primal",
-      # This chooses type=0 for liblinear R package
-      # which is logistic loss, primal solve for L2 regularized logistic regression
-      epsilon = 0.01
-    ) # default epsilon recommended from liblinear
+    grid <- expand.grid(cost = hyperparams$cost,
+                        loss = "L2_primal", # This chooses type=0 for liblinear R package
+                        epsilon = 0.01  # default epsilon recommended from liblinear
+                        )
   }
   else if (method == "svmRadial") {
     grid <- expand.grid(
-      sigma = hyperparameters$sigma,
-      C = hyperparameters$C
+      sigma = hyperparams$sigma,
+      C = hyperparams$C
     )
   }
   else if (method == "rpart2") {
-    grid <- expand.grid(maxdepth = hyperparameters$maxdepth)
+    grid <- expand.grid(maxdepth = hyperparams$maxdepth)
   }
   else if (method == "rf") {
-    grid <- expand.grid(mtry = hyperparameters$mtry)
+    grid <- expand.grid(mtry = hyperparams$mtry)
   }
   else if (method == "xgbTree") {
     grid <- expand.grid(
-      nrounds = hyperparameters$nrounds,
-      gamma = hyperparameters$gamma,
-      eta = hyperparameters$eta,
-      max_depth = hyperparameters$max_depth,
-      colsample_bytree = hyperparameters$colsample_bytree,
-      min_child_weight = hyperparameters$min_child_weight,
-      subsample = hyperparameters$subsample
+      nrounds = hyperparams$nrounds,
+      gamma = hyperparams$gamma,
+      eta = hyperparams$eta,
+      max_depth = hyperparams$max_depth,
+      colsample_bytree = hyperparams$colsample_bytree,
+      min_child_weight = hyperparams$min_child_weight,
+      subsample = hyperparams$subsample
     )
   }
   else {
-    message("Method not available")
+    stop(paste0("Method '", method, "' is not supported."))
   }
-  # Return:
-  #     1. the hyper-parameter grid to tune
-  #     2. the caret function to train with
   return(grid)
+}
+
+#' Filter hyperparameters by method and split into lists for each parameter
+#'
+#' @param method  method (regLogistic, svmRadial, rpart2, rf, xgbTree)
+#' @param hyperparameters dataframe with columns param, val, and model
+#'
+#' @return hyperparams list of lists
+#' @export
+#'
+#' @examples
+get_method_hyperparams <- function(method, hyperparams_df) {
+  hyperparams <- hyperparams_df[hyperparams_df$method == method, ]
+  return(split(hyperparams$val, hyperparams$param))
 }
