@@ -7,7 +7,7 @@ inTraining <-
 train_data_sm <- dataset[inTraining, ]
 test_data_sm <- dataset[-inTraining, ]
 
-hyperparameters <- default_hyperparams[default_hyperparams$model == "L2_Logistic_Regression", ]
+hyperparameters <- default_hyperparams[default_hyperparams$model == "regLogistic", ]
 hyperparameters <- split(hyperparameters$val, hyperparameters$param)
 
 folds <- 5
