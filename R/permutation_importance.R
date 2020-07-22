@@ -96,26 +96,15 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #'
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
 
-  # TODO FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
   outcome <- dplyr::select(dataset, outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]
 
-  # TODO ADD IN OPTION TO CHOOSE CORRELATION THRESHOLD
   corr_mat <- get_corr_feats(features)
   drop_cols <- c("corr")
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
   grps <- group_correlated_features(corr_mat, test_data)
 
-  # ----------- Get feature importance of OTUs------------>
-  # Permutate each feature in the non-correlated dimensional feature vector
-  # Here we are
-  #     1. Permuting the values in the OTU column randomly for each OTU in the list
-  #     2. Applying the trained model to the new test-data where 1 OTU is randomly shuffled
-  #     3. Getting the new AUROC value
-  #     4. Calculating how much different the new AUROC is from original AUROC
-  # Because we do this with lapply we randomly permute each OTU one by one.
-  # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
   imps <- do.call("rbind", lapply(grps, function(feat) {
     res <- find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
     return(res)
