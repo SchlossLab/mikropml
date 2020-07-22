@@ -144,10 +144,10 @@ run_pipeline <-
     # -------------Define hyper-parameter and cv settings-------------------->
     # Define hyper-parameter tuning grid and the training method
     # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-    tune <- tuning_grid(train_data, model, outcome_colname, hyperparameters)
+    tune <- generate_tuning_grid("L2_Logistic_Regression", hyperparameters)
     grid <- tune[[1]]
     method <- tune[[2]]
-    cv <- tune[[3]]
+    cv <- define_cv(train_data, outcome_colname)
 
     # Make formula based on outcome
     f <- stats::as.formula(paste(outcome_colname, "~ ."))
