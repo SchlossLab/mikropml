@@ -15,10 +15,12 @@ test_that("flatten_corr_mat works", {
 })
 test_that("get_corr_feats works", {
     set.seed(0)
-    feats <- data.frame(a = runif(4), b = runif(4), c = runif(4))
-    cor_feats <- feats %>%
-        stats::cor(method = "spearman") %>%
-        flatten_corr_mat() %>% dplyr::filter(corr >= 0.6)
-    set.seed(0)
-    expect_equal(get_corr_feats(feats, 0.6), cor_feats, tolerance = tol)
+    cor_feats <- data.frame(
+        feature1 = factor(c("a"), levels = c("a", "b")),
+        feature2 = factor(c("b"), levels = c("b", "c")),
+        corr = c(0.8)
+    )
+    expect_equal(get_corr_feats(data.frame(
+        a = runif(4), b = runif(4), c = runif(4)
+    ), 0.6), cor_feats, tolerance = tol)
 })
