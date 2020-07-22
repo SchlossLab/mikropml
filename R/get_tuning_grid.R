@@ -11,7 +11,7 @@
 #' @examples
 #' get_tuning_grid("regLogistic", default_hyperparams)
 get_tuning_grid <- function(method, hyperparams) {
-  if (all(names(hyperparams) == c('param', 'val', 'method'))) {
+  if (all(names(hyperparams) == c("param", "val", "method"))) {
     hyperparams <- get_method_hyperparams(method, hyperparams)
   } # otherwise, assumes hyperparams is a named list of lists of hyperparams
   # TODO: simpler way to specify hyperparameters? esp. since it runs for just one method

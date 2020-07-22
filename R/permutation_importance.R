@@ -95,7 +95,6 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
-
   outcome <- dplyr::select(dataset, outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]
 

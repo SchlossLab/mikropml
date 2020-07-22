@@ -27,13 +27,13 @@ run_pipeline <-
       set.seed(seed)
     }
 
-    methods <- c('regLogistic', 'svmRadial', 'rpart2', 'rf', 'xgbTree')
+    methods <- c("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
     if (!(method %in% methods)) {
       stop(paste0(
         "Method '",
         method,
         "' is not supported. Supported methods are:",
-        paste(methods, sep = ', ', collapse = '')
+        paste(methods, sep = ", ", collapse = "")
       ))
     }
 
