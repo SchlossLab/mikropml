@@ -39,7 +39,7 @@
 #' Run machine learning pipeline
 #'
 #' @param dataset TODO
-#' @param model TODO
+#' @param method TODO
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #' @param hyperparameters TODO
@@ -53,7 +53,7 @@
 #'
 run_pipeline <-
   function(dataset,
-           model,
+           method,
            outcome_colname = NA,
            outcome_value = NA,
            hyperparameters = default_hyperparams,
@@ -61,6 +61,16 @@ run_pipeline <-
            seed = NA) {
     if (!is.na(seed)) {
       set.seed(seed)
+    }
+
+    methods <- c('regLogistic', 'svmRadial', 'rpart2', 'rf', 'xgbTree')
+    if (!(method %in% methods)) {
+      stop(paste0(
+        "Method '",
+        method,
+        "' is not supported. Supported methods are:",
+        paste(methods, sep = ', ', collapse = '')
+      ))
     }
 
     # If no outcome colname specified, use first column in data
@@ -144,18 +154,14 @@ run_pipeline <-
     # -------------Define hyper-parameter and cv settings-------------------->
     # Define hyper-parameter tuning grid and the training method
     # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-    tune <- generate_tuning_grid("L2_Logistic_Regression", hyperparameters)
-    grid <- tune[[1]]
-    method <- tune[[2]]
+    tune_grid <- generate_tuning_grid("L2_Logistic_Regression", hyperparameters)
     cv <- define_cv(train_data, outcome_colname)
 
     # Make formula based on outcome
     f <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
-    if (model == "L2_Logistic_Regression") {
-      message(model)
-
+    if (method == "regLogistic") {
       trained_model <- caret::train(
         f,
         # label
@@ -164,33 +170,29 @@ run_pipeline <-
         method = method,
         trControl = cv,
         metric = "ROC",
-        tuneGrid = grid,
+        tuneGrid = tune_grid,
         family = "binomial"
       )
     }
-    else if (model == "Random_Forest") {
-      message(model)
-
+    else if (method == "rf") {
       trained_model <- caret::train(
         f,
         data = train_data,
         method = method,
         trControl = cv,
         metric = "ROC",
-        tuneGrid = grid,
+        tuneGrid = tune_grid,
         ntree = 1000
       ) # not tuning ntree
     }
     else {
-      message(model)
-
       trained_model <- caret::train(
         f,
         data = train_data,
         method = method,
         trControl = cv,
         metric = "ROC",
-        tuneGrid = grid
+        tuneGrid = tune_grid
       )
     }
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
@@ -218,7 +220,7 @@ run_pipeline <-
       feature_importance_perm <- NULL
     }
 
-    feature_importance_weights <- ifelse(model == "L2_Logistic_Regression",
+    feature_importance_weights <- ifelse(method == "L2_Logistic_Regression",
       trained_model$finalModel$W,
       NULL
     )
