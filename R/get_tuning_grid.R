@@ -9,7 +9,7 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' generate_tuning_grid("regLogistic", default_hyperparams)
+#' get_tuning_grid("regLogistic", default_hyperparams)
 get_tuning_grid <- function(method, hyperparams) {
   if (all(names(hyperparams) == c('param', 'val', 'method'))) {
     hyperparams <- get_method_hyperparams(method, hyperparams)
