@@ -11,10 +11,6 @@
 #' @examples
 #' generate_tuning_grid("regLogistic", default_hyperparams)
 generate_tuning_grid <- function(method, hyperparams) {
-  if (all(names(hyperparams) == c('param', 'val', 'method'))) {
-    hyperparams <- get_method_hyperparams(method, hyperparams)
-  } # otherwise, assumes hyperparams is a named list of lists of hyperparams
-  # TODO: better way to handle hyperparameters
 
   # TODO: named list instead of if/else block? could probably use a quosure to delay evaluation
   if (method == "regLogistic") {

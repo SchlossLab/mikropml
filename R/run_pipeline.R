@@ -111,11 +111,11 @@ run_pipeline <-
       caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
-    # ----------------------------------------------------------------------->
 
-    # -------------Define hyper-parameter and cv settings-------------------->
-    # Define hyper-parameter tuning grid and the training method
-    # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
+    if (all(names(hyperparameters) == c('param', 'val', 'method'))) {
+      hyperparameters <- get_method_hyperparams(method, hyperparameters)
+    } # otherwise, assumes hyperparams is a named list of lists of hyperparams
+    # TODO: better way to handle hyperparameters?
     tune_grid <- generate_tuning_grid("L2_Logistic_Regression", hyperparameters)
     cv <- define_cv(train_data, outcome_colname)
 
