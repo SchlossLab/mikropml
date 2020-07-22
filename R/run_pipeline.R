@@ -1,41 +1,3 @@
-
-
-# Author: Begum Topcuoglu
-# Date: 2019-01-14
-######################################################################
-# Description:
-# This script trains and tests the model according to proper pipeline
-######################################################################
-
-######################################################################
-# Dependencies and Outputs:
-#    Model to put to function:
-#       1. "L2_Logistic_Regression"
-#       2. "RBF_SVM"
-#       3. "Decision_Tree"
-#       4. "Random_Forest"
-#       5. "XGBoost"
-#    data to put to function:
-#         Features: Hemoglobin levels and 16S rRNA gene sequences in the stool
-#         Labels: - Colorectal lesions of 490 patients.
-#                 - Defined as cancer or not.(Cancer here means: SRN)
-#
-# Usage:
-# Call as source when using the function. The function is:
-#   pipeline(data, model)
-
-# Output:
-#  A results list of:
-#     1. cvAUC and testAUC for 1 data-split
-#     2. cvAUC for all hyper-parameters during tuning for 1 datasplit
-#     3. feature importance info on first 10 features for 1 datasplit
-#     4. trained model as a caret object
-######################################################################
-
-######################################################################
-#------------------------- DEFINE FUNCTION -------------------#
-######################################################################
-
 #' Run machine learning pipeline
 #'
 #' @param dataset TODO
@@ -158,15 +120,13 @@ run_pipeline <-
     cv <- define_cv(train_data, outcome_colname)
 
     # Make formula based on outcome
-    f <- stats::as.formula(paste(outcome_colname, "~ ."))
+    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     if (method == "regLogistic") {
       trained_model <- caret::train(
-        f,
-        # label
+        model_formula,
         data = train_data,
-        # total data
         method = method,
         trControl = cv,
         metric = "ROC",
@@ -176,7 +136,7 @@ run_pipeline <-
     }
     else if (method == "rf") {
       trained_model <- caret::train(
-        f,
+        model_formula,
         data = train_data,
         method = method,
         trControl = cv,
@@ -187,7 +147,7 @@ run_pipeline <-
     }
     else {
       trained_model <- caret::train(
-        f,
+        model_formula,
         data = train_data,
         method = method,
         trControl = cv,
