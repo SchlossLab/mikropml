@@ -6,10 +6,11 @@
 \usage{
 run_pipeline(
   dataset,
-  model,
+  method,
   outcome_colname = NA,
   outcome_value = NA,
-  hyperparameters = default_hyperparams,
+  hyperparameters = mikRopML::default_hyperparams,
+  metric = "ROC",
   permute = FALSE,
   seed = NA
 )
@@ -17,13 +18,15 @@ run_pipeline(
 \arguments{
 \item{dataset}{TODO}
 
-\item{model}{TODO}
+\item{method}{TODO}
 
 \item{outcome_colname}{TODO}
 
 \item{outcome_value}{TODO}
 
 \item{hyperparameters}{TODO}
+
+\item{metric}{TODO}
 
 \item{permute}{TODO}
 

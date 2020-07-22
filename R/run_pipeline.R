@@ -1,48 +1,11 @@
-
-
-# Author: Begum Topcuoglu
-# Date: 2019-01-14
-######################################################################
-# Description:
-# This script trains and tests the model according to proper pipeline
-######################################################################
-
-######################################################################
-# Dependencies and Outputs:
-#    Model to put to function:
-#       1. "L2_Logistic_Regression"
-#       2. "RBF_SVM"
-#       3. "Decision_Tree"
-#       4. "Random_Forest"
-#       5. "XGBoost"
-#    data to put to function:
-#         Features: Hemoglobin levels and 16S rRNA gene sequences in the stool
-#         Labels: - Colorectal lesions of 490 patients.
-#                 - Defined as cancer or not.(Cancer here means: SRN)
-#
-# Usage:
-# Call as source when using the function. The function is:
-#   pipeline(data, model)
-
-# Output:
-#  A results list of:
-#     1. cvAUC and testAUC for 1 data-split
-#     2. cvAUC for all hyper-parameters during tuning for 1 datasplit
-#     3. feature importance info on first 10 features for 1 datasplit
-#     4. trained model as a caret object
-######################################################################
-
-######################################################################
-#------------------------- DEFINE FUNCTION -------------------#
-######################################################################
-
 #' Run machine learning pipeline
 #'
 #' @param dataset TODO
-#' @param model TODO
+#' @param method TODO
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #' @param hyperparameters TODO
+#' @param metric TODO
 #' @param permute TODO
 #' @param seed random seed (default: NA)
 #'
@@ -53,14 +16,25 @@
 #'
 run_pipeline <-
   function(dataset,
-           model,
+           method,
            outcome_colname = NA,
            outcome_value = NA,
-           hyperparameters = default_hyperparams,
+           hyperparameters = mikRopML::default_hyperparams,
+           metric = "ROC",
            permute = FALSE,
            seed = NA) {
     if (!is.na(seed)) {
       set.seed(seed)
+    }
+
+    methods <- c('regLogistic', 'svmRadial', 'rpart2', 'rf', 'xgbTree')
+    if (!(method %in% methods)) {
+      stop(paste0(
+        "Method '",
+        method,
+        "' is not supported. Supported methods are:",
+        paste(methods, sep = ', ', collapse = '')
+      ))
     }
 
     # If no outcome colname specified, use first column in data
@@ -139,58 +113,45 @@ run_pipeline <-
       caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
-    # ----------------------------------------------------------------------->
 
-    # -------------Define hyper-parameter and cv settings-------------------->
-    # Define hyper-parameter tuning grid and the training method
-    # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-    tune <- tuning_grid(train_data, model, outcome_colname, hyperparameters)
-    grid <- tune[[1]]
-    method <- tune[[2]]
-    cv <- tune[[3]]
+    tune_grid <- get_tuning_grid(method, hyperparameters)
+    cv <- define_cv(train_data, outcome_colname)
 
     # Make formula based on outcome
-    f <- stats::as.formula(paste(outcome_colname, "~ ."))
+    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
-    if (model == "L2_Logistic_Regression") {
-      message(model)
-
+    # TODO: or could set unused args to NULL and just call train once?
+    if (method == "regLogistic") {
       trained_model <- caret::train(
-        f,
-        # label
+        model_formula,
         data = train_data,
-        # total data
         method = method,
         trControl = cv,
-        metric = "ROC",
-        tuneGrid = grid,
+        metric = metric,
+        tuneGrid = tune_grid,
         family = "binomial"
       )
     }
-    else if (model == "Random_Forest") {
-      message(model)
-
+    else if (method == "rf") {
       trained_model <- caret::train(
-        f,
+        model_formula,
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
-        tuneGrid = grid,
+        metric = metric,
+        tuneGrid = tune_grid,
         ntree = 1000
       ) # not tuning ntree
     }
     else {
-      message(model)
-
       trained_model <- caret::train(
-        f,
+        model_formula,
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
-        tuneGrid = grid
+        metric = metric,
+        tuneGrid = tune_grid
       )
     }
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
@@ -218,7 +179,7 @@ run_pipeline <-
       feature_importance_perm <- NULL
     }
 
-    feature_importance_weights <- ifelse(model == "L2_Logistic_Regression",
+    feature_importance_weights <- ifelse(method == "L2_Logistic_Regression",
       trained_model$finalModel$W,
       NULL
     )
