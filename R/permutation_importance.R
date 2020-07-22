@@ -96,13 +96,13 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #'
 permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
 
-  # FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
-  outcome <- select(dataset, outcome_colname)
+  # TODO FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
+  outcome <- dplyr::select(dataset, outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]
 
-  # ADD IN OPTION TO CHOOSE CORRELATION THRESHOLD
+  # TODO ADD IN OPTION TO CHOOSE CORRELATION THRESHOLD
   corr_mat <- get_corr_feats(features)
-  drop_cols <- c("cor")
+  drop_cols <- c("corr")
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
   grps <- group_correlated_features(corr_mat, test_data)
