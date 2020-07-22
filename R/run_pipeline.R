@@ -5,6 +5,7 @@
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #' @param hyperparameters TODO
+#' @param metric TODO
 #' @param permute TODO
 #' @param seed random seed (default: NA)
 #'
@@ -18,7 +19,8 @@ run_pipeline <-
            method,
            outcome_colname = NA,
            outcome_value = NA,
-           hyperparameters = default_hyperparams,
+           hyperparameters = mikRopML::default_hyperparams,
+           metric = "ROC",
            permute = FALSE,
            seed = NA) {
     if (!is.na(seed)) {
@@ -119,13 +121,14 @@ run_pipeline <-
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
+    # TODO: or could set unused args to NULL and just call train once?
     if (method == "regLogistic") {
       trained_model <- caret::train(
         model_formula,
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
+        metric = metric,
         tuneGrid = tune_grid,
         family = "binomial"
       )
@@ -136,7 +139,7 @@ run_pipeline <-
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
+        metric = metric,
         tuneGrid = tune_grid,
         ntree = 1000
       ) # not tuning ntree
@@ -147,7 +150,7 @@ run_pipeline <-
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
+        metric = metric,
         tuneGrid = tune_grid
       )
     }
