@@ -112,11 +112,7 @@ run_pipeline <-
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    if (all(names(hyperparameters) == c('param', 'val', 'method'))) {
-      hyperparameters <- get_method_hyperparams(method, hyperparameters)
-    } # otherwise, assumes hyperparams is a named list of lists of hyperparams
-    # TODO: better way to handle hyperparameters?
-    tune_grid <- generate_tuning_grid("L2_Logistic_Regression", hyperparameters)
+    tune_grid <- get_tuning_grid(method, hyperparameters)
     cv <- define_cv(train_data, outcome_colname)
 
     # Make formula based on outcome
