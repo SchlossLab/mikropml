@@ -1,4 +1,4 @@
-tol <- 1e-5
+tol <- 1e-2
 test_that("flatten_corr_mat works", {
     corr_mat <- data.frame(
         feature1 = as.factor(c('a', 'a', 'b')),
