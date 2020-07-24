@@ -42,23 +42,23 @@ get_hyperparams_list <- function(hyperparams_df) {
 #' validate_hyperparams_df(default_hyperparams, "regLogistic")
 validate_hyperparams_df <- function(hyperparams_df, method_name) {
   df_error_msg <-
-    '`hyperparameters` must be a dataframe with columns `param` and `value`'
+    "`hyperparameters` must be a dataframe with columns `param` and `value`"
   if (!any(class(hyperparams_df) == "data.frame")) {
     stop(paste0(
       df_error_msg,
       "\n  You supplied: ",
-      paste(class(hyperparams_df), collapse = ' ')
+      paste(class(hyperparams_df), collapse = " ")
     ))
   } else if (sum(names(hyperparams_df) %in% c("param", "value")) < 2 |
-             any(!(names(hyperparams_df) %in% c("param", "value", "method")))) {
+    any(!(names(hyperparams_df) %in% c("param", "value", "method")))) {
     stop(paste0(
       df_error_msg,
       "\n  You supplied: ",
-      paste(names(hyperparams_df), collapse = ' ')
+      paste(names(hyperparams_df), collapse = " ")
     ))
   }
 
-  if ('method' %in% names(hyperparams_df)) {
+  if ("method" %in% names(hyperparams_df)) {
     hyperparams_df <- hyperparams_df %>%
       dplyr::filter(.data$method == method_name) %>%
       dplyr::select(.data$param, .data$value)
@@ -86,8 +86,10 @@ validate_hyperparams_df <- function(hyperparams_df, method_name) {
 #'   dplyr::filter(method == "regLogistic") %>%
 #'   check_l2logit_hyperparams()
 check_l2logit_hyperparams <- function(hyperparams_df) {
-  l2logit_required <- dplyr::tibble(param = c('loss', 'epsilon'),
-                                    value = c('L2_primal', '0.01'))
+  l2logit_required <- dplyr::tibble(
+    param = c("loss", "epsilon"),
+    value = c("L2_primal", "0.01")
+  )
   logit_given <- hyperparams_df %>%
     dplyr::filter(.data$param %in% c("loss", "epsilon")) %>%
     dplyr::select(.data$param, .data$value)
