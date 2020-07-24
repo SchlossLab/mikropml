@@ -7,6 +7,5 @@ default_hyperparams <- readr::read_csv("data-raw/default_hyperparams.csv") %>%
     Decision_Tree = "rpart2",
     XGBoost = "xgbTree",
     Random_Forest = "rf"
-  )) %>%
-  rename(value = val)
+  ))
 usethis::use_data(default_hyperparams, overwrite = TRUE)
