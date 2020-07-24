@@ -51,17 +51,23 @@ test_that("tune grid works for xgbTree", {
 })
 
 # check l2logit hyperparams
-l2logit_required <- dplyr::tibble(param = c('loss', 'epsilon'),
-                                  value = c('L2_primal', '0.01'))
+l2logit_required <- dplyr::tibble(
+  param = c("loss", "epsilon"),
+  value = c("L2_primal", "0.01")
+)
 l2_warning <- "For L2-normalized Logistic Regression, `loss`` must be 'L2_primal' and `epsilon` must be '0.01',"
-test_that('check_l2logit_hyperparams prints warning', {
-  wrong_loss <- dplyr::tibble(param = c('loss', 'epsilon'),
-                              value = c('L1_primal', '0.01'))
+test_that("check_l2logit_hyperparams prints warning", {
+  wrong_loss <- dplyr::tibble(
+    param = c("loss", "epsilon"),
+    value = c("L1_primal", "0.01")
+  )
   expect_warning(check_l2logit_hyperparams(wrong_loss), l2_warning)
-  wrong_epsilon <- dplyr::tibble(param = c('loss', 'epsilon'),
-                                 value = c('L2_primal', '1'))
+  wrong_epsilon <- dplyr::tibble(
+    param = c("loss", "epsilon"),
+    value = c("L2_primal", "1")
+  )
   expect_warning(check_l2logit_hyperparams(wrong_epsilon), l2_warning)
 })
-test_that('check_l2logit_hyperparams returns nothing', {
+test_that("check_l2logit_hyperparams returns nothing", {
   expect_true(is.null(check_l2logit_hyperparams(l2logit_required)))
 })
