@@ -7,6 +7,7 @@
 #' @param hyperparameters TODO
 #' @param metric TODO
 #' @param permute TODO
+#' @param nfolds fold number for cross-validation
 #' @param seed random seed (default: NA)
 #'
 #' @return named list with results
@@ -21,6 +22,7 @@ run_pipeline <-
            hyperparameters = mikRopML::default_hyperparams,
            metric = "ROC",
            permute = FALSE,
+           nfolds = 5,
            seed = NA) {
     if (!is.na(seed)) {
       set.seed(seed)
@@ -116,7 +118,7 @@ run_pipeline <-
 
 
     tune_grid <- get_tuning_grid(hyperparameters)
-    cv <- define_cv(train_data, outcome_colname)
+    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
 
     # Make formula based on outcome
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))

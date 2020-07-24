@@ -12,6 +12,7 @@ run_pipeline(
   hyperparameters = mikRopML::default_hyperparams,
   metric = "ROC",
   permute = FALSE,
+  nfolds = 5,
   seed = NA
 )
 }
@@ -29,6 +30,8 @@ run_pipeline(
 \item{metric}{TODO}
 
 \item{permute}{TODO}
+
+\item{nfolds}{fold number for cross-validation}
 
 \item{seed}{random seed (default: NA)}
 }
