@@ -4,12 +4,10 @@
 \alias{get_tuning_grid}
 \title{Generate the Tuning Grid for Tuning Hyperparameters}
 \usage{
-get_tuning_grid(method, hyperparams)
+get_tuning_grid(hyperparams_df)
 }
 \arguments{
-\item{method}{method name (regLogistic, svmRadial, rpart2, rf, xgbTree)}
-
-\item{hyperparams}{Dataframe or named list of lists of hyperparameters}
+\item{hyperparams_df}{Dataframe with columns \code{param} and \code{value}}
 }
 \value{
 The tuning grid
@@ -18,7 +16,8 @@ The tuning grid
 Generate the Tuning Grid for Tuning Hyperparameters
 }
 \examples{
-get_tuning_grid("regLogistic", default_hyperparams)
+mikRopML:::validate_hyperparams_df(default_hyperparams, "regLogistic") \%>\%
+  get_tuning_grid()
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

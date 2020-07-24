@@ -20,7 +20,6 @@ Identify correlated features
 \examples{
 set.seed(0)
 get_corr_feats(data.frame(a = runif(4), b = runif(4), c = runif(4)), 0.6)
-
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

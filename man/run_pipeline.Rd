@@ -33,7 +33,7 @@ run_pipeline(
 \item{seed}{random seed (default: NA)}
 }
 \value{
-
+named list with results
 }
 \description{
 Run machine learning pipeline
