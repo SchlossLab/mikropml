@@ -18,7 +18,7 @@ find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
 \item{fewer_samples}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Get permuted AUROC difference for a single feature (or group of features)

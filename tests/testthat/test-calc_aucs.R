@@ -1,3 +1,8 @@
+options(warnPartialMatchArgs = FALSE)
+# Without this, underlying code in either stats or base R causes this warning:
+# test-calc_aucs.R:16: warning: get_predictions works
+# partial argument match of 'contrasts' to 'contrasts.arg'
+
 predictions_sm <- c(
   2.044805e-03, 1.846221e-04, 4.331578e-03, 1.290319e-05,
   9.939288e-01, 6.812802e-05, 9.983625e-01, 1.208421e-04,
