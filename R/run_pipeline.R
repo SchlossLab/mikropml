@@ -22,7 +22,6 @@ run_pipeline <-
            metric = "ROC",
            permute = FALSE,
            seed = NA) {
-
     if (!is.na(seed)) {
       set.seed(seed)
     }

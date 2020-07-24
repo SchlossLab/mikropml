@@ -41,16 +41,21 @@ get_hyperparams_list <- function(hyperparams_df) {
 #' @examples
 #' validate_hyperparams_df(default_hyperparams, "regLogistic")
 validate_hyperparams_df <- function(hyperparams_df, method_name) {
-  df_error_msg <- '`hyperparameters` must be a dataframe with columns `param` and `value`'
+  df_error_msg <-
+    '`hyperparameters` must be a dataframe with columns `param` and `value`'
   if (!any(class(hyperparams_df) == "data.frame")) {
-
-    stop(paste0(df_error_msg, "\n  You supplied: ",
-                paste(class(hyperparams_df), collapse = ' ')))
+    stop(paste0(
+      df_error_msg,
+      "\n  You supplied: ",
+      paste(class(hyperparams_df), collapse = ' ')
+    ))
   } else if (sum(names(hyperparams_df) %in% c("param", "value")) < 2 |
              any(!(names(hyperparams_df) %in% c("param", "value", "method")))) {
-
-    stop(paste0(df_error_msg, "\n  You supplied: ",
-         paste(names(hyperparams_df), collapse = ' ')))
+    stop(paste0(
+      df_error_msg,
+      "\n  You supplied: ",
+      paste(names(hyperparams_df), collapse = ' ')
+    ))
   }
 
   if ('method' %in% names(hyperparams_df)) {
@@ -78,26 +83,26 @@ validate_hyperparams_df <- function(hyperparams_df, method_name) {
 #' @examples
 #' # no warning message if defaults are used
 #' default_hyperparams %>%
-#'   dplyr::filter(method == 'regLogistic') %>%
+#'   dplyr::filter(method == "regLogistic") %>%
 #'   check_l2logit_hyperparams()
-#'
 check_l2logit_hyperparams <- function(hyperparams_df) {
-    l2logit_required <- dplyr::tibble(param = c('loss', 'epsilon'),
-                                      value = c('L2_primal', '0.01'))
-    logit_given <- hyperparams_df %>%
-      dplyr::filter(.data$param %in% c("loss", "epsilon")) %>%
-      dplyr::select(.data$param, .data$value)
+  l2logit_required <- dplyr::tibble(param = c('loss', 'epsilon'),
+                                    value = c('L2_primal', '0.01'))
+  logit_given <- hyperparams_df %>%
+    dplyr::filter(.data$param %in% c("loss", "epsilon")) %>%
+    dplyr::select(.data$param, .data$value)
 
-    if (!isTRUE(dplyr::all_equal(l2logit_required, logit_given))) {
-
-      warning(paste0("For L2-normalized Logistic Regression, ",
-                     "`loss`` must be 'L2_primal' and `epsilon` must be '0.01',",
-                     "\n  Be sure you intend to not perform L2-normalization.",
-                     "\n  You supplied these hyperparameters:\n    ",
-                     paste0(utils::capture.output(logit_given), collapse = "\n    ")
-                     )
-              )
-    } else {
-      message("Using L2 normalization for Logistic Regression")
-    }
+  if (!isTRUE(dplyr::all_equal(l2logit_required, logit_given))) {
+    warning(
+      paste0(
+        "For L2-normalized Logistic Regression, ",
+        "`loss`` must be 'L2_primal' and `epsilon` must be '0.01',",
+        "\n  Be sure you intend to not perform L2-normalization.",
+        "\n  You supplied these hyperparameters:\n    ",
+        paste0(utils::capture.output(logit_given), collapse = "\n    ")
+      )
+    )
+  } else {
+    message("Using L2 normalization for Logistic Regression")
+  }
 }
