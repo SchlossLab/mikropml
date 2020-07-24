@@ -47,9 +47,10 @@ test_that("calc_auroc works", {
 })
 test_that("calc_auprc works", {
   expect_equal(calc_auprc(predictions_sm, outcomes_sm), 0.7123179,
-               tolerance = tol)
+    tolerance = tol
+  )
   expect_equal(calc_auprc(predictions_med, outcomes_med), 0.5649431,
-               tolerance = tol
+    tolerance = tol
   )
 })
 test_that("calc_aucs works", {
