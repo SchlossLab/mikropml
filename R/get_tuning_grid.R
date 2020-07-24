@@ -24,7 +24,7 @@ get_tuning_grid <- function(hyperparams_df) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' get_hyperparams_list("regLogistic", default_hyperparams)
+#' get_hyperparams_list(default_hyperparams)
 get_hyperparams_list <- function(hyperparams_df) {
   return(split(hyperparams_df$value, hyperparams_df$param))
 }
@@ -41,16 +41,22 @@ get_hyperparams_list <- function(hyperparams_df) {
 #' @examples
 #' validate_hyperparams_df(default_hyperparams, "regLogistic")
 validate_hyperparams_df <- function(hyperparams_df, method_name) {
+  df_error_msg <- '`hyperparameters` must be a dataframe with columns `param` and `value`'
   if (!any(class(hyperparams_df) == "data.frame")) {
-    stop(paste0('`hyperparameters`` must be a dataframe with columns `param` and `value`'))
+
+    stop(paste0(df_error_msg, "\n  You supplied: ",
+                paste(class(hyperparams_df), collapse = ' ')))
+  } else if (sum(names(hyperparams_df) %in% c("param", "value")) < 2 |
+             any(!(names(hyperparams_df) %in% c("param", "value", "method")))) {
+
+    stop(paste0(df_error_msg, "\n  You supplied: ",
+         paste(names(hyperparams_df), collapse = ' ')))
   }
+
   if ('method' %in% names(hyperparams_df)) {
     hyperparams_df <- hyperparams_df %>%
       dplyr::filter(.data$method == method_name) %>%
       dplyr::select(.data$param, .data$value)
-  }
-  if (sum(names(hyperparams_df) %in% c("param", "value")) != 2) {
-    stop(paste0('`hyperparameters` must be a dataframe with columns `param` and `value`'))
   }
 
   # warn if regLogistic hyperparameters aren't for L2-normalization
@@ -79,7 +85,8 @@ check_l2logit_hyperparams <- function(hyperparams_df) {
     l2logit_required <- dplyr::tibble(param = c('loss', 'epsilon'),
                                       value = c('L2_primal', '0.01'))
     logit_given <- hyperparams_df %>%
-      dplyr::filter(.data$param %in% c("loss", "epsilon"))
+      dplyr::filter(.data$param %in% c("loss", "epsilon")) %>%
+      dplyr::select(.data$param, .data$value)
 
     if (!isTRUE(dplyr::all_equal(l2logit_required, logit_given))) {
 
@@ -90,5 +97,7 @@ check_l2logit_hyperparams <- function(hyperparams_df) {
                      paste0(utils::capture.output(logit_given), collapse = "\n    ")
                      )
               )
+    } else {
+      message("Using L2 normalization for Logistic Regression")
     }
 }
