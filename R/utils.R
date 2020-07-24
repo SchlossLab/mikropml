@@ -2,6 +2,10 @@
 #' @export
 dplyr::`%>%`
 
+#' @importFrom rlang .data
+#' @export
+rlang::.data
+
 #' Get the outcome value of interest for AUC calculations
 #'
 #' Choose the outcome value of interest from the outcome column based on
