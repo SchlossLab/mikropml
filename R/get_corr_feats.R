@@ -32,7 +32,6 @@ flatten_corr_mat <- function(cormat) {
 #' @examples
 #' set.seed(0)
 #' get_corr_feats(data.frame(a = runif(4), b = runif(4), c = runif(4)), 0.6)
-#' @importFrom dplyr .data
 get_corr_feats <- function(features, cor_value = 1) {
   # get correlation matrix
   cormat <- stats::cor(features, method = "spearman")
