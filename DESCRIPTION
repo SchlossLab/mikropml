@@ -35,7 +35,8 @@ Imports:
     caret,
     stats,
     utils,
-    LiblineaR
+    LiblineaR,
+    rlang
 Suggests: 
     testthat,
     knitr,

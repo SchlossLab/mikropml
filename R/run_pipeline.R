@@ -9,10 +9,9 @@
 #' @param permute TODO
 #' @param seed random seed (default: NA)
 #'
-#' @return
+#' @return named list with results
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#'
 #'
 run_pipeline <-
   function(dataset,
@@ -36,6 +35,8 @@ run_pipeline <-
         paste(methods, sep = ", ", collapse = "")
       ))
     }
+
+    hyperparameters <- validate_hyperparams_df(hyperparameters, method)
 
     # If no outcome colname specified, use first column in data
     if (is.na(outcome_colname)) {
@@ -99,8 +100,7 @@ run_pipeline <-
     #   )
     # }
 
-    # ------------------Randomize features----------------------------------->
-    # Randomize feature order, to eliminate any position-dependent effects
+    # Randomize feature order to eliminate any position-dependent effects
     features <- sample(colnames(dataset[, -1]))
     dataset <- dplyr::select(
       dataset,
@@ -114,7 +114,8 @@ run_pipeline <-
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    tune_grid <- get_tuning_grid(method, hyperparameters)
+
+    tune_grid <- get_tuning_grid(hyperparameters)
     cv <- define_cv(train_data, outcome_colname)
 
     # Make formula based on outcome

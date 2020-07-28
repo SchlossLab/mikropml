@@ -3,7 +3,7 @@
 #' @param corr TODO
 #' @param test_data TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
@@ -45,7 +45,7 @@ group_correlated_features <- function(corr, test_data) {
 #' @param feat TODO
 #' @param fewer_samples TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
@@ -89,7 +89,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
