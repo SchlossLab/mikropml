@@ -31,8 +31,8 @@ run_pipeline <-
       stop(paste0(
         "Method '",
         method,
-        "' is not supported. Supported methods are:",
-        paste(methods, sep = ", ", collapse = "")
+        "' is not supported. Supported methods are:\n    ",
+        paste(methods, collapse = ", ")
       ))
     }
 
@@ -44,7 +44,7 @@ run_pipeline <-
     } else {
       # check to see if outcome is in column names of data
       if (!outcome_colname %in% colnames(dataset)) {
-        stop(paste("Outcome", outcome_colname, "not in column names of data."))
+        stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
       }
 
       # Let's make sure that the first column in the data frame is the outcome variable
@@ -73,14 +73,24 @@ run_pipeline <-
         get_outcome_value(dataset, outcome_colname, method = "fewer")
     } else if (!any(dataset[, outcome_colname] == outcome_value)) {
       stop(
-        "No rows in the outcome column (", outcome_colname,
-        ") with the outcome of interest (", outcome_value, ") were detected."
+        paste0(
+          "No rows in the outcome column (",
+          outcome_colname,
+          ") with the outcome of interest (",
+          outcome_value,
+          ") were detected."
+        )
       )
     }
-    message(paste0(
-      "Using '", outcome_colname, "' as the outcome column and '", outcome_value,
-      "' as the outcome value of interest."
-    ))
+    message(
+      paste0(
+        "Using '",
+        outcome_colname,
+        "' as the outcome column and '",
+        outcome_value,
+        "' as the outcome value of interest."
+      )
+    )
 
     # ------------------Check data for pre-processing------------------------->
     # Data is pre-processed in code/R/setup_model_data.R
