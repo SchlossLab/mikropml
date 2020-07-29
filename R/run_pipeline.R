@@ -180,23 +180,20 @@ run_pipeline <-
     if (permute) {
       message("Performing permutation test")
       feature_importance_perm <-
-        permutation_importance(
-          dataset,
-          trained_model,
-          test_data,
-          outcome_colname,
-          outcome_value
-        )
+        get_feature_importance(dataset,
+                               trained_model,
+                               test_data,
+                               outcome_colname,
+                               outcome_value)
     } else {
       message("Skipping permutation test")
       feature_importance_perm <- NULL
     }
 
-    feature_importance_weights <- ifelse(method == "L2_Logistic_Regression",
-      trained_model$finalModel$W,
-      NULL
-    )
-
+    # Get weights for L2 logistic regression
+    feature_importance_weights <- ifelse(method == "regLogistic",
+                                         trained_model$finalModel$W,
+                                         NULL)
     return(
       list(
         trained_model = trained_model,

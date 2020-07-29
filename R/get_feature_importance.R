@@ -1,13 +1,15 @@
-#' Title
+#' Group correlated features
 #'
-#' @param corr TODO
-#' @param test_data TODO
+#' @param corr output of get_corr_feats (pairs of correlated features)
+#' @param test_data test data from machine learning
 #'
-#' @return TODO
+#' @return vector of correlated features where each element is the group of correlated features separated by pipes (|)
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 group_correlated_features <- function(corr, test_data) {
+  
   all_feats <- colnames(test_data)[2:ncol(test_data)]
   corr_feats <- unique(c(corr$feature2, corr$feature1))
   noncorr_feats <- all_feats[!all_feats %in% corr_feats]
@@ -39,27 +41,28 @@ group_correlated_features <- function(corr, test_data) {
 
 #' Get permuted AUROC difference for a single feature (or group of features)
 #'
-#' @param model TODO
-#' @param test_data TODO
-#' @param outcome TODO
-#' @param feat TODO
-#' @param fewer_samples TODO
+#' @param model caret model
+#' @param test_data held out test data: dataframe of outcome and features
+#' @param outcome_colname column name of the outcome
+#' @param feat feature or group of correlated features to permute
+#' @param outcome_value outcome value of interest
 #'
-#' @return TODO
+#' @return vector of mean permuted auc and mean difference between test and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
+find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_value) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
-  test_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
+  test_auc <- calc_aucs(model, test_data, outcome_colname, outcome_value)$auroc
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
   # get the new AUC and AUC differences
-  auc_diffs <- sapply(0:99, function(s) {
+  sapply_fn <- select_apply(fun='sapply')
+  auc_diffs <- sapply_fn(0:99, function(s) {
     set.seed(s)
     full_permuted <- test_data
     if (length(fs) == 1) {
@@ -68,11 +71,8 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
       full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
     }
 
-    # TODO: should this line be an assertion or can we delete it?
-    # message(sum(test_data != full_permuted))
-
     # Calculate the new auc
-    new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
+    new_auc <- calc_aucs(model, full_permuted, outcome_colname, outcome_value)$auroc
     # Return how does this feature being permuted effect the auc
     return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
   })
@@ -81,30 +81,42 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
   return(c(auc = auc, auc_diff = auc_diff))
 }
 
-#' Title
+#' Get feature importance using permutation method
 #'
-#' @param dataset TODO
-#' @param model TODO
-#' @param test_data TODO
-#' @param outcome_colname TODO
-#' @param outcome_value TODO
+#' @param train_data training data: dataframe of outcome and features
+#' @param model caret model
+#' @param test_data held out test data: dataframe of outcome and features
+#' @param outcome_colname column name of the outcome
+#' @param outcome_value outcome value of interest
 #'
-#' @return TODO
+#' @return aucs when each feature is permuted, and differences between test auc and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-permutation_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
-  outcome <- dplyr::select(dataset, outcome_colname)
-  features <- dataset[, !grepl(outcome_colname, names(dataset))]
+get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
+
+  # get outcome and features
+  outcome <- dplyr::select(train_data,dplyr::all_of(outcome_colname))
+  features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
 
   corr_mat <- get_corr_feats(features)
   drop_cols <- c("corr")
-  corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
+  corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% drop_cols))
 
   grps <- group_correlated_features(corr_mat, test_data)
 
-  imps <- do.call("rbind", lapply(grps, function(feat) {
+  # ----------- Get feature importance of OTUs------------>
+  # Permutate each feature in the non-correlated dimensional feature vector
+  # Here we are
+  #     1. Permuting the values in the OTU column randomly for each OTU in the list
+  #     2. Applying the trained model to the new test-data where 1 OTU is randomly shuffled
+  #     3. Getting the new AUROC value
+  #     4. Calculating how much different the new AUROC is from original AUROC
+  # Because we do this with lapply we randomly permute each OTU one by one.
+  # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
+  lapply_fn <- select_apply('lapply')
+  imps <- do.call("rbind", lapply_fn(grps, function(feat) {
     res <- find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
     return(res)
   }))
