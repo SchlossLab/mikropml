@@ -48,11 +48,13 @@ test_that("run_pipeline errors if outcome is not binary", {
     run_pipeline(
       data.frame(
         dx = c("cancer", "adenoma", "normal"),
-        otu1 = 1:3
+        otu1 = 1:3,
+        otu2 = 4:6
       ),
       "rf",
-      outcome_colname = "dx"
+      outcome_colname = "dx",
+      nfolds = as.integer(2)
     ),
-    "A binary outcome variable is required, but this dataset has 3 outcomes."
+    "A binary outcome variable is required, but this dataset has 3 outcomes"
   )
 })
