@@ -3,7 +3,8 @@
 \docType{data}
 \name{train_data1}
 \alias{train_data1}
-\title{A training data partition from \code{otu_medium}}
+\title{Results from running the pipline with L2 logistic regression on \code{otu_mini}
+A training data partition from \code{otu_medium}}
 \format{
 An object of class \code{data.frame} with 48 rows and 6921 columns.
 }
@@ -11,6 +12,7 @@ An object of class \code{data.frame} with 48 rows and 6921 columns.
 train_data1
 }
 \description{
+Results from running the pipline with L2 logistic regression on \code{otu_mini}
 A training data partition from \code{otu_medium}
 }
 \keyword{datasets}
