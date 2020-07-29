@@ -1,8 +1,8 @@
 tol <- 1e-5
 test_that("flatten_corr_mat works", {
     corr_mat <- data.frame(
-        feature1 = as.factor(c('a', 'a', 'b')),
-        feature2 = as.factor(c('b', 'c', 'c')),
+        feature1 = c('a', 'a', 'b'),
+        feature2 = c('b', 'c', 'c'),
         corr = c(0.8, 0.4, 0)
     )
     expect_equivalent(flatten_corr_mat(t(data.frame(
@@ -15,8 +15,8 @@ test_that("flatten_corr_mat works", {
 
 test_that("get_corr_feats works", {
     cor_feats <- data.frame(
-        feature1 = factor(c("a"), levels = c("a", "b")),
-        feature2 = factor(c("b"), levels = c("b", "c")),
+        feature1 = c("a"),
+        feature2 = c("b"),
         corr = c(0.8)
     )
     expect_equivalent(get_corr_feats(data.frame(
