@@ -9,7 +9,7 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 group_correlated_features <- function(corr, test_data) {
-  
+
   all_feats <- colnames(test_data)[2:ncol(test_data)]
   corr_feats <- unique(c(corr$feature2, corr$feature1))
   noncorr_feats <- all_feats[!all_feats %in% corr_feats]
@@ -35,8 +35,7 @@ group_correlated_features <- function(corr, test_data) {
     af_length <- af_length_new
     c <- c + 1
   }
-  grps <- sapply(grps, paste, collapse = "|")
-  return(grps)
+  return(sapply(grps, paste, collapse = "|"))
 }
 
 #' Get permuted AUROC difference for a single feature (or group of features)
@@ -101,8 +100,7 @@ get_feature_importance <- function(train_data, model, test_data, outcome_colname
   features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
 
   corr_mat <- get_corr_feats(features)
-  drop_cols <- c("corr")
-  corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% drop_cols))
+  corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% c("corr")))
 
   grps <- group_correlated_features(corr_mat, test_data)
 
@@ -117,13 +115,8 @@ get_feature_importance <- function(train_data, model, test_data, outcome_colname
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
   lapply_fn <- select_apply('lapply')
   imps <- do.call("rbind", lapply_fn(grps, function(feat) {
-    res <- find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
-    return(res)
+    return(find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value))
   }))
 
-  imps <- as.data.frame(imps) %>%
-    dplyr::mutate(names = factor(grps))
-
-  # Save the importances
-  return(imps)
+  return(as.data.frame(imps) %>% dplyr::mutate(names = factor(grps)))
 }
