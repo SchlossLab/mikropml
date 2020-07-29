@@ -12,6 +12,7 @@ run_pipeline(
   hyperparameters = mikRopML::default_hyperparams,
   metric = "ROC",
   permute = FALSE,
+  nfolds = 5,
   seed = NA
 )
 }
@@ -30,10 +31,12 @@ run_pipeline(
 
 \item{permute}{TODO}
 
+\item{nfolds}{fold number for cross-validation}
+
 \item{seed}{random seed (default: NA)}
 }
 \value{
-
+named list with results
 }
 \description{
 Run machine learning pipeline

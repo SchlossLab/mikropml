@@ -1,4 +1,4 @@
-param,val,method
+param,value,method
 cost,1e-6,L2_Logistic_Regression
 cost,1e-5,L2_Logistic_Regression
 cost,1e-4,L2_Logistic_Regression

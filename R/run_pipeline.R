@@ -7,12 +7,12 @@
 #' @param hyperparameters TODO
 #' @param metric TODO
 #' @param permute TODO
+#' @param nfolds fold number for cross-validation
 #' @param seed random seed (default: NA)
 #'
-#' @return
+#' @return named list with results
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#'
 #'
 run_pipeline <-
   function(dataset,
@@ -22,6 +22,7 @@ run_pipeline <-
            hyperparameters = mikRopML::default_hyperparams,
            metric = "ROC",
            permute = FALSE,
+           nfolds = 5,
            seed = NA) {
     if (!is.na(seed)) {
       set.seed(seed)
@@ -36,6 +37,8 @@ run_pipeline <-
         paste(methods, sep = ", ", collapse = "")
       ))
     }
+
+    hyperparameters <- validate_hyperparams_df(hyperparameters, method)
 
     # If no outcome colname specified, use first column in data
     if (is.na(outcome_colname)) {
@@ -99,8 +102,7 @@ run_pipeline <-
     #   )
     # }
 
-    # ------------------Randomize features----------------------------------->
-    # Randomize feature order, to eliminate any position-dependent effects
+    # Randomize feature order to eliminate any position-dependent effects
     features <- sample(colnames(dataset[, -1]))
     dataset <- dplyr::select(
       dataset,
@@ -114,8 +116,9 @@ run_pipeline <-
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    tune_grid <- get_tuning_grid(method, hyperparameters)
-    cv <- define_cv(train_data, outcome_colname)
+
+    tune_grid <- get_tuning_grid(hyperparameters)
+    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
 
     # Make formula based on outcome
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))

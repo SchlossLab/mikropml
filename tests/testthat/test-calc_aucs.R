@@ -1,7 +1,12 @@
+options(warnPartialMatchArgs = FALSE)
+# Without this, underlying code in either stats or base R causes this warning:
+# test-calc_aucs.R:16: warning: get_predictions works
+# partial argument match of 'contrasts' to 'contrasts.arg'
+
 predictions_sm <- c(
-  2.044805e-03, 1.846221e-04, 4.331578e-03, 1.290319e-05,
-  9.939288e-01, 6.812802e-05, 9.983625e-01, 1.208421e-04,
-  4.403648e-03, 2.486293e-01, 1.853760e-05, 3.086007e-03
+  9.163243e-03, 5.502478e-06, 9.929243e-01, 7.991857e-09,
+  4.979207e-01, 3.774758e-15, 9.998627e-01, 2.159155e-06,
+  1.789605e-05, 2.774999e-02, 1.743478e-09, 8.567441e-01
 )
 predictions_med <- c(
   0.003330436, 0.935320188, 0.003146670, 0.050361065,
@@ -37,11 +42,13 @@ test_that("recode_outcome works", {
   )
 })
 test_that("calc_auroc works", {
-  expect_equal(calc_auroc(predictions_sm, outcomes_sm), 1)
+  expect_equal(calc_auroc(predictions_sm, outcomes_sm), 0.9)
   expect_equal(calc_auroc(predictions_med, outcomes_med), 0.5)
 })
 test_that("calc_auprc works", {
-  expect_equal(calc_auprc(predictions_sm, outcomes_sm), 1)
+  expect_equal(calc_auprc(predictions_sm, outcomes_sm), 0.7123179,
+    tolerance = tol
+  )
   expect_equal(calc_auprc(predictions_med, outcomes_med), 0.5649431,
     tolerance = tol
   )
@@ -49,6 +56,7 @@ test_that("calc_auprc works", {
 test_that("calc_aucs works", {
   expect_equal(
     calc_aucs(trained_model_sm, test_data_sm, "dx", "cancer"),
-    list(auroc = 1, auprc = 1)
+    list(auroc = 0.9, auprc = 0.7123179),
+    tolerance = tol
   )
 })
