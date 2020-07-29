@@ -191,7 +191,7 @@ run_pipeline <-
     }
 
     # Get weights for L2 logistic regression
-    feature_importance_weights <- ifelse(model == "L2_Logistic_Regression",
+    feature_importance_weights <- ifelse(method == "regLogistic",
                                          trained_model$finalModel$W,
                                          NULL)
     return(
