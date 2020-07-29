@@ -4,7 +4,9 @@
 \name{otu_sm_results}
 \alias{otu_sm_results}
 \title{Results from running the pipline with L2 logistic regression on \code{otu_small}}
-\format{An object of class \code{list} of length 6.}
+\format{
+An object of class \code{list} of length 6.
+}
 \usage{
 otu_sm_results
 }

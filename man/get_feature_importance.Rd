@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_feature_importance.R
 \name{get_feature_importance}
 \alias{get_feature_importance}
-\title{Title}
+\title{Get feature importance using permutation method}
 \usage{
 get_feature_importance(
   dataset,
@@ -24,10 +24,10 @@ get_feature_importance(
 \item{outcome_value}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
-Title
+Get feature importance using permutation method
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

@@ -9,14 +9,19 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' flatten_corr_mat(data.frame(a=runif(4,-1,1), b=runif(4,-1,1), c=runif(4,-1,1)))
+#' set.seed(0)
+#' mat <- matrix(runif(100), nrow = 20)
+#' rownames(mat) <- 1:nrow(mat)
+#' colnames(mat) <- 1:ncol(mat)
+#' corr_mat <- stats::cor(mat, method = "spearman")
+#' flatten_corr_mat(corr_mat)
 flatten_corr_mat <- function(cormat) {
   ut <- upper.tri(cormat)
-  data.frame(
+  return(data.frame(
     feature1 = rownames(cormat)[row(cormat)[ut]],
     feature2 = rownames(cormat)[col(cormat)[ut]],
-    cor = (cormat)[ut]
-  )
+    corr = cormat[ut]
+  ))
 }
 
 #' Identify correlated features
@@ -31,14 +36,16 @@ flatten_corr_mat <- function(cormat) {
 #'
 #' @examples
 #' set.seed(0)
-#' get_corr_feats(data.frame(a=runif(4), b=runif(4), c=runif(4)), 0.6)
-#'
+#' mat <- matrix(runif(100), nrow = 20)
+#' rownames(mat) <- 1:nrow(mat)
+#' colnames(mat) <- 1:ncol(mat)
+#' get_corr_feats(mat, 0.4)
+#' @importFrom dplyr .data
 get_corr_feats <- function(features, cor_value = 1) {
-  # get correlation matrix
-  cormat <- stats::cor(features, method = "spearman")
-  # get correlated features
-  corr_feats <- flatten_corr_mat(cormat) %>%
-    dplyr::filter(cor >= cor_value)
-  # return correlated features
-  return(corr_feats)
-  }
+  return(
+    features %>%
+      stats::cor(method = "spearman") %>%
+      flatten_corr_mat() %>%
+      dplyr::filter(.data$corr >= cor_value | .data$corr <= -cor_value)
+  )
+}

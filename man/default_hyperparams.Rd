@@ -4,12 +4,14 @@
 \name{default_hyperparams}
 \alias{default_hyperparams}
 \title{Default model hyperparameters}
-\format{a data frame with 51 rows and 3 columns
+\format{
+a data frame with 51 rows and 3 columns
 \describe{
 \item{param}{hyperparameter}
-\item{val}{value of the hyperparameter}
-\item{model}{model that the hyperparameter applies to}
-}}
+\item{value}{value of the hyperparameter}
+\item{method}{ML method that the hyperparameter applies to}
+}
+}
 \usage{
 default_hyperparams
 }

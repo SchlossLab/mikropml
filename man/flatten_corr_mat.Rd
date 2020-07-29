@@ -16,7 +16,12 @@ flattened correlation matrix (pairs of features their correlation)
 Flatten correlation matrix to pairs
 }
 \examples{
-flatten_corr_mat(data.frame(a=runif(4,-1,1), b=runif(4,-1,1), c=runif(4,-1,1)))
+set.seed(0)
+mat <- matrix(runif(100), nrow = 20)
+rownames(mat) <- 1:nrow(mat)
+colnames(mat) <- 1:ncol(mat)
+corr_mat <- stats::cor(mat, method = "spearman")
+flatten_corr_mat(corr_mat)
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

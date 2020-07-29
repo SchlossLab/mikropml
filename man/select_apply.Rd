@@ -4,7 +4,7 @@
 \alias{select_apply}
 \title{Use future apply if available}
 \usage{
-select_apply(fun = "apply", ...)
+select_apply(fun = "apply")
 }
 \arguments{
 \item{fun}{apply function to use (apply, lapply, sapply, etc.)}
@@ -12,11 +12,14 @@ select_apply(fun = "apply", ...)
 \item{...}{all arguments to input to the apply function (in the correct order)}
 }
 \value{
-
+output of apply function
 }
 \description{
 Use future apply if available
 }
 \examples{
-select_apply(fun='sapply',1:10,function(x) x*10)
+select_apply(fun='sapply')
+}
+\author{
+Zena Lapp
 }

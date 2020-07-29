@@ -3,7 +3,6 @@
 #' Check if package is installed
 #'
 #' @param package_name name of package to check
-#'
 #' @return boolean - whether package is installed (T) or not F).
 #' @export
 #'
@@ -38,7 +37,7 @@ select_apply <- function(fun='apply'){
 #' @param corr output of get_corr_feats (pairs of correlated features)
 #' @param test_data test data from machine learning
 #'
-#' @return 
+#' @return TODO
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
@@ -80,7 +79,7 @@ group_correlated_features <- function(corr, test_data) {
 #' @param feat TODO
 #' @param fewer_samples TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
@@ -122,7 +121,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
@@ -133,9 +132,8 @@ get_feature_importance <- function(dataset, model, test_data, outcome_colname, o
   outcome <- select(dataset,outcome_colname)
   features <- dataset[, !grepl(outcome_colname, names(dataset))]
 
-  # ADD IN OPTION TO CHOOSE CORRELATION THRESHOLD
   corr_mat <- get_corr_feats(features)
-  drop_cols <- c('cor')
+  drop_cols <- c("corr")
   corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
 
   grps <- group_correlated_features(corr_mat, test_data)

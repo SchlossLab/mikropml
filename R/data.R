@@ -3,8 +3,8 @@
 #' @format a data frame with 51 rows and 3 columns
 #' \describe{
 #'   \item{param}{hyperparameter}
-#'   \item{val}{value of the hyperparameter}
-#'   \item{model}{model that the hyperparameter applies to}
+#'   \item{value}{value of the hyperparameter}
+#'   \item{method}{ML method that the hyperparameter applies to}
 #' }
 "default_hyperparams"
 
@@ -43,6 +43,9 @@
 
 #' A trained model from L2 logistic regression on `train_data_sm`
 "trained_model_sm"
+
+#' 5-fold cross validation on `train_data_sm`
+"otu_sm_cv5"
 
 #' Results from running the pipline with L2 logistic regression on `otu_small`
 "otu_sm_results"

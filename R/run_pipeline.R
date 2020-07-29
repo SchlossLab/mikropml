@@ -1,68 +1,44 @@
-
-
-# Author: Begum Topcuoglu
-# Date: 2019-01-14
-######################################################################
-# Description:
-# This script trains and tests the model according to proper pipeline
-######################################################################
-
-######################################################################
-# Dependencies and Outputs:
-#    Model to put to function:
-#       1. "L2_Logistic_Regression"
-#       2. "RBF_SVM"
-#       3. "Decision_Tree"
-#       4. "Random_Forest"
-#       5. "XGBoost"
-#    data to put to function:
-#         Features: Hemoglobin levels and 16S rRNA gene sequences in the stool
-#         Labels: - Colorectal lesions of 490 patients.
-#                 - Defined as cancer or not.(Cancer here means: SRN)
-#
-# Usage:
-# Call as source when using the function. The function is:
-#   pipeline(data, model)
-
-# Output:
-#  A results list of:
-#     1. cvAUC and testAUC for 1 data-split
-#     2. cvAUC for all hyper-parameters during tuning for 1 datasplit
-#     3. feature importance info on first 10 features for 1 datasplit
-#     4. trained model as a caret object
-######################################################################
-
-######################################################################
-#------------------------- DEFINE FUNCTION -------------------#
-######################################################################
-
 #' Run machine learning pipeline
 #'
 #' @param dataset TODO
-#' @param model TODO
+#' @param method TODO
 #' @param outcome_colname TODO
 #' @param outcome_value TODO
 #' @param hyperparameters TODO
+#' @param metric TODO
 #' @param permute TODO
+#' @param nfolds fold number for cross-validation
 #' @param seed random seed (default: NA)
 #'
-#' @return
+#' @return named list with results
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#'
 run_pipeline <-
   function(dataset,
-           model,
+           method,
            outcome_colname = NA,
            outcome_value = NA,
-           hyperparameters = default_hyperparams,
+           hyperparameters = mikRopML::default_hyperparams,
+           metric = "ROC",
            permute = FALSE,
+           nfolds = 5,
            seed = NA) {
-
     if (!is.na(seed)) {
       set.seed(seed)
     }
+
+    methods <- c("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
+    if (!(method %in% methods)) {
+      stop(paste0(
+        "Method '",
+        method,
+        "' is not supported. Supported methods are:\n    ",
+        paste(methods, collapse = ", ")
+      ))
+    }
+
+    hyperparameters <- validate_hyperparams_df(hyperparameters, method)
 
     # If no outcome colname specified, use first column in data
     if (is.na(outcome_colname)) {
@@ -70,7 +46,7 @@ run_pipeline <-
     } else {
       # check to see if outcome is in column names of data
       if (!outcome_colname %in% colnames(dataset)) {
-        stop(paste("Outcome", outcome_colname, "not in column names of data."))
+        stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
       }
 
       # Let's make sure that the first column in the data frame is the outcome variable
@@ -99,14 +75,24 @@ run_pipeline <-
         get_outcome_value(dataset, outcome_colname, method = "fewer")
     } else if (!any(dataset[, outcome_colname] == outcome_value)) {
       stop(
-        "No rows in the outcome column (", outcome_colname,
-        ") with the outcome of interest (", outcome_value, ") were detected."
+        paste0(
+          "No rows in the outcome column (",
+          outcome_colname,
+          ") with the outcome of interest (",
+          outcome_value,
+          ") were detected."
+        )
       )
     }
-    message(paste0(
-      "Using '", outcome_colname, "' as the outcome column and '", outcome_value,
-      "' as the outcome value of interest."
-    ))
+    message(
+      paste0(
+        "Using '",
+        outcome_colname,
+        "' as the outcome column and '",
+        outcome_value,
+        "' as the outcome value of interest."
+      )
+    )
 
     # ------------------Check data for pre-processing------------------------->
     # Data is pre-processed in code/R/setup_model_data.R
@@ -126,70 +112,59 @@ run_pipeline <-
     #   )
     # }
 
-    # ------------------Randomize features----------------------------------->
-    # Randomize feature order, to eliminate any position-dependent effects
+    # Randomize feature order to eliminate any position-dependent effects
     features <- sample(colnames(dataset[, -1]))
-    dataset <- dplyr::select(dataset,
-                             dplyr::one_of(outcome_colname),
-                             dplyr::one_of(features))
+    dataset <- dplyr::select(
+      dataset,
+      dplyr::one_of(outcome_colname),
+      dplyr::one_of(features)
+    )
 
     # TODO: optional arg for trainingpartition size
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
-    # ----------------------------------------------------------------------->
 
-    # -------------Define hyper-parameter and cv settings-------------------->
-    # Define hyper-parameter tuning grid and the training method
-    # Uses function tuning_grid() in file ('code/learning/tuning_grid.R')
-    tune <- tuning_grid(train_data, model, outcome_colname, hyperparameters)
-    grid <- tune[[1]]
-    method <- tune[[2]]
-    cv <- tune[[3]]
+
+    tune_grid <- get_tuning_grid(hyperparameters)
+    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
 
     # Make formula based on outcome
-    f <- stats::as.formula(paste(outcome_colname, "~ ."))
+    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
-    if (model == "L2_Logistic_Regression") {
-      message(model)
-
+    # TODO: or could set unused args to NULL and just call train once?
+    if (method == "regLogistic") {
       trained_model <- caret::train(
-        f,
-        # label
+        model_formula,
         data = train_data,
-        # total data
         method = method,
         trControl = cv,
-        metric = "ROC",
-        tuneGrid = grid,
+        metric = metric,
+        tuneGrid = tune_grid,
         family = "binomial"
       )
     }
-    else if (model == "Random_Forest") {
-      message(model)
-
+    else if (method == "rf") {
       trained_model <- caret::train(
-        f,
+        model_formula,
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
-        tuneGrid = grid,
+        metric = metric,
+        tuneGrid = tune_grid,
         ntree = 1000
       ) # not tuning ntree
     }
     else {
-      message(model)
-
       trained_model <- caret::train(
-        f,
+        model_formula,
         data = train_data,
         method = method,
         trControl = cv,
-        metric = "ROC",
-        tuneGrid = grid
+        metric = metric,
+        tuneGrid = tune_grid
       )
     }
     # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
@@ -219,7 +194,6 @@ run_pipeline <-
     feature_importance_weights <- ifelse(model == "L2_Logistic_Regression",
                                          trained_model$finalModel$W,
                                          NULL)
-
     return(
       list(
         trained_model = trained_model,
@@ -228,5 +202,6 @@ run_pipeline <-
         results_individual = results_individual,
         feature_importance_weights = feature_importance_weights,
         feature_importance_perm = feature_importance_perm
-      ))
+      )
+    )
   }

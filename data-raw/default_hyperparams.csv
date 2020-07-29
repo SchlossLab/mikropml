@@ -1,4 +1,4 @@
-param,val,model
+param,value,method
 cost,1e-6,L2_Logistic_Regression
 cost,1e-5,L2_Logistic_Regression
 cost,1e-4,L2_Logistic_Regression
@@ -12,6 +12,8 @@ cost,0.25,L2_Logistic_Regression
 cost,0.5,L2_Logistic_Regression
 cost,1,L2_Logistic_Regression
 cost,10,L2_Logistic_Regression
+loss,L2_primal,L2_Logistic_Regression
+epsilon,0.01,L2_Logistic_Regression
 sigma,0.00000001,RBF_SVM
 sigma,0.0000001,RBF_SVM
 sigma,0.000001,RBF_SVM

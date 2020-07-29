@@ -4,9 +4,11 @@
 \name{otu_small}
 \alias{otu_small}
 \title{Small OTU abundance dataset}
-\format{A data frame with 60 rows and 61 variables.
+\format{
+A data frame with 60 rows and 61 variables.
 The \code{dx} column is the diagnosis: healthy or cancerous (colorectal).
-All other columns are OTU relative abundances.}
+All other columns are OTU relative abundances.
+}
 \usage{
 otu_small
 }

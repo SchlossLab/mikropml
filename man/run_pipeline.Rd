@@ -6,18 +6,20 @@
 \usage{
 run_pipeline(
   dataset,
-  model,
+  method,
   outcome_colname = NA,
   outcome_value = NA,
-  hyperparameters = default_hyperparams,
+  hyperparameters = mikRopML::default_hyperparams,
+  metric = "ROC",
   permute = FALSE,
+  nfolds = 5,
   seed = NA
 )
 }
 \arguments{
 \item{dataset}{TODO}
 
-\item{model}{TODO}
+\item{method}{TODO}
 
 \item{outcome_colname}{TODO}
 
@@ -25,12 +27,16 @@ run_pipeline(
 
 \item{hyperparameters}{TODO}
 
+\item{metric}{TODO}
+
 \item{permute}{TODO}
+
+\item{nfolds}{fold number for cross-validation}
 
 \item{seed}{random seed (default: NA)}
 }
 \value{
-
+named list with results
 }
 \description{
 Run machine learning pipeline

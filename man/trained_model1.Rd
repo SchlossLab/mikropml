@@ -4,7 +4,9 @@
 \name{trained_model1}
 \alias{trained_model1}
 \title{A trained model from L2 logistic regression on \code{train_data1}}
-\format{An object of class \code{train} (inherits from \code{train.formula}) of length 23.}
+\format{
+An object of class \code{train} (inherits from \code{train.formula}) of length 23.
+}
 \usage{
 trained_model1
 }
