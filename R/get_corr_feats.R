@@ -10,10 +10,10 @@
 #'
 #' @examples
 #' set.seed(0)
-#' mat <- matrix(runif(100),nrow=20)
+#' mat <- matrix(runif(100), nrow = 20)
 #' rownames(mat) <- 1:nrow(mat)
 #' colnames(mat) <- 1:ncol(mat)
-#' corr_mat <- stats::cor(mat,method = "spearman")
+#' corr_mat <- stats::cor(mat, method = "spearman")
 #' flatten_corr_mat(corr_mat)
 flatten_corr_mat <- function(cormat) {
   ut <- upper.tri(cormat)
@@ -36,9 +36,9 @@ flatten_corr_mat <- function(cormat) {
 #'
 #' @examples
 #' set.seed(0)
-#' mat = matrix(runif(100),nrow=20)
-#' rownames(mat) = 1:nrow(mat)
-#' colnames(mat) = 1:ncol(mat)
+#' mat <- matrix(runif(100), nrow = 20)
+#' rownames(mat) <- 1:nrow(mat)
+#' colnames(mat) <- 1:ncol(mat)
 #' get_corr_feats(mat, 0.4)
 #' @importFrom dplyr .data
 get_corr_feats <- function(features, cor_value = 1) {
