@@ -38,6 +38,13 @@ run_pipeline <-
       ))
     }
 
+    if (nrow(dataset) == 0) {
+      stop("No rows detected in dataset.")
+    }
+    if (ncol(dataset) <= 1) {
+      stop("1 or fewer columns detected in dataset. There should be an outcome column and at least one feature column.")
+    }
+
     hyperparameters <- validate_hyperparams_df(hyperparameters, method)
 
     # If no outcome colname specified, use first column in data
@@ -84,6 +91,7 @@ run_pipeline <-
         )
       )
     }
+
     message(
       paste0(
         "Using '",
