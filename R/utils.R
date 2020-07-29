@@ -42,9 +42,12 @@ get_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #'
 #' @param package_name name of package to check
 #' @return boolean - whether package is installed (T) or not F).
-#' @export
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples check_package_installed("base"); check_package_installed("asdf")
+#' @examples
+#' check_package_installed("base")
+#' check_package_installed("asdf")
 check_package_installed <- function(package_name) {
   return(package_name %in% rownames(utils::installed.packages()))
 }
@@ -55,16 +58,16 @@ check_package_installed <- function(package_name) {
 #'
 #' @return output of apply function
 #' @noRd
-#' @author Zena Lapp
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples select_apply(fun='sapply')
-select_apply <- function(fun='apply') {
-  installed <- check_package_installed('future.apply')
-  pkg <- 'base'
-  if(installed){
-    fun <- paste0('future_',fun)
+#' @examples
+#' select_apply(fun = 'sapply')
+select_apply <- function(fun = 'apply') {
+  if (check_package_installed('future.apply')) {
+    fun <- paste0('future_', fun)
     pkg <- 'future.apply'
+  } else {
+    pkg <- 'base'
   }
-  fn <- utils::getFromNamespace(fun,pkg)
-  return(fn)
+  return(utils::getFromNamespace(fun, pkg))
 }
