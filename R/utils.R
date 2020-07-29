@@ -61,13 +61,13 @@ check_package_installed <- function(package_name) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' select_apply(fun = 'sapply')
-select_apply <- function(fun = 'apply') {
-  if (check_package_installed('future.apply')) {
-    fun <- paste0('future_', fun)
-    pkg <- 'future.apply'
+#' select_apply(fun = "sapply")
+select_apply <- function(fun = "apply") {
+  if (check_package_installed("future.apply")) {
+    fun <- paste0("future_", fun)
+    pkg <- "future.apply"
   } else {
-    pkg <- 'base'
+    pkg <- "base"
   }
   return(utils::getFromNamespace(fun, pkg))
 }

@@ -17,8 +17,8 @@ hyperparameters <- split(hyperparameters$value, hyperparameters$param)
 folds <- 5
 set.seed(2019)
 cvIndex <- caret::createMultiFolds(factor(train_data_mini[, outcome_colname]),
-                                   folds,
-                                   times = 100
+  folds,
+  times = 100
 )
 otu_mini_cv5 <- caret::trainControl(
   method = "repeatedcv",
@@ -53,11 +53,11 @@ usethis::use_data(trained_model_mini, overwrite = TRUE)
 
 ## code to prepare `otu_mini_results`
 otu_mini_results <- mikRopML::run_pipeline(otu_mini,
-                                         "regLogistic",
-                                         outcome_colname = "dx",
-                                         outcome_value = "cancer",
-                                         hyperparameters = mikRopML::default_hyperparams,
-                                         permute = FALSE,
-                                         seed = 2019
+  "regLogistic",
+  outcome_colname = "dx",
+  outcome_value = "cancer",
+  hyperparameters = mikRopML::default_hyperparams,
+  permute = FALSE,
+  seed = 2019
 )
 usethis::use_data(otu_mini_results, overwrite = TRUE)

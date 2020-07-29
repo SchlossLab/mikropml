@@ -9,7 +9,6 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 group_correlated_features <- function(corr, test_data) {
-
   all_feats <- colnames(test_data)[2:ncol(test_data)]
   corr_feats <- unique(c(corr$feature2, corr$feature1))
   noncorr_feats <- all_feats[!all_feats %in% corr_feats]
@@ -60,7 +59,7 @@ find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_v
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
   # get the new AUC and AUC differences
-  sapply_fn <- select_apply(fun='sapply')
+  sapply_fn <- select_apply(fun = "sapply")
   auc_diffs <- sapply_fn(0:99, function(s) {
     set.seed(s)
     full_permuted <- test_data
@@ -96,7 +95,7 @@ find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_v
 get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
 
   # get outcome and features
-  outcome <- dplyr::select(train_data,dplyr::all_of(outcome_colname))
+  outcome <- dplyr::select(train_data, dplyr::all_of(outcome_colname))
   features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
 
   corr_mat <- get_corr_feats(features)
@@ -113,7 +112,7 @@ get_feature_importance <- function(train_data, model, test_data, outcome_colname
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
-  lapply_fn <- select_apply('lapply')
+  lapply_fn <- select_apply("lapply")
   imps <- do.call("rbind", lapply_fn(grps, function(feat) {
     return(find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value))
   }))

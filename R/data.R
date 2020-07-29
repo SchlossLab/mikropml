@@ -72,7 +72,7 @@
 "otu_sm_results"
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
-#"otu_mini_results"
+# "otu_mini_results"
 
 # TODO: rename below objects to have 'medium' in the variable names
 
@@ -84,4 +84,3 @@
 
 #' A trained model from L2 logistic regression on `train_data1`
 "trained_model1"
-
