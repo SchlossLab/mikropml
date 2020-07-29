@@ -35,20 +35,46 @@
 #' All other columns are OTU relative abundances.
 "otu_small"
 
+#' Mini OTU abundance dataset
+#'
+#' A dataset containing relatives abundances of OTUs for human stool samples
+#'
+#' @format A data frame
+#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
+#' All other columns are OTU relative abundances.
+"otu_mini"
+
 #' A training data partition from `otu_small`
 "train_data_sm"
+
+#' A training data partition from `otu_mini`
+"train_data_mini"
 
 #' A test data partition from `otu_small`
 "test_data_sm"
 
+#' A test data partition from `otu_mini`
+"test_data_mini"
+
 #' A trained model from L2 logistic regression on `train_data_sm`
 "trained_model_sm"
+
+#' A trained model from L2 logistic regression on `train_data_mini`
+"trained_model_mini"
 
 #' 5-fold cross validation on `train_data_sm`
 "otu_sm_cv5"
 
+#' 5-fold cross validation on `train_data_mini`
+"otu_mini_cv5"
+
 #' Results from running the pipline with L2 logistic regression on `otu_small`
 "otu_sm_results"
+
+#' Results from running the pipline with L2 logistic regression on `otu_mini`
+# "otu_mini_results"
+
+# TODO: rename below objects to have 'medium' in the variable names
 
 #' A training data partition from `otu_medium`
 "train_data1"
