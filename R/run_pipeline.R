@@ -36,7 +36,9 @@ run_pipeline <-
     validate_seed(seed)
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
-                                         outcome_value, method = "fewer")
+      outcome_value,
+      method = "fewer"
+    )
     hyperparameters <- validate_hyperparams_df(hyperparameters, method)
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = NA)
 
@@ -63,9 +65,10 @@ run_pipeline <-
       set.seed(seed)
     }
     inTraining <- caret::createDataPartition(dataset[, outcome_colname],
-                                             p = training_frac, list = FALSE)
-    train_data <- dataset[inTraining,]
-    test_data <- dataset[-inTraining,]
+      p = training_frac, list = FALSE
+    )
+    train_data <- dataset[inTraining, ]
+    test_data <- dataset[-inTraining, ]
 
     tune_grid <- get_tuning_grid(hyperparameters)
     cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
@@ -110,17 +113,21 @@ run_pipeline <-
 
     cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
     results_individual <- trained_model$results
-    test_aucs <-  calc_aucs(trained_model, test_data,
-                            outcome_colname, outcome_value)
+    test_aucs <- calc_aucs(
+      trained_model, test_data,
+      outcome_colname, outcome_value
+    )
 
     if (permute) {
       message("Performing permutation test")
       feature_importance_perm <-
-        permutation_importance(dataset,
-                               trained_model,
-                               test_data,
-                               outcome_colname,
-                               outcome_value)
+        permutation_importance(
+          dataset,
+          trained_model,
+          test_data,
+          outcome_colname,
+          outcome_value
+        )
     } else {
       message("Skipping permutation test")
       feature_importance_perm <- NULL
@@ -128,8 +135,9 @@ run_pipeline <-
 
     feature_importance_weights <-
       ifelse(method == "L2_Logistic_Regression",
-             trained_model$finalModel$W,
-             NULL)
+        trained_model$finalModel$W,
+        NULL
+      )
 
     return(
       list(
