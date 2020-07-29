@@ -2,25 +2,30 @@
 % Please edit documentation in R/calc_aucs.R
 \name{calc_aucs}
 \alias{calc_aucs}
-\title{Title}
+\title{Calculate AUROC and AUPRC}
 \usage{
-calc_aucs(trained_model, test_data, outcome, fewer_samples)
+calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
 }
 \arguments{
-\item{trained_model}{TODO}
+\item{trained_model}{trained model from caret}
 
-\item{test_data}{TODO}
+\item{test_data}{dataframe of testing data}
 
-\item{outcome}{TODO}
+\item{outcome_colname}{Column name of the outcome variable}
 
-\item{fewer_samples}{TODO}
+\item{outcome_value}{Outcome value of interest}
 }
 \value{
-
+List of auroc and auprc values
 }
 \description{
-Title
+Calculate AUROC and AUPRC
+}
+\examples{
+calc_aucs(trained_model_sm, test_data_sm, "dx", "cancer")
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
+
+Kelly Sovacool, \email{sovacool@umich.edu}
 }

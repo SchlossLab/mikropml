@@ -5,36 +5,32 @@
 \title{Title}
 \usage{
 permutation_importance(
+  dataset,
   model,
   test_data,
-  first_outcome,
-  second_outcome,
-  outcome,
-  fewer_samples,
-  level
+  outcome_colname,
+  outcome_value
 )
 }
 \arguments{
+\item{dataset}{TODO}
+
 \item{model}{TODO}
 
 \item{test_data}{TODO}
 
-\item{first_outcome}{TODO}
+\item{outcome_colname}{TODO}
 
-\item{second_outcome}{TODO}
-
-\item{outcome}{TODO}
-
-\item{fewer_samples}{TODO}
-
-\item{level}{TODO}
+\item{outcome_value}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Title
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
+
+Zena Lapp, \email{zenalapp@umich.edu}
 }
