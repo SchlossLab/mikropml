@@ -46,7 +46,7 @@ get_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #'
 #' @examples check_package_installed("base"); check_package_installed("asdf")
 check_package_installed <- function(package_name){
-  return(package_name %in% rownames(installed.packages()))
+  return(package_name %in% rownames(utils::installed.packages()))
 }
 
 #' Use future apply if available
