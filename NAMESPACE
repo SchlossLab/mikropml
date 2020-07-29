@@ -3,7 +3,6 @@
 export("%>%")
 export(.data)
 export(calc_aucs)
-export(check_package_installed)
 export(define_cv)
 export(find_permuted_auc)
 export(flatten_corr_mat)
