@@ -12,3 +12,4 @@
 ^pkgdown$
 ^doc$
 ^Meta$
+^data-raw$

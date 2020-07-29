@@ -1,0 +1,27 @@
+name: check
+
+on:
+  push:
+    branches: 
+      - master
+      - refactor
+  pull_request:
+    branches: 
+      - master
+      - refactor
+    
+
+jobs:
+  R-CMD-check:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "devtools"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Check
+        run: devtools::check(force_suggests = TRUE)
+        shell: Rscript {0}
