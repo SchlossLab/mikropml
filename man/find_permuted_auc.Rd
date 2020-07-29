@@ -4,21 +4,21 @@
 \alias{find_permuted_auc}
 \title{Get permuted AUROC difference for a single feature (or group of features)}
 \usage{
-find_permuted_auc(model, test_data, outcome, feat, fewer_samples)
+find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value)
 }
 \arguments{
-\item{model}{TODO}
+\item{model}{caret model}
 
-\item{test_data}{TODO}
+\item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome}{TODO}
+\item{outcome_colname}{column name of the outcome}
 
-\item{feat}{TODO}
+\item{feat}{feature or group of correlated features to permute}
 
-\item{fewer_samples}{TODO}
+\item{outcome_value}{outcome value of interest}
 }
 \value{
-TODO
+vector of mean permuted auc and mean difference between test and permuted auc
 }
 \description{
 Get permuted AUROC difference for a single feature (or group of features)

@@ -1,47 +1,15 @@
-
-
-#' Check if package is installed
-#'
-#' @param package_name name of package to check
-#' @return boolean - whether package is installed (T) or not F).
-#' @export
-#'
-#' @examples check_package_installed("base"); check_package_installed("asdf")
-check_package_installed <- function(package_name){
-  return(package_name %in% rownames(installed.packages()))
-}
-
-#' Use future apply if available
-#'
-#' @param fun apply function to use (apply, lapply, sapply, etc.)
-#' @param ... all arguments to input to the apply function (in the correct order)
-#'
-#' @return output of apply function
-#' @export
-#' @author Zena Lapp
-#'
-#' @examples select_apply(fun='sapply')
-select_apply <- function(fun='apply'){
-  installed <- check_package_installed('future.apply')
-  pkg <- 'base'
-  if(installed){
-    fun <- paste0('future_',fun)
-    pkg <- 'future.apply'
-  }
-  fn <- utils::getFromNamespace(fun,pkg)
-  return(fn)
-}
-
 #' Group correlated features
 #'
 #' @param corr output of get_corr_feats (pairs of correlated features)
 #' @param test_data test data from machine learning
 #'
-#' @return TODO
+#' @return vector of correlated features where each element is the group of correlated features separated by pipes (|)
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 group_correlated_features <- function(corr, test_data) {
+  
   all_feats <- colnames(test_data)[2:ncol(test_data)]
   corr_feats <- unique(c(corr$feature2, corr$feature1))
   noncorr_feats <- all_feats[!all_feats %in% corr_feats]
@@ -73,21 +41,21 @@ group_correlated_features <- function(corr, test_data) {
 
 #' Get permuted AUROC difference for a single feature (or group of features)
 #'
-#' @param model TODO
-#' @param test_data TODO
-#' @param outcome TODO
-#' @param feat TODO
-#' @param fewer_samples TODO
+#' @param model caret model
+#' @param test_data held out test data: dataframe of outcome and features
+#' @param outcome_colname column name of the outcome
+#' @param feat feature or group of correlated features to permute
+#' @param outcome_value outcome value of interest
 #'
-#' @return TODO
+#' @return vector of mean permuted auc and mean difference between test and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
+find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_value) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
-  test_auc <- calc_aucs(model, test_data, outcome, fewer_samples)$auroc
+  test_auc <- calc_aucs(model, test_data, outcome_colname, outcome_value)$auroc
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
@@ -104,7 +72,7 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
     }
 
     # Calculate the new auc
-    new_auc <- calc_aucs(model, full_permuted, outcome, fewer_samples)$auroc
+    new_auc <- calc_aucs(model, full_permuted, outcome_colname, outcome_value)$auroc
     # Return how does this feature being permuted effect the auc
     return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
   })
@@ -115,26 +83,26 @@ find_permuted_auc <- function(model, test_data, outcome, feat, fewer_samples) {
 
 #' Get feature importance using permutation method
 #'
-#' @param dataset TODO
-#' @param model TODO
-#' @param test_data TODO
-#' @param outcome_colname TODO
-#' @param outcome_value TODO
+#' @param train_data training data: dataframe of outcome and features
+#' @param model caret model
+#' @param test_data held out test data: dataframe of outcome and features
+#' @param outcome_colname column name of the outcome
+#' @param outcome_value outcome value of interest
 #'
-#' @return TODO
+#' @return aucs when each feature is permuted, and differences between test auc and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(dataset, model, test_data, outcome_colname, outcome_value) {
+get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
 
-  # FIX THESE TWO LINES WHEN WE FIX THE BIGGER STRUCTURE
-  outcome <- select(dataset,outcome_colname)
-  features <- dataset[, !grepl(outcome_colname, names(dataset))]
+  # get outcome and features
+  outcome <- dplyr::select(train_data,dplyr::all_of(outcome_colname))
+  features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
 
   corr_mat <- get_corr_feats(features)
   drop_cols <- c("corr")
-  corr_mat <- corr_mat[, !(names(corr_mat) %in% drop_cols)]
+  corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% drop_cols))
 
   grps <- group_correlated_features(corr_mat, test_data)
 

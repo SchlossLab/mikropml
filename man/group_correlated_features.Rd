@@ -12,11 +12,13 @@ group_correlated_features(corr, test_data)
 \item{test_data}{test data from machine learning}
 }
 \value{
-TODO
+vector of correlated features where each element is the group of correlated features separated by pipes (|)
 }
 \description{
 Group correlated features
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
+
+Zena Lapp, \email{zenalapp@umich.edu}
 }

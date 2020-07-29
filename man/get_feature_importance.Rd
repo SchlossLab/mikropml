@@ -5,7 +5,7 @@
 \title{Get feature importance using permutation method}
 \usage{
 get_feature_importance(
-  dataset,
+  train_data,
   model,
   test_data,
   outcome_colname,
@@ -13,18 +13,18 @@ get_feature_importance(
 )
 }
 \arguments{
-\item{dataset}{TODO}
+\item{train_data}{training data: dataframe of outcome and features}
 
-\item{model}{TODO}
+\item{model}{caret model}
 
-\item{test_data}{TODO}
+\item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{TODO}
+\item{outcome_colname}{column name of the outcome}
 
-\item{outcome_value}{TODO}
+\item{outcome_value}{outcome value of interest}
 }
 \value{
-TODO
+aucs when each feature is permuted, and differences between test auc and permuted auc
 }
 \description{
 Get feature importance using permutation method

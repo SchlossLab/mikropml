@@ -53,7 +53,7 @@ usethis::use_data(trained_model_sm, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results`
 otu_sm_results <- mikRopML::run_pipeline(otu_small,
-  "L2_Logistic_Regression",
+  "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
   hyperparameters = mikRopML::default_hyperparams,
