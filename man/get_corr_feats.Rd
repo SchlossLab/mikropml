@@ -19,9 +19,9 @@ Identify correlated features
 }
 \examples{
 set.seed(0)
-mat = matrix(runif(100),nrow=20)
-rownames(mat) = 1:nrow(mat)
-colnames(mat) = 1:ncol(mat)
+mat <- matrix(runif(100), nrow = 20)
+rownames(mat) <- 1:nrow(mat)
+colnames(mat) <- 1:ncol(mat)
 get_corr_feats(mat, 0.4)
 }
 \author{

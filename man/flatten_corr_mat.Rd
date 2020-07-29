@@ -17,10 +17,10 @@ Flatten correlation matrix to pairs
 }
 \examples{
 set.seed(0)
-mat <- matrix(runif(100),nrow=20)
+mat <- matrix(runif(100), nrow = 20)
 rownames(mat) <- 1:nrow(mat)
 colnames(mat) <- 1:ncol(mat)
-corr_mat <- stats::cor(mat,method = "spearman")
+corr_mat <- stats::cor(mat, method = "spearman")
 flatten_corr_mat(corr_mat)
 }
 \author{
