@@ -44,6 +44,9 @@
 #' A trained model from L2 logistic regression on `train_data_sm`
 "trained_model_sm"
 
+#' 5-fold cross validation on `train_data_sm`
+"otu_sm_cv5"
+
 #' Results from running the pipline with L2 logistic regression on `otu_small`
 "otu_sm_results"
 
