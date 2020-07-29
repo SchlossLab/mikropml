@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_pipeline.R
 \name{run_pipeline}
 \alias{run_pipeline}
-\title{Run machine learning pipeline}
+\title{Run the machine learning pipeline}
 \usage{
 run_pipeline(
   dataset,
@@ -10,28 +10,28 @@ run_pipeline(
   outcome_colname = NA,
   outcome_value = NA,
   hyperparameters = mikRopML::default_hyperparams,
-  metric = "ROC",
   permute = FALSE,
-  nfolds = 5,
+  nfolds = as.integer(5),
+  training_frac = 0.8,
   seed = NA
 )
 }
 \arguments{
-\item{dataset}{TODO}
+\item{dataset}{dataframe with an outcome variable and other columns as features}
 
-\item{method}{TODO}
+\item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
 
-\item{outcome_colname}{TODO}
+\item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{outcome_value}{TODO}
+\item{outcome_value}{outcome value of interest as a string}
 
-\item{hyperparameters}{TODO}
+\item{hyperparameters}{dataframe of hyperparameters (default: default_hyperparams)}
 
-\item{metric}{TODO}
+\item{permute}{run permutation imporance (default: FALSE)}
 
-\item{permute}{TODO}
+\item{nfolds}{fold number for cross-validation (default: 5)}
 
-\item{nfolds}{fold number for cross-validation}
+\item{training_frac}{fraction size of data for training (default: 0.8)}
 
 \item{seed}{random seed (default: NA)}
 }
@@ -39,8 +39,12 @@ run_pipeline(
 named list with results
 }
 \description{
-Run machine learning pipeline
+Run the machine learning pipeline
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
+
+Zena Lapp, \email{zenalapp@umich.edu}
+
+Kelly Sovacool, \email{sovacool@umich.edu}
 }
