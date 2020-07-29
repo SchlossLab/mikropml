@@ -19,7 +19,10 @@ Identify correlated features
 }
 \examples{
 set.seed(0)
-get_corr_feats(data.frame(a = runif(4), b = runif(4), c = runif(4)), 0.6)
+mat <- matrix(runif(100), nrow = 20)
+rownames(mat) <- 1:nrow(mat)
+colnames(mat) <- 1:ncol(mat)
+get_corr_feats(mat, 0.4)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
