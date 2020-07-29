@@ -45,21 +45,20 @@ get_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #' @export
 #'
 #' @examples check_package_installed("base"); check_package_installed("asdf")
-check_package_installed <- function(package_name){
+check_package_installed <- function(package_name) {
   return(package_name %in% rownames(utils::installed.packages()))
 }
 
 #' Use future apply if available
 #'
 #' @param fun apply function to use (apply, lapply, sapply, etc.)
-#' @param ... all arguments to input to the apply function (in the correct order)
 #'
 #' @return output of apply function
-#' @export
+#' @noRd
 #' @author Zena Lapp
 #'
 #' @examples select_apply(fun='sapply')
-select_apply <- function(fun='apply'){
+select_apply <- function(fun='apply') {
   installed <- check_package_installed('future.apply')
   pkg <- 'base'
   if(installed){
