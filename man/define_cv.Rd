@@ -4,12 +4,14 @@
 \alias{define_cv}
 \title{Define Cross-Validation Scheme and Training Parameters}
 \usage{
-define_cv(train_data, outcome_colname)
+define_cv(train_data, outcome_colname, nfolds = 5)
 }
 \arguments{
 \item{train_data}{Dataframe for training model}
 
 \item{outcome_colname}{Column name of the outcome variable}
+
+\item{nfolds}{fold number for cross-validation}
 }
 \value{
 Caret object for trainControl that controls cross-validation
@@ -18,7 +20,7 @@ Caret object for trainControl that controls cross-validation
 Define Cross-Validation Scheme and Training Parameters
 }
 \examples{
-define_cv(train_data_sm, "dx")
+define_cv(train_data_sm, "dx", nfolds = 5)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
