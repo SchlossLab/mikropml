@@ -1,0 +1,20 @@
+ml_methods = ['regLogistic', 'rf']
+seeds = [2020]
+
+rule targets:
+    input:
+        expand("results/{method}_{seed}.csv", method = ml_methods, seed = seeds)
+
+rule run_ml:
+    input:
+        R="run_ml.R",
+        csv="data/otu_medium.csv"
+    output:
+        rds="results/{method}_{seed}.csv"
+    params:
+        method="{method}",
+        seed="{seed}"
+    script:
+        "{input.R}"
+
+# TODO; plots, report, etc.
