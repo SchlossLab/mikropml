@@ -74,52 +74,56 @@ test_that("randomize_feature_order works", {
   )
 })
 
-test_that("validate_permute works", {
-  expect_true(is.null(validate_permute(TRUE)))
-  expect_true(is.null(validate_permute(FALSE)))
+test_that("check_permute works", {
+  expect_true(is.null(check_permute(TRUE)))
+  expect_true(is.null(check_permute(FALSE)))
   expect_error(
-    validate_permute("not_a_logical"),
+    check_permute("not_a_logical"),
     "`permute` must be TRUE or FALSE"
   )
 })
 
-test_that("validate_nfolds works", {
-  expect_true(is.null(validate_nfolds(as.integer(1), test_df)))
+test_that("check_nfolds works", {
+  expect_true(is.null(check_nfolds(as.integer(1), test_df)))
   expect_error(
-    validate_nfolds(as.integer(10), test_df),
+    check_nfolds(as.integer(10), test_df),
     "`nfolds` must be an integer"
   )
   expect_error(
-    validate_nfolds(as.integer(0), test_df),
+    check_nfolds(as.integer(0), test_df),
     "`nfolds` must be an integer"
   )
   expect_error(
-    validate_nfolds("not_an_int", test_df),
+    check_nfolds("not_an_int", test_df),
     "`nfolds` must be an integer"
   )
 })
 
-test_that("validate_training_frac works", {
-  expect_true(is.null(validate_training_frac(0.8)))
+test_that("check_training_frac works", {
+  expect_true(is.null(check_training_frac(0.8)))
   expect_error(
-    validate_training_frac("not_a_number"),
+    check_training_frac("not_a_number"),
     "`training_frac` must be a numeric between 0 and 1."
   )
   expect_error(
-    validate_training_frac(1),
+    check_training_frac(1),
     "`training_frac` must be a numeric between 0 and 1."
   )
   expect_error(
-    validate_training_frac(0),
+    check_training_frac(0),
     "`training_frac` must be a numeric between 0 and 1."
   )
 })
 
-test_that("validate_seed works", {
-  expect_true(is.null(validate_seed(NA)))
-  expect_true(is.null(validate_seed(10)))
+test_that("check_seed works", {
+  expect_true(is.null(check_seed(NA)))
+  expect_true(is.null(check_seed(10)))
   expect_error(
-    validate_seed("not_a_number"),
+    check_seed("not_a_number"),
     "`seed` must be `NA` or numeric."
   )
+})
+
+test_that('check_all works', {
+    expect_true(is.null(check_all(otu_small, 'regLogistic', TRUE, as.integer(5), 0.8, NA)))
 })

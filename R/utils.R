@@ -6,9 +6,27 @@ dplyr::`%>%`
 #' @export
 rlang::.data
 
+#' Check all params that don't return a value
+#'
+#' @inheritParams run_pipeline
+#'
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' check_all(otu_small, 'regLogistic', TRUE, as.integer(5), 0.8, NA)
+check_all <- function(dataset, method, permute, nfolds, training_frac, seed) {
+    check_method(method)
+    check_dataset(dataset)
+    check_permute(permute)
+    check_nfolds(nfolds, dataset)
+    check_training_frac(training_frac)
+    check_seed(seed)
+}
+
 #' Check if the method is supported. If not, throws error.
 #'
-#' @param method method name
+#' @inheritParams run_pipeline
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -187,8 +205,8 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
 #'
 #' @examples
 #' permute <- TRUE
-#' validate_permute(permute)
-validate_permute <- function(permute) {
+#' check_permute(permute)
+check_permute <- function(permute) {
   if (!is.logical(permute)) {
     stop(paste0("`permute` must be TRUE or FALSE, but you provided a ",
                 class(permute)))
@@ -203,8 +221,8 @@ validate_permute <- function(permute) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' validate_nfolds(5, otu_small)
-validate_nfolds <- function(nfolds, dataset) {
+#' check_nfolds(5, otu_small)
+check_nfolds <- function(nfolds, dataset) {
   if (!is.integer(nfolds) | nfolds < 1 | nfolds > (ncol(dataset) - 1)) {
     stop(paste0("`nfolds` must be an integer between 1 and the number of features in the data.\n",
                 "  You provided: ", nfolds))
@@ -220,15 +238,15 @@ validate_nfolds <- function(nfolds, dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' validate_training_frac(0.8)
-validate_training_frac <- function(frac) {
+#' check_training_frac(0.8)
+check_training_frac <- function(frac) {
   if (!is.numeric(frac) | (frac <= 0 | frac >= 1)) {
     stop(paste0("`training_frac` must be a numeric between 0 and 1.\n",
                 "    You provided: ", frac))
   }
 }
 
-#' Validate that the seed is either NA or a number
+#' check that the seed is either NA or a number
 #'
 #' @param seed random seed
 #'
@@ -236,8 +254,8 @@ validate_training_frac <- function(frac) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' validate_seed(2019)
-validate_seed <- function(seed) {
+#' check_seed(2019)
+check_seed <- function(seed) {
   if (!is.na(seed) & !is.numeric(seed)) {
     stop(paste0("`seed` must be `NA` or numeric.\n",
                 "    You provided: ", seed))

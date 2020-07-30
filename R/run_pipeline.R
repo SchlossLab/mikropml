@@ -27,19 +27,14 @@ run_pipeline <-
            training_frac = 0.8,
            seed = NA) {
 
-    # input validation functions
-    check_method(method)
-    check_dataset(dataset)
-    validate_permute(permute)
-    validate_nfolds(nfolds, dataset)
-    validate_training_frac(training_frac)
-    validate_seed(seed)
+    # input validation
+    check_all(dataset, method, permute, nfolds, training_frac, seed)
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
       outcome_value,
       method = "fewer"
     )
-    hyperparameters <- validate_hyperparams_df(hyperparameters, method)
+    hyperparameters <- check_hyperparams_df(hyperparameters, method)
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = NA)
 
 
