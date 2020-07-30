@@ -37,3 +37,37 @@ get_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
   }
   return(outcome_value)
 }
+
+#' Check if package is installed
+#'
+#' @param package_name name of package to check
+#' @return boolean - whether package is installed (T) or not F).
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' check_package_installed("base")
+#' check_package_installed("asdf")
+check_package_installed <- function(package_name) {
+  return(package_name %in% rownames(utils::installed.packages()))
+}
+
+#' Use future apply if available
+#'
+#' @param fun apply function to use (apply, lapply, sapply, etc.)
+#'
+#' @return output of apply function
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' select_apply(fun = "sapply")
+select_apply <- function(fun = "apply") {
+  if (check_package_installed("future.apply")) {
+    fun <- paste0("future_", fun)
+    pkg <- "future.apply"
+  } else {
+    pkg <- "base"
+  }
+  return(utils::getFromNamespace(fun, pkg))
+}
