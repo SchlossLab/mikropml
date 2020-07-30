@@ -229,7 +229,6 @@ check_nfolds <- function(nfolds, dataset) {
   }
 }
 
-
 #' Check that the training fraction is between 0 and 1
 #'
 #' @param frac fraction (numeric)
@@ -260,4 +259,37 @@ check_seed <- function(seed) {
     stop(paste0("`seed` must be `NA` or numeric.\n",
                 "    You provided: ", seed))
   }
+
+#' Check if package is installed
+#'
+#' @param package_name name of package to check
+#' @return boolean - whether package is installed (T) or not F).
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' check_package_installed("base")
+#' check_package_installed("asdf")
+check_package_installed <- function(package_name) {
+  return(package_name %in% rownames(utils::installed.packages()))
+}
+
+#' Use future apply if available
+#'
+#' @param fun apply function to use (apply, lapply, sapply, etc.)
+#'
+#' @return output of apply function
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' select_apply(fun = "sapply")
+select_apply <- function(fun = "apply") {
+  if (check_package_installed("future.apply")) {
+    fun <- paste0("future_", fun)
+    pkg <- "future.apply"
+  } else {
+    pkg <- "base"
+  }
+  return(utils::getFromNamespace(fun, pkg))
 }
