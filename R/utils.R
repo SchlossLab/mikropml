@@ -259,6 +259,7 @@ check_seed <- function(seed) {
     stop(paste0("`seed` must be `NA` or numeric.\n",
                 "    You provided: ", seed))
   }
+}
 
 #' Check if package is installed
 #'
