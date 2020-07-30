@@ -1,7 +1,7 @@
 # tune grid tests for each method
 test_that("tune grid works for regLogistic", {
   hyperparams_df <- mikRopML::default_hyperparams %>%
-    validate_hyperparams_df("regLogistic")
+    check_hyperparams_df("regLogistic")
   hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
   grid <- expand.grid(
     cost = hyperparams_lst$cost,
@@ -12,7 +12,7 @@ test_that("tune grid works for regLogistic", {
 })
 test_that("tune grid works for svmRadial", {
   hyperparams_df <- mikRopML::default_hyperparams %>%
-    validate_hyperparams_df("svmRadial")
+    check_hyperparams_df("svmRadial")
   hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
   grid <- expand.grid(
     C = hyperparams_lst$C,
@@ -22,21 +22,21 @@ test_that("tune grid works for svmRadial", {
 })
 test_that("tune grid works for rpart2", {
   hyperparams_df <- mikRopML::default_hyperparams %>%
-    validate_hyperparams_df("rpart2")
+    check_hyperparams_df("rpart2")
   hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
   grid <- expand.grid(maxdepth = hyperparams_lst$maxdepth)
   expect_equal(get_tuning_grid(hyperparams_df), grid)
 })
 test_that("tune grid works for rf", {
   hyperparams_df <- mikRopML::default_hyperparams %>%
-    validate_hyperparams_df("rf")
+    check_hyperparams_df("rf")
   hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
   grid <- expand.grid(mtry = hyperparams_lst$mtry)
   expect_equal(get_tuning_grid(hyperparams_df), grid)
 })
 test_that("tune grid works for xgbTree", {
   hyperparams_df <- mikRopML::default_hyperparams %>%
-    validate_hyperparams_df("xgbTree")
+    check_hyperparams_df("xgbTree")
   hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
   grid <- expand.grid(
     colsample_bytree = hyperparams_lst$colsample_bytree,
@@ -90,12 +90,12 @@ test_that("check_l2logit_hyperparams returns nothing on success", {
   expect_true(is.null(check_l2logit_hyperparams(l2logit_required)))
 })
 
-# validate_hyperparams_df
+# check_hyperparams_df
 error_msg <-
   "`hyperparameters` must be a dataframe with columns `param` and `value`"
-test_that("validate_hyperparams_df errors if non-dataframe given", {
+test_that("check_hyperparams_df errors if non-dataframe given", {
   expect_error(
-    validate_hyperparams_df(
+    check_hyperparams_df(
       list(cost = c(0.1)),
       "regLogistic"
     ),
@@ -107,9 +107,9 @@ df2 <- dplyr::tibble(
   value = c(1, 2, 3),
   method = c("a_method", "a_method", "rf")
 )
-test_that("validate_hyperparams_df errors if dataframe doesn't have correct columns", {
+test_that("check_hyperparams_df errors if dataframe doesn't have correct columns", {
   expect_error(
-    validate_hyperparams_df(
+    check_hyperparams_df(
       df2 %>%
         dplyr::rename(params = param),
       "a_method"
@@ -117,7 +117,7 @@ test_that("validate_hyperparams_df errors if dataframe doesn't have correct colu
     error_msg
   )
   expect_error(
-    validate_hyperparams_df(
+    check_hyperparams_df(
       df2 %>%
         dplyr::rename(values = value),
       "a_method"
@@ -125,7 +125,7 @@ test_that("validate_hyperparams_df errors if dataframe doesn't have correct colu
     error_msg
   )
   expect_error(
-    validate_hyperparams_df(
+    check_hyperparams_df(
       df2 %>%
         dplyr::mutate(newcol = 1:3),
       "rf"
@@ -133,26 +133,26 @@ test_that("validate_hyperparams_df errors if dataframe doesn't have correct colu
     error_msg
   )
 })
-test_that("validate_hyperparams_df filters by method if exists in columns", {
+test_that("check_hyperparams_df filters by method if exists in columns", {
   expect_equal(
-    validate_hyperparams_df(df2, "a_method"),
+    check_hyperparams_df(df2, "a_method"),
     dplyr::tibble(
       param = c("cost", "cost"),
       value = c(1, 2)
     )
   )
 })
-test_that("validate_hyperparams_df calls check_l2logit_hyperparams", {
+test_that("check_hyperparams_df calls check_l2logit_hyperparams", {
   expect_warning(
-    validate_hyperparams_df(wrong_loss, "regLogistic"),
+    check_hyperparams_df(wrong_loss, "regLogistic"),
     l2_warning
   )
   expect_warning(
-    validate_hyperparams_df(wrong_epsilon, "regLogistic"),
+    check_hyperparams_df(wrong_epsilon, "regLogistic"),
     l2_warning
   )
   expect_message(
-    validate_hyperparams_df(l2logit_required, "regLogistic"),
+    check_hyperparams_df(l2logit_required, "regLogistic"),
     "Using L2 normalization for Logistic Regression"
   )
 })
