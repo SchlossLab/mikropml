@@ -72,11 +72,10 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
 #' @examples
 #' select_apply(fun = "sapply")
 select_apply <- function(fun = "apply") {
+  pkg <- "base"
   if (check_package_installed("future.apply")) {
     fun <- paste0("future_", fun)
     pkg <- "future.apply"
-  } else {
-    pkg <- "base"
   }
   return(utils::getFromNamespace(fun, pkg))
 }
