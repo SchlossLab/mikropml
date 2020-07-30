@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run machine learning pipeline — run_pipeline • mikRopML</title>
+<title>Run the machine learning pipeline — run_pipeline • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Run machine learning pipeline — run_pipeline" />
-<meta property="og:description" content="Run machine learning pipeline" />
+<meta property="og:title" content="Run the machine learning pipeline — run_pipeline" />
+<meta property="og:description" content="Run the machine learning pipeline" />
 
 
 
@@ -115,13 +115,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run machine learning pipeline</h1>
+    <h1>Run the machine learning pipeline</h1>
     
     <div class="hidden name"><code>run_pipeline.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run machine learning pipeline</p>
+    <p>Run the machine learning pipeline</p>
     </div>
 
     <pre class="usage"><span class='fu'>run_pipeline</span>(
@@ -130,9 +130,9 @@
   <span class='kw'>outcome_colname</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>outcome_value</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='default_hyperparams.html'>default_hyperparams</a></span>,
-  <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"ROC"</span>,
   <span class='kw'>permute</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fl'>5</span>),
+  <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>
 )</pre>
 
@@ -141,35 +141,35 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dataset</th>
-      <td><p>TODO</p></td>
+      <td><p>dataframe with an outcome variable and other columns as features</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>TODO</p></td>
+      <td><p>ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>TODO</p></td>
+      <td><p>column name as a string of the outcome variable</p></td>
     </tr>
     <tr>
       <th>outcome_value</th>
-      <td><p>TODO</p></td>
+      <td><p>outcome value of interest as a string</p></td>
     </tr>
     <tr>
       <th>hyperparameters</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>metric</th>
-      <td><p>TODO</p></td>
+      <td><p>dataframe of hyperparameters (default: default_hyperparams)</p></td>
     </tr>
     <tr>
       <th>permute</th>
-      <td><p>TODO</p></td>
+      <td><p>run permutation imporance (default: FALSE)</p></td>
     </tr>
     <tr>
       <th>nfolds</th>
-      <td><p>fold number for cross-validation</p></td>
+      <td><p>fold number for cross-validation (default: 5)</p></td>
+    </tr>
+    <tr>
+      <th>training_frac</th>
+      <td><p>fraction size of data for training (default: 0.8)</p></td>
     </tr>
     <tr>
       <th>seed</th>

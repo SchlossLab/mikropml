@@ -1,18 +1,20 @@
-#' Run machine learning pipeline
+#' Run the machine learning pipeline
 #'
-#' @param dataset TODO
-#' @param method TODO
-#' @param outcome_colname TODO
-#' @param outcome_value TODO
-#' @param hyperparameters TODO
-#' @param metric TODO
-#' @param permute TODO
-#' @param nfolds fold number for cross-validation
+#' @param dataset dataframe with an outcome variable and other columns as features
+#' @param method ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
+#' @param outcome_colname column name as a string of the outcome variable
+#' @param outcome_value outcome value of interest as a string
+#' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
+#' @param permute run permutation imporance (default: FALSE)
+#' @param nfolds fold number for cross-validation (default: 5)
+#' @param training_frac fraction size of data for training (default: 0.8)
 #' @param seed random seed (default: NA)
 #'
 #' @return named list with results
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 run_pipeline <-
   function(dataset,
@@ -20,79 +22,21 @@ run_pipeline <-
            outcome_colname = NA,
            outcome_value = NA,
            hyperparameters = mikRopML::default_hyperparams,
-           metric = "ROC",
            permute = FALSE,
-           nfolds = 5,
+           nfolds = as.integer(5),
+           training_frac = 0.8,
            seed = NA) {
-    if (!is.na(seed)) {
-      set.seed(seed)
-    }
 
-    methods <- c("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
-    if (!(method %in% methods)) {
-      stop(paste0(
-        "Method '",
-        method,
-        "' is not supported. Supported methods are:\n    ",
-        paste(methods, collapse = ", ")
-      ))
-    }
-
-    hyperparameters <- validate_hyperparams_df(hyperparameters, method)
-
-    # If no outcome colname specified, use first column in data
-    if (is.na(outcome_colname)) {
-      outcome_colname <- colnames(dataset)[1]
-    } else {
-      # check to see if outcome is in column names of data
-      if (!outcome_colname %in% colnames(dataset)) {
-        stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
-      }
-
-      # Let's make sure that the first column in the data frame is the outcome variable
-      # TODO: is this necessary?
-      temp_data <- data.frame(outcome = dataset[, outcome_colname])
-      colnames(temp_data) <- outcome_colname
-      dataset <-
-        cbind(temp_data, dataset[, !(colnames(dataset) %in% outcome_colname)]) # want the outcome column to appear first
-    }
-
-    # check binary outcome
-    num_outcomes <- length(unique(dataset[, outcome_colname]))
-    if (num_outcomes != 2) {
-      stop(
-        paste(
-          "A binary outcome variable is required, but this dataset has",
-          num_outcomes,
-          "outcomes."
-        )
-      )
-    }
-
-    # pick binary outcome value of interest if not provided by user
-    if (is.na(outcome_value)) {
-      outcome_value <-
-        get_outcome_value(dataset, outcome_colname, method = "fewer")
-    } else if (!any(dataset[, outcome_colname] == outcome_value)) {
-      stop(
-        paste0(
-          "No rows in the outcome column (",
-          outcome_colname,
-          ") with the outcome of interest (",
-          outcome_value,
-          ") were detected."
-        )
-      )
-    }
-    message(
-      paste0(
-        "Using '",
-        outcome_colname,
-        "' as the outcome column and '",
-        outcome_value,
-        "' as the outcome value of interest."
-      )
+    # input validation
+    check_all(dataset, method, permute, nfolds, training_frac, seed)
+    outcome_colname <- check_outcome_column(dataset, outcome_colname)
+    outcome_value <- check_outcome_value(dataset, outcome_colname,
+      outcome_value,
+      method = "fewer"
     )
+    hyperparameters <- check_hyperparams_df(hyperparameters, method)
+    dataset <- randomize_feature_order(dataset, outcome_colname, seed = NA)
+
 
     # ------------------Check data for pre-processing------------------------->
     # Data is pre-processed in code/R/setup_model_data.R
@@ -112,29 +56,23 @@ run_pipeline <-
     #   )
     # }
 
-    # Randomize feature order to eliminate any position-dependent effects
-    features <- sample(colnames(dataset[, -1]))
-    dataset <- dplyr::select(
-      dataset,
-      dplyr::one_of(outcome_colname),
-      dplyr::one_of(features)
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
+    inTraining <- caret::createDataPartition(dataset[, outcome_colname],
+      p = training_frac, list = FALSE
     )
-
-    # TODO: optional arg for trainingpartition size
-    inTraining <-
-      caret::createDataPartition(dataset[, outcome_colname], p = .80, list = FALSE)
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
-
 
     tune_grid <- get_tuning_grid(hyperparameters)
     cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
 
-    # Make formula based on outcome
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     # TODO: or could set unused args to NULL and just call train once?
+    metric <- "ROC" # always train with ROC, use other metrics for evaluating model performanceß
     if (method == "regLogistic") {
       trained_model <- caret::train(
         model_formula,
@@ -167,15 +105,13 @@ run_pipeline <-
         tuneGrid = tune_grid
       )
     }
-    # ------------- Output the cvAUC and testAUC for 1 datasplit ---------------------->
-    # Mean cv AUC value over repeats of the best cost parameter during training
-    cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
-    # Save all results of hyper-parameters and their corresponding meanAUCs over 100 internal repeats
-    results_individual <- trained_model$results
-    # ---------------------------------------------------------------------------------->
 
-    # Calculate the aucs for the held-out test data
-    test_aucs <- calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
+    cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
+    results_individual <- trained_model$results
+    test_aucs <- calc_aucs(
+      trained_model, test_data,
+      outcome_colname, outcome_value
+    )
 
     if (permute) {
       message("Performing permutation test")
@@ -192,7 +128,6 @@ run_pipeline <-
       feature_importance_perm <- NULL
     }
 
-    # Get weights for L2 logistic regression
     feature_importance_weights <- ifelse(method == "regLogistic",
       trained_model$finalModel$W,
       NULL

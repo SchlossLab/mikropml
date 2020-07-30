@@ -1,28 +1,28 @@
-df <- data.frame(
+test_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = 1:3,
   var2 = 4:6
 )
 
-test_that("get_outcome_value works with method=fewer", {
-  expect_equal(get_outcome_value(df, "outcome", "fewer"), "cancer")
-})
-test_that("get_outcome_value works with method=first", {
-  expect_equal(get_outcome_value(df, "outcome", "first"), "normal")
-})
-test_that("get_outcome_value errors with unsupported method", {
-  expect_error(get_outcome_value(df, "outcome", "not_a_method"))
+test_that("pick_outcome_value works for all methods", {
+  expect_equal(pick_outcome_value(test_df, "outcome", "fewer"), "cancer")
+  expect_equal(pick_outcome_value(test_df, "outcome", "first"), "normal")
+  expect_error(pick_outcome_value(test_df, "outcome", "not_a_method"),
+               "Method not_a_method for selecting outcome value not recognized.")
 })
 
-# check_package_installed
-test_that("check if package is installed", {
-  expect_equal(check_package_installed("caret"), TRUE)
-})
-test_that("check if packages is installed", {
-  expect_equal(check_package_installed("asdf"), FALSE)
+test_that("randomize_feature_order works for known seed", {
+  reordered_df <- data.frame(
+    outcome = c("normal", "normal", "cancer"),
+    var2 = 4:6,
+    var1 = 1:3
+  )
+  expect_equal(
+    randomize_feature_order(test_df, "outcome", seed = 20),
+    reordered_df
+  )
 })
 
-# select_apply
 test_that("check if correct lapply is selected", {
   fa_installed <- check_package_installed("future.apply")
   if (fa_installed) {
