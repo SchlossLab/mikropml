@@ -124,36 +124,36 @@
     <p>Get permuted AUROC difference for a single feature (or group of features)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_permuted_auc</span>(<span class='no'>model</span>, <span class='no'>test_data</span>, <span class='no'>outcome</span>, <span class='no'>feat</span>, <span class='no'>fewer_samples</span>)</pre>
+    <pre class="usage"><span class='fu'>find_permuted_auc</span>(<span class='no'>model</span>, <span class='no'>test_data</span>, <span class='no'>outcome_colname</span>, <span class='no'>feat</span>, <span class='no'>outcome_value</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>TODO</p></td>
+      <td><p>caret model</p></td>
     </tr>
     <tr>
       <th>test_data</th>
-      <td><p>TODO</p></td>
+      <td><p>held out test data: dataframe of outcome and features</p></td>
     </tr>
     <tr>
-      <th>outcome</th>
-      <td><p>TODO</p></td>
+      <th>outcome_colname</th>
+      <td><p>column name of the outcome</p></td>
     </tr>
     <tr>
       <th>feat</th>
-      <td><p>TODO</p></td>
+      <td><p>feature or group of correlated features to permute</p></td>
     </tr>
     <tr>
-      <th>fewer_samples</th>
-      <td><p>TODO</p></td>
+      <th>outcome_value</th>
+      <td><p>outcome value of interest</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>TODO</p>
+    <p>vector of mean permuted auc and mean difference between test and permuted auc</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
