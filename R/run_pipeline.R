@@ -105,26 +105,23 @@ run_pipeline <-
       )
     }
 
-    feature_importance_perm <- ifelse(permute,
-                                      get_feature_importance(dataset,
-                                                             trained_model,
-                                                             test_data,
-                                                             outcome_colname,
-                                                             outcome_value
-                                                             ),
-                                      NULL)
-
-    feature_importance_weights <- ifelse(method == "regLogistic",
-                                         trained_model$finalModel$W,
-                                         NULL)
     return(
       list(
         trained_model = trained_model,
         cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
         test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
         results = trained_model$results, # TODO: is this necessary since they're saved in trained_model?
-        feature_importance_weights = feature_importance_weights,
-        feature_importance_perm = feature_importance_perm
+        feature_importance_weights = ifelse(method == "regLogistic",
+                                            trained_model$finalModel$W,
+                                            NULL),
+        feature_importance_perm = ifelse(permute,
+                                         get_feature_importance(dataset,
+                                                                trained_model,
+                                                                test_data,
+                                                                outcome_colname,
+                                                                outcome_value
+                                         ),
+                                         NULL)
       )
     )
   }
