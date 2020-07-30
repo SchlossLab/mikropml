@@ -60,8 +60,7 @@ run_pipeline <-
       set.seed(seed)
     }
     inTraining <- caret::createDataPartition(dataset[, outcome_colname],
-      p = training_frac, list = FALSE
-    )
+                                             p = training_frac, list = FALSE)
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
@@ -106,38 +105,24 @@ run_pipeline <-
       )
     }
 
-    cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
-    results_individual <- trained_model$results
-    test_aucs <- calc_aucs(
-      trained_model, test_data,
-      outcome_colname, outcome_value
-    )
-
-    if (permute) {
-      message("Performing permutation test")
-      feature_importance_perm <-
-        get_feature_importance(
-          dataset,
-          trained_model,
-          test_data,
-          outcome_colname,
-          outcome_value
-        )
-    } else {
-      message("Skipping permutation test")
-      feature_importance_perm <- NULL
-    }
+    feature_importance_perm <- ifelse(permute,
+                                      get_feature_importance(dataset,
+                                                             trained_model,
+                                                             test_data,
+                                                             outcome_colname,
+                                                             outcome_value
+                                                             ),
+                                      NULL)
 
     feature_importance_weights <- ifelse(method == "regLogistic",
-      trained_model$finalModel$W,
-      NULL
-    )
+                                         trained_model$finalModel$W,
+                                         NULL)
     return(
       list(
         trained_model = trained_model,
-        cv_auc = cv_auc,
-        test_aucs = test_aucs,
-        results_individual = results_individual,
+        cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
+        test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
+        results = trained_model$results, # TODO: is this necessary since they're saved in trained_model?
         feature_importance_weights = feature_importance_weights,
         feature_importance_perm = feature_importance_perm
       )

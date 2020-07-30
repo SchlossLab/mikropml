@@ -93,7 +93,7 @@ find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_v
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
-
+  message("Performing permutation test")
   # get outcome and features
   outcome <- dplyr::select(train_data, dplyr::all_of(outcome_colname))
   features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
