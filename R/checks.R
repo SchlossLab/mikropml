@@ -47,7 +47,7 @@ check_dataset <- function(dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_method('regLogistic)
+#' check_method('regLogistic')
 check_method <- function(method) {
     methods <- c("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
     if (!(method %in% methods)) {
@@ -68,8 +68,8 @@ check_method <- function(method) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' permute <- TRUE
-#' check_permute(permute)
+#' do_permute <- TRUE
+#' check_permute(do_permute)
 check_permute <- function(permute) {
     if (!is.logical(permute)) {
         stop(paste0("`permute` must be TRUE or FALSE, but you provided a ",
