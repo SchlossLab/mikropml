@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group correlated features — group_correlated_features • mikRopML</title>
+<title>Check if package is installed — check_package_installed • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Group correlated features — group_correlated_features" />
-<meta property="og:description" content="Group correlated features" />
+<meta property="og:title" content="Check if package is installed — check_package_installed" />
+<meta property="og:description" content="Check if package is installed" />
 
 
 
@@ -115,34 +115,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Group correlated features</h1>
+    <h1>Check if package is installed</h1>
     
-    <div class="hidden name"><code>group_correlated_features.Rd</code></div>
+    <div class="hidden name"><code>check_package_installed.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Group correlated features</p>
+    <p>Check if package is installed</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_correlated_features</span>(<span class='no'>corr</span>, <span class='no'>test_data</span>)</pre>
+    <pre class="usage"><span class='fu'>check_package_installed</span>(<span class='no'>package_name</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>corr</th>
-      <td><p>output of get_corr_feats (pairs of correlated features)</p></td>
-    </tr>
-    <tr>
-      <th>test_data</th>
-      <td><p>test data from machine learning</p></td>
+      <th>package_name</th>
+      <td><p>name of package to check</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of correlated features where each element is the group of correlated features separated by pipes (|)</p>
+    <p>boolean - whether package is installed (T) or not F).</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>check_package_installed</span>(<span class='st'>"base"</span>); <span class='fu'>check_package_installed</span>(<span class='st'>"asdf"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
