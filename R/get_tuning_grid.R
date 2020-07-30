@@ -8,7 +8,7 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' mikRopML:::validate_hyperparams_df(default_hyperparams, "regLogistic") %>%
+#' mikRopML:::check_hyperparams_df(default_hyperparams, "regLogistic") %>%
 #'   get_tuning_grid()
 get_tuning_grid <- function(hyperparams_df) {
   return(get_hyperparams_list(hyperparams_df) %>% expand.grid())
@@ -39,8 +39,8 @@ get_hyperparams_list <- function(hyperparams_df) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' validate_hyperparams_df(default_hyperparams, "regLogistic")
-validate_hyperparams_df <- function(hyperparams_df, method_name) {
+#' check_hyperparams_df(default_hyperparams, "regLogistic")
+check_hyperparams_df <- function(hyperparams_df, method_name) {
   df_error_msg <-
     "`hyperparameters` must be a dataframe with columns `param` and `value`"
   if (!any(class(hyperparams_df) == "data.frame")) {
