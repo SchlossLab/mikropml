@@ -1,7 +1,7 @@
 
 #' Check all params that don't return a value
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -21,7 +21,7 @@ check_all <- function(dataset, method, permute, nfolds, training_frac, seed) {
 #'
 #' Errors if there are no rows or fewer than 2 columns.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -41,7 +41,7 @@ check_dataset <- function(dataset) {
 
 #' Check if the method is supported. If not, throws error.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -62,7 +62,7 @@ check_method <- function(method) {
 
 #' Check that permute is a logical
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -81,7 +81,7 @@ check_permute <- function(permute) {
 
 #' Check that nfolds is an integer of reasonable size
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -135,7 +135,7 @@ check_seed <- function(seed) {
 
 #' Check that outcome column exists. Pick outcome column if not specified.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @return outcome colname
 #' @noRd
@@ -159,7 +159,7 @@ check_outcome_column <- function(dataset, outcome_colname) {
 
 #' Check that the outcome variable is binary. Pick outcome value if necessary.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #' @inheritParams pick_outcome_value
 #'
 #' @return outcome value

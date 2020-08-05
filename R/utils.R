@@ -11,7 +11,7 @@ rlang::.data
 #' Choose the outcome value of interest from the outcome column based on
 #' which outcome has fewer rows, or is the first row of the dataframe.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #' @param method Method to choose outcome value of interest ("fewer", "first")
 #'
 #' @return outcome value of interest
@@ -39,7 +39,7 @@ pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 
 #' Randomize feature order to eliminate any position-dependent effects
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @return dataset with feature order randomized
 #' @noRd
