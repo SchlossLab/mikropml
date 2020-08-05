@@ -23,7 +23,7 @@ run_pipeline <-
            outcome_value = NA,
            hyperparameters = mikRopML::default_hyperparams,
            permute = FALSE,
-           nfolds = as.integer(5),
+           nfolds = 5,
            training_frac = 0.8,
            seed = NA) {
 

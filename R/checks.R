@@ -89,12 +89,13 @@ check_permute <- function(permute) {
 #' @examples
 #' check_nfolds(5, otu_small)
 check_nfolds <- function(nfolds, dataset) {
-  if (!is.integer(nfolds) | nfolds < 1 | nfolds > (ncol(dataset) - 1)) {
-    stop(paste0(
-      "`nfolds` must be an integer between 1 and the number of features in the data.\n",
-      "  You provided: ", nfolds
-    ))
-  }
+  error_msg <- paste0(
+    "`nfolds` must be an integer between 1 and the number of features in the data.\n",
+    "  You provided: ", nfolds
+  )
+  if(!is.integer(nfolds) & !is.numeric(nfolds)) { stop(error_msg) }
+  is_int <- nfolds == as.integer(nfolds)
+  if (!is_int | nfolds < 1 | nfolds > (ncol(dataset) - 1)) { stop(error_msg) }
 }
 
 #' Check that the training fraction is between 0 and 1

@@ -67,6 +67,7 @@ test_that("check_permute works", {
 
 test_that("check_nfolds works", {
   expect_true(is.null(check_nfolds(as.integer(1), test_df)))
+  expect_true(is.null(check_nfolds(1, test_df)))
   expect_error(
     check_nfolds(as.integer(10), test_df),
     "`nfolds` must be an integer"
