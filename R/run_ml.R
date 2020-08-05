@@ -26,14 +26,20 @@ run_ml <-
            nfolds = as.integer(5),
            training_frac = 0.8,
            seed = NA) {
-
     # input validation
-    check_all(dataset, method, find_feature_importance, nfolds, training_frac, seed)
-    outcome_colname <- check_outcome_column(dataset, outcome_colname)
+    check_all(dataset,
+              method,
+              find_feature_importance,
+              nfolds,
+              training_frac,
+              seed)
+    outcome_colname <-
+      check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
                                          outcome_value,
                                          method = "fewer")
-    dataset <- randomize_feature_order(dataset, outcome_colname, seed = NA)
+    dataset <-
+      randomize_feature_order(dataset, outcome_colname, seed = NA)
 
 
     # ------------------Check data for pre-processing------------------------->
@@ -57,15 +63,21 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-    inTraining <- caret::createDataPartition(dataset[, outcome_colname],
-                                             p = training_frac, list = FALSE)
-    train_data <- dataset[inTraining, ]
-    test_data <- dataset[-inTraining, ]
+    inTraining <-
+      caret::createDataPartition(dataset[, outcome_colname],
+                                 p = training_frac, list = FALSE)
+    train_data <- dataset[inTraining,]
+    test_data <- dataset[-inTraining,]
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
-    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds, seed = seed)
+    cv <-
+      define_cv(train_data,
+                outcome_colname,
+                nfolds = nfolds,
+                seed = seed)
 
-    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
+    model_formula <-
+      stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     # TODO: or could set unused args to NULL and just call train once?
@@ -108,12 +120,16 @@ run_ml <-
         trained_model = trained_model,
         cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
         test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
-        feature_importance = ifelse(find_feature_importance, get_feature_importance(trained_model,
-                                                                                    train_data,
-                                                                                    test_data,
-                                                                                    outcome_colname,
-                                                                                    outcome_value),
-                                    "Skipped feature importance"
+        feature_importance = ifelse(
+          find_feature_importance,
+          get_feature_importance(
+            trained_model,
+            train_data,
+            test_data,
+            outcome_colname,
+            outcome_value
+          ),
+          "Skipped feature importance"
         )
       )
     )
