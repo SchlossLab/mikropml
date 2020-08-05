@@ -1,13 +1,17 @@
+options(warnPartialMatchArgs = FALSE)
+# Without this, underlying code in either stats or base R causes this warning:
+#   test-calc_aucs.R:16: warning: get_predictions works
+#   partial argument match of 'contrasts' to 'contrasts.arg'
+
 # test_that("run_ml oracle works", {
 #   expect_equal(
-#     mikRopML::run_ml(
-#       otu_small,
-#       "regLogistic",
-#       outcome_colname = "dx",
-#       outcome_value = "cancer",
-#       hyperparameters = mikRopML::default_hyperparams,
-#       find_feature_importance = FALSE,
-#       seed = 2019
+#     mikRopML::run_ml(otu_small,
+#                      "regLogistic",
+#                      outcome_colname = "dx",
+#                      outcome_value = "cancer",
+#                      hyperparameters = mikRopML::default_hyperparams,
+#                      find_feature_importance = FALSE,
+#                      seed = 2019
 #     ),
 #     otu_sm_results1,
 #     tolerance = 0.1

@@ -3,11 +3,11 @@ otu_small <- otu_medium[, 1:61]
 usethis::use_data(otu_small, overwrite = TRUE)
 
 ## code to prepare models with the `otu_small` otu_small
-set.seed(2019)
 outcome_colname <- "dx"
 
-inTraining <-
-  caret::createDataPartition(otu_small[, outcome_colname], p = .80, list = FALSE)
+set.seed(2019)
+inTraining <- caret::createDataPartition(otu_small[, outcome_colname],
+                                         p = .80, list = FALSE)
 train_data_sm <- otu_small[inTraining, ]
 test_data_sm <- otu_small[-inTraining, ]
 
@@ -31,7 +31,7 @@ usethis::use_data(train_data_sm, overwrite = TRUE)
 usethis::use_data(test_data_sm, overwrite = TRUE)
 usethis::use_data(trained_model_sm1, overwrite = TRUE)
 
-## code to prepare `otu_sm_results`
+## code to prepare `otu_sm_results1`
 otu_sm_results1 <- mikRopML::run_ml(otu_small,
   "regLogistic",
   outcome_colname = "dx",
