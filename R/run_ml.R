@@ -16,7 +16,7 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
-run_pipeline <-
+run_ml <-
   function(dataset,
            method,
            outcome_colname = NA,
