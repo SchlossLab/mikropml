@@ -1,6 +1,6 @@
-# test_that("run_pipeline oracle works", {
+# test_that("run_ml oracle works", {
 #     expect_equal(
-#         run_pipeline(
+#         run_ml(
 #             otu_small,
 #             'L2_Logistic_Regression',
 #             outcome_colname = 'dx',
@@ -13,18 +13,18 @@
 #         tolerance = 0.1
 #     )
 # })
-test_that("run_pipeline errors for unsupported method", {
+test_that("run_ml errors for unsupported method", {
   expect_error(
-    run_pipeline(
+    run_ml(
       otu_small,
       "not_a_method"
     ),
     "Method 'not_a_method' is not supported. Supported methods are:"
   )
 })
-test_that("run_pipeline errors if outcome_colname not in dataframe", {
+test_that("run_ml errors if outcome_colname not in dataframe", {
   expect_error(
-    run_pipeline(
+    run_ml(
       otu_small,
       "rf",
       outcome_colname = "not_a_colname"
@@ -32,9 +32,9 @@ test_that("run_pipeline errors if outcome_colname not in dataframe", {
     "Outcome 'not_a_colname' not in column names of data."
   )
 })
-test_that("run_pipeline errors if outcome_value not in outcome column", {
+test_that("run_ml errors if outcome_value not in outcome column", {
   expect_error(
-    run_pipeline(
+    run_ml(
       otu_small,
       "rf",
       outcome_colname = "dx",
@@ -43,9 +43,9 @@ test_that("run_pipeline errors if outcome_value not in outcome column", {
     "No rows in the outcome column"
   )
 })
-test_that("run_pipeline errors if outcome is not binary", {
+test_that("run_ml errors if outcome is not binary", {
   expect_error(
-    run_pipeline(
+    run_ml(
       data.frame(
         dx = c("cancer", "adenoma", "normal"),
         otu1 = 1:3,
