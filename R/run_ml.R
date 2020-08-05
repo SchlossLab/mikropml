@@ -5,7 +5,7 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param outcome_value outcome value of interest as a string
 #' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
-#' @param permute run permutation imporance (default: FALSE)
+#' @param find_feature_importance run permutation imporance (default: FALSE)
 #' @param nfolds fold number for cross-validation (default: 5)
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param seed random seed (default: NA)
@@ -22,13 +22,13 @@ run_ml <-
            outcome_colname = NA,
            outcome_value = NA,
            hyperparameters = mikRopML::default_hyperparams,
-           permute = FALSE,
+           find_feature_importance = FALSE,
            nfolds = as.integer(5),
            training_frac = 0.8,
            seed = NA) {
 
     # input validation
-    check_all(dataset, method, permute, nfolds, training_frac, seed)
+    check_all(dataset, method, find_feature_importance, nfolds, training_frac, seed)
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
       outcome_value,
@@ -110,18 +110,13 @@ run_ml <-
         trained_model = trained_model,
         cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
         test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
-        results = trained_model$results, # TODO: is this necessary since they're saved in trained_model?
-        feature_importance_weights = ifelse(method == "regLogistic",
-                                            trained_model$finalModel$W,
-                                            NULL), # TODO: is this necessary since they're saved in trained_model?
-        feature_importance_perm = ifelse(permute,
-                                         get_feature_importance(dataset,
-                                                                trained_model,
-                                                                test_data,
-                                                                outcome_colname,
-                                                                outcome_value
-                                         ),
-                                         NULL)
+        feature_importance = ifelse(find_feature_importance, get_feature_importance(trained_model,
+                                                                                    train_data,
+                                                                                    test_data,
+                                                                                    outcome_colname,
+                                                                                    outcome_value),
+                                    "Skipped feature importance"
+        )
       )
     )
   }

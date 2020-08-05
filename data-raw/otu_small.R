@@ -11,11 +11,7 @@ inTraining <-
 train_data_sm <- otu_small[inTraining, ]
 test_data_sm <- otu_small[-inTraining, ]
 
-hyperparameters <- default_hyperparams[default_hyperparams$method == "regLogistic", ]
-hyperparameters <- split(hyperparameters$value, hyperparameters$param)
-
 folds <- 5
-set.seed(2019)
 cvIndex <- caret::createMultiFolds(factor(train_data_sm[, outcome_colname]),
   folds,
   times = 100
@@ -30,14 +26,12 @@ otu_sm_cv5 <- caret::trainControl(
   indexFinal = NULL,
   savePredictions = TRUE
 )
-grid <- expand.grid(
-  cost = hyperparameters$cost,
-  loss = "L2_primal",
-  epsilon = 0.01
-)
-form <- stats::as.formula(paste(outcome_colname, "~ ."))
+
+grid <- check_hyperparams_df(default_hyperparams, "regLogistic") %>% get_tuning_grid()
+
+set.seed(2019)
 trained_model_sm <- caret::train(
-  form,
+  stats::as.formula(paste(outcome_colname, "~ .")),
   data = train_data_sm,
   method = "regLogistic",
   trControl = otu_sm_cv5,
@@ -52,12 +46,12 @@ usethis::use_data(test_data_sm, overwrite = TRUE)
 usethis::use_data(trained_model_sm, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results`
-otu_sm_results <- mikRopML::run_pipeline(otu_small,
+otu_sm_results <- mikRopML::run_ml(otu_small,
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
   hyperparameters = mikRopML::default_hyperparams,
-  permute = FALSE,
+  find_feature_importance = FALSE,
   seed = 2019
 )
 usethis::use_data(otu_sm_results, overwrite = TRUE)

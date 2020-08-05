@@ -12,7 +12,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
+get_feature_importance <- function(model, train_data, test_data, outcome_colname, outcome_value) {
   message("Performing permutation test")
   # get outcome and features
   outcome <- dplyr::select(train_data, dplyr::all_of(outcome_colname))

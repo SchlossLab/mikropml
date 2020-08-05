@@ -79,3 +79,26 @@ select_apply <- function(fun = "apply") {
   }
   return(utils::getFromNamespace(fun, pkg))
 }
+
+#' Mutate all columns with type.convert
+#'
+#' Turns factors into characters and numerics where possible
+#'
+#' @param dat data.frame to convert
+#'
+#' @return data.frame with no factors
+#' @export
+#'
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' dat <- data.frame(c1=as.factor(c('a','b','c')),
+#'                   c2=as.factor(1:3))
+#' class(dat$c1)
+#' class(dat$c2)
+#' dat <- mutate_all_types(dat)
+#' class(dat$c1)
+#' class(dat$c2)
+mutate_all_types <- function(dat) {
+  return(dat %>% dplyr::mutate_all(utils::type.convert, as.is=TRUE))
+}
