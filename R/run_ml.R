@@ -63,7 +63,7 @@ run_ml <-
     test_data <- dataset[-inTraining, ]
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
-    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
+    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds, seed = seed)
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 

@@ -11,7 +11,10 @@
 #'
 #' @examples
 #' define_cv(train_data_sm, "dx", nfolds = 5)
-define_cv <- function(train_data, outcome_colname, nfolds = 5) {
+define_cv <- function(train_data, outcome_colname, nfolds = 5, seed = NA) {
+  if (!is.na(seed)) {
+    set.seed(seed)
+  }
   # -------------------------CV method definition--------------------------------------->
   # ADDED cv index to make sure
   #     1. the internal 5-folds are stratified for diagnosis classes
