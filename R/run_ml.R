@@ -71,7 +71,7 @@ run_ml <-
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     # TODO: or could set unused args to NULL and just call train once?
-    metric <- "ROC" # always train with ROC, use other metrics for evaluating model performanceß
+    metric <- "ROC"
     if (method == "regLogistic") {
       trained_model <- caret::train(
         model_formula,
