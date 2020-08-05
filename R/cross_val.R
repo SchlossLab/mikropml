@@ -9,7 +9,7 @@
 #'
 #'
 #' @examples
-#' define_cv(train_data_sm, "dx", nfolds = 5, seed - 2019)
+#' define_cv(train_data_sm, "dx", nfolds = 5, seed = 2019)
 define_cv <- function(train_data, outcome_colname, nfolds = 5, seed = NA) {
   if (!is.na(seed)) {
     set.seed(seed)

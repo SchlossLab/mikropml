@@ -9,9 +9,11 @@ define_cv(train_data, outcome_colname, nfolds = 5, seed = NA)
 \arguments{
 \item{train_data}{Dataframe for training model}
 
-\item{outcome_colname}{Column name of the outcome variable}
+\item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{nfolds}{fold number for cross-validation}
+\item{nfolds}{fold number for cross-validation (default: 5)}
+
+\item{seed}{random seed (default: NA)}
 }
 \value{
 Caret object for trainControl that controls cross-validation
@@ -20,7 +22,7 @@ Caret object for trainControl that controls cross-validation
 Define Cross-Validation Scheme and Training Parameters
 }
 \examples{
-define_cv(train_data_sm, "dx", nfolds = 5)
+define_cv(train_data_sm, "dx", nfolds = 5, seed = 2019)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
