@@ -11,7 +11,9 @@
 #' mikRopML:::check_hyperparams_df(default_hyperparams, "regLogistic") %>%
 #'   get_tuning_grid()
 get_tuning_grid <- function(hyperparams_df) {
-  return(get_hyperparams_list(hyperparams_df) %>% expand.grid())
+  return(get_hyperparams_list(hyperparams_df) %>%
+           expand.grid() %>%
+           mutate_all_types())
 }
 
 #' Split hyperparameters dataframe into named lists for each parameter

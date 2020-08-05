@@ -1,3 +1,45 @@
+
+#' Get feature importance using permutation method
+#'
+#' @param train_data training data: dataframe of outcome and features
+#' @param model caret model
+#' @param test_data held out test data: dataframe of outcome and features
+#' @param outcome_colname column name of the outcome
+#' @param outcome_value outcome value of interest
+#'
+#' @return aucs when each feature is permuted, and differences between test auc and permuted auc
+#' @export
+#' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
+  message("Performing permutation test")
+  # get outcome and features
+  outcome <- dplyr::select(train_data, dplyr::all_of(outcome_colname))
+  features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
+
+  corr_mat <- get_corr_feats(features)
+  corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% c("corr")))
+
+  grps <- group_correlated_features(corr_mat, test_data)
+
+  # ----------- Get feature importance of OTUs------------>
+  # Permutate each feature in the non-correlated dimensional feature vector
+  # Here we are
+  #     1. Permuting the values in the OTU column randomly for each OTU in the list
+  #     2. Applying the trained model to the new test-data where 1 OTU is randomly shuffled
+  #     3. Getting the new AUROC value
+  #     4. Calculating how much different the new AUROC is from original AUROC
+  # Because we do this with lapply we randomly permute each OTU one by one.
+  # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
+  lapply_fn <- select_apply("lapply")
+  imps <- do.call("rbind", lapply_fn(grps, function(feat) {
+    return(find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value))
+  }))
+
+  return(as.data.frame(imps) %>% dplyr::mutate(names = factor(grps)))
+}
+
 #' Group correlated features
 #'
 #' @param corr output of get_corr_feats (pairs of correlated features)
@@ -77,45 +119,4 @@ find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_v
   auc <- mean(auc_diffs["new_auc", ])
   auc_diff <- mean(auc_diffs["diff", ])
   return(c(auc = auc, auc_diff = auc_diff))
-}
-
-#' Get feature importance using permutation method
-#'
-#' @param train_data training data: dataframe of outcome and features
-#' @param model caret model
-#' @param test_data held out test data: dataframe of outcome and features
-#' @param outcome_colname column name of the outcome
-#' @param outcome_value outcome value of interest
-#'
-#' @return aucs when each feature is permuted, and differences between test auc and permuted auc
-#' @export
-#' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
-  message("Performing permutation test")
-  # get outcome and features
-  outcome <- dplyr::select(train_data, dplyr::all_of(outcome_colname))
-  features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
-
-  corr_mat <- get_corr_feats(features)
-  corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% c("corr")))
-
-  grps <- group_correlated_features(corr_mat, test_data)
-
-  # ----------- Get feature importance of OTUs------------>
-  # Permutate each feature in the non-correlated dimensional feature vector
-  # Here we are
-  #     1. Permuting the values in the OTU column randomly for each OTU in the list
-  #     2. Applying the trained model to the new test-data where 1 OTU is randomly shuffled
-  #     3. Getting the new AUROC value
-  #     4. Calculating how much different the new AUROC is from original AUROC
-  # Because we do this with lapply we randomly permute each OTU one by one.
-  # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
-  lapply_fn <- select_apply("lapply")
-  imps <- do.call("rbind", lapply_fn(grps, function(feat) {
-    return(find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value))
-  }))
-
-  return(as.data.frame(imps) %>% dplyr::mutate(names = factor(grps)))
 }
