@@ -4,7 +4,7 @@
 \alias{define_cv}
 \title{Define Cross-Validation Scheme and Training Parameters}
 \usage{
-define_cv(train_data, outcome_colname, nfolds = 5)
+define_cv(train_data, outcome_colname, nfolds = 5, seed = NA)
 }
 \arguments{
 \item{train_data}{Dataframe for training model}

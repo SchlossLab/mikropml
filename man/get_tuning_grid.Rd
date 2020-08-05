@@ -18,8 +18,7 @@ The tuning grid
 Generate the Tuning Grid for Tuning Hyperparameters
 }
 \examples{
-mikRopML:::check_hyperparams_df(default_hyperparams, "regLogistic") \%>\%
-  get_tuning_grid()
+get_tuning_grid(default_hyperparams, "regLogistic")
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
