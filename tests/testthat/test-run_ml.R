@@ -1,17 +1,17 @@
 # test_that("run_ml oracle works", {
-#     expect_equal(
-#         run_ml(
-#             otu_small,
-#             'L2_Logistic_Regression',
-#             outcome_colname = 'dx',
-#             outcome_value = 'cancer',
-#             hyperparameters = mikRopML::default_hyperparams,
-#             permute = FALSE,
-#             seed = 2019
-#         ),
-#         otu_sm_results,
-#         tolerance = 0.1
-#     )
+#   expect_equal(
+#     mikRopML::run_ml(
+#       otu_small,
+#       "regLogistic",
+#       outcome_colname = "dx",
+#       outcome_value = "cancer",
+#       hyperparameters = mikRopML::default_hyperparams,
+#       find_feature_importance = FALSE,
+#       seed = 2019
+#     ),
+#     otu_sm_results1,
+#     tolerance = 0.1
+#   )
 # })
 test_that("run_ml errors for unsupported method", {
   expect_error(
