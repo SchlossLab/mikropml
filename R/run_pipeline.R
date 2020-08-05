@@ -113,7 +113,7 @@ run_pipeline <-
         results = trained_model$results, # TODO: is this necessary since they're saved in trained_model?
         feature_importance_weights = ifelse(method == "regLogistic",
                                             trained_model$finalModel$W,
-                                            NULL),
+                                            NULL), # TODO: is this necessary since they're saved in trained_model?
         feature_importance_perm = ifelse(permute,
                                          get_feature_importance(dataset,
                                                                 trained_model,
