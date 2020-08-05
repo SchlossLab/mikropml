@@ -11,21 +11,7 @@ inTraining <-
 train_data_sm <- otu_small[inTraining, ]
 test_data_sm <- otu_small[-inTraining, ]
 
-folds <- 5
-cvIndex <- caret::createMultiFolds(factor(train_data_sm[, outcome_colname]),
-  folds,
-  times = 100
-)
-otu_sm_cv5 <- caret::trainControl(
-  method = "repeatedcv",
-  number = folds,
-  index = cvIndex,
-  returnResamp = "final",
-  classProbs = TRUE,
-  summaryFunction = caret::twoClassSummary,
-  indexFinal = NULL,
-  savePredictions = TRUE
-)
+otu_sm_cv5 <- define_cv(train_data_sm, "dx", nfolds = 5, seed = 2019)
 
 grid <- check_hyperparams_df(default_hyperparams, "regLogistic") %>% get_tuning_grid()
 
