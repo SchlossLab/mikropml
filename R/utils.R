@@ -61,6 +61,24 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
   return(dataset)
 }
 
+#' Split dataset into outcome and features
+#'
+#' @inheritParams run_pipeline
+#'
+#' @return list of length two: outcome, features
+#' @export
+#'
+#' @examples split_outcome_features(mikRopML::otu_mini,'dx')
+split_outcome_features <- function(dataset, outcome_colname){
+  # input validation
+  check_dataset(dataset)
+  check_outcome_column(dataset,outcome_colname)
+  # split outcome and features
+  outcome <- dataset %>% dplyr::select_if(names(dataset) == outcome_colname)
+  features <- dataset %>% dplyr::select_if(names(dataset) != outcome_colname)
+  return(list(outcome=outcome,features=features))
+}
+
 #' Use future apply if available
 #'
 #' @param fun apply function to use (apply, lapply, sapply, etc.)
