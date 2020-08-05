@@ -27,17 +27,20 @@ run_ml <-
            training_frac = 0.8,
            seed = NA) {
     # input validation
-    check_all(dataset,
-              method,
-              find_feature_importance,
-              nfolds,
-              training_frac,
-              seed)
+    check_all(
+      dataset,
+      method,
+      find_feature_importance,
+      nfolds,
+      training_frac,
+      seed
+    )
     outcome_colname <-
       check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
-                                         outcome_value,
-                                         method = "fewer")
+      outcome_value,
+      method = "fewer"
+    )
     dataset <-
       randomize_feature_order(dataset, outcome_colname, seed = NA)
 
@@ -65,16 +68,18 @@ run_ml <-
     }
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname],
-                                 p = training_frac, list = FALSE)
-    train_data <- dataset[inTraining,]
-    test_data <- dataset[-inTraining,]
+        p = training_frac, list = FALSE
+      )
+    train_data <- dataset[inTraining, ]
+    test_data <- dataset[-inTraining, ]
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
     cv <-
       define_cv(train_data,
-                outcome_colname,
-                nfolds = nfolds,
-                seed = seed)
+        outcome_colname,
+        nfolds = nfolds,
+        seed = seed
+      )
 
     model_formula <-
       stats::as.formula(paste(outcome_colname, "~ ."))

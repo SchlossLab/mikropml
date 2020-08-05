@@ -12,10 +12,10 @@
 #' get_tuning_grid(default_hyperparams, "regLogistic")
 get_tuning_grid <- function(hyperparams_df, method) {
   return(hyperparams_df %>%
-           check_hyperparams_df(method) %>%
-           get_hyperparams_list() %>%
-           expand.grid() %>%
-           mutate_all_types())
+    check_hyperparams_df(method) %>%
+    get_hyperparams_list() %>%
+    expand.grid() %>%
+    mutate_all_types())
 }
 
 #' Split hyperparameters dataframe into named lists for each parameter

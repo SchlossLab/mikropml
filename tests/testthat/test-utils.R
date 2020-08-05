@@ -51,9 +51,11 @@ test_that("check if correct lapply is selected", {
 })
 
 test_that("mutate_all_types converts factors to other types", {
-  dat1 <- data.frame(c1 = as.factor(c('a','b','c')),
-                     c2 = as.factor(1:3),
-                     c3 = as.factor(c(1.1, 1.2, 1.3)))
+  dat1 <- data.frame(
+    c1 = as.factor(c("a", "b", "c")),
+    c2 = as.factor(1:3),
+    c3 = as.factor(c(1.1, 1.2, 1.3))
+  )
   dat2 <- mutate_all_types(dat1)
   expect_equal(class(dat2$c1), "character")
   expect_equal(class(dat2$c2), "integer")

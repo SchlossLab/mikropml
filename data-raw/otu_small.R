@@ -7,7 +7,8 @@ outcome_colname <- "dx"
 
 set.seed(2019)
 inTraining <- caret::createDataPartition(otu_small[, outcome_colname],
-                                         p = .80, list = FALSE)
+  p = .80, list = FALSE
+)
 train_data_sm <- otu_small[inTraining, ]
 test_data_sm <- otu_small[-inTraining, ]
 
