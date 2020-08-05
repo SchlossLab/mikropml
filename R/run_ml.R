@@ -31,10 +31,8 @@ run_ml <-
     check_all(dataset, method, find_feature_importance, nfolds, training_frac, seed)
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
-      outcome_value,
-      method = "fewer"
-    )
-    hyperparameters <- check_hyperparams_df(hyperparameters, method)
+                                         outcome_value,
+                                         method = "fewer")
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = NA)
 
 
@@ -64,7 +62,7 @@ run_ml <-
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    tune_grid <- get_tuning_grid(hyperparameters)
+    tune_grid <- get_tuning_grid(hyperparameters, method)
     cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
