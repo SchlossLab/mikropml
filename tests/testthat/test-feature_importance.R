@@ -40,13 +40,13 @@ test_that("empty dataframe correct", {
 
 # find_permuted_auc
 test_that("permuted auc returns correct value for non-correlated feature", {
-  fn_output <- find_permuted_auc(trained_model_sm, test_data_sm, "dx", "Otu00049", "cancer")
+  fn_output <- find_permuted_auc(trained_model_sm1, test_data_sm, "dx", "Otu00049", "cancer")
   expect_equal(fn_output, c(auc = 0.9, auc_diff = 0))
 })
 
 test_that("permuted auc returns correct value for [fake] correlated feature", {
   fn_output <- find_permuted_auc(
-    trained_model_sm,
+    trained_model_sm1,
     test_data_sm,
     "dx",
     "Otu00049|Otu00050",
@@ -95,7 +95,7 @@ class = "data.frame", row.names = c(NA, -60L)
 test_that("feature importances are correct", {
   f_imps <- get_feature_importance(
     train_data_sm,
-    trained_model_sm,
+    trained_model_sm1,
     test_data_sm,
     "dx",
     "cancer"

@@ -18,7 +18,7 @@ outcomes_med <- c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
 tol <- 1e-5
 
 test_that("get_predictions works", {
-  expect_equal(get_predictions(trained_model_sm, test_data_sm, "cancer"),
+  expect_equal(get_predictions(trained_model_sm1, test_data_sm, "cancer"),
     predictions_sm,
     tolerance = tol
   )
@@ -55,7 +55,7 @@ test_that("calc_auprc works", {
 })
 test_that("calc_aucs works", {
   expect_equal(
-    calc_aucs(trained_model_sm, test_data_sm, "dx", "cancer"),
+    calc_aucs(trained_model_sm1, test_data_sm, "dx", "cancer"),
     list(auroc = 0.9, auprc = 0.7123179),
     tolerance = tol
   )

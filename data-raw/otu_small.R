@@ -30,7 +30,7 @@ otu_sm_cv5 <- caret::trainControl(
 grid <- check_hyperparams_df(default_hyperparams, "regLogistic") %>% get_tuning_grid()
 
 set.seed(2019)
-trained_model_sm <- caret::train(
+trained_model_sm1 <- caret::train(
   stats::as.formula(paste(outcome_colname, "~ .")),
   data = train_data_sm,
   method = "regLogistic",
@@ -43,10 +43,10 @@ trained_model_sm <- caret::train(
 usethis::use_data(otu_sm_cv5, overwrite = TRUE)
 usethis::use_data(train_data_sm, overwrite = TRUE)
 usethis::use_data(test_data_sm, overwrite = TRUE)
-usethis::use_data(trained_model_sm, overwrite = TRUE)
+usethis::use_data(trained_model_sm1, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results`
-otu_sm_results <- mikRopML::run_ml(otu_small,
+otu_sm_results1 <- mikRopML::run_ml(otu_small,
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
@@ -54,4 +54,4 @@ otu_sm_results <- mikRopML::run_ml(otu_small,
   find_feature_importance = FALSE,
   seed = 2019
 )
-usethis::use_data(otu_sm_results, overwrite = TRUE)
+usethis::use_data(otu_sm_results1, overwrite = TRUE)
