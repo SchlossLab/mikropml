@@ -1,6 +1,7 @@
 #' Generate the Tuning Grid for Tuning Hyperparameters
 #'
 #' @param hyperparams_df Dataframe with columns `param` and `value`
+#' @inheritParams run_ml
 #'
 #' @return The tuning grid
 #' @export
@@ -8,15 +9,18 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' mikRopML:::check_hyperparams_df(default_hyperparams, "regLogistic") %>%
-#'   get_tuning_grid()
-get_tuning_grid <- function(hyperparams_df) {
-  return(get_hyperparams_list(hyperparams_df) %>% expand.grid())
+#' get_tuning_grid(default_hyperparams, "regLogistic")
+get_tuning_grid <- function(hyperparams_df, method) {
+  return(hyperparams_df %>%
+           check_hyperparams_df(method) %>%
+           get_hyperparams_list() %>%
+           expand.grid() %>%
+           mutate_all_types())
 }
 
 #' Split hyperparameters dataframe into named lists for each parameter
 #'
-#' @param hyperparams_df dataframe with columns `param` and `value`
+#' @inheritParams get_tuning_grid
 #'
 #' @return named list of lists of hyperparameters
 #' @noRd
@@ -31,7 +35,7 @@ get_hyperparams_list <- function(hyperparams_df) {
 
 #' Ensure the hyperparameters dataframe has a valid format
 #'
-#' @param hyperparameters dataframe containing columns `param` and `value`
+#' @inheritParams get_tuning_grid
 #' @param method_name method name (regLogistic, svmRadial, rpart2, rf, xgbTree)
 #'
 #' @return hyperparams df, filtered by method if needed

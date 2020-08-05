@@ -11,7 +11,7 @@ rlang::.data
 #' Choose the outcome value of interest from the outcome column based on
 #' which outcome has fewer rows, or is the first row of the dataframe.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #' @param method Method to choose outcome value of interest ("fewer", "first")
 #'
 #' @return outcome value of interest
@@ -39,7 +39,7 @@ pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 
 #' Randomize feature order to eliminate any position-dependent effects
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @return dataset with feature order randomized
 #' @noRd
@@ -78,4 +78,27 @@ select_apply <- function(fun = "apply") {
     pkg <- "future.apply"
   }
   return(utils::getFromNamespace(fun, pkg))
+}
+
+#' Mutate all columns with type.convert
+#'
+#' Turns factors into characters and numerics where possible
+#'
+#' @param dat data.frame to convert
+#'
+#' @return data.frame with no factors
+#' @export
+#'
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' dat <- data.frame(c1=as.factor(c('a','b','c')),
+#'                   c2=as.factor(1:3))
+#' class(dat$c1)
+#' class(dat$c2)
+#' dat <- mutate_all_types(dat)
+#' class(dat$c1)
+#' class(dat$c2)
+mutate_all_types <- function(dat) {
+  return(dat %>% dplyr::mutate_all(utils::type.convert, as.is=TRUE))
 }

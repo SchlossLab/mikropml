@@ -1,43 +1,38 @@
 # tune grid tests for each method
 test_that("tune grid works for regLogistic", {
-  hyperparams_df <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("regLogistic")
-  hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
+  hyperparams_lst <- mikRopML::default_hyperparams %>%
+    check_hyperparams_df("regLogistic") %>% get_hyperparams_list()
   grid <- expand.grid(
     cost = hyperparams_lst$cost,
     epsilon = hyperparams_lst$epsilon,
     loss = hyperparams_lst$loss
-  )
-  expect_equal(get_tuning_grid(hyperparams_df), grid)
+  ) %>% mutate_all_types()
+  expect_equal(get_tuning_grid(mikRopML::default_hyperparams, "regLogistic"), grid)
 })
 test_that("tune grid works for svmRadial", {
-  hyperparams_df <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("svmRadial")
-  hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
+  hyperparams_lst <- mikRopML::default_hyperparams %>%
+    check_hyperparams_df("svmRadial") %>% get_hyperparams_list()
   grid <- expand.grid(
     C = hyperparams_lst$C,
     sigma = hyperparams_lst$sigma
-  )
-  expect_equal(get_tuning_grid(hyperparams_df), grid)
+  ) %>% mutate_all_types()
+  expect_equal(get_tuning_grid(mikRopML::default_hyperparams, "svmRadial"), grid)
 })
 test_that("tune grid works for rpart2", {
-  hyperparams_df <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("rpart2")
-  hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
-  grid <- expand.grid(maxdepth = hyperparams_lst$maxdepth)
-  expect_equal(get_tuning_grid(hyperparams_df), grid)
+  hyperparams_lst <- mikRopML::default_hyperparams %>%
+    check_hyperparams_df("rpart2") %>% get_hyperparams_list()
+  grid <- expand.grid(maxdepth = hyperparams_lst$maxdepth) %>% mutate_all_types()
+  expect_equal(get_tuning_grid(mikRopML::default_hyperparams, "rpart2"), grid)
 })
 test_that("tune grid works for rf", {
-  hyperparams_df <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("rf")
-  hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
-  grid <- expand.grid(mtry = hyperparams_lst$mtry)
-  expect_equal(get_tuning_grid(hyperparams_df), grid)
+  hyperparams_lst <- mikRopML::default_hyperparams %>%
+    check_hyperparams_df("rf") %>% get_hyperparams_list()
+  grid <- expand.grid(mtry = hyperparams_lst$mtry) %>% mutate_all_types()
+  expect_equal(get_tuning_grid(mikRopML::default_hyperparams, "rf"), grid)
 })
 test_that("tune grid works for xgbTree", {
-  hyperparams_df <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("xgbTree")
-  hyperparams_lst <- hyperparams_df %>% get_hyperparams_list()
+  hyperparams_lst <- mikRopML::default_hyperparams %>%
+    check_hyperparams_df("xgbTree") %>% get_hyperparams_list()
   grid <- expand.grid(
     colsample_bytree = hyperparams_lst$colsample_bytree,
     eta = hyperparams_lst$eta,
@@ -46,8 +41,8 @@ test_that("tune grid works for xgbTree", {
     min_child_weight = hyperparams_lst$min_child_weight,
     nrounds = hyperparams_lst$nrounds,
     subsample = hyperparams_lst$subsample
-  )
-  expect_equal(get_tuning_grid(hyperparams_df), grid)
+  ) %>% mutate_all_types()
+  expect_equal(get_tuning_grid(mikRopML::default_hyperparams, "xgbTree"), grid)
 })
 
 # get_hyperparams_list
