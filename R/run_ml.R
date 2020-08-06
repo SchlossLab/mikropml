@@ -42,7 +42,7 @@ run_ml <-
       method = "fewer"
     )
     dataset <-
-      randomize_feature_order(dataset, outcome_colname, seed = NA)
+      randomize_feature_order(dataset, outcome_colname, seed = seed)
 
 
     # ------------------Check data for pre-processing------------------------->
@@ -88,9 +88,6 @@ run_ml <-
     # TODO: or could set unused args to NULL and just call train once?
     metric <- "ROC"
     if (method == "regLogistic") {
-      if (!is.na(seed)) {
-        set.seed(seed)
-      }
       trained_model <- caret::train(
         model_formula,
         data = train_data,
@@ -102,9 +99,6 @@ run_ml <-
       )
     }
     else if (method == "rf") {
-      if (!is.na(seed)) {
-        set.seed(seed)
-      }
       trained_model <- caret::train(
         model_formula,
         data = train_data,
@@ -116,9 +110,6 @@ run_ml <-
       ) # not tuning ntree
     }
     else {
-      if (!is.na(seed)) {
-        set.seed(seed)
-      }
       trained_model <- caret::train(
         model_formula,
         data = train_data,
