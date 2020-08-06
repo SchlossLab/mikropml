@@ -27,6 +27,18 @@ test_that("run_ml works for regLogistic", {
     ),
     otu_sm_results1
   )
+  expect_equal_ml_results(
+    mikRopML::run_ml(otu_mini,
+                     "regLogistic",
+                     outcome_colname = "dx",
+                     outcome_value = "cancer",
+                     hyperparameters = mikRopML::default_hyperparams,
+                     find_feature_importance = FALSE,
+                     seed = 2019,
+                     nfolds = as.integer(2)
+    ),
+    otu_mini_results1
+  )
 })
 
 test_that("run_ml errors for unsupported method", {
