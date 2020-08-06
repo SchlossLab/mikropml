@@ -57,7 +57,7 @@
 "test_data_mini"
 
 #' A trained model from L2 logistic regression on `train_data_sm`
-"trained_model_sm"
+"trained_model_sm1"
 
 #' A trained model from L2 logistic regression on `train_data_mini`
 "trained_model_mini"
@@ -69,18 +69,7 @@
 "otu_mini_cv5"
 
 #' Results from running the pipline with L2 logistic regression on `otu_small`
-"otu_sm_results"
+"otu_sm_results1"
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
-# "otu_mini_results"
-
-# TODO: rename below objects to have 'medium' in the variable names
-
-#' A training data partition from `otu_medium`
-"train_data1"
-
-#' A test data partition from `otu_medium`
-"test_data1"
-
-#' A trained model from L2 logistic regression on `train_data1`
-"trained_model1"
+ "otu_mini_results1"
