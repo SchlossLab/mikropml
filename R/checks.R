@@ -92,7 +92,8 @@ check_nfolds <- function(nfolds, dataset) {
   if (!is.integer(nfolds) | nfolds < 1 | nfolds > (ncol(dataset) - 1)) {
     stop(paste0(
       "`nfolds` must be an integer between 1 and the number of features in the data.\n",
-      "  You provided: ", nfolds
+      "  You provided: ", nfolds,
+      "\n  Your dataset has ", ncol(dataset) - 1, " features."
     ))
   }
 }

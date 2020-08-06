@@ -1,6 +1,6 @@
 ## code to prepare `otu_small` dataset
 otu_small <- otu_medium[, 1:61]
-usethis::use_data(otu_small, overwrite = TRUE)
+usethis::use_data(otu_small)
 
 ## code to prepare models with the `otu_small` otu_small
 outcome_colname <- "dx"
@@ -27,10 +27,10 @@ trained_model_sm1 <- caret::train(
   family = "binomial"
 )
 
-usethis::use_data(otu_sm_cv5, overwrite = TRUE)
-usethis::use_data(train_data_sm, overwrite = TRUE)
-usethis::use_data(test_data_sm, overwrite = TRUE)
-usethis::use_data(trained_model_sm1, overwrite = TRUE)
+usethis::use_data(otu_sm_cv5)
+usethis::use_data(train_data_sm)
+usethis::use_data(test_data_sm)
+usethis::use_data(trained_model_sm1)
 
 ## code to prepare `otu_sm_results1`
 otu_sm_results1 <- mikRopML::run_ml(otu_small,
@@ -41,4 +41,4 @@ otu_sm_results1 <- mikRopML::run_ml(otu_small,
   find_feature_importance = FALSE,
   seed = 2019
 )
-usethis::use_data(otu_sm_results1, overwrite = TRUE)
+usethis::use_data(otu_sm_results1)

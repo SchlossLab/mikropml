@@ -72,4 +72,4 @@
 "otu_sm_results1"
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
-# "otu_mini_results"
+ "otu_mini_results1"
