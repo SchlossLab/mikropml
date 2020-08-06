@@ -16,8 +16,10 @@ data.frame with no factors
 Turns factors into characters and numerics where possible
 }
 \examples{
-dat <- data.frame(c1=as.factor(c('a','b','c')),
-                  c2=as.factor(1:3))
+dat <- data.frame(
+  c1 = as.factor(c("a", "b", "c")),
+  c2 = as.factor(1:3)
+)
 class(dat$c1)
 class(dat$c2)
 dat <- mutate_all_types(dat)
