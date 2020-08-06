@@ -5,7 +5,7 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param outcome_value outcome value of interest as a string
 #' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
-#' @param permute run permutation imporance (default: FALSE)
+#' @param find_feature_importance run permutation imporance (default: FALSE)
 #' @param nfolds fold number for cross-validation (default: 5)
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param seed random seed (default: NA)
@@ -16,26 +16,33 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
-run_pipeline <-
+run_ml <-
   function(dataset,
            method,
            outcome_colname = NA,
            outcome_value = NA,
            hyperparameters = mikRopML::default_hyperparams,
-           permute = FALSE,
+           find_feature_importance = FALSE,
            nfolds = as.integer(5),
            training_frac = 0.8,
            seed = NA) {
-
     # input validation
-    check_all(dataset, method, permute, nfolds, training_frac, seed)
-    outcome_colname <- check_outcome_column(dataset, outcome_colname)
+    check_all(
+      dataset,
+      method,
+      find_feature_importance,
+      nfolds,
+      training_frac,
+      seed
+    )
+    outcome_colname <-
+      check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
       outcome_value,
       method = "fewer"
     )
-    hyperparameters <- check_hyperparams_df(hyperparameters, method)
-    dataset <- randomize_feature_order(dataset, outcome_colname, seed = NA)
+    dataset <-
+      randomize_feature_order(dataset, outcome_colname, seed = seed)
 
 
     # ------------------Check data for pre-processing------------------------->
@@ -59,20 +66,27 @@ run_pipeline <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-    inTraining <- caret::createDataPartition(dataset[, outcome_colname],
-      p = training_frac, list = FALSE
-    )
+    inTraining <-
+      caret::createDataPartition(dataset[, outcome_colname],
+        p = training_frac, list = FALSE
+      )
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    tune_grid <- get_tuning_grid(hyperparameters)
-    cv <- define_cv(train_data, outcome_colname, nfolds = nfolds)
+    tune_grid <- get_tuning_grid(hyperparameters, method)
+    cv <-
+      define_cv(train_data,
+        outcome_colname,
+        nfolds = nfolds,
+        seed = seed
+      )
 
-    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
+    model_formula <-
+      stats::as.formula(paste(outcome_colname, "~ ."))
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     # TODO: or could set unused args to NULL and just call train once?
-    metric <- "ROC" # always train with ROC, use other metrics for evaluating model performanceß
+    metric <- "ROC"
     if (method == "regLogistic") {
       trained_model <- caret::train(
         model_formula,
@@ -106,40 +120,22 @@ run_pipeline <-
       )
     }
 
-    cv_auc <- caret::getTrainPerf(trained_model)$TrainROC
-    results_individual <- trained_model$results
-    test_aucs <- calc_aucs(
-      trained_model, test_data,
-      outcome_colname, outcome_value
-    )
-
-    if (permute) {
-      message("Performing permutation test")
-      feature_importance_perm <-
-        get_feature_importance(
-          dataset,
-          trained_model,
-          test_data,
-          outcome_colname,
-          outcome_value
-        )
-    } else {
-      message("Skipping permutation test")
-      feature_importance_perm <- NULL
-    }
-
-    feature_importance_weights <- ifelse(method == "regLogistic",
-      trained_model$finalModel$W,
-      NULL
-    )
     return(
       list(
         trained_model = trained_model,
-        cv_auc = cv_auc,
-        test_aucs = test_aucs,
-        results_individual = results_individual,
-        feature_importance_weights = feature_importance_weights,
-        feature_importance_perm = feature_importance_perm
+        cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
+        test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
+        feature_importance = ifelse(
+          find_feature_importance,
+          get_feature_importance(
+            trained_model,
+            train_data,
+            test_data,
+            outcome_colname,
+            outcome_value
+          ),
+          "Skipped feature importance"
+        )
       )
     )
   }
