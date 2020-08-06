@@ -50,7 +50,8 @@ test_that("run_ml works for random forest", {
                      seed = 2019,
                      nfolds = as.integer(2)
     ),
-    otu_mini_results2
+    otu_mini_results2,
+    tol = 1e-3
   )
 })
 test_that("run_ml works for svmRadial", {
@@ -92,7 +93,8 @@ test_that("run_ml works for xgbTree", {
                      seed = 2019,
                      nfolds = as.integer(2)
     ),
-    otu_mini_results5
+    otu_mini_results5,
+    tol = 1e-3
   )
 })
 test_that("run_ml errors for unsupported method", {

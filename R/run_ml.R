@@ -41,6 +41,9 @@ run_ml <-
       outcome_value,
       method = "fewer"
     )
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
     dataset <-
       randomize_feature_order(dataset, outcome_colname, seed = seed)
 
