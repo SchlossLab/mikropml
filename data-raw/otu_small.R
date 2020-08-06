@@ -42,3 +42,17 @@ otu_sm_results1 <- mikRopML::run_ml(otu_small,
   seed = 2019
 )
 usethis::use_data(otu_sm_results1)
+
+# TODO: fix error:
+# Error in { :
+#     task 1 failed - "need at least two non-NA values to interpolate"
+#   In addition: There were 50 or more warnings (use warnings() to see the first 50)
+otu_sm_results4 <- mikRopML::run_ml(otu_small,
+  "rpart2",
+  outcome_colname = "dx",
+  outcome_value = "cancer",
+  hyperparameters = mikRopML::default_hyperparams,
+  find_feature_importance = FALSE,
+  seed = 2019
+)
+usethis::use_data(otu_sm_results4)

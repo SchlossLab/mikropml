@@ -62,3 +62,51 @@ otu_mini_results1 <- mikRopML::run_ml(otu_mini,
   nfolds = as.integer(2)
 )
 usethis::use_data(otu_mini_results1)
+
+otu_mini_results2 <- mikRopML::run_ml(otu_mini,
+                                      "rf",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      hyperparameters = mikRopML::default_hyperparams,
+                                      find_feature_importance = FALSE,
+                                      seed = 2019,
+                                      nfolds = as.integer(2)
+)
+usethis::use_data(otu_mini_results2)
+
+otu_mini_results3 <- mikRopML::run_ml(otu_mini,
+                                      "svmRadial",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      hyperparameters = mikRopML::default_hyperparams,
+                                      find_feature_importance = FALSE,
+                                      seed = 2019,
+                                      nfolds = as.integer(2)
+)
+usethis::use_data(otu_mini_results3)
+
+# TODO: fix error:
+# Error in { :
+#     task 1 failed - "need at least two non-NA values to interpolate"
+#   In addition: There were 50 or more warnings (use warnings() to see the first 50)
+otu_mini_results4 <- mikRopML::run_ml(otu_mini,
+                                      "rpart2",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      hyperparameters = mikRopML::default_hyperparams,
+                                      find_feature_importance = FALSE,
+                                      seed = 2019,
+                                      nfolds = as.integer(2)
+)
+usethis::use_data(otu_mini_results4)
+
+otu_mini_results5 <- mikRopML::run_ml(otu_mini,
+                                      "xgbTree",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      hyperparameters = mikRopML::default_hyperparams,
+                                      find_feature_importance = FALSE,
+                                      seed = 2019,
+                                      nfolds = as.integer(2)
+)
+usethis::use_data(otu_mini_results5)
