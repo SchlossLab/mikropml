@@ -1,3 +1,8 @@
+options(warnPartialMatchArgs = FALSE)
+# Without this, underlying code in either stats or base R causes this warning in several places:
+#   warning: get_predictions works
+#   partial argument match of 'contrasts' to 'contrasts.arg'
+
 test_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = 1:3,
@@ -65,8 +70,9 @@ test_that("mutate_all_types converts factors to other types", {
 test_that('setup_parallel warns', {
   expect_warning(setup_parallel('not_a_number'),
                  "`ncores` must be `NA` or a number, but you provided")
-  expect_warning(setup_parallel(9999999),
+  expect_warning(pc <- setup_parallel(9999999),
                  "You specified 9999999 cores, but only")
+  parallel::stopCluster(pc)
 })
 test_that('setup_parallel works', {
   expect_true(is.null(setup_parallel(NA)))

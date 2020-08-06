@@ -108,6 +108,7 @@ mutate_all_types <- function(dat) {
 #' Setup a cluster for parallel processing
 #'
 #' @inheritParams run_ml
+#' @param setup_timeout Setup timeout in seconds. See \link[parallel]{makePSOCKcluster} for details.
 #'
 #' @return PSOCK cluster, or NULL if only 1 core provided or required packages aren't available
 #' @export
