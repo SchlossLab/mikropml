@@ -5,6 +5,7 @@
 \alias{reexports}
 \alias{\%>\%}
 \alias{.data}
+\alias{contr.ltfr}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -12,6 +13,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
+  \item{caret}{\code{\link[caret:dummyVars]{contr.ltfr}}}
+
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
 
   \item{rlang}{\code{\link[rlang:tidyeval-data]{.data}}}

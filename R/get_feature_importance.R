@@ -95,8 +95,9 @@ find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_v
 get_feature_importance <- function(train_data, model, test_data, outcome_colname, outcome_value) {
 
   # get outcome and features
-  outcome <- dplyr::select(train_data, dplyr::all_of(outcome_colname))
-  features <- dplyr::select_if(train_data, !grepl(outcome_colname, names(train_data)))
+  split_dat <- split_outcome_features(train_data,outcome_colname)
+  outcome <- split_dat$outcome
+  features <- split_dat$features
 
   corr_mat <- get_corr_feats(features)
   corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% c("corr")))

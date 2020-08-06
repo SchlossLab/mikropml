@@ -15,26 +15,18 @@ preprocess_data <- function(dataset,outcome_colname,method=c("center","scale","n
   bin_feats <- features %>% dplyr::select_if(bin_feats_bool)
   nonbin_feats <- features %>% dplyr::select_if(!bin_feats_bool) %>% dplyr::as_tibble()
   
-  # get binary categorical features
+  # change any categorical binary variables to 0 and 1 (full rank, i.e. only 1 column for each variable)
+  feature_design_bin <- caret::dummyVars(" ~ .", data = bin_feats, fullRank = TRUE)
+  feature_design_bin_mat <- stats::predict(feature_design_bin, bin_feats) %>% dplyr::as_tibble()
   
+  # transform continuous features
+  preproc_values_nonbin <- caret::preProcess(nonbin_feats, method = method)
+  transformed_nonbin <- stats::predict(preproc_values_nonbin, nonbin_feats)# %>% dplyr::as_tibble()
+  # change any categorical non-binary features to 0 and 1 (not full rank, i.e. one column for each unique element in the column)
+  feature_design_nonbin <- caret::dummyVars(" ~ .", data = transformed_nonbin)
+  feature_design_nonbin_mat <- stats::predict(feature_design_nonbin, transformed_nonbin) %>% dplyr::as_tibble()
   
-  # get continuous features
-  cont_feats_bool <- sapply(nonbin_feats,function(x) class(x) %in% c('numeric','integer'))
-  cont_feats <- nonbin_feats %>% dplyr::select_if(cont_feats_bool)
-  print(cont_feats)
-  print(method)
-  # pre-process continuous features
-  cont_preproc_values <- caret::preProcess(cont_feats, method = method)
-  print(cont_preproc_values)
-  cont_transformed <- stats::predict(cont_preproc_values, cont_feats) %>% dplyr::as_tibble()
-
-  # get categorical features
-  cat_feats <- nonbin_feats %>% dplyr::select_if(!cont_feats_bool) %>% dplyr::as_tibble()
-  # create design (model) matrix by expanding characters/factors to dummy variables
-  feature_design <- caret::dummyVars(" ~ .", data = cat_feats)
-  feature_design_matrix <- predict(feature_design, cat_feats) %>% dplyr::as_tibble()
-  
-  dat_transformed <- dplyr::bind_cols(outcome, cont_transformed, feature_design_matrix, bin_feats)
+  dat_transformed <- dplyr::bind_cols(outcome, feature_design_nonbin_mat, feature_design_bin_mat)
   
   return(dat_transformed)
 }

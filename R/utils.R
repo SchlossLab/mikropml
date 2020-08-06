@@ -6,6 +6,10 @@ dplyr::`%>%`
 #' @export
 rlang::.data
 
+#' @importFrom caret contr.ltfr
+#' @export
+caret::contr.ltfr
+
 #' Get the outcome value of interest for AUC calculations
 #'
 #' Choose the outcome value of interest from the outcome column based on
