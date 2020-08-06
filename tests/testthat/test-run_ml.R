@@ -4,28 +4,28 @@ options(warnPartialMatchArgs = FALSE)
 #   partial argument match of 'contrasts' to 'contrasts.arg'
 
 test_that("run_ml oracle works for cross-validation AUC", {
-   expect_equal(
-     mikRopML::run_ml(otu_small,
-                      "regLogistic",
-                      outcome_colname = "dx",
-                      outcome_value = "cancer",
-                      hyperparameters = mikRopML::default_hyperparams,
-                      find_feature_importance = FALSE,
-                      seed = 2019
-     )$cv_auc,
-     otu_sm_results1$cv_auc,
-     tolerance = 0.1
-   )
- })
+  expect_equal(
+    mikRopML::run_ml(otu_small,
+      "regLogistic",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::default_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019
+    )$cv_auc,
+    otu_sm_results1$cv_auc,
+    tolerance = 0.1
+  )
+})
 test_that("run_ml oracle works for test AUC", {
   expect_equal(
     mikRopML::run_ml(otu_small,
-                     "regLogistic",
-                     outcome_colname = "dx",
-                     outcome_value = "cancer",
-                     hyperparameters = mikRopML::default_hyperparams,
-                     find_feature_importance = FALSE,
-                     seed = 2019
+      "regLogistic",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::default_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019
     )$test_aucs,
     otu_sm_results1$test_aucs,
     tolerance = 0.1
