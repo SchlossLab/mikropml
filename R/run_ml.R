@@ -9,6 +9,7 @@
 #' @param nfolds fold number for cross-validation (default: 5)
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param seed random seed (default: NA)
+#' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
 #' @return named list with results
 #' @export
@@ -25,8 +26,8 @@ run_ml <-
            find_feature_importance = FALSE,
            nfolds = as.integer(5),
            training_frac = 0.8,
-           seed = NA) {
-    # input validation
+           seed = NA,
+           ncores = NA) {
     check_all(
       dataset,
       method,
@@ -84,6 +85,8 @@ run_ml <-
     model_formula <-
       stats::as.formula(paste(outcome_colname, "~ ."))
 
+    pcluster <- setup_parallel(ncores)
+
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     # TODO: or could set unused args to NULL and just call train once?
     metric <- "ROC"
@@ -118,6 +121,10 @@ run_ml <-
         metric = metric,
         tuneGrid = tune_grid
       )
+    }
+
+    if (!is.null(pcluster)) {
+      parallel::stopCluster(pcluster)
     }
 
     return(

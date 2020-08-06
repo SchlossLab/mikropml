@@ -16,7 +16,7 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 
 test_that("run_ml works for regLogistic", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_small,
+    run_ml(otu_small,
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -27,7 +27,7 @@ test_that("run_ml works for regLogistic", {
     otu_sm_results1
   )
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
+    run_ml(otu_mini,
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -83,5 +83,22 @@ test_that("run_ml errors if outcome is not binary", {
       nfolds = as.integer(2)
     ),
     "A binary outcome variable is required, but this dataset has 3 outcomes"
+  )
+})
+
+test_that("run_ml works with multiple cores", {
+  expect_equal_ml_results(
+    run_ml(
+      otu_mini,
+      "regLogistic",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::default_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      nfolds = as.integer(2),
+      ncores = 2
+    ),
+    otu_mini_results1
   )
 })

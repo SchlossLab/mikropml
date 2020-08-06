@@ -41,7 +41,9 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    future.apply
+    future.apply,
+    parallel,
+    doParallel
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
