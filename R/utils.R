@@ -119,10 +119,10 @@ mutate_all_types <- function(dat) {
 #' parallel::stopCluster(para_cluster)
 setup_parallel <- function(ncores, setup_timeout = 0.5) {
   pcluster <- NULL
-  if (!is.na(ncores) & !is.numeric(ncores)) {
+  if (!is.numeric(ncores) & !is.na(ncores)) {
     warning(paste("`ncores` must be `NA` or a number, but you provided", ncores,
                   "\nProceeding with only one process."))
-  } else if (ncores > 1) {
+  } else if (!is.na(ncores) & ncores > 1) {
     if (!all(check_package_installed(c("parallel", "doParallel")))) {
       warning(paste("The packages `parallel` and `doParallel` are required for using multiple cores.\n",
                     "You specified", ncores, "cores, but one or both of these packages are not installed.\n",
