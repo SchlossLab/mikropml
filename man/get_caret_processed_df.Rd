@@ -9,7 +9,7 @@ get_caret_processed_df(features, method)
 \arguments{
 \item{features}{dataframe of features for machine learning}
 
-\item{method}{methods to preprocess the data, described in \code{caret::preProcess}}
+\item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")})}
 }
 \value{
 processed matrix

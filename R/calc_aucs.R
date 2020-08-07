@@ -11,7 +11,7 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' calc_aucs(trained_model_sm, test_data_sm, "dx", "cancer")
+#' calc_aucs(trained_model_sm1, test_data_sm, "dx", "cancer")
 calc_aucs <-
   function(trained_model,
            test_data,
@@ -34,7 +34,7 @@ calc_aucs <-
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_predictions(trained_model_sm, test_data_sm, "cancer")
+#' get_predictions(trained_model_sm1, test_data_sm, "cancer")
 get_predictions <- function(trained_model, test_data, outcome_value) {
   return(stats::predict(trained_model, test_data, type = "prob")[[outcome_value]])
 }
@@ -65,7 +65,7 @@ recode_outcome <- function(test_data, outcome_colname, outcome_value) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' prediction <- get_prediction(trained_model_sm, test_data_sm, "cancer")
+#' prediction <- get_prediction(trained_model_sm1, test_data_sm, "cancer")
 #' outcomes <- recode_outcome(test_data_sm, "dx", "cancer")
 #' calc_auroc(prediction, outcomes)
 calc_auroc <- function(pred, bin_outcomes) {
@@ -81,7 +81,7 @@ calc_auroc <- function(pred, bin_outcomes) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' prediction <- get_prediction(trained_model_sm, test_data_sm, "cancer")
+#' prediction <- get_prediction(trained_model_sm1, test_data_sm, "cancer")
 #' outcomes <- recode_outcome(test_data_sm, "dx", "cancer")
 #' calc_auprc(prediction, outcomes)
 calc_auprc <- function(pred, bin_outcomes) {
