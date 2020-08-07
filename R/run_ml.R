@@ -123,9 +123,7 @@ run_ml <-
       )
     }
 
-    if (!is.null(pcluster)) {
-      parallel::stopCluster(pcluster)
-    }
+    stop_parallel(pcluster)
 
     return(
       list(

@@ -72,10 +72,10 @@ test_that('setup_parallel warns', {
                  "`ncores` must be `NA` or a number, but you provided")
   expect_warning(pc <- setup_parallel(9999999),
                  "You specified 9999999 cores, but only")
-  parallel::stopCluster(pc)
+  stop_parallel(pc)
 })
 test_that('setup_parallel works', {
   expect_true(is.null(setup_parallel(NA)))
   expect_message(pc <- setup_parallel(2), "Using 2 cores for parallel processing.")
-  parallel::stopCluster(pc)
+  stop_parallel(pc)
 })
