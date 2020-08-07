@@ -1,6 +1,8 @@
-options(warnPartialMatchArgs = FALSE,
-        warnPartialMatchAttr = FALSE,
-        warnPartialMatchDollar = FALSE)
+options(
+  warnPartialMatchArgs = FALSE,
+  warnPartialMatchAttr = FALSE,
+  warnPartialMatchDollar = FALSE
+)
 # Without this, underlying code in either stats or base R causes this warning in several places:
 #   warning: get_predictions works
 #   partial argument match of 'contrasts' to 'contrasts.arg'
@@ -12,10 +14,10 @@ get_all_but_model <- function(ml_results) {
 expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   return(
     eval(bquote(expect_equal(get_all_but_model(result1),
-                             get_all_but_model(result2),
-                             tolerance = tol
-                             )))
-    )
+      get_all_but_model(result2),
+      tolerance = tol
+    )))
+  )
 }
 
 test_that("run_ml works for regLogistic", {

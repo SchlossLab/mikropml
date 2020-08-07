@@ -121,21 +121,28 @@ mutate_all_types <- function(dat) {
 setup_parallel <- function(ncores, setup_timeout = 0.5) {
   pcluster <- NULL
   if (!is.numeric(ncores) & !is.na(ncores)) {
-    warning(paste("`ncores` must be `NA` or a number, but you provided", ncores,
-                  "\nProceeding with only one process."))
+    warning(paste(
+      "`ncores` must be `NA` or a number, but you provided", ncores,
+      "\nProceeding with only one process."
+    ))
   } else if (!is.na(ncores) & ncores > 1) {
     if (!all(check_package_installed(c("parallel", "doParallel", "foreach")))) {
-      warning(paste("The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.\n",
-                    "You specified", ncores, "cores, but one or more of these packages are not installed.\n",
-                    "Proceeding with only one process."))
+      warning(paste(
+        "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.\n",
+        "You specified", ncores, "cores, but one or more of these packages are not installed.\n",
+        "Proceeding with only one process."
+      ))
     } else {
       cores_avail <- parallel::detectCores()
       if (ncores > cores_avail) {
-        warning(paste("You specified", ncores, "cores, but only", cores_avail, "cores are available.",
-                      "\nProceeding with only one process."))
+        warning(paste(
+          "You specified", ncores, "cores, but only", cores_avail, "cores are available.",
+          "\nProceeding with only one process."
+        ))
       } else {
         pcluster <- parallel::makePSOCKcluster(ncores,
-                                               setup_timeout = setup_timeout)
+          setup_timeout = setup_timeout
+        )
         doParallel::registerDoParallel(pcluster)
         message(paste("Using", ncores, "cores for parallel processing."))
       }
@@ -158,6 +165,6 @@ setup_parallel <- function(ncores, setup_timeout = 0.5) {
 stop_parallel <- function(pcluster) {
   if (!is.null(pcluster)) {
     parallel::stopCluster(pcluster)
-    foreach::registerDoSEQ()  # so additional calls to foreach will use sequential processes
+    foreach::registerDoSEQ() # so additional calls to foreach will use sequential processes
   }
 }
