@@ -221,3 +221,9 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
 check_package_installed <- function(package_name) {
   return(package_name %in% rownames(utils::installed.packages()))
 }
+
+check_features <- function(features){
+  if(!class(features)[1] %in% c('data.frame','tbl_df')){
+    stop('Argument `features` must be a `data.frame` or `tibble`')
+  }
+}
