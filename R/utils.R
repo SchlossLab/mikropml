@@ -131,13 +131,14 @@ setup_parallel <- function(ncores, setup_timeout = 0.5) {
     } else {
       cores_avail <- parallel::detectCores()
       if (ncores > cores_avail) {
-        warning(paste("You specified", ncores, "cores, but only", cores_avail, "cores are available."))
-        ncores = cores_avail - 1
+        warning(paste("You specified", ncores, "cores, but only", cores_avail, "cores are available.",
+                      "\nProceeding with only one process."))
+      } else {
+        pcluster <- parallel::makePSOCKcluster(ncores,
+                                               setup_timeout = setup_timeout)
+        doParallel::registerDoParallel(pcluster)
+        message(paste("Using", ncores, "cores for parallel processing."))
       }
-      pcluster <- parallel::makePSOCKcluster(ncores,
-                                             setup_timeout = setup_timeout)
-      doParallel::registerDoParallel(pcluster)
-      message(paste("Using", ncores, "cores for parallel processing."))
     }
   }
   return(pcluster)
