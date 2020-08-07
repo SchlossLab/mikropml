@@ -208,16 +208,17 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   return(outcome_value)
 }
 
-#' Check if package is installed
+#' Check whether package(s) are installed
 #'
-#' @param package_name name of package to check
-#' @return boolean - whether package is installed (T) or not F).
+#' @param package_names names of packages (or a single package) to check
+#' @return logical vector - whether packages are installed (TRUE) or not (FALSE).
 #' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_package_installed("base")
 #' check_package_installed("asdf")
-check_package_installed <- function(package_name) {
-  return(package_name %in% rownames(utils::installed.packages()))
+#' all(check_package_installed(c("parallel", "doParallel")))
+check_package_installed <- function(package_names) {
+  return(package_names %in% rownames(utils::installed.packages()))
 }

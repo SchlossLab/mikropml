@@ -104,3 +104,60 @@ select_apply <- function(fun = "apply") {
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
 }
+
+#' Register a cluster for parallel processing
+#'
+#' @inheritParams run_ml
+#' @param setup_timeout Setup timeout in seconds. See \link[parallel]{makePSOCKcluster} for details.
+#'
+#' @return PSOCK cluster, or NULL if only 1 core provided or required packages aren't available
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' para_cluster <- setup_parallel(2)
+#' # insert code that uses foreach here
+#' stop_parallel(para_cluster)
+setup_parallel <- function(ncores, setup_timeout = 0.5) {
+  pcluster <- NULL
+  if (!is.numeric(ncores) & !is.na(ncores)) {
+    warning(paste("`ncores` must be `NA` or a number, but you provided", ncores,
+                  "\nProceeding with only one process."))
+  } else if (!is.na(ncores) & ncores > 1) {
+    if (!all(check_package_installed(c("parallel", "doParallel", "foreach")))) {
+      warning(paste("The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.\n",
+                    "You specified", ncores, "cores, but one or more of these packages are not installed.\n",
+                    "Proceeding with only one process."))
+    } else {
+      cores_avail <- parallel::detectCores()
+      if (ncores > cores_avail) {
+        warning(paste("You specified", ncores, "cores, but only", cores_avail, "cores are available.",
+                      "\nProceeding with only one process."))
+      } else {
+        pcluster <- parallel::makePSOCKcluster(ncores,
+                                               setup_timeout = setup_timeout)
+        doParallel::registerDoParallel(pcluster)
+        message(paste("Using", ncores, "cores for parallel processing."))
+      }
+    }
+  }
+  return(pcluster)
+}
+
+#' Unregsiter a parallel processing cluster
+#'
+#' @param pcluster a PSOCK cluster created by `setup_cluster``
+#'
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' para_cluster <- setup_parallel(2)
+#' # insert code that uses foreach here
+#' stop_parallel(para_cluster)
+stop_parallel <- function(pcluster) {
+  if (!is.null(pcluster)) {
+    parallel::stopCluster(pcluster)
+    foreach::registerDoSEQ()  # so additional calls to foreach will use sequential processes
+  }
+}
