@@ -1,7 +1,7 @@
 
 #' Check all params that don't return a value
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -21,7 +21,7 @@ check_all <- function(dataset, method, permute, nfolds, training_frac, seed) {
 #'
 #' Errors if there are no rows or fewer than 2 columns.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -41,7 +41,7 @@ check_dataset <- function(dataset) {
 
 #' Check if the method is supported. If not, throws error.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -62,7 +62,7 @@ check_method <- function(method) {
 
 #' Check that permute is a logical
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -81,7 +81,7 @@ check_permute <- function(permute) {
 
 #' Check that nfolds is an integer of reasonable size
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -89,13 +89,15 @@ check_permute <- function(permute) {
 #' @examples
 #' check_nfolds(5, otu_small)
 check_nfolds <- function(nfolds, dataset) {
-  error_msg <- paste0(
-    "`nfolds` must be an integer between 1 and the number of features in the data.\n",
-    "  You provided: ", nfolds
-  )
-  if(!is.integer(nfolds) & !is.numeric(nfolds)) { stop(error_msg) }
-  is_int <- nfolds == as.integer(nfolds)
-  if (!is_int | nfolds < 1 | nfolds > (ncol(dataset) - 1)) { stop(error_msg) }
+  not_a_number <- !is.integer(nfolds) & !is.numeric(nfolds)
+  not_an_int <- nfolds != as.integer(nfolds)
+  nfeats <- ncol(dataset) - 1
+  out_of_range <- (nfolds < 1) | (nfolds > nfeats)
+  if (not_a_number | not_an_int | out_of_range) {
+      stop(paste0(
+        "`nfolds` must be an integer between 1 and the number of features in the data.\n",
+        "  You provided ", nfolds, " folds and your dataset has ", nfeats, " features."
+      )) }
 }
 
 #' Check that the training fraction is between 0 and 1
@@ -136,7 +138,7 @@ check_seed <- function(seed) {
 
 #' Check that outcome column exists. Pick outcome column if not specified.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #'
 #' @return outcome colname
 #' @noRd
@@ -160,7 +162,7 @@ check_outcome_column <- function(dataset, outcome_colname) {
 
 #' Check that the outcome variable is binary. Pick outcome value if necessary.
 #'
-#' @inheritParams run_pipeline
+#' @inheritParams run_ml
 #' @inheritParams pick_outcome_value
 #'
 #' @return outcome value
