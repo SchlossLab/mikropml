@@ -5,17 +5,17 @@
 \title{Get feature importance using permutation method}
 \usage{
 get_feature_importance(
-  train_data,
   model,
+  train_data,
   test_data,
   outcome_colname,
   outcome_value
 )
 }
 \arguments{
-\item{train_data}{training data: dataframe of outcome and features}
-
 \item{model}{caret model}
+
+\item{train_data}{training data: dataframe of outcome and features}
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 

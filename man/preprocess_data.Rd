@@ -16,9 +16,9 @@ preprocess_data(
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")})}
+\item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization)}
 
-\item{rm_nzv}{whether to remove variables with non-zero variance (default: \code{TRUE})}
+\item{rm_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
 }
 \value{
 preprocessed data

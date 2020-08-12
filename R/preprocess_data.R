@@ -4,7 +4,7 @@
 #'
 #' @param dataset dataframe with an outcome variable and other columns as features
 #' @param outcome_colname column name as a string of the outcome variable
-#' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`)
+#' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param rm_nzv whether to remove variables with near-zero variance (default: `TRUE`)
 #'
 #' @return preprocessed data
