@@ -41,6 +41,16 @@ test_that('preprocess_data works',{
                   outcome = c("normal", "normal", "cancer"),
                   var4 = c(0,1,0),
                 )) 
+   expect_equal(preprocess_data(test_df,'outcome',method=NULL),
+                dplyr::tibble(
+                  outcome = c("normal", "normal", "cancer"),
+                  var1 = c(1,2,3),
+                  var2a = c(1,0,0),
+                  var2b = c(0,1,0),
+                  var2c = c(0,0,1),
+                  var3yes = c(0,1,0),
+                  var4 = c(0,1,0)
+                ))
    expect_error(preprocess_data(test_df[,c('outcome','var5')], 'outcome'))
    expect_equal(preprocess_data(test_df, 'outcome',method = c('range')), 
                dplyr::tibble(

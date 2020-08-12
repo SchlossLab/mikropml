@@ -5,7 +5,7 @@
 #' @param dataset dataframe with an outcome variable and other columns as features
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`)
-#' @param rm_nzv whether to remove variables with non-zero variance (default: `TRUE`)
+#' @param rm_nzv whether to remove variables with near-zero variance (default: `TRUE`)
 #'
 #' @return preprocessed data
 #' @export
@@ -40,7 +40,7 @@ preprocess_data <- function(dataset,outcome_colname,method=c("center","scale"),r
   # combine all features
   proccessed_feats <- dplyr::bind_cols(nonbin_feats_transformed, bin_feats, novar_feats)
   
-  # remove features with non-zero variance
+  # remove features with near-zero variance
   if(rm_nzv) proccessed_feats <- get_caret_processed_df(proccessed_feats, 'nzv')
   
   # combine outcome and features
@@ -137,7 +137,7 @@ process_nonbin_feats <- function(features, method){
     
     # transform continuous features
     transformed_nonbin <- features
-    if(cont_feats > 0){
+    if(cont_feats > 0 & !is.null(method)){
       transformed_nonbin <- get_caret_processed_df(features, method)
     }
     
