@@ -4,6 +4,15 @@ test_df <- data.frame(
   var2 = 4:6
 )
 
+test_that("split_outcome_features works",{
+  expect_equal(split_outcome_features(test_df,'outcome'),
+               list(outcome=data.frame(outcome=c("normal", "normal", "cancer")),
+                    features=data.frame(
+                      var1 = 1:3,
+                      var2 = 4:6
+                    )))
+})
+
 test_that("pick_outcome_value works for all methods", {
   expect_equal(pick_outcome_value(test_df, "outcome", "fewer"), "cancer")
   expect_equal(pick_outcome_value(test_df, "outcome", "first"), "normal")
@@ -25,28 +34,17 @@ test_that("randomize_feature_order works for known seed", {
   )
 })
 
-test_that("check if correct lapply is selected", {
+test_that("check if correct apply is selected", {
   fa_installed <- check_package_installed("future.apply")
   if (fa_installed) {
     expect_equal(select_apply("lapply"), future.apply::future_lapply)
+    expect_equal(select_apply("sapply"), future.apply::future_sapply)
+    expect_equal(select_apply("apply"), future.apply::future_apply)
+    
   } else {
     expect_equal(select_apply("lapply"), lapply)
-  }
-})
-test_that("check if correct sapply is selected", {
-  fa_installed <- check_package_installed("future.apply")
-  if (fa_installed) {
-    expect_equal(select_apply("sapply"), future.apply::future_sapply)
-  } else {
     expect_equal(select_apply("sapply"), sapply)
-  }
-})
-test_that("check if correct lapply is selected", {
-  fa_installed <- check_package_installed("future.apply")
-  if (fa_installed) {
-    expect_equal(select_apply("apply"), future.apply::future_apply)
-  } else {
-    expect_equal(select_apply("apply"), apply)
+    expect_equal(select_apply("apply"), apply)    
   }
 })
 

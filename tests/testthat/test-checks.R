@@ -67,6 +67,7 @@ test_that("check_permute works", {
 
 test_that("check_nfolds works", {
   expect_true(is.null(check_nfolds(as.integer(1), test_df)))
+  expect_true(is.null(check_nfolds(1, test_df)))
   expect_error(
     check_nfolds(as.integer(10), test_df),
     "`nfolds` must be an integer"
@@ -113,4 +114,10 @@ test_that("check_all works", {
 test_that("check if package is installed", {
   expect_equal(check_package_installed("caret"), TRUE)
   expect_equal(check_package_installed("asdf"), FALSE)
+})
+
+test_that('check_features works', {
+  expect_true(is.null(check_features(test_df)))
+  expect_true(is.null(check_features(dplyr::as_tibble(test_df))))
+  expect_error(check_features(NULL))
 })
