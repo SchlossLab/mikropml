@@ -94,10 +94,11 @@ check_nfolds <- function(nfolds, dataset) {
   nfeats <- ncol(dataset) - 1
   out_of_range <- (nfolds < 1) | (nfolds > nfeats)
   if (not_a_number | not_an_int | out_of_range) {
-      stop(paste0(
-        "`nfolds` must be an integer between 1 and the number of features in the data.\n",
-        "  You provided ", nfolds, " folds and your dataset has ", nfeats, " features."
-      )) }
+    stop(paste0(
+      "`nfolds` must be an integer between 1 and the number of features in the data.\n",
+      "  You provided ", nfolds, " folds and your dataset has ", nfeats, " features."
+    ))
+  }
 }
 
 #' Check that the training fraction is between 0 and 1
@@ -224,8 +225,8 @@ check_package_installed <- function(package_name) {
   return(package_name %in% rownames(utils::installed.packages()))
 }
 
-check_features <- function(features){
-  if(!class(features)[1] %in% c('data.frame','tbl_df')){
-    stop('Argument `features` must be a `data.frame` or `tibble`')
+check_features <- function(features) {
+  if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
+    stop("Argument `features` must be a `data.frame` or `tibble`")
   }
 }

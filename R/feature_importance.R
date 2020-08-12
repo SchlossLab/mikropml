@@ -15,7 +15,7 @@
 get_feature_importance <- function(model, train_data, test_data, outcome_colname, outcome_value) {
 
   # get outcome and features
-  split_dat <- split_outcome_features(train_data,outcome_colname)
+  split_dat <- split_outcome_features(train_data, outcome_colname)
   outcome <- split_dat$outcome
   features <- split_dat$features
 

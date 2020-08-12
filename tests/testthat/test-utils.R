@@ -4,13 +4,17 @@ test_df <- data.frame(
   var2 = 4:6
 )
 
-test_that("split_outcome_features works",{
-  expect_equal(split_outcome_features(test_df,'outcome'),
-               list(outcome=data.frame(outcome=c("normal", "normal", "cancer")),
-                    features=data.frame(
-                      var1 = 1:3,
-                      var2 = 4:6
-                    )))
+test_that("split_outcome_features works", {
+  expect_equal(
+    split_outcome_features(test_df, "outcome"),
+    list(
+      outcome = data.frame(outcome = c("normal", "normal", "cancer")),
+      features = data.frame(
+        var1 = 1:3,
+        var2 = 4:6
+      )
+    )
+  )
 })
 
 test_that("pick_outcome_value works for all methods", {
@@ -40,11 +44,10 @@ test_that("check if correct apply is selected", {
     expect_equal(select_apply("lapply"), future.apply::future_lapply)
     expect_equal(select_apply("sapply"), future.apply::future_sapply)
     expect_equal(select_apply("apply"), future.apply::future_apply)
-    
   } else {
     expect_equal(select_apply("lapply"), lapply)
     expect_equal(select_apply("sapply"), sapply)
-    expect_equal(select_apply("apply"), apply)    
+    expect_equal(select_apply("apply"), apply)
   }
 })
 

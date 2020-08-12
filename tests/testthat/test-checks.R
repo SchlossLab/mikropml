@@ -116,7 +116,7 @@ test_that("check if package is installed", {
   expect_equal(check_package_installed("asdf"), FALSE)
 })
 
-test_that('check_features works', {
+test_that("check_features works", {
   expect_true(is.null(check_features(test_df)))
   expect_true(is.null(check_features(dplyr::as_tibble(test_df))))
   expect_error(check_features(NULL))
