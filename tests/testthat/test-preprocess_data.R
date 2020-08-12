@@ -137,5 +137,6 @@ test_that('get_caret_dummyvars_df works',{
                dplyr::tibble(var1=c(1,2,3),
                              var2b=c(0,1,0),
                              var2c=c(0,0,1)))
+  expect_error(get_caret_dummyvars_df(test_df[,c(4,7)]))
   expect_error(get_caret_dummyvars_df(NULL))
 })  
