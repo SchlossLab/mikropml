@@ -14,7 +14,7 @@ test_data_sm <- otu_small[-inTraining, ]
 
 otu_sm_cv5 <- define_cv(train_data_sm, "dx", nfolds = 5, seed = 2019)
 
-grid <- check_hyperparams_df(default_hyperparams, "regLogistic") %>% get_tuning_grid()
+grid <- check_hyperparams_df(test_hyperparams, "regLogistic") %>% get_tuning_grid()
 
 set.seed(2019)
 trained_model_sm1 <- caret::train(
@@ -37,7 +37,7 @@ otu_sm_results1 <- mikRopML::run_ml(otu_small,
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
-  hyperparameters = mikRopML::default_hyperparams,
+  hyperparameters = mikRopML::test_hyperparams,
   find_feature_importance = FALSE,
   seed = 2019
 )
@@ -51,7 +51,7 @@ otu_sm_results4 <- mikRopML::run_ml(otu_small,
   "rpart2",
   outcome_colname = "dx",
   outcome_value = "cancer",
-  hyperparameters = mikRopML::default_hyperparams,
+  hyperparameters = mikRopML::test_hyperparams,
   find_feature_importance = FALSE,
   seed = 2019
 )

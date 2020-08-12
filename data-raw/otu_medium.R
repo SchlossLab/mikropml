@@ -5,7 +5,7 @@ otu_med_results4 <- mikRopML::run_ml(otu_medium,
                  "rpart2",
                  outcome_colname = "dx",
                  outcome_value = "cancer",
-                 hyperparameters = mikRopML::default_hyperparams,
+                 hyperparameters = mikRopML::test_hyperparams,
                  find_feature_importance = FALSE,
                  seed = 2019
 )
