@@ -40,7 +40,7 @@ trained_model_sm1 <- caret::train(
   form,
   data = train_data_sm,
   method = "regLogistic",
-  trControl = otu_small_cv5,
+  trControl = otu_sm_cv5,
   metric = "ROC",
   tuneGrid = grid,
   family = "binomial"
