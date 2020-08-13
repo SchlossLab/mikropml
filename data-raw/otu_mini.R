@@ -98,7 +98,7 @@ usethis::use_data(otu_mini_results3, overwrite = TRUE)
 #                                      seed = 2019,
 #                                      nfolds = as.integer(2)
 #)
-usethis::use_data(otu_mini_results4, overwrite = TRUE)
+#usethis::use_data(otu_mini_results4, overwrite = TRUE)
 
 otu_mini_results5 <- mikRopML::run_ml(otu_mini,
                                       "xgbTree",

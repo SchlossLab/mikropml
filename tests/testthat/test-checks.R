@@ -106,10 +106,6 @@ test_that("check_seed works", {
   )
 })
 
-test_that("check_all works", {
-  expect_true(is.null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NA)))
-})
-
 test_that("check if package is installed", {
   expect_equal(check_package_installed("caret"), TRUE)
   expect_equal(check_package_installed("asdf"), FALSE)
