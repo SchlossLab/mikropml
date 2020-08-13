@@ -89,11 +89,14 @@ check_permute <- function(permute) {
 #' @examples
 #' check_nfolds(5, otu_small)
 check_nfolds <- function(nfolds, dataset) {
-  if (!is.integer(nfolds) | nfolds < 1 | nfolds > (ncol(dataset) - 1)) {
+  not_a_number <- !is.integer(nfolds) & !is.numeric(nfolds)
+  not_an_int <- nfolds != as.integer(nfolds)
+  nfeats <- ncol(dataset) - 1
+  out_of_range <- (nfolds < 1) | (nfolds > nfeats)
+  if (not_a_number | not_an_int | out_of_range) {
     stop(paste0(
       "`nfolds` must be an integer between 1 and the number of features in the data.\n",
-      "  You provided: ", nfolds,
-      "\n  Your dataset has ", ncol(dataset) - 1, " features."
+      "  You provided ", nfolds, " folds and your dataset has ", nfeats, " features."
     ))
   }
 }
@@ -221,4 +224,10 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
 #' all(check_package_installed(c("parallel", "doParallel")))
 check_package_installed <- function(package_names) {
   return(package_names %in% rownames(utils::installed.packages()))
+}
+
+check_features <- function(features) {
+  if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
+    stop("Argument `features` must be a `data.frame` or `tibble`")
+  }
 }
