@@ -16,17 +16,6 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 
 test_that("run_ml works for L2 logistic regression", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_small,
-      "regLogistic",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
-      find_feature_importance = FALSE,
-      seed = 2019
-    ),
-    otu_sm_results1
-  )
-  expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
       "regLogistic",
       outcome_colname = "dx",
@@ -68,7 +57,7 @@ test_that("run_ml works for svmRadial", {
     otu_mini_results3
   )
 })
-# test_that("run_ml works for rpart2", {
+#test_that("run_ml works for rpart2", {
 #   expect_equal_ml_results(
 #     mikRopML::run_ml(otu_mini,
 #                      "rpart2",

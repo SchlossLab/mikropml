@@ -8,8 +8,8 @@ sigma,0.00000001,RBF_SVM
 sigma,0.0000001,RBF_SVM
 C,0.01,RBF_SVM
 C,0.1,RBF_SVM
-maxdepth,1,Decision_Tree
 maxdepth,2,Decision_Tree
+maxdepth,3,Decision_Tree
 nrounds,10,XGBoost
 gamma,0,XGBoost
 eta,0.001,XGBoost
