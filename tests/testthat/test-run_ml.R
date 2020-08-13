@@ -68,7 +68,7 @@ test_that("run_ml works for svmRadial", {
     otu_mini_results3
   )
 })
-# test_that("run_ml works for rpart2", {
+#test_that("run_ml works for rpart2", {
 #   expect_equal_ml_results(
 #     mikRopML::run_ml(otu_mini,
 #                      "rpart2",
@@ -100,7 +100,7 @@ test_that("run_ml works for xgbTree", {
 test_that("run_ml errors for unsupported method", {
   expect_error(
     run_ml(
-      otu_small,
+      otu_mini,
       "not_a_method"
     ),
     "Method 'not_a_method' is not supported. Supported methods are:"
@@ -109,7 +109,7 @@ test_that("run_ml errors for unsupported method", {
 test_that("run_ml errors if outcome_colname not in dataframe", {
   expect_error(
     run_ml(
-      otu_small,
+      otu_mini,
       "rf",
       outcome_colname = "not_a_colname"
     ),
@@ -119,7 +119,7 @@ test_that("run_ml errors if outcome_colname not in dataframe", {
 test_that("run_ml errors if outcome_value not in outcome column", {
   expect_error(
     run_ml(
-      otu_small,
+      otu_mini,
       "rf",
       outcome_colname = "dx",
       outcome_value = "not_an_outcome"
