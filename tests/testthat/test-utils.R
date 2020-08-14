@@ -1,3 +1,8 @@
+options(warnPartialMatchArgs = FALSE)
+# Without this, underlying code in either stats or base R causes this warning in several places:
+#   warning: get_predictions works
+#   partial argument match of 'contrasts' to 'contrasts.arg'
+
 test_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = 1:3,
@@ -61,4 +66,39 @@ test_that("mutate_all_types converts factors to other types", {
   expect_equal(class(dat2$c1), "character")
   expect_equal(class(dat2$c2), "integer")
   expect_equal(class(dat2$c3), "numeric")
+})
+
+test_that("setup_parallel warns", {
+  expect_warning(
+    setup_parallel("not_a_number"),
+    "`ncores` must be `NA` or a number, but you provided"
+  )
+  if(check_package_installed('doParallel')){
+    expect_warning(
+      pc <- setup_parallel(9999999),
+      "You specified 9999999 cores, but only"
+    )
+  }else{
+    expect_warning(
+      pc <- setup_parallel(9999999),
+      "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.
+ You specified 9999999 cores, but one or more of these packages are not installed.
+ Proceeding with only one process"
+      )
+  }
+  stop_parallel(pc)
+})
+test_that("setup_parallel works", {
+  expect_true(is.null(setup_parallel(NA)))
+  if(check_package_installed('doParallel')){
+    expect_message(pc <- setup_parallel(2), "Using 2 cores for parallel processing.")
+  }else{
+    expect_warning(
+      pc <- setup_parallel(2),
+      "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.
+ You specified 2 cores, but one or more of these packages are not installed.
+ Proceeding with only one process"
+    )
+  }
+  stop_parallel(pc)
 })
