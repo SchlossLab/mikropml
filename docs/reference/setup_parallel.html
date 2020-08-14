@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — get_pred • mikRopML</title>
+<title>Register a cluster for parallel processing — setup_parallel • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Title — get_pred" />
-<meta property="og:description" content="Title" />
+<meta property="og:title" content="Register a cluster for parallel processing — setup_parallel" />
+<meta property="og:description" content="Register a cluster for parallel processing" />
 
 
 
@@ -115,40 +115,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Register a cluster for parallel processing</h1>
     
-    <div class="hidden name"><code>get_pred.Rd</code></div>
+    <div class="hidden name"><code>setup_parallel.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Title</p>
+    <p>Register a cluster for parallel processing</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_pred</span>(<span class='no'>trained_model</span>, <span class='no'>test_data</span>, <span class='no'>fewer_samples</span>)</pre>
+    <pre class="usage"><span class='fu'>setup_parallel</span>(<span class='no'>ncores</span>, <span class='kw'>setup_timeout</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>trained_model</th>
-      <td><p>TODO</p></td>
+      <th>ncores</th>
+      <td><p>number of cores for parallel processing (default: NA). <code>parallel</code> and <code>doParallel</code> packages are needed for ncores &gt; 1</p></td>
     </tr>
     <tr>
-      <th>test_data</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>fewer_samples</th>
-      <td><p>TODO</p></td>
+      <th>setup_timeout</th>
+      <td><p>Setup timeout in seconds. See <a href='https://rdrr.io/r/parallel/makeCluster.html'>makePSOCKcluster</a> for details.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>PSOCK cluster, or NULL if only 1 core provided or required packages aren't available</p>
 
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>para_cluster</span> <span class='kw'>&lt;-</span> <span class='fu'>setup_parallel</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>Using 2 cores for parallel processing.</span></div><div class='input'><span class='co'># insert code that uses foreach here</span>
+<span class='fu'><a href='stop_parallel.html'>stop_parallel</a></span>(<span class='no'>para_cluster</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

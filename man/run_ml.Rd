@@ -13,7 +13,8 @@ run_ml(
   find_feature_importance = FALSE,
   kfold = 5,
   training_frac = 0.8,
-  seed = NA
+  seed = NA,
+  ncores = NA
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ run_ml(
 \item{training_frac}{fraction size of data for training (default: 0.8)}
 
 \item{seed}{random seed (default: NA)}
+
+\item{ncores}{number of cores for parallel processing (default: NA). \code{parallel} and \code{doParallel} packages are needed for ncores > 1}
 }
 \value{
 named list with results

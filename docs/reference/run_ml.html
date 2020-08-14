@@ -133,7 +133,8 @@
   <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>ncores</span> <span class='kw'>=</span> <span class='fl'>NA</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -174,6 +175,10 @@
     <tr>
       <th>seed</th>
       <td><p>random seed (default: NA)</p></td>
+    </tr>
+    <tr>
+      <th>ncores</th>
+      <td><p>number of cores for parallel processing (default: NA). <code>parallel</code> and <code>doParallel</code> packages are needed for ncores &gt; 1</p></td>
     </tr>
     </table>
 
