@@ -65,20 +65,20 @@ test_that("check_permute works", {
   )
 })
 
-test_that("check_nfolds works", {
-  expect_true(is.null(check_nfolds(as.integer(1), test_df)))
-  expect_true(is.null(check_nfolds(1, test_df)))
+test_that("check_kfold works", {
+  expect_true(is.null(check_kfold(as.integer(1), test_df)))
+  expect_true(is.null(check_kfold(1, test_df)))
   expect_error(
-    check_nfolds(as.integer(10), test_df),
-    "`nfolds` must be an integer"
+    check_kfold(as.integer(10), test_df),
+    "`kfold` must be an integer"
   )
   expect_error(
-    check_nfolds(as.integer(0), test_df),
-    "`nfolds` must be an integer"
+    check_kfold(as.integer(0), test_df),
+    "`kfold` must be an integer"
   )
   expect_error(
-    check_nfolds("not_an_int", test_df),
-    "`nfolds` must be an integer"
+    check_kfold("not_an_int", test_df),
+    "`kfold` must be an integer"
   )
 })
 

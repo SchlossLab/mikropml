@@ -19,11 +19,11 @@ Get dummyvars dataframe (i.e. design matrix)
 }
 \examples{
 df <- data.frame(
-outcome = c("normal", "normal", "cancer"),
-var1 = 1:3,
-var2 = c('a','b','c'),
-var3 = c('no','yes','no'),
-var4 = c(0,1,0)
+  outcome = c("normal", "normal", "cancer"),
+  var1 = 1:3,
+  var2 = c("a", "b", "c"),
+  var3 = c("no", "yes", "no"),
+  var4 = c(0, 1, 0)
 )
 get_caret_dummyvars_df(df, TRUE)
 }

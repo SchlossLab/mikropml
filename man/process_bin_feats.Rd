@@ -16,5 +16,5 @@ list of two dataframes: binary (processed) and nonbinary features (unprocessed)
 Process binary features
 }
 \examples{
-process_bin_feats(mikRopML::otu_small[,2:ncol(otu_small)])
+process_bin_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
 }

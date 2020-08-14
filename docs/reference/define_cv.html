@@ -124,7 +124,7 @@
     <p>Define Cross-Validation Scheme and Training Parameters</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_cv</span>(<span class='no'>train_data</span>, <span class='no'>outcome_colname</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>define_cv</span>(<span class='no'>train_data</span>, <span class='no'>outcome_colname</span>, <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,8 +138,8 @@
       <td><p>column name as a string of the outcome variable</p></td>
     </tr>
     <tr>
-      <th>nfolds</th>
-      <td><p>fold number for cross-validation (default: 5)</p></td>
+      <th>kfold</th>
+      <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -152,7 +152,7 @@
     <p>Caret object for trainControl that controls cross-validation</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>define_cv</span>(<span class='no'>train_data_sm</span>, <span class='st'>"dx"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>2019</span>)</div><div class='output co'>#&gt; $method
+    <pre class="examples"><div class='input'><span class='fu'>define_cv</span>(<span class='no'>train_data_sm</span>, <span class='st'>"dx"</span>, <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>2019</span>)</div><div class='output co'>#&gt; $method
 #&gt; [1] "repeatedcv"
 #&gt; 
 #&gt; $number
@@ -214,7 +214,7 @@
 #&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
 #&gt;     out
 #&gt; }
-#&gt; &lt;bytecode: 0x7fb2092c1fd8&gt;
+#&gt; &lt;bytecode: 0x7fbf1035c7f0&gt;
 #&gt; &lt;environment: namespace:caret&gt;
 #&gt; 
 #&gt; $selectionFunction

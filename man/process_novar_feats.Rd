@@ -16,5 +16,5 @@ list of two dataframes: features with variability (unprocessed) and without (pro
 Process features with no variation
 }
 \examples{
-process_novar_feats(mikRopML::otu_small[,2:ncol(otu_small)])
+process_novar_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
 }

@@ -6,7 +6,7 @@
 #' @param outcome_value outcome value of interest as a string
 #' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
 #' @param find_feature_importance run permutation imporance (default: FALSE)
-#' @param nfolds fold number for cross-validation (default: 5)
+#' @param kfold fold number for k-fold cross-validation (default: 5)
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param seed random seed (default: NA)
 #'
@@ -23,7 +23,7 @@ run_ml <-
            outcome_value = NA,
            hyperparameters = mikRopML::default_hyperparams,
            find_feature_importance = FALSE,
-           nfolds = 5,
+           kfold = 5,
            training_frac = 0.8,
            seed = NA) {
     # input validation
@@ -31,7 +31,7 @@ run_ml <-
       dataset,
       method,
       find_feature_importance,
-      nfolds,
+      kfold,
       training_frac,
       seed
     )
@@ -77,7 +77,7 @@ run_ml <-
     cv <-
       define_cv(train_data,
         outcome_colname,
-        nfolds = nfolds,
+        kfold = kfold,
         seed = seed
       )
 
