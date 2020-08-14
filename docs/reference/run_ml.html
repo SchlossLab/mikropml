@@ -131,7 +131,7 @@
   <span class='kw'>outcome_value</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='default_hyperparams.html'>default_hyperparams</a></span>,
   <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>
 )</pre>
@@ -164,8 +164,8 @@
       <td><p>run permutation imporance (default: FALSE)</p></td>
     </tr>
     <tr>
-      <th>nfolds</th>
-      <td><p>fold number for cross-validation (default: 5)</p></td>
+      <th>kfold</th>
+      <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
     </tr>
     <tr>
       <th>training_frac</th>
