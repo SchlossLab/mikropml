@@ -55,7 +55,7 @@ test_that("run_ml works for random forest", {
                      hyperparameters = mikRopML::test_hyperparams,
                      find_feature_importance = FALSE,
                      seed = 2019,
-                     nfolds = as.integer(2)
+                     kfold = as.integer(2)
     ),
     otu_mini_results2,
     tol = 1e-3
@@ -70,7 +70,7 @@ test_that("run_ml works for svmRadial", {
                      hyperparameters = mikRopML::test_hyperparams,
                      find_feature_importance = FALSE,
                      seed = 2019,
-                     nfolds = as.integer(2)
+                     kfold = as.integer(2)
     ),
     otu_mini_results3
   )
@@ -84,7 +84,7 @@ test_that("run_ml works for svmRadial", {
 #                      hyperparameters = mikRopML::test_hyperparams,
 #                      find_feature_importance = FALSE,
 #                      seed = 2019,
-#                      nfolds = as.integer(3)
+#                      kfold = as.integer(3)
 #     ),
 #     otu_mini_results4
 #   )
@@ -98,7 +98,7 @@ test_that("run_ml works for xgbTree", {
                      hyperparameters = mikRopML::test_hyperparams,
                      find_feature_importance = FALSE,
                      seed = 2019,
-                     nfolds = as.integer(2)
+                     kfold = as.integer(2)
     ),
     otu_mini_results5,
     tol = 1e-3

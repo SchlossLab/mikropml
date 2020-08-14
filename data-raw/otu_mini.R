@@ -59,7 +59,7 @@ otu_mini_results1 <- mikRopML::run_ml(otu_mini,
   hyperparameters = mikRopML::test_hyperparams,
   find_feature_importance = FALSE,
   seed = 2019,
-  nfolds = as.integer(2)
+  kfold = as.integer(2)
 )
 usethis::use_data(otu_mini_results1, overwrite = TRUE)
 
@@ -70,7 +70,7 @@ otu_mini_results2 <- mikRopML::run_ml(otu_mini,
                                       hyperparameters = mikRopML::test_hyperparams,
                                       find_feature_importance = FALSE,
                                       seed = 2019,
-                                      nfolds = as.integer(2)
+                                      kfold = as.integer(2)
 )
 usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
@@ -81,7 +81,7 @@ otu_mini_results3 <- mikRopML::run_ml(otu_mini,
                                       hyperparameters = mikRopML::test_hyperparams,
                                       find_feature_importance = FALSE,
                                       seed = 2019,
-                                      nfolds = as.integer(2)
+                                      kfold = as.integer(2)
 )
 usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
@@ -96,7 +96,7 @@ usethis::use_data(otu_mini_results3, overwrite = TRUE)
 #                                      hyperparameters = mikRopML::test_hyperparams,
 #                                      find_feature_importance = FALSE,
 #                                      seed = 2019,
-#                                      nfolds = as.integer(2)
+#                                      kfold = as.integer(2)
 #)
 #usethis::use_data(otu_mini_results4, overwrite = TRUE)
 
@@ -107,6 +107,6 @@ otu_mini_results5 <- mikRopML::run_ml(otu_mini,
                                       hyperparameters = mikRopML::test_hyperparams,
                                       find_feature_importance = FALSE,
                                       seed = 2019,
-                                      nfolds = as.integer(2)
+                                      kfold = as.integer(2)
 )
 usethis::use_data(otu_mini_results5, overwrite = TRUE)
