@@ -132,7 +132,8 @@
 <h2 class="hasAnchor">
 <a href="#contributing-changes" class="anchor"></a>Contributing changes</h2>
 <ol>
-<li>Either <code>clone</code> or <code>fork</code> this repo.
+<li>
+<p>Either <code>clone</code> or <code>fork</code> this repo.</p>
 <ul>
 <li><p><strong>clone</strong> if you have write access: <code>git clone https://github.com/SchlossLab/ML_pipeline_microbiome</code> (All Schlabbies have write access.)</p></li>
 <li><p><strong>fork</strong> if you do <em>not</em> have write access by pressing the <a href="(https://help.github.com/en/articles/fork-a-repo)">Fork</a> button on <a href="https://github.com/SchlossLab/ML_pipeline_microbiome">GitHub</a>, then clone your fork.</p></li>
@@ -147,7 +148,8 @@
 <p>Give it a short, descriptive name. <code>git checkout -b feature-branch-name</code> The branch name should reflect the bug or feature it will resolve, or reference the issue number directly (<a href="https://github.com/SchlossLab/ML_pipeline_microbiome/branches/all">examples</a>). [Note: wherever you see <code>feature-branch-name</code> in these instructions, replace that with your branch’s actual name.]</p>
 </li>
 <li><p>Make your edits.</p></li>
-<li>Add &amp; commit changes. <code>git add filename.R  git commit -m "Implement cool feature XX (Resolves #Y)"</code> Use this <a href="https://chris.beams.io/posts/git-commit/">style guide</a> for writing good commit messages. The highlights:
+<li>
+<p>Add &amp; commit changes. <code>git add filename.R  git commit -m "Implement cool feature XX (Resolves #Y)"</code> Use this <a href="https://chris.beams.io/posts/git-commit/">style guide</a> for writing good commit messages. The highlights:</p>
 <ul>
 <li>Capitalize the first word of the message.</li>
 <li>The first word should be a verb in the imperative tense.</li>
@@ -158,13 +160,14 @@
 <li>
 <p>Push your branch to GitHub. If you’re pushing your branch for the first time, you’ll have to set the upstream: <code>git push --set-upstream origin feature-branch-name</code></p>
 <p>Otherwise, just push like usual: <code>git push origin feature-branch-name</code></p>
-If you forget the branch name:
+<p>If you forget the branch name:</p>
 <ul>
 <li>Run <code>git status</code> to see the branch you currently have checked out (among other things).</li>
 <li>You can list existing branches with <code>git branch --list</code>.</li>
 </ul>
 </li>
-<li>Open a pull request [<a href="https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1">example</a>].
+<li>
+<p>Open a pull request [<a href="https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1">example</a>].</p>
 <ol>
 <li>If you made multiple commits over a period of time, chances are high that your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run: <code>git checkout master  git pull  git checkout feature-branch-name  git merge master  git push</code>
 </li>

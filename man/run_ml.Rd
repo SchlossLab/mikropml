@@ -11,7 +11,7 @@ run_ml(
   outcome_value = NA,
   hyperparameters = mikRopML::default_hyperparams,
   find_feature_importance = FALSE,
-  nfolds = 5,
+  kfold = 5,
   training_frac = 0.8,
   seed = NA,
   ncores = NA
@@ -30,7 +30,7 @@ run_ml(
 
 \item{find_feature_importance}{run permutation imporance (default: FALSE)}
 
-\item{nfolds}{fold number for cross-validation (default: 5)}
+\item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
 

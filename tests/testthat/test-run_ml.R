@@ -40,7 +40,7 @@ test_that("run_ml works for regLogistic", {
       hyperparameters = mikRopML::default_hyperparams,
       find_feature_importance = FALSE,
       seed = 2019,
-      nfolds = as.integer(2)
+      kfold = as.integer(2)
     ),
     otu_mini_results1
   )
@@ -86,7 +86,7 @@ test_that("run_ml errors if outcome is not binary", {
       ),
       "rf",
       outcome_colname = "dx",
-      nfolds = as.integer(2)
+      kfold = as.integer(2)
     ),
     "A binary outcome variable is required, but this dataset has 3 outcomes"
   )
@@ -101,7 +101,7 @@ test_that("run_ml works with multiple cores", {
       hyperparameters = mikRopML::default_hyperparams,
       find_feature_importance = FALSE,
       seed = 2019,
-      nfolds = as.integer(2),
+      kfold = as.integer(2),
       ncores = 2
     ),
     otu_mini_results1

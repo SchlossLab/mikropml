@@ -4,14 +4,14 @@
 \alias{define_cv}
 \title{Define Cross-Validation Scheme and Training Parameters}
 \usage{
-define_cv(train_data, outcome_colname, nfolds = 5, seed = NA)
+define_cv(train_data, outcome_colname, kfold = 5, seed = NA)
 }
 \arguments{
 \item{train_data}{Dataframe for training model}
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{nfolds}{fold number for cross-validation (default: 5)}
+\item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{seed}{random seed (default: NA)}
 }
@@ -22,7 +22,7 @@ Caret object for trainControl that controls cross-validation
 Define Cross-Validation Scheme and Training Parameters
 }
 \examples{
-define_cv(train_data_sm, "dx", nfolds = 5, seed = 2019)
+define_cv(train_data_sm, "dx", kfold = 5, seed = 2019)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
