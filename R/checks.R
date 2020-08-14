@@ -8,11 +8,11 @@
 #'
 #' @examples
 #' check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NA)
-check_all <- function(dataset, method, permute, nfolds, training_frac, seed) {
+check_all <- function(dataset, method, permute, kfold, training_frac, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
-  check_nfolds(nfolds, dataset)
+  check_kfold(kfold, dataset)
   check_training_frac(training_frac)
   check_seed(seed)
 }
@@ -79,7 +79,7 @@ check_permute <- function(permute) {
   }
 }
 
-#' Check that nfolds is an integer of reasonable size
+#' Check that kfold is an integer of reasonable size
 #'
 #' @inheritParams run_ml
 #'
@@ -87,13 +87,16 @@ check_permute <- function(permute) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_nfolds(5, otu_small)
-check_nfolds <- function(nfolds, dataset) {
-  if (!is.integer(nfolds) | nfolds < 1 | nfolds > (ncol(dataset) - 1)) {
+#' check_kfold(5, otu_small)
+check_kfold <- function(kfold, dataset) {
+  not_a_number <- !is.integer(kfold) & !is.numeric(kfold)
+  not_an_int <- kfold != as.integer(kfold)
+  nfeats <- ncol(dataset) - 1
+  out_of_range <- (kfold < 1) | (kfold > nfeats)
+  if (not_a_number | not_an_int | out_of_range) {
     stop(paste0(
-      "`nfolds` must be an integer between 1 and the number of features in the data.\n",
-      "  You provided: ", nfolds,
-      "\n  Your dataset has ", ncol(dataset) - 1, " features."
+      "`kfold` must be an integer between 1 and the number of features in the data.\n",
+      "  You provided ", kfold, " folds and your dataset has ", nfeats, " features."
     ))
   }
 }
@@ -208,16 +211,23 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   return(outcome_value)
 }
 
-#' Check if package is installed
+#' Check whether package(s) are installed
 #'
-#' @param package_name name of package to check
-#' @return boolean - whether package is installed (T) or not F).
+#' @param package_names names of packages (or a single package) to check
+#' @return logical vector - whether packages are installed (TRUE) or not (FALSE).
 #' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_package_installed("base")
 #' check_package_installed("asdf")
-check_package_installed <- function(package_name) {
-  return(package_name %in% rownames(utils::installed.packages()))
+#' all(check_package_installed(c("parallel", "doParallel")))
+check_package_installed <- function(package_names) {
+  return(package_names %in% rownames(utils::installed.packages()))
+}
+
+check_features <- function(features) {
+  if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
+    stop("Argument `features` must be a `data.frame` or `tibble`")
+  }
 }

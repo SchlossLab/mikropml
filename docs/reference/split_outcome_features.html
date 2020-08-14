@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — run_model • mikRopML</title>
+<title>Split dataset into outcome and features — split_outcome_features • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Title — run_model" />
-<meta property="og:description" content="Title" />
+<meta property="og:title" content="Split dataset into outcome and features — split_outcome_features" />
+<meta property="og:description" content="Split dataset into outcome and features" />
 
 
 
@@ -115,64 +115,161 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>Split dataset into outcome and features</h1>
     
-    <div class="hidden name"><code>run_model.Rd</code></div>
+    <div class="hidden name"><code>split_outcome_features.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Title</p>
+    <p>Split dataset into outcome and features</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_model</span>(
-  <span class='no'>seed</span>,
-  <span class='no'>model</span>,
-  <span class='no'>data_filename</span>,
-  <span class='no'>hyperparameters</span>,
-  <span class='no'>outcome</span>,
-  <span class='no'>level</span>,
-  <span class='no'>permutation</span>
-)</pre>
+    <pre class="usage"><span class='fu'>split_outcome_features</span>(<span class='no'>dataset</span>, <span class='no'>outcome_colname</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>seed</th>
-      <td><p>TODO</p></td>
+      <th>dataset</th>
+      <td><p>dataframe with an outcome variable and other columns as features</p></td>
     </tr>
     <tr>
-      <th>model</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>data_filename</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>hyperparameters</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>outcome</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>level</th>
-      <td><p>TODO</p></td>
-    </tr>
-    <tr>
-      <th>permutation</th>
-      <td><p>TODO</p></td>
+      <th>outcome_colname</th>
+      <td><p>column name as a string of the outcome variable</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>list of length two: outcome, features</p>
 
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>split_outcome_features</span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span>)</div><div class='output co'>#&gt; $outcome
+#&gt;        dx
+#&gt; 1  normal
+#&gt; 2  normal
+#&gt; 3  normal
+#&gt; 4  normal
+#&gt; 5  normal
+#&gt; 6  normal
+#&gt; 7  cancer
+#&gt; 8  normal
+#&gt; 9  normal
+#&gt; 10 cancer
+#&gt; 11 normal
+#&gt; 12 normal
+#&gt; 13 normal
+#&gt; 14 normal
+#&gt; 15 cancer
+#&gt; 16 cancer
+#&gt; 17 normal
+#&gt; 18 normal
+#&gt; 19 normal
+#&gt; 20 normal
+#&gt; 21 normal
+#&gt; 22 normal
+#&gt; 23 cancer
+#&gt; 24 normal
+#&gt; 25 cancer
+#&gt; 26 normal
+#&gt; 27 normal
+#&gt; 28 cancer
+#&gt; 29 normal
+#&gt; 30 normal
+#&gt; 31 normal
+#&gt; 32 normal
+#&gt; 33 normal
+#&gt; 34 normal
+#&gt; 35 normal
+#&gt; 36 normal
+#&gt; 37 normal
+#&gt; 38 normal
+#&gt; 39 normal
+#&gt; 40 normal
+#&gt; 41 normal
+#&gt; 42 normal
+#&gt; 43 normal
+#&gt; 44 normal
+#&gt; 45 normal
+#&gt; 46 normal
+#&gt; 47 normal
+#&gt; 48 normal
+#&gt; 49 normal
+#&gt; 50 normal
+#&gt; 51 normal
+#&gt; 52 normal
+#&gt; 53 cancer
+#&gt; 54 normal
+#&gt; 55 cancer
+#&gt; 56 cancer
+#&gt; 57 normal
+#&gt; 58 normal
+#&gt; 59 normal
+#&gt; 60 normal
+#&gt; 
+#&gt; $features
+#&gt;    Otu00001 Otu00002 Otu00003
+#&gt; 1       350      268      213
+#&gt; 2       568     1320       13
+#&gt; 3       151      756      802
+#&gt; 4       299       30     1018
+#&gt; 5      1409      174        0
+#&gt; 6       167      712      213
+#&gt; 7       108      120      160
+#&gt; 8       347      130      131
+#&gt; 9       256      995      871
+#&gt; 10     1648      144       22
+#&gt; 11      843        0        0
+#&gt; 12     1404      386      103
+#&gt; 13      230      226      152
+#&gt; 14       86      426      123
+#&gt; 15       93      540      178
+#&gt; 16     1668       20        3
+#&gt; 17      381      357      315
+#&gt; 18      788      558      453
+#&gt; 19      282      331      250
+#&gt; 20     1245       24       71
+#&gt; 21     2036       21        5
+#&gt; 22     1046       40       71
+#&gt; 23      322      173      419
+#&gt; 24      118     1132      582
+#&gt; 25     1976      563      193
+#&gt; 26     1484      327      166
+#&gt; 27        7       25        8
+#&gt; 28      115       67      139
+#&gt; 29      287       87      118
+#&gt; 30       31      179       58
+#&gt; 31      878      866      783
+#&gt; 32      287      670       99
+#&gt; 33     1491       74      280
+#&gt; 34      587      515      162
+#&gt; 35      483     1564      834
+#&gt; 36      660       31       44
+#&gt; 37      422      230      192
+#&gt; 38      526     1172      952
+#&gt; 39      166      313      182
+#&gt; 40      366      317      178
+#&gt; 41      641      126      170
+#&gt; 42      356      369      130
+#&gt; 43     1636       15        7
+#&gt; 44      308       68      131
+#&gt; 45      905      160       53
+#&gt; 46     1777       69       64
+#&gt; 47      262      235      376
+#&gt; 48     1758       36       51
+#&gt; 49       45      343      131
+#&gt; 50     1057      463      150
+#&gt; 51       62       46      122
+#&gt; 52      517      560       32
+#&gt; 53     1797       92       42
+#&gt; 54     1513      140        1
+#&gt; 55       99      350      229
+#&gt; 56     2072       62       54
+#&gt; 57      193      210       32
+#&gt; 58      387     5041        5
+#&gt; 59      335     1112        2
+#&gt; 60      356      129      188
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

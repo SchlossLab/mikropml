@@ -45,7 +45,10 @@ Suggests:
     randomForest,
     kernlab,
     rpart,
-    xgboost
+    xgboost,
+    parallel,
+    doParallel,
+    foreach
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

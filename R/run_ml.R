@@ -6,9 +6,10 @@
 #' @param outcome_value outcome value of interest as a string
 #' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
 #' @param find_feature_importance run permutation imporance (default: FALSE)
-#' @param nfolds fold number for cross-validation (default: 5)
+#' @param kfold fold number for k-fold cross-validation (default: 5)
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param seed random seed (default: NA)
+#' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
 #' @return named list with results
 #' @export
@@ -23,15 +24,15 @@ run_ml <-
            outcome_value = NA,
            hyperparameters = mikRopML::default_hyperparams,
            find_feature_importance = FALSE,
-           nfolds = as.integer(5),
+           kfold = 5,
            training_frac = 0.8,
-           seed = NA) {
-    # input validation
+           seed = NA,
+           ncores = NA) {
     check_all(
       dataset,
       method,
       find_feature_importance,
-      nfolds,
+      kfold,
       training_frac,
       seed
     )
@@ -80,12 +81,14 @@ run_ml <-
     cv <-
       define_cv(train_data,
         outcome_colname,
-        nfolds = nfolds,
+        kfold = kfold,
         seed = seed
       )
 
     model_formula <-
       stats::as.formula(paste(outcome_colname, "~ ."))
+
+    pcluster <- setup_parallel(ncores)
 
     # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
     # TODO: or could set unused args to NULL and just call train once?
@@ -122,6 +125,8 @@ run_ml <-
         tuneGrid = tune_grid
       )
     }
+
+    stop_parallel(pcluster)
 
     return(
       list(

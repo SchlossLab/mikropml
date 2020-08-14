@@ -1,5 +1,10 @@
-options(warnPartialMatchArgs = FALSE)
-# Without this, underlying code in either stats or base R causes this warning:
+
+options(
+  warnPartialMatchArgs = FALSE,
+  warnPartialMatchAttr = FALSE,
+  warnPartialMatchDollar = FALSE
+)
+# Without this, underlying code in either stats or base R causes this warning in several places:
 #   warning: get_predictions works
 #   partial argument match of 'contrasts' to 'contrasts.arg'
 
@@ -8,15 +13,17 @@ get_all_but_model <- function(ml_results) {
 }
 
 expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
-  return(expect_equal(get_all_but_model(result1),
-                      get_all_but_model(result2),
-                      tolerance = tol
-                      ))
+  return(
+    eval(bquote(expect_equal(get_all_but_model(result1),
+      get_all_but_model(result2),
+      tolerance = tol
+    )))
+  )
 }
 
 test_that("run_ml works for L2 logistic regression", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_small,
+    run_ml(otu_small,
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -27,14 +34,14 @@ test_that("run_ml works for L2 logistic regression", {
     otu_sm_results1
   )
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
+    run_ml(otu_mini,
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
       hyperparameters = mikRopML::test_hyperparams,
       find_feature_importance = FALSE,
       seed = 2019,
-      nfolds = as.integer(2)
+      kfold = as.integer(2)
     ),
     otu_mini_results1
   )
@@ -137,8 +144,24 @@ test_that("run_ml errors if outcome is not binary", {
       ),
       "rf",
       outcome_colname = "dx",
-      nfolds = as.integer(2)
+      kfold = as.integer(2)
     ),
     "A binary outcome variable is required, but this dataset has 3 outcomes"
+  )
+})
+test_that("run_ml works with multiple cores", {
+  expect_equal_ml_results(
+    run_ml(
+      otu_mini,
+      "regLogistic",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::default_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2),
+      ncores = 2
+    ),
+    otu_mini_results1
   )
 })

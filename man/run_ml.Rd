@@ -11,9 +11,10 @@ run_ml(
   outcome_value = NA,
   hyperparameters = mikRopML::default_hyperparams,
   find_feature_importance = FALSE,
-  nfolds = as.integer(5),
+  kfold = 5,
   training_frac = 0.8,
-  seed = NA
+  seed = NA,
+  ncores = NA
 )
 }
 \arguments{
@@ -29,11 +30,13 @@ run_ml(
 
 \item{find_feature_importance}{run permutation imporance (default: FALSE)}
 
-\item{nfolds}{fold number for cross-validation (default: 5)}
+\item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
 
 \item{seed}{random seed (default: NA)}
+
+\item{ncores}{number of cores for parallel processing (default: NA). \code{parallel} and \code{doParallel} packages are needed for ncores > 1}
 }
 \value{
 named list with results
