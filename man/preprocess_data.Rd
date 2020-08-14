@@ -27,5 +27,5 @@ preprocessed data
 Preprocess data prior to running machine learning
 }
 \examples{
-preprocess_data(mikRopML::otu_small,'dx')
+preprocess_data(mikRopML::otu_small, "dx")
 }

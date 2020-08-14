@@ -18,5 +18,5 @@ dataframe of preprocessed features
 Preprocess nonbinary features
 }
 \examples{
-process_nonbin_feats(mikRopML::otu_small[,2:ncol(otu_small)],c('center','scale','nzv'))
+process_nonbin_feats(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale", "nzv"))
 }
