@@ -1,3 +1,4 @@
+
 options(
   warnPartialMatchArgs = FALSE,
   warnPartialMatchAttr = FALSE,
@@ -20,7 +21,7 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   )
 }
 
-test_that("run_ml works for regLogistic", {
+test_that("run_ml works for L2 logistic regression", {
   expect_equal_ml_results(
     run_ml(otu_small,
       "regLogistic",
@@ -37,7 +38,7 @@ test_that("run_ml works for regLogistic", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::default_hyperparams,
+      hyperparameters = mikRopML::test_hyperparams,
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = as.integer(2)
@@ -45,7 +46,64 @@ test_that("run_ml works for regLogistic", {
     otu_mini_results1
   )
 })
-
+test_that("run_ml works for random forest", {
+  expect_equal_ml_results(
+    mikRopML::run_ml(otu_mini,
+      "rf",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::test_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2)
+    ),
+    otu_mini_results2,
+    tol = 1e-3
+  )
+})
+test_that("run_ml works for svmRadial", {
+  expect_equal_ml_results(
+    mikRopML::run_ml(otu_mini,
+      "svmRadial",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::test_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2)
+    ),
+    otu_mini_results3
+  )
+})
+# test_that("run_ml works for rpart2", {
+#   expect_equal_ml_results(
+#     mikRopML::run_ml(otu_mini,
+#                      "rpart2",
+#                      outcome_colname = "dx",
+#                      outcome_value = "cancer",
+#                      hyperparameters = mikRopML::test_hyperparams,
+#                      find_feature_importance = FALSE,
+#                      seed = 2019,
+#                      kfold = as.integer(3)
+#     ),
+#     otu_mini_results4
+#   )
+# })
+test_that("run_ml works for xgbTree", {
+  expect_equal_ml_results(
+    mikRopML::run_ml(otu_mini,
+      "xgbTree",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::test_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2)
+    ),
+    otu_mini_results5,
+    tol = 1e-3
+  )
+})
 test_that("run_ml errors for unsupported method", {
   expect_error(
     run_ml(
@@ -98,7 +156,7 @@ test_that("run_ml works with multiple cores", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::default_hyperparams,
+      hyperparameters = mikRopML::test_hyperparams,
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = as.integer(2),
