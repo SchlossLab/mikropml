@@ -8,6 +8,16 @@
 #' }
 "default_hyperparams"
 
+#' Test model hyperparameters with less options for faster build
+#'
+#' @format a data frame with 23 rows and 3 columns
+#' \describe{
+#'   \item{param}{hyperparameter}
+#'   \item{value}{value of the hyperparameter}
+#'   \item{method}{ML method that the hyperparameter applies to}
+#' }
+"test_hyperparams"
+
 #' Large OTU abundance dataset
 #'
 #' A dataset containing relatives abundances of 6,920 OTUs for 490 human stool samples
