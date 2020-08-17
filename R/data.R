@@ -10,7 +10,7 @@
 
 #' Test model hyperparameters with less options for faster build
 #'
-#' @format a data frame with 23 rows and 3 columns
+#' @format a data frame with 21 rows and 3 columns
 #' \describe{
 #'   \item{param}{hyperparameter}
 #'   \item{value}{value of the hyperparameter}
