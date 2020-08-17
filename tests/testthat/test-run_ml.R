@@ -27,7 +27,7 @@ test_that("run_ml works for L2 logistic regression", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::default_hyperparams,
+      hyperparameters = mikRopML::test_hyperparams,
       find_feature_importance = FALSE,
       seed = 2019
     ),
