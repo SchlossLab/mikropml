@@ -54,7 +54,13 @@
 #' All other columns are OTU relative abundances.
 "otu_mini"
 
+#' Small training dataset
+#'
 #' A training data partition from `otu_small`
+#'
+#' @format A data frame with 30 rows and 61 variables.
+#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
+#' All other columns are OTU relative abundances.
 "train_data_sm"
 
 #' A training data partition from `otu_mini`
