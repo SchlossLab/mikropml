@@ -49,13 +49,13 @@ test_that("run_ml works for L2 logistic regression", {
 test_that("run_ml works for random forest", {
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
-                     "rf",
-                     outcome_colname = "dx",
-                     outcome_value = "cancer",
-                     hyperparameters = mikRopML::test_hyperparams,
-                     find_feature_importance = FALSE,
-                     seed = 2019,
-                     kfold = as.integer(2)
+      "rf",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::test_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2)
     ),
     otu_mini_results2,
     tol = 1e-3
@@ -64,18 +64,18 @@ test_that("run_ml works for random forest", {
 test_that("run_ml works for svmRadial", {
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
-                     "svmRadial",
-                     outcome_colname = "dx",
-                     outcome_value = "cancer",
-                     hyperparameters = mikRopML::test_hyperparams,
-                     find_feature_importance = FALSE,
-                     seed = 2019,
-                     kfold = as.integer(2)
+      "svmRadial",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::test_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2)
     ),
     otu_mini_results3
   )
 })
-#test_that("run_ml works for rpart2", {
+# test_that("run_ml works for rpart2", {
 #   expect_equal_ml_results(
 #     mikRopML::run_ml(otu_mini,
 #                      "rpart2",
@@ -92,13 +92,13 @@ test_that("run_ml works for svmRadial", {
 test_that("run_ml works for xgbTree", {
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
-                     "xgbTree",
-                     outcome_colname = "dx",
-                     outcome_value = "cancer",
-                     hyperparameters = mikRopML::test_hyperparams,
-                     find_feature_importance = FALSE,
-                     seed = 2019,
-                     kfold = as.integer(2)
+      "xgbTree",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = mikRopML::test_hyperparams,
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = as.integer(2)
     ),
     otu_mini_results5,
     tol = 1e-3

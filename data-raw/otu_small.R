@@ -17,8 +17,8 @@ hyperparameters <- split(hyperparameters$value, hyperparameters$param)
 folds <- 5
 set.seed(2019)
 cvIndex <- caret::createMultiFolds(factor(train_data_sm[, outcome_colname]),
-                                   folds,
-                                   times = 100
+  folds,
+  times = 100
 )
 otu_sm_cv5 <- caret::trainControl(
   method = "repeatedcv",
@@ -66,12 +66,12 @@ usethis::use_data(otu_sm_results1, overwrite = TRUE)
 # Error in { :
 #     task 1 failed - "need at least two non-NA values to interpolate"
 #   In addition: There were 50 or more warnings (use warnings() to see the first 50)
-#otu_sm_results4 <- mikRopML::run_ml(otu_small,
+# otu_sm_results4 <- mikRopML::run_ml(otu_small,
 #  "rpart2",
 #  outcome_colname = "dx",
 #  outcome_value = "cancer",
 #  hyperparameters = mikRopML::default_hyperparams,
 #  find_feature_importance = FALSE,
 #  seed = 2019
-#)
-#usethis::use_data(otu_sm_results4)
+# )
+# usethis::use_data(otu_sm_results4)
