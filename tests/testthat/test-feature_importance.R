@@ -53,7 +53,8 @@ test_that("permuted auc returns correct value for [fake] correlated feature", {
     "dx",
     "Otu00049|Otu00050",
     "cancer"
-  ), c(auc = 0.71, auc_diff = -0.01))
+  ), 
+  c(auc = 0.71, auc_diff = -0.01))
 })
 
 feat_imps <- structure(list(

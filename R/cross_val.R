@@ -18,6 +18,13 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, seed = NA) {
     kfold,
     times = 100
   )
+  
+  seeds <- vector(mode = "list", length = kfold*100+1)
+  for(i in 1:(kfold*100)) seeds[[i]] <- sample.int(1000, ncol(train_data)-1)
+  ## For the last model:
+  seeds[[kfold*100+1]] <- sample.int(1000, 1)
+  
+  ncol(train_data) -1
   cv <- caret::trainControl(
     method = "repeatedcv",
     number = kfold,
@@ -26,7 +33,8 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, seed = NA) {
     classProbs = TRUE,
     summaryFunction = caret::twoClassSummary,
     indexFinal = NULL,
-    savePredictions = TRUE
+    savePredictions = TRUE,
+    seeds = seeds
   )
   return(cv)
 }
