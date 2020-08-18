@@ -6,20 +6,21 @@
 #' @param test_data held out test data: dataframe of outcome and features
 #' @param outcome_colname column name of the outcome
 #' @param outcome_value outcome value of interest
+#' @param corr_thresh group correlations above or equal to corr_thresh (default: 1)
 #'
 #' @return aucs when each feature is permuted, and differences between test auc and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(model, train_data, test_data, outcome_colname, outcome_value) {
+get_feature_importance <- function(model, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
   outcome <- split_dat$outcome
   features <- split_dat$features
 
-  corr_mat <- get_corr_feats(features)
+  corr_mat <- get_corr_feats(features, corr_thresh = corr_thresh)
   corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% c("corr")))
 
   grps <- group_correlated_features(corr_mat, test_data)
