@@ -23,7 +23,7 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, cv_times = 100, se
 
   seeds <- get_seeds_trainControl(kfold, cv_times, ncol(train_data))
 
-  ncol(train_data) -1
+  ncol(train_data) - 1
   cv <- caret::trainControl(
     method = "repeatedcv",
     number = kfold,
@@ -47,9 +47,10 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, cv_times = 100, se
 #' @return seeds for `caret::trainControl`
 #' @export
 #'
-#' @examples get_seeds_trainControl(5, 100, 60)
-get_seeds_trainControl <- function(kfold, cv_times, ncol_train){
-  sample_from = ncol_train * 1000
+#' @examples
+#' get_seeds_trainControl(5, 100, 60)
+get_seeds_trainControl <- function(kfold, cv_times, ncol_train) {
+  sample_from <- ncol_train * 1000
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   for (i in 1:(kfold * cv_times)) {
     seeds[[i]] <- sample.int(sample_from, ncol_train - 1)

@@ -20,7 +20,7 @@ cvIndex <- caret::createMultiFolds(factor(train_data_mini[, outcome_colname]),
   folds,
   times = 100
 )
-otu_mini_cv5 <- define_cv(train_data_mini,'dx',2,100,2019)
+otu_mini_cv5 <- define_cv(train_data_mini, "dx", 2, 100, 2019)
 
 grid <- expand.grid(
   cost = hyperparameters$cost,
