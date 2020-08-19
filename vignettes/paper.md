@@ -45,7 +45,6 @@ vignette: >
 
 
 
-
 # Summary
 Machine learning (ML) is a useful tool that researchers from diverse fields can use to investigate various probelms and questions. However, implementing a robust ML pipeline can be time-consuming, confusing, and difficult. Here, we presente mikRopML, an easy-to-use R package that can be used for binary classification problems using logistic regression, random forest, and xgBoost. mikRopML is available on [GitHub/CRAN] (link). 
 
@@ -59,10 +58,10 @@ Machine learning (ML) is widely used to analyze large datasets from fields rangi
 
 mikRopML has one main wrapper function called `run_ml` that minimally takes in a data frame including a binary outcome and features, and model choice (logistic regression, random forest, or xgBoost). It pre-processes the features using methods similar to those implemented in FIDDLE [cite FIDDLE], trains and tests the data using the `caret` R package, evaluates the model using the `PRROC` R package, and optionally quantifies feature importance. The output includes the best model, two model evaluation metrics (AUROC and AUPRC), and optional feature importances (Figure 1). Feature importance allows the users to more easily identify features that have a large impact on model performance, and is thus particularly useful for model interpretation [cite Begum's paper]. Our vignette [link to vignette] contains a comprehensive tutorial on how to use mikRopML.
 
-<!-- ![Figure 1. MikRopML pipeline](./mikRopML-pipeline.pdf){width=100%} -->
+![Figure 1. MikRopML pipeline](mikRopML-pipeline.png){width=100%}
 
 <div class="figure" style="text-align: center">
-<img src="./mikRopML-pipeline.png" alt="Figure 1. MikRopML pipeline" width="0.75\linewidth" />
+<img src="mikRopML-pipeline.png" alt="Figure 1. MikRopML pipeline" width="0.75\linewidth" />
 <p class="caption">Figure 1. MikRopML pipeline</p>
 </div>
 
