@@ -66,15 +66,15 @@ otu_mini_results2 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
-# otu_mini_results3 <- mikRopML::run_ml(otu_mini,
-#   "svmRadial",
-#   outcome_colname = "dx",
-#   outcome_value = "cancer",
-#   hyperparameters = mikRopML::test_hyperparams,
-#   find_feature_importance = FALSE,
-#   seed = 2019,
-#   kfold = 2
-# )
+otu_mini_results3 <- mikRopML::run_ml(otu_mini,
+  "svmRadial",
+  outcome_colname = "dx",
+  outcome_value = "cancer",
+  hyperparameters = mikRopML::test_hyperparams,
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2
+)
 # usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
 # TODO: fix error:
