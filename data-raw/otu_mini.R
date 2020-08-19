@@ -14,22 +14,14 @@ test_data_mini <- otu_mini[-inTraining, ]
 hyperparameters <- test_hyperparams[test_hyperparams$method == "regLogistic", ]
 hyperparameters <- split(hyperparameters$value, hyperparameters$param)
 
-folds <- 5
+folds <- 2
 set.seed(2019)
 cvIndex <- caret::createMultiFolds(factor(train_data_mini[, outcome_colname]),
   folds,
   times = 100
 )
-otu_mini_cv5 <- caret::trainControl(
-  method = "repeatedcv",
-  number = folds,
-  index = cvIndex,
-  returnResamp = "final",
-  classProbs = TRUE,
-  summaryFunction = caret::twoClassSummary,
-  indexFinal = NULL,
-  savePredictions = TRUE
-)
+otu_mini_cv5 <- define_cv(train_data_mini,'dx',2,100,2019)
+
 grid <- expand.grid(
   cost = hyperparameters$cost,
   loss = "L2_primal",
@@ -74,16 +66,16 @@ otu_mini_results2 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
-otu_mini_results3 <- mikRopML::run_ml(otu_mini,
-  "svmRadial",
-  outcome_colname = "dx",
-  outcome_value = "cancer",
-  hyperparameters = mikRopML::test_hyperparams,
-  find_feature_importance = FALSE,
-  seed = 2019,
-  kfold = 2
-)
-usethis::use_data(otu_mini_results3, overwrite = TRUE)
+# otu_mini_results3 <- mikRopML::run_ml(otu_mini,
+#   "svmRadial",
+#   outcome_colname = "dx",
+#   outcome_value = "cancer",
+#   hyperparameters = mikRopML::test_hyperparams,
+#   find_feature_importance = FALSE,
+#   seed = 2019,
+#   kfold = 2
+# )
+# usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
 # TODO: fix error:
 # Error in { :

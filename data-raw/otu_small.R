@@ -20,16 +20,8 @@ cvIndex <- caret::createMultiFolds(factor(train_data_sm[, outcome_colname]),
   folds,
   times = 100
 )
-otu_sm_cv5 <- caret::trainControl(
-  method = "repeatedcv",
-  number = folds,
-  index = cvIndex,
-  returnResamp = "final",
-  classProbs = TRUE,
-  summaryFunction = caret::twoClassSummary,
-  indexFinal = NULL,
-  savePredictions = TRUE
-)
+otu_sm_cv5 <- define_cv(train_data_sm,'dx',2,100,2019)
+
 grid <- expand.grid(
   cost = hyperparameters$cost,
   loss = "L2_primal",

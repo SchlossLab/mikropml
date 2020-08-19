@@ -1,4 +1,6 @@
 #' Define Cross-Validation Scheme and Training Parameters
+#' 
+#' See \link[caret]{trainControl} for info on how the seed is being set.
 #'
 #' @param train_data Dataframe for training model
 #' @inheritParams run_ml
@@ -10,19 +12,16 @@
 #'
 #' @examples
 #' define_cv(train_data_sm, "dx", kfold = 5, seed = 2019)
-define_cv <- function(train_data, outcome_colname, kfold = 5, seed = NA) {
+define_cv <- function(train_data, outcome_colname, kfold = 5, cv_times = 100, seed = NA) {
   if (!is.na(seed)) {
     set.seed(seed)
   }
   cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),
     kfold,
-    times = 100
+    times = cv_times
   )
   
-  seeds <- vector(mode = "list", length = kfold*100+1)
-  for(i in 1:(kfold*100)) seeds[[i]] <- sample.int(1000, ncol(train_data)-1)
-  ## For the last model:
-  seeds[[kfold*100+1]] <- sample.int(1000, 1)
+  seeds <- get_seeds_trainControl(kfold, cv_times, ncol(train_data))
   
   ncol(train_data) -1
   cv <- caret::trainControl(
@@ -37,4 +36,23 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, seed = NA) {
     seeds = seeds
   )
   return(cv)
+}
+
+#' Get seeds for caret::trainControl
+#'
+#' @param kfold 
+#' @inheritParams run_ml
+#' @inheritParams define_cv
+#'
+#' @return seeds for `caret::trainControl`
+#' @export
+#'
+#' @examples
+get_seeds_trainControl <- function(kfold, cv_times, ncol_train){
+  sample_from = ncol_train*1000
+  seeds <- vector(mode = "list", length = kfold*cv_times+1)
+  for(i in 1:(kfold*cv_times)) seeds[[i]] <- sample.int(sample_from, ncol_train-1)
+  ## For the last model:
+  seeds[[kfold*cv_times+1]] <- sample.int(sample_from, 1)
+  return(seeds)
 }

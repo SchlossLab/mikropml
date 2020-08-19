@@ -4,7 +4,7 @@
 \alias{define_cv}
 \title{Define Cross-Validation Scheme and Training Parameters}
 \usage{
-define_cv(train_data, outcome_colname, kfold = 5, seed = NA)
+define_cv(train_data, outcome_colname, kfold = 5, cv_times = 100, seed = NA)
 }
 \arguments{
 \item{train_data}{Dataframe for training model}
@@ -13,13 +13,15 @@ define_cv(train_data, outcome_colname, kfold = 5, seed = NA)
 
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
+\item{cv_times}{Number of partitions to create}
+
 \item{seed}{random seed (default: NA)}
 }
 \value{
 Caret object for trainControl that controls cross-validation
 }
 \description{
-Define Cross-Validation Scheme and Training Parameters
+See \link[caret]{trainControl} for info on how the seed is being set.
 }
 \examples{
 define_cv(train_data_sm, "dx", kfold = 5, seed = 2019)

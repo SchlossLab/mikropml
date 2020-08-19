@@ -61,20 +61,20 @@ test_that("run_ml works for random forest", {
     tol = 1e-3
   )
 })
-test_that("run_ml works for svmRadial", {
-  expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
-      "svmRadial",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
-      find_feature_importance = FALSE,
-      seed = 2019,
-      kfold = as.integer(2)
-    ),
-    otu_mini_results3
-  )
-})
+# test_that("run_ml works for svmRadial", {
+#   expect_equal_ml_results(
+#     mikRopML::run_ml(otu_mini,
+#       "svmRadial",
+#       outcome_colname = "dx",
+#       outcome_value = "cancer",
+#       hyperparameters = mikRopML::test_hyperparams,
+#       find_feature_importance = FALSE,
+#       seed = 2019,
+#       kfold = as.integer(2)
+#     ),
+#     otu_mini_results3
+#   )
+# })
 # test_that("run_ml works for rpart2", {
 #   expect_equal_ml_results(
 #     mikRopML::run_ml(otu_mini,
