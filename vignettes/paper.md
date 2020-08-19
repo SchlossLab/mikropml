@@ -60,11 +60,6 @@ mikRopML has one main wrapper function called `run_ml` that minimally takes in a
 
 ![Figure 1. MikRopML pipeline](mikRopML-pipeline.png){width=100%}
 
-<div class="figure" style="text-align: center">
-<img src="mikRopML-pipeline.png" alt="Figure 1. MikRopML pipeline" width="0.75\linewidth" />
-<p class="caption">Figure 1. MikRopML pipeline</p>
-</div>
-
 The mikRopML package has the following dependencies: [list and cite dependencies]. 
 
 In addition to simply performing ML on a single train/test split, we have found that it is important to investigate how model performance differs depending on the train and test set used [cite B&Z papers]. Therefore, we provide an example of how to integrate mikRopML into a snakemake workflow [link to snakemake workflow example] that runs machine learning 100 times and outputs summary information about model and feature importance.
