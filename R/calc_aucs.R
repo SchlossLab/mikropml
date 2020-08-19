@@ -1,9 +1,8 @@
 #' Calculate AUROC and AUPRC
 #'
 #' @param trained_model trained model from caret
-#' @param test_data dataframe of testing data
-#' @param outcome_colname Column name of the outcome variable
-#' @param outcome_value Outcome value of interest
+#' @inheritParams get_feature_importance
+#' @inheritParams run_ml
 #'
 #' @return List of auroc and auprc values
 #' @export

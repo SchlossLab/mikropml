@@ -13,6 +13,7 @@ run_ml(
   find_feature_importance = FALSE,
   kfold = 5,
   training_frac = 0.8,
+  corr_thresh = corr_thresh,
   seed = NA,
   ncores = NA
 )
@@ -33,6 +34,8 @@ run_ml(
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
+
+\item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 
 \item{seed}{random seed (default: NA)}
 

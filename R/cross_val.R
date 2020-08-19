@@ -1,6 +1,6 @@
 #' Define Cross-Validation Scheme and Training Parameters
 #'
-#' @param train_data Dataframe for training model
+#' @inheritParams get_feature_importance
 #' @inheritParams run_ml
 #'
 #' @return Caret object for trainControl that controls cross-validation
