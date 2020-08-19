@@ -7,13 +7,18 @@
 get_seeds_trainControl(kfold, cv_times, ncol_train)
 }
 \arguments{
-\item{kfold}{}
+\item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{cv_times}{Number of partitions to create}
+
+\item{ncol_train}{number of columns in training data}
 }
 \value{
 seeds for \code{caret::trainControl}
 }
 \description{
 Get seeds for caret::trainControl
+}
+\examples{
+get_seeds_trainControl(5, 100, 60)
 }
