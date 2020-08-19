@@ -4,12 +4,12 @@
 \alias{get_corr_feats}
 \title{Identify correlated features}
 \usage{
-get_corr_feats(features, cor_value = 1)
+get_corr_feats(features, corr_thresh = 1)
 }
 \arguments{
 \item{features}{features used for machine learning}
 
-\item{cor_value}{return correlations above or equal to cor_value (default: 1)}
+\item{corr_thresh}{return correlations above or equal to corr_thresh (default: 1)}
 }
 \value{
 correlated features

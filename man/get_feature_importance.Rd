@@ -9,7 +9,8 @@ get_feature_importance(
   train_data,
   test_data,
   outcome_colname,
-  outcome_value
+  outcome_value,
+  corr_thresh = 1
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ get_feature_importance(
 \item{outcome_colname}{column name of the outcome}
 
 \item{outcome_value}{outcome value of interest}
+
+\item{corr_thresh}{group correlations above or equal to corr_thresh (default: 1)}
 }
 \value{
 aucs when each feature is permuted, and differences between test auc and permuted auc
