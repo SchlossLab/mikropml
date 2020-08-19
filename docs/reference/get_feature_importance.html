@@ -125,7 +125,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>get_feature_importance</span>(
-  <span class='no'>model</span>,
+  <span class='no'>method</span>,
   <span class='no'>train_data</span>,
   <span class='no'>test_data</span>,
   <span class='no'>outcome_colname</span>,
@@ -137,8 +137,8 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>caret model</p></td>
+      <th>method</th>
+      <td><p>ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")</p></td>
     </tr>
     <tr>
       <th>train_data</th>
@@ -150,15 +150,15 @@
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>column name of the outcome</p></td>
+      <td><p>column name as a string of the outcome variable</p></td>
     </tr>
     <tr>
       <th>outcome_value</th>
-      <td><p>outcome value of interest</p></td>
+      <td><p>outcome value of interest as a string</p></td>
     </tr>
     <tr>
       <th>corr_thresh</th>
-      <td><p>group correlations above or equal to corr_thresh (default: 1)</p></td>
+      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
     </tr>
     </table>
 
