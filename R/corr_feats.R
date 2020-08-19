@@ -27,7 +27,7 @@ flatten_corr_mat <- function(cormat) {
 #' Identify correlated features
 #'
 #' @param features features used for machine learning
-#' @param cor_value return correlations above or equal to cor_value (default: 1)
+#' @param corr_thresh return correlations above or equal to corr_thresh (default: 1)
 #'
 #' @return correlated features
 #' @export
@@ -41,11 +41,11 @@ flatten_corr_mat <- function(cormat) {
 #' colnames(mat) <- 1:ncol(mat)
 #' get_corr_feats(mat, 0.4)
 #' @importFrom dplyr .data
-get_corr_feats <- function(features, cor_value = 1) {
+get_corr_feats <- function(features, corr_thresh = 1) {
   return(
     features %>%
       stats::cor(method = "spearman") %>%
       flatten_corr_mat() %>%
-      dplyr::filter(.data$corr >= cor_value | .data$corr <= -cor_value)
+      dplyr::filter(.data$corr >= corr_thresh | .data$corr <= -corr_thresh)
   )
 }
