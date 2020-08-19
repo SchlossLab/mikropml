@@ -1,24 +1,35 @@
 ## code to prepare `otu_small` dataset
 otu_small <- otu_medium[, 1:61]
-usethis::use_data(otu_small)
+usethis::use_data(otu_small, overwrite = TRUE)
 
 ## code to prepare models with the `otu_small` otu_small
+set.seed(2019)
 outcome_colname <- "dx"
 
-set.seed(2019)
-inTraining <- caret::createDataPartition(otu_small[, outcome_colname],
-  p = .80, list = FALSE
-)
+inTraining <-
+  caret::createDataPartition(otu_small[, outcome_colname], p = .80, list = FALSE)
 train_data_sm <- otu_small[inTraining, ]
 test_data_sm <- otu_small[-inTraining, ]
 
-otu_sm_cv5 <- define_cv(train_data_sm, "dx", nfolds = 5, seed = 2019)
+hyperparameters <- default_hyperparams[default_hyperparams$method == "regLogistic", ]
+hyperparameters <- split(hyperparameters$value, hyperparameters$param)
 
-grid <- check_hyperparams_df(default_hyperparams, "regLogistic") %>% get_tuning_grid()
-
+folds <- 5
 set.seed(2019)
+cvIndex <- caret::createMultiFolds(factor(train_data_sm[, outcome_colname]),
+  folds,
+  times = 100
+)
+otu_sm_cv5 <- define_cv(train_data_sm,'dx',2,100,2019)
+
+grid <- expand.grid(
+  cost = hyperparameters$cost,
+  loss = "L2_primal",
+  epsilon = 0.01
+)
+form <- stats::as.formula(paste(outcome_colname, "~ ."))
 trained_model_sm1 <- caret::train(
-  stats::as.formula(paste(outcome_colname, "~ .")),
+  form,
   data = train_data_sm,
   method = "regLogistic",
   trControl = otu_sm_cv5,
@@ -27,10 +38,10 @@ trained_model_sm1 <- caret::train(
   family = "binomial"
 )
 
-usethis::use_data(otu_sm_cv5)
-usethis::use_data(train_data_sm)
-usethis::use_data(test_data_sm)
-usethis::use_data(trained_model_sm1)
+usethis::use_data(otu_sm_cv5, overwrite = TRUE)
+usethis::use_data(train_data_sm, overwrite = TRUE)
+usethis::use_data(test_data_sm, overwrite = TRUE)
+usethis::use_data(trained_model_sm1, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results1`
 otu_sm_results1 <- mikRopML::run_ml(otu_small,
@@ -41,4 +52,18 @@ otu_sm_results1 <- mikRopML::run_ml(otu_small,
   find_feature_importance = FALSE,
   seed = 2019
 )
-usethis::use_data(otu_sm_results1)
+usethis::use_data(otu_sm_results1, overwrite = TRUE)
+
+# TODO: fix error:
+# Error in { :
+#     task 1 failed - "need at least two non-NA values to interpolate"
+#   In addition: There were 50 or more warnings (use warnings() to see the first 50)
+# otu_sm_results4 <- mikRopML::run_ml(otu_small,
+#  "rpart2",
+#  outcome_colname = "dx",
+#  outcome_value = "cancer",
+#  hyperparameters = mikRopML::default_hyperparams,
+#  find_feature_importance = FALSE,
+#  seed = 2019
+# )
+# usethis::use_data(otu_sm_results4)
