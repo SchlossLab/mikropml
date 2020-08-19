@@ -27,7 +27,7 @@ flatten_corr_mat <- function(cormat) {
 #' Identify correlated features
 #'
 #' @param features features used for machine learning
-#' @param corr_thresh return correlations above or equal to corr_thresh (default: 1)
+#' @inheritParams run_ml
 #'
 #' @return correlated features
 #' @export

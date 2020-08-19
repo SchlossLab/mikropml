@@ -9,7 +9,7 @@ get_corr_feats(features, corr_thresh = 1)
 \arguments{
 \item{features}{features used for machine learning}
 
-\item{corr_thresh}{return correlations above or equal to corr_thresh (default: 1)}
+\item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 }
 \value{
 correlated features
