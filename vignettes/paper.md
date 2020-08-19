@@ -32,7 +32,7 @@ affiliations:
 date: 2020
 bibliography: paper.bib
 vignette: >
-  %\VignetteIndexEntry{mikRopML paper}
+  %\VignetteIndexEntry{mikRopML: User-Friendly Machine Learning Package for Binary Classification Problems}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
