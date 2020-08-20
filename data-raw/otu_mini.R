@@ -75,22 +75,8 @@ otu_mini_results3 <- mikRopML::run_ml(otu_mini,
   seed = 2019,
   kfold = 2
 )
-# usethis::use_data(otu_mini_results3, overwrite = TRUE)
+usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
-# TODO: fix error:
-# Error in { :
-#     task 1 failed - "need at least two non-NA values to interpolate"
-#   In addition: There were 50 or more warnings (use warnings() to see the first 50)
-# otu_mini_results4 <- mikRopML::run_ml(otu_mini,
-#                                      "rpart2",
-#                                      outcome_colname = "dx",
-#                                      outcome_value = "cancer",
-#                                      hyperparameters = mikRopML::test_hyperparams,
-#                                      find_feature_importance = FALSE,
-#                                      seed = 2019,
-#                                      kfold = 2
-# )
-# usethis::use_data(otu_mini_results4, overwrite = TRUE)
 
 otu_mini_results5 <- mikRopML::run_ml(otu_mini,
   "xgbTree",
