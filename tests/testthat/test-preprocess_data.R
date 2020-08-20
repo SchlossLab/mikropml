@@ -163,7 +163,7 @@ test_that("process_nonbin_feats works", {
     )
   )
   expect_error(process_nonbin_feats(data.frame(test_df[, 7]), c("center", "scale")))
-  expect_error(process_nonbin_feats(data.frame(test_df[, 6:7]), c("center", "scale")))
+  expect_error(expect_warning(process_nonbin_feats(data.frame(test_df[, 6:7]), c("center", "scale"))))
   expect_error(process_nonbin_feats(NULL))
 })
 
