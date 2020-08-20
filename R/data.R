@@ -96,8 +96,8 @@
 #' Results from running the pipline with svmRadial on `otu_mini`
 "otu_mini_results3"
 
-#' Results from running the pipline with rpart2 on `otu_mini`
-# "otu_mini_results4"
+#' Results from running the pipline with rpart2 on `otu_medium`
+# "otu_medium_results"
 
 #' Results from running the pipline with xbgTree on `otu_mini`
 "otu_mini_results5"
