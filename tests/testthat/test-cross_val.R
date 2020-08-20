@@ -1,6 +1,6 @@
-test_that("define_cv works for 5-fold cv on otu_sm data", {
+test_that("define_cv works for 2-fold cv on otu_sm data", {
   expect_equal(
-    define_cv(train_data_sm, "dx", kfold = 2, seed = 2019),
+    define_cv(train_data_sm, "dx", 2, 100, 2019),
     otu_sm_cv5
   )
 })
