@@ -7,7 +7,7 @@
 define_cv(train_data, outcome_colname, kfold = 5, cv_times = 100, seed = NA)
 }
 \arguments{
-\item{train_data}{training data: dataframe of outcome and features}
+\item{train_data}{Dataframe for training model}
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 

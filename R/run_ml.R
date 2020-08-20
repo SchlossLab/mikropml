@@ -47,7 +47,7 @@ run_ml <-
       method = "fewer"
     )
     if (!is.na(seed)) {
-      set.seed(seed)
+      set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
     }
     dataset <-
       randomize_feature_order(dataset, outcome_colname, seed = seed)

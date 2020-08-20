@@ -14,7 +14,7 @@
 #' define_cv(train_data_sm, "dx", kfold = 5, seed = 2019)
 define_cv <- function(train_data, outcome_colname, kfold = 5, cv_times = 100, seed = NA) {
   if (!is.na(seed)) {
-    set.seed(seed)
+    set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
   }
   cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),
     kfold,
