@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate AUROC and AUPRC — calc_aucs • mikRopML</title>
+<title>Results from running the pipline with svmRadial on <code>otu_mini</code> — otu_mini_results3 • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate AUROC and AUPRC — calc_aucs" />
-<meta property="og:description" content="Calculate AUROC and AUPRC" />
+<meta property="og:title" content="Results from running the pipline with svmRadial on <code>otu_mini</code> — otu_mini_results3" />
+<meta property="og:description" content="Results from running the pipline with svmRadial on otu_mini" />
 
 
 
@@ -115,49 +115,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate AUROC and AUPRC</h1>
+    <h1>Results from running the pipline with svmRadial on <code>otu_mini</code></h1>
     
-    <div class="hidden name"><code>calc_aucs.Rd</code></div>
+    <div class="hidden name"><code>otu_mini_results3.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate AUROC and AUPRC</p>
+    <p>Results from running the pipline with svmRadial on <code>otu_mini</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_aucs</span>(<span class='no'>trained_model</span>, <span class='no'>test_data</span>, <span class='no'>outcome_colname</span>, <span class='no'>outcome_value</span>)</pre>
+    <pre class="usage"><span class='no'>otu_mini_results3</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>trained_model</th>
-      <td><p>trained model from caret</p></td>
-    </tr>
-    <tr>
-      <th>test_data</th>
-      <td><p>held out test data: dataframe of outcome and features</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
-    </tr>
-    <tr>
-      <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>List of auroc and auprc values</p>
+    <p>An object of class <code>list</code> of length 4.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>calc_aucs</span>(<span class='no'>trained_model_sm1</span>, <span class='no'>test_data_sm</span>, <span class='st'>"dx"</span>, <span class='st'>"cancer"</span>)</div><div class='output co'>#&gt; $auroc
-#&gt; [1] 0.9
-#&gt; 
-#&gt; $auprc
-#&gt; [1] 0.7123179
-#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
