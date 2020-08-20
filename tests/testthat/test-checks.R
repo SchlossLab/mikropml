@@ -78,7 +78,7 @@ test_that("check_kfold works", {
   expect_warning(expect_error(
     check_kfold("not_an_int", test_df),
     "`kfold` must be an integer"
-  ), 'NAs introduced by coercion')
+  ), "NAs introduced by coercion")
 })
 
 test_that("check_training_frac works", {

@@ -61,7 +61,7 @@ test_that("run_ml works for random forest", {
   )
 })
 test_that("run_ml works for svmRadial", {
-  skip("currently, svmRadial doesn't work with our cv seeds")  # TODO: fix multipe cv seeds with svmRadial
+  skip("currently, svmRadial doesn't work with our cv seeds") # TODO: fix multipe cv seeds with svmRadial
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
       "svmRadial",
@@ -90,7 +90,7 @@ test_that("run_ml works for rpart2", {
   )
 })
 test_that("run_ml works for xgbTree", {
-  skip_on_os(c('linux', 'windows'))  # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
+  skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
   expect_equal_ml_results(
     mikRopML::run_ml(
       otu_mini,
