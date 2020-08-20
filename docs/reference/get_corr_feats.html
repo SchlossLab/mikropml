@@ -124,7 +124,7 @@
     <p>Identify correlated features</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_corr_feats</span>(<span class='no'>features</span>, <span class='kw'>cor_value</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>get_corr_feats</span>(<span class='no'>features</span>, <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,8 +134,8 @@
       <td><p>features used for machine learning</p></td>
     </tr>
     <tr>
-      <th>cor_value</th>
-      <td><p>return correlations above or equal to cor_value (default: 1)</p></td>
+      <th>corr_thresh</th>
+      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
     </tr>
     </table>
 

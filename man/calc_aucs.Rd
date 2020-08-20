@@ -9,11 +9,11 @@ calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
 \arguments{
 \item{trained_model}{trained model from caret}
 
-\item{test_data}{dataframe of testing data}
+\item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{Column name of the outcome variable}
+\item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{outcome_value}{Outcome value of interest}
+\item{outcome_value}{outcome value of interest as a string}
 }
 \value{
 List of auroc and auprc values
