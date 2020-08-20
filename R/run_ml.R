@@ -48,7 +48,7 @@ run_ml <-
       randomize_feature_order(dataset, outcome_colname, seed = seed)
 
     if (!is.na(seed)) {
-      set.seed(seed)
+      set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
     }
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname],
