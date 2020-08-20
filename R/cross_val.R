@@ -20,9 +20,9 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, cv_times = 100, se
     kfold,
     times = cv_times
   )
-  #TODO there is something wrong with the seed calculation
+  # TODO there is something wrong with the seed calculation
   # SVM radial is giving an error on seeds if we use this
-  #seeds <- get_seeds_trainControl(kfold, cv_times, ncol(train_data))
+  # seeds <- get_seeds_trainControl(kfold, cv_times, ncol(train_data))
 
   ncol(train_data) - 1
   cv <- caret::trainControl(
@@ -34,7 +34,7 @@ define_cv <- function(train_data, outcome_colname, kfold = 5, cv_times = 100, se
     summaryFunction = caret::twoClassSummary,
     indexFinal = NULL,
     savePredictions = TRUE
-    #,seeds = seeds
+    # ,seeds = seeds
   )
   return(cv)
 }
