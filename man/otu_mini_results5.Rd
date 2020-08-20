@@ -3,8 +3,7 @@
 \docType{data}
 \name{otu_mini_results5}
 \alias{otu_mini_results5}
-\title{Results from running the pipline with rpart2 on \code{otu_mini}
-Results from running the pipline with xbgTree on \code{otu_mini}}
+\title{Results from running the pipline with xbgTree on \code{otu_mini}}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -12,7 +11,6 @@ An object of class \code{list} of length 4.
 otu_mini_results5
 }
 \description{
-Results from running the pipline with rpart2 on \code{otu_mini}
 Results from running the pipline with xbgTree on \code{otu_mini}
 }
 \keyword{datasets}
