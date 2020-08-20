@@ -9,7 +9,9 @@ outcome_colname <- "dx"
 inTraining <-
   caret::createDataPartition(otu_small[, outcome_colname], p = .80, list = FALSE)
 train_data_sm <- otu_small[inTraining, ]
+usethis::use_data(train_data_sm, overwrite = TRUE)
 test_data_sm <- otu_small[-inTraining, ]
+usethis::use_data(test_data_sm, overwrite = TRUE)
 
 hyperparameters <- default_hyperparams[default_hyperparams$method == "regLogistic", ]
 hyperparameters <- split(hyperparameters$value, hyperparameters$param)
@@ -21,6 +23,7 @@ cvIndex <- caret::createMultiFolds(factor(train_data_sm[, outcome_colname]),
   times = 100
 )
 otu_sm_cv5 <- define_cv(train_data_sm, "dx", 2, 100, 2019)
+usethis::use_data(otu_sm_cv5, overwrite = TRUE)
 
 grid <- expand.grid(
   cost = hyperparameters$cost,
@@ -37,10 +40,6 @@ trained_model_sm1 <- caret::train(
   tuneGrid = grid,
   family = "binomial"
 )
-
-usethis::use_data(otu_sm_cv5, overwrite = TRUE)
-usethis::use_data(train_data_sm, overwrite = TRUE)
-usethis::use_data(test_data_sm, overwrite = TRUE)
 usethis::use_data(trained_model_sm1, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results1`

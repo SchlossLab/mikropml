@@ -16,10 +16,6 @@ hyperparameters <- split(hyperparameters$value, hyperparameters$param)
 
 folds <- 2
 set.seed(2019)
-cvIndex <- caret::createMultiFolds(factor(train_data_mini[, outcome_colname]),
-  folds,
-  times = 100
-)
 otu_mini_cv5 <- define_cv(train_data_mini, "dx", 2, 100, 2019)
 
 grid <- expand.grid(
@@ -66,6 +62,8 @@ otu_mini_results2 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
+
+# TODO: figure out bug with seeds (only fails with svmRadial)
 otu_mini_results3 <- mikRopML::run_ml(otu_mini,
   "svmRadial",
   outcome_colname = "dx",
@@ -76,7 +74,6 @@ otu_mini_results3 <- mikRopML::run_ml(otu_mini,
   kfold = 2
 )
 usethis::use_data(otu_mini_results3, overwrite = TRUE)
-
 
 otu_mini_results5 <- mikRopML::run_ml(otu_mini,
   "xgbTree",
