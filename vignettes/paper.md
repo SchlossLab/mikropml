@@ -42,17 +42,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  eval = FALSE
-)
-```
-```{r lib, include = FALSE}
-library(knitr)
-library(rmarkdown)
-```
+
+
 
 
 # Summary
@@ -72,9 +63,7 @@ mikRopML has one main wrapper function called `run_ml` that minimally takes in a
 
 <!-- ![Figure 1. MikRopML pipeline](./mikRopML-pipeline.pdf){width=100%} -->
 
-```{r image-ref-for-in-text, echo = FALSE, message=FALSE, fig.align='center', fig.cap='Figure 1. MikRopML pipeline', out.width='0.75\\linewidth', fig.pos='H'}
-knitr::include_graphics("vignettes/mikRopML-pipeline.png")
-```
+
 
 The mikRopML package has the following dependencies: [list and cite dependencies]. 
 
