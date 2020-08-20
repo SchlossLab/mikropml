@@ -9,6 +9,7 @@
 #' @param kfold fold number for k-fold cross-validation (default: 5)
 #' @param cv_times Number of partitions to create
 #' @param training_frac fraction size of data for training (default: 0.8)
+#' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
 #' @param seed random seed (default: NA)
 #' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
@@ -28,6 +29,7 @@ run_ml <-
            kfold = 5,
            cv_times = 100,
            training_frac = 0.8,
+           corr_thresh = corr_thresh,
            seed = NA,
            ncores = NA) {
     check_all(
@@ -50,27 +52,8 @@ run_ml <-
     dataset <-
       randomize_feature_order(dataset, outcome_colname, seed = seed)
 
-
-    # ------------------Check data for pre-processing------------------------->
-    # Data is pre-processed in code/R/setup_model_data.R
-    # This removes OTUs with near zero variance and scales 0-1
-    # Then generates a correlation matrix
-    # Test if data has been preprocessed - range 0-1 and are not all 0s
-    # TODO: is this necessary? should it be optional?
-    # feature_summary <- any(c(
-    #   min(dataset[, -1]) < 0,
-    #   max(dataset[, -1]) > 1,
-    #   any(apply(dataset[, -1], 2, sum) == 0)
-    # ))
-    # if (feature_summary) {
-    # TODO: more informative error message; e.g. explain expected format
-    #   stop(
-    #     'Data has not been preprocessed, please use "code/R/setup_model_data.R" to preprocess data'
-    #   )
-    # }
-
     if (!is.na(seed)) {
-      set.seed(seed)
+      set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
     }
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname],
@@ -143,7 +126,8 @@ run_ml <-
             train_data,
             test_data,
             outcome_colname,
-            outcome_value
+            outcome_value,
+            corr_thresh
           ),
           "Skipped feature importance"
         )

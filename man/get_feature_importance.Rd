@@ -5,23 +5,26 @@
 \title{Get feature importance using permutation method}
 \usage{
 get_feature_importance(
-  model,
+  method,
   train_data,
   test_data,
   outcome_colname,
-  outcome_value
+  outcome_value,
+  corr_thresh = 1
 )
 }
 \arguments{
-\item{model}{caret model}
+\item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
 
 \item{train_data}{training data: dataframe of outcome and features}
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{column name of the outcome}
+\item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{outcome_value}{outcome value of interest}
+\item{outcome_value}{outcome value of interest as a string}
+
+\item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 }
 \value{
 aucs when each feature is permuted, and differences between test auc and permuted auc

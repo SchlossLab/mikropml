@@ -2,24 +2,22 @@
 #' Get feature importance using permutation method
 #'
 #' @param train_data training data: dataframe of outcome and features
-#' @param model caret model
 #' @param test_data held out test data: dataframe of outcome and features
-#' @param outcome_colname column name of the outcome
-#' @param outcome_value outcome value of interest
+#' @inheritParams run_ml
 #'
 #' @return aucs when each feature is permuted, and differences between test auc and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(model, train_data, test_data, outcome_colname, outcome_value) {
+get_feature_importance <- function(method, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
   outcome <- split_dat$outcome
   features <- split_dat$features
 
-  corr_mat <- get_corr_feats(features)
+  corr_mat <- get_corr_feats(features, corr_thresh = corr_thresh)
   corr_mat <- dplyr::select_if(corr_mat, !(names(corr_mat) %in% c("corr")))
 
   grps <- group_correlated_features(corr_mat, test_data)
@@ -28,14 +26,14 @@ get_feature_importance <- function(model, train_data, test_data, outcome_colname
   # Permutate each feature in the non-correlated dimensional feature vector
   # Here we are
   #     1. Permuting the values in the OTU column randomly for each OTU in the list
-  #     2. Applying the trained model to the new test-data where 1 OTU is randomly shuffled
+  #     2. Applying the trained method to the new test-data where 1 OTU is randomly shuffled
   #     3. Getting the new AUROC value
   #     4. Calculating how much different the new AUROC is from original AUROC
   # Because we do this with lapply we randomly permute each OTU one by one.
   # We get the impact each non-correlated OTU makes in the prediction performance (AUROC)
   lapply_fn <- select_apply("lapply")
   imps <- do.call("rbind", lapply_fn(grps, function(feat) {
-    return(find_permuted_auc(model, test_data, outcome_colname, feat, outcome_value))
+    return(find_permuted_auc(method, test_data, outcome_colname, feat, outcome_value))
   }))
 
   return(as.data.frame(imps) %>% dplyr::mutate(names = factor(grps)))
@@ -44,7 +42,7 @@ get_feature_importance <- function(model, train_data, test_data, outcome_colname
 #' Group correlated features
 #'
 #' @param corr output of get_corr_feats (pairs of correlated features)
-#' @param test_data test data from machine learning
+#' @inheritParams get_feature_importance
 #'
 #' @return vector of correlated features where each element is the group of correlated features separated by pipes (|)
 #' @export
@@ -82,21 +80,19 @@ group_correlated_features <- function(corr, test_data) {
 
 #' Get permuted AUROC difference for a single feature (or group of features)
 #'
-#' @param model caret model
-#' @param test_data held out test data: dataframe of outcome and features
-#' @param outcome_colname column name of the outcome
 #' @param feat feature or group of correlated features to permute
-#' @param outcome_value outcome value of interest
+#' @inheritParams run_ml
+#' @inheritParams get_feature_importance
 #'
 #' @return vector of mean permuted auc and mean difference between test and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_value) {
+find_permuted_auc <- function(method, test_data, outcome_colname, feat, outcome_value) {
   # -----------Get the original testAUC from held-out test data--------->
   # Calculate the test-auc for the actual pre-processed held-out data
-  test_auc <- calc_aucs(model, test_data, outcome_colname, outcome_value)$auroc
+  test_auc <- calc_aucs(method, test_data, outcome_colname, outcome_value)$auroc
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
@@ -113,7 +109,7 @@ find_permuted_auc <- function(model, test_data, outcome_colname, feat, outcome_v
     }
 
     # Calculate the new auc
-    new_auc <- calc_aucs(model, full_permuted, outcome_colname, outcome_value)$auroc
+    new_auc <- calc_aucs(method, full_permuted, outcome_colname, outcome_value)$auroc
     # Return how does this feature being permuted effect the auc
     return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
   })

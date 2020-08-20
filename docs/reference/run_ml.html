@@ -134,6 +134,7 @@
   <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>cv_times</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+  <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='no'>corr_thresh</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>ncores</span> <span class='kw'>=</span> <span class='fl'>NA</span>
 )</pre>
@@ -176,6 +177,10 @@
     <tr>
       <th>training_frac</th>
       <td><p>fraction size of data for training (default: 0.8)</p></td>
+    </tr>
+    <tr>
+      <th>corr_thresh</th>
+      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
     </tr>
     <tr>
       <th>seed</th>

@@ -9,7 +9,7 @@ group_correlated_features(corr, test_data)
 \arguments{
 \item{corr}{output of get_corr_feats (pairs of correlated features)}
 
-\item{test_data}{test data from machine learning}
+\item{test_data}{held out test data: dataframe of outcome and features}
 }
 \value{
 vector of correlated features where each element is the group of correlated features separated by pipes (|)
