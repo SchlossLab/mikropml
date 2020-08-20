@@ -42,6 +42,10 @@ Suggests:
     knitr,
     rmarkdown,
     future.apply,
+    randomForest,
+    kernlab,
+    rpart,
+    xgboost,
     parallel,
     doParallel,
     foreach

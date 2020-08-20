@@ -132,6 +132,7 @@
   <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='default_hyperparams.html'>default_hyperparams</a></span>,
   <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>cv_times</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='no'>corr_thresh</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
@@ -168,6 +169,10 @@
     <tr>
       <th>kfold</th>
       <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
+    </tr>
+    <tr>
+      <th>cv_times</th>
+      <td><p>Number of partitions to create</p></td>
     </tr>
     <tr>
       <th>training_frac</th>

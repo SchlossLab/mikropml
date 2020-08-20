@@ -66,20 +66,19 @@ test_that("check_permute works", {
 })
 
 test_that("check_kfold works", {
-  expect_true(is.null(check_kfold(as.integer(1), test_df)))
   expect_true(is.null(check_kfold(1, test_df)))
   expect_error(
-    check_kfold(as.integer(10), test_df),
+    check_kfold(10, test_df),
     "`kfold` must be an integer"
   )
   expect_error(
-    check_kfold(as.integer(0), test_df),
+    check_kfold(0, test_df),
     "`kfold` must be an integer"
   )
-  expect_error(
+  expect_warning(expect_error(
     check_kfold("not_an_int", test_df),
     "`kfold` must be an integer"
-  )
+  ), "NAs introduced by coercion")
 })
 
 test_that("check_training_frac works", {

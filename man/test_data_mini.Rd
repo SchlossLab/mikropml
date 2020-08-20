@@ -5,7 +5,7 @@
 \alias{test_data_mini}
 \title{A test data partition from \code{otu_mini}}
 \format{
-An object of class \code{data.frame} with 12 rows and 4 columns.
+An object of class \code{data.frame} with 39 rows and 4 columns.
 }
 \usage{
 test_data_mini
