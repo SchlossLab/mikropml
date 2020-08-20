@@ -8,6 +8,16 @@
 #' }
 "default_hyperparams"
 
+#' Test model hyperparameters with less options for faster build
+#'
+#' @format a data frame with 21 rows and 3 columns
+#' \describe{
+#'   \item{param}{hyperparameter}
+#'   \item{value}{value of the hyperparameter}
+#'   \item{method}{ML method that the hyperparameter applies to}
+#' }
+"test_hyperparams"
+
 #' Large OTU abundance dataset
 #'
 #' A dataset containing relatives abundances of 6,920 OTUs for 490 human stool samples
@@ -44,7 +54,13 @@
 #' All other columns are OTU relative abundances.
 "otu_mini"
 
+#' Small training dataset
+#'
 #' A training data partition from `otu_small`
+#'
+#' @format A data frame with 30 rows and 61 variables.
+#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
+#' All other columns are OTU relative abundances.
 "train_data_sm"
 
 #' A training data partition from `otu_mini`
@@ -73,3 +89,15 @@
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
 "otu_mini_results1"
+
+#' Results from running the pipline with random forest on `otu_mini`
+"otu_mini_results2"
+
+#' Results from running the pipline with svmRadial on `otu_mini`
+"otu_mini_results3"
+
+#' Results from running the pipline with rpart2 on `otu_medium`
+ "otu_med_results"
+
+#' Results from running the pipline with xbgTree on `otu_mini`
+"otu_mini_results5"

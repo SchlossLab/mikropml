@@ -12,6 +12,7 @@ run_ml(
   hyperparameters = mikRopML::default_hyperparams,
   find_feature_importance = FALSE,
   kfold = 5,
+  cv_times = 100,
   training_frac = 0.8,
   corr_thresh = corr_thresh,
   seed = NA,
@@ -32,6 +33,8 @@ run_ml(
 \item{find_feature_importance}{run permutation imporance (default: FALSE)}
 
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
+
+\item{cv_times}{Number of partitions to create}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
 

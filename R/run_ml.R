@@ -7,6 +7,7 @@
 #' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
 #' @param find_feature_importance run permutation imporance (default: FALSE)
 #' @param kfold fold number for k-fold cross-validation (default: 5)
+#' @param cv_times Number of partitions to create
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
 #' @param seed random seed (default: NA)
@@ -26,6 +27,7 @@ run_ml <-
            hyperparameters = mikRopML::default_hyperparams,
            find_feature_importance = FALSE,
            kfold = 5,
+           cv_times = 100,
            training_frac = 0.8,
            corr_thresh = corr_thresh,
            seed = NA,
@@ -44,6 +46,9 @@ run_ml <-
       outcome_value,
       method = "fewer"
     )
+    if (!is.na(seed)) {
+      set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
+    }
     dataset <-
       randomize_feature_order(dataset, outcome_colname, seed = seed)
 
@@ -62,7 +67,8 @@ run_ml <-
       define_cv(train_data,
         outcome_colname,
         kfold = kfold,
-        seed = seed
+        seed = seed,
+        cv_times = cv_times
       )
 
     model_formula <-
