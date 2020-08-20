@@ -61,7 +61,7 @@ test_that("run_ml works for random forest", {
   )
 })
 test_that("run_ml works for svmRadial", {
-  skip()  # TODO: fix multipe cv seeds with svmRadial
+  skip("currently, svmRadial doesn't work with our cv seeds")  # TODO: fix multipe cv seeds with svmRadial
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
       "svmRadial",
