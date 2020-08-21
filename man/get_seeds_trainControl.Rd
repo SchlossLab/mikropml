@@ -4,9 +4,11 @@
 \alias{get_seeds_trainControl}
 \title{Get seeds for caret::trainControl}
 \usage{
-get_seeds_trainControl(kfold, cv_times, ncol_train)
+get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol_train)
 }
 \arguments{
+\item{hyperparams_list}{named list of lists of hyperparameters}
+
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{cv_times}{Number of partitions to create}
@@ -17,8 +19,12 @@ get_seeds_trainControl(kfold, cv_times, ncol_train)
 seeds for \code{caret::trainControl}
 }
 \description{
-Get seeds for caret::trainControl
+Adapted from \href{https://stackoverflow.com/a/32598959}{this Stack Overflow post}
+and the \link[caret]{trainControl} documentation
 }
 \examples{
-get_seeds_trainControl(5, 100, 60)
+hparams_list <- default_hyperparams \%>\%
+  check_hyperparams_df('regLogistic') \%>\%
+  get_hyperparams_list()
+get_seeds_trainControl(hparams_list, 5, 100, 60)
 }

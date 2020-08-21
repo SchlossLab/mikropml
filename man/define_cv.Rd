@@ -4,12 +4,21 @@
 \alias{define_cv}
 \title{Define Cross-Validation Scheme and Training Parameters}
 \usage{
-define_cv(train_data, outcome_colname, kfold = 5, cv_times = 100, seed = NA)
+define_cv(
+  train_data,
+  outcome_colname,
+  hyperparams_list,
+  kfold = 5,
+  cv_times = 100,
+  seed = NA
+)
 }
 \arguments{
 \item{train_data}{Dataframe for training model}
 
 \item{outcome_colname}{column name as a string of the outcome variable}
+
+\item{hyperparams_list}{named list of lists of hyperparameters}
 
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
@@ -24,7 +33,10 @@ Caret object for trainControl that controls cross-validation
 See \link[caret]{trainControl} for info on how the seed is being set.
 }
 \examples{
-define_cv(train_data_sm, "dx", kfold = 5, seed = 2019)
+hparams_list <- default_hyperparams \%>\%
+  check_hyperparams_df('regLogistic') \%>\%
+  get_hyperparams_list()
+define_cv(train_data_sm, "dx", hparams_list,  kfold = 5, seed = 2019)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

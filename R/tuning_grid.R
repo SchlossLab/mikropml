@@ -18,7 +18,7 @@ get_tuning_grid <- function(hyperparams_list, method) {
 
 #' Split hyperparameters dataframe into named lists for each parameter
 #'
-#' @inheritParams get_tuning_grid
+#' @param hyperparams_df dataframe of hyperparameters (default: default_hyperparams)
 #'
 #' @return named list of lists of hyperparameters
 #' @export
@@ -33,7 +33,7 @@ get_hyperparams_list <- function(hyperparams_df) {
 
 #' Ensure the hyperparameters dataframe has a valid format
 #'
-#' @inheritParams get_tuning_grid
+#' @inheritParams get_hyperparams_list
 #' @param method_name method name (regLogistic, svmRadial, rpart2, rf, xgbTree)
 #'
 #' @return hyperparams df, filtered by method if needed
