@@ -53,7 +53,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, 
 #' @export
 #'
 #' @examples
-#' hparams_list <- default_hyperparameters %>%
+#' hparams_list <- default_hyperparams %>%
 #'   check_hyperparams_df('regLogistic') %>%
 #'   get_hyperparams_list()
 #' get_seeds_trainControl(hparams_list, 5, 100, 60)
