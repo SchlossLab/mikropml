@@ -13,9 +13,9 @@
 #'
 #' @examples
 #' hparams_list <- default_hyperparams %>%
-#'   check_hyperparams_df('regLogistic') %>%
+#'   check_hyperparams_df("regLogistic") %>%
 #'   get_hyperparams_list()
-#' define_cv(train_data_sm, "dx", hparams_list,  kfold = 5, seed = 2019)
+#' define_cv(train_data_sm, "dx", hparams_list, kfold = 5, seed = 2019)
 define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, seed = NA) {
   if (!is.na(seed)) {
     set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
@@ -54,13 +54,15 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, 
 #'
 #' @examples
 #' hparams_list <- default_hyperparams %>%
-#'   check_hyperparams_df('regLogistic') %>%
+#'   check_hyperparams_df("regLogistic") %>%
 #'   get_hyperparams_list()
 #' get_seeds_trainControl(hparams_list, 5, 100, 60)
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000
-  n_tuning_combos <- hyperparams_list %>% sapply(FUN = length) %>% prod()
+  n_tuning_combos <- hyperparams_list %>%
+    sapply(FUN = length) %>%
+    prod()
   for (i in 1:(kfold * cv_times)) {
     seeds[[i]] <- sample.int(n = sample_from, size = n_tuning_combos)
   }

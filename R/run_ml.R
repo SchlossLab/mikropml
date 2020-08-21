@@ -62,7 +62,9 @@ run_ml <-
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    hparams_list <- hyperparameters %>% check_hyperparams_df(method) %>% get_hyperparams_list()
+    hparams_list <- hyperparameters %>%
+      check_hyperparams_df(method) %>%
+      get_hyperparams_list()
     tune_grid <- get_tuning_grid(hparams_list, method)
     cv <-
       define_cv(train_data,

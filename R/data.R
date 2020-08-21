@@ -98,4 +98,3 @@
 
 #' Results from running the pipline with rpart2 on `otu_medium`
 "otu_med_results"
-

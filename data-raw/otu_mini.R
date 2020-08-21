@@ -14,7 +14,7 @@ test_data_mini <- otu_mini[-inTraining, ]
 usethis::use_data(test_data_mini, overwrite = TRUE)
 
 hparams_list <- test_hyperparams %>%
-  check_hyperparams_df('regLogistic') %>%
+  check_hyperparams_df("regLogistic") %>%
   get_hyperparams_list()
 otu_mini_cv2 <- define_cv(train_data_mini, outcome_colname, hparams_list, kfolds, 100, 2019)
 usethis::use_data(otu_mini_cv2, overwrite = TRUE)
@@ -25,7 +25,7 @@ trained_model_mini <- caret::train(
   method = "regLogistic",
   trControl = otu_mini_cv2,
   metric = "ROC",
-  tuneGrid = get_tuning_grid(hparams_list, 'regLogistic'),
+  tuneGrid = get_tuning_grid(hparams_list, "regLogistic"),
   family = "binomial"
 )
 usethis::use_data(trained_model_mini, overwrite = TRUE)
