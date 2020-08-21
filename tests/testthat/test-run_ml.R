@@ -22,17 +22,6 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 
 test_that("run_ml works for L2 logistic regression", {
   expect_equal_ml_results(
-    run_ml(otu_small,
-      "regLogistic",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      hyperparameters = mikRopML::default_hyperparams,
-      find_feature_importance = FALSE,
-      seed = 2019
-    ),
-    otu_sm_results1
-  )
-  expect_equal_ml_results(
     run_ml(otu_mini,
       "regLogistic",
       outcome_colname = "dx",
@@ -61,7 +50,6 @@ test_that("run_ml works for random forest", {
   )
 })
 test_that("run_ml works for svmRadial", {
-  skip("currently, svmRadial doesn't work with our cv seeds") # TODO: fix multipe cv seeds with svmRadial
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,
       "svmRadial",
@@ -73,20 +61,6 @@ test_that("run_ml works for svmRadial", {
       kfold = 2
     ),
     otu_mini_results3
-  )
-})
-test_that("run_ml works for rpart2", {
-  expect_equal_ml_results(
-    mikRopML::run_ml(otu_medium,
-      "rpart2",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
-      find_feature_importance = FALSE,
-      seed = 2019,
-      kfold = 3
-    ),
-    otu_med_results
   )
 })
 test_that("run_ml works for xgbTree", {
@@ -102,8 +76,22 @@ test_that("run_ml works for xgbTree", {
       seed = 2019,
       kfold = 2
     ),
-    otu_mini_results5,
+    otu_mini_results4,
     tol = 1e-3
+  )
+})
+test_that("run_ml works for rpart2", {
+  expect_equal_ml_results(
+    mikRopML::run_ml(otu_medium,
+                     "rpart2",
+                     outcome_colname = "dx",
+                     outcome_value = "cancer",
+                     hyperparameters = mikRopML::test_hyperparams,
+                     find_feature_importance = FALSE,
+                     seed = 2019,
+                     kfold = 3
+    ),
+    otu_med_results
   )
 })
 test_that("run_ml errors for unsupported method", {

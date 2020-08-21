@@ -4,10 +4,10 @@
 \alias{get_tuning_grid}
 \title{Generate the Tuning Grid for Tuning Hyperparameters}
 \usage{
-get_tuning_grid(hyperparams_df, method)
+get_tuning_grid(hyperparams_list, method)
 }
 \arguments{
-\item{hyperparams_df}{Dataframe with columns \code{param} and \code{value}}
+\item{hyperparams_list}{named list of lists of hyperparameters}
 
 \item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
 }
