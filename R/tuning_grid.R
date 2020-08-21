@@ -1,6 +1,6 @@
 #' Generate the Tuning Grid for Tuning Hyperparameters
 #'
-#' @param hyperparams_df Dataframe with columns `param` and `value`
+#' @param hyperparams_list named list of lists of hyperparameters
 #' @inheritParams run_ml
 #'
 #' @return The tuning grid
@@ -10,10 +10,8 @@
 #'
 #' @examples
 #' get_tuning_grid(default_hyperparams, "regLogistic")
-get_tuning_grid <- function(hyperparams_df, method) {
-  return(hyperparams_df %>%
-    check_hyperparams_df(method) %>%
-    get_hyperparams_list() %>%
+get_tuning_grid <- function(hyperparams_list, method) {
+  return(hyperparams_list %>%
     expand.grid() %>%
     mutate_all_types())
 }
