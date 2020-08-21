@@ -81,11 +81,8 @@
 #' 5-fold cross validation on `train_data_sm`
 "otu_sm_cv5"
 
-#' 5-fold cross validation on `train_data_mini`
-"otu_mini_cv5"
-
-#' Results from running the pipline with L2 logistic regression on `otu_small`
-"otu_sm_results1"
+#' 2-fold cross validation on `train_data_mini`
+"otu_mini_cv2"
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
 "otu_mini_results1"
@@ -96,8 +93,8 @@
 #' Results from running the pipline with svmRadial on `otu_mini`
 "otu_mini_results3"
 
+#' Results from running the pipline with xbgTree on `otu_mini`
+"otu_mini_results4"
+
 #' Results from running the pipline with rpart2 on `otu_medium`
 "otu_med_results"
-
-#' Results from running the pipline with xbgTree on `otu_mini`
-"otu_mini_results5"
