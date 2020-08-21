@@ -62,8 +62,6 @@ otu_mini_results2 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
-
-# TODO: figure out bug with seeds (only fails with svmRadial)
 otu_mini_results3 <- mikRopML::run_ml(otu_mini,
   "svmRadial",
   outcome_colname = "dx",
@@ -75,7 +73,7 @@ otu_mini_results3 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
-otu_mini_results5 <- mikRopML::run_ml(otu_mini,
+otu_mini_results4 <- mikRopML::run_ml(otu_mini,
   "xgbTree",
   outcome_colname = "dx",
   outcome_value = "cancer",
@@ -84,4 +82,4 @@ otu_mini_results5 <- mikRopML::run_ml(otu_mini,
   seed = 2019,
   kfold = 2
 )
-usethis::use_data(otu_mini_results5, overwrite = TRUE)
+usethis::use_data(otu_mini_results4, overwrite = TRUE)
