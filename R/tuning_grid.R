@@ -21,7 +21,7 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' @inheritParams get_tuning_grid
 #'
 #' @return named list of lists of hyperparameters
-#' @noRd
+#' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
@@ -37,7 +37,7 @@ get_hyperparams_list <- function(hyperparams_df) {
 #' @param method_name method name (regLogistic, svmRadial, rpart2, rf, xgbTree)
 #'
 #' @return hyperparams df, filtered by method if needed
-#' @noRd
+#' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
