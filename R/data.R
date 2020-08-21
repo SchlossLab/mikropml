@@ -81,8 +81,8 @@
 #' 5-fold cross validation on `train_data_sm`
 "otu_sm_cv5"
 
-#' 5-fold cross validation on `train_data_mini`
-"otu_mini_cv5"
+#' 2-fold cross validation on `train_data_mini`
+"otu_mini_cv2"
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
 "otu_mini_results1"
