@@ -34,9 +34,9 @@ See \link[caret]{trainControl} for info on how the seed is being set.
 }
 \examples{
 hparams_list <- default_hyperparams \%>\%
-  check_hyperparams_df('regLogistic') \%>\%
+  check_hyperparams_df("regLogistic") \%>\%
   get_hyperparams_list()
-define_cv(train_data_sm, "dx", hparams_list,  kfold = 5, seed = 2019)
+define_cv(train_data_sm, "dx", hparams_list, kfold = 5, seed = 2019)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

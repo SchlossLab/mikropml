@@ -24,7 +24,7 @@ and the \link[caret]{trainControl} documentation
 }
 \examples{
 hparams_list <- default_hyperparams \%>\%
-  check_hyperparams_df('regLogistic') \%>\%
+  check_hyperparams_df("regLogistic") \%>\%
   get_hyperparams_list()
 get_seeds_trainControl(hparams_list, 5, 100, 60)
 }
