@@ -59,13 +59,13 @@ test_that("permuted auc returns correct value for [fake] correlated feature", {
   )
 })
 
-feat_imps <- structure(list(
-  auc = c(0.5480263, 0.5160526, 0.5808158), auc_diff = c(0.023026316, 0.055000000, -0.009763158),
-  names = structure(1:3, .Label = c(
-    "Otu00001",
-    "Otu00002", "Otu00003"
-  ), class = "factor")
-), class = "data.frame", row.names = c(
+feat_imps <- structure(list(auc = c(
+  0.548052631578947, 0.516078947368421,
+  0.580815789473684
+), auc_diff = c(0.023, 0.0549736842105263, -0.0097631578947368), names = structure(1:3, .Label = c(
+  "Otu00001", "Otu00002",
+  "Otu00003"
+), class = "factor")), class = "data.frame", row.names = c(
   NA,
   -3L
 ))
