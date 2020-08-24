@@ -8,7 +8,8 @@ preprocess_data(
   dataset,
   outcome_colname,
   method = c("center", "scale"),
-  rm_nzv = TRUE
+  rm_nzv = TRUE,
+  rm_corr_feats = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ preprocess_data(
 \item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization)}
 
 \item{rm_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
+
+\item{rm_corr_feats}{whether to keep only one of perfectly correlated featurse}
 }
 \value{
 preprocessed data
