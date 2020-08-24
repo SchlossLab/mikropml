@@ -64,4 +64,3 @@ test_that("empty dataframe correct", {
   feature <- dplyr::tibble()
   expect_equal(group_correlated_features(corr, feature), list())
 })
-

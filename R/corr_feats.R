@@ -64,7 +64,7 @@ group_correlated_features <- function(corr, features) {
   all_feats <- colnames(features)
   corr_feats <- unique(c(corr$feature2, corr$feature1))
   noncorr_feats <- all_feats[!all_feats %in% corr_feats]
-  
+
   grps <- as.list(noncorr_feats)
   accounted_for <- rep(NA, length(all_feats))
   af_length <- sum(!is.na(accounted_for))

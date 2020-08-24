@@ -18,10 +18,10 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
-  
+
   # if rm_corr_feats is TRUE, rm_nzv must also be TRUE (error otherwise)
-  if(rm_corr_feats & !rm_nzv){
-    stop('`rm_nzv` must be true if `rm_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `rm_nzv` = TRUE')
+  if (rm_corr_feats & !rm_nzv) {
+    stop("`rm_nzv` must be true if `rm_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `rm_nzv` = TRUE")
   }
 
   # get outcome and features
@@ -53,16 +53,16 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # remove perfectly correlated features
   grp_feats <- NULL
-  if(rm_corr_feats){
+  if (rm_corr_feats) {
     feats_and_grps <- rm_corr_feats(processed_feats)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
-  } 
-  
+  }
+
   # combine outcome and features
   dat_transformed <- dplyr::bind_cols(outcome, processed_feats) %>% dplyr::as_tibble()
 
-  return(list(dat_transformed=dat_transformed,grp_feats=grp_feats))
+  return(list(dat_transformed = dat_transformed, grp_feats = grp_feats))
 }
 
 #' Process features with no variation
@@ -221,41 +221,40 @@ get_caret_dummyvars_df <- function(features, full_rank) {
 #' @return features where perfectly correlated ones are collapsed
 #' @export
 #'
-#' @examples rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
-rm_corr_feats <- function(features){
-  if(any(sapply(features, class) %in% c('character','factor'))){
-    stop('Some features are charactors or factors. Please remove these before proceeding with `rm_corr_feats`.')
+#' @examples
+#' rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+rm_corr_feats <- function(features) {
+  if (any(sapply(features, class) %in% c("character", "factor"))) {
+    stop("Some features are charactors or factors. Please remove these before proceeding with `rm_corr_feats`.")
   }
-  if(!is.null(process_novar_feats(features)$novar_feats)){
-    stop('Some features have no variation. Please remove these before proceeding with `rm_corr_feats`.')
+  if (!is.null(process_novar_feats(features)$novar_feats)) {
+    stop("Some features have no variation. Please remove these before proceeding with `rm_corr_feats`.")
   }
-  if(ncol(features) == 1){
-    output <- list(features=features,grp_feats=NULL)
-  }else{
+  if (ncol(features) == 1) {
+    output <- list(features = features, grp_feats = NULL)
+  } else {
     corr_feats <- group_correlated_features(get_corr_feats(features), features)
     corr_mat <- stats::cor(features)
-    corr_cols <- caret::findCorrelation(corr_mat, cutoff = 1-10e-15)
+    corr_cols <- caret::findCorrelation(corr_mat, cutoff = 1 - 10e-15)
     feats_nocorr <- features %>% dplyr::select(-dplyr::all_of(corr_cols))
-    names_grps <- sapply(names(feats_nocorr), function(n){
+    names_grps <- sapply(names(feats_nocorr), function(n) {
       not_corr <- n %in% corr_feats
-      if(not_corr){
+      if (not_corr) {
         name <- n
-      }else{
-        name <- corr_feats[grep(paste0('^',n,'\\||\\|',n,'\\||\\|',n,'$'), corr_feats)]
+      } else {
+        name <- corr_feats[grep(paste0("^", n, "\\||\\|", n, "\\||\\|", n, "$"), corr_feats)]
       }
     })
-    grp_cols <- grep('\\|',names_grps)
+    grp_cols <- grep("\\|", names_grps)
     num_grps <- length(grp_cols)
-    if(num_grps == 0){
-      output <- list(features=feats_nocorr,grp_feats=NULL)
-    }else{
-      names(names_grps)[grp_cols] <- paste0('grp',1:num_grps)
+    if (num_grps == 0) {
+      output <- list(features = feats_nocorr, grp_feats = NULL)
+    } else {
+      names(names_grps)[grp_cols] <- paste0("grp", 1:num_grps)
       names(feats_nocorr) <- names(names_grps)
-      grp_feats <- sapply(names_grps, function(x) strsplit(x, split='\\|'))
-      output <- list(features=feats_nocorr,grp_feats=grp_feats)
+      grp_feats <- sapply(names_grps, function(x) strsplit(x, split = "\\|"))
+      output <- list(features = feats_nocorr, grp_feats = grp_feats)
     }
   }
   return(output)
 }
-
-
