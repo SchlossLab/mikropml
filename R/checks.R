@@ -173,6 +173,18 @@ check_outcome_column <- function(dataset, outcome_colname) {
 #' @examples
 #' check_outcome_value(otu_small, "dx", "cancer")
 check_outcome_value <- function(dataset, outcome_colname, outcome_value, method = "fewer") {
+  # check no NA's
+  num_missing <- sum(is.na(dataset[, outcome_colname]))
+  if(num_missing != 0){
+    stop(paste0('Missing data in the output variable is not allowed, but the outcome variable has ', num_missing, ' missing value(s) (NA).'))
+  }
+  
+  # check for empty strings
+  num_empty <- sum(dataset[, outcome_colname] == '')
+  if(num_empty != 0){
+    warning(paste0('Possible missing data in the output variable: ', num_empty, ' empty value(s).'))
+  }
+  
   # check binary outcome
   outcomes <- unique(dataset[, outcome_colname])
   num_outcomes <- length(outcomes)
@@ -229,5 +241,17 @@ check_package_installed <- function(package_names) {
 check_features <- function(features) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop("Argument `features` must be a `data.frame` or `tibble`")
+  }
+  
+  # check no NA's
+  num_missing <- sum(is.na(features))
+  if(num_missing != 0){
+    stop(paste0('Missing data in the features is not allowed, but the features have ', num_missing, ' missing value(s) (NA).'))
+  }
+  
+  # check for empty strings
+  num_empty <- sum(features == '')
+  if(num_empty != 0){
+    warning(paste0('Possible missing data in the features: ', num_empty, ' empty value(s).'))
   }
 }
