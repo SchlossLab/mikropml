@@ -52,8 +52,8 @@ pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #'
 #' @examples
 #' randomize_feature_order(otu_small, "dx")
-randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
-  if (!is.na(seed)) {
+randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
+  if (!is.null(seed)) {
     set.seed(seed)
   }
   features <- sample(colnames(dataset[names(dataset) != outcome_colname]))
@@ -143,12 +143,12 @@ mutate_all_types <- function(dat) {
 #' stop_parallel(para_cluster)
 setup_parallel <- function(ncores, setup_timeout = 0.5) {
   pcluster <- NULL
-  if (!is.numeric(ncores) & !is.na(ncores)) {
+  if (!is.numeric(ncores) & !is.null(ncores)) {
     warning(paste(
       "`ncores` must be `NA` or a number, but you provided", ncores,
       "\nProceeding with only one process."
     ))
-  } else if (!is.na(ncores) & ncores > 1) {
+  } else if (!is.null(ncores) & ncores > 1) {
     if (!all(check_package_installed(c("parallel", "doParallel", "foreach")))) {
       warning(paste(
         "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.\n",

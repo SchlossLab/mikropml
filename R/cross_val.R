@@ -16,8 +16,8 @@
 #'   check_hyperparams_df("regLogistic") %>%
 #'   get_hyperparams_list()
 #' define_cv(train_data_sm, "dx", hparams_list, kfold = 5, seed = 2019)
-define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, seed = NA) {
-  if (!is.na(seed)) {
+define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, seed = NULL) {
+  if (!is.null(seed)) {
     set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
   }
   cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),

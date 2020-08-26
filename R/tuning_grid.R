@@ -110,3 +110,19 @@ check_l2logit_hyperparams <- function(hyperparams_df) {
     message("Using L2 normalization for Logistic Regression")
   }
 }
+
+pick_hyperparams <- function(method) {
+  if(is.null(hyperparameters$mtry)){
+    # get number of features
+    n_features <- ncol(train_data) - 1
+    if(n_features > 20000) n_features <- 20000
+    # if few features
+    if(n_features < 19){ mtry <- 1:6
+    } else {
+      # if many features
+      mtry <- floor(seq(1, n_features, length=6))
+    }
+    # only keep ones with less features than you have
+    hyperparameters$mtry <- mtry[mtry <= n_features]
+  }
+}

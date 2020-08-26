@@ -4,7 +4,7 @@
 #' @param method ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param outcome_value outcome value of interest as a string
-#' @param hyperparameters dataframe of hyperparameters (default: default_hyperparams)
+#' @param hyperparameters dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.
 #' @param find_feature_importance run permutation imporance (default: FALSE)
 #' @param kfold fold number for k-fold cross-validation (default: 5)
 #' @param cv_times Number of partitions to create
@@ -22,16 +22,16 @@
 run_ml <-
   function(dataset,
            method,
-           outcome_colname = NA,
-           outcome_value = NA,
-           hyperparameters = mikRopML::default_hyperparams,
+           outcome_colname = NULL,
+           outcome_value = NULL,
+           hyperparameters = NULL,
            find_feature_importance = FALSE,
            kfold = 5,
            cv_times = 100,
            training_frac = 0.8,
            corr_thresh = corr_thresh,
-           seed = NA,
-           ncores = NA) {
+           seed = NULL,
+           ncores = NULL) {
     check_all(
       dataset,
       method,
@@ -46,13 +46,13 @@ run_ml <-
       outcome_value,
       method = "fewer"
     )
-    if (!is.na(seed)) {
+    if (!is.null(seed)) {
       set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
     }
     dataset <-
       randomize_feature_order(dataset, outcome_colname, seed = seed)
 
-    if (!is.na(seed)) {
+    if (!is.null(seed)) {
       set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
     }
     inTraining <-

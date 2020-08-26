@@ -129,7 +129,7 @@ check_training_frac <- function(frac) {
 #' @examples
 #' check_seed(2019)
 check_seed <- function(seed) {
-  if (!is.na(seed) & !is.numeric(seed)) {
+  if (!is.null(seed) & !is.numeric(seed)) {
     stop(paste0(
       "`seed` must be `NA` or numeric.\n",
       "    You provided: ", seed
@@ -150,7 +150,7 @@ check_seed <- function(seed) {
 #' check_outcome_column(otu_small, "dx")
 check_outcome_column <- function(dataset, outcome_colname) {
   # If no outcome colname specified, use first column in data
-  if (is.na(outcome_colname)) {
+  if (is.null(outcome_colname)) {
     outcome_colname <- colnames(dataset)[1]
   } else {
     # check to see if outcome is in column names of data
@@ -185,7 +185,7 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
     )
   }
   # pick binary outcome value of interest if not provided by user
-  if (is.na(outcome_value)) {
+  if (is.null(outcome_value)) {
     outcome_value <-
       pick_outcome_value(dataset, outcome_colname, method = method)
   } else if (!any(dataset[, outcome_colname] == outcome_value)) {
