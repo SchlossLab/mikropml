@@ -47,7 +47,15 @@ Imports:
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    future.apply,
+    randomForest,
+    kernlab,
+    rpart,
+    xgboost,
+    parallel,
+    doParallel,
+    foreach
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
