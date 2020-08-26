@@ -1,7 +1,7 @@
 #' Run the machine learning pipeline
 #'
 #' @param dataset dataframe with an outcome variable and other columns as features
-#' @param method ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
+#' @param method ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param outcome_value outcome value of interest as a string
 #' @param hyperparameters dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.
@@ -62,9 +62,12 @@ run_ml <-
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    hparams_list <- hyperparameters %>%
-      check_hyperparams_df(method) %>%
-      get_hyperparams_list()
+    hparams_list <- ifelse(is.null(hyperparameters),
+                           get_hyperparams_list(),
+                           hyperparameters)
+    if (method == 'regLogistic') {
+      check_l2logit_hyperparams(hparams_list)
+    }
     tune_grid <- get_tuning_grid(hparams_list, method)
     cv <-
       define_cv(train_data,
@@ -80,8 +83,6 @@ run_ml <-
 
     pcluster <- setup_parallel(ncores)
 
-    # TODO: use named list or vector instead of if/else block? could use a quosure to delay evaluation?
-    # TODO: or could set unused args to NULL and just call train once?
     metric <- "ROC"
     if (method == "regLogistic") {
       trained_model <- caret::train(
