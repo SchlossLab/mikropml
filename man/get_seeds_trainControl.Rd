@@ -23,8 +23,5 @@ Adapted from \href{https://stackoverflow.com/a/32598959}{this Stack Overflow pos
 and the \link[caret]{trainControl} documentation
 }
 \examples{
-hparams_list <- default_hyperparams \%>\%
-  check_hyperparams_df("regLogistic") \%>\%
-  get_hyperparams_list()
-get_seeds_trainControl(hparams_list, 5, 100, 60)
+get_seeds_trainControl(get_hyperparams_list(otu_small, 'regLogistic'), 5, 100, 60)
 }
