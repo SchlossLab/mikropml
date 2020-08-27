@@ -37,7 +37,7 @@ test_that("check_method works", {
 })
 
 test_that("check_outcome_column works", {
-  expect_equal(check_outcome_column(test_df, NA), "outcome")
+  expect_equal(check_outcome_column(test_df, NULL), "outcome")
   expect_error(
     check_outcome_column(test_df, "not_a_column"),
     "Outcome 'not_a_column' not in column names of data."
@@ -47,15 +47,15 @@ test_that("check_outcome_column works", {
 test_that("check_outcome_value works", {
   expect_equal(check_outcome_value(test_df, "outcome", "cancer"), "cancer")
   expect_equal(
-    check_outcome_value(test_df, "outcome", NA, method = "fewer"),
+    check_outcome_value(test_df, "outcome", NULL, method = "fewer"),
     "cancer"
   )
   expect_equal(
-    check_outcome_value(test_df, "outcome", NA, method = "first"),
+    check_outcome_value(test_df, "outcome", NULL, method = "first"),
     "normal"
   )
   expect_error(
-    check_outcome_value(test_df, "outcome", NA, method = "not_a_method"),
+    check_outcome_value(test_df, "outcome", NULL, method = "not_a_method"),
     "Method not_a_method for selecting outcome value not recognized."
   )
   expect_message(
@@ -118,16 +118,16 @@ test_that("check_training_frac works", {
 })
 
 test_that("check_seed works", {
-  expect_true(is.null(check_seed(NA)))
+  expect_true(is.null(check_seed(NULL)))
   expect_true(is.null(check_seed(10)))
   expect_error(
     check_seed("not_a_number"),
-    "`seed` must be `NA` or numeric."
+    "`seed` must be `NULL` or numeric."
   )
 })
 
 test_that("check_all works", {
-  expect_true(is.null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NA)))
+  expect_true(is.null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL)))
 })
 
 test_that("check if package is installed", {

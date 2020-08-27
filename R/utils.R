@@ -1,18 +1,27 @@
+#' dplyr pipe
 #' @importFrom dplyr %>%
 #' @export
 dplyr::`%>%`
 
+#' rlang data pronoun
 #' @importFrom rlang .data
 #' @export
 rlang::.data
 
+#' caret contr.ltfr
 #' @importFrom caret contr.ltfr
 #' @export
 caret::contr.ltfr
 
+
 #' @importFrom rlang !!
 #' @export
 rlang::`!!`
+
+## make R CMD CHECK shut up about the dot `.``
+## See: \url{https://github.com/tidyverse/magrittr/issues/29}
+utils::globalVariables(c("."))
+
 
 #' Get the outcome value of interest for AUC calculations
 #'
@@ -56,8 +65,8 @@ pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #'
 #' @examples
 #' randomize_feature_order(otu_small, "dx")
-randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
-  if (!is.na(seed)) {
+randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
+  if (!is.null(seed)) {
     set.seed(seed)
   }
   features <- sample(colnames(dataset[names(dataset) != outcome_colname]))
