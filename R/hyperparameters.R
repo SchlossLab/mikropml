@@ -9,31 +9,21 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' get_tuning_grid(default_hyperparams, "regLogistic")
+#' ml_method <- 'regLogistic'
+#' hparams_list <- get_hyperparams_list(otu_small, ml_method)
+#' get_tuning_grid(hparams_list, ml_method)
 get_tuning_grid <- function(hyperparams_list, method) {
   return(hyperparams_list %>%
     expand.grid() %>%
     mutate_all_types())
 }
 
-#' Split hyperparameters dataframe into named lists for each parameter
+#' Check that hyperparameters are valid
 #'
-#' @param hyperparams_df dataframe of hyperparameters
-#'
-#' @return named list of lists of hyperparameters
-#' @export
-#' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#' get_hyperparams_list(default_hyperparams)
-get_hyperparams_list <- function(hyperparams_df) {
-  return(split(hyperparams_df$value, hyperparams_df$param))
-}
-
-#' Check loss & epsilon hyperparameters for L2-normalized logistic regression
+#' Currently, it only checks the loss & epsilon hyperparameters for L2-normalized logistic regression.
 #'
 #' @param hp_list named list of hyperparameters
+#' @inheritParams run_ml
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -41,32 +31,57 @@ get_hyperparams_list <- function(hyperparams_df) {
 #' @examples
 #' # no warning message if defaults are used
 #' set_hparams_regLogistic() %>%
-#'   check_l2logit_hyperparams()
-check_l2logit_hyperparams <- function(hp_list) {
-  l2logit_required <- list(epsilon = c(0.01),
-                           loss = c('L2_primal'))
-  logit_given <- hp_list[names(hp_list) %in% names(l2logit_required)]
+#'   check_hyperparams()
+check_hyperparams <- function(hp_list, method) {
+  if (method == 'regLogistic') {
+    l2logit_required <- list(epsilon = c(0.01),
+                             loss = c('L2_primal'))
+    logit_given <-
+      hp_list[names(hp_list) %in% names(l2logit_required)]
 
-  if (!isTRUE(all.equal.list(l2logit_required, logit_given))) {
-    warning(
-      paste0(
-        "For L2-normalized Logistic Regression, ",
-        "`loss`` must be 'L2_primal' and `epsilon` must be '0.01',",
-        "\n  Be sure you intend to not perform L2-normalization.",
-        "\n  You supplied these hyperparameters:\n    ",
-        paste0(utils::capture.output(logit_given), collapse = "\n    ")
+    if (!isTRUE(all.equal.list(l2logit_required, logit_given))) {
+      warning(
+        paste0(
+          "For L2-normalized Logistic Regression, ",
+          "`loss`` must be 'L2_primal' and `epsilon` must be '0.01',",
+          "\n  Be sure you intend to not perform L2-normalization.",
+          "\n  You supplied these hyperparameters:\n    ",
+          paste0(utils::capture.output(logit_given), collapse = "\n    ")
+        )
       )
-    )
-  } else {
-    message("Using L2 normalization for Logistic Regression")
+    } else {
+      message("Using L2 normalization for Logistic Regression")
+    }
   }
+}
+
+#' Split hyperparameters dataframe into named lists for each parameter
+#'
+#' Using \code{\link{get_hyperparams_list}} is preferred over this function.
+#'
+#' @param hyperparams_df dataframe of hyperparameters with columns `param`, `value`, and `method`
+#' @param ml_method machine learning method
+#'
+#' @return named list of lists of hyperparameters
+#' @export
+#' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' hparams_df <- dplyr::tibble(param = c("cost", "cost", "loss", "epsilon"),
+#'                             value = c(1, 0.1, "L2_primal", 0.01),
+#'                             method = rep('regLogistic', 4))
+#' get_hyperparams_from_df(hparams_df, 'regLogistic')
+get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
+  hyperparams_df_filt <- hyperparams_df %>% dplyr::filter(.data$method == ml_method)
+  return(split(hyperparams_df_filt$value, hyperparams_df_filt$param))
 }
 
 #' Set hyperparameters based on ML method and dataset characteristics
 #'
 #' @inheritParams run_ml
 #'
-#' @return list of hyperparameters
+#' @return names list of hyperparameters
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
@@ -74,7 +89,7 @@ check_l2logit_hyperparams <- function(hp_list) {
 #' get_hyperparams_list(otu_mini, 'rf')
 #' get_hyperparams_list(otu_medium, 'rf')
 #' get_hyperparams_list(otu_mini, 'rpart2')
-#' get_hyperparams_list(otu_medium, 'rpart2)
+#' get_hyperparams_list(otu_medium, 'rpart2')
 get_hyperparams_list <- function(dataset, method) {
    n_features <- ncol(dataset) - 1
    n_samples <- nrow(dataset)
@@ -110,7 +125,7 @@ set_hparams_regLogistic <- function() {
 #' @param n_features number of features in the dataset
 #'
 #' @return named list of hyperparameters
-#' @export
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -126,7 +141,7 @@ set_hparams_rf <- function(n_features) {
                sqrt_features,
                sqrt_features * 2) %>%
       round() %>%
-      subset(. >= 1 & . < n_features)
+      .[. >= 1 & . < n_features]
   }
   return(list(mtry = mtry))
 }
@@ -136,21 +151,20 @@ set_hparams_rf <- function(n_features) {
 #' @param n_samples number of samples in the dataset
 #'
 #' @return named list of hyperparameters
-#' @export
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
 #' set_hparams_rpart2(100)
 #' set_hparams_rpart2(20)
 set_hparams_rpart2 <- function(n_samples) {
-  return(list(maxdepth = c(1, 2, 4, 8, 16, 30) %>%
-                subset(. < n_samples)))
+  return(list(maxdepth = c(1, 2, 4, 8, 16, 30) %>% .[. < n_samples]))
 }
 
 #' Set hyperparameters for SVM with radial kernel
 #'
 #' @return named list of hyperparameters
-#' @export
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -165,7 +179,7 @@ set_hparams_svmRadial <- function() {
 #' @inheritParams set_hparams_rpart2
 #'
 #' @return named list of hyperparameters
-#' @export
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples

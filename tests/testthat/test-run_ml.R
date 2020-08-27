@@ -7,6 +7,20 @@ options(
 #   warning: get_predictions works
 #   partial argument match of 'contrasts' to 'contrasts.arg'
 
+test_hyperparams <- structure(list(param = c("cost", "cost", "cost", "epsilon","loss",
+                                             "sigma", "sigma", "C", "C", "maxdepth", "maxdepth", "nrounds",
+                                             "gamma", "eta", "max_depth", "colsample_bytree", "min_child_weight",
+                                             "subsample", "mtry", "mtry"),
+                                   value = c("1e-3", "1e-2", "1e-1",  "0.01", "L2_primal", "0.00000001", "0.0000001", "0.01", "0.1",
+                                             "1", "2", "10", "0", "0.01", "1", "0.8", "1", "0.4", "1", "2"
+                                   ),
+                                   method = c("regLogistic", "regLogistic", "regLogistic", "regLogistic",
+                                              "regLogistic", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+                                              "rpart2", "rpart2", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
+                                              "xgbTree", "xgbTree", "xgbTree", "rf", "rf")),
+                              class = c("spec_tbl_df",  "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L))
+
+
 get_all_but_model <- function(ml_results) {
   return(ml_results[names(ml_results) != "trained_model"])
 }
@@ -26,7 +40,7 @@ test_that("run_ml works for L2 logistic regression", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df('regLogistic'),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -40,7 +54,7 @@ test_that("run_ml works for random forest", {
       "rf",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df('rf'),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -55,7 +69,7 @@ test_that("run_ml works for svmRadial", {
       "svmRadial",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df('svmRadial'),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -71,7 +85,7 @@ test_that("run_ml works for xgbTree", {
       "xgbTree",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df('xgbTree'),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -86,7 +100,7 @@ test_that("run_ml works for rpart2", {
       "rpart2",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df('rpart2'),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 3
@@ -146,7 +160,7 @@ test_that("run_ml works with multiple cores", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = mikRopML::test_hyperparams,
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df('regLogistic'),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,

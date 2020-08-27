@@ -10,6 +10,10 @@ rlang::.data
 #' @export
 caret::contr.ltfr
 
+#' make R CMD CHECK shut up about the dot `.``
+#' See: \url{https://github.com/tidyverse/magrittr/issues/29}
+utils::globalVariables(c("."))
+
 #' Get the outcome value of interest for AUC calculations
 #'
 #' Choose the outcome value of interest from the outcome column based on
@@ -143,12 +147,12 @@ mutate_all_types <- function(dat) {
 #' stop_parallel(para_cluster)
 setup_parallel <- function(ncores, setup_timeout = 0.5) {
   pcluster <- NULL
-  if (!is.numeric(ncores) & !is.null(ncores)) {
+  if (!is.numeric(ncores) & !is.na(ncores)) {
     warning(paste(
       "`ncores` must be `NA` or a number, but you provided", ncores,
       "\nProceeding with only one process."
     ))
-  } else if (!is.null(ncores) & ncores > 1) {
+  } else if (!is.na(ncores) & ncores > 1) {
     if (!all(check_package_installed(c("parallel", "doParallel", "foreach")))) {
       warning(paste(
         "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.\n",

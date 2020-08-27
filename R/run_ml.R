@@ -10,7 +10,7 @@
 #' @param cv_times Number of partitions to create
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
-#' @param seed random seed (default: NA)
+#' @param seed random seed (default: NULL)
 #' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
 #' @return named list with results
@@ -31,7 +31,7 @@ run_ml <-
            training_frac = 0.8,
            corr_thresh = corr_thresh,
            seed = NULL,
-           ncores = NULL) {
+           ncores = NA) {
     check_all(
       dataset,
       method,
@@ -40,46 +40,36 @@ run_ml <-
       training_frac,
       seed
     )
-    outcome_colname <-
-      check_outcome_column(dataset, outcome_colname)
+    outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
-      outcome_value,
-      method = "fewer"
-    )
-    if (!is.null(seed)) {
-      set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
-    }
-    dataset <-
-      randomize_feature_order(dataset, outcome_colname, seed = seed)
+                                         outcome_value, method = "fewer")
+    dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
 
     if (!is.null(seed)) {
       set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
     }
+
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname],
-        p = training_frac, list = FALSE
-      )
+                                 p = training_frac, list = FALSE)
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
-    hparams_list <- ifelse(is.null(hyperparameters),
-                           get_hyperparams_list(),
-                           hyperparameters)
-    if (method == 'regLogistic') {
-      check_l2logit_hyperparams(hparams_list)
+    if (is.null(hyperparameters)) {
+      hyperparameters <- get_hyperparams_list(dataset, method)
     }
-    tune_grid <- get_tuning_grid(hparams_list, method)
-    cv <-
-      define_cv(train_data,
-        outcome_colname,
-        hparams_list,
-        kfold = kfold,
-        seed = seed,
-        cv_times = cv_times
-      )
+    check_hyperparams(hyperparameters, method = method)
 
-    model_formula <-
-      stats::as.formula(paste(outcome_colname, "~ ."))
+    tune_grid <- get_tuning_grid(hyperparameters, method)
+    cv <- define_cv(train_data,
+                    outcome_colname,
+                    hyperparameters,
+                    kfold = kfold,
+                    seed = seed,
+                    cv_times = cv_times
+                    )
+
+    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
     pcluster <- setup_parallel(ncores)
 

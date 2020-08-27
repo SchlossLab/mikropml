@@ -1,8 +1,41 @@
+default_hyperparams <- structure(list(param = c("cost", "cost", "cost", "cost", "cost",
+                                                "cost", "cost", "cost", "cost", "cost", "cost", "cost", "cost",
+                                                "loss", "epsilon", "sigma", "sigma", "sigma", "sigma", "sigma",
+                                                "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
+                                                "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",
+                                                "maxdepth", "nrounds", "gamma", "eta", "eta", "eta", "eta", "max_depth",
+                                                "colsample_bytree", "min_child_weight", "subsample", "subsample",
+                                                "subsample", "subsample", "mtry", "mtry"),
+                                      value = c("1e-6",
+                                                "1e-5", "1e-4", "1e-3", "0.0025", "0.005", "0.01", "0.05", "0.1",
+                                                "0.25", "0.5", "1", "10", "L2_primal", "0.01", "0.00000001",
+                                                "0.0000001", "0.000001", "0.00001", "0.0001", "0.001", "0.01",
+                                                "0.1", "0.0000001", "0.000001", "0.00001", "0.0001", "0.001",
+                                                "0.01", "0.1", "1", "10", "1", "2", "3", "4", "5", "6", "500",
+                                                "0", "0.001", "0.01", "0.1", "1", "8", "0.8", "1", "0.4", "0.5",
+                                                "0.6", "0.7", "500", "1000"),
+                                      method = c("regLogistic", "regLogistic",
+                                                 "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
+                                                 "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
+                                                 "regLogistic", "regLogistic", "regLogistic", "svmRadial", "svmRadial",
+                                                 "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+                                                 "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+                                                 "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+                                                 "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "xgbTree",
+                                                 "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
+                                                 "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "rf", "rf")),
+                                 class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"),
+                                 row.names = c(NA, -53L),
+                                 spec = structure(list(cols = list(param = structure(list(), class = c("collector_character", "collector")),
+                                                                   val = structure(list(), class = c("collector_character",  "collector")),
+                                                                   method = structure(list(), class = c("collector_character", "collector"))),
+                                                       default = structure(list(), class = c("collector_guess", "collector")), skip = 1),
+                                                  class = "col_spec"))
+
 # tune grid tests for each method
 test_that("tune grid works for regLogistic", {
-  hyperparams_lst <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("regLogistic") %>%
-    get_hyperparams_list()
+  hyperparams_lst <- default_hyperparams %>%
+    get_hyperparams_from_df("regLogistic")
   grid <- expand.grid(
     cost = hyperparams_lst$cost,
     epsilon = hyperparams_lst$epsilon,
@@ -11,9 +44,8 @@ test_that("tune grid works for regLogistic", {
   expect_equal(get_tuning_grid(hyperparams_lst, "regLogistic"), grid)
 })
 test_that("tune grid works for svmRadial", {
-  hyperparams_lst <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("svmRadial") %>%
-    get_hyperparams_list()
+  hyperparams_lst <- default_hyperparams %>%
+    get_hyperparams_from_df("svmRadial")
   grid <- expand.grid(
     C = hyperparams_lst$C,
     sigma = hyperparams_lst$sigma
@@ -21,23 +53,20 @@ test_that("tune grid works for svmRadial", {
   expect_equal(get_tuning_grid(hyperparams_lst, "svmRadial"), grid)
 })
 test_that("tune grid works for rpart2", {
-  hyperparams_lst <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("rpart2") %>%
-    get_hyperparams_list()
+  hyperparams_lst <- default_hyperparams %>%
+    get_hyperparams_from_df("rpart2")
   grid <- expand.grid(maxdepth = hyperparams_lst$maxdepth) %>% mutate_all_types()
   expect_equal(get_tuning_grid(hyperparams_lst, "rpart2"), grid)
 })
 test_that("tune grid works for rf", {
-  hyperparams_lst <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("rf") %>%
-    get_hyperparams_list()
+  hyperparams_lst <- default_hyperparams %>%
+    get_hyperparams_from_df("rf")
   grid <- expand.grid(mtry = hyperparams_lst$mtry) %>% mutate_all_types()
   expect_equal(get_tuning_grid(hyperparams_lst, "rf"), grid)
 })
 test_that("tune grid works for xgbTree", {
-  hyperparams_lst <- mikRopML::default_hyperparams %>%
-    check_hyperparams_df("xgbTree") %>%
-    get_hyperparams_list()
+  hyperparams_lst <- default_hyperparams %>%
+    get_hyperparams_from_df("xgbTree")
   grid <- expand.grid(
     colsample_bytree = hyperparams_lst$colsample_bytree,
     eta = hyperparams_lst$eta,
@@ -51,108 +80,27 @@ test_that("tune grid works for xgbTree", {
 })
 
 # get_hyperparams_list
-df1 <- dplyr::tibble(
-  param = c("cost", "cost", "loss", "epsilon"),
-  value = c(1, 0.1, "L2_primal", 0.01)
-)
-result <- list(
-  cost = c("1", "0.1"),
-  epsilon = c("0.01"),
-  loss = c("L2_primal")
-)
 test_that("get_hyperparams_list works", {
-  expect_equal(get_hyperparams_list(df1), result)
+  expect_equal(get_hyperparams_list(otu_mini, 'regLogistic'),
+               list(cost = c(0.01, 0.1, 1, 10),
+                    epsilon = 0.01,
+                    loss = "L2_primal")
+               )
 })
 
-# check_l2logit_hyperparams
-l2logit_required <- dplyr::tibble(
-  param = c("loss", "epsilon"),
-  value = c("L2_primal", "0.01"),
-  method = c("regLogistic", "regLogistic")
-)
+# check_hyperparams
+l2logit_required <- list(epsilon = c(0.01),
+                         loss = c('L2_primal'))
 l2_warning <-
   "For L2-normalized Logistic Regression, `loss`` must be 'L2_primal' and `epsilon` must be '0.01',"
-wrong_loss <- dplyr::tibble(
-  param = c("loss", "epsilon"),
-  value = c("L1_primal", "0.01"),
-  method = c("regLogistic", "regLogistic")
-)
-wrong_epsilon <- dplyr::tibble(
-  param = c("loss", "epsilon"),
-  value = c("L2_primal", "1"),
-  method = c("regLogistic", "regLogistic")
-)
-test_that("check_l2logit_hyperparams prints warning", {
-  expect_warning(check_l2logit_hyperparams(wrong_loss), l2_warning)
-  expect_warning(check_l2logit_hyperparams(wrong_epsilon), l2_warning)
+wrong_loss <- list(epsilon = c(0.01),
+                   loss = c('L1_primal'))
+wrong_epsilon <- list(epsilon = c(0.1),
+                      loss = c('L2_primal'))
+test_that("check_hyperparams prints warning for l2logit", {
+  expect_warning(check_hyperparams(wrong_loss, 'regLogistic'), l2_warning)
+  expect_warning(check_hyperparams(wrong_epsilon, 'regLogistic'), l2_warning)
 })
-test_that("check_l2logit_hyperparams returns nothing on success", {
-  expect_true(is.null(check_l2logit_hyperparams(l2logit_required)))
-})
-
-# check_hyperparams_df
-error_msg <-
-  "`hyperparameters` must be a dataframe with columns `param` and `value`"
-test_that("check_hyperparams_df errors if non-dataframe given", {
-  expect_error(
-    check_hyperparams_df(
-      list(cost = c(0.1)),
-      "regLogistic"
-    ),
-    error_msg
-  )
-})
-df2 <- dplyr::tibble(
-  param = c("cost", "cost", "mtry"),
-  value = c(1, 2, 3),
-  method = c("a_method", "a_method", "rf")
-)
-test_that("check_hyperparams_df errors if dataframe doesn't have correct columns", {
-  expect_error(
-    check_hyperparams_df(
-      df2 %>%
-        dplyr::rename(params = param),
-      "a_method"
-    ),
-    error_msg
-  )
-  expect_error(
-    check_hyperparams_df(
-      df2 %>%
-        dplyr::rename(values = value),
-      "a_method"
-    ),
-    error_msg
-  )
-  expect_error(
-    check_hyperparams_df(
-      df2 %>%
-        dplyr::mutate(newcol = 1:3),
-      "rf"
-    ),
-    error_msg
-  )
-})
-test_that("check_hyperparams_df filters by method if exists in columns", {
-  expect_equal(
-    check_hyperparams_df(df2, "a_method"),
-    dplyr::tibble(
-      param = c("cost", "cost"),
-      value = c(1, 2)
-    )
-  )
-})
-test_that("check_hyperparams_df calls check_l2logit_hyperparams", {
-  expect_warning(
-    check_hyperparams_df(wrong_loss, "regLogistic"),
-    l2_warning
-  )
-  expect_warning(
-    check_hyperparams_df(wrong_epsilon, "regLogistic"),
-    l2_warning
-  )
-  expect_message(
-    check_hyperparams_df(l2logit_required, "regLogistic"),
-    "Using L2 normalization for Logistic Regression"
-  )
+test_that("check_hyperparams returns nothing on success for l2logit", {
+  expect_true(is.null(check_hyperparams(l2logit_required, 'regLogistic')))
 })
