@@ -128,8 +128,8 @@
   <span class='no'>dataset</span>,
   <span class='no'>outcome_colname</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"scale"</span>),
-  <span class='kw'>rm_nzv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>rm_corr_feats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>remove_nzv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove_corr_feats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -137,7 +137,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dataset</th>
-      <td><p>dataframe with an outcome variable and other columns as features</p></td>
+      <td><p>dataframe where rows are samples and colums are the outcome variable and features</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
@@ -148,11 +148,11 @@
       <td><p>methods to preprocess the data, described in <code><a href='https://rdrr.io/pkg/caret/man/preProcess.html'>caret::preProcess</a></code> (defaut: <code><a href='https://rdrr.io/r/base/c.html'>c("center","scale")</a></code>, use <code>NULL</code> for no normalization)</p></td>
     </tr>
     <tr>
-      <th>rm_nzv</th>
+      <th>remove_nzv</th>
       <td><p>whether to remove variables with near-zero variance (default: <code>TRUE</code>)</p></td>
     </tr>
     <tr>
-      <th>rm_corr_feats</th>
+      <th>remove_corr_feats</th>
       <td><p>whether to keep only one of perfectly correlated featurse</p></td>
     </tr>
     </table>
