@@ -1,14 +1,23 @@
 ml_methods = ['regLogistic', 'rf']
-seeds = range(100, 111)
+seeds = range(100, 101)
 
 rule targets:
     input:
         expand("results/{method}_{seed}.Rds", method = ml_methods, seed = seeds)
 
+rule preprocess_data:
+    input:
+        R="code/preproc.R",
+        csv="data/raw/otu_medium.csv"
+    output:
+        rds='data/processed/otu_medium.Rds'
+    script:
+        "{input.R}"
+
 rule run_ml:
     input:
-        R="run_ml.R",
-        csv="data/otu_medium.csv"
+        R="code/ml.R",
+        rds=rules.preprocess_data.output.rds
     output:
         rds="results/{method}_{seed}.Rds"
     params:
