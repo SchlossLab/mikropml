@@ -10,7 +10,7 @@ define_cv(
   hyperparams_list,
   kfold = 5,
   cv_times = 100,
-  seed = NA
+  seed = NULL
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ define_cv(
 
 \item{cv_times}{Number of partitions to create}
 
-\item{seed}{random seed (default: NA)}
+\item{seed}{random seed (default: NULL)}
 }
 \value{
 Caret object for trainControl that controls cross-validation
@@ -33,10 +33,9 @@ Caret object for trainControl that controls cross-validation
 See \link[caret]{trainControl} for info on how the seed is being set.
 }
 \examples{
-hparams_list <- default_hyperparams \%>\%
-  check_hyperparams_df('regLogistic') \%>\%
-  get_hyperparams_list()
-define_cv(train_data_sm, "dx", hparams_list,  kfold = 5, seed = 2019)
+#'
+define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, 'regLogistic'),
+          kfold = 5, seed = 2019)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

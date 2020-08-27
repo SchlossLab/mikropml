@@ -14,7 +14,7 @@ get_feature_importance(
 )
 }
 \arguments{
-\item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
+\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
 
 \item{train_data}{training data: dataframe of outcome and features}
 
