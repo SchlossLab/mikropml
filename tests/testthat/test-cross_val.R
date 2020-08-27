@@ -1,6 +1,8 @@
-hparams_list <- test_hyperparams %>%
-  check_hyperparams_df("regLogistic") %>%
-  get_hyperparams_list()
+hparams_list <- list(
+  cost = c("1e-3", "1e-2", "1e-1"),
+  epsilon = "0.01",
+  loss = "L2_primal"
+)
 test_that("define_cv works for 2-fold cv on otu_mini training data", {
   expect_equal(
     define_cv(train_data_mini, "dx", hparams_list, kfold = 2, cv_times = 100, seed = 2019),
