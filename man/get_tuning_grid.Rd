@@ -18,7 +18,7 @@ The tuning grid
 Generate the Tuning Grid for Tuning Hyperparameters
 }
 \examples{
-ml_method <- 'regLogistic'
+ml_method <- "regLogistic"
 hparams_list <- get_hyperparams_list(otu_small, ml_method)
 get_tuning_grid(hparams_list, ml_method)
 }

@@ -18,10 +18,12 @@ named list of lists of hyperparameters
 Using \code{\link{get_hyperparams_list}} is preferred over this function.
 }
 \examples{
-hparams_df <- dplyr::tibble(param = c("cost", "cost", "loss", "epsilon"),
-                            value = c(1, 0.1, "L2_primal", 0.01),
-                            method = rep('regLogistic', 4))
-get_hyperparams_from_df(hparams_df, 'regLogistic')
+hparams_df <- dplyr::tibble(
+  param = c("cost", "cost", "loss", "epsilon"),
+  value = c(1, 0.1, "L2_primal", 0.01),
+  method = rep("regLogistic", 4)
+)
+get_hyperparams_from_df(hparams_df, "regLogistic")
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

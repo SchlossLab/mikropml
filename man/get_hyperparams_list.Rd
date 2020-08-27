@@ -18,10 +18,10 @@ names list of hyperparameters
 Set hyperparameters based on ML method and dataset characteristics
 }
 \examples{
-get_hyperparams_list(otu_mini, 'rf')
-get_hyperparams_list(otu_medium, 'rf')
-get_hyperparams_list(otu_mini, 'rpart2')
-get_hyperparams_list(otu_medium, 'rpart2')
+get_hyperparams_list(otu_mini, "rf")
+get_hyperparams_list(otu_medium, "rf")
+get_hyperparams_list(otu_mini, "rpart2")
+get_hyperparams_list(otu_medium, "rpart2")
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

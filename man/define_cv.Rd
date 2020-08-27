@@ -34,8 +34,9 @@ See \link[caret]{trainControl} for info on how the seed is being set.
 }
 \examples{
 #'
-define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, 'regLogistic'),
-          kfold = 5, seed = 2019)
+define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"),
+  kfold = 5, seed = 2019
+)
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

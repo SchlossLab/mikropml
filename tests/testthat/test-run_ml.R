@@ -167,7 +167,6 @@ test_that("run_ml works with multiple cores", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = test_hyperparams %>% get_hyperparams_from_df("regLogistic"),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,
