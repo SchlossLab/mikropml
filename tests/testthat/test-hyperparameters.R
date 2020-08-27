@@ -96,7 +96,7 @@ test_that("tune grid works for xgbTree", {
 # get_hyperparams_list
 test_that("get_hyperparams_list works for all models", {
   expect_equal(get_hyperparams_list(otu_mini, 'regLogistic'),
-               list(cost = c(0.01, 0.1, 1, 10),
+               list(cost = c(1e-04, 0.001, 0.01, 0.1, 1, 10),
                     epsilon = 0.01,
                     loss = "L2_primal"))
   expect_equal(get_hyperparams_list(otu_mini, 'rf'),
