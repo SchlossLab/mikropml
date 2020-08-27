@@ -11,9 +11,11 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
 #'
-#' @examples#'
-#' define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, 'regLogistic'),
-#'           kfold = 5, seed = 2019)
+#' @examples
+#' #'
+#' define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"),
+#'   kfold = 5, seed = 2019
+#' )
 define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, seed = NULL) {
   if (!is.null(seed)) {
     set.seed(seed)
@@ -51,7 +53,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, 
 #' @export
 #'
 #' @examples
-#' get_seeds_trainControl(get_hyperparams_list(otu_small, 'regLogistic'), 5, 100, 60)
+#' get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000
