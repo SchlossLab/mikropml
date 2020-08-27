@@ -21,6 +21,6 @@ Remove missing outcome values
 rm_missing_outcome(mikRopML::otu_mini, "dx")
 
 test_df <- mikRopML::otu_mini
-test_df[1:100,'dx'] = NA
+test_df[1:100, "dx"] <- NA
 rm_missing_outcome(test_df, "dx")
 }

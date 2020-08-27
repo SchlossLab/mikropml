@@ -106,7 +106,7 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples class(change_to_num(data.frame(val=c('1','2','3')))[[1]])
 change_to_num <- function(features){
   check_features(features, check_missing = FALSE)
   features[] <- lapply(features, function(col) {
