@@ -6,7 +6,8 @@
 \alias{\%>\%}
 \alias{.data}
 \alias{contr.ltfr}
-\title{dplyr pipe}
+\alias{!!}
+\title{Objects exported from other packages}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
@@ -17,6 +18,6 @@ below to see their documentation.
 
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
 
-  \item{rlang}{\code{\link[rlang:tidyeval-data]{.data}}}
+  \item{rlang}{\code{\link[rlang:nse-force]{!!}}, \code{\link[rlang:tidyeval-data]{.data}}}
 }}
 
