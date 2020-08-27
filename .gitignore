@@ -3,5 +3,6 @@ data/temp/*
 *.Rproj
 *.Rproj.user
 .Rproj.user
+.Rhistory
 inst/doc
 .snakemake

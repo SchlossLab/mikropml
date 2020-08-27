@@ -6,7 +6,7 @@
 \alias{\%>\%}
 \alias{.data}
 \alias{contr.ltfr}
-\title{Objects exported from other packages}
+\title{dplyr pipe}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links

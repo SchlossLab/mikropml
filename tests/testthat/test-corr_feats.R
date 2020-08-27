@@ -27,3 +27,40 @@ test_that("get_corr_feats works", {
     c = c(0.6607978, 0.6291140, 0.06178627, 0.2059746)
   ), 0.6), cor_feats, tolerance = tol)
 })
+
+# group_correlated_features
+test_that("correlated groups correct", {
+  corr <- dplyr::tibble(
+    feature1 = c("A", "C", "D"),
+    feature2 = c("B", "A", "E")
+  )
+  features <- dplyr::tibble(
+    A = NA,
+    B = NA,
+    C = NA,
+    D = NA,
+    E = NA,
+    F = NA
+  )
+  expect_equal(sort(group_correlated_features(corr, features)), c("B|A|C", "E|D", "F"))
+})
+test_that("no correlated groups correct", {
+  corr <- dplyr::tibble(feature1 = c(character()), feature2 = character())
+  features <- dplyr::tibble(
+    A = NA,
+    B = NA,
+    C = NA,
+    D = NA,
+    E = NA,
+    F = NA
+  )
+  expect_equal(
+    sort(group_correlated_features(corr, features)),
+    c("A", "B", "C", "D", "E", "F")
+  )
+})
+test_that("empty dataframe correct", {
+  corr <- dplyr::tibble(feature1 = c(character()), feature2 = character())
+  feature <- dplyr::tibble()
+  expect_equal(group_correlated_features(corr, feature), list())
+})
