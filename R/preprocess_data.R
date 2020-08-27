@@ -234,7 +234,7 @@ process_cont_feats <- function(features, method) {
       transformed_cont <- sapply(transformed_cont, function(x){
         if(class(x) %in% c("integer", "numeric")){
           m <- is.na(x)
-          x[m] = median(x, na.rm = TRUE)
+          x[m] = stats::median(x, na.rm = TRUE)
         }
         return(x)
       }) %>% dplyr::as_tibble()
