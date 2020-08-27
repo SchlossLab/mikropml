@@ -12,7 +12,7 @@ get_hyperparams_list(dataset, method)
 \item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
 }
 \value{
-names list of hyperparameters
+named list of hyperparameters
 }
 \description{
 Set hyperparameters based on ML method and dataset characteristics
