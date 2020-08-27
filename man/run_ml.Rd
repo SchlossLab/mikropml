@@ -7,28 +7,28 @@
 run_ml(
   dataset,
   method,
-  outcome_colname = NA,
-  outcome_value = NA,
-  hyperparameters = mikRopML::default_hyperparams,
+  outcome_colname = NULL,
+  outcome_value = NULL,
+  hyperparameters = NULL,
   find_feature_importance = FALSE,
   kfold = 5,
   cv_times = 100,
   training_frac = 0.8,
   corr_thresh = corr_thresh,
-  seed = NA,
+  seed = NULL,
   ncores = NA
 )
 }
 \arguments{
 \item{dataset}{dataframe with an outcome variable and other columns as features}
 
-\item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
+\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 
 \item{outcome_value}{outcome value of interest as a string}
 
-\item{hyperparameters}{dataframe of hyperparameters (default: default_hyperparams)}
+\item{hyperparameters}{dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.}
 
 \item{find_feature_importance}{run permutation imporance (default: FALSE)}
 
@@ -40,7 +40,7 @@ run_ml(
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 
-\item{seed}{random seed (default: NA)}
+\item{seed}{random seed (default: NULL)}
 
 \item{ncores}{number of cores for parallel processing (default: NA). \code{parallel} and \code{doParallel} packages are needed for ncores > 1}
 }

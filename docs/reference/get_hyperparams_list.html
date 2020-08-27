@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Split hyperparameters dataframe into named lists for each parameter — get_hyperparams_list • mikRopML</title>
+<title>Set hyperparameters based on ML method and dataset characteristics — get_hyperparams_list • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Split hyperparameters dataframe into named lists for each parameter — get_hyperparams_list" />
-<meta property="og:description" content="Split hyperparameters dataframe into named lists for each parameter" />
+<meta property="og:title" content="Set hyperparameters based on ML method and dataset characteristics — get_hyperparams_list" />
+<meta property="og:description" content="Set hyperparameters based on ML method and dataset characteristics" />
 
 
 
@@ -115,75 +115,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Split hyperparameters dataframe into named lists for each parameter</h1>
+    <h1>Set hyperparameters based on ML method and dataset characteristics</h1>
     
     <div class="hidden name"><code>get_hyperparams_list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Split hyperparameters dataframe into named lists for each parameter</p>
+    <p>Set hyperparameters based on ML method and dataset characteristics</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_hyperparams_list</span>(<span class='no'>hyperparams_df</span>)</pre>
+    <pre class="usage"><span class='fu'>get_hyperparams_list</span>(<span class='no'>dataset</span>, <span class='no'>method</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>hyperparams_df</th>
-      <td><p>dataframe of hyperparameters (default: default_hyperparams)</p></td>
+      <th>dataset</th>
+      <td><p>dataframe with an outcome variable and other columns as features</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named list of lists of hyperparameters</p>
+    <p>named list of hyperparameters</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_hyperparams_list</span>(<span class='no'>default_hyperparams</span>)</div><div class='output co'>#&gt; $C
-#&gt; [1] "0.0000001" "0.000001"  "0.00001"   "0.0001"    "0.001"     "0.01"     
-#&gt; [7] "0.1"       "1"         "10"       
-#&gt; 
-#&gt; $colsample_bytree
-#&gt; [1] "0.8"
-#&gt; 
-#&gt; $cost
-#&gt;  [1] "1e-6"   "1e-5"   "1e-4"   "1e-3"   "0.0025" "0.005"  "0.01"   "0.05"  
-#&gt;  [9] "0.1"    "0.25"   "0.5"    "1"      "10"    
-#&gt; 
-#&gt; $epsilon
-#&gt; [1] "0.01"
-#&gt; 
-#&gt; $eta
-#&gt; [1] "0.001" "0.01"  "0.1"   "1"    
-#&gt; 
-#&gt; $gamma
-#&gt; [1] "0"
-#&gt; 
-#&gt; $loss
-#&gt; [1] "L2_primal"
-#&gt; 
-#&gt; $max_depth
-#&gt; [1] "8"
-#&gt; 
-#&gt; $maxdepth
-#&gt; [1] "1" "2" "3" "4" "5" "6"
-#&gt; 
-#&gt; $min_child_weight
-#&gt; [1] "1"
-#&gt; 
-#&gt; $mtry
-#&gt; [1] "500"  "1000"
-#&gt; 
-#&gt; $nrounds
-#&gt; [1] "500"
-#&gt; 
-#&gt; $sigma
-#&gt; [1] "0.00000001" "0.0000001"  "0.000001"   "0.00001"    "0.0001"    
-#&gt; [6] "0.001"      "0.01"       "0.1"       
-#&gt; 
-#&gt; $subsample
-#&gt; [1] "0.4" "0.5" "0.6" "0.7"
+    <pre class="examples"><div class='input'><span class='fu'>get_hyperparams_list</span>(<span class='no'>otu_mini</span>, <span class='st'>"rf"</span>)</div><div class='output co'>#&gt; $mtry
+#&gt; [1] 1 2
+#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span>(<span class='no'>otu_medium</span>, <span class='st'>"rf"</span>)</div><div class='output co'>#&gt; $mtry
+#&gt; [1]  7 14 28
+#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span>(<span class='no'>otu_mini</span>, <span class='st'>"rpart2"</span>)</div><div class='output co'>#&gt; $maxdepth
+#&gt; [1]  1  2  4  8 16 30
+#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span>(<span class='no'>otu_medium</span>, <span class='st'>"rpart2"</span>)</div><div class='output co'>#&gt; $maxdepth
+#&gt; [1]  1  2  4  8 16 30
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
