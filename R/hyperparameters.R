@@ -120,7 +120,7 @@ get_hyperparams_list <- function(dataset, method) {
 #' set_hparams_regLogistic()
 set_hparams_regLogistic <- function() {
   return(list(
-    cost = 10^seq(-2, 1, 1),
+    cost = 10^seq(-4, 1, 1),
     epsilon = c(0.01),
     loss = c("L2_primal")
   ))
