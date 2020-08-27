@@ -4,6 +4,18 @@ test_df <- data.frame(
   var2 = 4:6
 )
 
+test_df_na <- data.frame(
+  outcome = c("normal", NA, "cancer"),
+  var1 = 1:3,
+  var2 = 4:6
+)
+
+test_df_empty <- data.frame(
+  outcome = c("", "", "cancer"),
+  var1 = 1:3,
+  var2 = 4:6
+)
+
 test_that("check_dataset works", {
   expect_true(is.null(check_dataset(test_df)))
   expect_error(
@@ -53,6 +65,14 @@ test_that("check_outcome_value works", {
   expect_error(
     check_outcome_value(test_df, "outcome", "not_an_outcome"),
     "No rows in the outcome column "
+  )
+  expect_error(
+    check_outcome_value(test_df_na, "outcome", "cancer"),
+    "Missing data in the output variable is not allowed, but the outcome variable has"
+  )
+  expect_warning(
+    check_outcome_value(test_df_empty, "outcome", "cancer"),
+    "Possible missing data in the output variable: "
   )
 })
 
@@ -119,4 +139,8 @@ test_that("check_features works", {
   expect_true(is.null(check_features(test_df)))
   expect_true(is.null(check_features(dplyr::as_tibble(test_df))))
   expect_error(check_features(NULL))
+  expect_true(is.null(check_features(test_df_na, check_missing = FALSE)))
+  expect_true(is.null(expect_warning(check_features(test_df_empty), 'ossible missing data in the features: ')))
+  expect_error(check_features(test_df_na, check_missing = TRUE),
+               "Missing data in the features is not allowed, but the features have")
 })

@@ -8,20 +8,20 @@ preprocess_data(
   dataset,
   outcome_colname,
   method = c("center", "scale"),
-  rm_nzv = TRUE,
-  rm_corr_feats = TRUE
+  remove_nzv = TRUE,
+  remove_corr_feats = TRUE
 )
 }
 \arguments{
-\item{dataset}{dataframe with an outcome variable and other columns as features}
+\item{dataset}{dataframe where rows are samples and colums are the outcome variable and features}
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 
 \item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization)}
 
-\item{rm_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
+\item{remove_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
 
-\item{rm_corr_feats}{whether to keep only one of perfectly correlated featurse}
+\item{remove_corr_feats}{whether to keep only one of perfectly correlated featurse}
 }
 \value{
 preprocessed data
