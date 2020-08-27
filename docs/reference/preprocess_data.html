@@ -128,7 +128,8 @@
   <span class='no'>dataset</span>,
   <span class='no'>outcome_colname</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"scale"</span>),
-  <span class='kw'>rm_nzv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>rm_nzv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>rm_corr_feats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -150,6 +151,10 @@
       <th>rm_nzv</th>
       <td><p>whether to remove variables with near-zero variance (default: <code>TRUE</code>)</p></td>
     </tr>
+    <tr>
+      <th>rm_corr_feats</th>
+      <td><p>whether to keep only one of perfectly correlated featurse</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -157,7 +162,8 @@
     <p>preprocessed data</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>preprocess_data</span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_small.html'>otu_small</a></span>, <span class='st'>"dx"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 200 x 61</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>preprocess_data</span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_small.html'>otu_small</a></span>, <span class='st'>"dx"</span>)</div><div class='output co'>#&gt; $dat_transformed
+#&gt; <span style='color: #555555;'># A tibble: 200 x 61</span><span>
 #&gt;    dx    Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007 Otu00008
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> norm…   -</span><span style='color: #BB0000;'>0.420</span><span>   -</span><span style='color: #BB0000;'>0.219</span><span>   -</span><span style='color: #BB0000;'>0.174</span><span>  -</span><span style='color: #BB0000;'>0.591</span><span>   -</span><span style='color: #BB0000;'>0.048</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>  -</span><span style='color: #BB0000;'>0.167</span><span>    -</span><span style='color: #BB0000;'>0.569</span><span> -</span><span style='color: #BB0000;'>0.062</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span> 
@@ -183,7 +189,11 @@
 #&gt; </span><span style='color: #555555;'>#   Otu00047 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00048 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00049 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00050 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   Otu00051 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00052 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00053 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00054 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   Otu00055 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00056 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00057 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00058 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00059 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00060 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
+#&gt; </span><span style='color: #555555;'>#   Otu00059 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Otu00060 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; 
+#&gt; $grp_feats
+#&gt; NULL
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
