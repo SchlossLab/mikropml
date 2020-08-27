@@ -95,31 +95,55 @@ test_that("tune grid works for xgbTree", {
 
 # get_hyperparams_list
 test_that("get_hyperparams_list works for all models", {
-  expect_equal(get_hyperparams_list(otu_mini, 'regLogistic'),
-               list(cost = c(0.01, 0.1, 1, 10),
-                    epsilon = 0.01,
-                    loss = "L2_primal"))
-  expect_equal(get_hyperparams_list(otu_mini, 'rf'),
-               list(mtry = c(1, 2)))
-  expect_equal(get_hyperparams_list(otu_small, 'rf'),
-               list(mtry = c(4, 8, 16)))
-  expect_equal(get_hyperparams_list(data.frame(a=1:10, b=4:13), 'rf'),
-               list(mtry = 1))
-  expect_equal(get_hyperparams_list(otu_small, 'rpart2'),
-               list(maxdepth = c(1, 2, 4, 8, 16, 30)))
-  expect_equal(get_hyperparams_list(data.frame(a=1:10, b=4:13), 'rpart2'),
-               list(maxdepth = c(1, 2, 4, 8)))
-  expect_equal(get_hyperparams_list(otu_mini, 'svmRadial'),
-               list(C = c(0.001, 0.01, 0.1, 1, 10, 100),
-                    sigma = c(1e-06, 1e-05, 1e-04, 0.001, 0.01, 0.1)))
-  expect_equal(get_hyperparams_list(otu_mini, 'xgbTree'),
-               list(nrounds = 100, gamma = 0, eta = c(0.001, 0.01, 0.1, 1),
-                    max_depth = c(1, 2, 4, 8, 16, 30), colsample_bytree = 0.8,
-                    min_child_weight = 1, subsample = c(0.4, 0.5, 0.6, 0.7)))
+  expect_equal(
+    get_hyperparams_list(otu_mini, "regLogistic"),
+    list(
+      cost = c(0.01, 0.1, 1, 10),
+      epsilon = 0.01,
+      loss = "L2_primal"
+    )
+  )
+  expect_equal(
+    get_hyperparams_list(otu_mini, "rf"),
+    list(mtry = c(1, 2))
+  )
+  expect_equal(
+    get_hyperparams_list(otu_small, "rf"),
+    list(mtry = c(4, 8, 16))
+  )
+  expect_equal(
+    get_hyperparams_list(data.frame(a = 1:10, b = 4:13), "rf"),
+    list(mtry = 1)
+  )
+  expect_equal(
+    get_hyperparams_list(otu_small, "rpart2"),
+    list(maxdepth = c(1, 2, 4, 8, 16, 30))
+  )
+  expect_equal(
+    get_hyperparams_list(data.frame(a = 1:10, b = 4:13), "rpart2"),
+    list(maxdepth = c(1, 2, 4, 8))
+  )
+  expect_equal(
+    get_hyperparams_list(otu_mini, "svmRadial"),
+    list(
+      C = c(0.001, 0.01, 0.1, 1, 10, 100),
+      sigma = c(1e-06, 1e-05, 1e-04, 0.001, 0.01, 0.1)
+    )
+  )
+  expect_equal(
+    get_hyperparams_list(otu_mini, "xgbTree"),
+    list(
+      nrounds = 100, gamma = 0, eta = c(0.001, 0.01, 0.1, 1),
+      max_depth = c(1, 2, 4, 8, 16, 30), colsample_bytree = 0.8,
+      min_child_weight = 1, subsample = c(0.4, 0.5, 0.6, 0.7)
+    )
+  )
 })
-test_that('get_hyperparams_list throws error for unsupported method', {
-  expect_error(get_hyperparams_list(otu_mini, 'not_a_method'),
-               "method 'not_a_method' is not supported.")
+test_that("get_hyperparams_list throws error for unsupported method", {
+  expect_error(
+    get_hyperparams_list(otu_mini, "not_a_method"),
+    "method 'not_a_method' is not supported."
+  )
 })
 
 # check_hyperparams

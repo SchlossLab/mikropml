@@ -44,7 +44,7 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 
 test_that("run_ml works for L2 logistic regression", {
   expect_equal_ml_results(
-    run_ml(otu_mini,  # use built-in hyperparameters
+    run_ml(otu_mini, # use built-in hyperparameters
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",

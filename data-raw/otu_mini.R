@@ -51,7 +51,7 @@ trained_model_mini <- caret::train(
 usethis::use_data(trained_model_mini, overwrite = TRUE)
 
 ## code to prepare `otu_mini_results`
-otu_mini_results1 <- mikRopML::run_ml(otu_mini,  # use built-in hyperparams
+otu_mini_results1 <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
