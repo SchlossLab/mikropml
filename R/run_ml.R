@@ -42,7 +42,9 @@ run_ml <-
     )
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
-                                         outcome_value, method = "fewer")
+      outcome_value,
+      method = "fewer"
+    )
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
 
     if (!is.null(seed)) {
@@ -51,7 +53,8 @@ run_ml <-
 
     inTraining <-
       caret::createDataPartition(dataset[, outcome_colname],
-                                 p = training_frac, list = FALSE)
+        p = training_frac, list = FALSE
+      )
     train_data <- dataset[inTraining, ]
     test_data <- dataset[-inTraining, ]
 
@@ -62,12 +65,12 @@ run_ml <-
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
     cv <- define_cv(train_data,
-                    outcome_colname,
-                    hyperparameters,
-                    kfold = kfold,
-                    seed = seed,
-                    cv_times = cv_times
-                    )
+      outcome_colname,
+      hyperparameters,
+      kfold = kfold,
+      seed = seed,
+      cv_times = cv_times
+    )
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 

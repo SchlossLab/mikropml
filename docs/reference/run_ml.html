@@ -127,15 +127,15 @@
     <pre class="usage"><span class='fu'>run_ml</span>(
   <span class='no'>dataset</span>,
   <span class='no'>method</span>,
-  <span class='kw'>outcome_colname</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>outcome_value</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='default_hyperparams.html'>default_hyperparams</a></span>,
+  <span class='kw'>outcome_colname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>outcome_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>cv_times</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='no'>corr_thresh</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>ncores</span> <span class='kw'>=</span> <span class='fl'>NA</span>
 )</pre>
 
@@ -148,7 +148,7 @@
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")</p></td>
+      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
@@ -160,7 +160,7 @@
     </tr>
     <tr>
       <th>hyperparameters</th>
-      <td><p>dataframe of hyperparameters (default: default_hyperparams)</p></td>
+      <td><p>dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.</p></td>
     </tr>
     <tr>
       <th>find_feature_importance</th>
@@ -184,7 +184,7 @@
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>random seed (default: NA)</p></td>
+      <td><p>random seed (default: NULL)</p></td>
     </tr>
     <tr>
       <th>ncores</th>

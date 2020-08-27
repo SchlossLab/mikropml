@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get permuted AUROC difference for a single feature (or group of features) — find_permuted_auc • mikRopML</title>
+<title>Split hyperparameters dataframe into named lists for each parameter — get_hyperparams_from_df • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get permuted AUROC difference for a single feature (or group of features) — find_permuted_auc" />
-<meta property="og:description" content="Get permuted AUROC difference for a single feature (or group of features)" />
+<meta property="og:title" content="Split hyperparameters dataframe into named lists for each parameter — get_hyperparams_from_df" />
+<meta property="og:description" content="Using get_hyperparams_list is preferred over this function." />
 
 
 
@@ -115,46 +115,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get permuted AUROC difference for a single feature (or group of features)</h1>
+    <h1>Split hyperparameters dataframe into named lists for each parameter</h1>
     
-    <div class="hidden name"><code>find_permuted_auc.Rd</code></div>
+    <div class="hidden name"><code>get_hyperparams_from_df.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get permuted AUROC difference for a single feature (or group of features)</p>
+    <p>Using <code><a href='get_hyperparams_list.html'>get_hyperparams_list</a></code> is preferred over this function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_permuted_auc</span>(<span class='no'>method</span>, <span class='no'>test_data</span>, <span class='no'>outcome_colname</span>, <span class='no'>feat</span>, <span class='no'>outcome_value</span>)</pre>
+    <pre class="usage"><span class='fu'>get_hyperparams_from_df</span>(<span class='no'>hyperparams_df</span>, <span class='no'>ml_method</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>method</th>
-      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
+      <th>hyperparams_df</th>
+      <td><p>dataframe of hyperparameters with columns <code>param</code>, <code>value</code>, and <code>method</code></p></td>
     </tr>
     <tr>
-      <th>test_data</th>
-      <td><p>held out test data: dataframe of outcome and features</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
-    </tr>
-    <tr>
-      <th>feat</th>
-      <td><p>feature or group of correlated features to permute</p></td>
-    </tr>
-    <tr>
-      <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
+      <th>ml_method</th>
+      <td><p>machine learning method</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of mean permuted auc and mean difference between test and permuted auc</p>
+    <p>named list of lists of hyperparameters</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>hparams_df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(<span class='kw'>param</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"cost"</span>, <span class='st'>"cost"</span>, <span class='st'>"loss"</span>, <span class='st'>"epsilon"</span>),
+                            <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.1</span>, <span class='st'>"L2_primal"</span>, <span class='fl'>0.01</span>),
+                            <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>'regLogistic'</span>, <span class='fl'>4</span>))
+<span class='fu'>get_hyperparams_from_df</span>(<span class='no'>hparams_df</span>, <span class='st'>'regLogistic'</span>)</div><div class='output co'>#&gt; $cost
+#&gt; [1] "1"   "0.1"
+#&gt; 
+#&gt; $epsilon
+#&gt; [1] "0.01"
+#&gt; 
+#&gt; $loss
+#&gt; [1] "L2_primal"
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

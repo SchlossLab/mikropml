@@ -1,36 +1,50 @@
-default_hyperparams <- structure(list(param = c("cost", "cost", "cost", "cost", "cost",
-                                                "cost", "cost", "cost", "cost", "cost", "cost", "cost", "cost",
-                                                "loss", "epsilon", "sigma", "sigma", "sigma", "sigma", "sigma",
-                                                "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
-                                                "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",
-                                                "maxdepth", "nrounds", "gamma", "eta", "eta", "eta", "eta", "max_depth",
-                                                "colsample_bytree", "min_child_weight", "subsample", "subsample",
-                                                "subsample", "subsample", "mtry", "mtry"),
-                                      value = c("1e-6",
-                                                "1e-5", "1e-4", "1e-3", "0.0025", "0.005", "0.01", "0.05", "0.1",
-                                                "0.25", "0.5", "1", "10", "L2_primal", "0.01", "0.00000001",
-                                                "0.0000001", "0.000001", "0.00001", "0.0001", "0.001", "0.01",
-                                                "0.1", "0.0000001", "0.000001", "0.00001", "0.0001", "0.001",
-                                                "0.01", "0.1", "1", "10", "1", "2", "3", "4", "5", "6", "500",
-                                                "0", "0.001", "0.01", "0.1", "1", "8", "0.8", "1", "0.4", "0.5",
-                                                "0.6", "0.7", "500", "1000"),
-                                      method = c("regLogistic", "regLogistic",
-                                                 "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
-                                                 "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
-                                                 "regLogistic", "regLogistic", "regLogistic", "svmRadial", "svmRadial",
-                                                 "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-                                                 "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-                                                 "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-                                                 "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "xgbTree",
-                                                 "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
-                                                 "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "rf", "rf")),
-                                 class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"),
-                                 row.names = c(NA, -53L),
-                                 spec = structure(list(cols = list(param = structure(list(), class = c("collector_character", "collector")),
-                                                                   val = structure(list(), class = c("collector_character",  "collector")),
-                                                                   method = structure(list(), class = c("collector_character", "collector"))),
-                                                       default = structure(list(), class = c("collector_guess", "collector")), skip = 1),
-                                                  class = "col_spec"))
+default_hyperparams <- structure(list(
+  param = c(
+    "cost", "cost", "cost", "cost", "cost",
+    "cost", "cost", "cost", "cost", "cost", "cost", "cost", "cost",
+    "loss", "epsilon", "sigma", "sigma", "sigma", "sigma", "sigma",
+    "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
+    "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",
+    "maxdepth", "nrounds", "gamma", "eta", "eta", "eta", "eta", "max_depth",
+    "colsample_bytree", "min_child_weight", "subsample", "subsample",
+    "subsample", "subsample", "mtry", "mtry"
+  ),
+  value = c(
+    "1e-6",
+    "1e-5", "1e-4", "1e-3", "0.0025", "0.005", "0.01", "0.05", "0.1",
+    "0.25", "0.5", "1", "10", "L2_primal", "0.01", "0.00000001",
+    "0.0000001", "0.000001", "0.00001", "0.0001", "0.001", "0.01",
+    "0.1", "0.0000001", "0.000001", "0.00001", "0.0001", "0.001",
+    "0.01", "0.1", "1", "10", "1", "2", "3", "4", "5", "6", "500",
+    "0", "0.001", "0.01", "0.1", "1", "8", "0.8", "1", "0.4", "0.5",
+    "0.6", "0.7", "500", "1000"
+  ),
+  method = c(
+    "regLogistic", "regLogistic",
+    "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
+    "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
+    "regLogistic", "regLogistic", "regLogistic", "svmRadial", "svmRadial",
+    "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+    "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+    "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+    "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "xgbTree",
+    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
+    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "rf", "rf"
+  )
+),
+class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"),
+row.names = c(NA, -53L),
+spec = structure(list(
+  cols = list(
+    param = structure(list(), class = c("collector_character", "collector")),
+    val = structure(list(), class = c("collector_character", "collector")),
+    method = structure(list(), class = c("collector_character", "collector"))
+  ),
+  default = structure(list(), class = c("collector_guess", "collector")), skip = 1
+),
+class = "col_spec"
+)
+)
 
 # tune grid tests for each method
 test_that("tune grid works for regLogistic", {
@@ -109,18 +123,24 @@ test_that('get_hyperparams_list throws error for unsupported method', {
 })
 
 # check_hyperparams
-l2logit_required <- list(epsilon = c(0.01),
-                         loss = c('L2_primal'))
+l2logit_required <- list(
+  epsilon = c(0.01),
+  loss = c("L2_primal")
+)
 l2_warning <-
   "For L2-normalized Logistic Regression, `loss`` must be 'L2_primal' and `epsilon` must be '0.01',"
-wrong_loss <- list(epsilon = c(0.01),
-                   loss = c('L1_primal'))
-wrong_epsilon <- list(epsilon = c(0.1),
-                      loss = c('L2_primal'))
+wrong_loss <- list(
+  epsilon = c(0.01),
+  loss = c("L1_primal")
+)
+wrong_epsilon <- list(
+  epsilon = c(0.1),
+  loss = c("L2_primal")
+)
 test_that("check_hyperparams prints warning for l2logit", {
-  expect_warning(check_hyperparams(wrong_loss, 'regLogistic'), l2_warning)
-  expect_warning(check_hyperparams(wrong_epsilon, 'regLogistic'), l2_warning)
+  expect_warning(check_hyperparams(wrong_loss, "regLogistic"), l2_warning)
+  expect_warning(check_hyperparams(wrong_epsilon, "regLogistic"), l2_warning)
 })
 test_that("check_hyperparams returns nothing on success for l2logit", {
-  expect_true(is.null(check_hyperparams(l2logit_required, 'regLogistic')))
+  expect_true(is.null(check_hyperparams(l2logit_required, "regLogistic")))
 })
