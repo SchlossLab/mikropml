@@ -18,7 +18,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
-  
+
   # remove outcomes that are NA
   dataset <- rm_missing_outcome(dataset, outcome_colname)
 
@@ -75,19 +75,19 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #' @return dataset with no missing outcomes
 #' @export
 #'
-#' @examples 
+#' @examples
 #' rm_missing_outcome(mikRopML::otu_mini, "dx")
-#' 
+#'
 #' test_df <- mikRopML::otu_mini
-#' test_df[1:100,'dx'] = NA
+#' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
-rm_missing_outcome <- function(dataset, outcome_colname){
-  n_outcome_na <- sum(is.na(dataset[,outcome_colname]))
+rm_missing_outcome <- function(dataset, outcome_colname) {
+  n_outcome_na <- sum(is.na(dataset[, outcome_colname]))
   total_outcomes <- nrow(dataset)
-  perc_na <- round(n_outcome_na/total_outcomes*100, 2)
+  perc_na <- round(n_outcome_na / total_outcomes * 100, 2)
   dataset <- dataset %>% dplyr::filter(!is.na(!!(dplyr::sym(outcome_colname))))
-  if(n_outcome_na != 0){
-    message(paste0('Removed ', n_outcome_na, '/', total_outcomes, ' (',  perc_na, '%) of samples because of missing outcome value (NA).'))
+  if (n_outcome_na != 0) {
+    message(paste0("Removed ", n_outcome_na, "/", total_outcomes, " (", perc_na, "%) of samples because of missing outcome value (NA)."))
   }
   return(dataset)
 }
@@ -125,14 +125,14 @@ process_novar_feats <- function(features) {
     dplyr::as_tibble()
 
   if (ncol(var_feats) == 0) stop("All features have zero variance.")
-  
+
   # make missing data identical to others for novar_feats (not sure this is the best way to go)
   n_missing <- sum(is.na(novar_feats))
-  novar_feats[] <- lapply(novar_feats, function(x){
+  novar_feats[] <- lapply(novar_feats, function(x) {
     rep(unique(x[!is.na(x)]), nrow(novar_feats))
   })
-  if(n_missing > 0){
-    message(paste0('There are ', n_missing, ' value(s) in features with no variation. Missing values were replaced with the non-varying value.'))
+  if (n_missing > 0) {
+    message(paste0("There are ", n_missing, " value(s) in features with no variation. Missing values were replaced with the non-varying value."))
   }
 
   return(list(novar_feats = novar_feats, var_feats = var_feats))
@@ -150,15 +150,17 @@ process_novar_feats <- function(features) {
 process_cat_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
-  cat_feats_bool <- sapply(features, function(x){
-    xu = unique(x[!is.na(x)])
-    cl = class(x)
-    bool = (cl %in% c("character", "factor") | length(xu) == 2) & 
-      !((is.numeric(x) | is.integer(x)) & !all(c(0,1) %in% xu))
-  } )
-  cat_feats <- features %>% dplyr::select_if(cat_feats_bool) %>% dplyr::mutate_all(as.character) 
-  cat_feats[] <- lapply(cat_feats, function(x){
-    x[!is.na(x)] = paste0('_', x[!is.na(x)])
+  cat_feats_bool <- sapply(features, function(x) {
+    xu <- unique(x[!is.na(x)])
+    cl <- class(x)
+    bool <- (cl %in% c("character", "factor") | length(xu) == 2) &
+      !((is.numeric(x) | is.integer(x)) & !all(c(0, 1) %in% xu))
+  })
+  cat_feats <- features %>%
+    dplyr::select_if(cat_feats_bool) %>%
+    dplyr::mutate_all(as.character)
+  cat_feats[] <- lapply(cat_feats, function(x) {
+    x[!is.na(x)] <- paste0("_", x[!is.na(x)])
     x
   })
   cont_feats <- features %>%
@@ -169,32 +171,30 @@ process_cat_feats <- function(features) {
 
   feature_design_cat_mat <- NULL
   if (ncol(cat_feats) != 0) {
-    
     no_missing_bin <- sapply(cat_feats, function(x) !any(is.na(x)) & length(unique(x[!is.na(x)])) == 2)
-    no_missing_bin_mat <- cat_feats[,no_missing_bin] %>% dplyr::as_tibble()
-    missing_nonbin_mat <- cat_feats[,!no_missing_bin] %>% dplyr::as_tibble()
-    
+    no_missing_bin_mat <- cat_feats[, no_missing_bin] %>% dplyr::as_tibble()
+    missing_nonbin_mat <- cat_feats[, !no_missing_bin] %>% dplyr::as_tibble()
+
     # full rank for binary features with no missing data (i.e. one column for each binary feature with no missing data)
     feature_design_no_missing_bin <- NULL
-    if(ncol(no_missing_bin_mat) > 0){
+    if (ncol(no_missing_bin_mat) > 0) {
       feature_design_no_missing_bin <- get_caret_dummyvars_df(no_missing_bin_mat, full_rank = TRUE)
     }
     # change categorical binary variables to 0 and 1 (not full rank, i.e. one column for each unique element in the column)
     feature_design_missing_nonbin <- NULL
-    if(ncol(missing_nonbin_mat) > 0){
+    if (ncol(missing_nonbin_mat) > 0) {
       feature_design_missing_nonbin <- get_caret_dummyvars_df(missing_nonbin_mat, full_rank = FALSE)
     }
-    
+
     # combine binary no missing and other categorical features
     feature_design_cat_mat <- dplyr::bind_cols(feature_design_no_missing_bin, feature_design_missing_nonbin) %>% dplyr::as_tibble()
-    
+
     missing <- is.na(feature_design_cat_mat)
     n_missing <- sum(missing)
-    feature_design_cat_mat[missing] = 0
-    if(n_missing > 0){
-      message(paste0(n_missing, ' categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.'))
+    feature_design_cat_mat[missing] <- 0
+    if (n_missing > 0) {
+      message(paste0(n_missing, " categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns."))
     }
-    
   }
 
   return(list(cat_feats = feature_design_cat_mat, cont_feats = cont_feats))
@@ -227,20 +227,19 @@ process_cont_feats <- function(features, method) {
       transformed_cont <- get_caret_processed_df(features, method)
     }
     cl <- sapply(transformed_cont, function(x) class(x))
-    missing <- is.na(transformed_cont[,cl %in% c("integer", "numeric")])
+    missing <- is.na(transformed_cont[, cl %in% c("integer", "numeric")])
     n_missing <- sum(missing)
-    if(n_missing > 0){
+    if (n_missing > 0) {
       # impute missing data using the median value
-      transformed_cont <- sapply(transformed_cont, function(x){
-        if(class(x) %in% c("integer", "numeric")){
+      transformed_cont <- sapply(transformed_cont, function(x) {
+        if (class(x) %in% c("integer", "numeric")) {
           m <- is.na(x)
-          x[m] = stats::median(x, na.rm = TRUE)
+          x[m] <- stats::median(x, na.rm = TRUE)
         }
         return(x)
       }) %>% dplyr::as_tibble()
-      message(paste0(n_missing, ' missing continuous value(s) were imputed using the median value of the feature.'))
+      message(paste0(n_missing, " missing continuous value(s) were imputed using the median value of the feature."))
     }
-
   }
 
   return(transformed_cont)
