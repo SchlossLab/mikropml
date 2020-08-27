@@ -85,7 +85,7 @@ get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
 #'
 #' @inheritParams run_ml
 #'
-#' @return names list of hyperparameters
+#' @return named list of hyperparameters
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
