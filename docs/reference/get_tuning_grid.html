@@ -147,10 +147,12 @@
     <pre class="examples"><div class='input'><span class='no'>ml_method</span> <span class='kw'>&lt;-</span> <span class='st'>"regLogistic"</span>
 <span class='no'>hparams_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span>(<span class='no'>otu_small</span>, <span class='no'>ml_method</span>)
 <span class='fu'>get_tuning_grid</span>(<span class='no'>hparams_list</span>, <span class='no'>ml_method</span>)</div><div class='output co'>#&gt;    cost epsilon      loss
-#&gt; 1  0.01    0.01 L2_primal
-#&gt; 2  0.10    0.01 L2_primal
-#&gt; 3  1.00    0.01 L2_primal
-#&gt; 4 10.00    0.01 L2_primal</div></pre>
+#&gt; 1 1e-04    0.01 L2_primal
+#&gt; 2 1e-03    0.01 L2_primal
+#&gt; 3 1e-02    0.01 L2_primal
+#&gt; 4 1e-01    0.01 L2_primal
+#&gt; 5 1e+00    0.01 L2_primal
+#&gt; 6 1e+01    0.01 L2_primal</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
