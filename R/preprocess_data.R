@@ -2,7 +2,7 @@
 #' Preprocess data prior to running machine learning
 #'
 #'
-#' @param dataset dataframe with an outcome variable and other columns as features
+#' @param dataset dataframe where rows are samples and colums are the outcome variable and features
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param rm_nzv whether to remove variables with near-zero variance (default: `TRUE`)
@@ -18,6 +18,9 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
+  
+  # remove outcomes that are NA
+  dataset <- rm_missing_outcome(dataset, outcome_colname)
 
   # if rm_corr_feats is TRUE, rm_nzv must also be TRUE (error otherwise)
   if (rm_corr_feats & !rm_nzv) {
@@ -63,6 +66,30 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   dat_transformed <- dplyr::bind_cols(outcome, processed_feats) %>% dplyr::as_tibble()
 
   return(list(dat_transformed = dat_transformed, grp_feats = grp_feats))
+}
+
+#' Remove missing outcome values
+#'
+#' @inheritParams run_ml
+#'
+#' @return dataset with no missing outcomes
+#' @export
+#'
+#' @examples 
+#' rm_missing_outcome(mikRopML::otu_mini, "dx")
+#' 
+#' test_df <- mikRopML::otu_mini
+#' test_df[1:100,'dx'] = NA
+#' rm_missing_outcome(test_df, "dx")
+rm_missing_outcome <- function(dataset, outcome_colname){
+  n_outcome_na <- sum(is.na(dataset[,outcome_colname]))
+  total_outcomes <- nrow(dataset)
+  perc_na <- round(n_outcome_na/total_outcomes*100, 2)
+  dataset <- dataset %>% dplyr::filter(!is.na(!!(dplyr::sym(outcome_colname))))
+  if(n_outcome_na != 0){
+    message(paste0('Removed ', n_outcome_na, '/', total_outcomes, ' (',  perc_na, '%) of samples because of missing outcome value (NA).'))
+  }
+  return(dataset)
 }
 
 #' Process features with no variation

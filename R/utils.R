@@ -10,6 +10,10 @@ rlang::.data
 #' @export
 caret::contr.ltfr
 
+#' @importFrom rlang !!
+#' @export
+rlang::`!!`
+
 #' Get the outcome value of interest for AUC calculations
 #'
 #' Choose the outcome value of interest from the outcome column based on
