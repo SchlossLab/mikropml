@@ -238,9 +238,15 @@ check_package_installed <- function(package_names) {
   return(package_names %in% rownames(utils::installed.packages()))
 }
 
-check_features <- function(features, check_missing = FALSE) {
+check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop("Argument `features` must be a `data.frame` or `tibble`")
+  }
+  
+  # check for empty strings
+  num_empty <- sum(features == '', na.rm = TRUE)
+  if(num_empty != 0){
+    warning(paste0('Possible missing data in the features: ', num_empty, ' empty value(s).'))
   }
   
   if(check_missing){
@@ -249,10 +255,5 @@ check_features <- function(features, check_missing = FALSE) {
     if(num_missing != 0){
       stop(paste0('Missing data in the features is not allowed, but the features have ', num_missing, ' missing value(s) (NA).'))
     }
-  }
-  # check for empty strings
-  num_empty <- sum(features == '')
-  if(num_empty != 0){
-    warning(paste0('Possible missing data in the features: ', num_empty, ' empty value(s).'))
   }
 }

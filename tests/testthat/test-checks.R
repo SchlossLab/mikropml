@@ -139,8 +139,8 @@ test_that("check_features works", {
   expect_true(is.null(check_features(test_df)))
   expect_true(is.null(check_features(dplyr::as_tibble(test_df))))
   expect_error(check_features(NULL))
-  expect_true(is.null(check_features(test_df_na)))
-  expect_true(is.null(check_features(test_df_empty)))
+  expect_true(is.null(check_features(test_df_na, check_missing = FALSE)))
+  expect_true(is.null(expect_warning(check_features(test_df_empty), 'ossible missing data in the features: ')))
   expect_error(check_features(test_df_na, check_missing = TRUE),
                "Missing data in the features is not allowed, but the features have")
 })
