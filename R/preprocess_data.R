@@ -6,31 +6,37 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
-#' @param remove_corr_feats whether to keep only one of perfectly correlated featurse
+#' @param remove_corr_feats whether to keep only one of perfectly correlated featurs
+#' @param to_numeric whether to change features to numeric where possible
 #'
 #' @return preprocessed data
 #' @export
 #'
 #' @examples
 #' preprocess_data(mikRopML::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_corr_feats = TRUE) {
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_corr_feats = TRUE, to_numeric = TRUE) {
 
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
-  
-  # remove outcomes that are NA
-  dataset <- rm_missing_outcome(dataset, outcome_colname)
 
   # if remove_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
   if (remove_corr_feats & !remove_nzv) {
     stop("`remove_nzv` must be true if `remove_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
   }
+  
+  # remove outcomes that are NA
+  dataset <- rm_missing_outcome(dataset, outcome_colname)
 
   # get outcome and features
   split_dat <- split_outcome_features(dataset, outcome_colname)
   outcome <- split_dat$outcome
   features <- split_dat$features
+  
+  # change character and factor features to numeric if possible
+  if(to_numeric){
+    features <- change_to_num(features)
+  }
 
   # process features with no variation
   nv_feats <- process_novar_feats(features)
@@ -90,6 +96,27 @@ rm_missing_outcome <- function(dataset, outcome_colname){
     message(paste0('Removed ', n_outcome_na, '/', total_outcomes, ' (',  perc_na, '%) of samples because of missing outcome value (NA).'))
   }
   return(dataset)
+}
+
+
+#' Change features to numeric if possible
+#'
+#' @param features dataframe of features for machine learning
+#'
+#' @return
+#' @export
+#'
+#' @examples
+change_to_num <- function(features){
+  check_features(features, check_missing = FALSE)
+  features[] <- lapply(features, function(col) {
+    if (suppressWarnings(all(!is.na(as.numeric(as.character(col)))))) {
+      as.numeric(as.character(col))
+    } else {
+      col
+    }
+  })
+  return(features)
 }
 
 #' Process features with no variation

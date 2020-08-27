@@ -9,7 +9,8 @@ preprocess_data(
   outcome_colname,
   method = c("center", "scale"),
   remove_nzv = TRUE,
-  remove_corr_feats = TRUE
+  remove_corr_feats = TRUE,
+  to_numeric = TRUE
 )
 }
 \arguments{
@@ -21,7 +22,9 @@ preprocess_data(
 
 \item{remove_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
 
-\item{remove_corr_feats}{whether to keep only one of perfectly correlated featurse}
+\item{remove_corr_feats}{whether to keep only one of perfectly correlated featurs}
+
+\item{to_numeric}{whether to change features to numeric where possible}
 }
 \value{
 preprocessed data
