@@ -1,16 +1,16 @@
 ml_methods = ['regLogistic', 'rf']
-seeds = [2020]
+seeds = range(100, 111)
 
 rule targets:
     input:
-        expand("results/{method}_{seed}.csv", method = ml_methods, seed = seeds)
+        expand("results/{method}_{seed}.Rds", method = ml_methods, seed = seeds)
 
 rule run_ml:
     input:
         R="run_ml.R",
         csv="data/otu_medium.csv"
     output:
-        rds="results/{method}_{seed}.csv"
+        rds="results/{method}_{seed}.Rds"
     params:
         method="{method}",
         seed="{seed}"
