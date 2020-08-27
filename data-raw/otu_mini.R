@@ -34,6 +34,7 @@ trained_model_mini <- caret::train(
   stats::as.formula(paste(outcome_colname, "~ .")),
   data = train_data_mini,
   method = "regLogistic",
+  hyperparameters = hparams_list,
   trControl = otu_mini_cv2,
   metric = "ROC",
   tuneGrid = get_tuning_grid(hparams_list, "regLogistic"),
@@ -42,11 +43,10 @@ trained_model_mini <- caret::train(
 usethis::use_data(trained_model_mini, overwrite = TRUE)
 
 ## code to prepare `otu_mini_results`
-otu_mini_results1 <- mikRopML::run_ml(otu_mini,
+otu_mini_results1 <- mikRopML::run_ml(otu_mini,  # use built-in hyperparams
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
-  hyperparameters = get_hyperparams_from_df(test_hyperparams, 'regLogistic'),
   find_feature_importance = FALSE,
   seed = 2019,
   kfold = kfolds
