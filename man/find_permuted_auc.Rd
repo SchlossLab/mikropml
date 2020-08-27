@@ -7,7 +7,7 @@
 find_permuted_auc(method, test_data, outcome_colname, feat, outcome_value)
 }
 \arguments{
-\item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
+\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
