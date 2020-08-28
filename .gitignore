@@ -5,3 +5,4 @@ data/temp/*
 .Rproj.user
 .Rhistory
 inst/doc
+.snakemake
