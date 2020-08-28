@@ -15,3 +15,6 @@ change_to_num(features)
 \description{
 Change features to numeric if possible
 }
+\examples{
+class(change_to_num(data.frame(val=c('1','2','3')))[[1]])
+}
