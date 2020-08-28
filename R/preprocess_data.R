@@ -15,7 +15,7 @@
 #' @examples
 #' preprocess_data(mikRopML::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_corr_feats = TRUE, to_numeric = TRUE) {
-  
+
   # if remove_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
   if (remove_corr_feats & !remove_nzv) {
     stop("`remove_nzv` must be true if `remove_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
@@ -24,7 +24,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
-  
+
   # remove outcomes that are NA
   dataset <- rm_missing_outcome(dataset, outcome_colname)
 
@@ -32,9 +32,9 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   split_dat <- split_outcome_features(dataset, outcome_colname)
   outcome <- split_dat$outcome
   features <- split_dat$features
-  
+
   # change character and factor features to numeric if possible
-  if(to_numeric){
+  if (to_numeric) {
     features <- change_to_num(features)
   }
 
@@ -106,8 +106,9 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @return
 #' @export
 #'
-#' @examples class(change_to_num(data.frame(val=c('1','2','3')))[[1]])
-change_to_num <- function(features){
+#' @examples
+#' class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
+change_to_num <- function(features) {
   check_features(features, check_missing = FALSE)
   features[] <- lapply(features, function(col) {
     if (suppressWarnings(all(!is.na(as.numeric(as.character(col)))))) {
