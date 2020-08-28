@@ -346,7 +346,7 @@
 #&gt; 199 cancer     1284      198       60
 #&gt; 200 cancer      208      598      121</div><div class='input'>
 <span class='no'>test_df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>
-<span class='no'>test_df</span>[<span class='fl'>1</span>:<span class='fl'>100</span>,<span class='st'>'dx'</span>] <span class='kw'>=</span> <span class='fl'>NA</span>
+<span class='no'>test_df</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='st'>"dx"</span>] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
 <span class='fu'>rm_missing_outcome</span>(<span class='no'>test_df</span>, <span class='st'>"dx"</span>)</div><div class='output co'>#&gt; <span class='message'>Removed 100/200 (50%) of samples because of missing outcome value (NA).</span></div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
 #&gt; 1   normal      477      289       94
 #&gt; 2   cancer     2474       20       12
