@@ -4,12 +4,12 @@
 \alias{get_caret_dummyvars_df}
 \title{Get dummyvars dataframe (i.e. design matrix)}
 \usage{
-get_caret_dummyvars_df(features, full_rank)
+get_caret_dummyvars_df(features, full_rank = FALSE)
 }
 \arguments{
 \item{features}{dataframe of features for machine learning}
 
-\item{full_rank}{whether to return full rank matrix (see \code{caret::dummyVars})}
+\item{full_rank}{whether matrix should be full rank or not (see \code{caret::dummyVars})}
 }
 \value{
 design matrix
