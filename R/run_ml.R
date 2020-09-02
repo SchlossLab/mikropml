@@ -112,23 +112,22 @@ run_ml <-
 
     stop_parallel(pcluster)
 
+    feature_importance_result <- "Skipped feature importance"
+    if (find_feature_importance) {
+      feature_importance_result <- get_feature_importance(trained_model,
+                                                          train_data,
+                                                          test_data,
+                                                          outcome_colname,
+                                                          outcome_value,
+                                                          corr_thresh)
+    }
+
     return(
       list(
         trained_model = trained_model,
         cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
         test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
-        feature_importance = ifelse(
-          find_feature_importance,
-          get_feature_importance(
-            trained_model,
-            train_data,
-            test_data,
-            outcome_colname,
-            outcome_value,
-            corr_thresh
-          ),
-          "Skipped feature importance"
-        )
+        feature_importance = feature_importance_result
       )
     )
   }
