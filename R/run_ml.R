@@ -78,7 +78,7 @@ run_ml <-
 
     metric <- "ROC"
     if (method == "regLogistic") {
-      trained_model <- caret::train(
+      trained_model_caret <- caret::train(
         model_formula,
         data = train_data,
         method = method,
@@ -89,7 +89,7 @@ run_ml <-
       )
     }
     else if (method == "rf") {
-      trained_model <- caret::train(
+      trained_model_caret <- caret::train(
         model_formula,
         data = train_data,
         method = method,
@@ -100,7 +100,7 @@ run_ml <-
       ) # not tuning ntree
     }
     else {
-      trained_model <- caret::train(
+      trained_model_caret <- caret::train(
         model_formula,
         data = train_data,
         method = method,
@@ -124,9 +124,11 @@ run_ml <-
 
     return(
       list(
-        trained_model = trained_model,
-        cv_auc = caret::getTrainPerf(trained_model)$TrainROC,
-        test_aucs = calc_aucs(trained_model, test_data, outcome_colname, outcome_value),
+        trained_model = trained_model_caret,
+        performance = get_performance_tbl(trained_model_caret,
+                                          test_data,
+                                          outcome_colname,
+                                          outcome_value),
         feature_importance = feature_importance_result
       )
     )

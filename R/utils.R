@@ -204,3 +204,19 @@ stop_parallel <- function(pcluster) {
     foreach::registerDoSEQ() # so additional calls to foreach will use sequential processes
   }
 }
+
+#' Get model performance metrics as a one-row tibble
+#'
+#' @inheritParams calc_aucs
+#'
+#' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, and `test_auprc`
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+get_performance_tbl <-  function(trained_model_caret, test_data, outcome_colname, outcome_value) {
+  test_aucs <- calc_aucs(trained_model_caret, test_data, outcome_colname, outcome_value)
+  return(dplyr::tibble(
+    cv_auroc = caret::getTrainPerf(trained_model_caret)$TrainROC,
+    test_auroc = test_aucs$auroc,
+    test_auprc = test_aucs$auprc
+  ))
+}
