@@ -3,7 +3,11 @@ seeds = range(100, 101)
 
 rule targets:
     input:
-        expand("results/runs/{method}_{seed}_full.Rds", method = ml_methods, seed = seeds)
+        expand("results/runs/{method}_{seed}_model.Rds",
+                method = ml_methods,
+                seed = seeds)
+#        expand("results/{type}_results.csv",
+#                type = ['performance', 'feature-importance'])
 
 rule preprocess_data:
     input:
@@ -12,32 +16,33 @@ rule preprocess_data:
     output:
         rds='data/processed/otu_medium.Rds'
     script:
-        "{input.R}"
+        "code/preproc.R"
 
 rule run_ml:
     input:
         R="code/ml.R",
         rds=rules.preprocess_data.output.rds
     output:
-        rds="results/runs/{method}_{seed}_full.Rds",
-        csv="results/runs/{method}_{seed}_abbrv.csv"
+        model="results/runs/{method}_{seed}_model.Rds",
+        perf="results/runs/{method}_{seed}_performance.csv",
+        feat="results/runs/{method}_{seed}_feature-importance.csv"
     params:
         method="{method}",
         seed="{seed}"
     resources:
-        ncores=8,
+        ncores=2,
         pmem_gb=2
     script:
-        "{input.R}"
+        "code/ml.R"
 
 rule merge_results:
     input:
-        R="code/merge_results.R"
-        csv=expand("results/runs/{method}_{seed}_abbrv.csv", method = ml_methods, seed = seeds)
+        R="code/merge_results.R",
+        csv=expand("results/runs/{method}_{seed}_{{type}}.csv", method = ml_methods, seed = seeds)
     output:
-        csv='results/all_results.csv'
+        csv='results/{type}_results.csv'
     script:
-        "{input.R}"
+        "code/merge_results.R"
 
 
 # TODO; plots, report, etc.
