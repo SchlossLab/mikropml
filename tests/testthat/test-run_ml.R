@@ -54,7 +54,23 @@ test_that("run_ml works for L2 logistic regression", {
     ),
     otu_mini_results1
   )
+  set.seed(0)
+  group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+  expect_equal_ml_results(
+    run_ml(otu_mini, # use built-in hyperparameters
+           "regLogistic",
+           outcome_colname = "dx",
+           outcome_value = "cancer",
+           find_feature_importance = FALSE,
+           seed = 2019,
+           kfold = 2,
+           cv_times = 2,
+           group = group
+    ),
+    otu_mini_results1_grp
+  )
 })
+
 test_that("run_ml works for random forest", {
   expect_equal_ml_results(
     mikRopML::run_ml(otu_mini,

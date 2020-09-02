@@ -10,6 +10,15 @@ test_that("define_cv works for 2-fold cv on otu_mini training data", {
   )
 })
 
+test_that("define_cv works for 2-fold cv on otu_mini training data with groups", {
+  set.seed(0)
+  group <- sample(LETTERS[1:4], nrow(train_data_mini), replace = TRUE)
+  expect_equal(
+    define_cv(train_data_mini, "dx", hparams_list, kfold = 2, cv_times = 2, seed = 2019, group = group),
+    otu_mini_cv2_grp
+  )
+})
+
 test_that("get_seeds_trainControl works", {
   set.seed(0)
   expect_equal(

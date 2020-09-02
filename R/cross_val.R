@@ -16,14 +16,19 @@
 #' define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"),
 #'   kfold = 5, seed = 2019
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, seed = NULL) {
+define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, group = NULL, seed = NULL) {
   if (!is.null(seed)) {
     set.seed(seed)
   }
-  cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),
-    kfold,
-    times = cv_times
-  )
+  if(is.null(group)){
+    cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),
+                                       kfold,
+                                       times = cv_times
+    )
+  }else{
+    cvIndex <- groupKMultiFolds(group, kfold=kfold, cv_times=cv_times)
+  }
+
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))
 
   cv <- caret::trainControl(

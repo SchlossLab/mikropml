@@ -14,7 +14,8 @@ run_ml(
   kfold = 5,
   cv_times = 100,
   training_frac = 0.8,
-  corr_thresh = corr_thresh,
+  group = NULL,
+  corr_thresh = 1,
   seed = NULL,
   ncores = NA
 )
@@ -37,6 +38,8 @@ run_ml(
 \item{cv_times}{Number of partitions to create}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
+
+\item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 

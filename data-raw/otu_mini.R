@@ -38,6 +38,12 @@ hparams_list <- get_hyperparams_from_df(test_hyperparams, "regLogistic")
 otu_mini_cv2 <- define_cv(train_data_mini, outcome_colname, hparams_list, kfolds, 100, 2019)
 usethis::use_data(otu_mini_cv2, overwrite = TRUE)
 
+set.seed(0)
+group <- sample(LETTERS[1:4], nrow(train_data_mini), replace = TRUE)
+otu_mini_cv2_grp <- define_cv(train_data_mini, "dx", hparams_list, kfold = 2, cv_times = 2, seed = 2019, group = group)
+usethis::use_data(otu_mini_cv2_grp, overwrite = TRUE)
+
+
 trained_model_mini <- caret::train(
   stats::as.formula(paste(outcome_colname, "~ .")),
   data = train_data_mini,
@@ -60,6 +66,20 @@ otu_mini_results1 <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
   kfold = kfolds
 )
 usethis::use_data(otu_mini_results1, overwrite = TRUE)
+
+set.seed(0)
+group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+otu_mini_results1_grp <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
+                                      "regLogistic",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      find_feature_importance = FALSE,
+                                      seed = 2019,
+                                      kfold = 2,
+                                      cv_times = 2,
+                                      group = group
+)
+usethis::use_data(otu_mini_results1_grp, overwrite = TRUE)
 
 otu_mini_results2 <- mikRopML::run_ml(otu_mini,
   "rf",
