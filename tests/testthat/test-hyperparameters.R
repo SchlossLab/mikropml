@@ -152,7 +152,7 @@ l2logit_required <- list(
   loss = c("L2_primal")
 )
 l2_warning <-
-  "For L2-normalized Logistic Regression, `loss`` must be 'L2_primal' and `epsilon` must be '0.01',"
+  "For L2-normalized Logistic Regression, `loss` must be 'L2_primal' and `epsilon` must be `0.01`,"
 wrong_loss <- list(
   epsilon = c(0.01),
   loss = c("L1_primal")
