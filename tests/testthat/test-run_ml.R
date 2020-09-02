@@ -48,6 +48,7 @@ test_that("run_ml works for L2 logistic regression", {
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
+      hyperparameters = test_hyperparams %>% get_hyperparams_from_df("regLogistic"),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -72,12 +73,11 @@ test_that("run_ml works for L2 logistic regression", {
 })
 
 test_that("run_ml works for random forest", {
-  expect_equal_ml_results(
+  expect_equal_ml_results( # use built-in hyperparams function
     mikRopML::run_ml(otu_mini,
       "rf",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = test_hyperparams %>% get_hyperparams_from_df("rf"),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -180,7 +180,7 @@ test_that("run_ml works with multiple cores", {
   expect_equal_ml_results(
     run_ml(
       otu_mini,
-      "regLogistic",
+      "rf",
       outcome_colname = "dx",
       outcome_value = "cancer",
       find_feature_importance = FALSE,
@@ -188,6 +188,6 @@ test_that("run_ml works with multiple cores", {
       kfold = 2,
       ncores = 2
     ),
-    otu_mini_results1
+    otu_mini_results2
   )
 })

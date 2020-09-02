@@ -102,3 +102,11 @@ test_that("setup_parallel works", {
   }
   stop_parallel(pc)
 })
+
+test_that('get_performance_tbl works', {
+  expect_equal(get_performance_tbl(trained_model_mini,
+                                   test_data_mini,
+                                   'dx',
+                                   'cancer'),
+               otu_mini_results1$performance)
+})
