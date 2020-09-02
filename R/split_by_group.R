@@ -55,6 +55,7 @@ createGroupedDataPartition = function(group, p) {
 #'
 #' @examples
 #' set.seed(0)
+#' group <- c('A','B','A','B','C','C','A','A','D')
 #' folds <- groupKMultiFolds(group, kfold=2, cv_times=2)
 groupKMultiFolds <- function (group, kfold = 10, cv_times = 5) 
 {
