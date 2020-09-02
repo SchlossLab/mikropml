@@ -1,0 +1,6 @@
+cluster: "sbatch --job-name {cluster.jobname} --account {cluster.account_slurm} --partition {cluster.partition} --mail-user {cluster.email} --mail-type {cluster.mail_type} --nodes {cluster.nodes} --ntasks {cluster.procs} --mem-per-cpu {cluster.pmem} --time {cluster.walltime} --output {cluster.outfile} "
+cluster-config: "config/cluster.json"
+jobs: 4999
+immediate-submit: False
+verbose: true
+notemp: true

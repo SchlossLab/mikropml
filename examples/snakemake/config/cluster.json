@@ -1,0 +1,18 @@
+{
+ "__default__": {
+  "account_slurm": "YOUR_ACCOUNT_HERE",
+  "partition": "standard",
+  "jobname": "{rule}.{wildcards}",
+  "nodes": 1,
+  "procs": 1,
+  "pmem": "8GB",
+  "walltime": "24:00:00",
+  "email": "YOUR_EMAIL_HERE",
+  "mail_type": "FAIL",
+  "outfile": "log/hpc/jobs/{rule}.{wildcards}.out"
+ },
+ "subset_regions": {
+  "procs": "{resources.ncores}",
+  "pmem": "{resources.pmem_gb}GB"
+ }
+}
