@@ -15,6 +15,10 @@ rule preprocess_data:
         csv="data/raw/otu_medium.csv"
     output:
         rds='data/processed/otu_medium.Rds'
+    log:
+        "log/preprocess_data.txt"
+    benchmark:
+        "benchmarks/preprocess_data.txt"
     script:
         "code/preproc.R"
 
@@ -26,6 +30,10 @@ rule run_ml:
         model="results/runs/{method}_{seed}_model.Rds",
         perf="results/runs/{method}_{seed}_performance.csv",
         feat="results/runs/{method}_{seed}_feature-importance.csv"
+    log:
+        "log/runs/run_ml.{method}_{seed}.txt"
+    benchmark:
+        "benchmarks/runs/run_ml.{method}_{seed}.txt"
     params:
         method="{method}",
         seed="{seed}"
@@ -41,6 +49,10 @@ rule merge_results:
         csv=expand("results/runs/{method}_{seed}_{{type}}.csv", method = ml_methods, seed = seeds)
     output:
         csv='results/{type}_results.csv'
+    log:
+        "log/merge_results_{type}.txt"
+    benchmark:
+        "benchmarks/merge_results_{type}.txt"
     script:
         "code/merge_results.R"
 
