@@ -29,6 +29,9 @@ check_all <- function(dataset, method, permute, kfold, training_frac, seed) {
 #' @examples
 #' check_dataset(otu_small)
 check_dataset <- function(dataset) {
+  if (!any(class(dataset) != "data.frame")) {
+    stop(paste("The dataset must be a `data.frame`` or `tibble`, but you supplied:", class(dataset)))
+  }
   if (nrow(dataset) == 0) {
     stop("No rows detected in dataset.")
   }
