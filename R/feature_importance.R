@@ -4,13 +4,14 @@
 #' @param train_data training data: dataframe of outcome and features
 #' @param test_data held out test data: dataframe of outcome and features
 #' @inheritParams run_ml
+#' @inheritParams get_performance_tbl
 #'
 #' @return aucs when each feature is permuted, and differences between test auc and permuted auc
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(method, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1) {
+get_feature_importance <- function(method, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1, rseed) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
@@ -36,7 +37,11 @@ get_feature_importance <- function(method, train_data, test_data, outcome_colnam
     return(find_permuted_auc(method, test_data, outcome_colname, feat, outcome_value))
   }))
 
-  return(as.data.frame(imps) %>% dplyr::mutate(names = factor(grps)))
+  return(as.data.frame(imps) %>%
+           dplyr::mutate(names = factor(grps),
+                         method = method,
+                         seed = rseed)
+         )
 }
 
 
