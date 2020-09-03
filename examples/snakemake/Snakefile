@@ -1,5 +1,8 @@
-ml_methods = ['regLogistic', 'rf']
-seeds = range(100, 101)
+configfile: 'config/config.yml'
+
+ncores = config['ncores']
+ml_methods = config['ml_methods']
+seeds = range(config['seeds']['start'], config['seeds']['stop'])
 
 rule targets:
     input:
@@ -38,7 +41,7 @@ rule run_ml:
         method="{method}",
         seed="{seed}"
     resources:
-        ncores=8,
+        ncores=ncores,
         pmem_gb=2
     script:
         "code/ml.R"
