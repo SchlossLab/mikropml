@@ -30,7 +30,7 @@ rule run_ml:
         method="{method}",
         seed="{seed}"
     resources:
-        ncores=2,
+        ncores=8,
         pmem_gb=2
     script:
         "code/ml.R"
