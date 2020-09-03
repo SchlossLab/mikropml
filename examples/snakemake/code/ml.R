@@ -1,4 +1,4 @@
-source('log_smk.R')
+source('code/log_smk.R')
 ml_results <- mikRopML::run_ml(dataset = readRDS(snakemake@input[['rds']]),
                                      method = snakemake@params[['method']],
                                      outcome_colname = 'dx',
