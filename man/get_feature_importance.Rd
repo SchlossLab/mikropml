@@ -10,7 +10,8 @@ get_feature_importance(
   test_data,
   outcome_colname,
   outcome_value,
-  corr_thresh = 1
+  corr_thresh = 1,
+  rseed = NA
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ get_feature_importance(
 \item{outcome_value}{outcome value of interest as a string}
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
+
+\item{rseed}{random seed used in `run_ml``}
 }
 \value{
 aucs when each feature is permuted, and differences between test auc and permuted auc

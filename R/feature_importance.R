@@ -11,7 +11,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(method, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1, rseed) {
+get_feature_importance <- function(method, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1, rseed = NA) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
