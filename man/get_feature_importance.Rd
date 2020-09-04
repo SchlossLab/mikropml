@@ -27,7 +27,7 @@ get_feature_importance(
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 
-\item{rseed}{random seed used in `run_ml``}
+\item{rseed}{random seed used in \code{run_ml}}
 }
 \value{
 aucs when each feature is permuted, and differences between test auc and permuted auc

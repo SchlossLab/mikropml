@@ -3,8 +3,8 @@
 #'
 #' @param train_data training data: dataframe of outcome and features
 #' @param test_data held out test data: dataframe of outcome and features
+#' @param rseed random seed used in `run_ml`
 #' @inheritParams run_ml
-#' @inheritParams get_performance_tbl
 #'
 #' @return aucs when each feature is permuted, and differences between test auc and permuted auc
 #' @export

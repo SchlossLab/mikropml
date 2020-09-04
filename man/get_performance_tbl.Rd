@@ -5,7 +5,7 @@
 \title{Get model performance metrics as a one-row tibble}
 \usage{
 get_performance_tbl(
-  trained_model_caret,
+  trained_model,
   test_data,
   outcome_colname,
   outcome_value,
@@ -13,7 +13,15 @@ get_performance_tbl(
 )
 }
 \arguments{
-\item{rseed}{random seed used in `run_ml``}
+\item{trained_model}{trained model from caret}
+
+\item{test_data}{held out test data: dataframe of outcome and features}
+
+\item{outcome_colname}{column name as a string of the outcome variable}
+
+\item{outcome_value}{outcome value of interest as a string}
+
+\item{rseed}{random seed used in \code{run_ml}}
 }
 \value{
 a one-row tibble with columns \code{cv_auroc}, \code{test_auroc}, and \code{test_auprc}
