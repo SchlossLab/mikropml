@@ -1,7 +1,0 @@
-code/submit_slurm_KLS.sh
-config/cluster_KLS.json
-config/slurm_KLS/
-config/config_KLS.yml
-data/
-log/
-benchmarks
