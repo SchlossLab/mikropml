@@ -57,7 +57,7 @@ rmarkdown::render(here::here('vignettes','paper.Rmd'))
 
 Machine learning (ML) for classification of data into groups based on pre-determined criteria is being used to make decisions in healthcare, economics, criminal justice and more. 
 However, implementing a robust ML classification pipeline can be time-consuming, confusing, and difficult. 
-Here, we present mikRopML, an easy-to-use R package that acts as a wrapper around the R caret package and can be used for binary classification problems using logistic regression, random forest, and xgBoost. mikRopML is available on [GitHub/CRAN] (link). 
+Here, we present mikRopML (prononced "meek-ROPE em el"), an easy-to-use R package that acts as a wrapper around the R caret package and can be used for binary classification problems using logistic regression, random forest, xgBoost, and support vector machines. mikRopML is available on [GitHub/CRAN] (link). 
 
 # Statement of need
 
