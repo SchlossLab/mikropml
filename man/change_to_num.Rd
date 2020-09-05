@@ -2,7 +2,7 @@
 % Please edit documentation in R/preprocess_data.R
 \name{change_to_num}
 \alias{change_to_num}
-\title{Change features to numeric if possible}
+\title{Change columns to numeric if possible}
 \usage{
 change_to_num(features)
 }
@@ -10,11 +10,14 @@ change_to_num(features)
 \item{features}{dataframe of features for machine learning}
 }
 \value{
-
+dataframe with numeric columns where possible
 }
 \description{
-Change features to numeric if possible
+Change columns to numeric if possible
 }
 \examples{
 class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
+}
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
 }

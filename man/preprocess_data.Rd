@@ -35,3 +35,6 @@ Preprocess data prior to running machine learning
 \examples{
 preprocess_data(mikRopML::otu_small, "dx")
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}

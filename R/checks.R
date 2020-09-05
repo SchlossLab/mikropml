@@ -31,6 +31,9 @@ check_all <- function(dataset, method, permute, kfold, training_frac, group, cor
 #' @examples
 #' check_dataset(otu_small)
 check_dataset <- function(dataset) {
+  if (!any(class(dataset) == "data.frame")) {
+    stop(paste("The dataset must be a `data.frame` or `tibble`, but you supplied:", class(dataset)))
+  }
   if (nrow(dataset) == 0) {
     stop("No rows detected in dataset.")
   }
@@ -269,7 +272,9 @@ check_features <- function(features, check_missing = TRUE) {
 #' @export
 #'
 #' @examples
-#' check_group(mikRopML::otu_mini, sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE), kfold = 2)
+#' check_group(mikRopML::otu_mini,
+#'             sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE),
+#'             kfold = 2)
 check_group <- function(dataset, group, kfold) {
   # check that group is a vector or NULL
   isvec <- is.vector(group)
