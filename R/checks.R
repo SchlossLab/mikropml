@@ -8,12 +8,14 @@
 #'
 #' @examples
 #' check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL)
-check_all <- function(dataset, method, permute, kfold, training_frac, seed) {
+check_all <- function(dataset, method, permute, kfold, training_frac, group, corr_thresh, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
   check_training_frac(training_frac)
+  check_group(dataset, group, kfold)
+  check_corr_thresh(corr_thresh)
   check_seed(seed)
 }
 
@@ -92,7 +94,7 @@ check_kfold <- function(kfold, dataset) {
   not_a_number <- !is.integer(kfold) & !is.numeric(kfold)
   not_an_int <- kfold != as.integer(kfold)
   nfeats <- ncol(dataset) - 1
-  out_of_range <- (kfold < 1) | (kfold > nfeats)
+  out_of_range <- (kfold <= 1) | (kfold > nfeats)
   if (not_a_number | not_an_int | out_of_range) {
     stop(paste0(
       "`kfold` must be an integer between 1 and the number of features in the data.\n",
@@ -255,6 +257,74 @@ check_features <- function(features, check_missing = TRUE) {
     num_missing <- sum(is.na(features))
     if (num_missing != 0) {
       stop(paste0("Missing data in the features is not allowed, but the features have ", num_missing, " missing value(s) (NA)."))
+    }
+  }
+}
+
+#' Check group
+#'
+#' @inheritParams run_ml
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' check_group(mikRopML::otu_mini, sample(LETTERS,nrow(mikRopML::otu_mini),replace=TRUE),kfold=2)
+check_group <- function(dataset,group,kfold){
+  # check that group is a vector or NULL
+  isvec <- is.vector(group)
+  isnull <- is.null(group)
+  if(!(isvec | isnull)){
+    stop(paste0("group should be either a vector or NULL, but group is class ",class(group),'.'))
+  }
+  # if group is a vector, check that it's the correct length
+  if(isvec){
+    ndat <- nrow(dataset) 
+    ngrp <- length(group)
+    if(ndat != ngrp){
+      stop(paste0("group should be a vector that is the same length as the number of rows in the dataset (", ndat, "), but it is of length ",ngrp,"."))
+    }
+    # check that there are no NAs in group
+    nas <- is.na(group)
+    nnas <- sum(nas)
+    if(any(nas)){
+      stop(paste0("No NA values are allowed in group, but ",nnas," NA(s) are present."))
+    }
+    # check that there is more than 1 group
+    ngrp <- length(unique(group))
+    if(ngrp < 2){
+      stop(paste0("The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"))
+    }
+    # check that kfold is not greater than the number of groups minus 1 (assuming 1 in the test set)
+    if(kfold > (ngrp-1)){
+      stop(paste0("The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ",ngrp, ". `kfold`: ",kfold,'.'))
+    }
+    
+  }
+}
+
+#' check that corr_thresh is either NULL or a number between 0 and 1
+#'
+#' @param corr_thresh correlation threshold
+#'
+#' @noRd
+#'
+#' @examples
+#' check_corr_thresh(1)
+#' check_corr_thresh(0.8)
+#' check_corr_thresh(2019)
+#' check_corr_thresh(NULL)
+check_corr_thresh <- function(corr_thresh) {
+  err <- paste0(
+    "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.\n",
+    "    You provided: ", corr_thresh
+  )
+  if (!is.null(corr_thresh) & !is.numeric(corr_thresh)) {
+    stop(err)
+  }
+  if(is.numeric(corr_thresh)){
+    if(!(corr_thresh >= 0 & corr_thresh <= 1)){
+      stop(err)
     }
   }
 }
