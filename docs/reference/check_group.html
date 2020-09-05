@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the machine learning pipeline — run_ml • mikRopML</title>
+<title>Check group — check_group • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Run the machine learning pipeline — run_ml" />
-<meta property="og:description" content="Run the machine learning pipeline" />
+<meta property="og:title" content="Check group — check_group" />
+<meta property="og:description" content="Check group" />
 
 
 
@@ -115,30 +115,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run the machine learning pipeline</h1>
+    <h1>Check group</h1>
     
-    <div class="hidden name"><code>run_ml.Rd</code></div>
+    <div class="hidden name"><code>check_group.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run the machine learning pipeline</p>
+    <p>Check group</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_ml</span>(
-  <span class='no'>dataset</span>,
-  <span class='no'>method</span>,
-  <span class='kw'>outcome_colname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>outcome_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>cv_times</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ncores</span> <span class='kw'>=</span> <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>check_group</span>(<span class='no'>dataset</span>, <span class='no'>group</span>, <span class='no'>kfold</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,59 +134,23 @@
       <td><p>dataframe with an outcome variable and other columns as features</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
-    </tr>
-    <tr>
-      <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
-    </tr>
-    <tr>
-      <th>hyperparameters</th>
-      <td><p>dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.</p></td>
-    </tr>
-    <tr>
-      <th>find_feature_importance</th>
-      <td><p>run permutation imporance (default: FALSE)</p></td>
+      <th>group</th>
+      <td><p>vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)</p></td>
     </tr>
     <tr>
       <th>kfold</th>
       <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
     </tr>
-    <tr>
-      <th>cv_times</th>
-      <td><p>Number of partitions to create</p></td>
-    </tr>
-    <tr>
-      <th>training_frac</th>
-      <td><p>fraction size of data for training (default: 0.8)</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)</p></td>
-    </tr>
-    <tr>
-      <th>corr_thresh</th>
-      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>random seed (default: NULL)</p></td>
-    </tr>
-    <tr>
-      <th>ncores</th>
-      <td><p>number of cores for parallel processing (default: NA). <code>parallel</code> and <code>doParallel</code> packages are needed for ncores &gt; 1</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named list with results</p>
+    
 
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>check_group</span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>LETTERS</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>),<span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>TRUE</span>),<span class='kw'>kfold</span><span class='kw'>=</span><span class='fl'>2</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
