@@ -53,9 +53,25 @@ test_that("run_ml works for L2 logistic regression", {
       hyperparameters = hparams_list,
       find_feature_importance = FALSE,
       seed = 2019,
-      kfold = 2
+      kfold = 2,
+      cv_times = 5
     ),
     otu_mini_results1
+  )
+  set.seed(0)
+  group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+  expect_equal_ml_results(
+    run_ml(otu_mini, # use built-in hyperparameters
+      "regLogistic",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      find_feature_importance = FALSE,
+      seed = 2019,
+      kfold = 2,
+      cv_times = 2,
+      group = group
+    ),
+    otu_mini_results1_grp
   )
 })
 test_that("run_ml works for random forest & multiple cores", {
@@ -67,7 +83,8 @@ test_that("run_ml works for random forest & multiple cores", {
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,
-      ncores = 2
+      ncores = 2,
+      cv_times = 5
     ),
     otu_mini_results2,
     tol = 1e-3
@@ -82,7 +99,8 @@ test_that("run_ml works for svmRadial", {
       hyperparameters = test_hyperparams %>% get_hyperparams_from_df("svmRadial"),
       find_feature_importance = FALSE,
       seed = 2019,
-      kfold = 2
+      kfold = 2,
+      cv_times = 5
     ),
     otu_mini_results3
   )
@@ -98,7 +116,8 @@ test_that("run_ml works for xgbTree", {
       hyperparameters = test_hyperparams %>% get_hyperparams_from_df("xgbTree"),
       find_feature_importance = FALSE,
       seed = 2019,
-      kfold = 2
+      kfold = 2,
+      cv_times = 5
     ),
     otu_mini_results4,
     tol = 1e-3
@@ -106,16 +125,17 @@ test_that("run_ml works for xgbTree", {
 })
 test_that("run_ml works for rpart2", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_medium,
+    mikRopML::run_ml(otu_mini,
       "rpart2",
       outcome_colname = "dx",
       outcome_value = "cancer",
       hyperparameters = test_hyperparams %>% get_hyperparams_from_df("rpart2"),
       find_feature_importance = FALSE,
       seed = 2019,
-      kfold = 3
+      kfold = 2,
+      cv_times = 5
     ),
-    otu_med_results
+    otu_mini_results5
   )
 })
 test_that("run_ml errors for unsupported method", {
