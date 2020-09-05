@@ -9,7 +9,7 @@
 #' @return row position integers corresponding to the training data
 #' @export
 #'
-#' @examples 
+#' @examples
 #' group <- c('A','B','A','B','C','C','A','A','D')
 #' set.seed(0)
 #' train_ind <- createGroupedDataPartition(group,0.8)
@@ -38,17 +38,16 @@ createGroupedDataPartition = function(group, p) {
   message(paste0("Fraction of data in the training set: ", frac_in_train, '.'))
   # get train group indices
   return(train_set)
-} 
+}
 
 
 #' Splitting into folds for cross-validation when using groups
 #'
 #' Like \link[caret]{createMultiFolds} but still splitting by group using \link[caret]{groupKFold}. Code modified from \link[caret]{createMultiFolds}.
-#' 
+#'
 #' @param group equivalent to y in caret::createMultiFolds
 #' @param kfold equivalent to k in caret::createMultiFolds
 #' @param cv_times equivalent to cv_times in caret::createMultiFolds
-#' @inheritParams run_ml
 #'
 #' @return indices of folds for CV
 #' @export
@@ -57,17 +56,17 @@ createGroupedDataPartition = function(group, p) {
 #' set.seed(0)
 #' group <- c('A','B','A','B','C','C','A','A','D')
 #' folds <- groupKMultiFolds(group, kfold=2, cv_times=2)
-groupKMultiFolds <- function (group, kfold = 10, cv_times = 5) 
+groupKMultiFolds <- function (group, kfold = 10, cv_times = 5)
 {
-  if (class(group)[1] == "Surv") 
+  if (class(group)[1] == "Surv")
     group <- group[, "time"]
-  prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)), 
+  prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
                       sep = "")
   for (i in 1:cv_times) {
     tmp <- caret::groupKFold(group, k = kfold)
-    names(tmp) <- paste("Fold", gsub(" ", "0", format(seq(along = tmp))), 
+    names(tmp) <- paste("Fold", gsub(" ", "0", format(seq(along = tmp))),
                         ".", prettyNums[i], sep = "")
-    out <- if (i == 1) 
+    out <- if (i == 1)
       tmp
     else c(out, tmp)
   }
