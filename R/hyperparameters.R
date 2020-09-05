@@ -51,7 +51,7 @@ check_hyperparams <- function(hp_list, method) {
       warning(
         paste0(
           "For L2-normalized Logistic Regression, ",
-          "`loss`` must be 'L2_primal' and `epsilon` must be '0.01',",
+          "`loss` must be 'L2_primal' and `epsilon` must be '0.01',",
           "\n  Be sure you intend to not perform L2-normalization.",
           "\n  You supplied these hyperparameters:\n    ",
           paste0(utils::capture.output(logit_given), collapse = "\n    ")
