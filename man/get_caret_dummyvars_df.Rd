@@ -27,3 +27,6 @@ df <- data.frame(
 )
 get_caret_dummyvars_df(df, TRUE)
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}

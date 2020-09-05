@@ -24,7 +24,7 @@ get_performance_tbl(
 \item{seed}{random seed (default: NULL)}
 }
 \value{
-a one-row tibble with columns \code{cv_auroc}, \code{test_auroc}, and \code{test_auprc}
+a one-row tibble with columns \code{cv_auroc}, \code{test_auroc}, \code{test_auprc}, \code{method}, and \code{seed}
 }
 \description{
 Get model performance metrics as a one-row tibble

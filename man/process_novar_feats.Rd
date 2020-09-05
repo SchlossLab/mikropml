@@ -18,3 +18,6 @@ Process features with no variation
 \examples{
 process_novar_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}
