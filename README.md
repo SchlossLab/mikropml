@@ -9,8 +9,8 @@
 
 [![check](https://github.com/SchlossLab/mikRopML/workflows/check/badge.svg)](https://github.com/SchlossLab/mikRopML/actions)
 [![codecov](https://codecov.io/gh/SchlossLab/mikRopML/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikRopML)
-[![docs](https://img.shields.io/badge/docs-here-brightgreen)](https://schlosslab.org/mikRopML/)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![docs](https://img.shields.io/badge/docs-here-brightgreen)](http://www.schlosslab.org/mikRopML/)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikRopML/LICENSE)
 [![lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
