@@ -43,12 +43,14 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 }
 
 test_that("run_ml works for L2 logistic regression", {
+  hparams_list <- test_hyperparams %>% get_hyperparams_from_df("regLogistic")
+  hparams_list[['epsilon']] <- as.numeric(hparams_list[['epsilon']])
   expect_equal_ml_results(
-    run_ml(otu_mini, # use built-in hyperparameters
+    run_ml(otu_mini,
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      hyperparameters = test_hyperparams %>% get_hyperparams_from_df("regLogistic"),
+      hyperparameters = hparams_list,
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2
@@ -56,7 +58,7 @@ test_that("run_ml works for L2 logistic regression", {
     otu_mini_results1
   )
 })
-test_that("run_ml works for random forest", {
+test_that("run_ml works for random forest & multiple cores", {
   expect_equal_ml_results( # use built-in hyperparams function
     mikRopML::run_ml(otu_mini,
       "rf",
@@ -64,7 +66,8 @@ test_that("run_ml works for random forest", {
       outcome_value = "cancer",
       find_feature_importance = FALSE,
       seed = 2019,
-      kfold = 2
+      kfold = 2,
+      ncores = 2
     ),
     otu_mini_results2,
     tol = 1e-3
@@ -158,20 +161,5 @@ test_that("run_ml errors if outcome is not binary", {
       kfold = 2
     ),
     "A binary outcome variable is required, but this dataset has 3 outcomes"
-  )
-})
-test_that("run_ml works with multiple cores", {
-  expect_equal_ml_results(
-    run_ml(
-      otu_mini,
-      "rf",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      find_feature_importance = FALSE,
-      seed = 2019,
-      kfold = 2,
-      ncores = 2
-    ),
-    otu_mini_results2
   )
 })
