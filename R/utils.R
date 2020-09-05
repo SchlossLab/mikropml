@@ -214,7 +214,7 @@ stop_parallel <- function(pcluster) {
 #' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_performance_tbl <-  function(trained_model, test_data, outcome_colname, outcome_value, seed = NA) {
+get_performance_tbl <- function(trained_model, test_data, outcome_colname, outcome_value, seed = NA) {
   test_aucs <- calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
   return(dplyr::tibble(
     cv_auroc = caret::getTrainPerf(trained_model)$TrainROC,

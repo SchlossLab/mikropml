@@ -115,25 +115,29 @@ run_ml <-
     feature_importance_result <- "Skipped feature importance"
     if (find_feature_importance) {
       feature_importance_result <- get_feature_importance(
-          trained_model_caret,
-          train_data,
-          test_data,
-          outcome_colname,
-          outcome_value,
-          corr_thresh
-        ) %>%
-        dplyr::mutate(method = method,
-                      seed = seed)
+        trained_model_caret,
+        train_data,
+        test_data,
+        outcome_colname,
+        outcome_value,
+        corr_thresh
+      ) %>%
+        dplyr::mutate(
+          method = method,
+          seed = seed
+        )
     }
 
     return(
       list(
         trained_model = trained_model_caret,
-        performance = get_performance_tbl(trained_model_caret,
-                                          test_data,
-                                          outcome_colname,
-                                          outcome_value,
-                                          seed),
+        performance = get_performance_tbl(
+          trained_model_caret,
+          test_data,
+          outcome_colname,
+          outcome_value,
+          seed
+        ),
         feature_importance = feature_importance_result
       )
     )

@@ -44,7 +44,7 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 
 test_that("run_ml works for L2 logistic regression", {
   hparams_list <- test_hyperparams %>% get_hyperparams_from_df("regLogistic")
-  hparams_list[['epsilon']] <- as.numeric(hparams_list[['epsilon']])
+  hparams_list[["epsilon"]] <- as.numeric(hparams_list[["epsilon"]])
   expect_equal_ml_results(
     run_ml(otu_mini,
       "regLogistic",

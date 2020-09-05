@@ -35,7 +35,7 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 )
 
 hparams_list <- get_hyperparams_from_df(test_hyperparams, "regLogistic")
-hparams_list[['epsilon']] <- as.numeric(hparams_list[['epsilon']])
+hparams_list[["epsilon"]] <- as.numeric(hparams_list[["epsilon"]])
 otu_mini_cv2 <- define_cv(train_data_mini, outcome_colname, hparams_list, kfolds, 100, 2019)
 usethis::use_data(otu_mini_cv2, overwrite = TRUE)
 

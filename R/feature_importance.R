@@ -29,8 +29,7 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
   }))
 
   return(as.data.frame(imps) %>%
-           dplyr::mutate(names = factor(grps))
-         )
+    dplyr::mutate(names = factor(grps)))
 }
 
 

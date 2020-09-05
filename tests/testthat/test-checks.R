@@ -18,8 +18,10 @@ test_df_empty <- data.frame(
 
 test_that("check_dataset works", {
   expect_true(is.null(check_dataset(test_df)))
-  expect_error(check_dataset('not_a_df'),
-               "The dataset must be a `data.frame` or `tibble`")
+  expect_error(
+    check_dataset("not_a_df"),
+    "The dataset must be a `data.frame` or `tibble`"
+  )
   expect_error(
     check_dataset(data.frame(outcome = c(), var1 = c())),
     "No rows detected in dataset."
