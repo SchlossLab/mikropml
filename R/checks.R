@@ -195,7 +195,7 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
     stop(
       paste0(
         "A binary outcome variable is required, but this dataset has ",
-        num_outcomes,  " outcome(s): ", paste(outcomes, collapse = ",")
+        num_outcomes,  " outcome(s): ", paste(outcomes, collapse = ", ")
       )
     )
   }
