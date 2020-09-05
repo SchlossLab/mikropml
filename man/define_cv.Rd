@@ -10,6 +10,7 @@ define_cv(
   hyperparams_list,
   kfold = 5,
   cv_times = 100,
+  group = NULL,
   seed = NULL
 )
 }
@@ -23,6 +24,8 @@ define_cv(
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
 \item{cv_times}{Number of partitions to create}
+
+\item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
 \item{seed}{random seed (default: NULL)}
 }

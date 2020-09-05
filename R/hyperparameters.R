@@ -34,9 +34,9 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #'   check_hyperparams()
 check_hyperparams <- function(hp_list, method) {
   if (method == "regLogistic") {
-    epsilon_req = c(0.01)
-    loss_req = c("L2_primal")
-    logit_given <- hp_list[names(hp_list) %in% c('epsilon', 'loss')]
+    epsilon_req <- c(0.01)
+    loss_req <- c("L2_primal")
+    logit_given <- hp_list[names(hp_list) %in% c("epsilon", "loss")]
 
     # must use !isTRUE intead of isFALSE because `all.equal.list` returns description of differences when not equal
     if ((as.numeric(logit_given$epsilon) != epsilon_req) | (as.character(logit_given$loss) != loss_req)) {
