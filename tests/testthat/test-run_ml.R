@@ -178,7 +178,7 @@ test_that("run_ml errors if outcome is not binary", {
       outcome_colname = "dx",
       kfold = 2
     ),
-    "A binary outcome variable is required, but this dataset has 3 outcomes"
+    "A binary outcome variable is required, but this dataset has 3 outcome(s)"
   )
 })
 test_that("run_ml works with multiple cores", {
