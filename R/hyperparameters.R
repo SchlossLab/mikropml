@@ -34,24 +34,16 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #'   check_hyperparams()
 check_hyperparams <- function(hp_list, method) {
   if (method == "regLogistic") {
-    l2logit_required1 <- list(
-      epsilon = c(0.01),
-      loss = c("L2_primal")
-    )
-    l2logit_required2 <- list(
-      loss = c("L2_primal"),
-      epsilon = c(0.01)
-    )
-    logit_given <-
-      hp_list[names(hp_list) %in% names(l2logit_required1)]
+    epsilon_req = c(0.01)
+    loss_req = c("L2_primal")
+    logit_given <- hp_list[names(hp_list) %in% c('epsilon', 'loss')]
 
     # must use !isTRUE intead of isFALSE because `all.equal.list` returns description of differences when not equal
-    if (!isTRUE(all.equal.list(l2logit_required1, logit_given)) &
-        !isTRUE(all.equal.list(l2logit_required2, logit_given))) {
+    if ((as.numeric(logit_given$epsilon) != epsilon_req) | (as.character(logit_given$loss) != loss_req)) {
       warning(
         paste0(
           "For L2-normalized Logistic Regression, ",
-          "`loss` must be 'L2_primal' and `epsilon` must be '0.01',",
+          "`loss` must be 'L2_primal' and `epsilon` must be `0.01`,",
           "\n  Be sure you intend to not perform L2-normalization.",
           "\n  You supplied these hyperparameters:\n    ",
           paste0(utils::capture.output(logit_given), collapse = "\n    ")
