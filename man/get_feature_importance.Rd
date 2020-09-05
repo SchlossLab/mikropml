@@ -5,17 +5,16 @@
 \title{Get feature importance using permutation method}
 \usage{
 get_feature_importance(
-  method,
+  trained_model,
   train_data,
   test_data,
   outcome_colname,
   outcome_value,
-  corr_thresh = 1,
-  rseed = NA
+  corr_thresh = 1
 )
 }
 \arguments{
-\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+\item{trained_model}{trained model from caret}
 
 \item{train_data}{training data: dataframe of outcome and features}
 
@@ -26,11 +25,9 @@ get_feature_importance(
 \item{outcome_value}{outcome value of interest as a string}
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
-
-\item{rseed}{random seed used in \code{run_ml}}
 }
 \value{
-aucs when each feature is permuted, and differences between test auc and permuted auc
+dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc
 }
 \description{
 Get feature importance using permutation method

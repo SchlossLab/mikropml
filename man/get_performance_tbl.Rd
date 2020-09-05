@@ -9,7 +9,7 @@ get_performance_tbl(
   test_data,
   outcome_colname,
   outcome_value,
-  rseed = NA
+  seed = NA
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ get_performance_tbl(
 
 \item{outcome_value}{outcome value of interest as a string}
 
-\item{rseed}{random seed used in \code{run_ml}}
+\item{seed}{random seed (default: NULL)}
 }
 \value{
 a one-row tibble with columns \code{cv_auroc}, \code{test_auroc}, and \code{test_auprc}
