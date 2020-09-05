@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get feature importance using permutation method — get_feature_importance • mikRopML</title>
+<title>Get model performance metrics as a one-row tibble — get_performance_tbl • mikRopML</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get feature importance using permutation method — get_feature_importance" />
-<meta property="og:description" content="Get feature importance using permutation method" />
+<meta property="og:title" content="Get model performance metrics as a one-row tibble — get_performance_tbl" />
+<meta property="og:description" content="Get model performance metrics as a one-row tibble" />
 
 
 
@@ -115,22 +115,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get feature importance using permutation method</h1>
+    <h1>Get model performance metrics as a one-row tibble</h1>
     
-    <div class="hidden name"><code>get_feature_importance.Rd</code></div>
+    <div class="hidden name"><code>get_performance_tbl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get feature importance using permutation method</p>
+    <p>Get model performance metrics as a one-row tibble</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_feature_importance</span>(
+    <pre class="usage"><span class='fu'>get_performance_tbl</span>(
   <span class='no'>trained_model</span>,
-  <span class='no'>train_data</span>,
   <span class='no'>test_data</span>,
   <span class='no'>outcome_colname</span>,
   <span class='no'>outcome_value</span>,
-  <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -139,10 +138,6 @@
     <tr>
       <th>trained_model</th>
       <td><p>trained model from caret</p></td>
-    </tr>
-    <tr>
-      <th>train_data</th>
-      <td><p>training data: dataframe of outcome and features</p></td>
     </tr>
     <tr>
       <th>test_data</th>
@@ -157,14 +152,14 @@
       <td><p>outcome value of interest as a string</p></td>
     </tr>
     <tr>
-      <th>corr_thresh</th>
-      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
+      <th>seed</th>
+      <td><p>random seed (default: NULL)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc</p>
+    <p>a one-row tibble with columns <code>cv_auroc</code>, <code>test_auroc</code>, <code>test_auprc</code>, <code>method</code>, and <code>seed</code></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
