@@ -189,7 +189,9 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   }
 
   # check binary outcome
-  outcomes <- dataset %>% dplyr::pull(outcome_colname) %>% unique()
+  outcomes <- dataset %>%
+    dplyr::pull(outcome_colname) %>%
+    unique()
   num_outcomes <- length(outcomes)
   if (num_outcomes != 2) {
     stop(
