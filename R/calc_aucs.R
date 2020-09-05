@@ -1,6 +1,5 @@
 #' Calculate AUROC and AUPRC
 #'
-#' @param trained_model trained model from caret
 #' @inheritParams get_feature_importance
 #' @inheritParams run_ml
 #'

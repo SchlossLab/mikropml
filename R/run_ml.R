@@ -114,13 +114,16 @@ run_ml <-
 
     feature_importance_result <- "Skipped feature importance"
     if (find_feature_importance) {
-      feature_importance_result <- get_feature_importance(method,
-                                                          train_data,
-                                                          test_data,
-                                                          outcome_colname,
-                                                          outcome_value,
-                                                          corr_thresh,
-                                                          seed)
+      feature_importance_result <- get_feature_importance(
+          trained_model_caret,
+          train_data,
+          test_data,
+          outcome_colname,
+          outcome_value,
+          corr_thresh
+        ) %>%
+        dplyr::mutate(method = method,
+                      seed = seed)
     }
 
     return(
