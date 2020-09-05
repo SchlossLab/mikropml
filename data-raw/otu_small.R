@@ -5,7 +5,7 @@ usethis::use_data(otu_small, overwrite = TRUE)
 ## code to prepare models with the `otu_small` otu_small
 set.seed(2019)
 outcome_colname <- "dx"
-outcome_value <- 'cancer'
+outcome_value <- "cancer"
 kfolds <- 5
 
 inTraining <-
@@ -74,7 +74,7 @@ trained_model_sm1 <- caret::train(
   method = "regLogistic",
   trControl = otu_sm_cv5,
   metric = "ROC",
-  tuneGrid = get_tuning_grid(hparams_list, 'regLogistic'),
+  tuneGrid = get_tuning_grid(hparams_list, "regLogistic"),
   family = "binomial"
 )
 usethis::use_data(trained_model_sm1, overwrite = TRUE)

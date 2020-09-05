@@ -64,8 +64,14 @@
 #' 2-fold cross validation on `train_data_mini`
 "otu_mini_cv2"
 
+#' 2-fold cross validation on `train_data_mini` with grouped features
+"otu_mini_cv2_grp"
+
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
 "otu_mini_results1"
+
+#' Results from running the pipline with L2 logistic regression on `otu_mini` with feature grouping
+"otu_mini_results1_grp"
 
 #' Results from running the pipline with random forest on `otu_mini`
 "otu_mini_results2"
@@ -75,6 +81,9 @@
 
 #' Results from running the pipline with xbgTree on `otu_mini`
 "otu_mini_results4"
+
+#' Results from running the pipline with rpart2 on `otu_mini`
+"otu_mini_results5"
 
 #' Results from running the pipline with rpart2 on `otu_medium`
 "otu_med_results"
