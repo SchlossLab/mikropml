@@ -20,13 +20,13 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, 
   if (!is.null(seed)) {
     set.seed(seed)
   }
-  if(is.null(group)){
+  if (is.null(group)) {
     cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),
-                                       kfold,
-                                       times = cv_times
+      kfold,
+      times = cv_times
     )
-  }else{
-    cvIndex <- groupKMultiFolds(group, kfold=kfold, cv_times=cv_times)
+  } else {
+    cvIndex <- groupKMultiFolds(group, kfold = kfold, cv_times = cv_times)
   }
 
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))

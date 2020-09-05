@@ -72,14 +72,14 @@ usethis::use_data(otu_mini_results1, overwrite = TRUE)
 set.seed(0)
 group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
 otu_mini_results1_grp <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
-                                      "regLogistic",
-                                      outcome_colname = "dx",
-                                      outcome_value = "cancer",
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2,
-                                      group = group
+  "regLogistic",
+  outcome_colname = "dx",
+  outcome_value = "cancer",
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2,
+  group = group
 )
 usethis::use_data(otu_mini_results1_grp, overwrite = TRUE)
 
@@ -120,12 +120,12 @@ otu_mini_results4 <- mikRopML::run_ml(otu_mini,
 usethis::use_data(otu_mini_results4, overwrite = TRUE)
 
 otu_mini_results5 <- mikRopML::run_ml(otu_mini,
-                                      "rpart2",
-                                      outcome_colname = "dx",
-                                      outcome_value = "cancer",
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 5
+  "rpart2",
+  outcome_colname = "dx",
+  outcome_value = "cancer",
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 5
 )
 usethis::use_data(otu_mini_results5, overwrite = TRUE)

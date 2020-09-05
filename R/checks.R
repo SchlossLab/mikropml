@@ -269,37 +269,36 @@ check_features <- function(features, check_missing = TRUE) {
 #' @export
 #'
 #' @examples
-#' check_group(mikRopML::otu_mini, sample(LETTERS,nrow(mikRopML::otu_mini),replace=TRUE),kfold=2)
-check_group <- function(dataset,group,kfold){
+#' check_group(mikRopML::otu_mini, sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE), kfold = 2)
+check_group <- function(dataset, group, kfold) {
   # check that group is a vector or NULL
   isvec <- is.vector(group)
   isnull <- is.null(group)
-  if(!(isvec | isnull)){
-    stop(paste0("group should be either a vector or NULL, but group is class ",class(group),'.'))
+  if (!(isvec | isnull)) {
+    stop(paste0("group should be either a vector or NULL, but group is class ", class(group), "."))
   }
   # if group is a vector, check that it's the correct length
-  if(isvec){
-    ndat <- nrow(dataset) 
+  if (isvec) {
+    ndat <- nrow(dataset)
     ngrp <- length(group)
-    if(ndat != ngrp){
-      stop(paste0("group should be a vector that is the same length as the number of rows in the dataset (", ndat, "), but it is of length ",ngrp,"."))
+    if (ndat != ngrp) {
+      stop(paste0("group should be a vector that is the same length as the number of rows in the dataset (", ndat, "), but it is of length ", ngrp, "."))
     }
     # check that there are no NAs in group
     nas <- is.na(group)
     nnas <- sum(nas)
-    if(any(nas)){
-      stop(paste0("No NA values are allowed in group, but ",nnas," NA(s) are present."))
+    if (any(nas)) {
+      stop(paste0("No NA values are allowed in group, but ", nnas, " NA(s) are present."))
     }
     # check that there is more than 1 group
     ngrp <- length(unique(group))
-    if(ngrp < 2){
+    if (ngrp < 2) {
       stop(paste0("The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"))
     }
     # check that kfold is not greater than the number of groups minus 1 (assuming 1 in the test set)
-    if(kfold > (ngrp-1)){
-      stop(paste0("The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ",ngrp, ". `kfold`: ",kfold,'.'))
+    if (kfold > (ngrp - 1)) {
+      stop(paste0("The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ", ngrp, ". `kfold`: ", kfold, "."))
     }
-    
   }
 }
 
@@ -322,8 +321,8 @@ check_corr_thresh <- function(corr_thresh) {
   if (!is.null(corr_thresh) & !is.numeric(corr_thresh)) {
     stop(err)
   }
-  if(is.numeric(corr_thresh)){
-    if(!(corr_thresh >= 0 & corr_thresh <= 1)){
+  if (is.numeric(corr_thresh)) {
+    if (!(corr_thresh >= 0 & corr_thresh <= 1)) {
       stop(err)
     }
   }

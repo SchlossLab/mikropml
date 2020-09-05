@@ -149,13 +149,13 @@ test_that("check_features works", {
 })
 
 test_that("check_group works", {
-  expect_null(check_group(mikRopML::otu_mini,NULL,2))
-  expect_null(check_group(mikRopML::otu_mini,sample(LETTERS,nrow(mikRopML::otu_mini),replace=T),2))
-  expect_error(check_group(mikRopML::otu_mini,c(1,2),2),"group should be a vector that is the same length as the number of rows in the dataset")
-  expect_error(check_group(mikRopML::otu_mini,data.frame(x=c(1,2)),2), "group should be either a vector or NULL, but group is class")
-  expect_error(check_group(mikRopML::otu_mini,c(rep(1,199),NA),2), "No NA values are allowed in group, but ")
-  expect_error(check_group(mikRopML::otu_mini,c(rep(1,200)),2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
-  expect_error(check_group(mikRopML::otu_mini,c(rep(1,199),2),5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
+  expect_null(check_group(mikRopML::otu_mini, NULL, 2))
+  expect_null(check_group(mikRopML::otu_mini, sample(LETTERS, nrow(mikRopML::otu_mini), replace = T), 2))
+  expect_error(check_group(mikRopML::otu_mini, c(1, 2), 2), "group should be a vector that is the same length as the number of rows in the dataset")
+  expect_error(check_group(mikRopML::otu_mini, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
+  expect_error(check_group(mikRopML::otu_mini, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
+  expect_error(check_group(mikRopML::otu_mini, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
+  expect_error(check_group(mikRopML::otu_mini, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
 })
 
 test_that("check_corr_thresho works", {

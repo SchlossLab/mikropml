@@ -55,20 +55,20 @@ run_ml <-
       set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
     }
 
-    if(is.null(group)){
+    if (is.null(group)) {
       training_inds <-
         caret::createDataPartition(dataset[, outcome_colname],
-                                   p = training_frac, list = FALSE
+          p = training_frac, list = FALSE
         )
-    }else{
+    } else {
       training_inds <-
         createGroupedDataPartition(group,
-                                   p = training_frac
+          p = training_frac
         )
       train_group <- group[training_inds]
       test_group <- group[-training_inds]
     }
-    
+
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
 
@@ -78,23 +78,23 @@ run_ml <-
     check_hyperparams(hyperparameters, method = method)
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
-    if(is.null(group)){
+    if (is.null(group)) {
       cv <- define_cv(train_data,
-                      outcome_colname,
-                      hyperparameters,
-                      kfold = kfold,
-                      seed = seed,
-                      cv_times = cv_times
-      )     
-    }else{
+        outcome_colname,
+        hyperparameters,
+        kfold = kfold,
+        seed = seed,
+        cv_times = cv_times
+      )
+    } else {
       cv <- define_cv(train_data,
-                      outcome_colname,
-                      hyperparameters,
-                      kfold = kfold,
-                      cv_times = cv_times,
-                      group = train_group,
-                      seed = seed
-      )  
+        outcome_colname,
+        hyperparameters,
+        kfold = kfold,
+        cv_times = cv_times,
+        group = train_group,
+        seed = seed
+      )
     }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
@@ -140,21 +140,25 @@ run_ml <-
     feature_importance_result <- "Skipped feature importance"
     if (find_feature_importance) {
       feature_importance_result <-
-        get_feature_importance(trained_model_caret,
-                               train_data,
-                               test_data,
-                               outcome_colname,
-                               outcome_value,
-                               corr_thresh)
+        get_feature_importance(
+          trained_model_caret,
+          train_data,
+          test_data,
+          outcome_colname,
+          outcome_value,
+          corr_thresh
+        )
     }
 
     return(
       list(
         trained_model = trained_model_caret,
-        performance = get_performance_tbl(trained_model_caret,
-                                          test_data,
-                                          outcome_colname,
-                                          outcome_value),
+        performance = get_performance_tbl(
+          trained_model_caret,
+          test_data,
+          outcome_colname,
+          outcome_value
+        ),
         feature_importance = feature_importance_result
       )
     )
