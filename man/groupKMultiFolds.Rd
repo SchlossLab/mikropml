@@ -21,5 +21,6 @@ Like \link[caret]{createMultiFolds} but still splitting by group using \link[car
 }
 \examples{
 set.seed(0)
+group <- c('A','B','A','B','C','C','A','A','D')
 folds <- groupKMultiFolds(group, kfold=2, cv_times=2)
 }
