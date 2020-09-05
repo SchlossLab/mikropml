@@ -11,6 +11,7 @@
 #'
 #' @return preprocessed data
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' preprocess_data(mikRopML::otu_small, "dx")
@@ -80,6 +81,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #'
 #' @return dataset with no missing outcomes
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' rm_missing_outcome(mikRopML::otu_mini, "dx")
@@ -99,12 +101,13 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 }
 
 
-#' Change features to numeric if possible
+#' Change columns to numeric if possible
 #'
 #' @param features dataframe of features for machine learning
 #'
-#' @return
+#' @return dataframe with numeric columns where possible
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
@@ -126,6 +129,7 @@ change_to_num <- function(features) {
 #'
 #' @return list of two dataframes: features with variability (unprocessed) and without (processed)
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' process_novar_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
@@ -172,6 +176,7 @@ process_novar_feats <- function(features) {
 #'
 #' @return list of two dataframes: categorical (processed) and continuous features (unprocessed)
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' process_cat_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
@@ -235,6 +240,7 @@ process_cat_feats <- function(features) {
 #'
 #' @return dataframe of preprocessed features
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' process_cont_feats(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
@@ -279,6 +285,7 @@ process_cont_feats <- function(features, method) {
 #'
 #' @return processed matrix
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_caret_processed_df(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
@@ -296,6 +303,7 @@ get_caret_processed_df <- function(features, method) {
 #'
 #' @return design matrix
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' df <- data.frame(
@@ -324,6 +332,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 #'
 #' @return features where perfectly correlated ones are collapsed
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
