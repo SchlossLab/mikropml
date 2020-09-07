@@ -42,7 +42,7 @@ utils::globalVariables(c("."))
 #' get_outcome_value(otu_medium, "dx", "first")
 pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
   if (method == "fewer") {
-    outcome_value <- names(which.min(table(dataset[, outcome_colname])))
+    outcome_value <- names(which.min(table(dataset %>% dplyr::pull(outcome_colname))))
   } else if (method == "first") {
     outcome_value <- as.character(dataset[1, outcome_colname])
   } else {

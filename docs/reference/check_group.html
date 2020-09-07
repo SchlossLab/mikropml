@@ -124,7 +124,7 @@
     <p>Check group</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_group</span>(<span class='no'>dataset</span>, <span class='no'>group</span>, <span class='no'>kfold</span>)</pre>
+    <pre class="usage"><span class='fu'>check_group</span>(<span class='kw'>dataset</span>, <span class='kw'>group</span>, <span class='kw'>kfold</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,10 +150,11 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>check_group</span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-  <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>2</span>
-)</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>check_group</span>(<span class='kw'>mikRopML</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='kw'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>mikRopML</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>), replace = <span class='fl'>TRUE</span>),
+  kfold = <span class='fl'>2</span>
+)
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -169,7 +170,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -124,7 +124,7 @@
     <p>Get preprocessed dataframe for continuous variables</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_caret_processed_df</span>(<span class='no'>features</span>, <span class='no'>method</span>)</pre>
+    <pre class="usage"><span class='fu'>get_caret_processed_df</span>(<span class='kw'>features</span>, <span class='kw'>method</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,9 +142,13 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>processed matrix</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_caret_processed_df</span>(<span class='kw pkg'>mikRopML</span><span class='kw ns'>::</span><span class='no'><a href='otu_small.html'>otu_small</a></span>[, <span class='fl'>2</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>otu_small</span>)], <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"scale"</span>))</div><div class='output co'>#&gt;          Otu00001     Otu00002     Otu00003    Otu00004     Otu00005
+    <pre class="examples"><div class='input'><span class='fu'>get_caret_processed_df</span>(<span class='kw'>mikRopML</span>::<span class='kw'><a href='otu_small.html'>otu_small</a></span>[, <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>otu_small</span>)], <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"scale"</span>))
+</div><div class='output co'>#&gt;          Otu00001     Otu00002     Otu00003    Otu00004     Otu00005
 #&gt; 1   -0.4198476322 -0.218855527 -0.174296240 -0.59073845 -0.048774220
 #&gt; 2   -0.1045750483  1.754032339 -0.718419364  0.03805034  1.537072974
 #&gt; 3   -0.7076423302  0.696324396  1.428146361  0.60439092 -0.264559044
@@ -2370,7 +2374,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

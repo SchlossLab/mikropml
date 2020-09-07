@@ -123,16 +123,16 @@ test_that("check_training_frac works", {
 })
 
 test_that("check_seed works", {
-  expect_true(is.null(check_seed(NULL)))
+  expect_true(is.null(check_seed(NA)))
   expect_true(is.null(check_seed(10)))
   expect_error(
     check_seed("not_a_number"),
-    "`seed` must be `NULL` or numeric."
+    "`seed` must be `NA` or numeric."
   )
 })
 
 test_that("check_all works", {
-  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NULL))
+  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NA))
 })
 
 test_that("check if package is installed", {

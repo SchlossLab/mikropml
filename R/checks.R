@@ -124,7 +124,7 @@ check_training_frac <- function(frac) {
   }
 }
 
-#' check that the seed is either NULL or a number
+#' check that the seed is either NA or a number
 #'
 #' @param seed random seed
 #'
@@ -135,9 +135,9 @@ check_training_frac <- function(frac) {
 #' check_seed(2019)
 #' check_seed(NULL)
 check_seed <- function(seed) {
-  if (!is.null(seed) & !is.numeric(seed)) {
+  if (!is.na(seed) & !is.numeric(seed)) {
     stop(paste0(
-      "`seed` must be `NULL` or numeric.\n",
+      "`seed` must be `NA` or numeric.\n",
       "    You provided: ", seed
     ))
   }
@@ -180,13 +180,14 @@ check_outcome_column <- function(dataset, outcome_colname) {
 #' check_outcome_value(otu_small, "dx", "cancer")
 check_outcome_value <- function(dataset, outcome_colname, outcome_value, method = "fewer") {
   # check no NA's
-  num_missing <- sum(is.na(dataset[, outcome_colname]))
+  outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
+  num_missing <- sum(is.na(outcomes_vec))
   if (num_missing != 0) {
     stop(paste0("Missing data in the output variable is not allowed, but the outcome variable has ", num_missing, " missing value(s) (NA)."))
   }
 
   # check for empty strings
-  num_empty <- sum(dataset[, outcome_colname] == "")
+  num_empty <- sum(outcomes_vec == "")
   if (num_empty != 0) {
     warning(paste0("Possible missing data in the output variable: ", num_empty, " empty value(s)."))
   }
@@ -208,7 +209,7 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   if (is.null(outcome_value)) {
     outcome_value <-
       pick_outcome_value(dataset, outcome_colname, method = method)
-  } else if (!any(dataset[, outcome_colname] == outcome_value)) {
+  } else if (!any(outcomes_vec == outcome_value)) {
     stop(
       paste0(
         "No rows in the outcome column (",

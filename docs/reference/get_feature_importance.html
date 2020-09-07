@@ -125,12 +125,12 @@
     </div>
 
     <pre class="usage"><span class='fu'>get_feature_importance</span>(
-  <span class='no'>trained_model</span>,
-  <span class='no'>train_data</span>,
-  <span class='no'>test_data</span>,
-  <span class='no'>outcome_colname</span>,
-  <span class='no'>outcome_value</span>,
-  <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>
+  <span class='kw'>trained_model</span>,
+  <span class='kw'>train_data</span>,
+  <span class='kw'>test_data</span>,
+  <span class='kw'>outcome_colname</span>,
+  <span class='kw'>outcome_value</span>,
+  corr_thresh = <span class='fl'>1</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -165,6 +165,10 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
+<p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -181,7 +185,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
