@@ -18,7 +18,7 @@ row position integers corresponding to the training data
 Split into train and test set while splitting by group
 }
 \examples{
-group <- c('A','B','A','B','C','C','A','A','D')
+group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 set.seed(0)
-train_ind <- createGroupedDataPartition(group,0.8)
+train_ind <- createGroupedDataPartition(group, 0.8)
 }
