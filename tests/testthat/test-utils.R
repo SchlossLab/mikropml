@@ -105,11 +105,11 @@ test_that("setup_parallel works", {
 
 test_that("get_performance_tbl works", {
   expect_equal(
-    get_performance_tbl(
-      trained_model_mini,
+    get_performance_tbl(trained_model_mini,
       test_data_mini,
       "dx",
-      "cancer"
+      "cancer",
+      seed = 2019
     ),
     otu_mini_results1$performance
   )
