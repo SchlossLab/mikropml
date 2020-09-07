@@ -27,7 +27,7 @@ define_cv(
 
 \item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
-\item{seed}{random seed (default: NULL)}
+\item{seed}{random seed (default: NA)}
 }
 \value{
 Caret object for trainControl that controls cross-validation

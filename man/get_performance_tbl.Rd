@@ -21,7 +21,7 @@ get_performance_tbl(
 
 \item{outcome_value}{outcome value of interest as a string}
 
-\item{seed}{random seed (default: NULL)}
+\item{seed}{random seed (default: NA)}
 }
 \value{
 a one-row tibble with columns \code{cv_auroc}, \code{test_auroc}, \code{test_auprc}, \code{method}, and \code{seed}

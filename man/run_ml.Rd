@@ -16,7 +16,7 @@ run_ml(
   training_frac = 0.8,
   group = NULL,
   corr_thresh = 1,
-  seed = NULL,
+  seed = NA,
   ncores = NA
 )
 }
@@ -43,7 +43,7 @@ run_ml(
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 
-\item{seed}{random seed (default: NULL)}
+\item{seed}{random seed (default: NA)}
 
 \item{ncores}{number of cores for parallel processing (default: NA). \code{parallel} and \code{doParallel} packages are needed for ncores > 1}
 }
@@ -52,6 +52,14 @@ named list with results
 }
 \description{
 Run the machine learning pipeline
+}
+\examples{
+\dontrun{
+run_ml(otu_large, 'regLogistic')
+run_ml(otu_mini, 'regLogistic',
+       kfold = 2,
+       find_feature_importance = TRUE)
+}
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
