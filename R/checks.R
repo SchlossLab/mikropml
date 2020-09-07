@@ -124,7 +124,7 @@ check_training_frac <- function(frac) {
   }
 }
 
-#' check that the seed is either NULL or a number
+#' check that the seed is either NA or a number
 #'
 #' @param seed random seed
 #'
@@ -135,9 +135,9 @@ check_training_frac <- function(frac) {
 #' check_seed(2019)
 #' check_seed(NULL)
 check_seed <- function(seed) {
-  if (!is.null(seed) & !is.numeric(seed)) {
+  if (!is.na(seed) & !is.numeric(seed)) {
     stop(paste0(
-      "`seed` must be `NULL` or numeric.\n",
+      "`seed` must be `NA` or numeric.\n",
       "    You provided: ", seed
     ))
   }
