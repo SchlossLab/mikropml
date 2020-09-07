@@ -127,7 +127,7 @@ test_that("check_seed works", {
   expect_true(is.null(check_seed(10)))
   expect_error(
     check_seed("not_a_number"),
-    "`seed` must be `NULL` or numeric."
+    "`seed` must be `NA` or numeric."
   )
 })
 
