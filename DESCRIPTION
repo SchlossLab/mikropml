@@ -1,5 +1,5 @@
 Package: mikRopML
-Title: What the Package Does (One Line, Title Case)
+Title: User-Friendly Machine Learning Package for Classification Problems
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Begüm",
