@@ -21,6 +21,7 @@ Check group
 }
 \examples{
 check_group(mikRopML::otu_mini,
-            sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE),
-            kfold = 2)
+  sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE),
+  kfold = 2
+)
 }
