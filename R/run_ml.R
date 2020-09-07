@@ -22,10 +22,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' run_ml(otu_large, 'regLogistic')
-#' run_ml(otu_mini, 'regLogistic',
-#'        kfold = 2,
-#'        find_feature_importance = TRUE)
+#' run_ml(otu_large, "regLogistic")
+#' run_ml(otu_mini, "regLogistic",
+#'   kfold = 2,
+#'   find_feature_importance = TRUE
+#' )
 #' }
 run_ml <-
   function(dataset,
