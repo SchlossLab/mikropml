@@ -11,7 +11,7 @@
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param group vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
-#' @param seed random seed (default: NULL)
+#' @param seed random seed (default: NA)
 #' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
 #' @return named list with results
@@ -20,6 +20,13 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
+#' @examples
+#' \dontrun{
+#' run_ml(otu_large, 'regLogistic')
+#' run_ml(otu_mini, 'regLogistic',
+#'        kfold = 2,
+#'        find_feature_importance = TRUE)
+#' }
 run_ml <-
   function(dataset,
            method,
@@ -32,7 +39,7 @@ run_ml <-
            training_frac = 0.8,
            group = NULL,
            corr_thresh = 1,
-           seed = NULL,
+           seed = NA,
            ncores = NA) {
     check_all(
       dataset,
@@ -57,7 +64,7 @@ run_ml <-
 
     if (is.null(group)) {
       training_inds <-
-        caret::createDataPartition(dataset[, outcome_colname],
+        caret::createDataPartition(dataset %>% dplyr::pull(outcome_colname),
           p = training_frac, list = FALSE
         )
     } else {

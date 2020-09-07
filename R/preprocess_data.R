@@ -90,7 +90,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
 rm_missing_outcome <- function(dataset, outcome_colname) {
-  n_outcome_na <- sum(is.na(dataset[, outcome_colname]))
+  n_outcome_na <- sum(is.na(dataset %>% dplyr::pull(outcome_colname)))
   total_outcomes <- nrow(dataset)
   perc_na <- round(n_outcome_na / total_outcomes * 100, 2)
   dataset <- dataset %>% dplyr::filter(!is.na(!!(dplyr::sym(outcome_colname))))
