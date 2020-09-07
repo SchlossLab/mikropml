@@ -49,7 +49,7 @@ get_predictions <- function(trained_model, test_data, outcome_value) {
 #' @examples
 #' recode_outcome(test_data_sm, "dx", "cancer")
 recode_outcome <- function(test_data, outcome_colname, outcome_value) {
-  outcome_vec <- test_data[, outcome_colname]
+  outcome_vec <- test_data %>% dplyr::pull(outcome_colname)
   return(ifelse(outcome_vec == outcome_value, 1, 0))
 }
 
