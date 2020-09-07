@@ -189,13 +189,15 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   }
 
   # check binary outcome
-  outcomes <- unique(dataset[, outcome_colname])
+  outcomes <- dataset %>%
+    dplyr::pull(outcome_colname) %>%
+    unique()
   num_outcomes <- length(outcomes)
   if (num_outcomes != 2) {
     stop(
       paste0(
         "A binary outcome variable is required, but this dataset has ",
-        num_outcomes,  " outcomes: ", paste(outcomes, collapse = ",")
+        num_outcomes,  " outcome(s): ", paste(outcomes, collapse = ", ")
       )
     )
   }
