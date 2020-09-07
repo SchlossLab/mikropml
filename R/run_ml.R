@@ -20,6 +20,13 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
+#' @examples
+#' \dontrun{
+#' run_ml(otu_large, 'regLogistic')
+#' run_ml(otu_mini, 'regLogistic',
+#'        kfold = 2,
+#'        find_feature_importance = TRUE)
+#' }
 run_ml <-
   function(dataset,
            method,
@@ -57,7 +64,7 @@ run_ml <-
 
     if (is.null(group)) {
       training_inds <-
-        caret::createDataPartition(dataset[, outcome_colname],
+        caret::createDataPartition(dataset %>% dplyr::pull(outcome_colname),
           p = training_frac, list = FALSE
         )
     } else {
