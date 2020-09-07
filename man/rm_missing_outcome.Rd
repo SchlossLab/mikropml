@@ -24,3 +24,6 @@ test_df <- mikRopML::otu_mini
 test_df[1:100, "dx"] <- NA
 rm_missing_outcome(test_df, "dx")
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}
