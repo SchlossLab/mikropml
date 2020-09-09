@@ -153,12 +153,10 @@ run_ml <-
         test_data,
         outcome_colname,
         outcome_value,
+        method,
+        seed,
         corr_thresh
-      ) %>%
-        dplyr::mutate(
-          method = method,
-          seed = seed
-        )
+      )
     }
 
     return(
