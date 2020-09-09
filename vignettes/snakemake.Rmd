@@ -10,8 +10,64 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  eval = FALSE
 )
 ```
+```{r, include=FALSE}
+library(knitr)
+```
 
-Snakemake is
+Snakemake is... TODO
+
+## Setup
+
+1. Clone or download the [mikRopML-snakemake-workflow](https://github.com/SchlossLab/mikRopML-snakemake-workflow) repo.
+
+    ```{sh}
+    git clone https://github.com/SchlossLab/mikRopML-snakemake-workflow
+    cd mikRopML-snakemake-workflow
+    ```
+
+1. Install snakemake.
+
+    We recommend using conda (see 
+    [miniconda installation here](https://docs.conda.io/en/latest/miniconda.html)) 
+    to install Snakemake and its dependencies. 
+    Create a conda environment and activate it with:
+    
+    ```{sh}
+    conda env create -f config/environment.yml
+    conda activate smk-ML
+    ```
+    
+    Alternatively, you can 
+    [install snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) 
+    and the other dependencies listed in `config/environment.yml` however you like.
+    
+1. Install the mikRopML R package: see the [mikRopML install instructions](https://github.com/SchlossLab/mikRopML#installation).
+
+    e.g.
+    ```{sh}
+    R -e 'devtools::install_github("SchlossLab/mikRopML")'
+    ```
+
+## The Workflow
+
+The `Snakefile` contains rules which define the output files we want and how to make them.
+Snakemake automatically figures out the dependencies of each of the rules and 
+what order to run them in.
+You can visualize the rulegraph with:
+
+```{sh}
+snakemake --rulegraph | dot -T png > figures/rulegraph.png
+```
+![](https://raw.githubusercontent.com/SchlossLab/mikRopML-snakemake-workflow/master/figures/rulegraph.png)
+
+
+
+## Configuration
+
+## HPC
+
