@@ -6,6 +6,7 @@ citEntry(
   author = personList(as.person("Begüm Topçuoğlu"),
                       as.person("Zena Lapp"),
                       as.person("Kelly L. Sovacool"),
+                      as.person("Evan Snitkin"),
                       as.person("Jenna Wiens"),
                       as.person("Patrick D. Schloss")),
   year = "2020",
