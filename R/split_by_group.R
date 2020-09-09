@@ -48,7 +48,6 @@ createGroupedDataPartition = function(group, p) {
 #' @param group equivalent to y in caret::createMultiFolds
 #' @param kfold equivalent to k in caret::createMultiFolds
 #' @param cv_times equivalent to cv_times in caret::createMultiFolds
-#' @inheritParams run_ml
 #'
 #' @return indices of folds for CV
 #' @export
