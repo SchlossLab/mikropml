@@ -47,7 +47,8 @@ Suggests:
     rpart,
     xgboost,
     parallel,
-    doParallel,
+    future,
+    doFuture,
     foreach
 VignetteBuilder: knitr
 Depends: 
