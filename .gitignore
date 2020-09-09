@@ -1,4 +1,5 @@
-data/temp/*
+Meta/
+doc/
 .DS_Store
 *.Rproj
 *.Rproj.user
