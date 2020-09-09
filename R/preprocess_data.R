@@ -112,8 +112,9 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @examples
 #' class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
 change_to_num <- function(features) {
+  lapply_fn <- select_apply(fun = "lapply")
   check_features(features, check_missing = FALSE)
-  features[] <- lapply(features, function(col) {
+  features[] <- lapply_fn(features, function(col) {
     if (suppressWarnings(all(!is.na(as.numeric(as.character(col)))))) {
       as.numeric(as.character(col))
     } else {
@@ -137,11 +138,13 @@ process_novar_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
   # get features with no variation
-  novar_feats_bool <- apply(features, 2, function(x) length(unique(x[!is.na(x)])) == 1)
+  apply_fn <- select_apply(fun = "apply")
+  novar_feats_bool <- apply_fn(features, 2, function(x) length(unique(x[!is.na(x)])) == 1)
   novar_feats <- features %>% dplyr::select_if(novar_feats_bool)
 
   # change categorical features with no variation to zero
-  novar_feats <- sapply(novar_feats, function(x) {
+  sapply_fn <- select_apply(fun = "sapply")
+  novar_feats <- sapply_fn(novar_feats, function(x) {
     if (class(x) %in% c("factor", "character")) {
       rep(0, length(x))
     } else {
@@ -160,7 +163,8 @@ process_novar_feats <- function(features) {
 
   # make missing data identical to others for novar_feats (not sure this is the best way to go)
   n_missing <- sum(is.na(novar_feats))
-  novar_feats[] <- lapply(novar_feats, function(x) {
+  lapply_fn <- select_apply("lapply")
+  novar_feats[] <- lapply_fn(novar_feats, function(x) {
     rep(unique(x[!is.na(x)]), nrow(novar_feats))
   })
   if (n_missing > 0) {
@@ -183,7 +187,8 @@ process_novar_feats <- function(features) {
 process_cat_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
-  cat_feats_bool <- sapply(features, function(x) {
+  sapply_fn <- select_apply("sapply")
+  cat_feats_bool <- sapply_fn(features, function(x) {
     xu <- unique(x[!is.na(x)])
     cl <- class(x)
     bool <- (cl %in% c("character", "factor") | length(xu) == 2) &
@@ -192,7 +197,8 @@ process_cat_feats <- function(features) {
   cat_feats <- features %>%
     dplyr::select_if(cat_feats_bool) %>%
     dplyr::mutate_all(as.character)
-  cat_feats[] <- lapply(cat_feats, function(x) {
+  lapply_fn <- select_apply(fun = "lapply")
+  cat_feats[] <- lapply_fn(cat_feats, function(x) {
     x[!is.na(x)] <- paste0("_", x[!is.na(x)])
     x
   })
@@ -204,7 +210,7 @@ process_cat_feats <- function(features) {
 
   feature_design_cat_mat <- NULL
   if (ncol(cat_feats) != 0) {
-    no_missing_bin <- sapply(cat_feats, function(x) !any(is.na(x)) & length(unique(x[!is.na(x)])) == 2)
+    no_missing_bin <- sapply_fn(cat_feats, function(x) !any(is.na(x)) & length(unique(x[!is.na(x)])) == 2)
     no_missing_bin_mat <- cat_feats[, no_missing_bin] %>% dplyr::as_tibble()
     missing_nonbin_mat <- cat_feats[, !no_missing_bin] %>% dplyr::as_tibble()
 
@@ -250,22 +256,18 @@ process_cont_feats <- function(features, method) {
   transformed_cont <- NULL
 
   if (ncol(features) != 0) {
-    # types of features present
-    # class_feats <- sapply(features, function(x) class(x))
-    # cont_feats <- sum(class_feats %in% c("integer", "numeric"))
-    # cat_feats <- sum(class_feats %in% c("character", "factor"))
-
     # transform continuous features
     transformed_cont <- features
     if (ncol(features) > 0 & !is.null(method)) {
       transformed_cont <- get_caret_processed_df(features, method)
     }
-    cl <- sapply(transformed_cont, function(x) class(x))
+    sapply_fn <- select_apply("sapply")
+    cl <- sapply_fn(transformed_cont, function(x) class(x))
     missing <- is.na(transformed_cont[, cl %in% c("integer", "numeric")])
     n_missing <- sum(missing)
     if (n_missing > 0) {
       # impute missing data using the median value
-      transformed_cont <- sapply(transformed_cont, function(x) {
+      transformed_cont <- sapply_fn(transformed_cont, function(x) {
         if (class(x) %in% c("integer", "numeric")) {
           m <- is.na(x)
           x[m] <- stats::median(x, na.rm = TRUE)
@@ -337,7 +339,8 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 #' @examples
 #' rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
 rm_corr_feats <- function(features) {
-  if (any(sapply(features, class) %in% c("character", "factor"))) {
+  sapply_fn <- select_apply(fun = "sapply")
+  if (any(sapply_fn(features, class) %in% c("character", "factor"))) {
     stop("Some features are charactors or factors. Please remove these before proceeding with `rm_corr_feats`.")
   }
   if (!is.null(process_novar_feats(features)$novar_feats)) {
@@ -350,7 +353,7 @@ rm_corr_feats <- function(features) {
     corr_mat <- stats::cor(features)
     corr_cols <- caret::findCorrelation(corr_mat, cutoff = 1 - 10e-15)
     feats_nocorr <- features %>% dplyr::select(-dplyr::all_of(corr_cols))
-    names_grps <- sapply(names(feats_nocorr), function(n) {
+    names_grps <- sapply_fn(names(feats_nocorr), function(n) {
       not_corr <- n %in% corr_feats
       if (not_corr) {
         name <- n
@@ -365,7 +368,7 @@ rm_corr_feats <- function(features) {
     } else {
       names(names_grps)[grp_cols] <- paste0("grp", 1:num_grps)
       names(feats_nocorr) <- names(names_grps)
-      grp_feats <- sapply(names_grps, function(x) strsplit(x, split = "\\|"))
+      grp_feats <- sapply_fn(names_grps, function(x) strsplit(x, split = "\\|"))
       output <- list(features = feats_nocorr, grp_feats = grp_feats)
     }
   }
