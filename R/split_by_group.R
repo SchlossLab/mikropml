@@ -75,7 +75,8 @@ groupKMultiFolds <- function(group, kfold = 10, cv_times = 5) {
       c(out, tmp)
     }
   }
-  if (any(sapply(out, length) == 0)) {
+  sapply_fn <- select_apply("sapply")
+  if (any(sapply_fn(out, length) == 0)) {
     stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the grouping functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
   }
   out
