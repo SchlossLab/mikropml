@@ -174,7 +174,7 @@ setup_parallel <- function(ncores) {
         ))
       } else {
         doFuture::registerDoFuture()
-        future::plan(future::multiprocess)
+        future::plan(future::multiprocess, workers = ncores)
         message(paste("Using", ncores, "cores for parallel processing."))
       }
     }
