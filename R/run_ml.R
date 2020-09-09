@@ -130,7 +130,7 @@ run_ml <-
         metric = metric,
         tuneGrid = tune_grid,
         ntree = 1000
-      ) # not tuning ntree
+      ) # caret doesn't allow ntree to be tuned
     }
     else {
       trained_model_caret <- caret::train(
