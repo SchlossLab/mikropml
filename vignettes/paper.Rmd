@@ -12,7 +12,8 @@ tags:
   - microbiology
 authors:
   - name: Begüm D. Topçuoğlu
-    affiliation: 4
+    orcid: 0000-0003-3140-537X
+    affiliation: 1;4
   - name: Zena Lapp
     orcid: 0000-0003-4674-2176
     affiliation: 1
@@ -35,7 +36,7 @@ affiliations:
     index: 2
   - name: Department of Microbiology & Immunology, University of Michigan
     index: 3
-  - name: Merck & Co., Inc.
+  - name: Exploratory Science Center, Merck & Co., Inc., Cambridge, Massachusetts, USA.
     index: 4
   - name: Department of Internal Medicine/Division of Infectious Diseases, University of Michigan
     index: 5
