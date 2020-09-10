@@ -59,8 +59,8 @@ run_ml <-
     )
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
 
-    if (!is.null(seed)) {
-      set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
+    if (!is.na(seed)) {
+      set.seed(seed)
     }
 
     if (is.null(group)) {
@@ -107,7 +107,7 @@ run_ml <-
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
 
-    pcluster <- setup_parallel(ncores)
+    multiproc <- setup_parallel(ncores)
 
     metric <- "ROC"
     if (method == "regLogistic") {
@@ -143,11 +143,16 @@ run_ml <-
       )
     }
 
-    stop_parallel(pcluster)
-
-    feature_importance_result <- "Skipped feature importance"
+    performance_tbl <- get_performance_tbl(
+      trained_model_caret,
+      test_data,
+      outcome_colname,
+      outcome_value,
+      seed
+    )
+    feature_importance_tbl <- "Skipped feature importance"
     if (find_feature_importance) {
-      feature_importance_result <- get_feature_importance(
+      feature_importance_tbl <- get_feature_importance(
         trained_model_caret,
         train_data,
         test_data,
@@ -159,17 +164,12 @@ run_ml <-
       )
     }
 
+    stop_parallel(multiproc)
     return(
       list(
         trained_model = trained_model_caret,
-        performance = get_performance_tbl(
-          trained_model_caret,
-          test_data,
-          outcome_colname,
-          outcome_value,
-          seed
-        ),
-        feature_importance = feature_importance_result
+        performance = performance_tbl,
+        feature_importance = feature_importance_tbl
       )
     )
   }
