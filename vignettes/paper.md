@@ -55,8 +55,7 @@ vignette: >
 
 Machine learning (ML) for classification of data into groups based on a set of features is being used to make decisions in healthcare, economics, criminal justice and more. 
 However, implementing a robust ML classification pipeline can be time-consuming, confusing, and difficult. 
-Here, we present mikRopML (prononced "meek-ROPE em el"), an easy-to-use R package that acts as a wrapper around the R caret package.
-mikRopML can be used for binary classification problems using logistic regression, a decision tree, random forest, xgBoost, and support vector machines.
+Here, we present mikRopML (prononced "meek-ROPE em el"), an easy-to-use R package that generates robust ML pipelines for binary classification problems using logistic regression, a decision tree, random forest, xgBoost, or support vector machines.
 It is available on [GitHub](https://github.com/SchlossLab/mikRopML/) and CRAN [**link to CRAN**]. 
 
 # Statement of need
@@ -64,13 +63,10 @@ It is available on [GitHub](https://github.com/SchlossLab/mikRopML/) and CRAN [*
 Supervised machine learning (ML) is widely used to recognize patterns in large datasets and make predictions to categorize the data. 
 Several packages including `caret` [@kuhn_building_2008] and `tidymodels` [@kuhn_tidymodels_2020] in R and `scikitlearn` [@pedregosa_scikit-learn_2011] in Python allow you to implement your own ML algorithms; however, creating a robust machine learning pipeline can be overwhelming, particularly for beginners. 
 ML requires data pre-processing, cross-validation, testing, model evaluation, and often interpretation of why the model makes a certain prediction. 
-Performing these steps using the correct methodology is extremely important as failure to implement a robust ML pipeline can result in incorrect and misleading results [@teschendorff_avoiding_2019]. 
-To allow a broader range of researchers to perform robust ML analyses, we created [mikRopML](https://github.com/SchlossLab/mikRopML/), an easy-to-use package in R [@r_core_team_r_2020] that implements the Topçuoğlu _et al._ [@topcuoglu_framework_2020] ML framework for binary classification problems using logistic regression [@paul_liblinear_2017], a decision tree, random forest [@liaw_classication_2002], xgBoost [@chen_xgboost_2020], or support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004]. 
-Furthermore, we provide a data pre-processing function based on the FIDDLE framework outlined in Tang et al. [@tang_fiddle_2020].
+Performing these steps using the correct methodology is extremely important as failure to implement a robust ML pipeline can result in incorrect and misleading results [@teschendorff_avoiding_2019; @wiens_no_2019]. 
+To allow a broader range of researchers to perform robust ML analyses, we created [mikRopML](https://github.com/SchlossLab/mikRopML/), an easy-to-use package in R [@r_core_team_r_2020] that implements the Topçuoğlu _et al._ [@topcuoglu_framework_2020] ML framework for binary classification problems. `mikRopML` acts as a wrapper around the R `caret` package to use five different ML algorithms; logistic regression [@paul_liblinear_2017], a decision tree, random forest [@liaw_classication_2002], xgBoost [@chen_xgboost_2020], and support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004].  It incorporates best practices in the training, testing and model evaluation steps of ML pipelines.  Furthermore, it provides a data pre-processing function based on the FIDDLE framework outlined in Tang et al. [@tang_fiddle_2020] and permutation importance function to measure the importance of each feature in the mode [@breiman_random_2001; @fisher2018models].
 
-While Topçuoğlu _et al._ [@topcuoglu_framework_2020] focused specifically on ML for microbiome data, the framework is generalizable to performing ML on other types of data as well. 
-For instance, we have used the mikRopML framework to identify differences in genomic and clinical features associated with infection and colonization of a bacterial pathogen [@lapp_machine_2020]. 
-Additionally, we used the same framework to study gender representation and bias in journal articles [**cite Ada’s paper**]. 
+The framework implemented in `mikRopML` is generalizable to perform ML on many different data types as it has already been applied to microbiome data  [@topcuoglu_framework_2020] to categorize patients with cancer, to identify differences in genomic and clinical features associated with bacterial infections [@lapp_machine_2020] and to predict gender-based biases in academic publishing [**cite Ada’s paper**]. 
 
 
 # mikRopML package
@@ -88,12 +84,10 @@ More details on how to use the mikRopML `preprocess_data` function can be found 
 
 ## Running ML
 
-<!-- TODO: add decision tree -->
-The main function in mikRopML (`run_ml`) minimally takes in a data frame including a binary outcome and features, and model choice. mikRopML currently supports logistic regression [@paul_liblinear_2017], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision trees [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020]. 
+The main function in mikRopML (`run_ml`) minimally takes in a data frame including a binary outcome and features, and model choice. mikRopML currently supports logistic regression [@paul_liblinear_2017], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision trees [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020]. It randomly splits the data to train and tests set while also maintaining the distribution of the two outcomes found in the full dataset.
 It trains and tests the data using the `caret` R package [@kuhn_building_2008], evaluates the model using the `PRROC` R package [@grau_prroc_2015], and optionally quantifies feature importance.
-<!-- should we add something in about splitting into train/test sets based on group? not sure it's super important to include here, although it's a nice feature -->
-The output includes the best model upon tuning hyperparameters, two model evaluation metrics (area under the receiver operating characteristics curve - AUROC, and area under the precision recall curve - AUPRC), and optional feature importances (Figure 1). 
-The quantification of feature importance allows users to more easily identify features that have a large impact on model performance, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
+The output includes the best model upon tuning hyperparameters in an internal and repeated cross-validation, two model evaluation metrics (area under the receiver operating characteristics curve - AUROC, and area under the precision recall curve - AUPRC), and optional feature importances (Figure 1). 
+The quantification of feature importance using permutation allows calculating the decrease in the model's prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
 Our vignette [**link to vignette**] contains a comprehensive tutorial on how to use the `run_ml` function.
 
 ![Figure 1. MikRopML pipeline](mikRopML-pipeline.png){width=100%}
