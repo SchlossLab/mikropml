@@ -7,6 +7,7 @@ tags:
   - R
   - machine learning
   - logistic regression
+  - decision tree
   - random forest
   - xgBoost
   - microbiology
@@ -73,8 +74,7 @@ The framework implemented in `mikRopML` is generalizable to perform ML on many d
 
 # mikRopML package
 
-The mikRopML package has functions to preprocess the data, run ML and quantify feature importance. 
-We also provide a snakemake workflow [@koster_snakemakescalable_2012] to showcase how to run an ideal ML pipeline with multiple different train/test data splits.
+The mikRopML package has functions to preprocess the data, run ML and quantify feature importance. We also provide a snakemake workflow [@koster_snakemakescalable_2012] to showcase how to run an ideal ML pipeline with multiple different train/test data splits.
 The output of these runs can be plotted using functions in the package.
 
 ## Preprocessing data
@@ -86,15 +86,19 @@ More details on how to use the mikRopML `preprocess_data` function can be found 
 
 ## Running ML
 
-The main function in mikRopML (`run_ml`) minimally takes in a data frame including a binary outcome and features, and model choice. mikRopML currently supports logistic regression [@paul_liblinear_2017], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision trees [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020]. It randomly splits the data to train and tests set while also maintaining the distribution of the two outcomes found in the full dataset.
+The main function in mikRopML (`run_ml`) minimally takes in a data frame including a binary outcome and features, and model choice. mikRopML currently supports logistic regression [@paul_liblinear_2017], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision tree [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020]. It randomly splits the data to train and test sets while also maintaining the distribution of the two outcomes found in the full dataset.
+
 It trains and tests the data using the `caret` R package [@kuhn_building_2008], evaluates the model using the `PRROC` R package [@grau_prroc_2015], and optionally quantifies feature importance.
-The output includes the best model upon tuning hyperparameters in an internal and repeated cross-validation, two model evaluation metrics (area under the receiver operating characteristics curve - AUROC, and area under the precision recall curve - AUPRC), and optional feature importances (Figure 1). 
+
+The output includes the best model upon tuning hyperparameters in an internal and repeated cross-validation step, two model evaluation metrics (area under the receiver operating characteristics curve - AUROC, and area under the precision recall curve - AUPRC), and optional feature importances (Figure 1). 
+
 The quantification of feature importance using permutation allows calculating the decrease in the model's prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
+
 Our vignette [**link to vignette**] contains a comprehensive tutorial on how to use the `run_ml` function.
 
 ![Figure 1. MikRopML pipeline](mikRopML-pipeline.png){width=100%}
 
-## Workflow for running mikRopML with several different train/test splits
+## Ideal workflow for running mikRopML with many different train/test splits
 
 In addition to simply performing ML on a single train/test split, we have found that it is important to investigate how model performance differs depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020]. 
 Therefore, we provide an example of how to integrate mikRopML into a snakemake workflow [**link to snakemake workflow example**] that runs machine learning 100 times and outputs summary information about model performance and feature importance.
@@ -104,17 +108,13 @@ Therefore, we provide an example of how to integrate mikRopML into a snakemake w
 One particularly important aspect of ML is hyperparameter tuning. 
 Therefore, we provide a function (**insert name of function**) to plot the cross-validation AUROC of models built using different train/test splits. 
 This allows the user to tune the model to the correct hyperparameters, as explained in the [snakemake workflow?] vignette.
-We also provide summary plots of test AUROC and AUPRC as well as feature importance.
-[*Update this section if we don't actually include these plots!*]
+We also provide summary plots of test AUROC and AUPRC values for the many data-splits using (**insert name of function**).
 
 ## Dependencies
 
-mikRopML is written in R [@r_core_team_r_2020] and depends on several packages: PRROC [@grau_prroc_2015], dplyr [@wickham_dplyr_2020], caret [@kuhn_building_2008], LiblineaR [@paul_liblinear_2017], rlang [@henry_rlang_2020]. 
-<!-- do we need to list all these? -->
-Certain models require additional packages. 
-kernlab [@karatzoglou_kernlab_2004] is required for support vector machine, rpart [@therneau_rpart_2019] is required for decision trees, randomForest [@liaw_classication_2002] is required for random forest, and xgboost [@chen_xgboost_2020] is required for xgBoost. 
-We also allow for parallelization of model training using doParallel [@ooi_doparallel_2019] and foreach [@ooi_foreach_2020], as well as parallelization of the base *apply family of functions using future.apply [@bengtsson_futureapply_2020].
-Additional suggested packages include: testthat [@wickham_testthat_2011], knitr [@xie_dynamic_2015; @xie__aut_knitr_2020], and rmarkdown [@allaire_rmarkdown_2020; @xie_r_2018].
+mikRopML is written in R [@r_core_team_r_2020] and depends on several packages: `PRROC` [@grau_prroc_2015], `dplyr` [@wickham_dplyr_2020], `rlan`g [@henry_rlang_2020] and `caret` [@kuhn_building_2008]. The ML algorithms we support require additional packages:
+`kernlab` [@karatzoglou_kernlab_2004] for support vector machines, `rpart2` [@therneau_rpart_2019] for decision trees, `randomForest` [@liaw_classication_2002] for random forest, and `xgboost` [@chen_xgboost_2020] for xgBoost. 
+We also allow for parallelization of model training using `doParallel` [@ooi_doparallel_2019] and `foreac`h [@ooi_foreach_2020], as well as parallelization of the base *apply family of functions using `future.apply` [@bengtsson_futureapply_2020].
 
 # Acknowledgements
 
