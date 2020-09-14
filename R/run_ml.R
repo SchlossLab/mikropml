@@ -12,7 +12,6 @@
 #' @param group vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
 #' @param seed random seed (default: NA)
-#' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
 #' @return named list with results
 #' @export
@@ -40,8 +39,7 @@ run_ml <-
            training_frac = 0.8,
            group = NULL,
            corr_thresh = 1,
-           seed = NA,
-           ncores = NA) {
+           seed = NA) {
     check_all(
       dataset,
       method,
@@ -106,9 +104,6 @@ run_ml <-
     }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-
-    multiproc <- setup_parallel(ncores)
-
     metric <- "ROC"
     if (method == "regLogistic") {
       trained_model_caret <- caret::train(
@@ -164,7 +159,6 @@ run_ml <-
       )
     }
 
-    stop_parallel(multiproc)
     return(
       list(
         trained_model = trained_model_caret,

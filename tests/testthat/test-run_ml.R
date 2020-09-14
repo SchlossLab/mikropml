@@ -74,7 +74,7 @@ test_that("run_ml works for L2 logistic regression", {
     otu_mini_results1_grp
   )
 })
-test_that("run_ml works for random forest & multiple cores", {
+test_that("run_ml works for random forest", {
   expect_equal_ml_results( # use built-in hyperparams function
     mikRopML::run_ml(otu_mini,
       "rf",
@@ -83,7 +83,6 @@ test_that("run_ml works for random forest & multiple cores", {
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,
-      ncores = 2,
       cv_times = 5
     ),
     otu_mini_results2,
