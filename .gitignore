@@ -7,3 +7,5 @@ doc/
 .Rhistory
 inst/doc
 .snakemake
+doc
+Meta
