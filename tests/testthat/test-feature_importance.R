@@ -38,6 +38,9 @@ test_that("feature importances are correct", {
     train_data_mini,
     test_data_mini,
     "dx",
-    "cancer"
+    "cancer",
+    'regLogistic',
+    seed = 2019,
+    corr_thresh = 1
   ), feat_imps, tolerance = 1e-5)
 })

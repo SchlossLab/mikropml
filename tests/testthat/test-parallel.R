@@ -19,7 +19,7 @@ test_that("setup_parallel warns", {
     }
 })
 test_that("setup_parallel works", {
-    expect_true(is.null(setup_parallel(NA)))
+    expect_false(setup_parallel(NA))
     if (check_package_installed("doParallel")) {
         expect_message(pc <- setup_parallel(2), "Using 2 cores for parallel processing.")
     } else {
