@@ -100,15 +100,13 @@ Our vignette [**link to vignette**] contains a comprehensive tutorial on how to 
 
 ## Ideal workflow for running mikRopML with many different train/test splits
 
-In addition to simply performing ML on a single train/test split, we have found that it is important to investigate how model performance differs depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020]. 
-Therefore, we provide an example of how to integrate mikRopML into a snakemake workflow [**link to snakemake workflow example**] that runs machine learning 100 times and outputs summary information about model performance and feature importance.
+In addition to simply performing ML on a single train/test split, it is crucial to investigate the variation in model performance depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020]. Therefore, we provide examples of how to run `mikRopML` pipeline many times with different train/test splits and get summary information about model performance in your local computer  [**link to  vignette**] or on a high-computing cluster using a snakemake workflow [**link to snakemake workflow example**].
 
-## Plotting ML results
+## Plotting ML results 
 
-One particularly important aspect of ML is hyperparameter tuning. 
-Therefore, we provide a function (**insert name of function**) to plot the cross-validation AUROC of models built using different train/test splits. 
-This allows the user to tune the model to the correct hyperparameters, as explained in the [snakemake workflow?] vignette.
-We also provide summary plots of test AUROC and AUPRC values for the many data-splits using (**insert name of function**).
+One particularly important aspect of ML is hyperparameter tuning. We have to explore a range of possibilities for hyperparameters to pick the ideal one for our model. 
+Therefore, we provide a function (**insert name of function**) to plot the cross-validation AUROC of models built using different train/test splits to evaluate if we are exhausing our hyperparameter search range to pick the ideal one. 
+We also provide summary plots of test AUROC and AUPRC values for the many train/test splits using (**insert name of function**).
 
 ## Dependencies
 
