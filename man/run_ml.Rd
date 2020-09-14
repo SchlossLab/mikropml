@@ -16,8 +16,7 @@ run_ml(
   training_frac = 0.8,
   group = NULL,
   corr_thresh = 1,
-  seed = NA,
-  ncores = NA
+  seed = NA
 )
 }
 \arguments{
@@ -44,8 +43,6 @@ run_ml(
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 
 \item{seed}{random seed (default: NA)}
-
-\item{ncores}{number of cores for parallel processing (default: NA). \code{parallel} and \code{doParallel} packages are needed for ncores > 1}
 }
 \value{
 named list with results

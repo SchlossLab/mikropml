@@ -124,7 +124,7 @@
     <p>Generate the Tuning Grid for Tuning Hyperparameters</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_tuning_grid</span>(<span class='kw'>hyperparams_list</span>, <span class='kw'>method</span>)</pre>
+    <pre class="usage"><span class='fu'>get_tuning_grid</span>(<span class='no'>hyperparams_list</span>, <span class='no'>method</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,16 +142,11 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The tuning grid</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
-<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"regLogistic"</span>
-<span class='kw'>hparams_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span>(<span class='kw'>otu_small</span>, <span class='kw'>ml_method</span>)
-<span class='fu'>get_tuning_grid</span>(<span class='kw'>hparams_list</span>, <span class='kw'>ml_method</span>)
-</div><div class='output co'>#&gt;    cost epsilon      loss
+    <pre class="examples"><div class='input'><span class='no'>ml_method</span> <span class='kw'>&lt;-</span> <span class='st'>"regLogistic"</span>
+<span class='no'>hparams_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span>(<span class='no'>otu_small</span>, <span class='no'>ml_method</span>)
+<span class='fu'>get_tuning_grid</span>(<span class='no'>hparams_list</span>, <span class='no'>ml_method</span>)</div><div class='output co'>#&gt;    cost epsilon      loss
 #&gt; 1 1e-04    0.01 L2_primal
 #&gt; 2 1e-03    0.01 L2_primal
 #&gt; 3 1e-02    0.01 L2_primal
@@ -173,7 +168,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
