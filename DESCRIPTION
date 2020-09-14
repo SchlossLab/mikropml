@@ -49,7 +49,8 @@ Suggests:
     parallel,
     future,
     doFuture,
-    foreach
+    foreach,
+    tictoc
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
