@@ -1,16 +1,15 @@
 
 #' Register a multiprocessing plan with `ncores`
 #'
-#' @param `ncores` number of cores for multiprocessing (default: NA)
+#' @param `ncores` number of cores for multiprocessing (default: `NA`)
 #'
-#' @return whether multiple cores are in use (TRUE or FALSE)
+#' @return whether multiple cores are in use (`TRUE` or `FALSE`)
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
 #' @examples
-#' para_cluster <- setup_parallel(2)
-#' # insert code that uses foreach here
-#' stop_parallel(para_cluster)
+#' \dontrun{
+#' setup_parallel(2)
+#' }
 setup_parallel <- function(ncores) {
     is_parallel = FALSE
     # TODO: break out into more functions to make if/else less confusing
