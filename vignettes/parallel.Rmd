@@ -1,0 +1,37 @@
+---
+title: "parallel"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{parallel}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+```{r warn, echo = FALSE}
+options(warnPartialMatchArgs = FALSE)
+```
+
+```{r setup}
+library(mikRopML)
+library(tictoc)
+```
+
+```{r series}
+tic()
+result1 <- run_ml(otu_small, 'regLogistic', seed = 2019)
+toc()
+```
+
+```{r parallel}
+setup_parallel(2)
+tic()
+result2 <- run_ml(otu_small, 'regLogistic', seed = 2019)
+toc()
+```
+
