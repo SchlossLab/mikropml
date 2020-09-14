@@ -10,11 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE
 )
-```
-```{r warn, echo = FALSE}
-options(warnPartialMatchArgs = FALSE)
 ```
 
 ```{r setup}
