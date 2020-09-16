@@ -1,4 +1,4 @@
-Package: mikRopML
+Package: mikropml
 Title: User-Friendly Machine Learning Package for Classification Problems
 Version: 0.0.0.9000
 Authors@R: c(
