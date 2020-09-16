@@ -57,43 +57,19 @@ trained_model_mini <- caret::train(
 usethis::use_data(trained_model_mini, overwrite = TRUE)
 
 ## code to prepare `otu_mini_results`
-otu_mini_results1 <- mikRopML::run_ml(otu_mini,
+# includes grouping functionality & feature importance
+set.seed(2019)
+otu_mini_results1 <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
-  hyperparameters = get_hyperparams_from_df(test_hyperparams, "regLogistic"),
-  find_feature_importance = FALSE,
-  seed = 2019,
-  kfold = 2,
-  cv_times = 5
-)
-usethis::use_data(otu_mini_results1, overwrite = TRUE)
-
-otu_mini_results1a <- mikRopML::run_ml(otu_mini,
-  "regLogistic",
-  outcome_colname = "dx",
-  outcome_value = "cancer",
-  hyperparameters = get_hyperparams_from_df(test_hyperparams, "regLogistic"),
   find_feature_importance = TRUE,
   seed = 2019,
   kfold = 2,
-  cv_times = 5
-)
-usethis::use_data(otu_mini_results1a, overwrite = TRUE)
-
-set.seed(0)
-group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
-otu_mini_results1_grp <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
-  "regLogistic",
-  outcome_colname = "dx",
-  outcome_value = "cancer",
-  find_feature_importance = FALSE,
-  seed = 2019,
-  kfold = 2,
   cv_times = 2,
-  group = group
+  group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
 )
-usethis::use_data(otu_mini_results1_grp, overwrite = TRUE)
+usethis::use_data(otu_mini_results1, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
 otu_mini_results2 <- mikRopML::run_ml(otu_mini,

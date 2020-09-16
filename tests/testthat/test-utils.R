@@ -104,12 +104,14 @@ test_that("setup_parallel works", {
 })
 
 test_that("get_performance_tbl works", {
+  set.seed(2019)
   expect_equal(
     get_performance_tbl(trained_model_mini,
       test_data_mini,
       "dx",
       "cancer",
-      seed = 2019
+      seed = 2019,
+      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
     ),
     otu_mini_results1$performance
   )

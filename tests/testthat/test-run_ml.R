@@ -45,33 +45,19 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 test_that("run_ml works for L2 logistic regression", {
   hparams_list <- test_hyperparams %>% get_hyperparams_from_df("regLogistic")
   hparams_list[["epsilon"]] <- as.numeric(hparams_list[["epsilon"]])
-  expect_equal_ml_results(
-    run_ml(otu_mini,
-      "regLogistic",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      hyperparameters = hparams_list,
-      find_feature_importance = TRUE,
-      seed = 2019,
-      kfold = 2,
-      cv_times = 5
-    ),
-    otu_mini_results1a
-  )
-  set.seed(0)
-  group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+  set.seed(2019)
   expect_equal_ml_results(
     run_ml(otu_mini, # use built-in hyperparameters
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      find_feature_importance = FALSE,
+      find_feature_importance = TRUE,
       seed = 2019,
       kfold = 2,
       cv_times = 2,
-      group = group
+      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
     ),
-    otu_mini_results1_grp
+    otu_mini_results1
   )
 })
 test_that("run_ml works for random forest & multiple cores", {
