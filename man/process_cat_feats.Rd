@@ -16,7 +16,7 @@ list of two dataframes: categorical (processed) and continuous features (unproce
 Process categorical features
 }
 \examples{
-process_cat_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+process_cat_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

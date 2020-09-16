@@ -18,7 +18,7 @@ features where perfectly correlated ones are collapsed
 Remove correlated features
 }
 \examples{
-rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+rm_corr_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
