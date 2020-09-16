@@ -3,19 +3,19 @@ hparams_list <- list(
   epsilon = "0.01",
   loss = "L2_primal"
 )
-test_that("define_cv works for 2-fold cv on otu_mini training data", {
-  expect_equal(
-    define_cv(train_data_mini, "dx", hparams_list, kfold = 2, cv_times = 5, seed = 2019),
-    otu_mini_cv2
-  )
-})
 
 test_that("define_cv works for 2-fold cv on otu_mini training data with groups", {
-  set.seed(0)
-  group <- sample(LETTERS[1:4], nrow(train_data_mini), replace = TRUE)
-  expect_equal(
-    define_cv(train_data_mini, "dx", hparams_list, kfold = 2, cv_times = 2, seed = 2019, group = group),
-    otu_mini_cv2_grp
+  set.seed(2019)
+  expect_equal(define_cv(otu_mini_results1$trained_model$trainingData,
+                         "dx",
+                         hparams_list,
+                         kfold = 2,
+                         cv_times = 2,
+                         seed = 2019,
+                         group = sample(LETTERS[1:4],
+                                        nrow(otu_mini_results1$trained_model$trainingData),
+                                        replace = TRUE)),
+    otu_mini_cv2
   )
 })
 

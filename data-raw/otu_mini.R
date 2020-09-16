@@ -5,14 +5,6 @@ kfolds <- 2
 otu_mini <- otu_medium[, 1:4]
 usethis::use_data(otu_mini, overwrite = TRUE)
 
-inTraining <-
-  caret::createDataPartition(otu_mini[, outcome_colname], p = .80, list = FALSE)
-train_data_mini <- otu_mini[inTraining, ]
-usethis::use_data(train_data_mini, overwrite = TRUE)
-
-test_data_mini <- otu_mini[-inTraining, ]
-usethis::use_data(test_data_mini, overwrite = TRUE)
-
 test_hyperparams <- structure(list(
   param = c(
     "cost", "cost", "cost", "loss", "epsilon",
@@ -34,54 +26,33 @@ test_hyperparams <- structure(list(
 class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 )
 
-hparams_list <- get_hyperparams_from_df(test_hyperparams, "regLogistic")
-otu_mini_cv2 <- define_cv(train_data_mini, outcome_colname, hparams_list, kfolds, 5, NULL, 2019)
-usethis::use_data(otu_mini_cv2, overwrite = TRUE)
-
-set.seed(0)
-group <- sample(LETTERS[1:4], nrow(train_data_mini), replace = TRUE)
-otu_mini_cv2_grp <- define_cv(train_data_mini, "dx", hparams_list, kfold = 2, cv_times = 2, seed = 2019, group = group)
-usethis::use_data(otu_mini_cv2_grp, overwrite = TRUE)
-
-
-trained_model_mini <- caret::train(
-  stats::as.formula(paste(outcome_colname, "~ .")),
-  data = train_data_mini,
-  method = "regLogistic",
-  hyperparameters = hparams_list,
-  trControl = otu_mini_cv2,
-  metric = "ROC",
-  tuneGrid = get_tuning_grid(hparams_list, "regLogistic"),
-  family = "binomial"
-)
-usethis::use_data(trained_model_mini, overwrite = TRUE)
-
 ## code to prepare `otu_mini_results`
-otu_mini_results1 <- mikRopML::run_ml(otu_mini,
-  "regLogistic",
-  outcome_colname = "dx",
-  outcome_value = "cancer",
-  hyperparameters = get_hyperparams_from_df(test_hyperparams, "regLogistic"),
-  find_feature_importance = FALSE,
-  seed = 2019,
-  kfold = 2,
-  cv_times = 5
+# includes grouping functionality & feature importance
+set.seed(2019)
+otu_mini_results1 <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
+                                      "regLogistic",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      find_feature_importance = TRUE,
+                                      seed = 2019,
+                                      kfold = 2,
+                                      cv_times = 2,
+                                      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
 )
 usethis::use_data(otu_mini_results1, overwrite = TRUE)
 
-set.seed(0)
-group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
-otu_mini_results1_grp <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
-  "regLogistic",
-  outcome_colname = "dx",
-  outcome_value = "cancer",
-  find_feature_importance = FALSE,
-  seed = 2019,
-  kfold = 2,
-  cv_times = 2,
-  group = group
-)
-usethis::use_data(otu_mini_results1_grp, overwrite = TRUE)
+hparams_list <- get_hyperparams_from_df(test_hyperparams, "regLogistic")
+set.seed(2019)
+otu_mini_cv2 <- define_cv(otu_mini_results1$trained_model$trainingData,
+                          "dx",
+                          hparams_list,
+                          kfold = 2,
+                          cv_times = 2,
+                          seed = 2019,
+                          group = sample(LETTERS[1:4],
+                                         nrow(otu_mini_results1$trained_model$trainingData),
+                                         replace = TRUE))
+usethis::use_data(otu_mini_cv2, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
 otu_mini_results2 <- mikRopML::run_ml(otu_mini,

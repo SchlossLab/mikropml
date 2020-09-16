@@ -162,10 +162,12 @@ test_that("check_group works", {
   expect_error(check_group(mikRopML::otu_mini, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
 })
 
-test_that("check_corr_thresho works", {
+test_that("check_corr_thresh works", {
   expect_null(check_corr_thresh(1))
   expect_null(check_corr_thresh(0.8))
   expect_null(check_corr_thresh(NULL))
   expect_error(check_corr_thresh(2019), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
     You provided: ")
+  expect_error(check_corr_thresh(corr_thresh = "a"), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
+    You provided:")
 })
