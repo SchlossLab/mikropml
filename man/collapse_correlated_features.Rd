@@ -2,7 +2,7 @@
 % Please edit documentation in R/preprocess_data.R
 \name{collapse_correlated_features}
 \alias{collapse_correlated_features}
-\title{Remove correlated features}
+\title{Collapse correlated features}
 \usage{
 collapse_correlated_features(features, group_neg_corr = TRUE)
 }
@@ -15,14 +15,10 @@ collapse_correlated_features(features, group_neg_corr = TRUE)
 features where perfectly correlated ones are collapsed
 }
 \description{
-Remove correlated features
+Collapse correlated features
 }
 \examples{
-<<<<<<< HEAD:man/collapse_correlated_features.Rd
-collapse_correlated_features(mikRopML::otu_small[, 2:ncol(otu_small)])
-=======
-rm_corr_feats(mikropml::otu_small[, 2:ncol(otu_small)])
->>>>>>> master:man/rm_corr_feats.Rd
+collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

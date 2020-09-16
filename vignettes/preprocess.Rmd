@@ -38,7 +38,7 @@ We're going to start off simple and get more complicated, but if you want the wh
 First, we have to load `mikropml`:
 
 ```{r setup}
-library(mikRopML)
+library(mikropml)
 ```
 
 ## Binary data

@@ -15,7 +15,7 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' preprocess_data(mikRopML::otu_small, "dx")
+#' preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # if collapse_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
@@ -329,7 +329,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 }
 
 
-#' Remove correlated features
+#' Collapse correlated features
 #'
 #' @param features features for ML
 #' @inheritParams get_corr_feats
@@ -339,7 +339,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' collapse_correlated_features(mikRopML::otu_small[, 2:ncol(otu_small)])
+#' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
   sapply_fn <- select_apply(fun = "sapply")
   if (any(sapply_fn(features, class) %in% c("character", "factor"))) {
