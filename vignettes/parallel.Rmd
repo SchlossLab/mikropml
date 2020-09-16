@@ -1,8 +1,8 @@
 ---
-title: "parallel"
+title: "Parallel processing"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{parallel}
+  %\VignetteIndexEntry{Parallel processing}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
