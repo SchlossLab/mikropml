@@ -9,8 +9,14 @@ preprocess_data(
   outcome_colname,
   method = c("center", "scale"),
   remove_nzv = TRUE,
+<<<<<<< HEAD
   collapse_corr_feats = TRUE,
   to_numeric = TRUE
+=======
+  remove_corr_feats = TRUE,
+  to_numeric = TRUE,
+  group_neg_corr = TRUE
+>>>>>>> master
 )
 }
 \arguments{
@@ -25,6 +31,8 @@ preprocess_data(
 \item{collapse_corr_feats}{whether to keep only one of perfectly correlated featurs}
 
 \item{to_numeric}{whether to change features to numeric where possible}
+
+\item{group_neg_corr}{whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))}
 }
 \value{
 preprocessed data

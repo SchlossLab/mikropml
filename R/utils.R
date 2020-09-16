@@ -163,11 +163,12 @@ setup_parallel <- function(ncores, setup_timeout = 0.5) {
     ))
   } else if (!is.na(ncores) & ncores > 1) {
     if (!all(check_package_installed(c("parallel", "doParallel", "foreach")))) {
-      warning(paste(
+      # no test coverage for this part because it's checking what packages are installed on local computers
+      warning(paste( # nocov start
         "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.\n",
         "You specified", ncores, "cores, but one or more of these packages are not installed.\n",
         "Proceeding with only one process."
-      ))
+      )) # nocov end
     } else {
       cores_avail <- parallel::detectCores()
       if (ncores > cores_avail) {

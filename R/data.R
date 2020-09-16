@@ -61,17 +61,11 @@
 #' 5-fold cross validation on `train_data_sm`
 "otu_sm_cv5"
 
-#' 2-fold cross validation on `train_data_mini`
+#' 2-fold cross validation on `train_data_mini` with grouped features
 "otu_mini_cv2"
 
-#' 2-fold cross validation on `train_data_mini` with grouped features
-"otu_mini_cv2_grp"
-
-#' Results from running the pipline with L2 logistic regression on `otu_mini`
+#' Results from running the pipline with L2 logistic regression on `otu_mini` with feature importance and grouping
 "otu_mini_results1"
-
-#' Results from running the pipline with L2 logistic regression on `otu_mini` with feature grouping
-"otu_mini_results1_grp"
 
 #' Results from running the pipline with random forest on `otu_mini`
 "otu_mini_results2"

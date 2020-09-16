@@ -4,10 +4,16 @@
 \alias{collapse_correlated_features}
 \title{Remove correlated features}
 \usage{
+<<<<<<< HEAD:man/collapse_correlated_features.Rd
 collapse_correlated_features(features)
+=======
+rm_corr_feats(features, group_neg_corr = TRUE)
+>>>>>>> master:man/rm_corr_feats.Rd
 }
 \arguments{
 \item{features}{features for ML}
+
+\item{group_neg_corr}{whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))}
 }
 \value{
 features where perfectly correlated ones are collapsed

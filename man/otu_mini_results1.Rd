@@ -3,14 +3,14 @@
 \docType{data}
 \name{otu_mini_results1}
 \alias{otu_mini_results1}
-\title{Results from running the pipline with L2 logistic regression on \code{otu_mini}}
+\title{Results from running the pipline with L2 logistic regression on \code{otu_mini} with feature importance and grouping}
 \format{
-An object of class \code{list} of length 3.
+An object of class \code{list} of length 4.
 }
 \usage{
 otu_mini_results1
 }
 \description{
-Results from running the pipline with L2 logistic regression on \code{otu_mini}
+Results from running the pipline with L2 logistic regression on \code{otu_mini} with feature importance and grouping
 }
 \keyword{datasets}
