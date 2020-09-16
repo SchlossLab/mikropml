@@ -6,3 +6,5 @@ data/temp/*
 .Rhistory
 inst/doc
 .snakemake
+doc
+Meta

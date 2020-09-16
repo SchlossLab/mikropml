@@ -4,11 +4,7 @@
 \alias{collapse_correlated_features}
 \title{Remove correlated features}
 \usage{
-<<<<<<< HEAD:man/collapse_correlated_features.Rd
-collapse_correlated_features(features)
-=======
-rm_corr_feats(features, group_neg_corr = TRUE)
->>>>>>> master:man/rm_corr_feats.Rd
+collapse_correlated_features(features, group_neg_corr = TRUE)
 }
 \arguments{
 \item{features}{features for ML}

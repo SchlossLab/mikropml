@@ -9,14 +9,9 @@ preprocess_data(
   outcome_colname,
   method = c("center", "scale"),
   remove_nzv = TRUE,
-<<<<<<< HEAD
   collapse_corr_feats = TRUE,
-  to_numeric = TRUE
-=======
-  remove_corr_feats = TRUE,
   to_numeric = TRUE,
   group_neg_corr = TRUE
->>>>>>> master
 )
 }
 \arguments{
