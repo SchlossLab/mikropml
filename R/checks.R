@@ -267,11 +267,10 @@ check_features <- function(features, check_missing = TRUE) {
   }
 }
 
-#' Check group
+#' Check grouping vector
 #'
 #' @inheritParams run_ml
 #'
-#' @return
 #' @export
 #'
 #' @examples
