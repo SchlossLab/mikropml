@@ -8,6 +8,7 @@
 #' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
 #' @param remove_corr_feats whether to keep only one of perfectly correlated featurs
 #' @param to_numeric whether to change features to numeric where possible
+#' @inheritParams get_corr_feats
 #'
 #' @return preprocessed data
 #' @export
@@ -15,7 +16,7 @@
 #'
 #' @examples
 #' preprocess_data(mikRopML::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_corr_feats = TRUE, to_numeric = TRUE) {
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # if remove_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
   if (remove_corr_feats & !remove_nzv) {
@@ -64,7 +65,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # remove perfectly correlated features
   grp_feats <- NULL
   if (remove_corr_feats) {
-    feats_and_grps <- rm_corr_feats(processed_feats)
+    feats_and_grps <- rm_corr_feats(processed_feats, group_neg_corr = group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
   }
@@ -331,6 +332,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 #' Remove correlated features
 #'
 #' @param features features for ML
+#' @inheritParams get_corr_feats
 #'
 #' @return features where perfectly correlated ones are collapsed
 #' @export
@@ -338,7 +340,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 #'
 #' @examples
 #' rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
-rm_corr_feats <- function(features) {
+rm_corr_feats <- function(features, group_neg_corr = TRUE) {
   sapply_fn <- select_apply(fun = "sapply")
   if (any(sapply_fn(features, class) %in% c("character", "factor"))) {
     stop("Some features are charactors or factors. Please remove these before proceeding with `rm_corr_feats`.")
@@ -349,10 +351,10 @@ rm_corr_feats <- function(features) {
   if (ncol(features) == 1) {
     output <- list(features = features, grp_feats = NULL)
   } else {
-    corr_feats <- group_correlated_features(get_corr_feats(features), features)
-    corr_mat <- stats::cor(features)
-    corr_cols <- caret::findCorrelation(corr_mat, cutoff = 1 - 10e-15)
-    feats_nocorr <- features %>% dplyr::select(-dplyr::all_of(corr_cols))
+    corr_feats <- get_corr_feats(features, group_neg_corr = group_neg_corr) %>% 
+      group_correlated_features(., features)
+    corr_cols <- gsub('\\|.*','',corr_feats)
+    feats_nocorr <- features %>% dplyr::select(dplyr::all_of(corr_cols))
     names_grps <- sapply_fn(names(feats_nocorr), function(n) {
       not_corr <- n %in% corr_feats
       if (not_corr) {

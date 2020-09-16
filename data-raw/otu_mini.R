@@ -69,6 +69,18 @@ otu_mini_results1 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results1, overwrite = TRUE)
 
+otu_mini_results1a <- mikRopML::run_ml(otu_mini,
+                                      "regLogistic",
+                                      outcome_colname = "dx",
+                                      outcome_value = "cancer",
+                                      hyperparameters = get_hyperparams_from_df(test_hyperparams, "regLogistic"),
+                                      find_feature_importance = TRUE,
+                                      seed = 2019,
+                                      kfold = 2,
+                                      cv_times = 5
+)
+usethis::use_data(otu_mini_results1a, overwrite = TRUE)
+
 set.seed(0)
 group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
 otu_mini_results1_grp <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
