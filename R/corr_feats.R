@@ -27,6 +27,7 @@ flatten_corr_mat <- function(cormat) {
 #' Identify correlated features
 #'
 #' @param features features used for machine learning
+#' @param group_neg_corr whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))
 #' @inheritParams run_ml
 #'
 #' @return correlated features
@@ -41,13 +42,18 @@ flatten_corr_mat <- function(cormat) {
 #' colnames(mat) <- 1:ncol(mat)
 #' get_corr_feats(mat, 0.4)
 #' @importFrom dplyr .data
-get_corr_feats <- function(features, corr_thresh = 1) {
-  return(
-    features %>%
-      stats::cor(method = "spearman") %>%
-      flatten_corr_mat() %>%
+get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE) {
+  corr_feats <- features %>%
+    stats::cor(method = "spearman") %>%
+    flatten_corr_mat() 
+  if(group_neg_corr){
+    corr_feats <- corr_feats %>% 
       dplyr::filter(.data$corr >= corr_thresh | .data$corr <= -corr_thresh)
-  )
+  }else{
+    corr_feats <- corr_feats %>% 
+      dplyr::filter(.data$corr >= corr_thresh)
+  }
+  return(corr_feats)
 }
 
 #' Group correlated features

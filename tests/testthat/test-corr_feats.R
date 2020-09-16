@@ -26,6 +26,19 @@ test_that("get_corr_feats works", {
     b = c(0.9082078, 0.2016819, 0.89838968, 0.9446753),
     c = c(0.6607978, 0.6291140, 0.06178627, 0.2059746)
   ), 0.6), cor_feats, tolerance = tol)
+  expect_equivalent(get_corr_feats(data.frame(
+    a = c(1,1,0,0),
+    b = c(1,1,0,0),
+    c = c(0,0,1,1)
+  )), structure(list(feature1 = c("a", "a", "b"), feature2 = c("b", 
+                                                               "c", "c"), corr = c(1, -1, -1)), class = "data.frame", row.names = c(NA, 
+                                                                                                                                    -3L)), tolerance = tol)
+  expect_equivalent(get_corr_feats(data.frame(
+    a = c(1,1,0,0),
+    b = c(1,1,0,0),
+    c = c(0,0,1,1)
+  ),group_neg_corr = FALSE),structure(list(feature1 = "a", feature2 = "b", corr = 1), class = "data.frame", row.names = c(NA, 
+                                                                                                                          -1L)), tolerance = tol)
 })
 
 # group_correlated_features
