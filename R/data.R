@@ -70,6 +70,9 @@
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
 "otu_mini_results1"
 
+#' Results from running the pipeline with L2 logistic regression with feature importance on `otu_mini`
+"otu_mini_results1a"
+
 #' Results from running the pipline with L2 logistic regression on `otu_mini` with feature grouping
 "otu_mini_results1_grp"
 

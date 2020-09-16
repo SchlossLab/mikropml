@@ -353,12 +353,7 @@ rm_corr_feats <- function(features, group_neg_corr = TRUE) {
   } else {
     corr_feats <- get_corr_feats(features, group_neg_corr = group_neg_corr) %>% 
       group_correlated_features(., features)
-    #corr_mat <- stats::cor(features)
-    #corr_cols <- caret::findCorrelation(corr_mat, cutoff = 1 - 10e-15)
     corr_cols <- gsub('\\|.*','',corr_feats)
-    # grp_bool <- grepl('\\|',corr_feats)
-    # nocorr <- corr_feats[!grp_bool]
-    # corr <- corr_feats[grp_bool]
     feats_nocorr <- features %>% dplyr::select(dplyr::all_of(corr_cols))
     names_grps <- sapply_fn(names(feats_nocorr), function(n) {
       not_corr <- n %in% corr_feats
