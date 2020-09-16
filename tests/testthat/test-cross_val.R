@@ -6,15 +6,18 @@ hparams_list <- list(
 
 test_that("define_cv works for 2-fold cv on otu_mini training data with groups", {
   set.seed(2019)
-  expect_equal(define_cv(otu_mini_results1$trained_model$trainingData,
-                         "dx",
-                         hparams_list,
-                         kfold = 2,
-                         cv_times = 2,
-                         seed = 2019,
-                         group = sample(LETTERS[1:4],
-                                        nrow(otu_mini_results1$trained_model$trainingData),
-                                        replace = TRUE)),
+  expect_equal(
+    define_cv(otu_mini_results1$trained_model$trainingData,
+      "dx",
+      hparams_list,
+      kfold = 2,
+      cv_times = 2,
+      seed = 2019,
+      group = sample(LETTERS[1:4],
+        nrow(otu_mini_results1$trained_model$trainingData),
+        replace = TRUE
+      )
+    ),
     otu_mini_cv2
   )
 })

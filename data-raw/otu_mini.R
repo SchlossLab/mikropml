@@ -30,28 +30,30 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 # includes grouping functionality & feature importance
 set.seed(2019)
 otu_mini_results1 <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
-                                      "regLogistic",
-                                      outcome_colname = "dx",
-                                      outcome_value = "cancer",
-                                      find_feature_importance = TRUE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2,
-                                      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+  "regLogistic",
+  outcome_colname = "dx",
+  outcome_value = "cancer",
+  find_feature_importance = TRUE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2,
+  group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
 )
 usethis::use_data(otu_mini_results1, overwrite = TRUE)
 
 hparams_list <- get_hyperparams_from_df(test_hyperparams, "regLogistic")
 set.seed(2019)
 otu_mini_cv2 <- define_cv(otu_mini_results1$trained_model$trainingData,
-                          "dx",
-                          hparams_list,
-                          kfold = 2,
-                          cv_times = 2,
-                          seed = 2019,
-                          group = sample(LETTERS[1:4],
-                                         nrow(otu_mini_results1$trained_model$trainingData),
-                                         replace = TRUE))
+  "dx",
+  hparams_list,
+  kfold = 2,
+  cv_times = 2,
+  seed = 2019,
+  group = sample(LETTERS[1:4],
+    nrow(otu_mini_results1$trained_model$trainingData),
+    replace = TRUE
+  )
+)
 usethis::use_data(otu_mini_cv2, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
