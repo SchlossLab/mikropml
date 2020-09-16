@@ -164,6 +164,7 @@ run_ml <-
     return(
       list(
         trained_model = trained_model_caret,
+        test_data = test_data,
         performance = get_performance_tbl(
           trained_model_caret,
           test_data,
