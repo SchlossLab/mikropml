@@ -27,11 +27,49 @@ You can install the development version from
 devtools::install_github("SchlossLab/mikRopML")
 ```
 
+### Dependences
+
+#### Required
+
+  - caret
+  - dplyr
+  - LiblineaR
+  - PRROC
+  - rlang
+  - stats
+  - utils
+
+#### Optional
+
+  - doFuture
+  - foreach
+  - future
+  - future.apply
+  - kernlab
+  - randomForest
+  - rpart
+  - xgboost
+
+#### For developers
+
+  - knitr
+  - rmarkdown
+  - testthat
+
 ## Usage
 
 Check out the [introductory
 vignette](http://www.schlosslab.org/mikRopML/articles/introduction.html)
 for a quick start tutorial.
+
+## Help & Contributing
+
+If you come across a bug, [open an
+issue](https://github.com/SchlossLab/mikRopML/issues) and include a
+[minimal reproducible example](https://www.tidyverse.org/help/).
+
+If you’d like to contribute, see our guidelines
+[here](.github/CONTRIBUTING.md).
 
 ## Why the name?
 
