@@ -80,7 +80,7 @@ trained_model_sm1 <- caret::train(
 usethis::use_data(trained_model_sm1, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results1`
-otu_sm_results1 <- mikRopML::run_ml(otu_small,
+otu_sm_results1 <- mikropml::run_ml(otu_small,
   "regLogistic",
   outcome_colname = outcome_colname,
   outcome_value = outcome_value,
@@ -93,11 +93,11 @@ usethis::use_data(otu_sm_results1, overwrite = TRUE)
 # Error in { :
 #     task 1 failed - "need at least two non-NA values to interpolate"
 #   In addition: There were 50 or more warnings (use warnings() to see the first 50)
-# otu_sm_results4 <- mikRopML::run_ml(otu_small,
+# otu_sm_results4 <- mikropml::run_ml(otu_small,
 #  "rpart2",
 #  outcome_colname = "dx",
 #  outcome_value = "cancer",
-#  hyperparameters = mikRopML::default_hyperparams,
+#  hyperparameters = mikropml::default_hyperparams,
 #  find_feature_importance = FALSE,
 #  seed = 2019
 # )

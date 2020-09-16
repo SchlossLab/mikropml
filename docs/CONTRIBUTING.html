@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>How to Contribute • mikRopML</title>
+<title>Contributing to mikropml • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="How to Contribute" />
+<meta property="og:title" content="Contributing to mikropml" />
 
 
 
@@ -70,7 +70,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">mikRopML</a>
+        <a class="navbar-link" href="index.html">mikropml</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -94,7 +94,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/introduction.html">Introduction to mikRopML</a>
+      <a href="articles/introduction.html">Introduction to mikropml</a>
     </li>
   </ul>
 </li>
@@ -114,74 +114,45 @@
 <div class="row">
   <div class="contents col-md-9">
     <div class="page-header">
-      <h1>How to Contribute</h1>
+      <h1>Contributing to mikropml</h1>
     </div>
 
-<div id="how-to-contribute" class="section level1">
+<div id="contributing-to-mikropml" class="section level1">
 
-<p>We use the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Gitflow</a> workflow to make our lives easier. This means all edits should be made in separate branches – not the <code>master</code> branch. Only the project maintainer will make edits or merge on <code>master</code>.</p>
-<p>View the open <a href="https://github.com/SchlossLab/ML_pipeline_microbiome/issues">issues</a> to see the To-Do list. If an issue isn’t assigned to anyone, we would welcome your contribution!</p>
-<p>If you need a refresher on Git or GitHub, see:</p>
-<ul>
-<li>Software Carpentry’s lesson: <a href="http://swcarpentry.github.io/git-novice/">Version Control with Git</a>
-</li>
-<li>Hadley Wickham’s chapter on Git and GitHub in his book <a href="http://r-pkgs.had.co.nz/git.html">R Packages</a>
-</li>
-</ul>
-<div id="contributing-changes" class="section level2">
+<div id="fixing-typos" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contributing-changes" class="anchor"></a>Contributing changes</h2>
-<ol>
-<li>
-<p>Either <code>clone</code> or <code>fork</code> this repo.</p>
+<a href="#fixing-typos" class="anchor"></a>Fixing typos</h2>
+<p>You can fix typos, spelling mistakes, or grammatical errors in the documentation directly using the GitHub web interface, as long as the changes are made in the <em>source</em> file. This generally means you’ll need to edit <a href="https://roxygen2.r-lib.org/articles/roxygen2.html">roxygen2 comments</a> in an <code>.R</code>, not a <code>.Rd</code> file. You can find the <code>.R</code> file that generates the <code>.Rd</code> by reading the comment in the first line.</p>
+</div>
+<div id="bigger-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bigger-changes" class="anchor"></a>Bigger changes</h2>
+<p>If you want to make a bigger change, it’s a good idea to first file an issue and make sure someone from the team agrees that it’s needed. If you’ve found a bug, please file an issue that illustrates the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a> (this will also help you write a unit test, if needed).</p>
+<div id="pull-request-process" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
 <ul>
-<li><p><strong>clone</strong> if you have write access: <code>git clone https://github.com/SchlossLab/ML_pipeline_microbiome</code> (All Schlabbies have write access.)</p></li>
-<li><p><strong>fork</strong> if you do <em>not</em> have write access by pressing the <a href="(https://help.github.com/en/articles/fork-a-repo)">Fork</a> button on <a href="https://github.com/SchlossLab/ML_pipeline_microbiome">GitHub</a>, then clone your fork.</p></li>
+<li><p>Fork the package and clone onto your computer. If you haven’t done this before, we recommend using <code><a href="https://usethis.r-lib.org/reference/create_from_github.html">usethis::create_from_github("SchlossLab/mikropml", fork = TRUE)</a></code>.</p></li>
+<li><p>Install all development dependences with <code><a href="https://devtools.r-lib.org//reference/install_deps.html">devtools::install_dev_deps()</a></code>, and then make sure the package passes R CMD check by running <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code>. If R CMD check doesn’t pass cleanly, it’s a good idea to ask for help before continuing.</p></li>
+<li><p>Create a Git branch for your pull request (PR). We recommend using <code><a href="https://usethis.r-lib.org/reference/pr_init.html">usethis::pr_init("brief-description-of-change")</a></code>.</p></li>
+<li><p>Make your changes, commit to git, and then create a PR by running <code><a href="https://usethis.r-lib.org/reference/pr_init.html">usethis::pr_push()</a></code>, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain <code>Fixes #issue-number</code>.</p></li>
+<li><p>For user-facing changes, add a bullet to the top of <code>NEWS.md</code> (i.e. just below the first header). Follow the style described in <a href="https://style.tidyverse.org/news.html" class="uri">https://style.tidyverse.org/news.html</a>.</p></li>
 </ul>
-</li>
-<li>
-<p>Move to the repo directory.</p>
-<pre><code>cd ML_pipeline_microbiome</code></pre>
-</li>
-<li>
-<p>Create a new branch for your feature.</p>
-<p>Give it a short, descriptive name. <code>git checkout -b feature-branch-name</code> The branch name should reflect the bug or feature it will resolve, or reference the issue number directly (<a href="https://github.com/SchlossLab/ML_pipeline_microbiome/branches/all">examples</a>). [Note: wherever you see <code>feature-branch-name</code> in these instructions, replace that with your branch’s actual name.]</p>
-</li>
-<li><p>Make your edits.</p></li>
-<li>
-<p>Add &amp; commit changes. <code>git add filename.R  git commit -m "Implement cool feature XX (Resolves #Y)"</code> Use this <a href="https://chris.beams.io/posts/git-commit/">style guide</a> for writing good commit messages. The highlights:</p>
+</div>
+<div id="code-style" class="section level3">
+<h3 class="hasAnchor">
+<a href="#code-style" class="anchor"></a>Code style</h3>
 <ul>
-<li>Capitalize the first word of the message.</li>
-<li>The first word should be a verb in the imperative tense.</li>
-<li>Keep the message short but descriptive of the changes.</li>
+<li><p>New code should follow the tidyverse <a href="https://style.tidyverse.org">style guide</a>. You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.</p></li>
+<li><p>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a>, with <a href="https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html">Markdown syntax</a>, for documentation.</p></li>
+<li><p>We use <a href="https://cran.r-project.org/package=testthat">testthat</a> for unit tests. Contributions with test cases included are easier to accept.</p></li>
 </ul>
-<p>In the merge commit message, reference any <a href="https://github.com/SchlossLab/ML_pipeline_microbiome/issues">issues</a> (our To-Do list) that the pull request resolves so the issue is closed automatically. For example, the <a href="https://github.com/SchlossLab/ML_pipeline_microbiome/commit/b7d0c295b71994e83cdd5aec6b26eb881523efdb">commit</a> message I wrote when adding this file was <code>Add contributing instructions (Resolves #12)</code>.</p>
-</li>
-<li>
-<p>Push your branch to GitHub. If you’re pushing your branch for the first time, you’ll have to set the upstream: <code>git push --set-upstream origin feature-branch-name</code></p>
-<p>Otherwise, just push like usual: <code>git push origin feature-branch-name</code></p>
-<p>If you forget the branch name:</p>
-<ul>
-<li>Run <code>git status</code> to see the branch you currently have checked out (among other things).</li>
-<li>You can list existing branches with <code>git branch --list</code>.</li>
-</ul>
-</li>
-<li>
-<p>Open a pull request [<a href="https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1">example</a>].</p>
-<ol>
-<li>If you made multiple commits over a period of time, chances are high that your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run: <code>git checkout master  git pull  git checkout feature-branch-name  git merge master  git push</code>
-</li>
-<li>Open the <a href="https://github.com/SchlossLab/ML_pipeline_microbiome">repo page</a> in your web browser.</li>
-<li>If you want to see what the modifications look like before opening a pull request, you can go to the document you modified and change the branch to the left of the file name.</li>
-<li>Go to the pull requests tab and click <code>new pull request</code>.</li>
-<li>Select your branch name to compare to master. If you forked the repo instead of making a branch, select <code>compare across forks</code> instead.</li>
-<li>Create the pull request.</li>
-</ol>
-<p>A maintainer will review your pull request and may ask you to make additional changes. If you have write access to the repo, <strong>don’t merge your branch into master</strong>. The maintainer will merge it when they decide the branch is ready.</p>
-</li>
-<li><p>Continue to pull, commit, &amp; push changes on your branch to update the open pull request as needed.</p></li>
-<li><p>Once a pull request is merged, the maintainer may delete the branch if it will no longer be needed in the future.</p></li>
-</ol>
+</div>
+</div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
+<p>Please note that the mikropml project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project you agree to abide by its terms.</p>
 </div>
 </div>
 

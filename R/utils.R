@@ -86,7 +86,7 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
 #' @export
 #'
 #' @examples
-#' split_outcome_features(mikRopML::otu_mini, "dx")
+#' split_outcome_features(mikropml::otu_mini, "dx")
 split_outcome_features <- function(dataset, outcome_colname) {
   # input validation
   check_dataset(dataset)

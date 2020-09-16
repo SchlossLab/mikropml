@@ -62,7 +62,7 @@ test_that("run_ml works for L2 logistic regression", {
 })
 test_that("run_ml works for random forest & multiple cores", {
   expect_equal_ml_results( # use built-in hyperparams function
-    mikRopML::run_ml(otu_mini,
+    mikropml::run_ml(otu_mini,
       "rf",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -78,7 +78,7 @@ test_that("run_ml works for random forest & multiple cores", {
 })
 test_that("run_ml works for svmRadial", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
+    mikropml::run_ml(otu_mini,
       "svmRadial",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -94,7 +94,7 @@ test_that("run_ml works for svmRadial", {
 test_that("run_ml works for xgbTree", {
   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
   expect_equal_ml_results(
-    mikRopML::run_ml(
+    mikropml::run_ml(
       otu_mini,
       "xgbTree",
       outcome_colname = "dx",
@@ -111,7 +111,7 @@ test_that("run_ml works for xgbTree", {
 })
 test_that("run_ml works for rpart2", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
+    mikropml::run_ml(otu_mini,
       "rpart2",
       outcome_colname = "dx",
       outcome_value = "cancer",

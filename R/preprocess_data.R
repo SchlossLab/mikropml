@@ -85,9 +85,9 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' rm_missing_outcome(mikRopML::otu_mini, "dx")
+#' rm_missing_outcome(mikropml::otu_mini, "dx")
 #'
-#' test_df <- mikRopML::otu_mini
+#' test_df <- mikropml::otu_mini
 #' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
 rm_missing_outcome <- function(dataset, outcome_colname) {
@@ -134,7 +134,7 @@ change_to_num <- function(features) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' process_novar_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+#' process_novar_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 process_novar_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
@@ -184,7 +184,7 @@ process_novar_feats <- function(features) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' process_cat_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+#' process_cat_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 process_cat_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
@@ -250,7 +250,7 @@ process_cat_feats <- function(features) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' process_cont_feats(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
+#' process_cont_feats(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
 process_cont_feats <- function(features, method) {
   check_features(features, check_missing = FALSE)
 
@@ -291,7 +291,7 @@ process_cont_feats <- function(features, method) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_caret_processed_df(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
+#' get_caret_processed_df(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
 get_caret_processed_df <- function(features, method) {
   check_features(features, check_missing = FALSE)
   preproc_values <- caret::preProcess(features, method = method)

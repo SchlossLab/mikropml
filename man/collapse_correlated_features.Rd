@@ -18,7 +18,11 @@ features where perfectly correlated ones are collapsed
 Remove correlated features
 }
 \examples{
+<<<<<<< HEAD:man/collapse_correlated_features.Rd
 collapse_correlated_features(mikRopML::otu_small[, 2:ncol(otu_small)])
+=======
+rm_corr_feats(mikropml::otu_small[, 2:ncol(otu_small)])
+>>>>>>> master:man/rm_corr_feats.Rd
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
