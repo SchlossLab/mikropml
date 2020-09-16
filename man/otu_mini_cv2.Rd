@@ -3,7 +3,7 @@
 \docType{data}
 \name{otu_mini_cv2}
 \alias{otu_mini_cv2}
-\title{2-fold cross validation on \code{train_data_mini}}
+\title{2-fold cross validation on \code{train_data_mini} with grouped features}
 \format{
 An object of class \code{list} of length 27.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 27.
 otu_mini_cv2
 }
 \description{
-2-fold cross validation on \code{train_data_mini}
+2-fold cross validation on \code{train_data_mini} with grouped features
 }
 \keyword{datasets}

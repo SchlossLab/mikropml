@@ -1,5 +1,5 @@
 ---
-title: "Introduction to mikRopML"
+title: "Introduction to mikropml"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to mikRopML}
@@ -15,5 +15,5 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mikRopML)
+library(mikropml)
 ```

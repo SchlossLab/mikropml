@@ -162,6 +162,7 @@ run_ml <-
     return(
       list(
         trained_model = trained_model_caret,
+        test_data = test_data,
         performance = performance_tbl,
         feature_importance = feature_importance_tbl
       )

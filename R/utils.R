@@ -86,7 +86,7 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
 #' @export
 #'
 #' @examples
-#' split_outcome_features(mikRopML::otu_mini, "dx")
+#' split_outcome_features(mikropml::otu_mini, "dx")
 split_outcome_features <- function(dataset, outcome_colname) {
   # input validation
   check_dataset(dataset)
@@ -140,7 +140,6 @@ select_apply <- function(fun = "apply") {
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
 }
-
 #' Get model performance metrics as a one-row tibble
 #'
 #' @inheritParams calc_aucs

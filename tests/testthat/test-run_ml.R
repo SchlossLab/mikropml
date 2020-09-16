@@ -45,38 +45,24 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
 test_that("run_ml works for L2 logistic regression", {
   hparams_list <- test_hyperparams %>% get_hyperparams_from_df("regLogistic")
   hparams_list[["epsilon"]] <- as.numeric(hparams_list[["epsilon"]])
-  expect_equal_ml_results(
-    run_ml(otu_mini,
-      "regLogistic",
-      outcome_colname = "dx",
-      outcome_value = "cancer",
-      hyperparameters = hparams_list,
-      find_feature_importance = FALSE,
-      seed = 2019,
-      kfold = 2,
-      cv_times = 5
-    ),
-    otu_mini_results1
-  )
-  set.seed(0)
-  group <- sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+  set.seed(2019)
   expect_equal_ml_results(
     run_ml(otu_mini, # use built-in hyperparameters
       "regLogistic",
       outcome_colname = "dx",
       outcome_value = "cancer",
-      find_feature_importance = FALSE,
+      find_feature_importance = TRUE,
       seed = 2019,
       kfold = 2,
       cv_times = 2,
-      group = group
+      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
     ),
-    otu_mini_results1_grp
+    otu_mini_results1
   )
 })
 test_that("run_ml works for random forest", {
   expect_equal_ml_results( # use built-in hyperparams function
-    mikRopML::run_ml(otu_mini,
+    mikropml::run_ml(otu_mini,
       "rf",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -91,7 +77,7 @@ test_that("run_ml works for random forest", {
 })
 test_that("run_ml works for svmRadial", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
+    mikropml::run_ml(otu_mini,
       "svmRadial",
       outcome_colname = "dx",
       outcome_value = "cancer",
@@ -107,7 +93,7 @@ test_that("run_ml works for svmRadial", {
 test_that("run_ml works for xgbTree", {
   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
   expect_equal_ml_results(
-    mikRopML::run_ml(
+    mikropml::run_ml(
       otu_mini,
       "xgbTree",
       outcome_colname = "dx",
@@ -124,7 +110,7 @@ test_that("run_ml works for xgbTree", {
 })
 test_that("run_ml works for rpart2", {
   expect_equal_ml_results(
-    mikRopML::run_ml(otu_mini,
+    mikropml::run_ml(otu_mini,
       "rpart2",
       outcome_colname = "dx",
       outcome_value = "cancer",

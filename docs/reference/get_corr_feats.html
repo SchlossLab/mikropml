@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Identify correlated features — get_corr_feats • mikRopML</title>
+<title>Identify correlated features — get_corr_feats • mikropml</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mikRopML</a>
+        <a class="navbar-link" href="../index.html">mikropml</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -95,7 +95,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction to mikRopML</a>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">parallel</a>
     </li>
   </ul>
 </li>
@@ -124,7 +127,7 @@
     <p>Identify correlated features</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_corr_feats</span>(<span class='no'>features</span>, <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>get_corr_feats</span>(<span class='no'>features</span>, <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>group_neg_corr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,6 +139,10 @@
     <tr>
       <th>corr_thresh</th>
       <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
+    </tr>
+    <tr>
+      <th>group_neg_corr</th>
+      <td><p>whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))</p></td>
     </tr>
     </table>
 

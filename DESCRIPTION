@@ -1,4 +1,4 @@
-Package: mikRopML
+Package: mikropml
 Title: User-Friendly Machine Learning Package for Classification Problems
 Version: 0.0.0.9000
 Authors@R: c(
@@ -30,13 +30,13 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    PRROC,
-    dplyr,
     caret,
-    stats,
-    utils,
+    dplyr,
     LiblineaR,
-    rlang
+    PRROC,
+    rlang,
+    stats,
+    utils
 Suggests: 
     testthat,
     knitr,

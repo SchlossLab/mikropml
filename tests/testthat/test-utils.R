@@ -69,9 +69,11 @@ test_that("mutate_all_types converts factors to other types", {
 })
 
 test_that("get_performance_tbl works", {
+  set.seed(2019)
   expect_equal(
-    get_performance_tbl(trained_model_mini,
-      test_data_mini,
+    get_performance_tbl(
+      otu_mini_results1$trained_model,
+      otu_mini_results1$test_data,
       "dx",
       "cancer",
       seed = 2019

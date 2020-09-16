@@ -4,10 +4,12 @@
 \alias{rm_corr_feats}
 \title{Remove correlated features}
 \usage{
-rm_corr_feats(features)
+rm_corr_feats(features, group_neg_corr = TRUE)
 }
 \arguments{
 \item{features}{features for ML}
+
+\item{group_neg_corr}{whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))}
 }
 \value{
 features where perfectly correlated ones are collapsed
@@ -16,7 +18,7 @@ features where perfectly correlated ones are collapsed
 Remove correlated features
 }
 \examples{
-rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+rm_corr_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
