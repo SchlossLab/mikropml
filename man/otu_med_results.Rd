@@ -5,7 +5,7 @@
 \alias{otu_med_results}
 \title{Results from running the pipline with rpart2 on \code{otu_medium}}
 \format{
-An object of class \code{list} of length 3.
+An object of class \code{list} of length 4.
 }
 \usage{
 otu_med_results
