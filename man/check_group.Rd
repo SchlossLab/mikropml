@@ -17,8 +17,8 @@ check_group(dataset, group, kfold)
 Check grouping vector
 }
 \examples{
-check_group(mikRopML::otu_mini,
-  sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE),
+check_group(mikropml::otu_mini,
+  sample(LETTERS, nrow(mikropml::otu_mini), replace = TRUE),
   kfold = 2
 )
 }

@@ -29,7 +29,7 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 ## code to prepare `otu_mini_results`
 # includes grouping functionality & feature importance
 set.seed(2019)
-otu_mini_results1 <- mikRopML::run_ml(otu_mini, # use built-in hyperparams
+otu_mini_results1 <- mikropml::run_ml(otu_mini, # use built-in hyperparams
   "regLogistic",
   outcome_colname = "dx",
   outcome_value = "cancer",
@@ -57,7 +57,7 @@ otu_mini_cv2 <- define_cv(otu_mini_results1$trained_model$trainingData,
 usethis::use_data(otu_mini_cv2, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
-otu_mini_results2 <- mikRopML::run_ml(otu_mini,
+otu_mini_results2 <- mikropml::run_ml(otu_mini,
   "rf",
   outcome_colname = "dx",
   outcome_value = "cancer",
@@ -68,7 +68,7 @@ otu_mini_results2 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
-otu_mini_results3 <- mikRopML::run_ml(otu_mini,
+otu_mini_results3 <- mikropml::run_ml(otu_mini,
   "svmRadial",
   outcome_colname = "dx",
   outcome_value = "cancer",
@@ -80,7 +80,7 @@ otu_mini_results3 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
-otu_mini_results4 <- mikRopML::run_ml(otu_mini,
+otu_mini_results4 <- mikropml::run_ml(otu_mini,
   "xgbTree",
   outcome_colname = "dx",
   outcome_value = "cancer",
@@ -92,7 +92,7 @@ otu_mini_results4 <- mikRopML::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results4, overwrite = TRUE)
 
-otu_mini_results5 <- mikRopML::run_ml(otu_mini,
+otu_mini_results5 <- mikropml::run_ml(otu_mini,
   "rpart2",
   outcome_colname = "dx",
   outcome_value = "cancer",

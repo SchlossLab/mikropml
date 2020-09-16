@@ -1,16 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mikRopML
+# mikropml
 
 > meek-ROPE em el
 
 <!-- badges: start -->
 
-[![check](https://github.com/SchlossLab/mikRopML/workflows/check/badge.svg)](https://github.com/SchlossLab/mikRopML/actions)
-[![codecov](https://codecov.io/gh/SchlossLab/mikRopML/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikRopML)
-[![docs](https://img.shields.io/badge/docs-here-brightgreen)](http://www.schlosslab.org/mikRopML/)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikRopML/LICENSE)
+[![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions)
+[![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikropml)
+[![docs](https://img.shields.io/badge/docs-here-brightgreen)](http://www.schlosslab.org/mikropml/)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/LICENSE)
 [![lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
@@ -24,7 +24,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SchlossLab/mikRopML")
+devtools::install_github("SchlossLab/mikropml")
 ```
 
 ### Dependences
@@ -59,13 +59,13 @@ devtools::install_github("SchlossLab/mikRopML")
 ## Usage
 
 Check out the [introductory
-vignette](http://www.schlosslab.org/mikRopML/articles/introduction.html)
+vignette](http://www.schlosslab.org/mikropml/articles/introduction.html)
 for a quick start tutorial.
 
 ## Help & Contributing
 
 If you come across a bug, [open an
-issue](https://github.com/SchlossLab/mikRopML/issues) and include a
+issue](https://github.com/SchlossLab/mikropml/issues) and include a
 [minimal reproducible example](https://www.tidyverse.org/help/).
 
 If you’d like to contribute, see our guidelines

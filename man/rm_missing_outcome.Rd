@@ -18,9 +18,9 @@ dataset with no missing outcomes
 Remove missing outcome values
 }
 \examples{
-rm_missing_outcome(mikRopML::otu_mini, "dx")
+rm_missing_outcome(mikropml::otu_mini, "dx")
 
-test_df <- mikRopML::otu_mini
+test_df <- mikropml::otu_mini
 test_df[1:100, "dx"] <- NA
 rm_missing_outcome(test_df, "dx")
 }

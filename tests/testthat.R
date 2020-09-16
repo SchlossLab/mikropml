@@ -1,4 +1,4 @@
 library(testthat)
-library(mikRopML)
+library(mikropml)
 
-test_check("mikRopML")
+test_check("mikropml")
