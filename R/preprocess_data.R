@@ -351,9 +351,9 @@ rm_corr_feats <- function(features, group_neg_corr = TRUE) {
   if (ncol(features) == 1) {
     output <- list(features = features, grp_feats = NULL)
   } else {
-    corr_feats <- get_corr_feats(features, group_neg_corr = group_neg_corr) %>% 
+    corr_feats <- get_corr_feats(features, group_neg_corr = group_neg_corr) %>%
       group_correlated_features(., features)
-    corr_cols <- gsub('\\|.*','',corr_feats)
+    corr_cols <- gsub("\\|.*", "", corr_feats)
     feats_nocorr <- features %>% dplyr::select(dplyr::all_of(corr_cols))
     names_grps <- sapply_fn(names(feats_nocorr), function(n) {
       not_corr <- n %in% corr_feats

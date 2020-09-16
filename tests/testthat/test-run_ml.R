@@ -47,14 +47,14 @@ test_that("run_ml works for L2 logistic regression", {
   hparams_list[["epsilon"]] <- as.numeric(hparams_list[["epsilon"]])
   expect_equal_ml_results(
     run_ml(otu_mini,
-           "regLogistic",
-           outcome_colname = "dx",
-           outcome_value = "cancer",
-           hyperparameters = hparams_list,
-           find_feature_importance = TRUE,
-           seed = 2019,
-           kfold = 2,
-           cv_times = 5
+      "regLogistic",
+      outcome_colname = "dx",
+      outcome_value = "cancer",
+      hyperparameters = hparams_list,
+      find_feature_importance = TRUE,
+      seed = 2019,
+      kfold = 2,
+      cv_times = 5
     ),
     otu_mini_results1a
   )

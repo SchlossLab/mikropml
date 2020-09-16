@@ -168,6 +168,6 @@ test_that("check_corr_thresh works", {
   expect_null(check_corr_thresh(NULL))
   expect_error(check_corr_thresh(2019), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
     You provided: ")
-  expect_error(check_corr_thresh(corr_thresh = 'a'), '`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
-    You provided:')
+  expect_error(check_corr_thresh(corr_thresh = "a"), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
+    You provided:")
 })

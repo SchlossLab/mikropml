@@ -45,12 +45,12 @@ flatten_corr_mat <- function(cormat) {
 get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE) {
   corr_feats <- features %>%
     stats::cor(method = "spearman") %>%
-    flatten_corr_mat() 
-  if(group_neg_corr){
-    corr_feats <- corr_feats %>% 
+    flatten_corr_mat()
+  if (group_neg_corr) {
+    corr_feats <- corr_feats %>%
       dplyr::filter(.data$corr >= corr_thresh | .data$corr <= -corr_thresh)
-  }else{
-    corr_feats <- corr_feats %>% 
+  } else {
+    corr_feats <- corr_feats %>%
       dplyr::filter(.data$corr >= corr_thresh)
   }
   return(corr_feats)
