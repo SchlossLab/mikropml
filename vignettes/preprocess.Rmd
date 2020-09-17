@@ -137,6 +137,8 @@ If you don't want this to happen, and you want character data to remain characte
 preprocess_data(dataset = cont_char_df, outcome_colname = "outcome", to_numeric = FALSE)
 ```
 
+As you can see from this output, in this case the features are treated as groups rather than numbers (e.g. they are not normalized). 
+
 ## Collapse perfectly correlated features
 
 By default, the `preprocess_data` function collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes `run_ml` faster.
@@ -345,6 +347,7 @@ There are 4 missing rather than just 1 (like in the raw data) because we split t
 
 Additionally, you can see that the continuous variables were normalized, the categorical variables were all changed to binary, and several features were grouped together. The variables in each group can be found in `grp_feats`.
 
+## Next step: run machine learning!
 
-
+After you preprocess your data (either using the `preprocess_data` function or by preprocessing the data on your own), you're ready to run machine learning! Please see the vignette on the `run_ml` function for more information about running machine learning. 
 
