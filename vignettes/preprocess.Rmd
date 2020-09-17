@@ -50,7 +50,8 @@ Let's start with only binary variables:
 bin_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = c("no", "yes", "no"),
-  var2 = c(0, 1, 1)
+  var2 = c(0, 1, 1),
+  var3 = factor(c("a","a","b"))
 )
 bin_df
 ```
@@ -64,7 +65,7 @@ preprocess_data(dataset = bin_df, outcome_colname = "outcome")
 
 The output is a list of length two: `dat_transformed` which has the transformed data, and `grp_feats` which is a list of grouped features. Here, `grp_feats` is `NULL` because there are no perfectly correlated features (e.g. `c(0,1,0)` and `c(0,1,0)`, or `c(0,1,0)` and `c(1,0,1)` - see below for more details). 
 
-The first column (`var1`) in `dat_transformed` is changed to `var1_yes` that has zeros (no) and ones (yes). The values in the second column (`var2`) stay the same because it's already binary, but the name changes to `var2_1`. 
+The first column (`var1`) in `dat_transformed` is a character and is changed to `var1_yes` that has zeros (no) and ones (yes). The values in the second column (`var2`) stay the same because it's already binary, but the name changes to `var2_1`. The third column (`var3`) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name `var3_b`. 
 
 ## Categorical data
 
