@@ -97,6 +97,9 @@
     <li>
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
+    <li>
+      <a href="../articles/preprocess.html">preprocess</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -129,7 +132,7 @@
   <span class='kw'>outcome_colname</span>,
   method = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"scale"</span>),
   remove_nzv = <span class='fl'>TRUE</span>,
-  remove_corr_feats = <span class='fl'>TRUE</span>,
+  collapse_corr_feats = <span class='fl'>TRUE</span>,
   to_numeric = <span class='fl'>TRUE</span>,
   group_neg_corr = <span class='fl'>TRUE</span>
 )</pre>
@@ -154,8 +157,8 @@
       <td><p>whether to remove variables with near-zero variance (default: <code>TRUE</code>)</p></td>
     </tr>
     <tr>
-      <th>remove_corr_feats</th>
-      <td><p>whether to keep only one of perfectly correlated featurs</p></td>
+      <th>collapse_corr_feats</th>
+      <td><p>whether to keep only one of perfectly correlated features</p></td>
     </tr>
     <tr>
       <th>to_numeric</th>
