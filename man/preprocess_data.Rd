@@ -23,7 +23,7 @@ preprocess_data(
 
 \item{remove_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
 
-\item{collapse_corr_feats}{whether to keep only one of perfectly correlated featurs}
+\item{collapse_corr_feats}{whether to keep only one of perfectly correlated features}
 
 \item{to_numeric}{whether to change features to numeric where possible}
 
