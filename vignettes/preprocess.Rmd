@@ -25,7 +25,7 @@ We preprocess the data as follows:
 - Remove missing outcome values. 
 - Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).
 - Normalize continuous features using `caret::preProcess` based on the method provided.
-- Convert categorical features with more than 2 variables to 0 and 1 in multiple columns (one for each variable - not full rank, so each variable has it's own column).
+- Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it's own column).
 - Replace missing categorical data with 0.
 - Impute missing continuous values with the median of the feature. 
 - By default, remove all features with near-zero variance.
@@ -343,4 +343,7 @@ There are 4 missing rather than just 1 (like in the raw data) because we split t
 - One missing continuous value was imputed using the median value of that feature (`var8`).
 
 Additionally, you can see that the continuous variables were normalized, the categorical variables were all changed to binary, and several features were grouped together. The variables in each group can be found in `grp_feats`.
+
+
+
 
