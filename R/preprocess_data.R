@@ -6,7 +6,7 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
-#' @param collapse_corr_feats whether to keep only one of perfectly correlated featurs
+#' @param collapse_corr_feats whether to keep only one of perfectly correlated features
 #' @param to_numeric whether to change features to numeric where possible
 #' @inheritParams get_corr_feats
 #'
