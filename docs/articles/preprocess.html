@@ -91,7 +91,7 @@
 <li>Remove missing outcome values.</li>
 <li>Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).</li>
 <li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess</a></code> based on the method provided.</li>
-<li>Convert categorical features with more than 2 variables to 0 and 1 in multiple columns (one for each variable - not full rank, so each variable has it’s own column).</li>
+<li>Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it’s own column).</li>
 <li>Replace missing categorical data with 0.</li>
 <li>Impute missing continuous values with the median of the feature.</li>
 <li>By default, remove all features with near-zero variance.</li>
@@ -114,31 +114,32 @@
 <span class="kw">bin_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
   outcome = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"normal"</span>, <span class="st">"normal"</span>, <span class="st">"cancer"</span>),
   var1 = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"no"</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),
-  var2 = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>)
+  var2 = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>),
+  var3 = <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>,<span class="st">"a"</span>,<span class="st">"b"</span>))
 )
 <span class="kw">bin_df</span>
-<span class="co">#&gt;   outcome var1 var2</span>
-<span class="co">#&gt; 1  normal   no    0</span>
-<span class="co">#&gt; 2  normal  yes    1</span>
-<span class="co">#&gt; 3  cancer   no    1</span>
+<span class="co">#&gt;   outcome var1 var2 var3</span>
+<span class="co">#&gt; 1  normal   no    0    a</span>
+<span class="co">#&gt; 2  normal  yes    1    a</span>
+<span class="co">#&gt; 3  cancer   no    1    b</span>
 </pre></div>
 <p>In addition to the dataframe itself, you have to provide the name of the outcome column to <code>preprocess_data</code>. Here’s what the preprocessed data looks like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="co"># preprocess raw binary data</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span>(dataset = <span class="kw">bin_df</span>, outcome_colname = <span class="st">"outcome"</span>)
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
-<span class="co">#&gt;   outcome var1_yes var2_1</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal         0      0</span>
-<span class="co">#&gt; 2 normal         1      1</span>
-<span class="co">#&gt; 3 cancer         0      1</span>
+<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt;   outcome var1_yes var2_1 var3_b</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal         0      0      0</span>
+<span class="co">#&gt; 2 normal         1      1      0</span>
+<span class="co">#&gt; 3 cancer         0      1      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; NULL</span>
 </pre></div>
 <p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
-<p>The first column (<code>var1</code>) in <code>dat_transformed</code> is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>.</p>
+<p>The first column (<code>var1</code>) in <code>dat_transformed</code> is a character and is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>. The third column (<code>var3</code>) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name <code>var3_b</code>.</p>
 </div>
 <div id="categorical-data" class="section level2">
 <h2 class="hasAnchor">
@@ -260,6 +261,7 @@
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; NULL</span>
 </pre></div>
+<p>As you can see from this output, in this case the features are treated as groups rather than numbers (e.g. they are not normalized).</p>
 </div>
 <div id="collapse-perfectly-correlated-features" class="section level2">
 <h2 class="hasAnchor">
@@ -631,6 +633,11 @@
 <li>One missing continuous value was imputed using the median value of that feature (<code>var8</code>).</li>
 </ul>
 <p>Additionally, you can see that the continuous variables were normalized, the categorical variables were all changed to binary, and several features were grouped together. The variables in each group can be found in <code>grp_feats</code>.</p>
+</div>
+<div id="next-step-run-machine-learning" class="section level2">
+<h2 class="hasAnchor">
+<a href="#next-step-run-machine-learning" class="anchor"></a>Next step: run machine learning!</h2>
+<p>After you preprocess your data (either using the <code>preprocess_data</code> function or by preprocessing the data on your own), you’re ready to run machine learning! Please see the vignette on the <code>run_ml</code> function for more information about running machine learning.</p>
 </div>
 </div>
   </div>
