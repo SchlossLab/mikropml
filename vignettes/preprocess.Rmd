@@ -1,8 +1,8 @@
 ---
-title: "preprocess"
+title: "Preprocessing data prior to machine learning"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{preprocess}
+  %\VignetteIndexEntry{Preprocessing data prior to machine learning}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
