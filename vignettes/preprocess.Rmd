@@ -1,0 +1,346 @@
+---
+title: "preprocess"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{preprocess}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Before running machine learning, it's often necessary and prudent to preprocess your input data. 
+We provide a function (`preprocess_data`) to preprocess input data. 
+The defaults we chose are based on best practices used in  [FIDDLE](https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/).
+Feel free to check out FIDDLE for more information about data preprocessing!
+
+The `preprocess_data` function takes an input dataset where the rows are the samples and the columns are the outcome variable and features.
+We preprocess the data as follows:
+
+- Remove missing outcome values. 
+- Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).
+- Normalize continuous features using `caret::preProcess` based on the method provided.
+- Convert categorical features with more than 2 variables to 0 and 1 in multiple columns (one for each variable - not full rank, so each variable has it's own column).
+- Replace missing categorical data with 0.
+- Impute missing continuous values with the median of the feature. 
+- By default, remove all features with near-zero variance.
+- By default, collapse correlated features.
+
+# Examples
+
+We're going to start off simple and get more complicated, but if you want the whole shebang at once, just scroll to the bottom.
+
+First, we have to load `mikropml`:
+
+```{r setup}
+library(mikropml)
+```
+
+## Binary data
+
+Let's start with only binary variables:
+
+```{r}
+# raw binary dataset
+bin_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c("no", "yes", "no"),
+  var2 = c(0, 1, 1)
+)
+bin_df
+```
+
+In addition to the dataframe itself, you have to provide the name of the outcome column to `preprocess_data`. Here's what the preprocessed data looks like:
+
+```{r}
+# preprocess raw binary data
+preprocess_data(dataset = bin_df, outcome_colname = "outcome")
+```
+
+The output is a list of length two: `dat_transformed` which has the transformed data, and `grp_feats` which is a list of grouped features. Here, `grp_feats` is `NULL` because there are no perfectly correlated features (e.g. `c(0,1,0)` and `c(0,1,0)`, or `c(0,1,0)` and `c(1,0,1)` - see below for more details). 
+
+The first column (`var1`) in `dat_transformed` is changed to `var1_yes` that has zeros (no) and ones (yes). The values in the second column (`var2`) stay the same because it's already binary, but the name changes to `var2_1`. 
+
+## Categorical data
+
+On to non-binary categorical data:
+
+```{r}
+# raw categorical dataset
+cat_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c('a','b','c')
+  )
+cat_df
+```
+
+```{r}
+# preprocess raw categorical data
+preprocess_data(dataset = cat_df, outcome_colname = "outcome")
+```
+
+As you can see, this variable was split into 3 different columns - one for each type (a, b, and c). And again, `grp_feats` is `NULL`.
+
+## Continuous data
+
+Now, looking at continuous variables:
+
+```{r}
+# raw continuous dataset
+cont_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c(1,2,3)
+  )
+cont_df
+```
+
+```{r}
+# preprocess raw continuous data
+preprocess_data(dataset = cont_df, outcome_colname = "outcome")
+```
+
+Wow! Why did the numbers change? This is because the default is to normalize the data using `c("center","scale")`. While this is often best practice, you may not want to normalize the data, or you may want to normalize the data in a different way. If you don't want to normalize the data, you can use `method=NULL`:
+
+```{r}
+# preprocess raw continuous data, no normalization
+preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
+```
+
+You can also normalize the data in different ways. You can implement any method used by the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) function (the `method` argument).
+
+Another feature of the `preprocess_data` function is that if you provide continuous variables as characters, they will be converted to numeric:
+
+```{r}
+# raw continuous dataset as characters
+cont_char_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c("1","2","3")
+  )
+cont_char_df
+```
+
+```{r}
+# preprocess raw continuous character data as numeric
+preprocess_data(dataset = cont_char_df, outcome_colname = "outcome")
+```
+
+If you don't want this to happen, and you want character data to remain character data even if it can be converted to numeric, you can use `to_numeric=FALSE` and they will be kept as categorical:
+
+```{r}
+# preprocess raw continuous character data as characters
+preprocess_data(dataset = cont_char_df, outcome_colname = "outcome", to_numeric = FALSE)
+```
+
+## Collapse perfectly correlated features
+
+By default, the `preprocess_data` function collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes `run_ml` faster.
+
+```{r}
+# raw correlated dataset
+corr_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c("no", "yes", "no"),
+  var2 = c(0, 1, 0),
+  var3 = c(1,0,1)
+)
+corr_df
+```
+
+```{r}
+# preprocess raw correlated dataset
+preprocess_data(dataset = corr_df, outcome_colname = "outcome")
+```
+
+As you can see, we end up with only one variable, as all 3 are grouped together. 
+Also, the second element in the list is no longer `NULL`. 
+Instead, it tells you that `grp1` contains `var1`, `var2`, and `var3`. 
+
+If you want to group positively correlated features, but not negatively correlated features (e.g. for interpretability, or another downstream application), you can do that by using `group_neg_corr=FALSE`:
+
+```{r}
+# preprocess raw correlated dataset; don't group negatively correlated features
+preprocess_data(dataset = corr_df, outcome_colname = "outcome", group_neg_corr = FALSE)
+```
+
+Here, `var3` is kept on it's own because it's negatively correlated with `var1` and `var2`. 
+You can also choose to keep all features separate, even if they are perfectly correlated, by using `collapse_corr_feats=FALSE`:
+
+```{r}
+# preprocess raw correlated dataset; don't group negatively correlated features
+preprocess_data(dataset = corr_df, outcome_colname = "outcome", collapse_corr_feats = FALSE)
+```
+
+In this case, `grp_feats` will always be `NULL`.
+
+## Data with near-zero variance
+
+What if we have variables that are all zero, or all "no"? Those ones won't contribute any information, so we remove them:
+
+```{r}
+# raw dataset with non-variable features
+nonvar_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c("no", "yes", "no"),
+  var2 = c(0, 1, 1),
+  var3 = c("no","no","no"),
+  var4 = c(0,0,0),
+  var5 = c(12,12,12)
+)
+nonvar_df
+```
+
+Here, `var3`, `var4`, and `var5` all have no variability, so these variables are removed during preprocessing:
+
+```{r}
+# remove features with near-zero variance
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
+```
+
+You can read the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) documentation for more information. If you want to include them, you can use the argument `remove_nzv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+
+```{r}
+# don't remove features with near-zero variance
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
+```
+
+Note that if you want to remove zero variance features (rather than near-zero variance features), you can use `method = c('zv')`, and then you can collapse correlated features:
+
+```{r}
+# remove features with zero variance
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", method = c('zv'))
+```
+
+## Missing data
+
+The `preprocess_data` function also deals with missing data. It:
+
+- Removes missing outcome variables.
+- Maintains zero variability in a feature if it already has no variability (i.e. the feature is removed if removing features with near-zero variance).
+- Replaces missing binary and categorical variables with zero (after splitting into multiple columns).
+- Replaces missing continuous data with the median value of that feature.
+
+If you'd like to deal with missing data in a different way, please do that prior to inputting the data into the `preprocess_data` function.
+
+### Remove missing outcome variables
+
+```{r}
+# raw dataset with missing outcome value
+miss_oc_df <- data.frame(
+  outcome = c("normal", "normal", "cancer",NA),
+  var1 = c("no", "yes", "no","no"),
+  var2 = c(0, 1, 1,1)
+)
+miss_oc_df
+```
+
+```{r}
+# preprocess raw dataset with missing outcome value
+preprocess_data(dataset = miss_oc_df, outcome_colname = "outcome")
+```
+
+### Maintain zero variability in a feature if it already has no variability
+
+```{r}
+# raw dataset with missing value in non-variable feature
+miss_nonvar_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c("no", "yes", "no"),
+  var2 = c(NA, 1, 1)
+)
+miss_nonvar_df
+```
+
+```{r}
+# preprocess raw dataset with missing value in non-variable feature
+preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome")
+```
+
+Here, the non-variable feature with missing data is removed because we removed features with near-zero variance. If we maintained that feature, it'd be all ones:
+
+```{r}
+# preprocess raw dataset with missing value in non-variable feature
+preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
+```
+
+### Replace missing binary and categorical variables with zero
+
+```{r}
+# raw dataset with missing value in categorical feature
+miss_cat_df <- data.frame(
+  outcome = c("normal", "normal", "cancer"),
+  var1 = c("no", "yes", NA),
+  var2 = c(NA, 1, 0)
+)
+miss_cat_df
+```
+
+```{r}
+# preprocess raw dataset with missing value in non-variable feature
+preprocess_data(dataset = miss_cat_df, outcome_colname = "outcome")
+```
+
+Here each binary variable is split into two, and the missing value is considered zero for both of them.
+
+### Replace missing continuous data with the median value of that feature
+
+```{r}
+# raw dataset with missing value in continuous feature
+miss_cont_df <- data.frame(
+  outcome = c("normal", "normal", "cancer","normal"),
+  var1 = c(1,2,2,NA),
+  var2 = c(1,2,3,NA)
+)
+miss_cont_df
+```
+
+Here we're not normalizing continuous features so it's easier to see what's going on (i.e. the median value is used):
+
+```{r}
+# preprocess raw dataset with missing value in continuous feature
+preprocess_data(dataset = miss_cont_df, outcome_colname = "outcome", method = NULL)
+```
+
+## Putting it all together
+
+Here's some more complicated example raw data that puts everything we discussed together:
+
+```{r}
+test_df <- data.frame(
+  outcome = c("normal", "normal", "cancer", NA),
+  var1 = 1:4,
+  var2 = c("a", "b", "c", "d"),
+  var3 = c("no", "yes", "no", "no"),
+  var4 = c(0, 1, 0, 0),
+  var5 = c(0, 0, 0, 0),
+  var6 = c("no", "no", "no", "no"),
+  var7 = c(1, 1, 0, 0),
+  var8 = c(5, 6, NA, 7),
+  var9 = c(NA, "x", "y", "z"),
+  var10 = c(1, 0, NA, NA),
+  var11 = c(1, 1, NA, NA),
+  var12 = c("1", "2", "3", "4")
+)
+test_df
+```
+
+Let's throw this into the preprocessing function with the default values:
+
+```{r}
+preprocess_data(dataset = test_df, outcome_colname = "outcome")
+```
+
+As you can see, we got several messages:
+
+- One of the samples (row 4) was removed because the outcome value was missing.
+- One of the variables in a feature with no variation had a missing value that was replaced with the the non-varying value (`var11`).
+- Four categorical missing values were replaced with zero (`var9`). 
+There are 4 missing rather than just 1 (like in the raw data) because we split the categorical variable into 4 different columns first.
+- One missing continuous value was imputed using the median value of that feature (`var8`).
+
+Additionally, you can see that the continuous variables were normalized, the categorical variables were all changed to binary, and several features were grouped together. The variables in each group can be found in `grp_feats`.
+
