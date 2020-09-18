@@ -18,3 +18,6 @@ Remove correlated features
 \examples{
 rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}

@@ -1,14 +1,27 @@
+#' dplyr pipe
 #' @importFrom dplyr %>%
 #' @export
 dplyr::`%>%`
 
+#' rlang data pronoun
 #' @importFrom rlang .data
 #' @export
 rlang::.data
 
+#' caret contr.ltfr
 #' @importFrom caret contr.ltfr
 #' @export
 caret::contr.ltfr
+
+
+#' @importFrom rlang !!
+#' @export
+rlang::`!!`
+
+## make R CMD CHECK shut up about the dot `.``
+## See: \url{https://github.com/tidyverse/magrittr/issues/29}
+utils::globalVariables(c("."))
+
 
 #' Get the outcome value of interest for AUC calculations
 #'
@@ -29,7 +42,7 @@ caret::contr.ltfr
 #' get_outcome_value(otu_medium, "dx", "first")
 pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
   if (method == "fewer") {
-    outcome_value <- names(which.min(table(dataset[, outcome_colname])))
+    outcome_value <- names(which.min(table(dataset %>% dplyr::pull(outcome_colname))))
   } else if (method == "first") {
     outcome_value <- as.character(dataset[1, outcome_colname])
   } else {
@@ -52,8 +65,8 @@ pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #'
 #' @examples
 #' randomize_feature_order(otu_small, "dx")
-randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
-  if (!is.na(seed)) {
+randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
+  if (!is.null(seed)) {
     set.seed(seed)
   }
   features <- sample(colnames(dataset[names(dataset) != outcome_colname]))
@@ -190,4 +203,24 @@ stop_parallel <- function(pcluster) {
     parallel::stopCluster(pcluster)
     foreach::registerDoSEQ() # so additional calls to foreach will use sequential processes
   }
+}
+
+#' Get model performance metrics as a one-row tibble
+#'
+#' @inheritParams calc_aucs
+#' @inheritParams run_ml
+#' @inheritParams get_feature_importance
+#'
+#' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+get_performance_tbl <- function(trained_model, test_data, outcome_colname, outcome_value, seed = NA) {
+  test_aucs <- calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
+  return(dplyr::tibble(
+    cv_auroc = caret::getTrainPerf(trained_model)$TrainROC,
+    test_auroc = test_aucs$auroc,
+    test_auprc = test_aucs$auprc,
+    method = trained_model$method,
+    seed = seed
+  ))
 }

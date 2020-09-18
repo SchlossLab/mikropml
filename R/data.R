@@ -1,23 +1,3 @@
-#' Default model hyperparameters
-#'
-#' @format a data frame with 51 rows and 3 columns
-#' \describe{
-#'   \item{param}{hyperparameter}
-#'   \item{value}{value of the hyperparameter}
-#'   \item{method}{ML method that the hyperparameter applies to}
-#' }
-"default_hyperparams"
-
-#' Test model hyperparameters with less options for faster build
-#'
-#' @format a data frame with 21 rows and 3 columns
-#' \describe{
-#'   \item{param}{hyperparameter}
-#'   \item{value}{value of the hyperparameter}
-#'   \item{method}{ML method that the hyperparameter applies to}
-#' }
-"test_hyperparams"
-
 #' Large OTU abundance dataset
 #'
 #' A dataset containing relatives abundances of 6,920 OTUs for 490 human stool samples
@@ -84,8 +64,14 @@
 #' 2-fold cross validation on `train_data_mini`
 "otu_mini_cv2"
 
+#' 2-fold cross validation on `train_data_mini` with grouped features
+"otu_mini_cv2_grp"
+
 #' Results from running the pipline with L2 logistic regression on `otu_mini`
 "otu_mini_results1"
+
+#' Results from running the pipline with L2 logistic regression on `otu_mini` with feature grouping
+"otu_mini_results1_grp"
 
 #' Results from running the pipline with random forest on `otu_mini`
 "otu_mini_results2"
@@ -95,6 +81,9 @@
 
 #' Results from running the pipline with xbgTree on `otu_mini`
 "otu_mini_results4"
+
+#' Results from running the pipline with rpart2 on `otu_mini`
+"otu_mini_results5"
 
 #' Results from running the pipline with rpart2 on `otu_medium`
 "otu_med_results"

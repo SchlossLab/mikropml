@@ -20,3 +20,6 @@ Get preprocessed dataframe for continuous variables
 \examples{
 get_caret_processed_df(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}

@@ -12,18 +12,23 @@
 #'
 #'
 #' @examples
-#' hparams_list <- default_hyperparams %>%
-#'   check_hyperparams_df("regLogistic") %>%
-#'   get_hyperparams_list()
-#' define_cv(train_data_sm, "dx", hparams_list, kfold = 5, seed = 2019)
-define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, seed = NA) {
-  if (!is.na(seed)) {
-    set.seed(seed, "Mersenne-Twister", normal.kind = "Inversion")
+#' #'
+#' define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"),
+#'   kfold = 5, seed = 2019
+#' )
+define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, group = NULL, seed = NULL) {
+  if (!is.null(seed)) {
+    set.seed(seed)
   }
-  cvIndex <- caret::createMultiFolds(factor(train_data[, outcome_colname]),
-    kfold,
-    times = cv_times
-  )
+  if (is.null(group)) {
+    cvIndex <- caret::createMultiFolds(factor(train_data %>% dplyr::pull(outcome_colname)),
+      kfold,
+      times = cv_times
+    )
+  } else {
+    cvIndex <- groupKMultiFolds(group, kfold = kfold, cv_times = cv_times)
+  }
+
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))
 
   cv <- caret::trainControl(
@@ -53,10 +58,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, 
 #' @export
 #'
 #' @examples
-#' hparams_list <- default_hyperparams %>%
-#'   check_hyperparams_df("regLogistic") %>%
-#'   get_hyperparams_list()
-#' get_seeds_trainControl(hparams_list, 5, 100, 60)
+#' get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000

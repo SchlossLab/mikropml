@@ -7,14 +7,15 @@
 run_ml(
   dataset,
   method,
-  outcome_colname = NA,
-  outcome_value = NA,
-  hyperparameters = mikRopML::default_hyperparams,
+  outcome_colname = NULL,
+  outcome_value = NULL,
+  hyperparameters = NULL,
   find_feature_importance = FALSE,
   kfold = 5,
   cv_times = 100,
   training_frac = 0.8,
-  corr_thresh = corr_thresh,
+  group = NULL,
+  corr_thresh = 1,
   seed = NA,
   ncores = NA
 )
@@ -22,13 +23,13 @@ run_ml(
 \arguments{
 \item{dataset}{dataframe with an outcome variable and other columns as features}
 
-\item{method}{ML method ("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")}
+\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 
 \item{outcome_value}{outcome value of interest as a string}
 
-\item{hyperparameters}{dataframe of hyperparameters (default: default_hyperparams)}
+\item{hyperparameters}{dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.}
 
 \item{find_feature_importance}{run permutation imporance (default: FALSE)}
 
@@ -37,6 +38,8 @@ run_ml(
 \item{cv_times}{Number of partitions to create}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
+
+\item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 
@@ -49,6 +52,15 @@ named list with results
 }
 \description{
 Run the machine learning pipeline
+}
+\examples{
+\dontrun{
+run_ml(otu_large, "regLogistic")
+run_ml(otu_mini, "regLogistic",
+  kfold = 2,
+  find_feature_importance = TRUE
+)
+}
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

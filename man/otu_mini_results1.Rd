@@ -5,7 +5,7 @@
 \alias{otu_mini_results1}
 \title{Results from running the pipline with L2 logistic regression on \code{otu_mini}}
 \format{
-An object of class \code{list} of length 4.
+An object of class \code{list} of length 3.
 }
 \usage{
 otu_mini_results1
