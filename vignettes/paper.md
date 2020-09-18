@@ -56,7 +56,7 @@ vignette: >
 
 Machine learning (ML) for classification of data into groups based on a set of features is used to make decisions in healthcare, economics, criminal justice and more. 
 However, implementing a robust ML classification pipeline can be time-consuming, confusing, and difficult. 
-Here, we present `mikropml` (prononced "meek-ROPE em el"), an easy-to-use R package that implements robust ML pipelines for binary classification problems using logistic regression, support vector machines, decision tree, random forest, or xgBoost.
+Here, we present `mikropml` (prononced "meek-ROPE em el"), an easy-to-use R package that implements robust ML pipelines for binary classification problems using logistic regression, support vector machines, decision trees, random forest, or gradient boosted trees.
 <!-- We need to have a discussion about whether we're only doing binary classification problems, or if we're expanding it to others as well -->
 It is available on [GitHub](https://github.com/SchlossLab/mikropml/) and CRAN [**link to CRAN**]. 
 
@@ -73,8 +73,8 @@ Furthermore, these packages do not offer a unified way to identify features that
 
 To enable a broader range of researchers to perform robust ML analyses, we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use package in R [@r_core_team_r_2020] that implements the ML framework for binary classification problems created by Topçuoğlu _et al._ [@topcuoglu_framework_2020]. 
 `mikropml` leverages the R `caret` package to support five different ML algorithms: logistic regression, support vector machine with a radial basis kernel, decision tree , random forest, and gradient boosted trees.  
-It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;] <!-- @Begum should we cite something else here [as well]? -->
-Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang et al. [@tang_fiddle_2020] and post-processing permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
+It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;@teschendorff_avoiding_2019] <!-- @Begum should we cite something else here [as well]? --  Added 1 more but Jenna might have opinions on this -->
+Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang et al. [@tang_fiddle_2020] and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
 
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
 It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], to identify differences in genomic and clinical features associated with bacterial infections [@lapp_machine_2020], and to predict gender-based biases in academic publishing [**cite Ada’s paper**]. 
@@ -95,7 +95,7 @@ More details on how to use the `mikropml` `preprocess_data` function can be foun
 
 ## Running ML
 
-The main function in mikropml (`run_ml`) minimally takes in a data frame including a binary outcome and binary or continuous features, and model choice. <!-- do we also support non-preprocessed categorical features? -->
+The main function in mikropml (`run_ml`) minimally takes in a data frame including outcome and binary or continuous features, and model choice. <!-- do we also support non-preprocessed categorical features? -- We'll edit based on changes around this -->
 `mikropml` currently supports logistic regression [@paul_liblinear_2017], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision tree [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020]. 
 It randomly splits the data into train and test sets while also maintaining the distribution of the two outcomes found in the full dataset. 
 It also provides the option to split the data into train and test sets based on categorical variables (e.g. batch, geographic location, etc.).
@@ -109,9 +109,6 @@ Our vignette [**link to vignette**] contains a comprehensive tutorial on how to 
 ## Ideal workflow for running mikropml with many different train/test splits
 
 To investigate the variation in model performance depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020], we provide examples of how to run the `run_ml` function many times with different train/test splits and how to get summary information about model performance on your local computer [**link to parallel vignette**] or on a high-computing cluster using a snakemake workflow [**link to snakemake workflow example**]. 
-Once users establish the model is appropriate, they can implement a single train/test set to create a deployable model. 
-Examples to generate a deployable model are also included. 
-<!--@Begum can you do this part??-->
 
 ## Plotting ML results 
 
@@ -133,8 +130,7 @@ Finally, we use `ggplot2` for plotting [@pedersen_ggplot2_nodate].
 We thank members of the Schloss Lab who participated in code clubs related to the initial development of the pipeline.
 
 # Funding
-<!-- TODO Others add funding if needed -->
-Salary support for P.D.S.came from NIH grant 1R01CA215574.
+Salary support for PDS came from NIH grant 1R01CA215574.
 KLS received support from the NIH Training Program in Bioinformatics (T32 GM070449).
 ZL received support from the National Science Foundation Graduate Research Fellowship Program under Grant No. DGE 1256260. 
 Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
