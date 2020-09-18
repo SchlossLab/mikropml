@@ -78,11 +78,10 @@ Several packages including `caret` [@kuhn_building_2008] and `tidymodels` [@kuhn
 While these packages provide all of the tools necessary for each ML step, they do not implement a complete robust ML pipeline according to best practices in the literature. 
 This, paired with the vast number of options available, make it difficult for non-experts to easily perform robust ML analyses using these packages. 
 Furthermore, these packages do not offer a unified way to identify features that contribute to improved model performance.
-<!-- @Begum can you check me on this whole paragraph about caret and scikitlearn - i did a bit of googling but i don't actually know much about them -->
 
 To enable a broader range of researchers to perform robust ML analyses, we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use package in R [@r_core_team_r_2020] that implements the ML framework for binary classification problems created by Topçuoğlu _et al._ [@topcuoglu_framework_2020]. 
-`mikropml` leverages the R `caret` package to support five different ML algorithms: logistic regression [@paul_liblinear_2017], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision tree [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020].  
-It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020] <!-- @Begum should we cite something else here [as well]? -->
+`mikropml` leverages the R `caret` package to support five different ML algorithms: logistic regression, support vector machine with a radial basis kernel, decision tree , random forest, and gradient boosted trees.  
+It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;] <!-- @Begum should we cite something else here [as well]? -->
 Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang et al. [@tang_fiddle_2020] and post-processing permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
 
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
@@ -133,7 +132,7 @@ We also provide summary plots of test AUROC and AUPRC values for the many train/
 
 mikropml is written in R [@r_core_team_r_2020] and depends on several packages: `PRROC` [@grau_prroc_2015], `dplyr` [@wickham_dplyr_2020], `rlang` [@henry_rlang_2020] and `caret` [@kuhn_building_2008]. 
 The ML algorithms supported by `mikropml` require:
-`rpart2` [@therneau_rpart_2019] for decision trees, `randomForest` [@liaw_classication_2002] for random forest, `xgboost` [@chen_xgboost_2020] for xgBoost, and `kernlab` [@karatzoglou_kernlab_2004] for support vector machines. 
+`LiblineaR` foe logistic regression [@paul_liblinear_2017], `rpart2` [@therneau_rpart_2019] for decision trees, `randomForest` [@liaw_classication_2002] for random forest, `xgboost` [@chen_xgboost_2020] for xgBoost, and `kernlab` [@karatzoglou_kernlab_2004] for support vector machines. 
 We also allow for parallelization of cross-validation and other steps using the `foreach`, `doFuture`, `future.apply`, and `future` packages [@bengtsson_futureapply_2020].
 Finally, we use `ggplot2` for plotting [@pedersen_ggplot2_nodate].
 
