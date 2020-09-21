@@ -7,7 +7,7 @@
 setup_parallel(ncores)
 }
 \arguments{
-\item{`ncores`}{number of cores for multiprocessing (default: \code{NA})}
+\item{ncores}{number of cores for multiprocessing}
 }
 \value{
 whether multiple cores are in use (\code{TRUE} or \code{FALSE})

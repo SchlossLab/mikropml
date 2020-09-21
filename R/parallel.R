@@ -1,7 +1,7 @@
 
 #' Register a multiprocessing plan with `ncores`
 #'
-#' @param `ncores` number of cores for multiprocessing (default: `NA`)
+#' @param ncores number of cores for multiprocessing
 #'
 #' @return whether multiple cores are in use (`TRUE` or `FALSE`)
 #' @export
