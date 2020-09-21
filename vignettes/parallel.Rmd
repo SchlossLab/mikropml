@@ -20,7 +20,7 @@ library(mikropml)
 library(tictoc)
 ```
 
-By default, the `run_ml` function only uses one core.
+By default, the `run_ml()` function only uses one core.
 ```{r series}
 tic()
 result1 <- run_ml(otu_small, 'regLogistic', seed = 2019)
@@ -28,8 +28,8 @@ toc()
 ```
 
 If you'd like to parallelize the cross-validation step with multiple cores,
-use the `setup_parallel` function to specify how many cores you have available
-prior to calling `run_ml`.
+use the `setup_parallel()` function to specify how many cores you have available
+prior to calling `run_ml()`.
 ```{r parallel}
 setup_parallel(2)
 tic()
@@ -37,5 +37,6 @@ result2 <- run_ml(otu_small, 'regLogistic', seed = 2019)
 toc()
 ```
 
-This uses the `future::multiprocess` plan to split the work across multiple cores.
 You will need to have the `foreach`, `future`, `doFuture`, and `parallel` packages installed to use this feature.
+We use the `future::multiprocess` plan to split the work across multiple cores.
+See the [`doFuture` documentation](https://cran.r-project.org/web/packages/doFuture/vignettes/doFuture.html) for more details or if you'd like to use a different futures plan.
