@@ -98,6 +98,9 @@
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
     <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
       <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
@@ -139,8 +142,7 @@
   training_frac = <span class='fl'>0.8</span>,
   group = <span class='kw'>NULL</span>,
   corr_thresh = <span class='fl'>1</span>,
-  seed = <span class='fl'>NA</span>,
-  ncores = <span class='fl'>NA</span>
+  seed = <span class='fl'>NA</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -193,10 +195,6 @@
     <tr>
       <th>seed</th>
       <td><p>random seed (default: NA)</p></td>
-    </tr>
-    <tr>
-      <th>ncores</th>
-      <td><p>number of cores for parallel processing (default: NA). <code>parallel</code> and <code>doParallel</code> packages are needed for ncores &gt; 1</p></td>
     </tr>
     </table>
 

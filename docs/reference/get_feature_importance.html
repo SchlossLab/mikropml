@@ -98,6 +98,9 @@
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
     <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
       <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
@@ -133,6 +136,8 @@
   <span class='kw'>test_data</span>,
   <span class='kw'>outcome_colname</span>,
   <span class='kw'>outcome_value</span>,
+  <span class='kw'>method</span>,
+  seed = <span class='fl'>NA</span>,
   corr_thresh = <span class='fl'>1</span>
 )</pre>
 
@@ -158,6 +163,14 @@
     <tr>
       <th>outcome_value</th>
       <td><p>outcome value of interest as a string</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>random seed (default: NA)</p></td>
     </tr>
     <tr>
       <th>corr_thresh</th>

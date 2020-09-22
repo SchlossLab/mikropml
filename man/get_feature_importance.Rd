@@ -10,6 +10,8 @@ get_feature_importance(
   test_data,
   outcome_colname,
   outcome_value,
+  method,
+  seed = NA,
   corr_thresh = 1
 )
 }
@@ -23,6 +25,10 @@ get_feature_importance(
 \item{outcome_colname}{column name as a string of the outcome variable}
 
 \item{outcome_value}{outcome value of interest as a string}
+
+\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+
+\item{seed}{random seed (default: NA)}
 
 \item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
 }
