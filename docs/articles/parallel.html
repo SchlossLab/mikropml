@@ -75,7 +75,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="parallel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Parallel processing</h1>
@@ -88,27 +88,33 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mikropml</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tictoc</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">mikropml</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://github.com/collectivemedia/tictoc">tictoc</a></span>)
+</pre></div>
 <p>By default, the <code><a href="../reference/run_ml.html">run_ml()</a></code> function only uses one core.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/tictoc/man/tic.html">tic</a></span>()
-<span class="no">result1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="no">otu_small</span>, <span class="st">'regLogistic'</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">2019</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/pkg/tictoc/man/tic.html">tic</a></span>()
+<span class="kw">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_small</span>, <span class="st">'regLogistic'</span>, seed = <span class="fl">2019</span>)
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
 <span class="co">#&gt; Loading required package: lattice</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="fu"><a href="https://rdrr.io/pkg/tictoc/man/tic.html">toc</a></span>()
-<span class="co">#&gt; 36.052 sec elapsed</span></pre></body></html></div>
+<span class="co">#&gt; 25.377 sec elapsed</span>
+</pre></div>
 <p>If you’d like to parallelize the cross-validation step with multiple cores, use the <code><a href="../reference/setup_parallel.html">setup_parallel()</a></code> function to specify how many cores you have available prior to calling <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/setup_parallel.html">setup_parallel</a></span>(<span class="fl">2</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="../reference/setup_parallel.html">setup_parallel</a></span>(<span class="fl">2</span>)
 <span class="co">#&gt; Using 2 cores for parallel processing.</span>
 <span class="co">#&gt; [1] TRUE</span>
 <span class="fu"><a href="https://rdrr.io/pkg/tictoc/man/tic.html">tic</a></span>()
-<span class="no">result2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="no">otu_small</span>, <span class="st">'regLogistic'</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">2019</span>)
+<span class="kw">result2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_small</span>, <span class="st">'regLogistic'</span>, seed = <span class="fl">2019</span>)
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
 <span class="fu"><a href="https://rdrr.io/pkg/tictoc/man/tic.html">toc</a></span>()
-<span class="co">#&gt; 31.487 sec elapsed</span></pre></body></html></div>
+<span class="co">#&gt; 16.281 sec elapsed</span>
+</pre></div>
 <p>You will need to have the <code>foreach</code>, <code>future</code>, <code>doFuture</code>, and <code>parallel</code> packages installed to use this feature. We use the <code><a href="https://rdrr.io/pkg/future/man/multiprocess.html">future::multiprocess</a></code> plan to split the work across multiple cores. See the <a href="https://cran.r-project.org/web/packages/doFuture/vignettes/doFuture.html"><code>doFuture</code> documentation</a> for more details or if you’d like to use a different futures plan.</p>
   </div>
 
@@ -125,7 +131,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
