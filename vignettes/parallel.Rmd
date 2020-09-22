@@ -20,6 +20,8 @@ library(mikropml)
 library(tictoc)
 ```
 
+## Speeding up `run_ml()`
+
 By default, the `run_ml()` function only uses one core.
 ```{r series}
 tic()
@@ -37,6 +39,10 @@ result2 <- run_ml(otu_small, 'regLogistic', seed = 2019)
 toc()
 ```
 
-You will need to have the `foreach`, `future`, `doFuture`, and `parallel` packages installed to use this feature.
-We use the `future::multiprocess` plan to split the work across multiple cores.
+`setup_parallel()` uses the `future::multiprocess` plan to split the work across multiple cores.
 See the [`doFuture` documentation](https://cran.r-project.org/web/packages/doFuture/vignettes/doFuture.html) for more details or if you'd like to use a different futures plan.
+You will need to have the `foreach`, `future`, `doFuture`, and `parallel` packages installed to use this feature.
+Optionally, you can also install the `future.apply` package to speed up other
+various steps in `preprocess_data()` and `run_ml()`.
+
+## Running multiple calls to `run_ml()` in parallel
