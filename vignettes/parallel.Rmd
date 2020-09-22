@@ -44,5 +44,34 @@ See the [`doFuture` documentation](https://cran.r-project.org/web/packages/doFut
 You will need to have the `foreach`, `future`, `doFuture`, and `parallel` packages installed to use this feature.
 Optionally, you can also install the `future.apply` package to speed up other
 various steps in `preprocess_data()` and `run_ml()`.
+If `future.apply` isn't installed, they default to the built-in apply functions.
 
 ## Running multiple calls to `run_ml()` in parallel
+
+You can use functions from the `future.apply` package to call 
+`run_ml()` multiple times in parallel with different parameters.
+
+```{r}
+# install.packages('future.apply')
+library(future.apply)
+```
+
+You will first need to setup a futures plan with `setup_parallel()` as above 
+if you haven't already:
+
+```{r, eval = FALSE}
+setup_parallel(2)
+```
+
+Then, call `run_ml()` with multiple seeds using `future.apply`:
+```{r parallel}
+
+```
+
+
+```{r series}
+tic()
+lapply(seq(100,105), function(seed) {run_ml(otu_small, 'regLogistic', seed = 2019)})
+toc()
+```
+
