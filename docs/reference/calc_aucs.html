@@ -98,6 +98,9 @@
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
     <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
       <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
@@ -127,7 +130,7 @@
     <p>Calculate AUROC and AUPRC</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_aucs</span>(<span class='kw'>trained_model</span>, <span class='kw'>test_data</span>, <span class='kw'>outcome_colname</span>, <span class='kw'>outcome_value</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_aucs</span>(<span class='no'>trained_model</span>, <span class='no'>test_data</span>, <span class='no'>outcome_colname</span>, <span class='no'>outcome_value</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,14 +156,9 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>List of auroc and auprc values</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
-<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>calc_aucs</span>(<span class='kw'>trained_model_sm1</span>, <span class='kw'>test_data_sm</span>, <span class='st'>"dx"</span>, <span class='st'>"cancer"</span>)
-</div><div class='output co'>#&gt; $auroc
+    <pre class="examples"><div class='input'><span class='fu'>calc_aucs</span>(<span class='no'>trained_model_sm1</span>, <span class='no'>test_data_sm</span>, <span class='st'>"dx"</span>, <span class='st'>"cancer"</span>)</div><div class='output co'>#&gt; $auroc
 #&gt; [1] 0.5052632
 #&gt; 
 #&gt; $auprc
@@ -181,7 +179,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

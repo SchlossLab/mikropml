@@ -98,6 +98,9 @@
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
     <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
       <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
@@ -127,7 +130,7 @@
     <p>Process features with no variation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>process_novar_feats</span>(<span class='kw'>features</span>)</pre>
+    <pre class="usage"><span class='fu'>process_novar_feats</span>(<span class='no'>features</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,44 +144,40 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>list of two dataframes: features with variability (unprocessed) and without (processed)</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>process_novar_feats</span>(<span class='kw'>mikropml</span>::<span class='kw'><a href='otu_small.html'>otu_small</a></span>[, <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>otu_small</span>)])
-</div><div class='output co'>#&gt; $novar_feats
+    <pre class="examples"><div class='input'><span class='fu'>process_novar_feats</span>(<span class='kw pkg'>mikropml</span><span class='kw ns'>::</span><span class='no'><a href='otu_small.html'>otu_small</a></span>[, <span class='fl'>2</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>otu_small</span>)])</div><div class='output co'>#&gt; $novar_feats
 #&gt; NULL
 #&gt; 
 #&gt; $var_feats
-#&gt; <span style='color: #555555;'># A tibble: 200 x 60</span><span>
+#&gt; # A tibble: 200 x 60
 #&gt;    Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007 Otu00008
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>      350      268      213        1      208      230       70      230
-#&gt; </span><span style='color: #555555;'> 2</span><span>      568     </span><span style='text-decoration: underline;'>1</span><span>320       13      293      671      103       48      204
-#&gt; </span><span style='color: #555555;'> 3</span><span>      151      756      802      556      145      271       57      176
-#&gt; </span><span style='color: #555555;'> 4</span><span>      299       30     </span><span style='text-decoration: underline;'>1</span><span>018        0       25       99       75       78
-#&gt; </span><span style='color: #555555;'> 5</span><span>     </span><span style='text-decoration: underline;'>1</span><span>409      174        0        3        2     </span><span style='text-decoration: underline;'>1</span><span>136      296        1
-#&gt; </span><span style='color: #555555;'> 6</span><span>      167      712      213        4      332      534      139      251
-#&gt; </span><span style='color: #555555;'> 7</span><span>      108      120      160      349       30      971       26      277
-#&gt; </span><span style='color: #555555;'> 8</span><span>      347      130      131       17      108      263      351      245
-#&gt; </span><span style='color: #555555;'> 9</span><span>      256      995      871      112      142      137        0      363
-#&gt; </span><span style='color: #555555;'>10</span><span>     </span><span style='text-decoration: underline;'>1</span><span>648      144       22      249       16      498      129      846
-#&gt; </span><span style='color: #555555;'># … with 190 more rows, and 52 more variables: Otu00009 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00010 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00011 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00012 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00013 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00014 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00015 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00016 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00017 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00018 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00019 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00020 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00021 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00022 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00023 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00024 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00025 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00026 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00027 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00028 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00029 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00030 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00031 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00032 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00033 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00034 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00035 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00036 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00037 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00038 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00039 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00040 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00041 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00042 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00043 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00044 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00045 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00046 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00047 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00048 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00049 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00050 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00051 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00052 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00053 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00054 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00055 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00056 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00057 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00058 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   Otu00059 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, Otu00060 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </div></span></pre>
+#&gt;       &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;
+#&gt;  1      350      268      213        1      208      230       70      230
+#&gt;  2      568     1320       13      293      671      103       48      204
+#&gt;  3      151      756      802      556      145      271       57      176
+#&gt;  4      299       30     1018        0       25       99       75       78
+#&gt;  5     1409      174        0        3        2     1136      296        1
+#&gt;  6      167      712      213        4      332      534      139      251
+#&gt;  7      108      120      160      349       30      971       26      277
+#&gt;  8      347      130      131       17      108      263      351      245
+#&gt;  9      256      995      871      112      142      137        0      363
+#&gt; 10     1648      144       22      249       16      498      129      846
+#&gt; # … with 190 more rows, and 52 more variables: Otu00009 &lt;int&gt;, Otu00010 &lt;int&gt;,
+#&gt; #   Otu00011 &lt;int&gt;, Otu00012 &lt;int&gt;, Otu00013 &lt;int&gt;, Otu00014 &lt;int&gt;,
+#&gt; #   Otu00015 &lt;int&gt;, Otu00016 &lt;int&gt;, Otu00017 &lt;int&gt;, Otu00018 &lt;int&gt;,
+#&gt; #   Otu00019 &lt;int&gt;, Otu00020 &lt;int&gt;, Otu00021 &lt;int&gt;, Otu00022 &lt;int&gt;,
+#&gt; #   Otu00023 &lt;int&gt;, Otu00024 &lt;int&gt;, Otu00025 &lt;int&gt;, Otu00026 &lt;int&gt;,
+#&gt; #   Otu00027 &lt;int&gt;, Otu00028 &lt;int&gt;, Otu00029 &lt;int&gt;, Otu00030 &lt;int&gt;,
+#&gt; #   Otu00031 &lt;int&gt;, Otu00032 &lt;int&gt;, Otu00033 &lt;int&gt;, Otu00034 &lt;int&gt;,
+#&gt; #   Otu00035 &lt;int&gt;, Otu00036 &lt;int&gt;, Otu00037 &lt;int&gt;, Otu00038 &lt;int&gt;,
+#&gt; #   Otu00039 &lt;int&gt;, Otu00040 &lt;int&gt;, Otu00041 &lt;int&gt;, Otu00042 &lt;int&gt;,
+#&gt; #   Otu00043 &lt;int&gt;, Otu00044 &lt;int&gt;, Otu00045 &lt;int&gt;, Otu00046 &lt;int&gt;,
+#&gt; #   Otu00047 &lt;int&gt;, Otu00048 &lt;int&gt;, Otu00049 &lt;int&gt;, Otu00050 &lt;int&gt;,
+#&gt; #   Otu00051 &lt;int&gt;, Otu00052 &lt;int&gt;, Otu00053 &lt;int&gt;, Otu00054 &lt;int&gt;,
+#&gt; #   Otu00055 &lt;int&gt;, Otu00056 &lt;int&gt;, Otu00057 &lt;int&gt;, Otu00058 &lt;int&gt;,
+#&gt; #   Otu00059 &lt;int&gt;, Otu00060 &lt;int&gt;
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -194,7 +193,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
