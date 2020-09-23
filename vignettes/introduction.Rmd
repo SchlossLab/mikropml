@@ -2,7 +2,7 @@
 title: "Introduction to mikropml"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to mikRopML}
+  %\VignetteIndexEntry{Introduction to mikropml}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
