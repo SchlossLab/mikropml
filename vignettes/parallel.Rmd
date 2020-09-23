@@ -58,6 +58,7 @@ library(future.apply)
 
 You will first need to run `future::plan()` as above if you haven't already.
 Then, call `run_ml()` with multiple seeds using `future_lapply()`:
+
 ```{r multi_run_ml}
 results_multi <-
   future_lapply(seq(100, 104), function(seed) {
@@ -65,11 +66,14 @@ results_multi <-
   })
 ```
 
+Each call to `run_ml()` with a different seed uses a different random split 
+of the data into training and testing sets.
 This example uses only 5 seeds for speed and simplicity,
 but for real data we recommend using many more seeds to get a better estimate 
-of model performance from different splits of the data into training & testing sets.
+of model performance.
 
 Extract the performance results and combine into one dataframe for all seeds:
+
 ```{r bind_results}
 performance_list <-
   future_lapply(results_multi, function(result) {
