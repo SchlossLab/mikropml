@@ -30,7 +30,6 @@ performance_plot <- ggplot(tidy_performance, aes(x=method, y=AUC)) +
                        breaks = seq(0.2, 1, 0.1),
                        limits=c(0.2,1),
                        expand=c(0,0)) +
-   labs(title = paste0(level)) +
     scale_x_discrete(name = "") +
     theme_bw() +
     theme(plot.margin=unit(c(0,1.1,0,0),"cm"),
@@ -41,7 +40,6 @@ performance_plot <- ggplot(tidy_performance, aes(x=method, y=AUC)) +
           legend.background = element_rect(linetype="solid", color="black", size=0.5),
           legend.box.margin=margin(c(10,10,10, 10)),
           legend.text=element_text(size=10),
-          #legend.title=element_text(size=22),
           panel.grid.major.x = element_blank(),
           panel.grid.major.y = element_line(size=1),
           panel.grid.minor = element_blank(),
