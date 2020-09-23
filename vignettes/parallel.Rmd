@@ -8,6 +8,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+options(future.supportsMulticore.unstable = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -20,33 +21,37 @@ library(mikropml)
 library(tictoc)
 ```
 
-## Speeding up `run_ml()`
+## Speed up `run_ml()`
 
-By default, the `run_ml()` function only uses one core.
-```{r series}
+By default, `preprocess_data()` and `run_ml()` use only one process in series.
+
+```{r series1}
 tic()
-result1 <- run_ml(otu_small, 'regLogistic', seed = 2019)
+otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
+result1 <- run_ml(otu_data_preproc, 'regLogistic', seed = 2019)
 toc()
 ```
 
-If you'd like to parallelize the cross-validation step with multiple cores,
-use the `setup_parallel()` function to specify how many cores you have available
-prior to calling `run_ml()`.
-```{r parallel}
-setup_parallel(2)
+If you'd like to parallelize various steps of the pipeline,
+install `foreach`, `future`, `future.apply`, and `doFuture`.
+Then, register a future plan prior to calling `run_ml()`.
+
+```{r parallel1}
+doFuture::registerDoFuture()
+future::plan(future::multicore, workers = 2)
 tic()
-result2 <- run_ml(otu_small, 'regLogistic', seed = 2019)
+otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
+result1 <- run_ml(otu_data_preproc, 'regLogistic', seed = 2019)
 toc()
 ```
 
-`setup_parallel()` uses the `future::multiprocess` plan to split the work across multiple cores.
-See the [`doFuture` documentation](https://cran.r-project.org/web/packages/doFuture/vignettes/doFuture.html) for more details or if you'd like to use a different futures plan.
-You will need to have the `foreach`, `future`, `doFuture`, and `parallel` packages installed to use this feature.
-Optionally, you can also install the `future.apply` package to speed up other
-various steps in `preprocess_data()` and `run_ml()`.
-If `future.apply` isn't installed, they default to the built-in apply functions.
+Above, we used the `multicore` plan to split the work across 2 cores.
+See the [`future` documentation](https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html) 
+for more about picking the best plan for your use case.
+Notably, `multicore` does not work inside RStudio or on Windows;
+you will need to use `multisession` instead in those cases.
 
-## Running multiple calls to `run_ml()` in parallel
+## Call `run_ml()` multiple times in parallel
 
 You can use functions from the `future.apply` package to call 
 `run_ml()` multiple times in parallel with different parameters.
@@ -56,22 +61,26 @@ You can use functions from the `future.apply` package to call
 library(future.apply)
 ```
 
-You will first need to setup a futures plan with `setup_parallel()` as above 
-if you haven't already:
-
-```{r, eval = FALSE}
-setup_parallel(2)
+You will first need to run `future::plan()` as above if you haven't already.
+Then, call `run_ml()` with multiple seeds using `future_lapply()`:
+```{r multi_run_ml}
+results_multi <-
+  future_lapply(seq(100, 104), function(seed) {
+    run_ml(otu_mini, 'regLogistic', seed = seed, kfold = 2)
+  })
 ```
 
-Then, call `run_ml()` with multiple seeds using `future.apply`:
-```{r parallel}
+This example uses only 5 seeds for speed and simplicity,
+but for real data we recommend using many more seeds to get a better estimate 
+of model performance from different splits of the data into training & testing sets.
 
-```
-
-
-```{r series}
-tic()
-lapply(seq(100,105), function(seed) {run_ml(otu_small, 'regLogistic', seed = 2019)})
-toc()
+Extract the performance results and combine into one dataframe for all seeds:
+```{r bind_results}
+performance_list <-
+  future_lapply(results_multi, function(result) {
+    result[['performance']]
+  })
+performance_df <- dplyr::bind_rows(performance_list)
+performance_df
 ```
 
