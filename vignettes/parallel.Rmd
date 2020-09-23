@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(mikropml)
-library(tictoc)
 ```
 
 ## Speed up `run_ml()`
@@ -26,10 +25,8 @@ library(tictoc)
 By default, `preprocess_data()` and `run_ml()` use only one process in series.
 
 ```{r series1}
-tic()
 otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
 result1 <- run_ml(otu_data_preproc, 'regLogistic', seed = 2019)
-toc()
 ```
 
 If you'd like to parallelize various steps of the pipeline,
@@ -39,10 +36,8 @@ Then, register a future plan prior to calling `run_ml()`.
 ```{r parallel1}
 doFuture::registerDoFuture()
 future::plan(future::multicore, workers = 2)
-tic()
 otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
 result1 <- run_ml(otu_data_preproc, 'regLogistic', seed = 2019)
-toc()
 ```
 
 Above, we used the `multicore` plan to split the work across 2 cores.
