@@ -61,7 +61,7 @@ Then, call `run_ml()` with multiple seeds using `future_lapply()`:
 
 ```{r multi_seeds}
 results_multi <- future_lapply(seq(100, 104), function(seed) {
-  run_ml(otu_mini, 'regLogistic', seed = seed, kfold = 2)
+  run_ml(otu_small, 'regLogistic', seed = seed)
   })
 ```
 
@@ -92,7 +92,7 @@ and `future_mapply()` works the same way:
 param_grid <- expand.grid(seeds = seq(100, 104),
                           methods = c('regLogistic', 'rf'))
 results_mtx <- future_mapply(function(seed, method) {
-                             run_ml(otu_mini, method, seed = seed, kfold = 2)
+                             run_ml(otu_small, method, seed = seed)
                              },
                              param_grid$seeds, 
                              param_grid$methods)
