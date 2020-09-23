@@ -1,4 +1,4 @@
-#' Plot performance metrics for multiple ML runs with different seeds
+#' Plot performance metrics for multiple ML runs with different parameters
 #'
 #' @param performance_df dataframe of performance results from multiple calls to `run_ml()`
 #'
@@ -10,54 +10,46 @@
 #' @examples
 #' \dontrun{
 #' # call `run_ml` multiple times with different seeds
-#' results_multi <- lapply(seq(100, 104), function(seed) {
+#' results_lst <- lapply(seq(100, 104), function(seed) {
 #'   run_ml(otu_mini, 'regLogistic', seed = seed, kfold = 2)
 #'   })
 #' # extract and combine the performance results
-#' perf_df <- lapply(results_multi, function(result) {
+#' perf_df <- lapply(results_lst, function(result) {
 #'   result[['performance']]
 #'   }) %>%
 #'   dplyr::bind_rows()
 #' # plot the performance results
 #' plot_performance(perf_df)
+#'
+#' # call `run_ml` with different ML methods
+#' param_grid <- expand.grid(seeds=seq(100, 104),
+#'                           methods=c('regLogistic', 'rf'))
+#' results_mtx <- mapply(function(seed, method) {
+#'   run_ml(otu_mini, method, seed = seed, kfold = 2)},
+#'   param_grid$seeds, param_grid$methods)
+#' # extract and combine the performance results
+#' perf_df2 <- dplyr::bind_rows(results_mtx['performance',])
+#' # plot the performance results
+#' plot_performance(perf_df2)
 #' }
 plot_performance <- function(performance_df) {
+  if (!check_package_installed('ggplot2')) {
+    stop('`ggplot2` is required for `plot_performance()`, but you do not have it installed.')
+  }
   performance_df  %>%
     tidy_perf_data() %>%
     ggplot2::ggplot(aes(x=method, y=value)) +
-      geom_jitter(aes(color = metric),
-                  size = 1.2,
-                  position = position_jitterdodge(jitter.width = 0.2,
-                                                  dodge.width = 0.7)) +
       stat_summary(aes(color = metric),
                    fun.data="mean_se",
                    fun.args = list(mult=1),
-                   geom = "pointrange",  size = 0.9,
-                   position = position_dodge(0.7)) +
+                   geom = "pointrange",
+                   #size = 0.9,
+                   position = position_dodge(0.2)
+                   ) +
       geom_hline(yintercept = 0.5, linetype="dashed") +
-      scale_y_continuous(name = "Performance",
-                         breaks = seq(0.2, 1, 0.1),
-                         limits=c(0.2,1),
-                         expand=c(0,0)) +
-      scale_x_discrete(name = "") +
-      theme_bw() +
-      theme(plot.margin=unit(c(0,1.1,0,0),"cm"),
-            legend.justification=c(0,1),
-            legend.position=c(0,1),
-            legend.title = element_blank(),
-            legend.background = element_rect(linetype="solid", color="black", size=0.4),
-            legend.box.margin=margin(c(4,4,4, 4)),
-            legend.text=element_text(size=8),
-            panel.grid.major.x = element_blank(),
-            panel.grid.major.y = element_line(size=1),
-            panel.grid.minor = element_blank(),
-            panel.background = element_blank(),
-            text = element_text(size = 12),
-            axis.text.x=element_text(size = 10, colour='black'),
-            axis.text.y=element_text(size = 10, colour='black'),
-            axis.title.y=element_text(size = 10),
-            axis.title.x=element_text(size = 10),
-            panel.border = element_rect(linetype="solid", colour = "black", fill=NA, size=1.5))
+    #ylim(0, 1) +
+    labs(y='Performance', x='')# +
+    #coord_flip()
 }
 
 #' Tidy the performance dataframe
@@ -78,5 +70,4 @@ tidy_perf_data <- function(performance_df) {
         metric == "test_auprc" ~ 'Testing Precision-Recall Curve'
       )
     )
-
 }
