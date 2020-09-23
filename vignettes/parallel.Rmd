@@ -51,7 +51,7 @@ you will need to use `multisession` instead in those cases.
 You can use functions from the `future.apply` package to call 
 `run_ml()` multiple times in parallel with different parameters.
 
-```{r}
+```{r load_future_apply}
 # install.packages('future.apply')
 library(future.apply)
 ```
@@ -59,10 +59,9 @@ library(future.apply)
 You will first need to run `future::plan()` as above if you haven't already.
 Then, call `run_ml()` with multiple seeds using `future_lapply()`:
 
-```{r multi_run_ml}
-results_multi <-
-  future_lapply(seq(100, 104), function(seed) {
-    run_ml(otu_mini, 'regLogistic', seed = seed, kfold = 2)
+```{r multi_seeds}
+results_multi <- future_lapply(seq(100, 104), function(seed) {
+  run_ml(otu_mini, 'regLogistic', seed = seed, kfold = 2)
   })
 ```
 
@@ -75,11 +74,41 @@ of model performance.
 Extract the performance results and combine into one dataframe for all seeds:
 
 ```{r bind_results}
-performance_list <-
-  future_lapply(results_multi, function(result) {
-    result[['performance']]
-  })
-performance_df <- dplyr::bind_rows(performance_list)
-performance_df
+perf_df <- future_lapply(results_multi, function(result) {
+  result[['performance']]
+  }) %>% 
+  dplyr::bind_rows()
+perf_df
+```
+
+### Multiple ML methods
+
+You may also wish to compare performance for different ML methods.
+`mapply()` can iterate over multiple lists or vectors, 
+and `future_mapply()` works the same way:
+
+```{r multi_methods_seeds}
+# NOTE: use more seeds for real-world data
+param_grid <- expand.grid(seeds = seq(100, 104),
+                          methods = c('regLogistic', 'rf'))
+results_mtx <- future_mapply(function(seed, method) {
+                             run_ml(otu_mini, method, seed = seed, kfold = 2)
+                             },
+                             param_grid$seeds, 
+                             param_grid$methods)
+```
+
+Extract and combine the performance results for all seeds and methods:
+
+```{r bind_results_all}
+perf_df2 <- dplyr::bind_rows(results_mtx['performance',])
+perf_df2
+```
+
+Visualize the performance results:
+
+<!-- TODO: set eval=TRUE once plot_performance() is merged into master -->
+```{r plot_perf, eval=FALSE}
+plot_performance(perf_df2)
 ```
 
