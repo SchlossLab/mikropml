@@ -43,13 +43,12 @@ plot_performance <- function(performance_df) {
                    fun.data="mean_se",
                    fun.args = list(mult=1),
                    geom = "pointrange",
-                   #size = 0.9,
                    position = position_dodge(0.2)
                    ) +
       geom_hline(yintercept = 0.5, linetype="dashed") +
-    #ylim(0, 1) +
-    labs(y='Performance', x='')# +
-    #coord_flip()
+    ylim(0, 1) +
+    labs(y='Performance', x='') +
+    coord_flip()
 }
 
 #' Tidy the performance dataframe
