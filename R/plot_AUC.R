@@ -1,30 +1,41 @@
-#' Plot AUROC and AUPROC values for multiple datasplit ML runs
+#' Plot performance metrics for multiple ML runs with different seeds
 #'
-#' @inheritParams run_ml
+#' @param performance_df dataframe of performance results from multiple calls to `run_ml()`
 #'
-#' @return ggplot boxplot 
+#' @return a ggplot2 plot
 #' @export
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
+#' @author Kelly Sovacool, \email(sovacool@@umich.edu)
 #'
 #' @examples
-#' plot_AUC(performance_df)
-plot_AUC <- function(performance_df) {
-  
-    tidy_performance <- performance_df  %>%
-      melt_data()
-    
-    performance_plot <- ggplot2::ggplot(tidy_performance, aes(x=method, y=AUC)) +
-      geom_jitter(aes(color = Performance),
+#' \dontrun{
+#' # call `run_ml` multiple times with different seeds
+#' results_multi <- lapply(seq(100, 104), function(seed) {
+#'   run_ml(otu_mini, 'regLogistic', seed = seed, kfold = 2)
+#'   })
+#' # extract and combine the performance results
+#' perf_df <- lapply(results_multi, function(result) {
+#'   result[['performance']]
+#'   }) %>%
+#'   dplyr::bind_rows()
+#' # plot the performance results
+#' plot_performance(perf_df)
+#' }
+plot_performance <- function(performance_df) {
+  performance_df  %>%
+    tidy_perf_data() %>%
+    ggplot2::ggplot(aes(x=method, y=value)) +
+      geom_jitter(aes(color = metric),
                   size = 1.2,
-                  position = position_jitterdodge(jitter.width = 0.2, 
+                  position = position_jitterdodge(jitter.width = 0.2,
                                                   dodge.width = 0.7)) +
-      stat_summary(aes(color = Performance),
-                   fun.data="mean_se",  
+      stat_summary(aes(color = metric),
+                   fun.data="mean_se",
                    fun.args = list(mult=1),
                    geom = "pointrange",  size = 0.9,
                    position = position_dodge(0.7)) +
       geom_hline(yintercept = 0.5, linetype="dashed") +
-      scale_y_continuous(name = "AUC",
+      scale_y_continuous(name = "Performance",
                          breaks = seq(0.2, 1, 0.1),
                          limits=c(0.2,1),
                          expand=c(0,0)) +
@@ -47,25 +58,25 @@ plot_AUC <- function(performance_df) {
             axis.title.y=element_text(size = 10),
             axis.title.x=element_text(size = 10),
             panel.border = element_rect(linetype="solid", colour = "black", fill=NA, size=1.5))
-    
-    return(performance_plot)
 }
 
-#' Tidy the performance table
-#'
-#'
-#' @return Tidy dataframe with model performance metrics 
+#' Tidy the performance dataframe
+#' @inheritParams plot_performance
+#' @return Tidy dataframe with model performance metrics
 #' @noRd
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
-#'
-#' @examples
-#' get_predictions(trained_model_sm1, test_data_sm, "cancer")
-melt_data <-  function(perf_table) {
-    data_melt <- perf_table %>%
-      dplyr::select(-seed) %>% 
-      reshape2::melt(measure.vars=c('cv_auroc', 'test_auroc', 'test_auprc')) %>%
-      dplyr::mutate(Performance = dplyr::case_when(variable == "cv_auroc" ~ 'Cross-validation AUROC', variable == "test_auroc" ~ 'Testing AUROC', variable == "test_auprc" ~ 'Testing Precision-Recall Curve')) %>%
-      dplyr::rename(AUC = value) %>%
-      dplyr::group_by(Performance)
-    return(data_melt)
+#' @author Kelly Sovacool, \email(sovacool@@umich.edu)
+tidy_perf_data <- function(performance_df) {
+  performance_df %>%
+    dplyr::select(-seed) %>%
+    tidyr::pivot_longer(cols = c(cv_auroc, test_auroc, test_auprc),
+                        names_to = "metric") %>%
+    dplyr::mutate(
+      metric_pretty = dplyr::case_when(
+        metric == "cv_auroc" ~ 'Cross-validation AUROC',
+        metric == "test_auroc" ~ 'Testing AUROC',
+        metric == "test_auprc" ~ 'Testing Precision-Recall Curve'
+      )
+    )
+
 }
