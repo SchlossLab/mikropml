@@ -46,23 +46,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction.html">Introduction to mikropml</a>
-    </li>
-    <li>
-      <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
-    </li>
-  </ul>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -75,7 +60,7 @@
 
       
 
-      </header><script src="parallel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Parallel processing</h1>
@@ -88,51 +73,38 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">mikropml</span>)
-</pre></div>
-<div id="speed-up-run_ml" class="section level2">
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mikropml</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">future.apply</span>)
+<span class="co">#&gt; Loading required package: future</span></pre></body></html></div>
+<div id="speed-up-single-runs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#speed-up-run_ml" class="anchor"></a>Speed up <code>run_ml()</code>
-</h2>
-<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/run_ml.html">run_ml()</a></code> use only one process in series.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">otu_data_preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span>(<span class="kw">otu_small</span>, <span class="st">'dx'</span>)<span class="op">$</span><span class="kw">dat_transformed</span>
-<span class="kw">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_data_preproc</span>, <span class="st">'regLogistic'</span>, seed = <span class="fl">2019</span>)
+<a href="#speed-up-single-runs" class="anchor"></a>Speed up single runs</h2>
+<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/run_ml.html">run_ml()</a></code> use only one process in series. If you’d like to parallelize various steps of the pipeline to make them run faster, install <code>foreach</code>, <code>future</code>, <code>future.apply</code>, and <code>doFuture</code>. Then, register a future plan prior to calling <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">doFuture</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/doFuture/man/registerDoFuture.html">registerDoFuture</a></span>()
+<span class="kw pkg">future</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span>(<span class="kw pkg">future</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/future/man/multicore.html">multicore</a></span>, <span class="kw">workers</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="no">otu_data_preproc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span>(<span class="no">otu_small</span>, <span class="st">'dx'</span>)$<span class="no">dat_transformed</span>
+<span class="no">result1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="no">otu_data_preproc</span>, <span class="st">'regLogistic'</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">2019</span>)
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
+<span class="co">#&gt; Loading required package: globals</span>
+<span class="co">#&gt; Loading required package: foreach</span>
+<span class="co">#&gt; Loading required package: iterators</span>
+<span class="co">#&gt; Loading required package: parallel</span>
 <span class="co">#&gt; Loading required package: lattice</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
-</pre></div>
-<p>If you’d like to parallelize various steps of the pipeline, install <code>foreach</code>, <code>future</code>, <code>future.apply</code>, and <code>doFuture</code>. Then, register a future plan prior to calling <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">doFuture</span>::<span class="fu"><a href="https://rdrr.io/pkg/doFuture/man/registerDoFuture.html">registerDoFuture</a></span>()
-<span class="kw">future</span>::<span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span>(<span class="kw">future</span>::<span class="kw"><a href="https://rdrr.io/pkg/future/man/multicore.html">multicore</a></span>, workers = <span class="fl">2</span>)
-<span class="kw">otu_data_preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span>(<span class="kw">otu_small</span>, <span class="st">'dx'</span>)<span class="op">$</span><span class="kw">dat_transformed</span>
-<span class="kw">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_data_preproc</span>, <span class="st">'regLogistic'</span>, seed = <span class="fl">2019</span>)
-<span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
-<span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
-</pre></div>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'caret'</span>
+<span class="co">#&gt; The following object is masked from 'package:future':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     cluster</span></pre></body></html></div>
 <p>Above, we used the <code>multicore</code> plan to split the work across 2 cores. See the <a href="https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html"><code>future</code> documentation</a> for more about picking the best plan for your use case. Notably, <code>multicore</code> does not work inside RStudio or on Windows; you will need to use <code>multisession</code> instead in those cases.</p>
 </div>
-<div id="call-run_ml-multiple-times-in-parallel" class="section level2">
+<div id="call-run_ml-multiple-times-in-parallel-in-r" class="section level2">
 <h2 class="hasAnchor">
-<a href="#call-run_ml-multiple-times-in-parallel" class="anchor"></a>Call <code>run_ml()</code> multiple times in parallel</h2>
-<p>You can use functions from the <code>future.apply</code> package to call <code><a href="../reference/run_ml.html">run_ml()</a></code> multiple times in parallel with different parameters.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># install.packages('future.apply')</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/HenrikBengtsson/future.apply">future.apply</a></span>)
-<span class="co">#&gt; Loading required package: future</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'future'</span>
-<span class="co">#&gt; The following object is masked from 'package:caret':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     cluster</span>
-</pre></div>
-<p>You will first need to run <code><a href="https://rdrr.io/pkg/future/man/plan.html">future::plan()</a></code> as above if you haven’t already. Then, call <code><a href="../reference/run_ml.html">run_ml()</a></code> with multiple seeds using <code><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">results_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">100</span>, <span class="fl">104</span>), <span class="fu">function</span>(<span class="kw">seed</span>) {
-  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_small</span>, <span class="st">'regLogistic'</span>, seed = <span class="kw">seed</span>)
+<a href="#call-run_ml-multiple-times-in-parallel-in-r" class="anchor"></a>Call <code>run_ml()</code> multiple times in parallel in R</h2>
+<p>You can use functions from the <code>future.apply</code> package to call <code><a href="../reference/run_ml.html">run_ml()</a></code> multiple times in parallel with different parameters. You will first need to run <code><a href="https://rdrr.io/pkg/future/man/plan.html">future::plan()</a></code> as above if you haven’t already. Then, call <code><a href="../reference/run_ml.html">run_ml()</a></code> with multiple seeds using <code><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply()</a></code>:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results_multi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">100</span>, <span class="fl">104</span>), <span class="kw">function</span>(<span class="no">seed</span>) {
+  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="no">otu_data_preproc</span>, <span class="st">'regLogistic'</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="no">seed</span>)
   })
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
@@ -143,38 +115,34 @@
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
-<span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
-</pre></div>
+<span class="co">#&gt; Using L2 normalization for Logistic Regression</span></pre></body></html></div>
 <p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a different random split of the data into training and testing sets. This example uses only 5 seeds for speed and simplicity, but for real data we recommend using many more seeds to get a better estimate of model performance.</p>
 <p>Extract the performance results and combine into one dataframe for all seeds:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">perf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span>(<span class="kw">results_multi</span>, <span class="fu">function</span>(<span class="kw">result</span>) {
-  <span class="kw">result</span>[[<span class="st">'performance'</span>]]
-  }) <span class="op">%&gt;%</span> 
-  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>()
-<span class="kw">perf_df</span>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">perf_df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span>(<span class="no">results_multi</span>, <span class="kw">function</span>(<span class="no">result</span>) {
+  <span class="no">result</span><span class="kw">[[</span><span class="st">'performance'</span>]]
+  }) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>()
+<span class="no">perf_df</span>
 <span class="co">#&gt; # A tibble: 5 x 5</span>
 <span class="co">#&gt;   cv_auroc test_auroc test_auprc method       seed</span>
 <span class="co">#&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       &lt;int&gt;</span>
-<span class="co">#&gt; 1    0.569      0.508      0.547 regLogistic   100</span>
-<span class="co">#&gt; 2    0.508      0.621      0.612 regLogistic   101</span>
-<span class="co">#&gt; 3    0.536      0.426      0.425 regLogistic   102</span>
-<span class="co">#&gt; 4    0.513      0.555      0.510 regLogistic   103</span>
-<span class="co">#&gt; 5    0.551      0.526      0.588 regLogistic   104</span>
-</pre></div>
+<span class="co">#&gt; 1    0.695      0.468      0.504 regLogistic   100</span>
+<span class="co">#&gt; 2    0.644      0.618      0.616 regLogistic   101</span>
+<span class="co">#&gt; 3    0.665      0.553      0.606 regLogistic   102</span>
+<span class="co">#&gt; 4    0.643      0.655      0.646 regLogistic   103</span>
+<span class="co">#&gt; 5    0.648      0.618      0.644 regLogistic   104</span></pre></body></html></div>
 <div id="multiple-ml-methods" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-ml-methods" class="anchor"></a>Multiple ML methods</h3>
 <p>You may also wish to compare performance for different ML methods. <code><a href="https://rdrr.io/r/base/mapply.html">mapply()</a></code> can iterate over multiple lists or vectors, and <code><a href="https://rdrr.io/pkg/future.apply/man/future_mapply.html">future_mapply()</a></code> works the same way:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="co"># NOTE: use more seeds for real-world data</span>
-<span class="kw">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(seeds = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">100</span>, <span class="fl">104</span>),
-                          methods = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'regLogistic'</span>, <span class="st">'rf'</span>))
-<span class="kw">results_mtx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_mapply.html">future_mapply</a></span>(<span class="fu">function</span>(<span class="kw">seed</span>, <span class="kw">method</span>) {
-                             <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_small</span>, <span class="kw">method</span>, seed = <span class="kw">seed</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># NOTE: use more seeds for real-world data</span>
+<span class="no">param_grid</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="kw">seeds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">100</span>, <span class="fl">104</span>),
+                          <span class="kw">methods</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'regLogistic'</span>, <span class="st">'rf'</span>))
+<span class="no">results_mtx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_mapply.html">future_mapply</a></span>(<span class="kw">function</span>(<span class="no">seed</span>, <span class="no">method</span>) {
+                             <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="no">otu_data_preproc</span>, <span class="no">method</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="no">seed</span>)
                              },
-                             <span class="kw">param_grid</span><span class="op">$</span><span class="kw">seeds</span>, 
-                             <span class="kw">param_grid</span><span class="op">$</span><span class="kw">methods</span>)
+                             <span class="no">param_grid</span>$<span class="no">seeds</span>,
+                             <span class="no">param_grid</span>$<span class="no">methods</span>)
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
@@ -189,32 +157,32 @@
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
-<span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
-</pre></div>
+<span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span></pre></body></html></div>
 <p>Extract and combine the performance results for all seeds and methods:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">perf_df2</span> <span class="op">&lt;-</span> <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="kw">results_mtx</span>[<span class="st">'performance'</span>,])
-<span class="kw">perf_df2</span>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">perf_df2</span> <span class="kw">&lt;-</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">results_mtx</span>[<span class="st">'performance'</span>,])
+<span class="no">perf_df2</span>
 <span class="co">#&gt; # A tibble: 10 x 5</span>
 <span class="co">#&gt;    cv_auroc test_auroc test_auprc method       seed</span>
 <span class="co">#&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;fct&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1    0.569      0.508      0.547 regLogistic   100</span>
-<span class="co">#&gt;  2    0.508      0.621      0.612 regLogistic   101</span>
-<span class="co">#&gt;  3    0.536      0.426      0.425 regLogistic   102</span>
-<span class="co">#&gt;  4    0.513      0.555      0.510 regLogistic   103</span>
-<span class="co">#&gt;  5    0.551      0.526      0.588 regLogistic   104</span>
-<span class="co">#&gt;  6    0.736      0.478      0.471 rf            100</span>
-<span class="co">#&gt;  7    0.724      0.587      0.547 rf            101</span>
-<span class="co">#&gt;  8    0.696      0.643      0.683 rf            102</span>
-<span class="co">#&gt;  9    0.677      0.634      0.576 rf            103</span>
-<span class="co">#&gt; 10    0.684      0.653      0.624 rf            104</span>
-</pre></div>
+<span class="co">#&gt;  1    0.695      0.468      0.504 regLogistic   100</span>
+<span class="co">#&gt;  2    0.644      0.618      0.616 regLogistic   101</span>
+<span class="co">#&gt;  3    0.665      0.553      0.606 regLogistic   102</span>
+<span class="co">#&gt;  4    0.643      0.655      0.646 regLogistic   103</span>
+<span class="co">#&gt;  5    0.648      0.618      0.644 regLogistic   104</span>
+<span class="co">#&gt;  6    0.736      0.470      0.469 rf            100</span>
+<span class="co">#&gt;  7    0.723      0.593      0.543 rf            101</span>
+<span class="co">#&gt;  8    0.696      0.637      0.656 rf            102</span>
+<span class="co">#&gt;  9    0.678      0.647      0.636 rf            103</span>
+<span class="co">#&gt; 10    0.685      0.629      0.614 rf            104</span></pre></body></html></div>
 <p>Visualize the performance results:</p>
 <!-- TODO: set eval=TRUE once plot_performance() is merged into master -->
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu">plot_performance</span>(<span class="kw">perf_df2</span>)
-</pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu">plot_performance</span>(<span class="no">perf_df2</span>)</pre></body></html></div>
 </div>
+</div>
+<div id="parallelizing-with-snakemake" class="section level2">
+<h2 class="hasAnchor">
+<a href="#parallelizing-with-snakemake" class="anchor"></a>Parallelizing with Snakemake</h2>
+<p>When parallelizing multiple calls to <code><a href="../reference/run_ml.html">run_ml()</a></code> in R as in the examples above, all of the results objects are held in memory. This isn’t a big deal for a small dataset run with only a few seeds. However, for large datasets run in parallel with, say, 100 seeds (recommended), you may run into problems trying to store all of those objects in memory at once. One solution is to write the results files of each <code><a href="../reference/run_ml.html">run_ml()</a></code> call, then concatenate them at the end. We show one way to accomplish this with Snakemake; for details see the vignette: <a href="snakemake.html">Managing mikropml Workflows with Snakemake</a>.</p>
 </div>
   </div>
 
@@ -233,7 +201,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
