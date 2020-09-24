@@ -1,8 +1,8 @@
 ---
-title: "Managing mikRopML Workflows with Snakemake"
+title: "Managing mikropml Workflows with Snakemake"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Managing mikRopML Workflows with Snakemake}
+  %\VignetteIndexEntry{Managing mikropml Workflows with Snakemake}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,11 +23,11 @@ Snakemake is... TODO
 
 ## Setup
 
-1. Clone or download the [mikRopML-snakemake-workflow](https://github.com/SchlossLab/mikRopML-snakemake-workflow) repo.
+1. Clone or download the [mikropml-snakemake-workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) repo.
 
     ```{sh}
-    git clone https://github.com/SchlossLab/mikRopML-snakemake-workflow
-    cd mikRopML-snakemake-workflow
+    git clone https://github.com/SchlossLab/mikropml-snakemake-workflow
+    cd mikropml-snakemake-workflow
     ```
 
 1. Install snakemake.
@@ -46,11 +46,11 @@ Snakemake is... TODO
     [install snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) 
     and the other dependencies listed in `config/environment.yml` however you like.
     
-1. Install the mikRopML R package: see the [mikRopML install instructions](https://github.com/SchlossLab/mikRopML#installation).
+1. Install the mikropml R package: see the [mikropml install instructions](https://github.com/SchlossLab/mikropml#installation).
 
     e.g.
     ```{sh}
-    R -e 'devtools::install_github("SchlossLab/mikRopML")'
+    R -e 'devtools::install_github("SchlossLab/mikropml")'
     ```
 
 ## The Workflow
@@ -63,7 +63,7 @@ You can visualize the rulegraph with:
 ```{sh}
 snakemake --rulegraph | dot -T png > figures/rulegraph.png
 ```
-![](https://raw.githubusercontent.com/SchlossLab/mikRopML-snakemake-workflow/master/figures/rulegraph.png)
+![](https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/master/figures/rulegraph.png)
 
 
 
