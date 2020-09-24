@@ -132,7 +132,7 @@
 <p>You will first need to run <code><a href="https://rdrr.io/pkg/future/man/plan.html">future::plan()</a></code> as above if you haven’t already. Then, call <code><a href="../reference/run_ml.html">run_ml()</a></code> with multiple seeds using <code><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="kw">results_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">100</span>, <span class="fl">104</span>), <span class="fu">function</span>(<span class="kw">seed</span>) {
-  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_mini</span>, <span class="st">'regLogistic'</span>, seed = <span class="kw">seed</span>, kfold = <span class="fl">2</span>)
+  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_small</span>, <span class="st">'regLogistic'</span>, seed = <span class="kw">seed</span>)
   })
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
@@ -156,11 +156,11 @@
 <span class="co">#&gt; # A tibble: 5 x 5</span>
 <span class="co">#&gt;   cv_auroc test_auroc test_auprc method       seed</span>
 <span class="co">#&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       &lt;int&gt;</span>
-<span class="co">#&gt; 1    0.612      0.471      0.487 regLogistic   100</span>
-<span class="co">#&gt; 2    0.567      0.603      0.560 regLogistic   101</span>
-<span class="co">#&gt; 3    0.570      0.621      0.641 regLogistic   102</span>
-<span class="co">#&gt; 4    0.598      0.450      0.444 regLogistic   103</span>
-<span class="co">#&gt; 5    0.561      0.574      0.547 regLogistic   104</span>
+<span class="co">#&gt; 1    0.569      0.508      0.547 regLogistic   100</span>
+<span class="co">#&gt; 2    0.508      0.621      0.612 regLogistic   101</span>
+<span class="co">#&gt; 3    0.536      0.426      0.425 regLogistic   102</span>
+<span class="co">#&gt; 4    0.513      0.555      0.510 regLogistic   103</span>
+<span class="co">#&gt; 5    0.551      0.526      0.588 regLogistic   104</span>
 </pre></div>
 <div id="multiple-ml-methods" class="section level3">
 <h3 class="hasAnchor">
@@ -171,7 +171,7 @@
 <span class="kw">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(seeds = <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">100</span>, <span class="fl">104</span>),
                           methods = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'regLogistic'</span>, <span class="st">'rf'</span>))
 <span class="kw">results_mtx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_mapply.html">future_mapply</a></span>(<span class="fu">function</span>(<span class="kw">seed</span>, <span class="kw">method</span>) {
-                             <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_mini</span>, <span class="kw">method</span>, seed = <span class="kw">seed</span>, kfold = <span class="fl">2</span>)
+                             <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span>(<span class="kw">otu_small</span>, <span class="kw">method</span>, seed = <span class="kw">seed</span>)
                              },
                              <span class="kw">param_grid</span><span class="op">$</span><span class="kw">seeds</span>, 
                              <span class="kw">param_grid</span><span class="op">$</span><span class="kw">methods</span>)
@@ -198,16 +198,16 @@
 <span class="co">#&gt; # A tibble: 10 x 5</span>
 <span class="co">#&gt;    cv_auroc test_auroc test_auprc method       seed</span>
 <span class="co">#&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;fct&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1    0.612      0.471      0.487 regLogistic   100</span>
-<span class="co">#&gt;  2    0.567      0.603      0.560 regLogistic   101</span>
-<span class="co">#&gt;  3    0.570      0.621      0.641 regLogistic   102</span>
-<span class="co">#&gt;  4    0.598      0.450      0.444 regLogistic   103</span>
-<span class="co">#&gt;  5    0.561      0.574      0.547 regLogistic   104</span>
-<span class="co">#&gt;  6    0.592      0.508      0.465 rf            100</span>
-<span class="co">#&gt;  7    0.590      0.625      0.576 rf            101</span>
-<span class="co">#&gt;  8    0.584      0.65       0.595 rf            102</span>
-<span class="co">#&gt;  9    0.617      0.575      0.563 rf            103</span>
-<span class="co">#&gt; 10    0.561      0.647      0.694 rf            104</span>
+<span class="co">#&gt;  1    0.569      0.508      0.547 regLogistic   100</span>
+<span class="co">#&gt;  2    0.508      0.621      0.612 regLogistic   101</span>
+<span class="co">#&gt;  3    0.536      0.426      0.425 regLogistic   102</span>
+<span class="co">#&gt;  4    0.513      0.555      0.510 regLogistic   103</span>
+<span class="co">#&gt;  5    0.551      0.526      0.588 regLogistic   104</span>
+<span class="co">#&gt;  6    0.736      0.478      0.471 rf            100</span>
+<span class="co">#&gt;  7    0.724      0.587      0.547 rf            101</span>
+<span class="co">#&gt;  8    0.696      0.643      0.683 rf            102</span>
+<span class="co">#&gt;  9    0.677      0.634      0.576 rf            103</span>
+<span class="co">#&gt; 10    0.684      0.653      0.624 rf            104</span>
 </pre></div>
 <p>Visualize the performance results:</p>
 <!-- TODO: set eval=TRUE once plot_performance() is merged into master -->
