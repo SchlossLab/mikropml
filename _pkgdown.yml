@@ -1,1 +1,8 @@
 destination: docs
+articles:
+    - title: All vignettes
+      contents:
+          - introduction
+          - preprocess
+          - parallel
+          - snakemake
