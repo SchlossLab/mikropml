@@ -2,7 +2,7 @@
 % Please edit documentation in R/checks.R
 \name{check_group}
 \alias{check_group}
-\title{Check group}
+\title{Check grouping vector}
 \usage{
 check_group(dataset, group, kfold)
 }
@@ -13,15 +13,12 @@ check_group(dataset, group, kfold)
 
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 }
-\value{
-
-}
 \description{
-Check group
+Check grouping vector
 }
 \examples{
-check_group(mikRopML::otu_mini,
-  sample(LETTERS, nrow(mikRopML::otu_mini), replace = TRUE),
+check_group(mikropml::otu_mini,
+  sample(LETTERS, nrow(mikropml::otu_mini), replace = TRUE),
   kfold = 2
 )
 }

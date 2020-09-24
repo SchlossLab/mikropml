@@ -57,9 +57,10 @@ createGroupedDataPartition <- function(group, p) {
 #' group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' folds <- groupKMultiFolds(group, kfold = 2, cv_times = 2)
 groupKMultiFolds <- function(group, kfold = 10, cv_times = 5) {
-  if (class(group)[1] == "Surv") {
-    group <- group[, "time"]
-  }
+  # we're not doign anything with survival in caret (i.e. copied from caret, but not useful for us)
+  # if (class(group)[1] == "Surv") {
+  #   group <- group[, "time"]
+  # }
   prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
     sep = ""
   )
@@ -75,7 +76,8 @@ groupKMultiFolds <- function(group, kfold = 10, cv_times = 5) {
       c(out, tmp)
     }
   }
-  if (any(sapply(out, length) == 0)) {
+  sapply_fn <- select_apply("sapply")
+  if (any(sapply_fn(out, length) == 0)) {
     stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the grouping functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
   }
   out

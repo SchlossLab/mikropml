@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • mikRopML</title>
+<title>Function reference • mikropml</title>
 
 
 <!-- jquery -->
@@ -70,7 +70,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mikRopML</a>
+        <a class="navbar-link" href="../index.html">mikropml</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -94,7 +94,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction to mikRopML</a>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
 </li>
@@ -154,7 +160,13 @@
         <td>
           <p><code><a href="check_group.html">check_group()</a></code> </p>
         </td>
-        <td><p>Check group</p></td>
+        <td><p>Check grouping vector</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="collapse_correlated_features.html">collapse_correlated_features()</a></code> </p>
+        </td>
+        <td><p>Collapse correlated features</p></td>
       </tr><tr>
         
         <td>
@@ -280,25 +292,13 @@
         <td>
           <p><code><a href="otu_mini_cv2.html">otu_mini_cv2</a></code> </p>
         </td>
-        <td><p>2-fold cross validation on <code>train_data_mini</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="otu_mini_cv2_grp.html">otu_mini_cv2_grp</a></code> </p>
-        </td>
         <td><p>2-fold cross validation on <code>train_data_mini</code> with grouped features</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="otu_mini_results1.html">otu_mini_results1</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with L2 logistic regression on <code>otu_mini</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="otu_mini_results1_grp.html">otu_mini_results1_grp</a></code> </p>
-        </td>
-        <td><p>Results from running the pipline with L2 logistic regression on <code>otu_mini</code> with feature grouping</p></td>
+        <td><p>Results from running the pipline with L2 logistic regression on <code>otu_mini</code> with feature importance and grouping</p></td>
       </tr><tr>
         
         <td>
@@ -362,12 +362,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="rm_corr_feats.html">rm_corr_feats()</a></code> </p>
-        </td>
-        <td><p>Remove correlated features</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="rm_missing_outcome.html">rm_missing_outcome()</a></code> </p>
         </td>
         <td><p>Remove missing outcome values</p></td>
@@ -386,21 +380,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="setup_parallel.html">setup_parallel()</a></code> </p>
-        </td>
-        <td><p>Register a cluster for parallel processing</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="split_outcome_features.html">split_outcome_features()</a></code> </p>
         </td>
         <td><p>Split dataset into outcome and features</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stop_parallel.html">stop_parallel()</a></code> </p>
-        </td>
-        <td><p>Unregsiter a parallel processing cluster</p></td>
       </tr><tr>
         
         <td>
@@ -456,7 +438,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

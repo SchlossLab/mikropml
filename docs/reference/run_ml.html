@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the machine learning pipeline — run_ml • mikRopML</title>
+<title>Run the machine learning pipeline — run_ml • mikropml</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mikRopML</a>
+        <a class="navbar-link" href="../index.html">mikropml</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -95,7 +95,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction to mikRopML</a>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
 </li>
@@ -136,8 +142,7 @@
   training_frac = <span class='fl'>0.8</span>,
   group = <span class='kw'>NULL</span>,
   corr_thresh = <span class='fl'>1</span>,
-  seed = <span class='fl'>NA</span>,
-  ncores = <span class='fl'>NA</span>
+  seed = <span class='fl'>NA</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -191,10 +196,6 @@
       <th>seed</th>
       <td><p>random seed (default: NA)</p></td>
     </tr>
-    <tr>
-      <th>ncores</th>
-      <td><p>number of cores for parallel processing (default: NA). <code>parallel</code> and <code>doParallel</code> packages are needed for ncores &gt; 1</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -208,10 +209,11 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>run_ml</span>(<span class='kw'>otu_large</span>, <span class='st'>'regLogistic'</span>)
-<span class='fu'>run_ml</span>(<span class='kw'>otu_mini</span>, <span class='st'>'regLogistic'</span>,
-       kfold = <span class='fl'>2</span>,
-       find_feature_importance = <span class='fl'>TRUE</span>)
+<span class='fu'>run_ml</span>(<span class='kw'>otu_large</span>, <span class='st'>"regLogistic"</span>)
+<span class='fu'>run_ml</span>(<span class='kw'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
+  kfold = <span class='fl'>2</span>,
+  find_feature_importance = <span class='fl'>TRUE</span>
+)
 }
 </div></pre>
   </div>
@@ -229,7 +231,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

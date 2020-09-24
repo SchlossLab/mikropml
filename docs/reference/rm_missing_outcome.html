@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove missing outcome values — rm_missing_outcome • mikRopML</title>
+<title>Remove missing outcome values — rm_missing_outcome • mikropml</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mikRopML</a>
+        <a class="navbar-link" href="../index.html">mikropml</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -95,7 +95,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction to mikRopML</a>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
 </li>
@@ -147,7 +153,7 @@
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rm_missing_outcome</span>(<span class='kw'>mikRopML</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>rm_missing_outcome</span>(<span class='kw'>mikropml</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span>)
 </div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
 #&gt; 1   normal      350      268      213
 #&gt; 2   normal      568     1320       13
@@ -349,7 +355,7 @@
 #&gt; 198 normal     4170       16        0
 #&gt; 199 cancer     1284      198       60
 #&gt; 200 cancer      208      598      121</div><div class='input'>
-<span class='kw'>test_df</span> <span class='op'>&lt;-</span> <span class='kw'>mikRopML</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>
+<span class='kw'>test_df</span> <span class='op'>&lt;-</span> <span class='kw'>mikropml</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>
 <span class='kw'>test_df</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='st'>"dx"</span>] <span class='op'>&lt;-</span> <span class='fl'>NA</span>
 <span class='fu'>rm_missing_outcome</span>(<span class='kw'>test_df</span>, <span class='st'>"dx"</span>)
 </div><div class='output co'>#&gt; <span class='message'>Removed 100/200 (50%) of samples because of missing outcome value (NA).</span></div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
@@ -468,7 +474,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

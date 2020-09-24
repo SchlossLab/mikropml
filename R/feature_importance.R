@@ -11,7 +11,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, outcome_value, corr_thresh = 1) {
+get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, outcome_value, method, seed = NA, corr_thresh = 1) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
@@ -29,7 +29,11 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
   }))
 
   return(as.data.frame(imps) %>%
-    dplyr::mutate(names = factor(grps)))
+    dplyr::mutate(
+      names = factor(grps),
+      method = method,
+      seed = seed
+    ))
 }
 
 
