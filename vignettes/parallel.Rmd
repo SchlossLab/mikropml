@@ -18,22 +18,17 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(mikropml)
+library(future.apply)
 ```
 
-## Speed up `run_ml()`
+## Speed up single runs
 
 By default, `preprocess_data()` and `run_ml()` use only one process in series.
-
-```{r series1}
-otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
-result1 <- run_ml(otu_data_preproc, 'regLogistic', seed = 2019)
-```
-
-If you'd like to parallelize various steps of the pipeline,
+If you'd like to parallelize various steps of the pipeline to make them run faster,
 install `foreach`, `future`, `future.apply`, and `doFuture`.
-Then, register a future plan prior to calling `run_ml()`.
+Then, register a future plan prior to calling `preprocess_data()` and `run_ml()`.
 
-```{r parallel1}
+```{r single}
 doFuture::registerDoFuture()
 future::plan(future::multicore, workers = 2)
 otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
@@ -46,22 +41,16 @@ for more about picking the best plan for your use case.
 Notably, `multicore` does not work inside RStudio or on Windows;
 you will need to use `multisession` instead in those cases.
 
-## Call `run_ml()` multiple times in parallel
+## Call `run_ml()` multiple times in parallel in R
 
 You can use functions from the `future.apply` package to call 
 `run_ml()` multiple times in parallel with different parameters.
-
-```{r load_future_apply}
-# install.packages('future.apply')
-library(future.apply)
-```
-
 You will first need to run `future::plan()` as above if you haven't already.
 Then, call `run_ml()` with multiple seeds using `future_lapply()`:
 
 ```{r multi_seeds}
 results_multi <- future_lapply(seq(100, 104), function(seed) {
-  run_ml(otu_small, 'regLogistic', seed = seed)
+  run_ml(otu_data_preproc, 'regLogistic', seed = seed)
   })
 ```
 
@@ -73,7 +62,7 @@ of model performance.
 
 Extract the performance results and combine into one dataframe for all seeds:
 
-```{r bind_results}
+```{r bind_multi_seeds}
 perf_df <- future_lapply(results_multi, function(result) {
   result[['performance']]
   }) %>% 
@@ -92,7 +81,7 @@ and `future_mapply()` works the same way:
 param_grid <- expand.grid(seeds = seq(100, 104),
                           methods = c('regLogistic', 'rf'))
 results_mtx <- future_mapply(function(seed, method) {
-                             run_ml(otu_small, method, seed = seed)
+                             run_ml(otu_data_preproc, method, seed = seed)
                              },
                              param_grid$seeds, 
                              param_grid$methods)
@@ -100,7 +89,7 @@ results_mtx <- future_mapply(function(seed, method) {
 
 Extract and combine the performance results for all seeds and methods:
 
-```{r bind_results_all}
+```{r bind_multi_methods}
 perf_df2 <- dplyr::bind_rows(results_mtx['performance',])
 perf_df2
 ```
@@ -112,3 +101,14 @@ Visualize the performance results:
 plot_performance(perf_df2)
 ```
 
+## Parallelizing with Snakemake
+
+When parallelizing multiple calls to `run_ml()` in R as in the examples above, 
+all of the results objects are held in memory.
+This isn't a big deal for a small dataset run with only a few seeds.
+However, for large datasets run in parallel with, say, 100 seeds (recommended), 
+you may run into problems trying to store all of those objects in memory at once.
+One solution is to write the results files of each `run_ml()` call,
+then concatenate them at the end.
+We show one way to accomplish this with Snakemake; for details see the vignette: 
+[Managing mikropml Workflows with Snakemake](snakemake.html).
