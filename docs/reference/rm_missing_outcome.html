@@ -130,7 +130,7 @@
     <p>Remove missing outcome values</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rm_missing_outcome</span>(<span class='kw'>dataset</span>, <span class='kw'>outcome_colname</span>)</pre>
+    <pre class="usage"><span class='fu'>rm_missing_outcome</span><span class='op'>(</span><span class='va'>dataset</span>, <span class='va'>outcome_colname</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,7 +153,7 @@
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rm_missing_outcome</span>(<span class='kw'>mikropml</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>rm_missing_outcome</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
 #&gt; 1   normal      350      268      213
 #&gt; 2   normal      568     1320       13
@@ -355,9 +355,9 @@
 #&gt; 198 normal     4170       16        0
 #&gt; 199 cancer     1284      198       60
 #&gt; 200 cancer      208      598      121</div><div class='input'>
-<span class='kw'>test_df</span> <span class='op'>&lt;-</span> <span class='kw'>mikropml</span>::<span class='kw'><a href='otu_mini.html'>otu_mini</a></span>
-<span class='kw'>test_df</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='st'>"dx"</span>] <span class='op'>&lt;-</span> <span class='fl'>NA</span>
-<span class='fu'>rm_missing_outcome</span>(<span class='kw'>test_df</span>, <span class='st'>"dx"</span>)
+<span class='va'>test_df</span> <span class='op'>&lt;-</span> <span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_mini.html'>otu_mini</a></span>
+<span class='va'>test_df</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='st'>"dx"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
+<span class='fu'>rm_missing_outcome</span><span class='op'>(</span><span class='va'>test_df</span>, <span class='st'>"dx"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Removed 100/200 (50%) of samples because of missing outcome value (NA).</span></div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
 #&gt; 1   normal      477      289       94
 #&gt; 2   cancer     2474       20       12
