@@ -7,7 +7,7 @@
 #' @return a ggplot2 plot
 #' @export
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
-#' @author Kelly Sovacool, \email(sovacool@@umich.edu)
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
 #' \dontrun{
@@ -46,12 +46,12 @@ plot_performance <- function(performance_df) {
   }
   performance_df  %>%
     tidy_perf_data() %>%
-    ggplot2::ggplot(aes(x=method, y=value, color=metric)) +
-      geom_boxplot() +
-      geom_hline(yintercept = 0.5, linetype="dashed") +
-    ylim(0, 1) +
-    labs(y='Performance', x=NULL) +
-    theme(legend.title = element_blank())
+    ggplot2::ggplot(ggplot2::aes(x=method, y=value, color=metric)) +
+      ggplot2::geom_boxplot() +
+      ggplot2::geom_hline(yintercept = 0.5, linetype="dashed") +
+    ggplot2::ylim(0, 1) +
+    ggplot2::labs(y='Performance', x=NULL) +
+    ggplot2::theme(legend.title = ggplot2::element_blank())
 }
 
 #' Tidy the performance dataframe
