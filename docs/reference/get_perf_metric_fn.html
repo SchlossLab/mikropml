@@ -146,15 +146,15 @@
     <p>performance metric function</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>'continuous'</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"continuous"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
 #&gt;     if (is.character(data$obs)) 
 #&gt;         data$obs &lt;- factor(data$obs, levels = lev)
 #&gt;     postResample(data[, "pred"], data[, "obs"])
 #&gt; }
-#&gt; &lt;bytecode: 0x7fd62025e540&gt;
-#&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>'binary'</span><span class='op'>)</span>
+#&gt; &lt;bytecode: 0x7fbe42a2c4d8&gt;
+#&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"binary"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
 #&gt;     if (length(lev) &gt; 2) {
@@ -174,8 +174,8 @@
 #&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
 #&gt;     out
 #&gt; }
-#&gt; &lt;bytecode: 0x7fd625a5dc08&gt;
-#&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>'multiclass'</span><span class='op'>)</span>
+#&gt; &lt;bytecode: 0x7fbe288089b0&gt;
+#&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"multiclass"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
 #&gt;     if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) 
@@ -231,7 +231,7 @@
 #&gt;     stats &lt;- stats[c(stat_list)]
 #&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7fd6200f9740&gt;
+#&gt; &lt;bytecode: 0x7fbe428e47d0&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
