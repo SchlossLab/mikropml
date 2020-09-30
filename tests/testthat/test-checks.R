@@ -138,8 +138,8 @@ test_that("check_all works", {
 test_that("check_packages_installed works", {
   expect_equal(check_packages_installed("caret"), TRUE)
   expect_equal(check_packages_installed("this_is_not_a_package"), FALSE)
-  expect_equal(check_packages_installed("caret", 'this_is_not_a_package'), FALSE)
-  expect_equal(check_packages_installed(c("caret", 'this_is_not_a_package')), FALSE)
+  expect_equal(check_packages_installed("caret", "this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed(c("caret", "this_is_not_a_package")), FALSE)
 })
 
 test_that("check_features works", {
