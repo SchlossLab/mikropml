@@ -14,6 +14,8 @@ run_ml(
   kfold = 5,
   cv_times = 100,
   training_frac = 0.8,
+  perf_metric_function = NULL,
+  perf_metric_name = NULL,
   group = NULL,
   corr_thresh = 1,
   seed = NA
@@ -34,9 +36,13 @@ run_ml(
 
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
-\item{cv_times}{Number of partitions to create}
+\item{cv_times}{number of partitions to create}
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
+
+\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}}
+
+\item{perf_metric_name}{the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
