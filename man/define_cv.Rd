@@ -8,6 +8,8 @@ define_cv(
   train_data,
   outcome_colname,
   hyperparams_list,
+  perf_metric_function,
+  class_probs,
   kfold = 5,
   cv_times = 100,
   group = NULL,
@@ -21,9 +23,13 @@ define_cv(
 
 \item{hyperparams_list}{named list of lists of hyperparameters}
 
+\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}}
+
+\item{class_probs}{Whether the \verb{\link[caret]\{trainControl\}} \code{classProbs} argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)}
+
 \item{kfold}{fold number for k-fold cross-validation (default: 5)}
 
-\item{cv_times}{Number of partitions to create}
+\item{cv_times}{number of partitions to create}
 
 \item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
@@ -37,7 +43,7 @@ See \link[caret]{trainControl} for info on how the seed is being set.
 }
 \examples{
 #'
-define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"),
+define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"), caret::twoClassSummary, TRUE,
   kfold = 5, seed = 2019
 )
 }
