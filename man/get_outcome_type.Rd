@@ -16,7 +16,7 @@ outcome type
 Get outcome type
 }
 \examples{
-get_outcome_type(c(1,2,1))
-get_outcome_type(c('a','b','b'))
-get_outcome_type(c('a','b','c'))
+get_outcome_type(c(1, 2, 1))
+get_outcome_type(c("a", "b", "b"))
+get_outcome_type(c("a", "b", "c"))
 }

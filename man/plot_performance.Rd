@@ -19,36 +19,41 @@ ggplot2 is required to use this function.
 \dontrun{
 # call `run_ml()` multiple times with different seeds
 results_lst <- lapply(seq(100, 104), function(seed) {
-  run_ml(otu_small, 'regLogistic', seed = seed)
-  })
+  run_ml(otu_small, "regLogistic", seed = seed)
+})
 # extract and combine the performance results
 perf_df <- lapply(results_lst, function(result) {
-  result[['performance']]
-  }) \%>\%
+  result[["performance"]]
+}) \%>\%
   dplyr::bind_rows()
 # plot the performance results
 p <- plot_performance(perf_df)
 
 # call `run_ml()` with different ML methods
-param_grid <- expand.grid(seeds=seq(100, 104),
-                          methods=c('regLogistic', 'rf'))
-results_mtx <- mapply(function(seed, method) {
-  run_ml(otu_mini, method, seed = seed, kfold = 2)},
-  param_grid$seeds, param_grid$methods)
+param_grid <- expand.grid(
+  seeds = seq(100, 104),
+  methods = c("regLogistic", "rf")
+)
+results_mtx <- mapply(
+  function(seed, method) {
+    run_ml(otu_mini, method, seed = seed, kfold = 2)
+  },
+  param_grid$seeds, param_grid$methods
+)
 # extract and combine the performance results
-perf_df2 <- dplyr::bind_rows(results_mtx['performance',])
+perf_df2 <- dplyr::bind_rows(results_mtx["performance", ])
 # plot the performance results
 p <- plot_performance(perf_df2)
 
 # you can continue adding layers to customize the plot
 p +
   theme_classic() +
-  scale_color_brewer(palette = 'Dark2') +
+  scale_color_brewer(palette = "Dark2") +
   coord_flip()
 }
 }
 \author{
 Begüm Topçuoglu, \email{topcuoglu.begum@gmail.com}
 
-Kelly Sovacool, \email(sovacool@umich.edu)
+Kelly Sovacool, \email{sovacool@umich.edu}
 }

@@ -16,7 +16,7 @@ performance metric name
 Get default performance metric name
 }
 \examples{
-get_perf_metric_name('continuous')
-get_perf_metric_name('binary')
-get_perf_metric_name('multiclass')
+get_perf_metric_name("continuous")
+get_perf_metric_name("binary")
+get_perf_metric_name("multiclass")
 }
