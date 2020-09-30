@@ -8,12 +8,14 @@
 #'
 #' @examples
 #' check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL)
-check_all <- function(dataset, method, permute, kfold, training_frac, group, corr_thresh, seed) {
+check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
   check_training_frac(training_frac)
+  check_perf_metric_function(perf_metric_function)
+  check_perf_metric_name(perf_metric_name)
   check_group(dataset, group, kfold)
   check_corr_thresh(corr_thresh)
   check_seed(seed)
@@ -335,5 +337,35 @@ check_corr_thresh <- function(corr_thresh) {
     if (!(corr_thresh >= 0 & corr_thresh <= 1)) {
       stop(err)
     }
+  }
+}
+
+#' Check perf_metric_function is NULL or a function
+#'
+#' @param perf_metric_function performance metric function
+#'
+#' @return
+#' @noRd
+#'
+#' @examples
+#' check_perf_metric_function(NULL)
+check_perf_metric_function <- function(perf_metric_function){
+  if(!is.function(perf_metric_function) & !is.null(perf_metric_function)){
+    stop(paste0("`perf_metric_function` must be `NULL` or a function.\n    You provided: ", class(perf_metric_function)))
+  }
+}
+
+#' Check perf_metric_name is NULL or a function
+#'
+#' @param perf_metric_name performance metric function
+#'
+#' @return
+#' @noRd
+#'
+#' @examples
+#' check_perf_metric_name(NULL)
+check_perf_metric_name <- function(perf_metric_name){
+  if(!is.character(perf_metric_name) & !is.null(perf_metric_name)){
+    stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
   }
 }
