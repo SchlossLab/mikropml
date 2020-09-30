@@ -51,7 +51,7 @@ plot_performance <- function(performance_df) {
   }
   performance_df %>%
     tidy_perf_data() %>%
-    ggplot2::ggplot(ggplot2::aes(x = method, y = value, color = metric)) +
+    ggplot2::ggplot(ggplot2::aes(x = .data$method, y = .data$value, color = .data$metric)) +
     ggplot2::geom_boxplot() +
     ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed") +
     ggplot2::ylim(0, 1) +
@@ -70,9 +70,9 @@ tidy_perf_data <- function(performance_df) {
     stop("`tidyr` is required for `tidy_perf_data()`, but you do not have it installed.")
   }
   performance_df %>%
-    dplyr::select(-seed) %>%
+    dplyr::select(-.data$seed) %>%
     tidyr::pivot_longer(
-      cols = c(cv_auroc, test_auroc, test_auprc),
+      cols = c(.data$cv_auroc, .data$test_auroc, .data$test_auprc),
       names_to = "metric"
     ) %>%
     dplyr::mutate(
