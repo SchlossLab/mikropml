@@ -29,10 +29,9 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list,
   }
   if (is.null(group)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
-                                                dplyr::pull(outcome_colname)
-                                              ),
-                                       kfold,
-                                       times = cv_times
+      dplyr::pull(outcome_colname)),
+    kfold,
+    times = cv_times
     )
   } else {
     cvIndex <- groupKMultiFolds(group, kfold = kfold, cv_times = cv_times)
