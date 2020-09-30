@@ -17,8 +17,8 @@
 #' define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"), caret::twoClassSummary, TRUE,
 #'   kfold = 5, seed = 2019
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, group = NULL, seed = NULL) {
-  if (!is.null(seed)) {
+define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, group = NULL, seed = NA) {
+  if (!is.na(seed)) {
     set.seed(seed)
   }
   if (is.null(group)) {
