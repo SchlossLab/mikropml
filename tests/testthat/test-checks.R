@@ -135,9 +135,11 @@ test_that("check_all works", {
   expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NA))
 })
 
-test_that("check if package is installed", {
-  expect_equal(check_package_installed("caret"), TRUE)
-  expect_equal(check_package_installed("asdf"), FALSE)
+test_that("check_packages_installed works", {
+  expect_equal(check_packages_installed("caret"), TRUE)
+  expect_equal(check_packages_installed("this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed("caret", "this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed(c("caret", "this_is_not_a_package")), FALSE)
 })
 
 test_that("check_features works", {

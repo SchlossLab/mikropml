@@ -130,20 +130,22 @@
     <p>Run the machine learning pipeline</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_ml</span>(
-  <span class='kw'>dataset</span>,
-  <span class='kw'>method</span>,
-  outcome_colname = <span class='kw'>NULL</span>,
-  outcome_value = <span class='kw'>NULL</span>,
-  hyperparameters = <span class='kw'>NULL</span>,
-  find_feature_importance = <span class='fl'>FALSE</span>,
-  kfold = <span class='fl'>5</span>,
-  cv_times = <span class='fl'>100</span>,
-  training_frac = <span class='fl'>0.8</span>,
-  group = <span class='kw'>NULL</span>,
-  corr_thresh = <span class='fl'>1</span>,
-  seed = <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>run_ml</span><span class='op'>(</span>
+  <span class='va'>dataset</span>,
+  <span class='va'>method</span>,
+  outcome_colname <span class='op'>=</span> <span class='cn'>NULL</span>,
+  outcome_value <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hyperparameters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  kfold <span class='op'>=</span> <span class='fl'>5</span>,
+  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
+  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
+  perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
+  seed <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,11 +180,19 @@
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>Number of partitions to create</p></td>
+      <td><p>number of partitions to create</p></td>
     </tr>
     <tr>
       <th>training_frac</th>
       <td><p>fraction size of data for training (default: 0.8)</p></td>
+    </tr>
+    <tr>
+      <th>perf_metric_function</th>
+      <td><p>function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code></p></td>
+    </tr>
+    <tr>
+      <th>perf_metric_name</th>
+      <td><p>the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
       <th>group</th>
@@ -208,13 +218,13 @@
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>run_ml</span>(<span class='kw'>otu_large</span>, <span class='st'>"regLogistic"</span>)
-<span class='fu'>run_ml</span>(<span class='kw'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
-  kfold = <span class='fl'>2</span>,
-  find_feature_importance = <span class='fl'>TRUE</span>
-)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_large</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
+  kfold <span class='op'>=</span> <span class='fl'>2</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

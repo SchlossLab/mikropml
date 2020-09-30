@@ -10,7 +10,7 @@
 #' @param cv_times number of partitions to create
 #' @param training_frac fraction size of data for training (default: 0.8)
 #' @param perf_metric_function function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = `twoClassSummary`, multi-class classification = `multiClassSummary`, regression = `defaultSummary`
-#' @param perf_metric_name the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"ROC"`, multi-class classification = `"logLoss"`, regression = `"RMSE"`. 
+#' @param perf_metric_name the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"ROC"`, multi-class classification = `"logLoss"`, regression = `"RMSE"`.
 #' @param group vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
 #' @param seed random seed (default: NA)
@@ -90,20 +90,20 @@ run_ml <-
     check_hyperparams(hyperparameters, method = method)
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
-    
+
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
-    
+
     outcome_type <- get_outcome_type(outcomes_vec)
-    class_probs <- ifelse(outcome_type == 'numeric',FALSE,TRUE)
-    
-    if(is.null(perf_metric_function)){
+    class_probs <- ifelse(outcome_type == "numeric", FALSE, TRUE)
+
+    if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
     }
-    
-    if(is.null(perf_metric_name)){
+
+    if (is.null(perf_metric_name)) {
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
-    
+
     if (is.null(group)) {
       cv <- define_cv(train_data,
         outcome_colname,
@@ -128,7 +128,7 @@ run_ml <-
     }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-    #metric <- "ROC"
+    # metric <- "ROC"
     if (method == "regLogistic") {
       trained_model_caret <- caret::train(
         model_formula,

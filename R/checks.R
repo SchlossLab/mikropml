@@ -236,17 +236,19 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
 
 #' Check whether package(s) are installed
 #'
-#' @param package_names names of packages (or a single package) to check
-#' @return logical vector - whether packages are installed (TRUE) or not (FALSE).
+#' @param ... names of packages to check
+#' @return logical - whether all packages are installed (TRUE) or not (FALSE)
 #' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_package_installed("base")
-#' check_package_installed("asdf")
-#' all(check_package_installed(c("parallel", "doParallel")))
-check_package_installed <- function(package_names) {
-  return(package_names %in% rownames(utils::installed.packages()))
+#' check_packages_installed("base")
+#' check_packages_installed("asdf")
+#' check_packages_installed(c("parallel", "doParallel"))
+#' check_packages_installed("parallel", "doParallel")
+check_packages_installed <- function(...) {
+  return(all(sapply(c(...), requireNamespace, quietly = TRUE)))
 }
 
 check_features <- function(features, check_missing = TRUE) {
@@ -347,8 +349,8 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @examples
 #' check_perf_metric_function(NULL)
-check_perf_metric_function <- function(perf_metric_function){
-  if(!is.function(perf_metric_function) & !is.null(perf_metric_function)){
+check_perf_metric_function <- function(perf_metric_function) {
+  if (!is.function(perf_metric_function) & !is.null(perf_metric_function)) {
     stop(paste0("`perf_metric_function` must be `NULL` or a function.\n    You provided: ", class(perf_metric_function)))
   }
 }
@@ -362,8 +364,8 @@ check_perf_metric_function <- function(perf_metric_function){
 #'
 #' @examples
 #' check_perf_metric_name(NULL)
-check_perf_metric_name <- function(perf_metric_name){
-  if(!is.character(perf_metric_name) & !is.null(perf_metric_name)){
+check_perf_metric_name <- function(perf_metric_name) {
+  if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
   }
 }
