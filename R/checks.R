@@ -347,8 +347,8 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @examples
 #' check_perf_metric_function(NULL)
-check_perf_metric_function <- function(perf_metric_function){
-  if(!is.function(perf_metric_function) & !is.null(perf_metric_function)){
+check_perf_metric_function <- function(perf_metric_function) {
+  if (!is.function(perf_metric_function) & !is.null(perf_metric_function)) {
     stop(paste0("`perf_metric_function` must be `NULL` or a function.\n    You provided: ", class(perf_metric_function)))
   }
 }
@@ -362,8 +362,8 @@ check_perf_metric_function <- function(perf_metric_function){
 #'
 #' @examples
 #' check_perf_metric_name(NULL)
-check_perf_metric_name <- function(perf_metric_name){
-  if(!is.character(perf_metric_name) & !is.null(perf_metric_name)){
+check_perf_metric_name <- function(perf_metric_name) {
+  if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
   }
 }
