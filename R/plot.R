@@ -66,6 +66,9 @@ plot_performance <- function(performance_df) {
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email(sovacool@@umich.edu)
 tidy_perf_data <- function(performance_df) {
+  if (isFALSE(requireNamespace("tidyr"))) {
+    stop("`tidyr` is required for `tidy_perf_data()`, but you do not have it installed.")
+  }
   performance_df %>%
     dplyr::select(-seed) %>%
     tidyr::pivot_longer(
