@@ -7,12 +7,13 @@
 #' @param hyperparameters dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.
 #' @param find_feature_importance run permutation imporance (default: FALSE)
 #' @param kfold fold number for k-fold cross-validation (default: 5)
-#' @param cv_times Number of partitions to create
+#' @param cv_times number of partitions to create
 #' @param training_frac fraction size of data for training (default: 0.8)
+#' @param perf_metric_function function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = `twoClassSummary`, multi-class classification = `multiClassSummary`, regression = `defaultSummary`
+#' @param perf_metric_name the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"ROC"`, multi-class classification = `"logLoss"`, regression = `"RMSE"`.
 #' @param group vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
 #' @param seed random seed (default: NA)
-#' @param ncores number of cores for parallel processing (default: NA). `parallel` and `doParallel` packages are needed for ncores > 1
 #'
 #' @return named list with results
 #' @export
@@ -38,16 +39,19 @@ run_ml <-
            kfold = 5,
            cv_times = 100,
            training_frac = 0.8,
+           perf_metric_function = NULL,
+           perf_metric_name = NULL,
            group = NULL,
            corr_thresh = 1,
-           seed = NA,
-           ncores = NA) {
+           seed = NA) {
     check_all(
       dataset,
       method,
       find_feature_importance,
       kfold,
       training_frac,
+      perf_metric_function,
+      perf_metric_name,
       group,
       corr_thresh,
       seed
@@ -59,8 +63,8 @@ run_ml <-
     )
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
 
-    if (!is.null(seed)) {
-      set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
+    if (!is.na(seed)) {
+      set.seed(seed)
     }
 
     if (is.null(group)) {
@@ -86,10 +90,26 @@ run_ml <-
     check_hyperparams(hyperparameters, method = method)
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
+
+    outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
+
+    outcome_type <- get_outcome_type(outcomes_vec)
+    class_probs <- ifelse(outcome_type == "numeric", FALSE, TRUE)
+
+    if (is.null(perf_metric_function)) {
+      perf_metric_function <- get_perf_metric_fn(outcome_type)
+    }
+
+    if (is.null(perf_metric_name)) {
+      perf_metric_name <- get_perf_metric_name(outcome_type)
+    }
+
     if (is.null(group)) {
       cv <- define_cv(train_data,
         outcome_colname,
         hyperparameters,
+        perf_metric_function,
+        class_probs,
         kfold = kfold,
         seed = seed,
         cv_times = cv_times
@@ -98,6 +118,8 @@ run_ml <-
       cv <- define_cv(train_data,
         outcome_colname,
         hyperparameters,
+        perf_metric_function,
+        class_probs,
         kfold = kfold,
         cv_times = cv_times,
         group = train_group,
@@ -106,17 +128,14 @@ run_ml <-
     }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-
-    pcluster <- setup_parallel(ncores)
-
-    metric <- "ROC"
+    # metric <- "ROC"
     if (method == "regLogistic") {
       trained_model_caret <- caret::train(
         model_formula,
         data = train_data,
         method = method,
         trControl = cv,
-        metric = metric,
+        metric = perf_metric_name,
         tuneGrid = tune_grid,
         family = "binomial"
       )
@@ -127,7 +146,7 @@ run_ml <-
         data = train_data,
         method = method,
         trControl = cv,
-        metric = metric,
+        metric = perf_metric_name,
         tuneGrid = tune_grid,
         ntree = 1000
       ) # caret doesn't allow ntree to be tuned
@@ -138,40 +157,38 @@ run_ml <-
         data = train_data,
         method = method,
         trControl = cv,
-        metric = metric,
+        metric = perf_metric_name,
         tuneGrid = tune_grid
       )
     }
 
-    stop_parallel(pcluster)
-
-    feature_importance_result <- "Skipped feature importance"
+    performance_tbl <- get_performance_tbl(
+      trained_model_caret,
+      test_data,
+      outcome_colname,
+      outcome_value,
+      seed
+    )
+    feature_importance_tbl <- "Skipped feature importance"
     if (find_feature_importance) {
-      feature_importance_result <- get_feature_importance(
+      feature_importance_tbl <- get_feature_importance(
         trained_model_caret,
         train_data,
         test_data,
         outcome_colname,
         outcome_value,
+        method,
+        seed,
         corr_thresh
-      ) %>%
-        dplyr::mutate(
-          method = method,
-          seed = seed
-        )
+      )
     }
 
     return(
       list(
         trained_model = trained_model_caret,
-        performance = get_performance_tbl(
-          trained_model_caret,
-          test_data,
-          outcome_colname,
-          outcome_value,
-          seed
-        ),
-        feature_importance = feature_importance_result
+        test_data = test_data,
+        performance = performance_tbl,
+        feature_importance = feature_importance_tbl
       )
     )
   }

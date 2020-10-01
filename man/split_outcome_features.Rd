@@ -18,5 +18,5 @@ list of length two: outcome, features
 Split dataset into outcome and features
 }
 \examples{
-split_outcome_features(mikRopML::otu_mini, "dx")
+split_outcome_features(mikropml::otu_mini, "dx")
 }

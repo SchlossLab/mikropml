@@ -35,6 +35,18 @@ test_that("preprocess_data works", {
       "var2_a"
     )))
   )
+  expect_equal(expect_message(preprocess_data(test_df, "outcome", group_neg_corr = FALSE)), list(dat_transformed = structure(list(
+    outcome = c(
+      "normal", "normal",
+      "cancer"
+    ), var8 = c(-0.707106781186547, 0.707106781186547, 0),
+    var7_1 = c(1, 1, 0), grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(0, 0, 1), grp4 = c(1, 0, 0)
+  ), row.names = c(
+    NA,
+    -3L
+  ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
+    var8 = "var8", var7_1 = "var7_1", grp1 = c("var12", "var1"), grp2 = c("var4_1", "var3_yes", "var2_b", "var9_x", "var10_0"), grp3 = c("var9_y", "var2_c"), grp4 = c("var10_1", "var2_a")
+  )))
   expect_equal(
     preprocess_data(test_df[1:3, c("outcome", "var1")], "outcome"),
     list(
@@ -122,10 +134,10 @@ test_that("preprocess_data works", {
   )
   expect_error(
     preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE),
-    "`remove_nzv` must be true if `remove_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE"
+    "`remove_nzv` must be true if `collapse_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE"
   )
   expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE, remove_corr_feats = FALSE)),
+    expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -158,7 +170,7 @@ test_that("preprocess_data works", {
     ), var1 = c(-1, 0, 1), var8 = c(
       -0.707106781186547, 0.707106781186547,
       0
-    ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(0, 0, 1)), row.names = c(
+    ), grp1 = c(0, 1, 0), grp2 = c(0, 0, 1), grp3 = c(1, 0, 0)), row.names = c(
       NA,
       -3L
     ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
@@ -166,11 +178,11 @@ test_that("preprocess_data works", {
         "var4_1", "var3_yes",
         "var2_b", "var9_x", "var10_0", "var12_2"
       ), grp2 = c(
-        "var10_1",
-        "var2_a", "var12_1"
+        "var2_c",
+        "var7_1", "var9_y", "var12_3"
       ), grp3 = c(
-        "var2_c", "var7_1", "var9_y",
-        "var12_3"
+        "var10_1", "var2_a",
+        "var12_1"
       )
     ))
   )
@@ -389,8 +401,8 @@ test_that("get_caret_dummyvars_df works", {
   expect_error(get_caret_dummyvars_df(NULL))
 })
 
-test_that("rm_corr_feats works", {
-  expect_equal(rm_corr_feats(test_df[1:3, c(2, 5, 8)]), list(
+test_that("collapse_correlated_features works", {
+  expect_equal(collapse_correlated_features(test_df[1:3, c(2, 5, 8)]), list(
     features = structure(list(
       var1 = 1:3, var4 = c(0, 1, 0),
       var7 = c(1, 1, 0)
@@ -398,7 +410,7 @@ test_that("rm_corr_feats works", {
     grp_feats = NULL
   ))
   expect_equal(
-    rm_corr_feats(cbind(test_df[1:3, c(2, 5, 8)], var8 = c(1, 1, 0))),
+    collapse_correlated_features(cbind(test_df[1:3, c(2, 5, 8)], var8 = c(1, 1, 0))),
     list(
       features = structure(list(
         var1 = 1:3, var4 = c(0, 1, 0),
@@ -411,14 +423,14 @@ test_that("rm_corr_feats works", {
     )
   )
   expect_equal(
-    rm_corr_feats(dplyr::as_tibble(test_df[1:3, c(2)])),
+    collapse_correlated_features(dplyr::as_tibble(test_df[1:3, c(2)])),
     list(features = structure(list(value = 1:3), row.names = c(
       NA,
       -3L
     ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = NULL)
   )
   expect_equal(
-    rm_corr_feats(dplyr::as_tibble(test_df[1:3, c(2, 5, 9, 11)])),
+    collapse_correlated_features(dplyr::as_tibble(test_df[1:3, c(2, 5, 9, 11)])),
     list(features = structure(list(
       var1 = 1:3, var4 = c(0, 1, 0),
       var8 = c(5, 6, NA), var10 = c(1, 0, NA)
@@ -428,11 +440,11 @@ test_that("rm_corr_feats works", {
     ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = NULL)
   )
   expect_error(
-    rm_corr_feats(test_df[1:3, c(2, 5, 6, 7)]),
-    "Some features are charactors or factors. Please remove these before proceeding with `rm_corr_feats`."
+    collapse_correlated_features(test_df[1:3, c(2, 5, 6, 7)]),
+    "Some features are charactors or factors. Please remove these before proceeding with `collapse_correlated_features`."
   )
   expect_error(
-    rm_corr_feats(test_df[1:3, c(2, 5, 6, 8)]),
-    "Some features have no variation. Please remove these before proceeding with `rm_corr_feats`."
+    collapse_correlated_features(test_df[1:3, c(2, 5, 6, 8)]),
+    "Some features have no variation. Please remove these before proceeding with `collapse_correlated_features`."
   )
 })

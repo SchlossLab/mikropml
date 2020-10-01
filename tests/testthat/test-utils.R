@@ -44,7 +44,7 @@ test_that("randomize_feature_order works for known seed", {
 })
 
 test_that("check if correct apply is selected", {
-  fa_installed <- check_package_installed("future.apply")
+  fa_installed <- check_packages_installed("future.apply")
   if (fa_installed) {
     expect_equal(select_apply("lapply"), future.apply::future_lapply)
     expect_equal(select_apply("sapply"), future.apply::future_sapply)
@@ -68,45 +68,12 @@ test_that("mutate_all_types converts factors to other types", {
   expect_equal(class(dat2$c3), "numeric")
 })
 
-test_that("setup_parallel warns", {
-  expect_warning(
-    setup_parallel("not_a_number"),
-    "`ncores` must be `NA` or a number, but you provided"
-  )
-  if (check_package_installed("doParallel")) {
-    expect_warning(
-      pc <- setup_parallel(9999999),
-      "You specified 9999999 cores, but only"
-    )
-  } else {
-    expect_warning(
-      pc <- setup_parallel(9999999),
-      "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.
- You specified 9999999 cores, but one or more of these packages are not installed.
- Proceeding with only one process"
-    )
-  }
-  stop_parallel(pc)
-})
-test_that("setup_parallel works", {
-  expect_true(is.null(setup_parallel(NA)))
-  if (check_package_installed("doParallel")) {
-    expect_message(pc <- setup_parallel(2), "Using 2 cores for parallel processing.")
-  } else {
-    expect_warning(
-      pc <- setup_parallel(2),
-      "The packages `parallel`, `doParallel`, and `foreach` are required for using multiple cores.
- You specified 2 cores, but one or more of these packages are not installed.
- Proceeding with only one process"
-    )
-  }
-  stop_parallel(pc)
-})
-
 test_that("get_performance_tbl works", {
+  set.seed(2019)
   expect_equal(
-    get_performance_tbl(trained_model_mini,
-      test_data_mini,
+    get_performance_tbl(
+      otu_mini_results1$trained_model,
+      otu_mini_results1$test_data,
       "dx",
       "cancer",
       seed = 2019

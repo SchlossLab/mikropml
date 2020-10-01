@@ -6,20 +6,21 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
-#' @param remove_corr_feats whether to keep only one of perfectly correlated featurs
+#' @param collapse_corr_feats whether to keep only one of perfectly correlated features
 #' @param to_numeric whether to change features to numeric where possible
+#' @inheritParams get_corr_feats
 #'
 #' @return preprocessed data
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' preprocess_data(mikRopML::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_corr_feats = TRUE, to_numeric = TRUE) {
+#' preprocess_data(mikropml::otu_small, "dx")
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
-  # if remove_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
-  if (remove_corr_feats & !remove_nzv) {
-    stop("`remove_nzv` must be true if `remove_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
+  # if collapse_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
+  if (collapse_corr_feats & !remove_nzv) {
+    stop("`remove_nzv` must be true if `collapse_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
   }
 
   # input validation
@@ -63,8 +64,8 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # remove perfectly correlated features
   grp_feats <- NULL
-  if (remove_corr_feats) {
-    feats_and_grps <- rm_corr_feats(processed_feats)
+  if (collapse_corr_feats) {
+    feats_and_grps <- collapse_correlated_features(processed_feats, group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
   }
@@ -84,9 +85,9 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' rm_missing_outcome(mikRopML::otu_mini, "dx")
+#' rm_missing_outcome(mikropml::otu_mini, "dx")
 #'
-#' test_df <- mikRopML::otu_mini
+#' test_df <- mikropml::otu_mini
 #' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
 rm_missing_outcome <- function(dataset, outcome_colname) {
@@ -133,7 +134,7 @@ change_to_num <- function(features) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' process_novar_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+#' process_novar_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 process_novar_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
@@ -168,7 +169,7 @@ process_novar_feats <- function(features) {
     rep(unique(x[!is.na(x)]), nrow(novar_feats))
   })
   if (n_missing > 0) {
-    message(paste0("There are ", n_missing, " value(s) in features with no variation. Missing values were replaced with the non-varying value."))
+    message(paste0("There are ", n_missing, " missing value(s) in features with no variation. Missing values were replaced with the non-varying value."))
   }
 
   return(list(novar_feats = novar_feats, var_feats = var_feats))
@@ -183,7 +184,7 @@ process_novar_feats <- function(features) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' process_cat_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
+#' process_cat_feats(mikropml::otu_small[, 2:ncol(otu_small)])
 process_cat_feats <- function(features) {
   check_features(features, check_missing = FALSE)
 
@@ -249,7 +250,7 @@ process_cat_feats <- function(features) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' process_cont_feats(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
+#' process_cont_feats(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
 process_cont_feats <- function(features, method) {
   check_features(features, check_missing = FALSE)
 
@@ -290,7 +291,7 @@ process_cont_feats <- function(features, method) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_caret_processed_df(mikRopML::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
+#' get_caret_processed_df(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
 get_caret_processed_df <- function(features, method) {
   check_features(features, check_missing = FALSE)
   preproc_values <- caret::preProcess(features, method = method)
@@ -328,31 +329,32 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 }
 
 
-#' Remove correlated features
+#' Collapse correlated features
 #'
 #' @param features features for ML
+#' @inheritParams get_corr_feats
 #'
 #' @return features where perfectly correlated ones are collapsed
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' rm_corr_feats(mikRopML::otu_small[, 2:ncol(otu_small)])
-rm_corr_feats <- function(features) {
+#' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
+collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
   sapply_fn <- select_apply(fun = "sapply")
   if (any(sapply_fn(features, class) %in% c("character", "factor"))) {
-    stop("Some features are charactors or factors. Please remove these before proceeding with `rm_corr_feats`.")
+    stop("Some features are charactors or factors. Please remove these before proceeding with `collapse_correlated_features`.")
   }
   if (!is.null(process_novar_feats(features)$novar_feats)) {
-    stop("Some features have no variation. Please remove these before proceeding with `rm_corr_feats`.")
+    stop("Some features have no variation. Please remove these before proceeding with `collapse_correlated_features`.")
   }
   if (ncol(features) == 1) {
     output <- list(features = features, grp_feats = NULL)
   } else {
-    corr_feats <- group_correlated_features(get_corr_feats(features), features)
-    corr_mat <- stats::cor(features)
-    corr_cols <- caret::findCorrelation(corr_mat, cutoff = 1 - 10e-15)
-    feats_nocorr <- features %>% dplyr::select(-dplyr::all_of(corr_cols))
+    corr_feats <- get_corr_feats(features, group_neg_corr = group_neg_corr) %>%
+      group_correlated_features(., features)
+    corr_cols <- gsub("\\|.*", "", corr_feats)
+    feats_nocorr <- features %>% dplyr::select(dplyr::all_of(corr_cols))
     names_grps <- sapply_fn(names(feats_nocorr), function(n) {
       not_corr <- n %in% corr_feats
       if (not_corr) {

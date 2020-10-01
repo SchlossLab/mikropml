@@ -1,97 +1,43 @@
-# How to Contribute
+# Contributing to mikropml
 
-We use the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) workflow to make our lives easier.
-This means all edits should be made in separate branches -- not the `master` branch.
-Only the project maintainer will make edits or merge on `master`.
+## Fixing typos
 
-View the open [issues](https://github.com/SchlossLab/ML_pipeline_microbiome/issues) to see the To-Do list.
-If an issue isn't assigned to anyone, we would welcome your contribution!
+You can fix typos, spelling mistakes, or grammatical errors in the documentation directly using the GitHub web interface, as long as the changes are made in the _source_ file. 
+This generally means you'll need to edit [roxygen2 comments](https://roxygen2.r-lib.org/articles/roxygen2.html) in an `.R`, not a `.Rd` file. 
+You can find the `.R` file that generates the `.Rd` by reading the comment in the first line.
 
-If you need a refresher on Git or GitHub, see:
-- Software Carpentry's lesson: [Version Control with Git](http://swcarpentry.github.io/git-novice/)
-- Hadley Wickham's chapter on Git and GitHub in his book [R Packages](http://r-pkgs.had.co.nz/git.html)
+## Bigger changes
 
-## Contributing changes
+If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed. 
+If you’ve found a bug, please file an issue that illustrates the bug with a minimal 
+[reprex](https://www.tidyverse.org/help/#reprex) (this will also help you write a unit test, if needed).
 
-1. Either `clone` or `fork` this repo.
-    - **clone** if you have write access:
-        ```
-        git clone https://github.com/SchlossLab/ML_pipeline_microbiome
-        ```
-        (All Schlabbies have write access.)
+### Pull request process
 
-    - **fork** if you do _not_ have write access by pressing the [Fork]((https://help.github.com/en/articles/fork-a-repo)) button on [GitHub](https://github.com/SchlossLab/ML_pipeline_microbiome), then clone your fork.
+*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("SchlossLab/mikropml", fork = TRUE)`.
 
-1. Move to the repo directory.
+*   Install all development dependences with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. 
+    If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing. 
+*   Create a Git branch for your pull request (PR). We recommend using `usethis::pr_init("brief-description-of-change")`.
 
-    ```
-    cd ML_pipeline_microbiome
-    ```
+*   Make your changes, commit to git, and then create a PR by running `usethis::pr_push()`, and following the prompts in your browser.
+    The title of your PR should briefly describe the change.
+    The body of your PR should contain `Fixes #issue-number`.
 
-1. Create a new branch for your feature.
+*  For user-facing changes, add a bullet to the top of `NEWS.md` (i.e. just below the first header). Follow the style described in <https://style.tidyverse.org/news.html>.
 
-    Give it a short, descriptive name.
-    ```
-    git checkout -b feature-branch-name
-    ```
-    The branch name should reflect the bug or feature it will resolve,
-    or reference the issue number directly ([examples](https://github.com/SchlossLab/ML_pipeline_microbiome/branches/all)).
-    [Note: wherever you see `feature-branch-name` in these instructions,
-    replace that with your branch's actual name.]
+### Code style
 
-1. Make your edits.
+*   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
+    You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.  
 
-1. Add & commit changes.
-    ```
-    git add filename.R
-    git commit -m "Implement cool feature XX (Resolves #Y)"
-    ```
-    Use this [style guide](https://chris.beams.io/posts/git-commit/) for writing good commit messages.
-    The highlights:
-    - Capitalize the first word of the message.
-    - The first word should be a verb in the imperative tense.
-    - Keep the message short but descriptive of the changes.
+*  We use [roxygen2](https://cran.r-project.org/package=roxygen2), with [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html), for documentation.  
 
-    In the merge commit message, reference any [issues](https://github.com/SchlossLab/ML_pipeline_microbiome/issues)
-    (our To-Do list) that the pull request resolves so the issue is closed automatically.
-    For example, the [commit](https://github.com/SchlossLab/ML_pipeline_microbiome/commit/b7d0c295b71994e83cdd5aec6b26eb881523efdb)
-    message I wrote when adding this file was `Add contributing instructions (Resolves #12)`.
+*  We use [testthat](https://cran.r-project.org/package=testthat) for unit tests. 
+   Contributions with test cases included are easier to accept.  
 
-1. Push your branch to GitHub.
-    If you're pushing your branch for the first time, you'll have to set the upstream:
-    ```
-    git push --set-upstream origin feature-branch-name
-    ```
+## Code of Conduct
 
-    Otherwise, just push like usual:
-    ```
-    git push origin feature-branch-name
-    ```
-
-    If you forget the branch name:
-    - Run `git status` to see the branch you currently have checked out (among other things).
-    - You can list existing branches with `git branch --list`.
-
-1. Open a pull request [[example](https://github.com/SchlossLab/ML_pipeline_microbiome/pull/1)].
-    1. If you made multiple commits over a period of time, chances are high that your branch is behind the master branch. Follow these instructions to bring your local branch up to date with master on both your local and remote repository, run:
-        ```
-        git checkout master
-        git pull
-        git checkout feature-branch-name
-        git merge master
-        git push
-        ```
-    1. Open the [repo page](https://github.com/SchlossLab/ML_pipeline_microbiome) in your web browser.
-    1. If you want to see what the modifications look like before opening a pull request, you can go to the document you
-    modified and change the branch to the left of the file name.
-    1. Go to the pull requests tab and click `new pull request`.
-    1. Select your branch name to compare to master. If you forked the repo instead of making a branch, select `compare across forks` instead.
-    1. Create the pull request.
-
-    A maintainer will review your pull request and may ask you to make additional changes.
-    If you have write access to the repo, **don't merge your branch into master**.
-    The maintainer will merge it when they decide the branch is ready.
-
-1. Continue to pull, commit, & push changes on your branch to update the open pull request as needed.
-
-1. Once a pull request is merged, the maintainer may delete the branch if it will no longer be needed in the future.
+Please note that the mikropml project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
+project you agree to abide by its terms.

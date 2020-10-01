@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the machine learning pipeline — run_ml • mikRopML</title>
+<title>Run the machine learning pipeline — run_ml • mikropml</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mikRopML</a>
+        <a class="navbar-link" href="../index.html">mikropml</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -95,13 +95,24 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction to mikRopML</a>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SchlossLab/mikropml/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -116,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Run the machine learning pipeline</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/run_ml.R'><code>R/run_ml.R</code></a></small>
     <div class="hidden name"><code>run_ml.Rd</code></div>
     </div>
 
@@ -124,21 +135,22 @@
     <p>Run the machine learning pipeline</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_ml</span>(
-  <span class='kw'>dataset</span>,
-  <span class='kw'>method</span>,
-  outcome_colname = <span class='kw'>NULL</span>,
-  outcome_value = <span class='kw'>NULL</span>,
-  hyperparameters = <span class='kw'>NULL</span>,
-  find_feature_importance = <span class='fl'>FALSE</span>,
-  kfold = <span class='fl'>5</span>,
-  cv_times = <span class='fl'>100</span>,
-  training_frac = <span class='fl'>0.8</span>,
-  group = <span class='kw'>NULL</span>,
-  corr_thresh = <span class='fl'>1</span>,
-  seed = <span class='fl'>NA</span>,
-  ncores = <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>run_ml</span><span class='op'>(</span>
+  <span class='va'>dataset</span>,
+  <span class='va'>method</span>,
+  outcome_colname <span class='op'>=</span> <span class='cn'>NULL</span>,
+  outcome_value <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hyperparameters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  kfold <span class='op'>=</span> <span class='fl'>5</span>,
+  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
+  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
+  perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
+  seed <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,11 +185,19 @@
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>Number of partitions to create</p></td>
+      <td><p>number of partitions to create</p></td>
     </tr>
     <tr>
       <th>training_frac</th>
       <td><p>fraction size of data for training (default: 0.8)</p></td>
+    </tr>
+    <tr>
+      <th>perf_metric_function</th>
+      <td><p>function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code></p></td>
+    </tr>
+    <tr>
+      <th>perf_metric_name</th>
+      <td><p>the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
       <th>group</th>
@@ -191,10 +211,6 @@
       <th>seed</th>
       <td><p>random seed (default: NA)</p></td>
     </tr>
-    <tr>
-      <th>ncores</th>
-      <td><p>number of cores for parallel processing (default: NA). <code>parallel</code> and <code>doParallel</code> packages are needed for ncores &gt; 1</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -207,13 +223,13 @@
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>run_ml</span>(<span class='kw'>otu_large</span>, <span class='st'>"regLogistic"</span>)
-<span class='fu'>run_ml</span>(<span class='kw'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
-  kfold = <span class='fl'>2</span>,
-  find_feature_importance = <span class='fl'>TRUE</span>
-)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_large</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
+  kfold <span class='op'>=</span> <span class='fl'>2</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -226,11 +242,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Begüm Topçuoğlu, Patrick Schloss, Zena Lapp, Kelly Sovacool.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

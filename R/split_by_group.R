@@ -57,9 +57,10 @@ createGroupedDataPartition <- function(group, p) {
 #' group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' folds <- groupKMultiFolds(group, kfold = 2, cv_times = 2)
 groupKMultiFolds <- function(group, kfold = 10, cv_times = 5) {
-  if (class(group)[1] == "Surv") {
-    group <- group[, "time"]
-  }
+  # we're not doign anything with survival in caret (i.e. copied from caret, but not useful for us)
+  # if (class(group)[1] == "Surv") {
+  #   group <- group[, "time"]
+  # }
   prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
     sep = ""
   )

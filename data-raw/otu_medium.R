@@ -26,7 +26,7 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 )
 
 
-otu_med_results <- mikRopML::run_ml(otu_medium,
+otu_med_results <- mikropml::run_ml(otu_medium,
   "rpart2",
   outcome_colname = "dx",
   outcome_value = "cancer",

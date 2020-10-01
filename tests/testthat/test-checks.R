@@ -132,12 +132,14 @@ test_that("check_seed works", {
 })
 
 test_that("check_all works", {
-  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NA))
+  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NA))
 })
 
-test_that("check if package is installed", {
-  expect_equal(check_package_installed("caret"), TRUE)
-  expect_equal(check_package_installed("asdf"), FALSE)
+test_that("check_packages_installed works", {
+  expect_equal(check_packages_installed("caret"), TRUE)
+  expect_equal(check_packages_installed("this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed("caret", "this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed(c("caret", "this_is_not_a_package")), FALSE)
 })
 
 test_that("check_features works", {
@@ -153,19 +155,34 @@ test_that("check_features works", {
 })
 
 test_that("check_group works", {
-  expect_null(check_group(mikRopML::otu_mini, NULL, 2))
-  expect_null(check_group(mikRopML::otu_mini, sample(LETTERS, nrow(mikRopML::otu_mini), replace = T), 2))
-  expect_error(check_group(mikRopML::otu_mini, c(1, 2), 2), "group should be a vector that is the same length as the number of rows in the dataset")
-  expect_error(check_group(mikRopML::otu_mini, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
-  expect_error(check_group(mikRopML::otu_mini, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
-  expect_error(check_group(mikRopML::otu_mini, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
-  expect_error(check_group(mikRopML::otu_mini, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
+  expect_null(check_group(mikropml::otu_mini, NULL, 2))
+  expect_null(check_group(mikropml::otu_mini, sample(LETTERS, nrow(mikropml::otu_mini), replace = T), 2))
+  expect_error(check_group(mikropml::otu_mini, c(1, 2), 2), "group should be a vector that is the same length as the number of rows in the dataset")
+  expect_error(check_group(mikropml::otu_mini, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
+  expect_error(check_group(mikropml::otu_mini, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
+  expect_error(check_group(mikropml::otu_mini, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
+  expect_error(check_group(mikropml::otu_mini, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
 })
 
-test_that("check_corr_thresho works", {
+test_that("check_corr_thresh works", {
   expect_null(check_corr_thresh(1))
   expect_null(check_corr_thresh(0.8))
   expect_null(check_corr_thresh(NULL))
   expect_error(check_corr_thresh(2019), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
     You provided: ")
+  expect_error(check_corr_thresh(corr_thresh = "a"), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
+    You provided:")
+})
+
+test_that("check_perf_metric_function works", {
+  expect_null(check_perf_metric_function(caret::defaultSummary))
+  expect_null(check_perf_metric_function(NULL))
+  expect_error(check_perf_metric_function("a"), "`perf_metric_function` must be `NULL` or a function.
+    You provided:")
+})
+
+test_that("check_perf_metric_name works", {
+  expect_null(check_perf_metric_name("a"))
+  expect_null(check_perf_metric_name(NULL))
+  expect_error(check_perf_metric_name(1), "`perf_metric_name` must be `NULL` or a character\n    You provided: 1")
 })
