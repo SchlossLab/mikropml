@@ -54,3 +54,5 @@ Suggests:
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
+URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
+BugReports: https://github.com/SchlossLab/mikropml/issues
