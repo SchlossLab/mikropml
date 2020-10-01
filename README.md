@@ -27,7 +27,7 @@ You can install the development version from
 devtools::install_github("SchlossLab/mikropml")
 ```
 
-### Dependences
+### Dependencies
 
   - Required: caret, dplyr, LiblineaR, PRROC, rlang, stats, utils
   - Optional: doFuture, foreach, future, future.apply, kernlab,
