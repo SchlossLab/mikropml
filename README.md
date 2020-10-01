@@ -49,6 +49,13 @@ issue](https://github.com/SchlossLab/mikropml/issues) and include a
 If you’d like to contribute, see our guidelines
 [here](.github/CONTRIBUTING.md).
 
+## Code of Conduct
+
+Please note that the mikropml project is released with a [Contributor
+Code of
+Conduct](http://www.schlosslab.org/mikropml/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
+
 ## Why the name?
 
 The word “mikrop” (pronounced “meek-ROPE”) is Turkish for “microbe”.
