@@ -107,7 +107,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SchlossLab/mikropml/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get default performance metric function</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/performance_metrics.R'><code>R/performance_metrics.R</code></a></small>
     <div class="hidden name"><code>get_perf_metric_fn.Rd</code></div>
     </div>
 
@@ -153,7 +158,7 @@
 #&gt;         data$obs &lt;- factor(data$obs, levels = lev)
 #&gt;     postResample(data[, "pred"], data[, "obs"])
 #&gt; }
-#&gt; &lt;bytecode: 0x7fbe42a2c4d8&gt;
+#&gt; &lt;bytecode: 0x7febac8e28d8&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"binary"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
@@ -174,7 +179,7 @@
 #&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
 #&gt;     out
 #&gt; }
-#&gt; &lt;bytecode: 0x7fbe288089b0&gt;
+#&gt; &lt;bytecode: 0x7feb93343008&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"multiclass"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
@@ -231,7 +236,7 @@
 #&gt;     stats &lt;- stats[c(stat_list)]
 #&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7fbe428e47d0&gt;
+#&gt; &lt;bytecode: 0x7febab60b430&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -244,7 +249,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Begüm Topçuoğlu, Patrick Schloss, Zena Lapp, Kelly Sovacool.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">
