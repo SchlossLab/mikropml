@@ -109,7 +109,7 @@ split_outcome_features <- function(dataset, outcome_colname) {
 #' select_apply(fun = "sapply")
 select_apply <- function(fun = "apply") {
   pkg <- "base"
-  if (check_package_installed("future.apply")) {
+  if (check_packages_installed("future.apply")) {
     fun <- paste0("future_", fun)
     pkg <- "future.apply"
   }

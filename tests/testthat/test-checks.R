@@ -132,12 +132,14 @@ test_that("check_seed works", {
 })
 
 test_that("check_all works", {
-  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NA))
+  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NA))
 })
 
-test_that("check if package is installed", {
-  expect_equal(check_package_installed("caret"), TRUE)
-  expect_equal(check_package_installed("asdf"), FALSE)
+test_that("check_packages_installed works", {
+  expect_equal(check_packages_installed("caret"), TRUE)
+  expect_equal(check_packages_installed("this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed("caret", "this_is_not_a_package"), FALSE)
+  expect_equal(check_packages_installed(c("caret", "this_is_not_a_package")), FALSE)
 })
 
 test_that("check_features works", {
@@ -170,4 +172,17 @@ test_that("check_corr_thresh works", {
     You provided: ")
   expect_error(check_corr_thresh(corr_thresh = "a"), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
     You provided:")
+})
+
+test_that("check_perf_metric_function works", {
+  expect_null(check_perf_metric_function(caret::defaultSummary))
+  expect_null(check_perf_metric_function(NULL))
+  expect_error(check_perf_metric_function("a"), "`perf_metric_function` must be `NULL` or a function.
+    You provided:")
+})
+
+test_that("check_perf_metric_name works", {
+  expect_null(check_perf_metric_name("a"))
+  expect_null(check_perf_metric_name(NULL))
+  expect_error(check_perf_metric_name(1), "`perf_metric_name` must be `NULL` or a character\n    You provided: 1")
 })

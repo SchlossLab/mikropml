@@ -3,6 +3,7 @@
 #' See \link[caret]{trainControl} for info on how the seed is being set.
 #'
 #' @param train_data Dataframe for training model
+#' @param class_probs Whether the `\link[caret]{trainControl}` `classProbs` argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)
 #' @inheritParams run_ml
 #' @inheritParams get_tuning_grid
 #'
@@ -12,18 +13,25 @@
 #'
 #'
 #' @examples
-#' #'
-#' define_cv(train_data_sm, "dx", get_hyperparams_list(otu_small, "regLogistic"),
-#'   kfold = 5, seed = 2019
+#' define_cv(train_data_sm,
+#'   outcome_colname = "dx",
+#'   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
+#'   perf_metric_function = caret::twoClassSummary,
+#'   class_probs = TRUE,
+#'   kfold = 5,
+#'   seed = 2019
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, cv_times = 100, group = NULL, seed = NULL) {
+define_cv <- function(train_data, outcome_colname, hyperparams_list,
+                      perf_metric_function, class_probs,
+                      kfold = 5, cv_times = 100, group = NULL, seed = NULL) {
   if (!is.null(seed)) {
     set.seed(seed)
   }
   if (is.null(group)) {
-    cvIndex <- caret::createMultiFolds(factor(train_data %>% dplyr::pull(outcome_colname)),
-      kfold,
-      times = cv_times
+    cvIndex <- caret::createMultiFolds(factor(train_data %>%
+      dplyr::pull(outcome_colname)),
+    kfold,
+    times = cv_times
     )
   } else {
     cvIndex <- groupKMultiFolds(group, kfold = kfold, cv_times = cv_times)
@@ -36,8 +44,8 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, kfold = 5, 
     number = kfold,
     index = cvIndex,
     returnResamp = "final",
-    classProbs = TRUE,
-    summaryFunction = caret::twoClassSummary,
+    classProbs = class_probs,
+    summaryFunction = perf_metric_function,
     indexFinal = NULL,
     savePredictions = TRUE,
     seeds = seeds
