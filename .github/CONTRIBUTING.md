@@ -1,5 +1,7 @@
 # Contributing to mikropml
 
+This document was adapted from the [Tidyverse Contributing guide](https://tidyverse.tidyverse.org/CONTRIBUTING.html).
+
 ## Fixing typos
 
 You can fix typos, spelling mistakes, or grammatical errors in the documentation directly using the GitHub web interface, as long as the changes are made in the _source_ file. 

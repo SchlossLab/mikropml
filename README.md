@@ -27,7 +27,7 @@ You can install the development version from
 devtools::install_github("SchlossLab/mikropml")
 ```
 
-### Dependences
+### Dependencies
 
   - Required: caret, dplyr, LiblineaR, PRROC, rlang, stats, utils
   - Optional: doFuture, foreach, future, future.apply, kernlab,
@@ -48,6 +48,13 @@ issue](https://github.com/SchlossLab/mikropml/issues) and include a
 
 If you’d like to contribute, see our guidelines
 [here](.github/CONTRIBUTING.md).
+
+## Code of Conduct
+
+Please note that the mikropml project is released with a [Contributor
+Code of
+Conduct](http://www.schlosslab.org/mikropml/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
 
 ## Why the name?
 
