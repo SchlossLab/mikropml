@@ -94,12 +94,24 @@ perf_df2 <- dplyr::bind_rows(results_mtx['performance',])
 perf_df2
 ```
 
-Visualize the performance results:
+Visualize the performance results (`ggplot2` is required):
 
-<!-- TODO: set eval=TRUE once plot_performance() is merged into master -->
-```{r plot_perf, eval=FALSE}
-plot_performance(perf_df2)
+```{r plot_perf}
+perf_boxplot <- plot_performance(perf_df2)
+perf_boxplot
 ```
+
+`plot_performance()` returns a ggplot2 object. 
+You can add layers to customize the plot:
+
+```{r customize_plot}
+perf_boxplot +
+   theme_classic() +
+   scale_color_brewer(palette = "Dark2") +
+   coord_flip()
+```
+
+You can also create your own plots however you like using the performance results.
 
 ## Parallelizing with Snakemake
 
@@ -110,5 +122,4 @@ However, for large datasets run in parallel with, say, 100 seeds (recommended),
 you may run into problems trying to store all of those objects in memory at once.
 One solution is to write the results files of each `run_ml()` call,
 then concatenate them at the end.
-We show one way to accomplish this with Snakemake; for details see the vignette: 
-[Managing mikropml Workflows with Snakemake](snakemake.html).
+We show one way to accomplish this with Snakemake; for details see `vignette("snakemake")`.
