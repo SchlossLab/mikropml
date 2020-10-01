@@ -349,5 +349,5 @@ Additionally, you can see that the continuous variables were normalized, the cat
 
 ## Next step: run machine learning!
 
-After you preprocess your data (either using the `preprocess_data` function or by preprocessing the data on your own), you're ready to run machine learning! Please see the vignette on the `run_ml` function for more information about running machine learning. 
+After you preprocess your data (either using the `preprocess_data` function or by preprocessing the data on your own), you're ready to run machine learning! Please see `?run_ml` information about running machine learning. 
 
