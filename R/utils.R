@@ -93,7 +93,7 @@ split_outcome_features <- function(dataset, outcome_colname) {
   check_outcome_column(dataset, outcome_colname)
   # split outcome and features
   outcome <- dataset %>% dplyr::select(outcome_colname)
-  features <- dataset %>% dplyr::select(!matches(outcome_colname))
+  features <- dataset %>% dplyr::select(!dplyr::matches(outcome_colname))
   return(list(outcome = outcome, features = features))
 }
 
