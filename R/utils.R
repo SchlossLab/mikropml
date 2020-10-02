@@ -82,7 +82,7 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
 #'
 #' @inheritParams run_ml
 #'
-#' @return list of length two: outcome, features
+#' @return list of length two: outcome, features (as dataframes)
 #' @export
 #'
 #' @examples
@@ -92,8 +92,8 @@ split_outcome_features <- function(dataset, outcome_colname) {
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
   # split outcome and features
-  outcome <- dataset %>% dplyr::select_if(names(dataset) == outcome_colname)
-  features <- dataset %>% dplyr::select_if(names(dataset) != outcome_colname)
+  outcome <- dataset %>% dplyr::select(outcome_colname)
+  features <- dataset %>% dplyr::select(!matches(outcome_colname))
   return(list(outcome = outcome, features = features))
 }
 
