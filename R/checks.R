@@ -253,7 +253,7 @@ check_packages_installed <- function(...) {
 
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
-    stop("Argument `features` must be a `data.frame` or `tibble`")
+    stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
   }
 
   # check for empty strings
