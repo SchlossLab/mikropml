@@ -46,7 +46,7 @@
 #'   coord_flip()
 #' }
 plot_performance <- function(performance_df) {
-  abort_packages_not_installed(check_packages_installed('ggplot2', 'tidyr'))
+  abort_packages_not_installed(check_packages_installed("ggplot2", "tidyr"))
   performance_df %>%
     tidy_perf_data() %>%
     ggplot2::ggplot(ggplot2::aes(x = .data$method, y = .data$value, color = .data$metric)) +
@@ -64,7 +64,7 @@ plot_performance <- function(performance_df) {
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email(sovacool@@umich.edu)
 tidy_perf_data <- function(performance_df) {
-  abort_packages_not_installed(check_packages_installed('tidyr'))
+  abort_packages_not_installed(check_packages_installed("tidyr"))
   performance_df %>%
     dplyr::select(-.data$seed) %>%
     tidyr::pivot_longer(

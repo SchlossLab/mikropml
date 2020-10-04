@@ -264,15 +264,18 @@ check_packages_installed <- function(...) {
 #' abort_packages_not_installed(check_packages_installed("base"))
 #' \dontrun{
 #' abort_packages_not_installed(check_packages_installed(
-#'   "not-a-package-name", 'caret', 'dplyr', 'non_package'))
+#'   "not-a-package-name", "caret", "dplyr", "non_package"
+#' ))
 #' }
 abort_packages_not_installed <- function(package_status) {
-  parent_fcn_name <- sub('\\(.*$', '\\(\\)', deparse(sys.calls()[[sys.nframe()-1]]))
+  parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
   packages_not_installed <- Filter(isFALSE, package_status)
   if (length(packages_not_installed) > 0) {
-    msg <- paste0('The following package(s) are required for `', parent_fcn_name,
-                  '` but are not installed: \n  ',
-                  paste0(names(packages_not_installed), collapse = ', '))
+    msg <- paste0(
+      "The following package(s) are required for `", parent_fcn_name,
+      "` but are not installed: \n  ",
+      paste0(names(packages_not_installed), collapse = ", ")
+    )
     stop(msg)
   }
 }
