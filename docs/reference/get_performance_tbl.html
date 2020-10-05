@@ -135,13 +135,13 @@
     <p>Get model performance metrics as a one-row tibble</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_performance_tbl</span>(
-  <span class='no'>trained_model</span>,
-  <span class='no'>test_data</span>,
-  <span class='no'>outcome_colname</span>,
-  <span class='no'>outcome_value</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_performance_tbl</span><span class='op'>(</span>
+  <span class='va'>trained_model</span>,
+  <span class='va'>test_data</span>,
+  <span class='va'>outcome_colname</span>,
+  <span class='va'>outcome_value</span>,
+  seed <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +171,9 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a one-row tibble with columns <code>cv_auroc</code>, <code>test_auroc</code>, <code>test_auprc</code>, <code>method</code>, and <code>seed</code></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -187,7 +190,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
