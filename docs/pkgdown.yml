@@ -1,11 +1,11 @@
-pandoc: 2.7.3
-pkgdown: 1.6.1
+pandoc: 2.7.2
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
   parallel: parallel.html
   preprocess: preprocess.html
-last_built: 2020-10-04T17:26Z
+last_built: 2020-10-05T18:41Z
 urls:
   reference: http://www.schlosslab.org/mikropml/reference
   article: http://www.schlosslab.org/mikropml/articles
