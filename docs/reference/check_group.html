@@ -135,7 +135,7 @@
     <p>Check grouping vector</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_group</span><span class='op'>(</span><span class='va'>dataset</span>, <span class='va'>group</span>, <span class='va'>kfold</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_group</span>(<span class='no'>dataset</span>, <span class='no'>group</span>, <span class='no'>kfold</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,11 +156,10 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>check_group</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_mini.html'>otu_mini</a></span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_mini.html'>otu_mini</a></span><span class='op'>)</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
-  kfold <span class='op'>=</span> <span class='fl'>2</span>
-<span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>check_group</span>(<span class='kw pkg'>mikropml</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw pkg'>mikropml</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>2</span>
+)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -176,7 +175,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
