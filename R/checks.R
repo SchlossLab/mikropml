@@ -237,18 +237,47 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
 #' Check whether package(s) are installed
 #'
 #' @param ... names of packages to check
-#' @return logical - whether all packages are installed (TRUE) or not (FALSE)
+#' @return named vector with status of each packages; installed (`TRUE`) or not (`FALSE`)
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_packages_installed("base")
-#' check_packages_installed("asdf")
-#' check_packages_installed(c("parallel", "doParallel"))
-#' check_packages_installed("parallel", "doParallel")
+#' check_packages_installed("not-a-package-name")
+#' all(check_packages_installed("parallel", "doFuture"))
 check_packages_installed <- function(...) {
-  return(all(sapply(c(...), requireNamespace, quietly = TRUE)))
+  return(sapply(c(...), requireNamespace, quietly = TRUE))
+}
+
+
+#' Throw error if required packages are not installed.
+#'
+#' Reports which packages need to be installed and the parent function name.
+#' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
+#'
+#' @param package_status named vector with status of each package; installed (`TRUE`) or not (`FALSE`)
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' abort_packages_not_installed(check_packages_installed("base"))
+#' \dontrun{
+#' abort_packages_not_installed(check_packages_installed(
+#'   "not-a-package-name", "caret", "dplyr", "non_package"
+#' ))
+#' }
+abort_packages_not_installed <- function(package_status) {
+  parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
+  packages_not_installed <- Filter(isFALSE, package_status)
+  if (length(packages_not_installed) > 0) {
+    msg <- paste0(
+      "The following package(s) are required for `", parent_fcn_name,
+      "` but are not installed: \n  ",
+      paste0(names(packages_not_installed), collapse = ", ")
+    )
+    stop(msg)
+  }
 }
 
 check_features <- function(features, check_missing = TRUE) {
