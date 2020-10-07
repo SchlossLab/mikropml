@@ -6,7 +6,6 @@ test_that("get_outcome_type works", {
 })
 
 test_that("get_perf_metric_fn works", {
-<<<<<<< HEAD
   expect_equal(get_perf_metric_fn('continuous'), caret::defaultSummary)
   expect_equal(get_perf_metric_fn('binary'), caret::multiClassSummary)
   expect_equal(get_perf_metric_fn('multiclass'), caret::multiClassSummary)
