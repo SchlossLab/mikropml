@@ -1,8 +1,8 @@
 ---
-title: "Managing mikropml Workflows with Snakemake"
+title: "Managing workflows with Snakemake"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Managing mikropml Workflows with Snakemake}
+  %\VignetteIndexEntry{Managing workflows with Snakemake}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
