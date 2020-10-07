@@ -35,7 +35,7 @@ test_that("randomize_feature_order works for known seed", {
 })
 
 test_that("check if correct apply is selected", {
-  fa_installed <- check_package_installed("future.apply")
+  fa_installed <- all(check_packages_installed("future.apply"))
   if (fa_installed) {
     expect_equal(select_apply("lapply"), future.apply::future_lapply)
     expect_equal(select_apply("sapply"), future.apply::future_sapply)

@@ -16,7 +16,7 @@ performance metric function
 Get default performance metric function
 }
 \examples{
-get_perf_metric_fn('continuous')
-get_perf_metric_fn('binary')
-get_perf_metric_fn('multiclass')
+get_perf_metric_fn("continuous")
+get_perf_metric_fn("binary")
+get_perf_metric_fn("multiclass")
 }

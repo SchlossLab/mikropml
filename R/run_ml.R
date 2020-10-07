@@ -84,20 +84,20 @@ run_ml <-
     check_hyperparams(hyperparameters, method = method)
 
     tune_grid <- get_tuning_grid(hyperparameters, method)
-    
+
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
-    
+
     outcome_type <- get_outcome_type(outcomes_vec)
-    class_probs <- ifelse(outcome_type == 'numeric',FALSE,TRUE)
-    
-    if(is.null(perf_metric_function)){
+    class_probs <- ifelse(outcome_type == "numeric", FALSE, TRUE)
+
+    if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
     }
-    
-    if(is.null(perf_metric_name)){
+
+    if (is.null(perf_metric_name)) {
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
-    
+
     if (is.null(group)) {
       cv <- define_cv(train_data,
         outcome_colname,
@@ -122,7 +122,7 @@ run_ml <-
     }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-    #metric <- "ROC"
+    # metric <- "ROC"
     if (method == "regLogistic") {
       trained_model_caret <- caret::train(
         model_formula,

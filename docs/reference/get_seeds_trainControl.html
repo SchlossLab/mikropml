@@ -108,7 +108,12 @@ and the trainControl documentation" />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SchlossLab/mikropml/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -123,7 +128,7 @@ and the trainControl documentation" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get seeds for caret::trainControl</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/cross_val.R'><code>R/cross_val.R</code></a></small>
     <div class="hidden name"><code>get_seeds_trainControl.Rd</code></div>
     </div>
 
@@ -132,7 +137,7 @@ and the trainControl documentation" />
 and the <a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</a> documentation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_seeds_trainControl</span>(<span class='kw'>hyperparams_list</span>, <span class='kw'>kfold</span>, <span class='kw'>cv_times</span>, <span class='kw'>ncol_train</span>)</pre>
+    <pre class="usage"><span class='fu'>get_seeds_trainControl</span><span class='op'>(</span><span class='va'>hyperparams_list</span>, <span class='va'>kfold</span>, <span class='va'>cv_times</span>, <span class='va'>ncol_train</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,7 +152,7 @@ and the <a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>Number of partitions to create</p></td>
+      <td><p>number of partitions to create</p></td>
     </tr>
     <tr>
       <th>ncol_train</th>
@@ -160,7 +165,7 @@ and the <a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</
     <p>seeds for <code><a href='https://rdrr.io/pkg/caret/man/trainControl.html'>caret::trainControl</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_seeds_trainControl</span>(<span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span>(<span class='kw'>otu_small</span>, <span class='st'>"regLogistic"</span>), <span class='fl'>5</span>, <span class='fl'>100</span>, <span class='fl'>60</span>)
+    <pre class="examples"><div class='input'><span class='fu'>get_seeds_trainControl</span><span class='op'>(</span><span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>, <span class='fl'>5</span>, <span class='fl'>100</span>, <span class='fl'>60</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [[1]]
 #&gt; [1] 42908 17712 41517  8479 23379  9714
 #&gt; 
@@ -1675,7 +1680,7 @@ and the <a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</
 
       <footer>
       <div class="copyright">
-  <p>Developed by Begüm Topçuoğlu, Patrick Schloss, Zena Lapp, Kelly Sovacool.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">

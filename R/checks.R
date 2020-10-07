@@ -234,17 +234,48 @@ check_outcome_value <- function(dataset, outcome_colname) {
 
 #' Check whether package(s) are installed
 #'
-#' @param package_names names of packages (or a single package) to check
-#' @return logical vector - whether packages are installed (TRUE) or not (FALSE).
+#' @param ... names of packages to check
+#' @return named vector with status of each packages; installed (`TRUE`) or not (`FALSE`)
 #' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_package_installed("base")
-#' check_package_installed("asdf")
-#' all(check_package_installed(c("parallel", "doParallel")))
-check_package_installed <- function(package_names) {
-  return(package_names %in% rownames(utils::installed.packages()))
+#' check_packages_installed("base")
+#' check_packages_installed("not-a-package-name")
+#' all(check_packages_installed("parallel", "doFuture"))
+check_packages_installed <- function(...) {
+  return(sapply(c(...), requireNamespace, quietly = TRUE))
+}
+
+
+#' Throw error if required packages are not installed.
+#'
+#' Reports which packages need to be installed and the parent function name.
+#' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
+#'
+#' @param package_status named vector with status of each package; installed (`TRUE`) or not (`FALSE`)
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' abort_packages_not_installed(check_packages_installed("base"))
+#' \dontrun{
+#' abort_packages_not_installed(check_packages_installed(
+#'   "not-a-package-name", "caret", "dplyr", "non_package"
+#' ))
+#' }
+abort_packages_not_installed <- function(package_status) {
+  parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
+  packages_not_installed <- Filter(isFALSE, package_status)
+  if (length(packages_not_installed) > 0) {
+    msg <- paste0(
+      "The following package(s) are required for `", parent_fcn_name,
+      "` but are not installed: \n  ",
+      paste0(names(packages_not_installed), collapse = ", ")
+    )
+    stop(msg)
+  }
 }
 
 #' Title
@@ -258,7 +289,7 @@ check_package_installed <- function(package_names) {
 #' @examples
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
-    stop("Argument `features` must be a `data.frame` or `tibble`")
+    stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
   }
 
   # check for empty strings
@@ -354,8 +385,8 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @examples
 #' check_perf_metric_function(NULL)
-check_perf_metric_function <- function(perf_metric_function){
-  if(!is.function(perf_metric_function) & !is.null(perf_metric_function)){
+check_perf_metric_function <- function(perf_metric_function) {
+  if (!is.function(perf_metric_function) & !is.null(perf_metric_function)) {
     stop(paste0("`perf_metric_function` must be `NULL` or a function.\n    You provided: ", class(perf_metric_function)))
   }
 }
@@ -369,8 +400,8 @@ check_perf_metric_function <- function(perf_metric_function){
 #'
 #' @examples
 #' check_perf_metric_name(NULL)
-check_perf_metric_name <- function(perf_metric_name){
-  if(!is.character(perf_metric_name) & !is.null(perf_metric_name)){
+check_perf_metric_name <- function(perf_metric_name) {
+  if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
   }
 }

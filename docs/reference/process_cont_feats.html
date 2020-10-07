@@ -107,7 +107,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SchlossLab/mikropml/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Preprocess continuous features</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/preprocess_data.R'><code>R/preprocess_data.R</code></a></small>
     <div class="hidden name"><code>process_cont_feats.Rd</code></div>
     </div>
 
@@ -130,7 +135,7 @@
     <p>Preprocess continuous features</p>
     </div>
 
-    <pre class="usage"><span class='fu'>process_cont_feats</span>(<span class='kw'>features</span>, <span class='kw'>method</span>)</pre>
+    <pre class="usage"><span class='fu'>process_cont_feats</span><span class='op'>(</span><span class='va'>features</span>, <span class='va'>method</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,7 +158,7 @@
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>process_cont_feats</span>(<span class='kw'>mikropml</span>::<span class='kw'><a href='otu_small.html'>otu_small</a></span>[, <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>otu_small</span>)], <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"scale"</span>))
+    <pre class="examples"><div class='input'><span class='fu'>process_cont_feats</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_small.html'>otu_small</a></span><span class='op'>[</span>, <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>otu_small</span><span class='op'>)</span><span class='op'>]</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"center"</span>, <span class='st'>"scale"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          Otu00001     Otu00002     Otu00003    Otu00004     Otu00005
 #&gt; 1   -0.4198476322 -0.218855527 -0.174296240 -0.59073845 -0.048774220
 #&gt; 2   -0.1045750483  1.754032339 -0.718419364  0.03805034  1.537072974
@@ -2376,7 +2381,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Begüm Topçuoğlu, Patrick Schloss, Zena Lapp, Kelly Sovacool.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">

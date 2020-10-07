@@ -107,7 +107,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SchlossLab/mikropml/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Define Cross-Validation Scheme and Training Parameters</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/cross_val.R'><code>R/cross_val.R</code></a></small>
     <div class="hidden name"><code>define_cv.Rd</code></div>
     </div>
 
@@ -130,15 +135,17 @@
     <p>See <a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</a> for info on how the seed is being set.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_cv</span>(
-  <span class='kw'>train_data</span>,
-  <span class='kw'>outcome_colname</span>,
-  <span class='kw'>hyperparams_list</span>,
-  kfold = <span class='fl'>5</span>,
-  cv_times = <span class='fl'>100</span>,
-  group = <span class='kw'>NULL</span>,
-  seed = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>define_cv</span><span class='op'>(</span>
+  <span class='va'>train_data</span>,
+  <span class='va'>outcome_colname</span>,
+  <span class='va'>hyperparams_list</span>,
+  <span class='va'>perf_metric_function</span>,
+  <span class='va'>class_probs</span>,
+  kfold <span class='op'>=</span> <span class='fl'>5</span>,
+  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,12 +163,20 @@
       <td><p>named list of lists of hyperparameters</p></td>
     </tr>
     <tr>
+      <th>perf_metric_function</th>
+      <td><p>function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code></p></td>
+    </tr>
+    <tr>
+      <th>class_probs</th>
+      <td><p>Whether the <code>\link[caret]{trainControl}</code> <code>classProbs</code> argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)</p></td>
+    </tr>
+    <tr>
       <th>kfold</th>
       <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>Number of partitions to create</p></td>
+      <td><p>number of partitions to create</p></td>
     </tr>
     <tr>
       <th>group</th>
@@ -181,10 +196,14 @@
     <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#'</span>
-<span class='fu'>define_cv</span>(<span class='kw'>train_data_sm</span>, <span class='st'>"dx"</span>, <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span>(<span class='kw'>otu_small</span>, <span class='st'>"regLogistic"</span>),
-  kfold = <span class='fl'>5</span>, seed = <span class='fl'>2019</span>
-)
+    <pre class="examples"><div class='input'><span class='fu'>define_cv</span><span class='op'>(</span><span class='va'>train_data_sm</span>,
+  outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,
+  hyperparams_list <span class='op'>=</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>,
+  perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>twoClassSummary</a></span>,
+  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  kfold <span class='op'>=</span> <span class='fl'>5</span>,
+  seed <span class='op'>=</span> <span class='fl'>2019</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt; $method
 #&gt; [1] "repeatedcv"
 #&gt; 
@@ -247,7 +266,7 @@
 #&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
 #&gt;     out
 #&gt; }
-#&gt; &lt;bytecode: 0x7fd5db74ea70&gt;
+#&gt; &lt;bytecode: 0x7ff0b95dcea0&gt;
 #&gt; &lt;environment: namespace:caret&gt;
 #&gt; 
 #&gt; $selectionFunction
@@ -6826,7 +6845,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Begüm Topçuoğlu, Patrick Schloss, Zena Lapp, Kelly Sovacool.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">

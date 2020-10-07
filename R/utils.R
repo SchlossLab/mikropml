@@ -50,7 +50,7 @@ randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
 #'
 #' @inheritParams run_ml
 #'
-#' @return list of length two: outcome, features
+#' @return list of length two: outcome, features (as dataframes)
 #' @export
 #'
 #' @examples
@@ -60,8 +60,8 @@ split_outcome_features <- function(dataset, outcome_colname) {
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, show_message = FALSE)
   # split outcome and features
-  outcome <- dataset %>% dplyr::select_if(names(dataset) == outcome_colname)
-  features <- dataset %>% dplyr::select_if(names(dataset) != outcome_colname)
+  outcome <- dataset %>% dplyr::select(outcome_colname)
+  features <- dataset %>% dplyr::select(!dplyr::matches(outcome_colname))
   return(list(outcome = outcome, features = features))
 }
 
@@ -77,7 +77,7 @@ split_outcome_features <- function(dataset, outcome_colname) {
 #' select_apply(fun = "sapply")
 select_apply <- function(fun = "apply") {
   pkg <- "base"
-  if (check_package_installed("future.apply")) {
+  if (all(check_packages_installed("future.apply"))) {
     fun <- paste0("future_", fun)
     pkg <- "future.apply"
   }

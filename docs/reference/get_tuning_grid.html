@@ -107,7 +107,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SchlossLab/mikropml/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate the Tuning Grid for Tuning Hyperparameters</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/hyperparameters.R'><code>R/hyperparameters.R</code></a></small>
     <div class="hidden name"><code>get_tuning_grid.Rd</code></div>
     </div>
 
@@ -130,7 +135,7 @@
     <p>Generate the Tuning Grid for Tuning Hyperparameters</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_tuning_grid</span>(<span class='kw'>hyperparams_list</span>, <span class='kw'>method</span>)</pre>
+    <pre class="usage"><span class='fu'>get_tuning_grid</span><span class='op'>(</span><span class='va'>hyperparams_list</span>, <span class='va'>method</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,9 +159,9 @@
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"regLogistic"</span>
-<span class='kw'>hparams_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span>(<span class='kw'>otu_small</span>, <span class='kw'>ml_method</span>)
-<span class='fu'>get_tuning_grid</span>(<span class='kw'>hparams_list</span>, <span class='kw'>ml_method</span>)
+    <pre class="examples"><div class='input'><span class='va'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"regLogistic"</span>
+<span class='va'>hparams_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='va'>ml_method</span><span class='op'>)</span>
+<span class='fu'>get_tuning_grid</span><span class='op'>(</span><span class='va'>hparams_list</span>, <span class='va'>ml_method</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    cost epsilon      loss
 #&gt; 1 1e-04    0.01 L2_primal
 #&gt; 2 1e-03    0.01 L2_primal
@@ -175,7 +180,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Begüm Topçuoğlu, Patrick Schloss, Zena Lapp, Kelly Sovacool.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">

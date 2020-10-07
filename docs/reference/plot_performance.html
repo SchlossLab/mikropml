@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the machine learning pipeline — run_ml • mikropml</title>
+<title>Plot performance metrics for multiple ML runs with different parameters — plot_performance • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Run the machine learning pipeline — run_ml" />
-<meta property="og:description" content="Run the machine learning pipeline" />
+<meta property="og:title" content="Plot performance metrics for multiple ML runs with different parameters — plot_performance" />
+<meta property="og:description" content="ggplot2 is required to use this function." />
 
 
 
@@ -126,109 +126,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run the machine learning pipeline</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/run_ml.R'><code>R/run_ml.R</code></a></small>
-    <div class="hidden name"><code>run_ml.Rd</code></div>
+    <h1>Plot performance metrics for multiple ML runs with different parameters</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
+    <div class="hidden name"><code>plot_performance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run the machine learning pipeline</p>
+    <p>ggplot2 is required to use this function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_ml</span><span class='op'>(</span>
-  <span class='va'>dataset</span>,
-  <span class='va'>method</span>,
-  outcome_colname <span class='op'>=</span> <span class='cn'>NULL</span>,
-  outcome_value <span class='op'>=</span> <span class='cn'>NULL</span>,
-  hyperparameters <span class='op'>=</span> <span class='cn'>NULL</span>,
-  find_feature_importance <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  kfold <span class='op'>=</span> <span class='fl'>5</span>,
-  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
-  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
-  perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
-  perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  group <span class='op'>=</span> <span class='cn'>NULL</span>,
-  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
-  seed <span class='op'>=</span> <span class='cn'>NA</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_performance</span><span class='op'>(</span><span class='va'>performance_df</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset</th>
-      <td><p>dataframe with an outcome variable and other columns as features</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
-    </tr>
-    <tr>
-      <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
-    </tr>
-    <tr>
-      <th>hyperparameters</th>
-      <td><p>dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.</p></td>
-    </tr>
-    <tr>
-      <th>find_feature_importance</th>
-      <td><p>run permutation imporance (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>kfold</th>
-      <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
-    </tr>
-    <tr>
-      <th>cv_times</th>
-      <td><p>number of partitions to create</p></td>
-    </tr>
-    <tr>
-      <th>training_frac</th>
-      <td><p>fraction size of data for training (default: 0.8)</p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_function</th>
-      <td><p>function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code></p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_name</th>
-      <td><p>the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)</p></td>
-    </tr>
-    <tr>
-      <th>corr_thresh</th>
-      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>random seed (default: NA)</p></td>
+      <th>performance_df</th>
+      <td><p>dataframe of performance results from multiple calls to <code><a href='run_ml.html'>run_ml()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named list with results</p>
+    <p>a ggplot2 plot</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
-<p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
+    <p>Begüm Topçuoglu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_large</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
-  kfold <span class='op'>=</span> <span class='fl'>2</span>,
-  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='co'># call `run_ml()` multiple times with different seeds</span>
+<span class='va'>results_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>104</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"regLogistic"</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+<span class='co'># extract and combine the performance results</span>
+<span class='va'>perf_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>results_lst</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>result</span><span class='op'>[[</span><span class='st'>"performance"</span><span class='op'>]</span><span class='op'>]</span>
+<span class='op'>}</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'># plot the performance results</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plot_performance</span><span class='op'>(</span><span class='va'>perf_df</span><span class='op'>)</span>
+
+<span class='co'># call `run_ml()` with different ML methods</span>
+<span class='va'>param_grid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span><span class='op'>(</span>
+  seeds <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>104</span><span class='op'>)</span>,
+  methods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"regLogistic"</span>, <span class='st'>"rf"</span><span class='op'>)</span>
 <span class='op'>)</span>
+<span class='va'>results_mtx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mapply.html'>mapply</a></span><span class='op'>(</span>
+  <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span>, <span class='va'>method</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='va'>method</span>, seed <span class='op'>=</span> <span class='va'>seed</span>, kfold <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+  <span class='op'>}</span>,
+  <span class='va'>param_grid</span><span class='op'>$</span><span class='va'>seeds</span>, <span class='va'>param_grid</span><span class='op'>$</span><span class='va'>methods</span>
+<span class='op'>)</span>
+<span class='co'># extract and combine the performance results</span>
+<span class='va'>perf_df2</span> <span class='op'>&lt;-</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>results_mtx</span><span class='op'>[</span><span class='st'>"performance"</span>, <span class='op'>]</span><span class='op'>)</span>
+<span class='co'># plot the performance results</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plot_performance</span><span class='op'>(</span><span class='va'>perf_df2</span><span class='op'>)</span>
+
+<span class='co'># you can continue adding layers to customize the plot</span>
+<span class='va'>p</span> <span class='op'>+</span>
+  <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_brewer</span><span class='op'>(</span>palette <span class='op'>=</span> <span class='st'>"Dark2"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>coord_flip</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

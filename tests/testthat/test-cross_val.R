@@ -43,4 +43,3 @@ test_that("get_seeds_trainControl works", {
     ), c(1211L, 597L, 1301L), 1974L)
   )
 })
-
