@@ -25,7 +25,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # input validation
   check_dataset(dataset)
-  check_outcome_column(dataset, outcome_colname)
+  check_outcome_column(dataset, outcome_colname, check_values = FALSE)
 
   # remove outcomes that are NA
   dataset <- rm_missing_outcome(dataset, outcome_colname)

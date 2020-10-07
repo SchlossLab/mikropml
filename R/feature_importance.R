@@ -11,7 +11,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, outcome_value, method, seed = NA, corr_thresh = 1) {
+get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, perf_metric_function, perf_metric_name, method, seed = NA, corr_thresh = 1) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
@@ -25,20 +25,21 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 
   lapply_fn <- select_apply("lapply")
   imps <- do.call("rbind", lapply_fn(grps, function(feat) {
-    return(find_permuted_auc(trained_model, test_data, outcome_colname, feat, outcome_value))
+    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name,feat))
   }))
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
       names = factor(grps),
       method = method,
+      perf_metric_name = perf_metric_name,
       seed = seed
     ))
 }
 
 
 
-#' Get permuted AUROC difference for a single feature (or group of features)
+#' Get permuted performance metric difference for a single feature (or group of features)
 #'
 #' @param feat feature or group of correlated features to permute
 #' @inheritParams run_ml
@@ -49,31 +50,32 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-find_permuted_auc <- function(method, test_data, outcome_colname, feat, outcome_value) {
-  # -----------Get the original testAUC from held-out test data--------->
-  # Calculate the test-auc for the actual pre-processed held-out data
-  test_auc <- calc_aucs(method, test_data, outcome_colname, outcome_value)$auroc
+find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, feat) {
+  # -----------Get the original test performance metric from held-out test data--------->
+  # Calculate the test performance metric for the actual pre-processed held-out data
+  test_perf_metric <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function)[perf_metric_name]
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
-  # get the new AUC and AUC differences
+  # get the new performance metric and performance metric differences
   sapply_fn <- select_apply(fun = "sapply")
-  auc_diffs <- sapply_fn(0:99, function(s) {
+  perf_metric_diffs <- sapply_fn(0:99, function(s) {
     set.seed(s)
-    full_permuted <- test_data
+    permuted_test_data <- test_data
     if (length(fs) == 1) {
-      full_permuted[, fs] <- sample(full_permuted[, fs])
+      permuted_test_data[, fs] <- sample(permuted_test_data[, fs])
     } else {
-      full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
+      permuted_test_data[, fs] <- t(sample(data.frame(t(permuted_test_data[, fs]))))
     }
 
-    # Calculate the new auc
-    new_auc <- calc_aucs(method, full_permuted, outcome_colname, outcome_value)$auroc
-    # Return how does this feature being permuted effect the auc
-    return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
+    # Calculate the new performance metric
+    new_perf_metric <- calc_perf_metrics(permuted_test_data, trained_model, outcome_colname, perf_metric_function)[perf_metric_name]
+    # Return how does this feature being permuted effect the performance metric
+    return(c(new_perf_metric = new_perf_metric, diff = (test_perf_metric - new_perf_metric)))
   })
-  auc <- mean(auc_diffs["new_auc", ])
-  auc_diff <- mean(auc_diffs["diff", ])
-  return(c(auc = auc, auc_diff = auc_diff))
+  rownames(perf_metric_diffs) = gsub('\\..*','',rownames(perf_metric_diffs))
+  perf_metric <- mean(perf_metric_diffs["new_perf_metric", ])
+  perf_metric_diff <- mean(perf_metric_diffs["diff", ])
+  return(c(perf_metric = perf_metric, perf_metric_diff = perf_metric_diff))
 }

@@ -50,7 +50,6 @@ test_that("run_ml works for L2 logistic regression", {
     run_ml(otu_mini, # use built-in hyperparameters
       "regLogistic",
       outcome_colname = "dx",
-      outcome_value = "cancer",
       find_feature_importance = TRUE,
       seed = 2019,
       kfold = 2,
@@ -65,7 +64,6 @@ test_that("run_ml works for random forest", {
     mikropml::run_ml(otu_mini,
       "rf",
       outcome_colname = "dx",
-      outcome_value = "cancer",
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,
@@ -80,7 +78,6 @@ test_that("run_ml works for svmRadial", {
     mikropml::run_ml(otu_mini,
       "svmRadial",
       outcome_colname = "dx",
-      outcome_value = "cancer",
       hyperparameters = test_hyperparams %>% get_hyperparams_from_df("svmRadial"),
       find_feature_importance = FALSE,
       seed = 2019,
@@ -97,7 +94,6 @@ test_that("run_ml works for xgbTree", {
       otu_mini,
       "xgbTree",
       outcome_colname = "dx",
-      outcome_value = "cancer",
       hyperparameters = test_hyperparams %>% get_hyperparams_from_df("xgbTree"),
       find_feature_importance = FALSE,
       seed = 2019,
@@ -113,7 +109,6 @@ test_that("run_ml works for rpart2", {
     mikropml::run_ml(otu_mini,
       "rpart2",
       outcome_colname = "dx",
-      outcome_value = "cancer",
       hyperparameters = test_hyperparams %>% get_hyperparams_from_df("rpart2"),
       find_feature_importance = FALSE,
       seed = 2019,
@@ -142,22 +137,13 @@ test_that("run_ml errors if outcome_colname not in dataframe", {
     "Outcome 'not_a_colname' not in column names of data."
   )
 })
-test_that("run_ml errors if outcome_value not in outcome column", {
-  expect_error(
-    run_ml(
-      otu_small,
-      "rf",
-      outcome_colname = "dx",
-      outcome_value = "not_an_outcome"
-    ),
-    "No rows in the outcome column"
-  )
-})
-test_that("run_ml errors if outcome is not binary", {
+
+
+test_that("run_ml errors if outcome is not binary or multiclass", {
   expect_error(
     run_ml(
       data.frame(
-        dx = c("cancer", "adenoma", "normal"),
+        dx = c(1,2,3),
         otu1 = 1:3,
         otu2 = 4:6
       ),
@@ -165,6 +151,6 @@ test_that("run_ml errors if outcome is not binary", {
       outcome_colname = "dx",
       kfold = 2
     ),
-    "A binary outcome variable is required, but this dataset has"
+    "We don't support continuous outcomes right now."
   )
 })

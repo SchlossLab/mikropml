@@ -3,14 +3,13 @@
 #' @param dataset dataframe with an outcome variable and other columns as features
 #' @param method ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")
 #' @param outcome_colname column name as a string of the outcome variable
-#' @param outcome_value outcome value of interest as a string
 #' @param hyperparameters dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.
 #' @param find_feature_importance run permutation imporance (default: FALSE)
 #' @param kfold fold number for k-fold cross-validation (default: 5)
 #' @param cv_times number of partitions to create
 #' @param training_frac fraction size of data for training (default: 0.8)
-#' @param perf_metric_function function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = `twoClassSummary`, multi-class classification = `multiClassSummary`, regression = `defaultSummary`
-#' @param perf_metric_name the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"ROC"`, multi-class classification = `"logLoss"`, regression = `"RMSE"`. 
+#' @param perf_metric_function function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = `multiClassSummary`, regression = `defaultSummary`
+#' @param perf_metric_name the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"AUC"` (AUROC), multi-class classification = `"logLoss"`, regression = `"RMSE"`. 
 #' @param group vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)
 #' @param corr_thresh for feature importance, group correlations above or equal to corr_thresh (default: 1)
 #' @param seed random seed (default: NA)
@@ -33,7 +32,6 @@ run_ml <-
   function(dataset,
            method,
            outcome_colname = NULL,
-           outcome_value = NULL,
            hyperparameters = NULL,
            find_feature_importance = FALSE,
            kfold = 5,
@@ -57,10 +55,6 @@ run_ml <-
       seed
     )
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
-    outcome_value <- check_outcome_value(dataset, outcome_colname,
-      outcome_value,
-      method = "fewer"
-    )
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
 
     if (!is.na(seed)) {
@@ -161,12 +155,13 @@ run_ml <-
         tuneGrid = tune_grid
       )
     }
-
+    
     performance_tbl <- get_performance_tbl(
       trained_model_caret,
       test_data,
       outcome_colname,
-      outcome_value,
+      perf_metric_function,
+      perf_metric_name,
       seed
     )
     feature_importance_tbl <- "Skipped feature importance"
@@ -176,7 +171,8 @@ run_ml <-
         train_data,
         test_data,
         outcome_colname,
-        outcome_value,
+        perf_metric_function,
+        perf_metric_name,
         method,
         seed,
         corr_thresh

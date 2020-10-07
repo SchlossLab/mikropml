@@ -41,16 +41,11 @@ get_perf_metric_fn <- function(outcome_type){
   if(outcome_type == 'continuous'){
     # regression
     perf_metric_fn <- caret::defaultSummary
+  }else if (outcome_type %in% c('binary','multiclass')){
+    # multi-class classification
+    perf_metric_fn <- caret::multiClassSummary
   }else{
-    if(outcome_type == 'binary'){
-      # binary classification
-      perf_metric_fn <- caret::twoClassSummary
-    }else if(outcome_type == 'multiclass'){
-      # multi-class classification
-      perf_metric_fn <- caret::multiClassSummary
-    }else{
       stop(paste0('Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ',outcome_type))
-    }
   }
   return(perf_metric_fn)
 }
@@ -74,7 +69,7 @@ get_perf_metric_name <- function(outcome_type){
   }else{
     if(outcome_type == 'binary'){
       # binary classification
-      perf_metric_name <- "ROC"
+      perf_metric_name <- "AUC"
     }else if(outcome_type == 'multiclass'){
       # multi-class classification
       perf_metric_name <- "logLoss"
@@ -85,3 +80,23 @@ get_perf_metric_name <- function(outcome_type){
   return(perf_metric_name)
 }
 
+
+#' Get performance metrics for test data
+#'
+#' @param test_data test data
+#' @param trained_model trained model
+#' @inheritParams run_ml
+#'
+#' @return performance metrics
+#' @export
+#'
+#' @examples
+#' results <- run_ml(mikropml::otu_mini,'regLogistic',kfold = 2)
+#' calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary)
+calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function){
+  uniq_obs <- unique(c(test_data %>% dplyr::pull(outcome_colname),as.character(trained_model$pred$obs)))
+  obs <- factor(test_data %>% dplyr::pull(outcome_colname),levels = uniq_obs)
+  preds <- stats::predict(trained_model, test_data, type = "prob")
+  pred_class <- factor(names(preds)[apply(preds, 1, which.max)],levels = uniq_obs)
+  perf_metric_function(data.frame(obs=obs,pred=pred_class,preds),lev=uniq_obs)
+}

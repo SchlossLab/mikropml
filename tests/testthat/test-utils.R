@@ -22,15 +22,6 @@ test_that("split_outcome_features works", {
   )
 })
 
-test_that("pick_outcome_value works for all methods", {
-  expect_equal(pick_outcome_value(test_df, "outcome", "fewer"), "cancer")
-  expect_equal(pick_outcome_value(test_df, "outcome", "first"), "normal")
-  expect_error(
-    pick_outcome_value(test_df, "outcome", "not_a_method"),
-    "Method not_a_method for selecting outcome value not recognized."
-  )
-})
-
 test_that("randomize_feature_order works for known seed", {
   reordered_df <- data.frame(
     outcome = c("normal", "normal", "cancer"),
@@ -75,7 +66,8 @@ test_that("get_performance_tbl works", {
       otu_mini_results1$trained_model,
       otu_mini_results1$test_data,
       "dx",
-      "cancer",
+      multiClassSummary,
+      'AUC',
       seed = 2019
     ),
     otu_mini_results1$performance

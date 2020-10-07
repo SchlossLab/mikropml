@@ -147,6 +147,8 @@ check_seed <- function(seed) {
 
 #' Check that outcome column exists. Pick outcome column if not specified.
 #'
+#' @param check_values whether to check the outcome values or just get the column (default:TRUE)
+#' @param show_message whether to show which column is being used as the output column (default: TRUE)
 #' @inheritParams run_ml
 #'
 #' @return outcome colname
@@ -156,7 +158,7 @@ check_seed <- function(seed) {
 #' @examples
 #' check_outcome_column(otu_small, NULL)
 #' check_outcome_column(otu_small, "dx")
-check_outcome_column <- function(dataset, outcome_colname) {
+check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, show_message = TRUE) {
   # If no outcome colname specified, use first column in data
   if (is.null(outcome_colname)) {
     outcome_colname <- colnames(dataset)[1]
@@ -166,13 +168,25 @@ check_outcome_column <- function(dataset, outcome_colname) {
       stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
     }
   }
+  
+  if(check_values) check_outcome_value(dataset, outcome_colname)
+  
+  if(show_message){
+    message(
+      paste0(
+        "Using '",
+        outcome_colname,
+        "' as the outcome column."
+      )
+    )
+  }
+  
   return(outcome_colname)
 }
 
 #' Check that the outcome variable is binary. Pick outcome value if necessary.
 #'
 #' @inheritParams run_ml
-#' @inheritParams pick_outcome_value
 #'
 #' @return outcome value
 #' @noRd
@@ -180,7 +194,7 @@ check_outcome_column <- function(dataset, outcome_colname) {
 #'
 #' @examples
 #' check_outcome_value(otu_small, "dx", "cancer")
-check_outcome_value <- function(dataset, outcome_colname, outcome_value, method = "fewer") {
+check_outcome_value <- function(dataset, outcome_colname) {
   # check no NA's
   outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
   num_missing <- sum(is.na(outcomes_vec))
@@ -193,45 +207,29 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   if (num_empty != 0) {
     warning(paste0("Possible missing data in the output variable: ", num_empty, " empty value(s)."))
   }
+  
+  outcomes_all <- dataset %>%
+    dplyr::pull(outcome_colname)
+  
+  # check if continuous outcome
+  isnum <- is.numeric(outcomes_all)
+  if(isnum){
+    # TODO Make continuous work
+    stop('We don\'t support continuous outcomes right now.')
+  }
 
-  # check binary outcome
-  outcomes <- dataset %>%
-    dplyr::pull(outcome_colname) %>%
+  # check binary and multiclass outcome
+  outcomes <- outcomes_all %>%
     unique()
   num_outcomes <- length(outcomes)
-  if (num_outcomes != 2) {
+  if (num_outcomes < 2) {
     stop(
       paste0(
-        "A binary outcome variable is required, but this dataset has ",
+        "A binary or multi-class outcome variable is required, but this dataset has ",
         num_outcomes,  " outcome(s): ", paste(outcomes, collapse = ", ")
       )
     )
   }
-  # pick binary outcome value of interest if not provided by user
-  if (is.null(outcome_value)) {
-    outcome_value <-
-      pick_outcome_value(dataset, outcome_colname, method = method)
-  } else if (!any(outcomes_vec == outcome_value)) {
-    stop(
-      paste0(
-        "No rows in the outcome column (",
-        outcome_colname,
-        ") with the outcome of interest (",
-        outcome_value,
-        ") were detected."
-      )
-    )
-  }
-  message(
-    paste0(
-      "Using '",
-      outcome_colname,
-      "' as the outcome column and '",
-      outcome_value,
-      "' as the outcome value of interest."
-    )
-  )
-  return(outcome_value)
 }
 
 #' Check whether package(s) are installed
@@ -249,6 +247,15 @@ check_package_installed <- function(package_names) {
   return(package_names %in% rownames(utils::installed.packages()))
 }
 
+#' Title
+#'
+#' @param features features for machine learning
+#' @param check_missing check whether the features have missing data (default: TRUE)
+#'
+#' @return
+#' @export
+#'
+#' @examples
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop("Argument `features` must be a `data.frame` or `tibble`")

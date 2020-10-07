@@ -4,6 +4,12 @@ test_df <- data.frame(
   var2 = 4:6
 )
 
+test_df_novar <- data.frame(
+  outcome = c("normal", "normal", "normal"),
+  var1 = 1:3,
+  var2 = 4:6
+)
+
 test_df_na <- data.frame(
   outcome = c("normal", NA, "cancer"),
   var1 = 1:3,
@@ -12,6 +18,12 @@ test_df_na <- data.frame(
 
 test_df_empty <- data.frame(
   outcome = c("", "", "cancer"),
+  var1 = 1:3,
+  var2 = 4:6
+)
+
+test_df_numeric <- data.frame(
+  outcome = c(0,1,2),
   var1 = 1:3,
   var2 = 4:6
 )
@@ -41,7 +53,7 @@ test_that("check_method works", {
 })
 
 test_that("check_outcome_column works", {
-  expect_equal(check_outcome_column(test_df, NULL), "outcome")
+  expect_equal(expect_message(check_outcome_column(test_df, NULL),'Using'), "outcome")
   expect_error(
     check_outcome_column(test_df, "not_a_column"),
     "Outcome 'not_a_column' not in column names of data."
@@ -49,35 +61,18 @@ test_that("check_outcome_column works", {
 })
 
 test_that("check_outcome_value works", {
-  expect_equal(check_outcome_value(test_df, "outcome", "cancer"), "cancer")
-  expect_equal(
-    check_outcome_value(test_df, "outcome", NULL, method = "fewer"),
-    "cancer"
-  )
-  expect_equal(
-    check_outcome_value(test_df, "outcome", NULL, method = "first"),
-    "normal"
-  )
+  expect_null(check_outcome_value(test_df, "outcome"))
   expect_error(
-    check_outcome_value(test_df, "outcome", NULL, method = "not_a_method"),
-    "Method not_a_method for selecting outcome value not recognized."
-  )
-  expect_message(
-    check_outcome_value(test_df, "outcome", "cancer"),
-    "Using 'outcome' as the outcome column and 'cancer' as the outcome value of interest."
-  )
-  expect_error(
-    check_outcome_value(test_df, "outcome", "not_an_outcome"),
-    "No rows in the outcome column "
-  )
-  expect_error(
-    check_outcome_value(test_df_na, "outcome", "cancer"),
+    check_outcome_value(test_df_na, "outcome"),
     "Missing data in the output variable is not allowed, but the outcome variable has"
   )
   expect_warning(
-    check_outcome_value(test_df_empty, "outcome", "cancer"),
+    check_outcome_value(test_df_empty, "outcome"),
     "Possible missing data in the output variable: "
   )
+  expect_error(check_outcome_value(test_df_novar,"outcome"), "A binary or multi-class outcome variable is required, but this dataset has")
+  expect_error(check_outcome_value(test_df_numeric,"outcome"),"We don't support continuous outcomes right now.")
+  
 })
 
 test_that("check_permute works", {
