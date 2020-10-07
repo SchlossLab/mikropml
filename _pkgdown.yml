@@ -1,3 +1,4 @@
+url: http://www.schlosslab.org/mikropml
 destination: docs
 articles:
     - title: All vignettes
@@ -6,3 +7,12 @@ articles:
           - preprocess
           - parallel
           - snakemake
+authors:
+    Begüm Topçuoğlu:
+        href: "https://github.com/BTopcuoglu"
+    Zena Lapp:
+        href: "https://github.com/zenalapp"
+    Kelly Sovacool:
+        href: "https://github.com/kelly-sovacool"
+    Patrick Schloss:
+        href: "https://github.com/pschloss"

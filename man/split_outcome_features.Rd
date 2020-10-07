@@ -12,7 +12,7 @@ split_outcome_features(dataset, outcome_colname)
 \item{outcome_colname}{column name as a string of the outcome variable}
 }
 \value{
-list of length two: outcome, features
+list of length two: outcome, features (as dataframes)
 }
 \description{
 Split dataset into outcome and features
