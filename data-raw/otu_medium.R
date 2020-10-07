@@ -29,10 +29,10 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 otu_med_results <- mikropml::run_ml(otu_medium,
   "rpart2",
   outcome_colname = "dx",
-  outcome_value = "cancer",
   hyperparameters = get_hyperparams_from_df(test_hyperparams, "rpart2"),
   find_feature_importance = FALSE,
   seed = 2019,
-  kfold = as.integer(3)
+  kfold = 2,
+  cv_times = 5
 )
 usethis::use_data(otu_med_results, overwrite = TRUE)
