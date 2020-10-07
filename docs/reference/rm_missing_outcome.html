@@ -98,6 +98,9 @@
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
     <li>
+      <a href="../articles/paper.html">mikropml: A User-Friendly Machine Learning R Package for Binary Classification Problems</a>
+    </li>
+    <li>
       <a href="../articles/parallel.html">Parallel processing</a>
     </li>
     <li>
@@ -135,7 +138,7 @@
     <p>Remove missing outcome values</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rm_missing_outcome</span><span class='op'>(</span><span class='va'>dataset</span>, <span class='va'>outcome_colname</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>rm_missing_outcome</span>(<span class='no'>dataset</span>, <span class='no'>outcome_colname</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,13 +156,9 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>dataset with no missing outcomes</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rm_missing_outcome</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
+    <pre class="examples"><div class='input'><span class='fu'>rm_missing_outcome</span>(<span class='kw pkg'>mikropml</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>, <span class='st'>"dx"</span>)</div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
 #&gt; 1   normal      350      268      213
 #&gt; 2   normal      568     1320       13
 #&gt; 3   normal      151      756      802
@@ -360,10 +359,9 @@
 #&gt; 198 normal     4170       16        0
 #&gt; 199 cancer     1284      198       60
 #&gt; 200 cancer      208      598      121</div><div class='input'>
-<span class='va'>test_df</span> <span class='op'>&lt;-</span> <span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_mini.html'>otu_mini</a></span>
-<span class='va'>test_df</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='st'>"dx"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
-<span class='fu'>rm_missing_outcome</span><span class='op'>(</span><span class='va'>test_df</span>, <span class='st'>"dx"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Removed 100/200 (50%) of samples because of missing outcome value (NA).</span></div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
+<span class='no'>test_df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mikropml</span><span class='kw ns'>::</span><span class='no'><a href='otu_mini.html'>otu_mini</a></span>
+<span class='no'>test_df</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='st'>"dx"</span>] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
+<span class='fu'>rm_missing_outcome</span>(<span class='no'>test_df</span>, <span class='st'>"dx"</span>)</div><div class='output co'>#&gt; <span class='message'>Removed 100/200 (50%) of samples because of missing outcome value (NA).</span></div><div class='output co'>#&gt;         dx Otu00001 Otu00002 Otu00003
 #&gt; 1   normal      477      289       94
 #&gt; 2   cancer     2474       20       12
 #&gt; 3   cancer     1216       70      103
@@ -475,11 +473,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -5,7 +5,7 @@ Authors@R: c(
     person(given = "Begüm",
            family = "Topçuoğlu",
            role = c("aut", "cre"),
-           email = "topcuoglu.begum@gmail.com"
+           email = "topcuoglu.begum@gmail.com",
            comment = c(ORCID = "0000-0003-3140-537X")
            ),
     person(given = "Zena",
@@ -25,9 +25,9 @@ Authors@R: c(
            role = c("ctb"),
            email = "nlesniak@umich.edu",
            comment = c(ORCID = "0000-0001-9359-5194")))
-Date: 2020-09-08
-URL: https://www.schlosslab.org/mikRopML
-BugReports: https://github.com/SchlossLab/mikRopML/issues
+Date: 2020-10-07
+URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
+BugReports: https://github.com/SchlossLab/mikropml/issues
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -47,17 +47,15 @@ Suggests:
     foreach,
     future,
     future.apply,
+    ggplot2,
     kernlab,
     knitr,
     randomForest,
     rmarkdown,
     rpart,
     testthat,
-    xgboost,
-    ggplot2,
-    tidyr
+    tidyr,
+    xgboost
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
-URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
-BugReports: https://github.com/SchlossLab/mikropml/issues
