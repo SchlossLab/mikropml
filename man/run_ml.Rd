@@ -8,7 +8,6 @@ run_ml(
   dataset,
   method,
   outcome_colname = NULL,
-  outcome_value = NULL,
   hyperparameters = NULL,
   find_feature_importance = FALSE,
   kfold = 5,
@@ -28,8 +27,6 @@ run_ml(
 
 \item{outcome_colname}{column name as a string of the outcome variable}
 
-\item{outcome_value}{outcome value of interest as a string}
-
 \item{hyperparameters}{dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.}
 
 \item{find_feature_importance}{run permutation imporance (default: FALSE)}
@@ -40,9 +37,9 @@ run_ml(
 
 \item{training_frac}{fraction size of data for training (default: 0.8)}
 
-\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}}
+\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = \code{multiClassSummary}, regression = \code{defaultSummary}}
 
-\item{perf_metric_name}{the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
+\item{perf_metric_name}{the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"AUC"} (AUROC), multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
 
