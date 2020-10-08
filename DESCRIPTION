@@ -23,7 +23,7 @@ Authors@R: c(
            email = "sovacool@umich.edu",
            comment = c(ORCID = "0000-0003-3283-829X")
            ))
-Description: What the package does (one paragraph).
+Description: TODO: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
