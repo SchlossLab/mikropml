@@ -6,7 +6,6 @@ articles:
           - introduction
           - preprocess
           - parallel
-          - snakemake
 authors:
     Begüm Topçuoğlu:
         href: "https://github.com/BTopcuoglu"
