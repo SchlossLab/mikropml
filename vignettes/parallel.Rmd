@@ -122,4 +122,4 @@ However, for large datasets run in parallel with, say, 100 seeds (recommended),
 you may run into problems trying to store all of those objects in memory at once.
 One solution is to write the results files of each `run_ml()` call,
 then concatenate them at the end.
-We show one way to accomplish this with Snakemake; for details see `vignette("snakemake")`.
+We show one way to accomplish this with Snakemake in [an example Snakemake workflow here](https://github.com/SchlossLab/mikropml-snakemake-workflow).
