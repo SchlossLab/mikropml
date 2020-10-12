@@ -7,9 +7,9 @@
 split_outcome_features(dataset, outcome_colname)
 }
 \arguments{
-\item{dataset}{dataframe with an outcome variable and other columns as features}
+\item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 }
 \value{
 list of length two: outcome, features (as dataframes)
