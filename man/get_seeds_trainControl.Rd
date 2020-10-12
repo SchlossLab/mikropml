@@ -9,9 +9,9 @@ get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol_train)
 \arguments{
 \item{hyperparams_list}{named list of lists of hyperparameters}
 
-\item{kfold}{fold number for k-fold cross-validation (default: 5)}
+\item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
-\item{cv_times}{number of partitions to create}
+\item{cv_times}{Number of partitions to create (default: \code{100}).}
 
 \item{ncol_train}{number of columns in training data}
 }
