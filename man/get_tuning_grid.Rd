@@ -9,7 +9,7 @@ get_tuning_grid(hyperparams_list, method)
 \arguments{
 \item{hyperparams_list}{named list of lists of hyperparameters}
 
-\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
 }
 \value{
 The tuning grid

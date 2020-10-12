@@ -153,7 +153,7 @@
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>hyperparams_list</th>
@@ -161,7 +161,7 @@
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code></p></td>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>class_probs</th>
@@ -169,19 +169,19 @@
     </tr>
     <tr>
       <th>kfold</th>
-      <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
+      <td><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></td>
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>number of partitions to create</p></td>
+      <td><p>Number of partitions to create (default: <code>100</code>).</p></td>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)</p></td>
+      <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>random seed (default: NA)</p></td>
+      <td><p>Random seed (default: <code>NA</code>). Your results will be reproducible if you set a seed.</p></td>
     </tr>
     </table>
 
@@ -259,7 +259,7 @@
 #&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
 #&gt;     out
 #&gt; }
-#&gt; &lt;bytecode: 0x7fa2f2cc67f0&gt;
+#&gt; &lt;bytecode: 0x7fda21248270&gt;
 #&gt; &lt;environment: namespace:caret&gt;
 #&gt; 
 #&gt; $selectionFunction

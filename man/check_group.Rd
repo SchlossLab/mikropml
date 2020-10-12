@@ -7,11 +7,11 @@
 check_group(dataset, group, kfold)
 }
 \arguments{
-\item{dataset}{dataframe with an outcome variable and other columns as features}
+\item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
+\item{group}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
 
-\item{kfold}{fold number for k-fold cross-validation (default: 5)}
+\item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 }
 \description{
 Check grouping vector
