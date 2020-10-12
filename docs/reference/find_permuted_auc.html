@@ -142,7 +142,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>method</th>
-      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
+      <td><p>ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``</p></td>
     </tr>
     <tr>
       <th>test_data</th>
@@ -150,7 +150,7 @@
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>feat</th>
@@ -158,7 +158,7 @@
     </tr>
     <tr>
       <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
+      <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     </table>
 
