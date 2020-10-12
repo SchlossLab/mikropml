@@ -74,6 +74,8 @@ run_ml <-
         caret::createDataPartition(dataset %>% dplyr::pull(outcome_colname),
           p = training_frac, list = FALSE
         )
+      train_group <- NULL
+      test_group <- NULL
     } else {
       training_inds <-
         createGroupedDataPartition(group,
@@ -82,7 +84,6 @@ run_ml <-
       train_group <- group[training_inds]
       test_group <- group[-training_inds]
     }
-
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
 
@@ -105,32 +106,19 @@ run_ml <-
     if (is.null(perf_metric_name)) {
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
-
-    if (is.null(group)) {
-      cv <- define_cv(train_data,
-        outcome_colname,
-        hyperparameters,
-        perf_metric_function,
-        class_probs,
-        kfold = kfold,
-        seed = seed,
-        cv_times = cv_times
-      )
-    } else {
-      cv <- define_cv(train_data,
+    
+    cv <- define_cv(train_data,
         outcome_colname,
         hyperparameters,
         perf_metric_function,
         class_probs,
         kfold = kfold,
         cv_times = cv_times,
-        group = train_group,
-        seed = seed
+        seed = seed,
+        group = train_group
       )
-    }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-    # metric <- "ROC"
     if (method == "regLogistic") {
       trained_model_caret <- caret::train(
         model_formula,
