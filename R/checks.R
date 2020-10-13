@@ -256,18 +256,17 @@ check_packages_installed <- function(...) {
 #' Reports which packages need to be installed and the parent function name.
 #' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
 #'
-#' @param package_status named vector with status of each package; installed (`TRUE`) or not (`FALSE`)
+#' @inheritParams check_packages_installed
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' abort_packages_not_installed(check_packages_installed("base"))
+#' abort_packages_not_installed("base")
 #' \dontrun{
-#' abort_packages_not_installed(check_packages_installed(
-#'   "not-a-package-name", "caret", "dplyr", "non_package"
-#' ))
+#' abort_packages_not_installed("not-a-package-name", "caret", "dplyr", "non_package")
 #' }
-abort_packages_not_installed <- function(package_status) {
+abort_packages_not_installed <- function(...) {
+  package_status <- check_packages_installed(...)
   parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
   packages_not_installed <- Filter(isFALSE, package_status)
   if (length(packages_not_installed) > 0) {
