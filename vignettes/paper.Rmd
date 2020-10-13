@@ -1,5 +1,5 @@
 ---
-title: "mikropml: A User-Friendly Machine Learning R Package for Binary Classification Problems"
+title: "mikropml: User-Friendly R Package for Robust Machine Learning Pipelines"
 output: 
   rmarkdown::html_vignette:
     keep_md: true
