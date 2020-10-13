@@ -1,5 +1,5 @@
 Package: mikropml
-Title: User-Friendly Machine Learning Package for Classification Problems
+Title: User-Friendly R Package for Robust Machine Learning Pipelines
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Begüm",
