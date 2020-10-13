@@ -6,6 +6,8 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
+#' @param remove_zv whether to remove variables with zero variance (default: `TRUE`; only changes the output if `remove_nzv = FALSE`)
+
 #' @param collapse_corr_feats whether to keep only one of perfectly correlated features
 #' @param to_numeric whether to change features to numeric where possible
 #' @inheritParams get_corr_feats
@@ -16,12 +18,7 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
-
-  # if collapse_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
-  if (collapse_corr_feats & !remove_nzv) {
-    stop("`remove_nzv` must be true if `collapse_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
-  }
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_zv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # input validation
   check_dataset(dataset)
@@ -52,19 +49,37 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # process nonbinary features
   cont_feats_transformed <- cont_feats
+  removed_cont <- NULL
   if (!is.null(cont_feats_transformed)) {
-    cont_feats_transformed <- process_cont_feats(cont_feats, method)
+    feats <- process_cont_feats(cont_feats, method)
+    cont_feats_transformed <- feats$transformed_cont
+    removed_cont <- feats$removed_cont
   }
 
   # combine all features
   processed_feats <- dplyr::bind_cols(cont_feats_transformed, cat_feats, novar_feats)
 
   # remove features with non-zero variance
-  if (remove_nzv) processed_feats <- get_caret_processed_df(processed_feats, "nzv")
+  removed_feats <- removed_cont
+  if (remove_nzv){
+    feats <- get_caret_processed_df(processed_feats, "nzv")
+    processed_feats <- feats$processed
+    removed_feats <- c(removed_feats, feats$removed)
+  }else if(remove_zv) {
+    feats <- get_caret_processed_df(processed_feats, "zv")
+    processed_feats <- feats$processed
+    removed_feats <- c(removed_feats, feats$removed)
+  }
 
   # remove perfectly correlated features
   grp_feats <- NULL
   if (collapse_corr_feats) {
+    if(!remove_nzv & !remove_zv){
+      message('Removing features with zero variance prior to collapsing correlated features.')
+      feats <- get_caret_processed_df(processed_feats, "zv")
+      processed_feats <- feats$processed
+      removed_feats <- c(removed_feats,feats$removed)
+    } 
     feats_and_grps <- collapse_correlated_features(processed_feats, group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
@@ -73,7 +88,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # combine outcome and features
   dat_transformed <- dplyr::bind_cols(outcome, processed_feats) %>% dplyr::as_tibble()
 
-  return(list(dat_transformed = dat_transformed, grp_feats = grp_feats))
+  return(list(dat_transformed = dat_transformed, grp_feats = grp_feats, removed_feats = removed_feats))
 }
 
 #' Remove missing outcome values
@@ -255,12 +270,15 @@ process_cont_feats <- function(features, method) {
   check_features(features, check_missing = FALSE)
 
   transformed_cont <- NULL
+  removed_cont <- NULL
 
   if (ncol(features) != 0) {
     # transform continuous features
     transformed_cont <- features
     if (ncol(features) > 0 & !is.null(method)) {
-      transformed_cont <- get_caret_processed_df(features, method)
+      feats <- get_caret_processed_df(features, method)
+      transformed_cont <- feats$processed
+      removed_cont <- feats$removed
     }
     sapply_fn <- select_apply("sapply")
     cl <- sapply_fn(transformed_cont, function(x) class(x))
@@ -279,7 +297,7 @@ process_cont_feats <- function(features, method) {
     }
   }
 
-  return(transformed_cont)
+  return(list(transformed_cont = transformed_cont, removed_cont = removed_cont))
 }
 
 #' Get preprocessed dataframe for continuous variables
@@ -296,7 +314,8 @@ get_caret_processed_df <- function(features, method) {
   check_features(features, check_missing = FALSE)
   preproc_values <- caret::preProcess(features, method = method)
   processed <- stats::predict(preproc_values, features)
-  return(processed)
+  removed_feats <- names(features)[!names(features) %in% names(processed)]
+  return(list(processed=processed,removed=removed_feats))
 }
 
 #' Get dummyvars dataframe (i.e. design matrix)
