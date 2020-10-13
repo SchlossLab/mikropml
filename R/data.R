@@ -58,9 +58,6 @@
 #' A trained model from L2 logistic regression on `train_data_mini`
 "trained_model_mini"
 
-#' 5-fold cross validation on `train_data_sm`
-"otu_sm_cv5"
-
 #' 2-fold cross validation on `train_data_mini` with grouped features
 "otu_mini_cv2"
 
@@ -79,5 +76,3 @@
 #' Results from running the pipline with rpart2 on `otu_mini`
 "otu_mini_results5"
 
-#' Results from running the pipline with rpart2 on `otu_medium`
-"otu_med_results"

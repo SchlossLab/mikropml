@@ -66,7 +66,6 @@ class = "col_spec"
 set.seed(2019)
 hparams_list <- get_hyperparams_from_df(default_hyperparams, "regLogistic")
 otu_sm_cv5 <- define_cv(train_data_sm, outcome_colname, hparams_list, kfolds, 100, 2019)
-usethis::use_data(otu_sm_cv5, overwrite = TRUE)
 
 trained_model_sm1 <- caret::train(
   stats::as.formula(paste(outcome_colname, "~ .")),
