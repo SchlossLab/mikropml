@@ -19,7 +19,7 @@
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # if collapse_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
-  if (collapse_corr_feats & !remove_nzv) {
+  if (collapse_corr_feats & !(remove_nzv | 'zv' %in% method | 'nzv' %in% method)) {
     stop("`remove_nzv` must be true if `collapse_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
   }
 
