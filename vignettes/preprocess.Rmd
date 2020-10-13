@@ -112,7 +112,7 @@ Wow! Why did the numbers change? This is because the default is to normalize the
 preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
 ```
 
-You can also normalize the data in different ways. You can implement any method used by the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) function (the `method` argument).
+You can also normalize the data in different ways. You can implement any method used by the `caret::preProcess()` function (the `method` argument). Note that these methods are only applied to continuous variables. 
 
 Another feature of the `preprocess_data` function is that if you provide continuous variables as characters, they will be converted to numeric:
 
@@ -204,7 +204,7 @@ Here, `var3`, `var4`, and `var5` all have no variability, so these variables are
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
 ```
 
-You can read the [`caret::preProcess`](https://rdrr.io/cran/caret/man/preProcess.html) documentation for more information. If you want to include them, you can use the arguments `remove_nzv=FALSE` and `remove_zv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+You can read the `caret::preProcess()` documentation for more information. If you want to include them, you can use the arguments `remove_nzv=FALSE` and `remove_zv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
 
 ```{r}
 # don't remove features with near-zero variance
@@ -212,7 +212,7 @@ preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = F
 ```
 
 
-If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess` function after running `preprocess_data` with `remove_nzv=FALSE` (see the [`caret::nearZeroVar`](https://rdrr.io/cran/caret/man/nearZeroVar.html) function for more information).
+If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess()` function after running `preprocess_data` with `remove_nzv=FALSE` (see the `caret::nearZeroVar()` function for more information).
 
 ```{r}
 # remove features with zero variance
