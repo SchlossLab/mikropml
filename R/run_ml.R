@@ -58,32 +58,38 @@ run_ml <-
       corr_thresh,
       seed
     )
+    if (find_feature_importance) { # `future.apply` is required for `find_feature_importance()``
+        abort_packages_not_installed('future.apply')
+    }
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
       outcome_value,
       method = "fewer"
     )
-    dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
+
 
     if (!is.na(seed)) {
-      set.seed(seed)
+        set.seed(seed)
     }
+    dataset <- randomize_feature_order(dataset, outcome_colname)
+
 
     if (is.null(group)) {
       training_inds <-
         caret::createDataPartition(dataset %>% dplyr::pull(outcome_colname),
           p = training_frac, list = FALSE
         )
+
       train_group <- NULL
       test_group <- NULL
-    } else {
+      } else {
       training_inds <-
         createGroupedDataPartition(group,
           p = training_frac
         )
       train_group <- group[training_inds]
       test_group <- group[-training_inds]
-    }
+      }
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
 
@@ -114,7 +120,6 @@ run_ml <-
       class_probs,
       kfold = kfold,
       cv_times = cv_times,
-      seed = seed,
       group = train_group
     )
 
