@@ -18,11 +18,6 @@
 #' preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
-  # if collapse_corr_feats is TRUE, remove_nzv must also be TRUE (error otherwise)
-  if (collapse_corr_feats & !(remove_nzv | 'zv' %in% method | 'nzv' %in% method)) {
-    stop("`remove_nzv` must be true if `collapse_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE")
-  }
-
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
@@ -65,6 +60,10 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # remove perfectly correlated features
   grp_feats <- NULL
   if (collapse_corr_feats) {
+    if(!remove_nzv){
+      message('Removing features with zero variance prior to collapsing correlated features.')
+      processed_feats <- get_caret_processed_df(processed_feats,"zv")
+    } 
     feats_and_grps <- collapse_correlated_features(processed_feats, group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats

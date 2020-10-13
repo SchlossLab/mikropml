@@ -132,10 +132,17 @@ test_that("preprocess_data works", {
       ), grp4 = c("var10_1", "var2_a")
     ))
   )
-  expect_error(
+  expect_equal(expect_message(
     preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE),
-    "`remove_nzv` must be true if `collapse_corr_feats` is true. If you would like to group features based on correlation, please re-run this function with `remove_nzv` = TRUE"
-  )
+    "Removing"
+  ), list(dat_transformed = structure(list(outcome = c("normal", "normal", 
+                                                       "cancer"), var8 = c(-0.707106781186547, 0.707106781186547, 0), 
+                                           grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(0, 0, 1), 
+                                           grp4 = c(1, 0, 0)), row.names = c(NA, -3L), class = c("tbl_df", 
+                                                                                                 "tbl", "data.frame")), grp_feats = list(var8 = "var8", grp1 = c("var12", 
+                                                                                                                                                                 "var1"), grp2 = c("var4_1", "var3_yes", "var2_b", "var9_x", "var10_0"
+                                                                                                                                                                 ), grp3 = c("var2_c", "var7_1", "var9_y"), grp4 = c("var10_1", 
+                                                                                                                                                                                                                     "var2_a"))))
   expect_equal(
     expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)),
     list(dat_transformed = structure(list(outcome = c(
