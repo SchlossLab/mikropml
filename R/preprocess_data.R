@@ -61,11 +61,11 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # remove features with non-zero variance
   removed_feats <- removed_cont
-  if (remove_nzv){
+  if (remove_nzv) {
     feats <- get_caret_processed_df(processed_feats, "nzv")
     processed_feats <- feats$processed
     removed_feats <- c(removed_feats, feats$removed)
-  }else if(remove_zv) {
+  } else if (remove_zv) {
     feats <- get_caret_processed_df(processed_feats, "zv")
     processed_feats <- feats$processed
     removed_feats <- c(removed_feats, feats$removed)
@@ -74,12 +74,12 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   # remove perfectly correlated features
   grp_feats <- NULL
   if (collapse_corr_feats) {
-    if(!remove_nzv & !remove_zv){
-      message('Removing features with zero variance prior to collapsing correlated features.')
+    if (!remove_nzv & !remove_zv) {
+      message("Removing features with zero variance prior to collapsing correlated features.")
       feats <- get_caret_processed_df(processed_feats, "zv")
       processed_feats <- feats$processed
-      removed_feats <- c(removed_feats,feats$removed)
-    } 
+      removed_feats <- c(removed_feats, feats$removed)
+    }
     feats_and_grps <- collapse_correlated_features(processed_feats, group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
@@ -315,7 +315,7 @@ get_caret_processed_df <- function(features, method) {
   preproc_values <- caret::preProcess(features, method = method)
   processed <- stats::predict(preproc_values, features)
   removed_feats <- names(features)[!names(features) %in% names(processed)]
-  return(list(processed=processed,removed=removed_feats))
+  return(list(processed = processed, removed = removed_feats))
 }
 
 #' Get dummyvars dataframe (i.e. design matrix)
