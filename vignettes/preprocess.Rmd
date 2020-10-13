@@ -28,7 +28,7 @@ We preprocess the data as follows:
 - Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it's own column).
 - Replace missing categorical data with 0.
 - Impute missing continuous values with the median of the feature. 
-- By default, remove all features with near-zero variance.
+- By default, remove all features with near-zero variance (option to also remove only features with zero variance).
 - By default, collapse correlated features.
 
 # Examples
@@ -204,18 +204,19 @@ Here, `var3`, `var4`, and `var5` all have no variability, so these variables are
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
 ```
 
-You can read the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) documentation for more information. If you want to include them, you can use the argument `remove_nzv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+You can read the [`caret::preProcess`](https://rdrr.io/cran/caret/man/preProcess.html) documentation for more information. If you want to include them, you can use the arguments `remove_nzv=FALSE` and `remove_zv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
 
 ```{r}
 # don't remove features with near-zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, remove_zv = FALSE, collapse_corr_feats = FALSE)
 ```
 
-Note that if you want to remove zero variance features (rather than near-zero variance features), you can use `method = c('zv')`, and then you can collapse correlated features:
+
+If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess` function after running `preprocess_data` with `remove_nzv=FALSE` (see the [`caret::nearZeroVar`](https://rdrr.io/cran/caret/man/nearZeroVar.html) function for more information).
 
 ```{r}
 # remove features with zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", method = c('zv'))
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, remove_zv = TRUE)
 ```
 
 ## Missing data
