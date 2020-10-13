@@ -6,6 +6,8 @@
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
 #' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
+#' @param remove_zv whether to remove variables with zero variance (default: `TRUE`; only changes the output if `remove_nzv = FALSE`)
+
 #' @param collapse_corr_feats whether to keep only one of perfectly correlated features
 #' @param to_numeric whether to change features to numeric where possible
 #' @inheritParams get_corr_feats
@@ -16,7 +18,7 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_zv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # input validation
   check_dataset(dataset)
@@ -63,12 +65,16 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
     feats <- get_caret_processed_df(processed_feats, "nzv")
     processed_feats <- feats$processed
     removed_feats <- c(removed_feats, feats$removed)
-  } 
+  }else if(remove_zv) {
+    feats <- get_caret_processed_df(processed_feats, "zv")
+    processed_feats <- feats$processed
+    removed_feats <- c(removed_feats, feats$removed)
+  }
 
   # remove perfectly correlated features
   grp_feats <- NULL
   if (collapse_corr_feats) {
-    if(!remove_nzv){
+    if(!remove_nzv & !remove_zv){
       message('Removing features with zero variance prior to collapsing correlated features.')
       feats <- get_caret_processed_df(processed_feats, "zv")
       processed_feats <- feats$processed
