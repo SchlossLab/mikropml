@@ -3,41 +3,57 @@ options(warnPartialMatchArgs = FALSE)
 #   warning: get_predictions works
 #   partial argument match of 'contrasts' to 'contrasts.arg'
 
-predictions_sm <- c(9.707251e-02, 3.755703e-01, 2.372989e-02, 9.114752e-01, 8.721929e-01, 1.492075e-05, 7.998901e-01, 8.084112e-01, 9.978739e-01, 3.135994e-01, 9.011613e-01, 8.973311e-01, 4.743989e-01, 3.261513e-01, 7.670219e-01, 1.101077e-03, 2.539591e-01, 1.196996e-01, 2.459846e-01, 9.634875e-01, 9.982137e-01, 9.299074e-02, 9.345718e-02, 8.624414e-01, 8.346058e-01, 2.630144e-02, 1.839343e-01, 9.137120e-01, 2.205726e-02, 5.216090e-01, 4.293018e-01, 6.287346e-01, 2.273751e-01, 7.503992e-02, 2.090081e-01, 4.608598e-01, 3.452780e-01, 2.244180e-01, 2.844962e-02)
-
-outcomes_sm <- c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1)
+predictions_ans <- c(
+  0.376699598098026, 0.361412503485008, 0.424361915961239, 0.572987036892158,
+  0.462575617454478, 0.495662609551985, 0.268665237275343, 0.513620970112174,
+  0.448559956511362, 0.572757252948955, 0.507821600082324, 0.500394115811712,
+  0.585712754751816, 0.500802090895146, 0.489966970527271, 0.401401679912621,
+  0.40502306096355, 0.609201623624306, 0.456018223836579, 0.482073461806217,
+  0.577447665088213, 0.344579461426511, 0.484460016356973, 0.453267401269666,
+  0.548543300840126, 0.203324356793987, 0.487083618876598, 0.499204988451657,
+  0.483808225317108, 0.419368467026678, 0.41259850228935, 0.523451660001951,
+  0.534953904484442, 0.468589713277824, 0.529414526946646, 0.41993171421088,
+  0.503126382256404, 0.548831997199401, 0.560270238107935
+)
+outcomes_ans <- c(
+  0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1,
+  1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1
+)
 tol <- 1e-5
 
 test_that("get_predictions works", {
-  expect_equal(get_predictions(trained_model_sm1, test_data_sm, "cancer"),
-    predictions_sm,
+  expect_equal(get_predictions(trained_model_mini, test_data_mini, "cancer"),
+    predictions_ans,
     tolerance = tol
   )
 })
 test_that("recode_outcome works", {
   expect_equal(
-    recode_outcome(test_data_sm, "dx", "cancer"),
-    outcomes_sm
+    recode_outcome(test_data_mini, "dx", "cancer"),
+    outcomes_ans
   )
   expect_equal(
-    recode_outcome(test_data_sm, "dx", "normal"),
-    c(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0)
+    recode_outcome(test_data_mini, "dx", "normal"),
+    c(
+      1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0,
+      0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0
+    )
   )
 })
 test_that("calc_auroc works", {
-  expect_equal(calc_auroc(predictions_sm, outcomes_sm), 0.5052632,
+  expect_equal(calc_auroc(predictions_ans, outcomes_ans), 0.5710526,
     tolerance = tol
   )
 })
 test_that("calc_auprc works", {
-  expect_equal(calc_auprc(predictions_sm, outcomes_sm), 0.5447323,
+  expect_equal(calc_auprc(predictions_ans, outcomes_ans), 0.5438684,
     tolerance = tol
   )
 })
 test_that("calc_aucs works", {
   expect_equal(
-    calc_aucs(trained_model_sm1, test_data_sm, "dx", "cancer"),
-    list(auroc = 0.5052632, auprc = 0.5447323),
+    calc_aucs(trained_model_mini, test_data_mini, "dx", "cancer"),
+    list(auroc = 0.571052631578947, auprc = 0.543868353382751),
     tolerance = tol
   )
 })
