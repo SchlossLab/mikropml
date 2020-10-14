@@ -1,0 +1,17 @@
+citHeader("To cite mikRopML in publications use:")
+
+citEntry(
+  entry = "manual",
+  title = "{mikRopML}: User-Friendly R Package for Robust Machine Learning Pipelines",
+  author = personList(as.person("Begüm Topçuoğlu"),
+                      as.person("Zena Lapp"),
+                      as.person("Kelly L. Sovacool"),
+                      as.person("Evan Snitkin"),
+                      as.person("Jenna Wiens"),
+                      as.person("Patrick D. Schloss")),
+  year = "2020",
+  url = "http://www.schlosslab.org/mikRopML",
+  textVersion = paste("Topçuoğlu et al. (2020).",
+                      "mikRopML: User-Friendly R Package for Robust Machine Learning Pipelines.",
+                      "http://www.schlosslab.org/mikRopML")
+)

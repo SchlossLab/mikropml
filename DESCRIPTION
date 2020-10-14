@@ -1,29 +1,47 @@
 Package: mikropml
-Title: User-Friendly Machine Learning Package for Classification Problems
+Title: User-Friendly R Package for Robust Machine Learning Pipelines
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Begüm",
            family = "Topçuoğlu",
            role = c("aut", "cre"),
-           email = "topcuoglu.begum@gmail.com"
-           ),
-    person(given = "Patrick",
-           family = "Schloss",
-           role = c("aut"),
-           email = "pschloss@umich.edu"
+           email = "topcuoglu.begum@gmail.com",
+           comment = c(ORCID = "0000-0003-3140-537X")
            ),
     person(given = "Zena",
            family = "Lapp",
            role = c("aut"),
-           email = "zenalapp@umich.edu"
+           email = "zenalapp@umich.edu",
+           comment = c(ORCID = "0000-0003-4674-2176")
            ),
     person(given = "Kelly",
            family = "Sovacool",
            role = c("aut"),
            email = "sovacool@umich.edu",
            comment = c(ORCID = "0000-0003-3283-829X")
-           ))
-Description: TODO: What the package does (one paragraph).
+           ),
+    person(given = "Evan",
+           family = "Snitkin",
+           role = c('aut'),
+           comment = c(ORCID = "0000-0001-8409-278X")),
+    person(given = "Jenna",
+           family = "Wiens",
+           role = c('aut'),
+           comment = c(ORCID = "0000-0002-1057-7722")),
+    person(given = "Patrick",
+           family = "Schloss",
+           role = c('aut'),
+           email = 'pschloss@umich.edu',
+           comment = c(ORCID = "0000-0002-6935-4275")),
+    person(given = "Nick",
+           family = "Lesniak",
+           role = c("ctb"),
+           email = "nlesniak@umich.edu",
+           comment = c(ORCID = "0000-0001-9359-5194")))
+Date: 2020-10-07
+URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
+BugReports: https://github.com/SchlossLab/mikropml/issues
+Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -42,17 +60,15 @@ Suggests:
     foreach,
     future,
     future.apply,
+    ggplot2,
     kernlab,
     knitr,
     randomForest,
     rmarkdown,
     rpart,
     testthat,
-    xgboost,
-    ggplot2,
-    tidyr
+    tidyr,
+    xgboost
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
-URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
-BugReports: https://github.com/SchlossLab/mikropml/issues
