@@ -132,7 +132,7 @@
   training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
   perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
   perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
   corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>
 <span class='op'>)</span></pre>
@@ -185,7 +185,7 @@
       <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
-      <th>group</th>
+      <th>groups</th>
       <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
     </tr>
     <tr>

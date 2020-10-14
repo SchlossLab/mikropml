@@ -13,7 +13,10 @@
     <loc>http://www.schlosslab.org/mikropml/reference/collapse_correlated_features.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/createGroupedDataPartition.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/create_grouped_data_partition.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/create_grouped_k_multifolds.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/define_cv.html</loc>
@@ -46,6 +49,9 @@
     <loc>http://www.schlosslab.org/mikropml/reference/get_outcome_type.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/get_partition_indices.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_perf_metric_fn.html</loc>
   </url>
   <url>
@@ -59,9 +65,6 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_tuning_grid.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/groupKMultiFolds.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/group_correlated_features.html</loc>
