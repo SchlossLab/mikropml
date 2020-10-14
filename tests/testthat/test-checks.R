@@ -186,3 +186,9 @@ test_that("check_perf_metric_name works", {
   expect_null(check_perf_metric_name(NULL))
   expect_error(check_perf_metric_name(1), "`perf_metric_name` must be `NULL` or a character\n    You provided: 1")
 })
+
+test_that("check_remove_var works",{
+  expect_null(check_remove_var(NULL))
+  expect_null(check_remove_var('nzv'))
+  expect_error(check_remove_var('asdf'),"`remove_var` must be one of: NULL, 'nzv','zv'. You provided:")
+})
