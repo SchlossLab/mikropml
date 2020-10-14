@@ -17,8 +17,6 @@
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = 'nzv', collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
-  dat_transformed <- NULL
-  removed_feats <- NULL
 
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
@@ -64,7 +62,9 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
     dplyr::as_tibble()
 
-  return(list(dat_transformed = dat_transformed, grp_feats = grp_feats, removed_feats = removed_feats))
+  return(list(dat_transformed = dat_transformed,
+              grp_feats = grp_feats,
+              removed_feats = removed_feats))
 }
 
 #' Remove missing outcome values
