@@ -18,48 +18,33 @@
 #' preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = 'nzv', collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
   dat_transformed <- NULL
-  grp_feats <- NULL
   removed_feats <- NULL
 
-  # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
   check_remove_var(remove_var)
 
-  # remove outcomes that are NA
   dataset <- rm_missing_outcome(dataset, outcome_colname)
 
-  # get outcome and features
   split_dat <- split_outcome_features(dataset, outcome_colname)
-  outcome <- split_dat$outcome
-  features <- split_dat$features
 
-  # change character and factor features to numeric if possible
+  features <- split_dat$features
   if (to_numeric) {
     features <- change_to_num(features)
   }
 
-  # process features with no variation
   nv_feats <- process_novar_feats(features)
-
-  # process categorical features
   split_feats <- process_cat_feats(nv_feats$var_feats)
-
-  # process nonbinary features
   cont_feats <- process_cont_feats(split_feats$cont_feats, method)
-  removed_feats <- cont_feats$removed_cont
 
-  # combine all features
+  # combine all processed features
   processed_feats <- dplyr::bind_cols(cont_feats$transformed_cont,
                                       split_feats$cat_feats,
                                       nv_feats$novar_feats)
-
-  # remove features with non-zero variance
-  if (!is.null(remove_var)) {
-    feats <- get_caret_processed_df(processed_feats, remove_var)
-    processed_feats <- feats$processed
-    removed_feats <- c(removed_feats, feats$removed)
-  }
+  # remove features with (near-)zero variance
+  feats <- get_caret_processed_df(processed_feats, remove_var)
+  processed_feats <- feats$processed
+  removed_feats <- c(cont_feats$removed_cont, feats$removed)
 
   # remove perfectly correlated features
   grp_feats <- NULL
@@ -76,7 +61,8 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   }
 
   # combine outcome and features
-  dat_transformed <- dplyr::bind_cols(outcome, processed_feats) %>% dplyr::as_tibble()
+  dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
+    dplyr::as_tibble()
 
   return(list(dat_transformed = dat_transformed, grp_feats = grp_feats, removed_feats = removed_feats))
 }
@@ -325,7 +311,7 @@ process_cont_feats <- function(features, method) {
 #' @examples
 #' get_caret_processed_df(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
 get_caret_processed_df <- function(features, method) {
-  processed <- NULL
+  processed <- features
   removed <- NULL
   if (!is.null(method) & !is.null(features)) {
     check_features(features, check_missing = FALSE)
