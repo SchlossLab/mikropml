@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = 'nzv', collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = "nzv", collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # input validation
   check_dataset(dataset)
@@ -63,7 +63,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
     feats <- get_caret_processed_df(processed_feats, remove_var)
     processed_feats <- feats$processed
     removed_feats <- c(removed_feats, feats$removed)
-  } 
+  }
 
   # remove perfectly correlated features
   grp_feats <- NULL
