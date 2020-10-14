@@ -62,7 +62,7 @@ run_ml <-
       set.seed(seed)
     }
     if (find_feature_importance) { # `future.apply` is required for `find_feature_importance()``
-        abort_packages_not_installed('future.apply')
+      abort_packages_not_installed("future.apply")
     }
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,

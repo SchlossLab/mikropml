@@ -67,7 +67,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="parallel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Parallel processing</h1>
@@ -114,7 +114,7 @@
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span>
 <span class="co">#&gt; Using 'dx' as the outcome column and 'cancer' as the outcome value of interest.</span>
 <span class="co">#&gt; Using L2 normalization for Logistic Regression</span></pre></div>
-<p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a different random split of the data into training and testing sets. Since we are using seeds, we must set <code>future.seed</code> to <code>TRUE</code> (see the <a href="https://cran.r-project.org/web/packages/future.apply/future.apply.pdf"><code>future.apply</code> documentation</a> and <a href="https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/">this blog post</a> for details on parallel-safe random seeds). This example uses only 5 seeds for speed and simplicity, but for real data we recommend using many more seeds to get a better estimate of model performance.</p>
+<p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a different random split of the data into training and testing sets. Since we are using seeds, we must set <code>future.seed</code> to <code>TRUE</code> (see the <a href="https://cran.r-project.org/web/packages/future.apply/future.apply.pdf"><code>future.apply</code> documentation</a> and <a href="https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/">this blog post</a> for details on parallel-safe random seeds). This example uses only a few seeds for speed and simplicity, but for real data we recommend using many more seeds to get a better estimate of model performance.</p>
 <p>Extract the performance results and combine into one dataframe for all seeds:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>, 
