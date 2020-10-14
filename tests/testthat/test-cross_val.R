@@ -43,3 +43,24 @@ test_that("get_seeds_trainControl works", {
     ), c(1211L, 597L, 1301L), 1974L)
   )
 })
+
+test_that("create_grouped_k_multifolds works", {
+  set.seed(0)
+  group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
+  folds <- create_grouped_k_multifolds(group, kfold = 2, cv_times = 2)
+
+  expect_equal(folds, list(Fold1.Rep1 = c(1L, 3L, 5L, 6L, 7L, 8L), Fold2.Rep1 = c(
+    2L,
+    4L, 9L
+  ), Fold1.Rep2 = c(2L, 4L), Fold2.Rep2 = c(
+    1L, 3L, 5L, 6L,
+    7L, 8L, 9L
+  )))
+
+  fold_grps <- sapply(folds, function(x) group[x])
+  expect_false(any(fold_grps$Fold1.Rep1 %in% fold_grps$Fold2.Rep1))
+  expect_false(any(fold_grps$Fold1.Rep2 %in% fold_grps$Fold2.Rep2))
+
+  set.seed(5)
+  expect_error(create_grouped_k_multifolds(group, kfold = 2, cv_times = 2), "Could not split the data into train and validate folds")
+})

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the machine learning pipeline — run_ml • mikropml</title>
+<title>Split into train and test set while splitting by groups — create_grouped_data_partition • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Run the machine learning pipeline — run_ml" />
-<meta property="og:description" content="TODO: more details" />
+<meta property="og:title" content="Split into train and test set while splitting by groups — create_grouped_data_partition" />
+<meta property="og:description" content="Split into train and test set while splitting by groups" />
 
 
 
@@ -126,111 +126,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run the machine learning pipeline</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/run_ml.R'><code>R/run_ml.R</code></a></small>
-    <div class="hidden name"><code>run_ml.Rd</code></div>
+    <h1>Split into train and test set while splitting by groups</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/partition.R'><code>R/partition.R</code></a></small>
+    <div class="hidden name"><code>create_grouped_data_partition.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>TODO: more details</p>
+    <p>Split into train and test set while splitting by groups</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_ml</span><span class='op'>(</span>
-  <span class='va'>dataset</span>,
-  <span class='va'>method</span>,
-  outcome_colname <span class='op'>=</span> <span class='cn'>NULL</span>,
-  outcome_value <span class='op'>=</span> <span class='cn'>NULL</span>,
-  hyperparameters <span class='op'>=</span> <span class='cn'>NULL</span>,
-  find_feature_importance <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  kfold <span class='op'>=</span> <span class='fl'>5</span>,
-  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
-  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
-  perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
-  perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
-  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
-  seed <span class='op'>=</span> <span class='cn'>NA</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>create_grouped_data_partition</span><span class='op'>(</span><span class='va'>groups</span>, <span class='va'>p</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset</th>
-      <td><p>Dataframe with an outcome variable and other columns as features.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
-    </tr>
-    <tr>
-      <th>outcome_value</th>
-      <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
-    </tr>
-    <tr>
-      <th>hyperparameters</th>
-      <td><p>Dataframe of hyperparameters (default <code>NULL</code>; will be chosen automatically).</p></td>
-    </tr>
-    <tr>
-      <th>find_feature_importance</th>
-      <td><p>Run permutation imporance (default: <code>FALSE</code>). This is recommended, but it is resource-intensive.</p></td>
-    </tr>
-    <tr>
-      <th>kfold</th>
-      <td><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></td>
-    </tr>
-    <tr>
-      <th>cv_times</th>
-      <td><p>Number of partitions to create (default: <code>100</code>).</p></td>
-    </tr>
-    <tr>
-      <th>training_frac</th>
-      <td><p>Fraction of data for training set (default: <code>0.8</code>). The remaining data will be used in the testing set.</p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_name</th>
-      <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
-    </tr>
-    <tr>
       <th>groups</th>
-      <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
+      <td><p>vector of groups. length must match the number of rows in the dataset.</p></td>
     </tr>
     <tr>
-      <th>corr_thresh</th>
-      <td><p>For feature importance, group correlations above or equal to corr_thresh (default: <code>1</code>).</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>Random seed (default: <code>NA</code>). Your results will be reproducible if you set a seed.</p></td>
+      <th>p</th>
+      <td><p>maximum fraction of data that goes to training (maybe less depending on groups sizes)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named list with results</p>
+    <p>vector of row indices for the training set</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
-<p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
-<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
+    <p>Zena Lapp, zenalapp@umich.edu</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_large</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
-  kfold <span class='op'>=</span> <span class='fl'>2</span>,
-  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>groups</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"C"</span>, <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"D"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>train_ind</span> <span class='op'>&lt;-</span> <span class='fu'>create_grouped_data_partition</span><span class='op'>(</span><span class='va'>groups</span>, <span class='fl'>0.8</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Fraction of data in the training set: 0.777777777777778.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -12,7 +12,7 @@ define_cv(
   class_probs,
   kfold = 5,
   cv_times = 100,
-  group = NULL,
+  groups = NULL,
   seed = NULL
 )
 }
@@ -31,7 +31,7 @@ define_cv(
 
 \item{cv_times}{Number of partitions to create (default: \code{100}).}
 
-\item{group}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
+\item{groups}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
 
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
