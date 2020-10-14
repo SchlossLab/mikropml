@@ -17,6 +17,9 @@
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = 'nzv', collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
+  dat_transformed <- NULL
+  grp_feats <- NULL
+  removed_feats <- NULL
 
   # input validation
   check_dataset(dataset)
@@ -38,25 +41,18 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # process features with no variation
   nv_feats <- process_novar_feats(features)
-  novar_feats <- nv_feats$novar_feats
-  var_feats <- nv_feats$var_feats
 
   # process categorical features
-  feats <- process_cat_feats(var_feats)
-  cat_feats <- feats$cat_feats
-  cont_feats <- feats$cont_feats
+  split_feats <- process_cat_feats(nv_feats$var_feats)
 
   # process nonbinary features
-  cont_feats_transformed <- cont_feats
-  removed_feats <- NULL
-  if (!is.null(cont_feats_transformed)) {
-    feats <- process_cont_feats(cont_feats, method)
-    cont_feats_transformed <- feats$transformed_cont
-    removed_feats <- feats$removed_cont
-  }
+  cont_feats <- process_cont_feats(split_feats$cont_feats, method)
+  removed_feats <- cont_feats$removed_cont
 
   # combine all features
-  processed_feats <- dplyr::bind_cols(cont_feats_transformed, cat_feats, novar_feats)
+  processed_feats <- dplyr::bind_cols(cont_feats$transformed_cont,
+                                      split_feats$cat_feats,
+                                      nv_feats$novar_feats)
 
   # remove features with non-zero variance
   if (!is.null(remove_var)) {
