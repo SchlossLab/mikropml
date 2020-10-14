@@ -22,7 +22,7 @@ List of auroc and auprc values
 Calculate AUROC and AUPRC
 }
 \examples{
-calc_aucs(trained_model_sm1, test_data_sm, "dx", "cancer")
+calc_aucs(trained_model_mini, test_data_sm, "dx", "cancer")
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

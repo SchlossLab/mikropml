@@ -35,4 +35,3 @@ otu_med_results <- mikropml::run_ml(otu_medium,
   kfold = 2,
   cv_times = 5
 )
-usethis::use_data(otu_med_results, overwrite = TRUE)

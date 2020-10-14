@@ -65,7 +65,6 @@ class = "col_spec"
 set.seed(2019)
 hparams_list <- get_hyperparams_from_df(default_hyperparams, "regLogistic")
 otu_sm_cv5 <- define_cv(train_data_sm, outcome_colname, hparams_list, perf_metric_function = twoClassSummary, class_probs = TRUE, 2, 5, seed = 2019)
-usethis::use_data(otu_sm_cv5, overwrite = TRUE)
 
 trained_model_sm1 <- caret::train(
   stats::as.formula(paste(outcome_colname, "~ .")),
@@ -76,7 +75,6 @@ trained_model_sm1 <- caret::train(
   tuneGrid = get_tuning_grid(hparams_list, "regLogistic"),
   family = "binomial"
 )
-usethis::use_data(trained_model_sm1, overwrite = TRUE)
 
 ## code to prepare `otu_sm_results1`
 otu_sm_results1 <- mikropml::run_ml(otu_small,

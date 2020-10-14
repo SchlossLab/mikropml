@@ -3,7 +3,7 @@
 \docType{package}
 \name{mikropml}
 \alias{mikropml}
-\title{mikropml: User-Friendly Machine Learning Package for Classification Problems}
+\title{mikropml: User-Friendly R Package for Robust Machine Learning Pipelines}
 \description{
 TODO longer description (paragraph) goes here
 }

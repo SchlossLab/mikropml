@@ -12,11 +12,11 @@ options(
 # find_permuted_auc
 test_that("find_permuted_perf_metric works", {
   expect_equal(
-    find_permuted_perf_metric(test_data_sm, trained_model_sm1, "dx", multiClassSummary, "AUC", "Otu00049"),
+    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", multiClassSummary, "AUC", "Otu00049"),
     c(perf_metric = 0.644315789, perf_metric_diff = 0.003052632)
   )
   expect_equal(
-    find_permuted_perf_metric(test_data_sm, trained_model_sm1, "dx", multiClassSummary, "AUC", "Otu00049|Otu00050"),c(perf_metric = 0.655184211, perf_metric_diff = -0.007815789))
+    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", multiClassSummary, "AUC", "Otu00049|Otu00050"),c(perf_metric = 0.655184211, perf_metric_diff = -0.007815789))
 })
 
 feat_imps <- structure(list(
