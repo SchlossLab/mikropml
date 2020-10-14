@@ -11,7 +11,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, perf_metric_function, perf_metric_name, method, seed = NA, corr_thresh = 1) {
+get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, method, seed = NA, corr_thresh = 1) {
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
@@ -25,7 +25,7 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 
   lapply_fn <- select_apply("lapply")
   imps <- do.call("rbind", lapply_fn(grps, function(feat) {
-    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name,feat))
+    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat))
   }))
 
   return(as.data.frame(imps) %>%
@@ -50,10 +50,10 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, feat) {
+find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat) {
   # -----------Get the original test performance metric from held-out test data--------->
   # Calculate the test performance metric for the actual pre-processed held-out data
-  test_perf_metric <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function)[perf_metric_name]
+  test_perf_metric <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
@@ -70,7 +70,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     }
 
     # Calculate the new performance metric
-    new_perf_metric <- calc_perf_metrics(permuted_test_data, trained_model, outcome_colname, perf_metric_function)[perf_metric_name]
+    new_perf_metric <- calc_perf_metrics(permuted_test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
     # Return how does this feature being permuted effect the performance metric
     return(c(new_perf_metric = new_perf_metric, diff = (test_perf_metric - new_perf_metric)))
   })

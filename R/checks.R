@@ -56,7 +56,7 @@ check_dataset <- function(dataset) {
 #' @examples
 #' check_method("regLogistic")
 check_method <- function(method) {
-  methods <- c("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
+  methods <- c("regLogistic", "glmnet", "svmRadial", "rpart2", "rf", "xgbTree")
   if (!(method %in% methods)) {
     stop(paste0(
       "Method '",
@@ -213,10 +213,10 @@ check_outcome_value <- function(dataset, outcome_colname) {
   
   # check if continuous outcome
   isnum <- is.numeric(outcomes_all)
-  if(isnum){
-    # TODO Make continuous work
-    stop('We don\'t support continuous outcomes right now.')
-  }
+  # if(isnum){
+  #   # TODO Make continuous work
+  #   stop('We don\'t support continuous outcomes right now.')
+  # }
 
   # check binary and multiclass outcome
   outcomes <- outcomes_all %>%
@@ -403,5 +403,19 @@ check_perf_metric_function <- function(perf_metric_function) {
 check_perf_metric_name <- function(perf_metric_name) {
   if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
+  }
+}
+
+#' Check if any features are categorical
+#'
+#' @param feats 
+#'
+#' @noRd
+#'
+#' @examples
+#' check_cat_feats(otu_mini)
+check_cat_feats <- function(feats){
+  if(any(sapply(feats,class) %in% c('factor','character'))){
+    stop('No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
   }
 }

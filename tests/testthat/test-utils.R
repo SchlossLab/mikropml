@@ -68,6 +68,7 @@ test_that("get_performance_tbl works", {
       "dx",
       multiClassSummary,
       'AUC',
+      TRUE,
       seed = 2019
     ),
     otu_mini_results1$performance

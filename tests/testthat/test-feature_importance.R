@@ -9,14 +9,14 @@ options(
 #   partial argument match of 'contrasts' to 'contrasts.arg'
 
 
-# find_permuted_auc
+# find_permuted_perf_metric
 test_that("find_permuted_perf_metric works", {
   expect_equal(
-    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", multiClassSummary, "AUC", "Otu00049"),
-    c(perf_metric = 0.644315789, perf_metric_diff = 0.003052632)
+    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049"),
+    c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000), tol = 10e-5
   )
   expect_equal(
-    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", multiClassSummary, "AUC", "Otu00049|Otu00050"),c(perf_metric = 0.655184211, perf_metric_diff = -0.007815789))
+    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049|Otu00050"),c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000), tol = 10e-5)
 })
 
 feat_imps <- structure(list(
@@ -36,8 +36,9 @@ test_that("feature importances are correct", {
     train_data_mini,
     test_data_mini,
     "dx",
-    multiClassSummary,
+    caret::multiClassSummary,
     'AUC',
+    TRUE,
     "regLogistic",
     seed = 2019,
     corr_thresh = 1

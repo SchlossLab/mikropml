@@ -59,6 +59,24 @@ test_that("run_ml works for L2 logistic regression", {
     otu_mini_results1
   )
 })
+
+test_that("run_ml works for linear regression", {
+  hparams_list <- test_hyperparams %>% get_hyperparams_from_df("glmnet")
+  set.seed(2019)
+  expect_equal_ml_results(
+    run_ml(otu_mini[,2:4], # use built-in hyperparameters
+           "glmnet",
+           outcome_colname = "Otu00001",
+           find_feature_importance = TRUE,
+           seed = 2019,
+           kfold = 2,
+           cv_times = 2,
+           group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+    ),
+    otu_mini_cont_results1
+  )
+})
+
 test_that("run_ml works for random forest", {
   expect_equal_ml_results( # use built-in hyperparams function
     mikropml::run_ml(otu_mini,
@@ -139,18 +157,3 @@ test_that("run_ml errors if outcome_colname not in dataframe", {
 })
 
 
-test_that("run_ml errors if outcome is not binary or multiclass", {
-  expect_error(
-    run_ml(
-      data.frame(
-        dx = c(1,2,3),
-        otu1 = 1:3,
-        otu2 = 4:6
-      ),
-      "rf",
-      outcome_colname = "dx",
-      kfold = 2
-    ),
-    "We don't support continuous outcomes right now."
-  )
-})

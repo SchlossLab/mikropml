@@ -72,3 +72,6 @@
 
 #' Results from running the pipline with rpart2 on `otu_mini`
 "otu_mini_results5"
+
+#' Results from running the pipeline with glmnet on `otu_mini` with `Otu00001` as the outcome
+"otu_mini_cont_results1"

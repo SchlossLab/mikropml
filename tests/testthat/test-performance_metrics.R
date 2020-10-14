@@ -20,5 +20,5 @@ test_that("get_perf_metric_name works", {
 })
 
 test_that("calc_perf_metrics works", {
-  expect_equal(calc_perf_metrics(otu_mini_results1$test_data, otu_mini_results1$trained_model, 'dx',multiClassSummary), unlist(c(otu_mini_results1$performance[,!(colnames(otu_mini_results1$performance) %in% c('cv_metric_AUC','method','seed'))])))
+  expect_equal(calc_perf_metrics(otu_mini_results1$test_data, otu_mini_results1$trained_model, 'dx',caret::multiClassSummary, class_probs = TRUE), unlist(c(otu_mini_results1$performance[,!(colnames(otu_mini_results1$performance) %in% c('cv_metric_AUC','method','seed'))])))
 })

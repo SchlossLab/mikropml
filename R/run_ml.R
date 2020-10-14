@@ -57,6 +57,9 @@ run_ml <-
       seed
     )
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
+    if(find_feature_importance){ # can't have categorical features for feature importance beause have to find correlations
+      check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
+    }
     dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
 
     if (!is.na(seed)) {
@@ -91,7 +94,7 @@ run_ml <-
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
 
     outcome_type <- get_outcome_type(outcomes_vec)
-    class_probs <- ifelse(outcome_type == "numeric", FALSE, TRUE)
+    class_probs <- ifelse(outcome_type == "continuous", FALSE, TRUE)
 
     if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
@@ -152,6 +155,7 @@ run_ml <-
       outcome_colname,
       perf_metric_function,
       perf_metric_name,
+      class_probs,
       seed
     )
     feature_importance_tbl <- "Skipped feature importance"
@@ -163,6 +167,7 @@ run_ml <-
         outcome_colname,
         perf_metric_function,
         perf_metric_name,
+        class_probs,
         method,
         seed,
         corr_thresh

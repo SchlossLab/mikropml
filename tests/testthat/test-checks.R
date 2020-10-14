@@ -71,7 +71,7 @@ test_that("check_outcome_value works", {
     "Possible missing data in the output variable: "
   )
   expect_error(check_outcome_value(test_df_novar,"outcome"), "A binary or multi-class outcome variable is required, but this dataset has")
-  expect_error(check_outcome_value(test_df_numeric,"outcome"),"We don't support continuous outcomes right now.")
+  expect_null(check_outcome_value(test_df_numeric,"outcome"))
   
 })
 
@@ -180,4 +180,9 @@ test_that("check_perf_metric_name works", {
   expect_null(check_perf_metric_name("a"))
   expect_null(check_perf_metric_name(NULL))
   expect_error(check_perf_metric_name(1), "`perf_metric_name` must be `NULL` or a character\n    You provided: 1")
+})
+
+test_that("check_cat_feats works", {
+  expect_null(check_cat_feats(test_df[,2:3]))
+  expect_error(check_cat_feats(test_df), 'No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
 })

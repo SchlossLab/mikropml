@@ -117,8 +117,8 @@ mutate_all_types <- function(dat) {
 #' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_performance_tbl <- function(trained_model, test_data, outcome_colname, perf_metric_function, perf_metric_name, seed = NA) {
-  test_perf_metrics <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function)
+get_performance_tbl <- function(trained_model, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, seed = NA) {
+  test_perf_metrics <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)
   cv_metric = caret::getTrainPerf(trained_model)[[paste0('Train',perf_metric_name)]]
   if(is.null(cv_metric)) warning(paste0('The cv metric provided does not match with that used to train the data. You provided: '), perf_metric_name, '. The options are ',paste0(gsub('Train|method','',names(caret::getTrainPerf(trained_model))),sep=', '))
   all_info <- dplyr::bind_rows(c(

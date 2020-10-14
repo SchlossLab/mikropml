@@ -97,6 +97,7 @@ get_hyperparams_list <- function(dataset, method) {
   n_samples <- nrow(dataset)
   hparams_functions <- list(
     regLogistic = rlang::quo(set_hparams_regLogistic()),
+    glmnet = rlang::quo(set_hparams_glmnet()),
     rf = rlang::quo(set_hparams_rf(n_features)),
     rpart2 = rlang::quo(set_hparams_rpart2(n_samples)),
     svmRadial = rlang::quo(set_hparams_svmRadial()),
@@ -121,6 +122,13 @@ set_hparams_regLogistic <- function() {
     cost = 10^seq(-4, 1, 1),
     epsilon = c(0.01),
     loss = c("L2_primal")
+  ))
+}
+
+set_hparams_glmnet <- function(){
+  return(list(
+    lambda = 10^seq(-4, 1, 1),
+    alpha = 0 # this makes it ridge (i.e. L2) regression. 1 would make it lasso (i.e. L1) regression
   ))
 }
 

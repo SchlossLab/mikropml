@@ -91,11 +91,19 @@ get_perf_metric_name <- function(outcome_type) {
 #'
 #' @examples
 #' results <- run_ml(mikropml::otu_mini,'regLogistic',kfold = 2)
-#' calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary)
-calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function){
-  uniq_obs <- unique(c(test_data %>% dplyr::pull(outcome_colname),as.character(trained_model$pred$obs)))
-  obs <- factor(test_data %>% dplyr::pull(outcome_colname),levels = uniq_obs)
-  preds <- stats::predict(trained_model, test_data, type = "prob")
-  pred_class <- factor(names(preds)[apply(preds, 1, which.max)],levels = uniq_obs)
-  perf_metric_function(data.frame(obs=obs,pred=pred_class,preds),lev=uniq_obs)
+#' calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary, class_probs = TRUE)
+calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function, class_probs){
+  pred_type <- 'raw'
+  if(class_probs) pred_type <- 'prob'
+  preds <- stats::predict(trained_model, test_data, type = pred_type)
+  if(class_probs){
+    uniq_obs <- unique(c(test_data %>% dplyr::pull(outcome_colname),as.character(trained_model$pred$obs)))
+    obs <- factor(test_data %>% dplyr::pull(outcome_colname),levels = uniq_obs)
+    pred_class <- factor(names(preds)[apply(preds, 1, which.max)],levels = uniq_obs)
+    perf_met <- perf_metric_function(data.frame(obs=obs,pred=pred_class,preds),lev=uniq_obs)
+  }else{
+    obs <- test_data %>% dplyr::pull(outcome_colname)
+    perf_met <- perf_metric_function(data.frame(obs=obs,pred=preds))
+  }
+  return(perf_met)
 }
