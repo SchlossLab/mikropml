@@ -11,7 +11,7 @@ options(
 
 test_that("permuted auc returns correct value for non-correlated feature", {
   expect_equal(
-    find_permuted_auc(trained_model_mini, test_data_sm, "dx", "Otu00049", "cancer", 2019),
+    find_permuted_auc(trained_model_mini, test_data_sm, "dx", "Otu00049", "cancer", seed = 2019),
     c(auc = 0.571052631578947, auc_diff = 0)
   )
 })
