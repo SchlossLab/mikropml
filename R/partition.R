@@ -1,34 +1,62 @@
-# split by group (e.g. facility)
+#' Select indices to partition the data into training & testing sets.
+#'
+#' If `groups` is `NULL`, uses \link[caret]{createDataPartition}.
+#' Otherwises, uses `create_grouped_data_partition()`.
+#'
+#' Set the seed prior to calling this function if you would like your data
+#' partitions to be reproducible (recommended).
+#'
+#' @param outcomes vector of outcomes
+#' @param training_frac max fraction of data for the training set(default: 0.8)
+#' @param groups vector of groups. length must match the number of rows in the dataset. (default: NULL)
+#'
+#' @return vector of row indices for the training set
+#' @export
+#' @author Kelly Sovacool, {sovacool@@umich.edu}
+get_partition_indices <- function(outcomes, training_frac = 0.8, groups = NULL) {
+  if (is.null(groups)) {
+    training_inds <- caret::createDataPartition(outcomes,
+                                                p = training_frac,
+                                                list = FALSE)
+  } else {
+    training_inds <- create_grouped_data_partition(groups, p = training_frac)
+  }
+  return(training_inds)
+}
+
+
+# split by groups (e.g. facility)
 # try to get ~split defined by user (training_frac)
 
-#' Split into train and test set while splitting by group
+#' Split into train and test set while splitting by groups
 #'
-#' @param group vector of groups whose length matches the number of rows in the dataset
-#' @param p maximum percentage of data that goes to training (maybe less depending on group sizes)
+#' @param groups vector of groups. length must match the number of rows in the dataset.
+#' @param p maximum fraction of data that goes to training (maybe less depending on groups sizes)
 #'
-#' @return row position integers corresponding to the training data
+#' @return vector of row indices for the training set
 #' @export
+#' @author Zena Lapp, {zenalapp@@umich.edu}
 #'
 #' @examples
-#' group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
+#' groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' set.seed(0)
-#' train_ind <- createGroupedDataPartition(group, 0.8)
-createGroupedDataPartition <- function(group, p) {
+#' train_ind <- create_grouped_data_partition(groups, 0.8)
+create_grouped_data_partition <- function(groups, p) {
   # get indices
-  indices <- seq(along = group)
+  indices <- seq(along = groups)
   # get unique groups
-  grps <- unlist(unique(group))
+  grps <- unlist(unique(groups))
   # initialize train groups & set
   train_grps <- grps
   train_set <- indices
-  train_set_grp <- group
+  train_set_grp <- groups
   # initialize fraction of data in train set
   frac_in_train <- length(train_set) / length(indices)
   # keep removing data from train set until fraction in train set <= p (e.g. 0.8)
   while (frac_in_train > p) {
-    # randomly choose a group
+    # randomly choose a groups
     grp <- sample(train_grps, size = 1)
-    # remove group from train groups & set
+    # remove groups from train groups & set
     train_grps <- train_grps[train_grps != grp]
     train_set <- train_set[train_set_grp != grp]
     train_set_grp <- train_set_grp[train_set_grp != grp]
@@ -36,49 +64,7 @@ createGroupedDataPartition <- function(group, p) {
     frac_in_train <- length(train_set) / length(indices)
   }
   message(paste0("Fraction of data in the training set: ", frac_in_train, "."))
-  # get train group indices
+  # get train groups indices
   return(train_set)
 }
 
-
-#' Splitting into folds for cross-validation when using groups
-#'
-#' Like \link[caret]{createMultiFolds} but still splitting by group using \link[caret]{groupKFold}. Code modified from \link[caret]{createMultiFolds}.
-#'
-#' @param group equivalent to y in caret::createMultiFolds
-#' @param kfold equivalent to k in caret::createMultiFolds
-#' @param cv_times equivalent to cv_times in caret::createMultiFolds
-#'
-#' @return indices of folds for CV
-#' @export
-#'
-#' @examples
-#' set.seed(0)
-#' group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
-#' folds <- groupKMultiFolds(group, kfold = 2, cv_times = 2)
-groupKMultiFolds <- function(group, kfold = 10, cv_times = 5) {
-  # we're not doign anything with survival in caret (i.e. copied from caret, but not useful for us)
-  # if (class(group)[1] == "Surv") {
-  #   group <- group[, "time"]
-  # }
-  prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
-    sep = ""
-  )
-  for (i in 1:cv_times) {
-    tmp <- caret::groupKFold(group, k = kfold)
-    names(tmp) <- paste("Fold", gsub(" ", "0", format(seq(along = tmp))),
-      ".", prettyNums[i],
-      sep = ""
-    )
-    out <- if (i == 1) {
-      tmp
-    } else {
-      c(out, tmp)
-    }
-  }
-  sapply_fn <- select_apply("sapply")
-  if (any(sapply_fn(out, length) == 0)) {
-    stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the grouping functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
-  }
-  out
-}

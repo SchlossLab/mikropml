@@ -16,7 +16,7 @@ run_ml(
   training_frac = 0.8,
   perf_metric_function = NULL,
   perf_metric_name = NULL,
-  group = NULL,
+  groups = NULL,
   corr_thresh = 1,
   seed = NA
 )
@@ -44,7 +44,7 @@ run_ml(
 
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
-\item{group}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
+\item{groups}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
 
 \item{corr_thresh}{For feature importance, group correlations above or equal to corr_thresh (default: \code{1}).}
 
