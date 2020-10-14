@@ -25,3 +25,8 @@ and the \link[caret]{trainControl} documentation
 \examples{
 get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
 }
+\author{
+Kelly Sovacool, \email{sovacool@umich.edu}
+
+Zena Lapp, \email{zenalapp@umich.edu}
+}

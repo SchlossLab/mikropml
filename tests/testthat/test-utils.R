@@ -37,8 +37,9 @@ test_that("randomize_feature_order works for known seed", {
     var2 = 4:6,
     var1 = 1:3
   )
+  set.seed(20)
   expect_equal(
-    randomize_feature_order(test_df, "outcome", seed = 20),
+    randomize_feature_order(test_df, "outcome"),
     reordered_df
   )
 })

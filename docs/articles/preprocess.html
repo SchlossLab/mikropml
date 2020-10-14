@@ -46,23 +46,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction.html">Introduction to mikropml</a>
-    </li>
-    <li>
-      <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
-    </li>
-  </ul>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -82,7 +67,7 @@
 
       
 
-      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data prior to machine learning</h1>
@@ -95,12 +80,12 @@
 
     
     
-<p>Before running machine learning, it’s often necessary and prudent to preprocess your input data. We provide a function (<code>preprocess_data</code>) to preprocess input data. The defaults we chose are based on best practices used in <a href="https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/">FIDDLE</a>. Feel free to check out FIDDLE for more information about data preprocessing!</p>
-<p>The <code>preprocess_data</code> function takes an input dataset where the rows are the samples and the columns are the outcome variable and features. We preprocess the data as follows:</p>
+<p>Before running machine learning, it’s often necessary and prudent to preprocess your input data. We provide a function (<code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>) to preprocess input data. The defaults we chose are based on best practices used in <a href="https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/">FIDDLE</a>. Feel free to check out FIDDLE for more information about data preprocessing!</p>
+<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> takes an input dataset where the rows are the samples and the columns are the outcome variable and features. We preprocess the data as follows:</p>
 <ul>
 <li>Remove missing outcome values.</li>
 <li>Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).</li>
-<li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess</a></code> based on the method provided.</li>
+<li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> based on the method provided.</li>
 <li>Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it’s own column).</li>
 <li>Replace missing categorical data with 0.</li>
 <li>Impute missing continuous values with the median of the feature.</li>
@@ -136,7 +121,7 @@
 <span class="co">#&gt; 1  normal   no    0    a</span>
 <span class="co">#&gt; 2  normal  yes    1    a</span>
 <span class="co">#&gt; 3  cancer   no    1    b</span></pre></div>
-<p>In addition to the dataframe itself, you have to provide the name of the outcome column to <code>preprocess_data</code>. Here’s what the preprocessed data looks like:</p>
+<p>In addition to the dataframe itself, you have to provide the name of the outcome column to <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>. Here’s what the preprocessed data looks like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="co"># preprocess raw binary data</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">bin_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
@@ -238,7 +223,7 @@
 <span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; character(0)</span></pre></div>
 <p>You can also normalize the data in different ways. You can implement any method used by the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> function (the <code>method</code> argument). Note that these methods are only applied to continuous variables.</p>
-<p>Another feature of the <code>preprocess_data</code> function is that if you provide continuous variables as characters, they will be converted to numeric:</p>
+<p>Another feature of <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> is that if you provide continuous variables as characters, they will be converted to numeric:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="co"># raw continuous dataset as characters</span>
 <span class="va">cont_char_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -288,7 +273,7 @@
 <div id="collapse-perfectly-correlated-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#collapse-perfectly-correlated-features" class="anchor"></a>Collapse perfectly correlated features</h2>
-<p>By default, the <code>preprocess_data</code> function collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes <code>run_ml</code> faster.</p>
+<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes <code>run_ml</code> faster.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="co"># raw correlated dataset</span>
 <span class="va">corr_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -437,14 +422,14 @@
 <div id="missing-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#missing-data" class="anchor"></a>Missing data</h2>
-<p>The <code>preprocess_data</code> function also deals with missing data. It:</p>
+<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> also deals with missing data. It:</p>
 <ul>
 <li>Removes missing outcome variables.</li>
 <li>Maintains zero variability in a feature if it already has no variability (i.e. the feature is removed if removing features with near-zero variance).</li>
 <li>Replaces missing binary and categorical variables with zero (after splitting into multiple columns).</li>
 <li>Replaces missing continuous data with the median value of that feature.</li>
 </ul>
-<p>If you’d like to deal with missing data in a different way, please do that prior to inputting the data into the <code>preprocess_data</code> function.</p>
+<p>If you’d like to deal with missing data in a different way, please do that prior to inputting the data to <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>.</p>
 <div id="remove-missing-outcome-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove-missing-outcome-variables" class="anchor"></a>Remove missing outcome variables</h3>
@@ -681,7 +666,7 @@
 <div id="next-step-run-machine-learning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next-step-run-machine-learning" class="anchor"></a>Next step: run machine learning!</h2>
-<p>After you preprocess your data (either using the <code>preprocess_data</code> function or by preprocessing the data on your own), you’re ready to run machine learning! Please see the vignette on the <code>run_ml</code> function for more information about running machine learning.</p>
+<p>After you preprocess your data (either using <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> or by preprocessing the data on your own), you’re ready to run machine learning! Please see <code><a href="../reference/run_ml.html">run_ml()</a></code> information about running machine learning.</p>
 </div>
 </div>
   </div>

@@ -12,4 +12,4 @@
 ^data-raw$
 ^doc$
 ^Meta$
-^vignettes/parallel.Rmd$
+^vignettes/parallel\.Rmd$
