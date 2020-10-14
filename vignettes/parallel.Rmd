@@ -67,7 +67,7 @@ Since we are using seeds, we must set `future.seed` to `TRUE`
 (see the [`future.apply` documentation](https://cran.r-project.org/web/packages/future.apply/future.apply.pdf) 
 and [this blog post](https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/)
 for details on parallel-safe random seeds).
-This example uses only 5 seeds for speed and simplicity,
+This example uses only a few seeds for speed and simplicity,
 but for real data we recommend using many more seeds to get a better estimate 
 of model performance.
 
