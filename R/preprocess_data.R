@@ -16,8 +16,7 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = 'nzv', collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
-
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = "nzv", collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
   check_remove_var(remove_var)
@@ -36,9 +35,11 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   cont_feats <- process_cont_feats(split_feats$cont_feats, method)
 
   # combine all processed features
-  processed_feats <- dplyr::bind_cols(cont_feats$transformed_cont,
-                                      split_feats$cat_feats,
-                                      nv_feats$novar_feats)
+  processed_feats <- dplyr::bind_cols(
+    cont_feats$transformed_cont,
+    split_feats$cat_feats,
+    nv_feats$novar_feats
+  )
   # remove features with (near-)zero variance
   feats <- get_caret_processed_df(processed_feats, remove_var)
   processed_feats <- feats$processed
@@ -62,9 +63,11 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
   dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
     dplyr::as_tibble()
 
-  return(list(dat_transformed = dat_transformed,
-              grp_feats = grp_feats,
-              removed_feats = removed_feats))
+  return(list(
+    dat_transformed = dat_transformed,
+    grp_feats = grp_feats,
+    removed_feats = removed_feats
+  ))
 }
 
 #' Remove missing outcome values
@@ -135,8 +138,9 @@ process_novar_feats <- function(features) {
     # get features with no variation
     apply_fn <- select_apply(fun = "apply")
     novar_feats_bool <-
-      apply_fn(features, 2, function(x)
-        length(unique(x[!is.na(x)])) == 1)
+      apply_fn(features, 2, function(x) {
+        length(unique(x[!is.na(x)])) == 1
+      })
     novar_feats <- features %>% dplyr::select_if(novar_feats_bool)
 
     # change categorical features with no variation to zero
@@ -149,16 +153,18 @@ process_novar_feats <- function(features) {
       }
     }) %>% dplyr::as_tibble()
 
-    if (ncol(novar_feats) == 0)
+    if (ncol(novar_feats) == 0) {
       novar_feats <- NULL
+    }
 
     # get features with variation
     var_feats <- features %>%
       dplyr::select_if(!novar_feats_bool) %>%
       dplyr::as_tibble()
 
-    if (ncol(var_feats) == 0)
+    if (ncol(var_feats) == 0) {
       stop("All features have zero variance.")
+    }
 
     # make missing data identical to others for novar_feats (not sure this is the best way to go)
     n_missing <- sum(is.na(novar_feats))
@@ -274,8 +280,9 @@ process_cont_feats <- function(features, method) {
         removed_cont <- feats$removed
       }
       sapply_fn <- select_apply("sapply")
-      cl <- sapply_fn(transformed_cont, function(x)
-        class(x))
+      cl <- sapply_fn(transformed_cont, function(x) {
+        class(x)
+      })
       missing <-
         is.na(transformed_cont[, cl %in% c("integer", "numeric")])
       n_missing <- sum(missing)
@@ -391,8 +398,10 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
           name <- n
         } else {
           name <-
-            corr_feats[grep(paste0("^", n, "\\||\\|", n, "\\||\\|", n, "$"),
-                            corr_feats)]
+            corr_feats[grep(
+              paste0("^", n, "\\||\\|", n, "\\||\\|", n, "$"),
+              corr_feats
+            )]
         }
       })
       grp_cols <- grep("\\|", names_grps)
@@ -403,8 +412,9 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
         names(names_grps)[grp_cols] <- paste0("grp", 1:num_grps)
         names(feats_nocorr) <- names(names_grps)
         grp_feats <-
-          sapply_fn(names_grps, function(x)
-            strsplit(x, split = "\\|"))
+          sapply_fn(names_grps, function(x) {
+            strsplit(x, split = "\\|")
+          })
       }
     }
   }

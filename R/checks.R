@@ -400,14 +400,14 @@ check_perf_metric_name <- function(perf_metric_name) {
 #' Check remove_var
 #'
 #' @inheritParmas preprocess_data
-#' 
+#'
 #' @noRd
 #'
 #' @examples
 #' check_remove_var(NULL)
-check_remove_var <- function(remove_var){
-  if(!is.null(remove_var)){
-    if(!(remove_var %in% c('nzv','zv'))){
+check_remove_var <- function(remove_var) {
+  if (!is.null(remove_var)) {
+    if (!(remove_var %in% c("nzv", "zv"))) {
       stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
     }
   }
