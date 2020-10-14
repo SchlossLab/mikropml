@@ -142,7 +142,7 @@ test_that("preprocess_data works", {
       "var6", "var11"
     ))
   )
-  expect_equal(expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_var = 'zv')), list(dat_transformed = structure(list(
+  expect_equal(expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_var = "zv")), list(dat_transformed = structure(list(
     outcome = c(
       "normal", "normal",
       "cancer"
