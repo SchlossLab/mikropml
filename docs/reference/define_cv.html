@@ -143,7 +143,7 @@
   <span class='va'>class_probs</span>,
   kfold <span class='op'>=</span> <span class='fl'>5</span>,
   cv_times <span class='op'>=</span> <span class='fl'>100</span>,
-  group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
   seed <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
@@ -179,7 +179,7 @@
       <td><p>Number of partitions to create (default: <code>100</code>).</p></td>
     </tr>
     <tr>
-      <th>group</th>
+      <th>groups</th>
       <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
     </tr>
     <tr>
@@ -266,7 +266,7 @@
 #&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
 #&gt;     out
 #&gt; }
-#&gt; &lt;bytecode: 0x7fda21248270&gt;
+#&gt; &lt;bytecode: 0x7f87825a9698&gt;
 #&gt; &lt;environment: namespace:caret&gt;
 #&gt; 
 #&gt; $selectionFunction
