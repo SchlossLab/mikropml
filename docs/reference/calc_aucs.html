@@ -87,26 +87,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/introduction.html">Introduction to mikropml</a>
-    </li>
-    <li>
-      <a href="../articles/paper.html">mikropml: A User-Friendly Machine Learning R Package for Binary Classification Problems</a>
-    </li>
-    <li>
-      <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -138,7 +120,7 @@
     <p>Calculate AUROC and AUPRC</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_aucs</span>(<span class='no'>trained_model</span>, <span class='no'>test_data</span>, <span class='no'>outcome_colname</span>, <span class='no'>outcome_value</span>)</pre>
+    <pre class="usage"><span class='fu'>calc_aucs</span><span class='op'>(</span><span class='va'>trained_model</span>, <span class='va'>test_data</span>, <span class='va'>outcome_colname</span>, <span class='va'>outcome_value</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,24 +135,29 @@
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
+      <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>List of auroc and auprc values</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
+<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>calc_aucs</span>(<span class='no'>trained_model_sm1</span>, <span class='no'>test_data_sm</span>, <span class='st'>"dx"</span>, <span class='st'>"cancer"</span>)</div><div class='output co'>#&gt; $auroc
-#&gt; [1] 0.5052632
+    <pre class="examples"><div class='input'><span class='fu'>calc_aucs</span><span class='op'>(</span><span class='va'>trained_model_mini</span>, <span class='va'>test_data_sm</span>, <span class='st'>"dx"</span>, <span class='st'>"cancer"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $auroc
+#&gt; [1] 0.5710526
 #&gt; 
 #&gt; $auprc
-#&gt; [1] 0.5447323
+#&gt; [1] 0.5438684
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -183,11 +170,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href='https://github.com/pschloss'>Patrick Schloss</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

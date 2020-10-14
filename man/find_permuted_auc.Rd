@@ -4,24 +4,33 @@
 \alias{find_permuted_auc}
 \title{Get permuted AUROC difference for a single feature (or group of features)}
 \usage{
-find_permuted_auc(method, test_data, outcome_colname, feat, outcome_value)
+find_permuted_auc(
+  method,
+  test_data,
+  outcome_colname,
+  feat,
+  outcome_value,
+  seed
+)
 }
 \arguments{
-\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
 \item{feat}{feature or group of correlated features to permute}
 
-\item{outcome_value}{outcome value of interest as a string}
+\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
+
+\item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
 vector of mean permuted auc and mean difference between test and permuted auc
 }
 \description{
-Get permuted AUROC difference for a single feature (or group of features)
+Requires the \code{future.apply} package
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

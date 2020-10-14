@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Run the machine learning pipeline — run_ml" />
-<meta property="og:description" content="Run the machine learning pipeline" />
+<meta property="og:description" content="TODO: more details" />
 
 
 
@@ -87,26 +87,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/introduction.html">Introduction to mikropml</a>
-    </li>
-    <li>
-      <a href="../articles/paper.html">mikropml: A User-Friendly Machine Learning R Package for Binary Classification Problems</a>
-    </li>
-    <li>
-      <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -135,99 +117,105 @@
     </div>
 
     <div class="ref-description">
-    <p>Run the machine learning pipeline</p>
+    <p>TODO: more details</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_ml</span>(
-  <span class='no'>dataset</span>,
-  <span class='no'>method</span>,
-  <span class='kw'>outcome_colname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>outcome_value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>hyperparameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>cv_times</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>training_frac</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>perf_metric_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>perf_metric_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>corr_thresh</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>run_ml</span><span class='op'>(</span>
+  <span class='va'>dataset</span>,
+  <span class='va'>method</span>,
+  outcome_colname <span class='op'>=</span> <span class='cn'>NULL</span>,
+  outcome_value <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hyperparameters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  kfold <span class='op'>=</span> <span class='fl'>5</span>,
+  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
+  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
+  perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
+  perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
+  seed <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dataset</th>
-      <td><p>dataframe with an outcome variable and other columns as features</p></td>
+      <td><p>Dataframe with an outcome variable and other columns as features.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")</p></td>
+      <td><p>ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>outcome_value</th>
-      <td><p>outcome value of interest as a string</p></td>
+      <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>hyperparameters</th>
-      <td><p>dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.</p></td>
+      <td><p>Dataframe of hyperparameters (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>find_feature_importance</th>
-      <td><p>run permutation imporance (default: FALSE)</p></td>
+      <td><p>Run permutation imporance (default: <code>FALSE</code>). This is recommended, but it is resource-intensive.</p></td>
     </tr>
     <tr>
       <th>kfold</th>
-      <td><p>fold number for k-fold cross-validation (default: 5)</p></td>
+      <td><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></td>
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>number of partitions to create</p></td>
+      <td><p>Number of partitions to create (default: <code>100</code>).</p></td>
     </tr>
     <tr>
       <th>training_frac</th>
-      <td><p>fraction size of data for training (default: 0.8)</p></td>
+      <td><p>Fraction of data for training set (default: <code>0.8</code>). The remaining data will be used in the testing set.</p></td>
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code></p></td>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>perf_metric_name</th>
-      <td><p>the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
+      <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)</p></td>
+      <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
     </tr>
     <tr>
       <th>corr_thresh</th>
-      <td><p>for feature importance, group correlations above or equal to corr_thresh (default: 1)</p></td>
+      <td><p>For feature importance, group correlations above or equal to corr_thresh (default: <code>1</code>).</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>random seed (default: NA)</p></td>
+      <td><p>Random seed (default: <code>NA</code>). Your results will be reproducible if you set a seed.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>named list with results</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
+<p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
+<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>run_ml</span>(<span class='no'>otu_large</span>, <span class='st'>"regLogistic"</span>)
-<span class='fu'>run_ml</span>(<span class='no'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
-  <span class='kw'>kfold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>find_feature_importance</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_large</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"regLogistic"</span>,
+  kfold <span class='op'>=</span> <span class='fl'>2</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -239,11 +227,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href='https://github.com/pschloss'>Patrick Schloss</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

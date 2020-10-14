@@ -10,9 +10,6 @@
     <loc>http://www.schlosslab.org/mikropml/reference/change_to_num.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/check_group.html</loc>
-  </url>
-  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/collapse_correlated_features.html</loc>
   </url>
   <url>
@@ -70,13 +67,13 @@
     <loc>http://www.schlosslab.org/mikropml/reference/group_correlated_features.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/mikropml.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/mutate_all_types.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_large.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_med_results.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_medium.html</loc>
@@ -101,9 +98,6 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results5.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_sm_cv5.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_small.html</loc>
@@ -154,13 +148,7 @@
     <loc>http://www.schlosslab.org/mikropml/reference/trained_model_mini.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/trained_model_sm1.html</loc>
-  </url>
-  <url>
     <loc>http://www.schlosslab.org/mikropml/articles/introduction.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/articles/paper.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/articles/parallel.html</loc>

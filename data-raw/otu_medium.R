@@ -35,4 +35,3 @@ otu_med_results <- mikropml::run_ml(otu_medium,
   seed = 2019,
   kfold = as.integer(3)
 )
-usethis::use_data(otu_med_results, overwrite = TRUE)

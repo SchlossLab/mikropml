@@ -22,21 +22,21 @@ get_feature_importance(
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
-\item{outcome_value}{outcome value of interest as a string}
+\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
 
-\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
 
-\item{seed}{random seed (default: NA)}
+\item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 
-\item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
+\item{corr_thresh}{For feature importance, group correlations above or equal to corr_thresh (default: \code{1}).}
 }
 \value{
 dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc
 }
 \description{
-Get feature importance using permutation method
+Requires the \code{future.apply} package
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

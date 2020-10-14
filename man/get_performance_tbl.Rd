@@ -17,11 +17,11 @@ get_performance_tbl(
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
-\item{outcome_value}{outcome value of interest as a string}
+\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
 
-\item{seed}{random seed (default: NA)}
+\item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
 a one-row tibble with columns \code{cv_auroc}, \code{test_auroc}, \code{test_auprc}, \code{method}, and \code{seed}

@@ -12,28 +12,25 @@ define_cv(
   class_probs,
   kfold = 5,
   cv_times = 100,
-  group = NULL,
-  seed = NULL
+  group = NULL
 )
 }
 \arguments{
 \item{train_data}{Dataframe for training model}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
 \item{hyperparams_list}{named list of lists of hyperparameters}
 
-\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}}
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{class_probs}{Whether the \verb{\link[caret]\{trainControl\}} \code{classProbs} argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)}
 
-\item{kfold}{fold number for k-fold cross-validation (default: 5)}
+\item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
-\item{cv_times}{number of partitions to create}
+\item{cv_times}{Number of partitions to create (default: \code{100}).}
 
-\item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
-
-\item{seed}{random seed (default: NA)}
+\item{group}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
 }
 \value{
 Caret object for trainControl that controls cross-validation
@@ -47,8 +44,7 @@ define_cv(train_data_sm,
   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
   perf_metric_function = caret::twoClassSummary,
   class_probs = TRUE,
-  kfold = 5,
-  seed = 2019
+  kfold = 5
 )
 }
 \author{

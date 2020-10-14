@@ -11,9 +11,9 @@ calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
-\item{outcome_value}{outcome value of interest as a string}
+\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
 }
 \value{
 List of auroc and auprc values
@@ -22,7 +22,7 @@ List of auroc and auprc values
 Calculate AUROC and AUPRC
 }
 \examples{
-calc_aucs(trained_model_sm1, test_data_sm, "dx", "cancer")
+calc_aucs(trained_model_mini, test_data_sm, "dx", "cancer")
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

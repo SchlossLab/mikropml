@@ -15,7 +15,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-User-Friendly Machine Learning Package for Classification Problems
+User-Friendly R Package for Robust Machine Learning Pipelines
 
 Machine learning (ML) for classification of data into groups is a popular tool. It is now being used to make high stakes decisions in healthcare, economics, criminal justice and more.
 
@@ -47,7 +47,10 @@ devtools::install_github("SchlossLab/mikropml")
 
 Check out the [introductory
 vignette](http://www.schlosslab.org/mikropml/articles/introduction.html)
-for a quick start tutorial.
+for a quick start tutorial. For a more in-depth discussion, read [all
+the vignettes](http://www.schlosslab.org/mikropml/articles/index.html)
+and/or take a look at the [reference
+documentation](http://www.schlosslab.org/mikropml/reference/index.html).
 
 ## Help & Contributing
 
