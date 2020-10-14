@@ -19,7 +19,7 @@ get_partition_indices <- function(outcomes, training_frac = 0.8, groups = NULL) 
     training_inds <- caret::createDataPartition(outcomes,
       p = training_frac,
       list = FALSE
-    ) %>% .[,1]
+    ) %>% .[, 1]
   } else {
     training_inds <- create_grouped_data_partition(groups, p = training_frac)
   }
