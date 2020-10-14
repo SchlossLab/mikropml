@@ -1,4 +1,4 @@
-name: render
+name: pr_build
 
 on:
   pull_request:
@@ -30,35 +30,35 @@ jobs:
           git add man/ NAMESPACE
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '📚 Render Roxygen documentation  || echo "No changes to commit"
+          -m '📚 Render Roxygen documentation' || echo "No changes to commit"
       - name: Style
         run: |
           Rscript -e 'usethis::use_tidy_style()'
           git add .
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '🎨 Style R code [|| echo "No changes to commit"
+          -m '🎨 Style R code' || echo "No changes to commit"
       - name: Render README
         run: |
           Rscript -e 'rmarkdown::render("README.Rmd")'
           git add README.md
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m '📄 Render README.Rmd [3| echo "No changes to commit"
-      - name: DocPush
+          -m '📄 Render README.Rmd' || echo "No changes to commit"
+      - name: Push
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
-      - name: s
+      - name: Docs
         run: |
           Rscript -e "devtools::build_site()"
           git add docs
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m "📑 Build docs site [4/ echo "No changes to commit"
-      - name: Push
-    final     uses: ad-m/github-push-action@master
+          -m "📑 Build docs site" || echo "No changes to commit"
+      - name: Push final
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
