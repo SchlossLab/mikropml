@@ -16,7 +16,7 @@ check_all <- function(dataset, method, permute, kfold, training_frac, perf_metri
   check_training_frac(training_frac)
   check_perf_metric_function(perf_metric_function)
   check_perf_metric_name(perf_metric_name)
-  check_group(dataset, group, kfold)
+  check_groups(dataset, group, kfold)
   check_corr_thresh(corr_thresh)
   check_seed(seed)
 }
@@ -307,32 +307,32 @@ check_features <- function(features, check_missing = TRUE) {
 #' @export
 #'
 #' @examples
-#' check_group(mikropml::otu_mini,
+#' check_groups(mikropml::otu_mini,
 #'   sample(LETTERS, nrow(mikropml::otu_mini), replace = TRUE),
 #'   kfold = 2
 #' )
-check_group <- function(dataset, group, kfold) {
-  # check that group is a vector or NULL
-  isvec <- is.vector(group)
-  isnull <- is.null(group)
+check_groups <- function(dataset, groups, kfold) {
+  # check that groups is a vector or NULL
+  isvec <- is.vector(groups)
+  isnull <- is.null(groups)
   if (!(isvec | isnull)) {
-    stop(paste0("group should be either a vector or NULL, but group is class ", class(group), "."))
+    stop(paste0("group should be either a vector or NULL, but group is class ", class(groups), "."))
   }
   # if group is a vector, check that it's the correct length
   if (isvec) {
     ndat <- nrow(dataset)
-    ngrp <- length(group)
+    ngrp <- length(groups)
     if (ndat != ngrp) {
       stop(paste0("group should be a vector that is the same length as the number of rows in the dataset (", ndat, "), but it is of length ", ngrp, "."))
     }
     # check that there are no NAs in group
-    nas <- is.na(group)
+    nas <- is.na(groups)
     nnas <- sum(nas)
     if (any(nas)) {
       stop(paste0("No NA values are allowed in group, but ", nnas, " NA(s) are present."))
     }
     # check that there is more than 1 group
-    ngrp <- length(unique(group))
+    ngrp <- length(unique(groups))
     if (ngrp < 2) {
       stop(paste0("The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"))
     }
