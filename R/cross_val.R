@@ -61,7 +61,8 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list,
 #'
 #' @return seeds for `caret::trainControl`
 #' @export
-#' @author Kelly Sovacool, \email(sovacool@@umich.edu)
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
