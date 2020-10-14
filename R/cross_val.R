@@ -11,22 +11,17 @@
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#'
 #' @examples
 #' define_cv(train_data_sm,
 #'   outcome_colname = "dx",
 #'   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
 #'   perf_metric_function = caret::twoClassSummary,
 #'   class_probs = TRUE,
-#'   kfold = 5,
-#'   seed = 2019
+#'   kfold = 5
 #' )
 define_cv <- function(train_data, outcome_colname, hyperparams_list,
                       perf_metric_function, class_probs,
-                      kfold = 5, cv_times = 100, group = NULL, seed = NULL) {
-  if (!is.null(seed)) {
-    set.seed(seed)
-  }
+                      kfold = 5, cv_times = 100, group = NULL) {
   if (is.null(group)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
       dplyr::pull(outcome_colname)),
@@ -64,6 +59,8 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list,
 #'
 #' @return seeds for `caret::trainControl`
 #' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
