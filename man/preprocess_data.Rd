@@ -8,8 +8,7 @@ preprocess_data(
   dataset,
   outcome_colname,
   method = c("center", "scale"),
-  remove_nzv = TRUE,
-  remove_zv = TRUE,
+  remove_var = "nzv",
   collapse_corr_feats = TRUE,
   to_numeric = TRUE,
   group_neg_corr = TRUE
@@ -22,9 +21,7 @@ preprocess_data(
 
 \item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization)}
 
-\item{remove_nzv}{whether to remove variables with near-zero variance (default: \code{TRUE})}
-
-\item{remove_zv}{whether to remove variables with zero variance (default: \code{TRUE}; only changes the output if \code{remove_nzv = FALSE})}
+\item{remove_var}{whether to remove variables with near-zero variance (\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL})}
 
 \item{collapse_corr_feats}{whether to keep only one of perfectly correlated features}
 
