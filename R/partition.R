@@ -14,11 +14,12 @@
 #' @export
 #' @author Kelly Sovacool, {sovacool@@umich.edu}
 get_partition_indices <- function(outcomes, training_frac = 0.8, groups = NULL) {
+  check_training_frac(training_frac)
   if (is.null(groups)) {
     training_inds <- caret::createDataPartition(outcomes,
       p = training_frac,
       list = FALSE
-    )
+    ) %>% .[,1]
   } else {
     training_inds <- create_grouped_data_partition(groups, p = training_frac)
   }
