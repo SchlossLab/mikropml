@@ -142,7 +142,7 @@ test_that("preprocess_data works", {
       "var6", "var11"
     ))
   )
-  expect_equal(expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE, remove_zv = TRUE)), list(dat_transformed = structure(list(
+  expect_equal(expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_var = 'zv')), list(dat_transformed = structure(list(
     outcome = c(
       "normal", "normal",
       "cancer"
@@ -160,7 +160,7 @@ test_that("preprocess_data works", {
     "var2_a"
   )), removed_feats = c("var5", "var6", "var11")))
   expect_equal(expect_message(
-    preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE, remove_zv = FALSE),
+    preprocess_data(test_df[1:3, ], "outcome", remove_var = NULL),
     "Removing"
   ), list(dat_transformed = structure(list(
     outcome = c(
@@ -183,7 +183,7 @@ test_that("preprocess_data works", {
     "var6", "var11"
   )))
   expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_nzv = FALSE, remove_zv = FALSE, collapse_corr_feats = FALSE)),
+    expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_var = NULL, collapse_corr_feats = FALSE)),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"

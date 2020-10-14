@@ -5,9 +5,7 @@
 #' @param dataset dataframe where rows are samples and colums are the outcome variable and features
 #' @param outcome_colname column name as a string of the outcome variable
 #' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
-#' @param remove_nzv whether to remove variables with near-zero variance (default: `TRUE`)
-#' @param remove_zv whether to remove variables with zero variance (default: `TRUE`; only changes the output if `remove_nzv = FALSE`)
-
+#' @param remove_var whether to remove variables with near-zero variance (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`)
 #' @param collapse_corr_feats whether to keep only one of perfectly correlated features
 #' @param to_numeric whether to change features to numeric where possible
 #' @inheritParams get_corr_feats
@@ -18,11 +16,12 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_nzv = TRUE, remove_zv = TRUE, collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
+preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = 'nzv', collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
 
   # input validation
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname)
+  check_remove_var(remove_var)
 
   # remove outcomes that are NA
   dataset <- rm_missing_outcome(dataset, outcome_colname)
@@ -49,32 +48,27 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 
   # process nonbinary features
   cont_feats_transformed <- cont_feats
-  removed_cont <- NULL
+  removed_feats <- NULL
   if (!is.null(cont_feats_transformed)) {
     feats <- process_cont_feats(cont_feats, method)
     cont_feats_transformed <- feats$transformed_cont
-    removed_cont <- feats$removed_cont
+    removed_feats <- feats$removed_cont
   }
 
   # combine all features
   processed_feats <- dplyr::bind_cols(cont_feats_transformed, cat_feats, novar_feats)
 
   # remove features with non-zero variance
-  removed_feats <- removed_cont
-  if (remove_nzv) {
-    feats <- get_caret_processed_df(processed_feats, "nzv")
+  if (!is.null(remove_var)) {
+    feats <- get_caret_processed_df(processed_feats, remove_var)
     processed_feats <- feats$processed
     removed_feats <- c(removed_feats, feats$removed)
-  } else if (remove_zv) {
-    feats <- get_caret_processed_df(processed_feats, "zv")
-    processed_feats <- feats$processed
-    removed_feats <- c(removed_feats, feats$removed)
-  }
+  } 
 
   # remove perfectly correlated features
   grp_feats <- NULL
   if (collapse_corr_feats) {
-    if (!remove_nzv & !remove_zv) {
+    if (is.null(remove_var)) {
       message("Removing features with zero variance prior to collapsing correlated features.")
       feats <- get_caret_processed_df(processed_feats, "zv")
       processed_feats <- feats$processed

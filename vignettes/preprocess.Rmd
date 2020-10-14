@@ -31,6 +31,10 @@ We preprocess the data as follows:
 - By default, remove all features with near-zero variance (option to also remove only features with zero variance).
 - By default, collapse correlated features.
 
+# It's running so slow!
+
+Since I assume a lot of you won't read this entire vignette, I'm going to say this at the beginning. If the `preprocess_data` function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in `vignette(parallel)`
+
 # Examples
 
 We're going to start off simple and get more complicated, but if you want the whole shebang at once, just scroll to the bottom.
@@ -204,20 +208,21 @@ Here, `var3`, `var4`, and `var5` all have no variability, so these variables are
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
 ```
 
-You can read the `caret::preProcess()` documentation for more information. If you want to include them, you can use the arguments `remove_nzv=FALSE` and `remove_zv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
-
-```{r}
-# don't remove features with near-zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, remove_zv = FALSE, collapse_corr_feats = FALSE)
-```
-
-
-If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess()` function after running `preprocess_data` with `remove_nzv=FALSE` (see the `caret::nearZeroVar()` function for more information).
+You can read the `caret::preProcess()` documentation for more information. By default, we remove features with "near-zero variance" (`remove_var='nzv'`). This uses the default arguments from `caret::nearZeroVar()`. However, particularly with smaller datasets, you might not want to remove features with near-zero variance. If you want to remove only features with zero variance, you can use `remove_var='zv'`:
 
 ```{r}
 # remove features with zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, remove_zv = TRUE)
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = 'zv')
 ```
+
+If you want to include all features, you can use the argument `remove_zv=NULL`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+
+```{r}
+# don't remove features with near-zero or zero variance
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
+```
+
+If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess()` function after running `preprocess_data` with `remove_var=NULL` (see the `caret::nearZeroVar()` function for more information).
 
 ## Missing data
 
@@ -268,7 +273,7 @@ Here, the non-variable feature with missing data is removed because we removed f
 
 ```{r}
 # preprocess raw dataset with missing value in non-variable feature
-preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
+preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
 ```
 
 ### Replace missing binary and categorical variables with zero

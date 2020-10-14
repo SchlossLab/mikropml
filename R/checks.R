@@ -304,7 +304,7 @@ check_features <- function(features, check_missing = TRUE) {
 #'
 #' @inheritParams run_ml
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' check_group(mikropml::otu_mini,
@@ -388,7 +388,6 @@ check_perf_metric_function <- function(perf_metric_function) {
 #'
 #' @param perf_metric_name performance metric function
 #'
-#' @return
 #' @noRd
 #'
 #' @examples
@@ -396,5 +395,21 @@ check_perf_metric_function <- function(perf_metric_function) {
 check_perf_metric_name <- function(perf_metric_name) {
   if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
+  }
+}
+
+#' Check remove_var
+#'
+#' @inheritParmas preprocess_data
+#' 
+#' @noRd
+#'
+#' @examples
+#' check_remove_var(NULL)
+check_remove_var <- function(remove_var){
+  if(!is.null(remove_var)){
+    if(!(remove_var %in% c('nzv','zv'))){
+      stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
+    }
   }
 }
