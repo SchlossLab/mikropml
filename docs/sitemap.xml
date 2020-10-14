@@ -82,9 +82,6 @@
     <loc>http://www.schlosslab.org/mikropml/reference/otu_large.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_med_results.html</loc>
-  </url>
-  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_medium.html</loc>
   </url>
   <url>
@@ -107,9 +104,6 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results5.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_sm_cv5.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_small.html</loc>
@@ -158,9 +152,6 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/trained_model_mini.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/trained_model_sm1.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/articles/introduction.html</loc>

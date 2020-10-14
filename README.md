@@ -15,7 +15,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-User-Friendly Machine Learning Package for Classification Problems
+User-Friendly R Package for Robust Machine Learning Pipelines
 
 ## Installation
 

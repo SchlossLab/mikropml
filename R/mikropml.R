@@ -1,4 +1,4 @@
-#' mikropml: User-Friendly Machine Learning Package for Classification Problems
+#' mikropml: User-Friendly R Package for Robust Machine Learning Pipelines
 #'
 #' TODO longer description (paragraph) goes here
 #'
