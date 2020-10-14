@@ -14,6 +14,7 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, outcome_value, method, seed = NA, corr_thresh = 1) {
+  abort_packages_not_installed('future.apply')
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
@@ -25,10 +26,9 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 
   grps <- group_correlated_features(corr_mat, features)
 
-  lapply_fn <- select_apply("lapply")
-  imps <- do.call("rbind", lapply_fn(grps, function(feat) {
+  imps <- do.call("rbind", future.apply::future_lapply(grps, function(feat) {
     return(find_permuted_auc(trained_model, test_data, outcome_colname, feat, outcome_value, seed))
-  }))
+  }, future.seed = as.integer(seed)))
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
@@ -57,7 +57,7 @@ find_permuted_auc <- function(method, test_data, outcome_colname, feat, outcome_
   abort_packages_not_installed('future.apply')
 
   # Calculate the test-auc for the actual pre-processed held-out data
-  test_auc <- calc_aucs(method, test_data, outcome_colname, outcome_value, seed)$auroc
+  test_auc <- calc_aucs(method, test_data, outcome_colname, outcome_value)$auroc
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
@@ -74,7 +74,7 @@ find_permuted_auc <- function(method, test_data, outcome_colname, feat, outcome_
     new_auc <- calc_aucs(method, full_permuted, outcome_colname, outcome_value)$auroc
     return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
   }, future.seed = as.integer(seed))
-  set.seed(seed)
+  set.seed(seed) # must set seed back to its original value
 
   auc <- mean(auc_diffs["new_auc", ])
   auc_diff <- mean(auc_diffs["diff", ])

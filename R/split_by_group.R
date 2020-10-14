@@ -13,7 +13,7 @@
 #' group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' set.seed(0)
 #' train_ind <- createGroupedDataPartition(group, 0.8)
-createGroupedDataPartition <- function(group, p) {
+createGroupedDataPartition <- function(group, p) { # TODO: rename with underscores
   # get indices
   indices <- seq(along = group)
   # get unique groups
@@ -35,7 +35,7 @@ createGroupedDataPartition <- function(group, p) {
     # calcuate fraction of data in train set
     frac_in_train <- length(train_set) / length(indices)
   }
-  message(paste0("Fraction of data in the training set: ", frac_in_train, "."))
+  message("Fraction of data in the training set: ", frac_in_train, ".")
   # get train group indices
   return(train_set)
 }

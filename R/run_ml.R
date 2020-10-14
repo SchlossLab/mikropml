@@ -58,6 +58,9 @@ run_ml <-
       corr_thresh,
       seed
     )
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
     if (find_feature_importance) { # `future.apply` is required for `find_feature_importance()``
         abort_packages_not_installed('future.apply')
     }
@@ -66,27 +69,18 @@ run_ml <-
       outcome_value,
       method = "fewer"
     )
-
-
-    if (!is.na(seed)) {
-        set.seed(seed)
-    }
     dataset <- randomize_feature_order(dataset, outcome_colname)
-
 
     if (is.null(group)) {
       training_inds <-
         caret::createDataPartition(dataset %>% dplyr::pull(outcome_colname),
-          p = training_frac, list = FALSE
+                                   p = training_frac, list = FALSE
         )
 
       train_group <- NULL
       test_group <- NULL
       } else {
-      training_inds <-
-        createGroupedDataPartition(group,
-          p = training_frac
-        )
+      training_inds <- createGroupedDataPartition(group, p = training_frac)
       train_group <- group[training_inds]
       test_group <- group[-training_inds]
       }
@@ -103,7 +97,7 @@ run_ml <-
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
 
     outcome_type <- get_outcome_type(outcomes_vec)
-    class_probs <- ifelse(outcome_type == "numeric", FALSE, TRUE)
+    class_probs <- outcome_type != "numeric"
 
     if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
