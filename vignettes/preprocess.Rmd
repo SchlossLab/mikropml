@@ -28,8 +28,12 @@ We preprocess the data as follows:
 - Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it's own column).
 - Replace missing categorical data with 0.
 - Impute missing continuous values with the median of the feature. 
-- By default, remove all features with near-zero variance.
+- By default, remove all features with near-zero variance (option to also remove only features with zero variance).
 - By default, collapse correlated features.
+
+# It's running so slow!
+
+Since I assume a lot of you won't read this entire vignette, I'm going to say this at the beginning. If the `preprocess_data` function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in `vignette(parallel)`
 
 # Examples
 
@@ -112,7 +116,7 @@ Wow! Why did the numbers change? This is because the default is to normalize the
 preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
 ```
 
-You can also normalize the data in different ways. You can implement any method used by the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) function (the `method` argument).
+You can also normalize the data in different ways. You can implement any method used by the `caret::preProcess()` function (the `method` argument). Note that these methods are only applied to continuous variables. 
 
 Another feature of `preprocess_data()` is that if you provide continuous variables as characters, they will be converted to numeric:
 
@@ -204,19 +208,21 @@ Here, `var3`, `var4`, and `var5` all have no variability, so these variables are
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
 ```
 
-You can read the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) documentation for more information. If you want to include them, you can use the argument `remove_nzv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
-
-```{r}
-# don't remove features with near-zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
-```
-
-Note that if you want to remove zero variance features (rather than near-zero variance features), you can use `method = c('zv')`, and then you can collapse correlated features:
+You can read the `caret::preProcess()` documentation for more information. By default, we remove features with "near-zero variance" (`remove_var='nzv'`). This uses the default arguments from `caret::nearZeroVar()`. However, particularly with smaller datasets, you might not want to remove features with near-zero variance. If you want to remove only features with zero variance, you can use `remove_var='zv'`:
 
 ```{r}
 # remove features with zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", method = c('zv'))
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = 'zv')
 ```
+
+If you want to include all features, you can use the argument `remove_zv=NULL`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+
+```{r}
+# don't remove features with near-zero or zero variance
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
+```
+
+If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess()` function after running `preprocess_data` with `remove_var=NULL` (see the `caret::nearZeroVar()` function for more information).
 
 ## Missing data
 
@@ -267,7 +273,7 @@ Here, the non-variable feature with missing data is removed because we removed f
 
 ```{r}
 # preprocess raw dataset with missing value in non-variable feature
-preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
+preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
 ```
 
 ### Replace missing binary and categorical variables with zero

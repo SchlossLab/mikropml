@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Get permuted AUROC difference for a single feature (or group of features) — find_permuted_auc" />
-<meta property="og:description" content="Get permuted AUROC difference for a single feature (or group of features)" />
+<meta property="og:description" content="Requires the future.apply package" />
 
 
 
@@ -117,10 +117,17 @@
     </div>
 
     <div class="ref-description">
-    <p>Get permuted AUROC difference for a single feature (or group of features)</p>
+    <p>Requires the <code>future.apply</code> package</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_permuted_auc</span><span class='op'>(</span><span class='va'>method</span>, <span class='va'>test_data</span>, <span class='va'>outcome_colname</span>, <span class='va'>feat</span>, <span class='va'>outcome_value</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>find_permuted_auc</span><span class='op'>(</span>
+  <span class='va'>method</span>,
+  <span class='va'>test_data</span>,
+  <span class='va'>outcome_colname</span>,
+  <span class='va'>feat</span>,
+  <span class='va'>outcome_value</span>,
+  <span class='va'>seed</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,6 +152,10 @@
       <th>outcome_value</th>
       <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>Random seed (default: <code>NA</code>). Your results will be reproducible if you set a seed.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -166,7 +177,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/pschloss'>Patrick Schloss</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>.</p>
+  <p>Developed by <a href='https://github.com/BTopcuoglu'>Begüm Topçuoğlu</a>, <a href='https://github.com/zenalapp'>Zena Lapp</a>, <a href='https://github.com/kelly-sovacool'>Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href='https://github.com/pschloss'>Patrick Schloss</a>.</p>
 </div>
 
 <div class="pkgdown">
