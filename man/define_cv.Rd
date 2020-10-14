@@ -12,8 +12,7 @@ define_cv(
   class_probs,
   kfold = 5,
   cv_times = 100,
-  groups = NULL,
-  seed = NULL
+  groups = NULL
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ define_cv(
 \item{cv_times}{Number of partitions to create (default: \code{100}).}
 
 \item{groups}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
-
-\item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
 Caret object for trainControl that controls cross-validation
@@ -47,8 +44,7 @@ define_cv(train_data_sm,
   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
   perf_metric_function = caret::twoClassSummary,
   class_probs = TRUE,
-  kfold = 5,
-  seed = 2019
+  kfold = 5
 )
 }
 \author{

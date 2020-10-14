@@ -46,23 +46,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction.html">Introduction to mikropml</a>
-    </li>
-    <li>
-      <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
-    </li>
-  </ul>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -82,7 +67,7 @@
 
       
 
-      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data prior to machine learning</h1>
@@ -95,18 +80,23 @@
 
     
     
-<p>Before running machine learning, it’s often necessary and prudent to preprocess your input data. We provide a function (<code>preprocess_data</code>) to preprocess input data. The defaults we chose are based on best practices used in <a href="https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/">FIDDLE</a>. Feel free to check out FIDDLE for more information about data preprocessing!</p>
-<p>The <code>preprocess_data</code> function takes an input dataset where the rows are the samples and the columns are the outcome variable and features. We preprocess the data as follows:</p>
+<p>Before running machine learning, it’s often necessary and prudent to preprocess your input data. We provide a function (<code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>) to preprocess input data. The defaults we chose are based on best practices used in <a href="https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/">FIDDLE</a>. Feel free to check out FIDDLE for more information about data preprocessing!</p>
+<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> takes an input dataset where the rows are the samples and the columns are the outcome variable and features. We preprocess the data as follows:</p>
 <ul>
 <li>Remove missing outcome values.</li>
 <li>Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).</li>
-<li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess</a></code> based on the method provided.</li>
+<li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> based on the method provided.</li>
 <li>Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it’s own column).</li>
 <li>Replace missing categorical data with 0.</li>
 <li>Impute missing continuous values with the median of the feature.</li>
-<li>By default, remove all features with near-zero variance.</li>
+<li>By default, remove all features with near-zero variance (option to also remove only features with zero variance).</li>
 <li>By default, collapse correlated features.</li>
 </ul>
+<div id="its-running-so-slow" class="section level1">
+<h1 class="hasAnchor">
+<a href="#its-running-so-slow" class="anchor"></a>It’s running so slow!</h1>
+<p>Since I assume a lot of you won’t read this entire vignette, I’m going to say this at the beginning. If the <code>preprocess_data</code> function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in <code>vignette(parallel)</code></p>
+</div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h1>
@@ -131,7 +121,7 @@
 <span class="co">#&gt; 1  normal   no    0    a</span>
 <span class="co">#&gt; 2  normal  yes    1    a</span>
 <span class="co">#&gt; 3  cancer   no    1    b</span></pre></div>
-<p>In addition to the dataframe itself, you have to provide the name of the outcome column to <code>preprocess_data</code>. Here’s what the preprocessed data looks like:</p>
+<p>In addition to the dataframe itself, you have to provide the name of the outcome column to <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>. Here’s what the preprocessed data looks like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="co"># preprocess raw binary data</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">bin_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
@@ -144,7 +134,10 @@
 <span class="co">#&gt; 3 cancer         0      1      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
 <p>The first column (<code>var1</code>) in <code>dat_transformed</code> is a character and is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>. The third column (<code>var3</code>) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name <code>var3_b</code>.</p>
 </div>
@@ -175,7 +168,10 @@
 <span class="co">#&gt; 3 cancer       0      0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>As you can see, this variable was split into 3 different columns - one for each type (a, b, and c). And again, <code>grp_feats</code> is <code>NULL</code>.</p>
 </div>
 <div id="continuous-data" class="section level2">
@@ -205,7 +201,10 @@
 <span class="co">#&gt; 3 cancer      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>Wow! Why did the numbers change? This is because the default is to normalize the data using <code><a href="https://rdrr.io/r/base/c.html">c("center","scale")</a></code>. While this is often best practice, you may not want to normalize the data, or you may want to normalize the data in a different way. If you don’t want to normalize the data, you can use <code>method=NULL</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="co"># preprocess raw continuous data, no normalization</span>
@@ -219,9 +218,12 @@
 <span class="co">#&gt; 3 cancer      3</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
-<p>You can also normalize the data in different ways. You can implement any method used by the <a href="https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess"><code>caret::preProcess</code></a> function (the <code>method</code> argument).</p>
-<p>Another feature of the <code>preprocess_data</code> function is that if you provide continuous variables as characters, they will be converted to numeric:</p>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
+<p>You can also normalize the data in different ways. You can implement any method used by the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> function (the <code>method</code> argument). Note that these methods are only applied to continuous variables.</p>
+<p>Another feature of <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> is that if you provide continuous variables as characters, they will be converted to numeric:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="co"># raw continuous dataset as characters</span>
 <span class="va">cont_char_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -245,7 +247,10 @@
 <span class="co">#&gt; 3 cancer      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>If you don’t want this to happen, and you want character data to remain character data even if it can be converted to numeric, you can use <code>to_numeric=FALSE</code> and they will be kept as categorical:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="co"># preprocess raw continuous character data as characters</span>
@@ -259,13 +264,16 @@
 <span class="co">#&gt; 3 cancer       0      0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>As you can see from this output, in this case the features are treated as groups rather than numbers (e.g. they are not normalized).</p>
 </div>
 <div id="collapse-perfectly-correlated-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#collapse-perfectly-correlated-features" class="anchor"></a>Collapse perfectly correlated features</h2>
-<p>By default, the <code>preprocess_data</code> function collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes <code>run_ml</code> faster.</p>
+<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes <code>run_ml</code> faster.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="co"># raw correlated dataset</span>
 <span class="va">corr_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -292,7 +300,11 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; $grp_feats$grp1</span>
-<span class="co">#&gt; [1] "var2_1"   "var1_yes" "var3_1"</span></pre></div>
+<span class="co">#&gt; [1] "var2_1"   "var1_yes" "var3_1"  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>As you can see, we end up with only one variable, as all 3 are grouped together. Also, the second element in the list is no longer <code>NULL</code>. Instead, it tells you that <code>grp1</code> contains <code>var1</code>, <code>var2</code>, and <code>var3</code>.</p>
 <p>If you want to group positively correlated features, but not negatively correlated features (e.g. for interpretability, or another downstream application), you can do that by using <code>group_neg_corr=FALSE</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
@@ -311,7 +323,11 @@
 <span class="co">#&gt; [1] "var3_1"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp1</span>
-<span class="co">#&gt; [1] "var2_1"   "var1_yes"</span></pre></div>
+<span class="co">#&gt; [1] "var2_1"   "var1_yes"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>Here, <code>var3</code> is kept on it’s own because it’s negatively correlated with <code>var1</code> and <code>var2</code>. You can also choose to keep all features separate, even if they are perfectly correlated, by using <code>collapse_corr_feats=FALSE</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="co"># preprocess raw correlated dataset; don't group negatively correlated features</span>
@@ -325,7 +341,10 @@
 <span class="co">#&gt; 3 cancer         0      0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>In this case, <code>grp_feats</code> will always be <code>NULL</code>.</p>
 </div>
 <div id="data-with-near-zero-variance" class="section level2">
@@ -360,25 +379,14 @@
 <span class="co">#&gt; 3 cancer         0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
-<p>You can read the <a href="https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess"><code>caret::preProcess</code></a> documentation for more information. If you want to include them, you can use the argument <code>remove_nzv=FALSE</code>. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying <code>caret</code> function we use).</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="co"># don't remove features with near-zero variance</span>
-<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_nzv <span class="op">=</span> <span class="cn">FALSE</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 6</span>
-<span class="co">#&gt;   outcome var1_yes var2_1  var3  var4  var5</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal         0      0     0     0    12</span>
-<span class="co">#&gt; 2 normal         1      1     0     0    12</span>
-<span class="co">#&gt; 3 cancer         0      1     0     0    12</span>
+<span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
-<p>Note that if you want to remove zero variance features (rather than near-zero variance features), you can use <code>method = c('zv')</code>, and then you can collapse correlated features:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; [1] "var3" "var4" "var5"</span></pre></div>
+<p>You can read the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> documentation for more information. By default, we remove features with “near-zero variance” (<code>remove_var='nzv'</code>). This uses the default arguments from <code><a href="https://rdrr.io/pkg/caret/man/nearZeroVar.html">caret::nearZeroVar()</a></code>. However, particularly with smaller datasets, you might not want to remove features with near-zero variance. If you want to remove only features with zero variance, you can use <code>remove_var='zv'</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="co"># remove features with zero variance</span>
-<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'zv'</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="st">'zv'</span><span class="op">)</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   outcome var1_yes var2_1</span>
@@ -388,19 +396,40 @@
 <span class="co">#&gt; 3 cancer         0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; [1] "var3" "var4" "var5"</span></pre></div>
+<p>If you want to include all features, you can use the argument <code>remove_zv=NULL</code>. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying <code>caret</code> function we use).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="co"># don't remove features with near-zero or zero variance</span>
+<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="cn">NULL</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; $dat_transformed</span>
+<span class="co">#&gt; # A tibble: 3 x 6</span>
+<span class="co">#&gt;   outcome var1_yes var2_1  var3  var4  var5</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal         0      0     0     0    12</span>
+<span class="co">#&gt; 2 normal         1      1     0     0    12</span>
+<span class="co">#&gt; 3 cancer         0      1     0     0    12</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $grp_feats</span>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; NULL</span></pre></div>
+<p>If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> function after running <code>preprocess_data</code> with <code>remove_var=NULL</code> (see the <code><a href="https://rdrr.io/pkg/caret/man/nearZeroVar.html">caret::nearZeroVar()</a></code> function for more information).</p>
 </div>
 <div id="missing-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#missing-data" class="anchor"></a>Missing data</h2>
-<p>The <code>preprocess_data</code> function also deals with missing data. It:</p>
+<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> also deals with missing data. It:</p>
 <ul>
 <li>Removes missing outcome variables.</li>
 <li>Maintains zero variability in a feature if it already has no variability (i.e. the feature is removed if removing features with near-zero variance).</li>
 <li>Replaces missing binary and categorical variables with zero (after splitting into multiple columns).</li>
 <li>Replaces missing continuous data with the median value of that feature.</li>
 </ul>
-<p>If you’d like to deal with missing data in a different way, please do that prior to inputting the data into the <code>preprocess_data</code> function.</p>
+<p>If you’d like to deal with missing data in a different way, please do that prior to inputting the data to <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>.</p>
 <div id="remove-missing-outcome-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove-missing-outcome-variables" class="anchor"></a>Remove missing outcome variables</h3>
@@ -430,7 +459,10 @@
 <span class="co">#&gt; 3 cancer         0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 </div>
 <div id="maintain-zero-variability-in-a-feature-if-it-already-has-no-variability" class="section level3">
 <h3 class="hasAnchor">
@@ -460,11 +492,14 @@
 <span class="co">#&gt; 3 cancer         0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; [1] "var2"</span></pre></div>
 <p>Here, the non-variable feature with missing data is removed because we removed features with near-zero variance. If we maintained that feature, it’d be all ones:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="co"># preprocess raw dataset with missing value in non-variable feature</span>
-<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_nzv <span class="op">=</span> <span class="cn">FALSE</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="cn">NULL</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
@@ -475,6 +510,9 @@
 <span class="co">#&gt; 3 cancer         0     1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; NULL</span></pre></div>
 </div>
 <div id="replace-missing-binary-and-categorical-variables-with-zero" class="section level3">
@@ -512,7 +550,11 @@
 <span class="co">#&gt; [1] "var2_0"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp1</span>
-<span class="co">#&gt; [1] "var2_1"   "var1_yes"</span></pre></div>
+<span class="co">#&gt; [1] "var2_1"   "var1_yes"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 <p>Here each binary variable is split into two, and the missing value is considered zero for both of them.</p>
 </div>
 <div id="replace-missing-continuous-data-with-the-median-value-of-that-feature" class="section level3">
@@ -546,7 +588,10 @@
 <span class="co">#&gt; 4 normal      2     2</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span></pre></div>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; character(0)</span></pre></div>
 </div>
 </div>
 <div id="putting-it-all-together" class="section level2">
@@ -604,7 +649,11 @@
 <span class="co">#&gt; [1] "var2_c" "var7_1" "var9_y"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp4</span>
-<span class="co">#&gt; [1] "var10_1" "var2_a"</span></pre></div>
+<span class="co">#&gt; [1] "var10_1" "var2_a" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $removed_feats</span>
+<span class="co">#&gt; [1] "var5"  "var6"  "var11"</span></pre></div>
 <p>As you can see, we got several messages:</p>
 <ul>
 <li>One of the samples (row 4) was removed because the outcome value was missing.</li>
@@ -617,7 +666,7 @@
 <div id="next-step-run-machine-learning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next-step-run-machine-learning" class="anchor"></a>Next step: run machine learning!</h2>
-<p>After you preprocess your data (either using the <code>preprocess_data</code> function or by preprocessing the data on your own), you’re ready to run machine learning! Please see the vignette on the <code>run_ml</code> function for more information about running machine learning.</p>
+<p>After you preprocess your data (either using <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> or by preprocessing the data on your own), you’re ready to run machine learning! Please see <code><a href="../reference/run_ml.html">run_ml()</a></code> information about running machine learning.</p>
 </div>
 </div>
   </div>

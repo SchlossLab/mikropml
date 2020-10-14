@@ -15,21 +15,25 @@ knitr::opts_chunk$set(
 ```
 
 Before running machine learning, it's often necessary and prudent to preprocess your input data. 
-We provide a function (`preprocess_data`) to preprocess input data. 
+We provide a function (`preprocess_data()`) to preprocess input data. 
 The defaults we chose are based on best practices used in  [FIDDLE](https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/).
 Feel free to check out FIDDLE for more information about data preprocessing!
 
-The `preprocess_data` function takes an input dataset where the rows are the samples and the columns are the outcome variable and features.
+`preprocess_data()` takes an input dataset where the rows are the samples and the columns are the outcome variable and features.
 We preprocess the data as follows:
 
 - Remove missing outcome values. 
 - Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).
-- Normalize continuous features using `caret::preProcess` based on the method provided.
+- Normalize continuous features using `caret::preProcess()` based on the method provided.
 - Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it's own column).
 - Replace missing categorical data with 0.
 - Impute missing continuous values with the median of the feature. 
-- By default, remove all features with near-zero variance.
+- By default, remove all features with near-zero variance (option to also remove only features with zero variance).
 - By default, collapse correlated features.
+
+# It's running so slow!
+
+Since I assume a lot of you won't read this entire vignette, I'm going to say this at the beginning. If the `preprocess_data` function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in `vignette(parallel)`
 
 # Examples
 
@@ -56,7 +60,7 @@ bin_df <- data.frame(
 bin_df
 ```
 
-In addition to the dataframe itself, you have to provide the name of the outcome column to `preprocess_data`. Here's what the preprocessed data looks like:
+In addition to the dataframe itself, you have to provide the name of the outcome column to `preprocess_data()`. Here's what the preprocessed data looks like:
 
 ```{r}
 # preprocess raw binary data
@@ -112,9 +116,9 @@ Wow! Why did the numbers change? This is because the default is to normalize the
 preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
 ```
 
-You can also normalize the data in different ways. You can implement any method used by the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) function (the `method` argument).
+You can also normalize the data in different ways. You can implement any method used by the `caret::preProcess()` function (the `method` argument). Note that these methods are only applied to continuous variables. 
 
-Another feature of the `preprocess_data` function is that if you provide continuous variables as characters, they will be converted to numeric:
+Another feature of `preprocess_data()` is that if you provide continuous variables as characters, they will be converted to numeric:
 
 ```{r}
 # raw continuous dataset as characters
@@ -141,7 +145,7 @@ As you can see from this output, in this case the features are treated as groups
 
 ## Collapse perfectly correlated features
 
-By default, the `preprocess_data` function collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes `run_ml` faster.
+By default, `preprocess_data()` collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes `run_ml` faster.
 
 ```{r}
 # raw correlated dataset
@@ -204,30 +208,32 @@ Here, `var3`, `var4`, and `var5` all have no variability, so these variables are
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
 ```
 
-You can read the [`caret::preProcess`](https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/preProcess) documentation for more information. If you want to include them, you can use the argument `remove_nzv=FALSE`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
-
-```{r}
-# don't remove features with near-zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
-```
-
-Note that if you want to remove zero variance features (rather than near-zero variance features), you can use `method = c('zv')`, and then you can collapse correlated features:
+You can read the `caret::preProcess()` documentation for more information. By default, we remove features with "near-zero variance" (`remove_var='nzv'`). This uses the default arguments from `caret::nearZeroVar()`. However, particularly with smaller datasets, you might not want to remove features with near-zero variance. If you want to remove only features with zero variance, you can use `remove_var='zv'`:
 
 ```{r}
 # remove features with zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", method = c('zv'))
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = 'zv')
 ```
+
+If you want to include all features, you can use the argument `remove_zv=NULL`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+
+```{r}
+# don't remove features with near-zero or zero variance
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
+```
+
+If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess()` function after running `preprocess_data` with `remove_var=NULL` (see the `caret::nearZeroVar()` function for more information).
 
 ## Missing data
 
-The `preprocess_data` function also deals with missing data. It:
+`preprocess_data()` also deals with missing data. It:
 
 - Removes missing outcome variables.
 - Maintains zero variability in a feature if it already has no variability (i.e. the feature is removed if removing features with near-zero variance).
 - Replaces missing binary and categorical variables with zero (after splitting into multiple columns).
 - Replaces missing continuous data with the median value of that feature.
 
-If you'd like to deal with missing data in a different way, please do that prior to inputting the data into the `preprocess_data` function.
+If you'd like to deal with missing data in a different way, please do that prior to inputting the data to `preprocess_data()`.
 
 ### Remove missing outcome variables
 
@@ -267,7 +273,7 @@ Here, the non-variable feature with missing data is removed because we removed f
 
 ```{r}
 # preprocess raw dataset with missing value in non-variable feature
-preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_nzv = FALSE, collapse_corr_feats = FALSE)
+preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
 ```
 
 ### Replace missing binary and categorical variables with zero
@@ -349,5 +355,6 @@ Additionally, you can see that the continuous variables were normalized, the cat
 
 ## Next step: run machine learning!
 
-After you preprocess your data (either using the `preprocess_data` function or by preprocessing the data on your own), you're ready to run machine learning! Please see the vignette on the `run_ml` function for more information about running machine learning. 
-
+After you preprocess your data (either using `preprocess_data()` or by preprocessing the data on your own), 
+you're ready to run machine learning! 
+Please see `run_ml()` information about running machine learning. 

@@ -58,16 +58,18 @@ run_ml <-
       corr_thresh,
       seed
     )
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
+    if (find_feature_importance) { # `future.apply` is required for `find_feature_importance()``
+        abort_packages_not_installed('future.apply')
+    }
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     outcome_value <- check_outcome_value(dataset, outcome_colname,
       outcome_value,
       method = "fewer"
     )
-    dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
-
-    if (!is.na(seed)) {
-      set.seed(seed)
-    }
+    dataset <- randomize_feature_order(dataset, outcome_colname)
 
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
     training_inds <- get_partition_indices(outcomes_vec,
@@ -105,7 +107,6 @@ run_ml <-
       class_probs,
       kfold = kfold,
       cv_times = cv_times,
-      seed = seed,
       groups = train_groups
     )
 

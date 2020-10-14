@@ -256,18 +256,17 @@ check_packages_installed <- function(...) {
 #' Reports which packages need to be installed and the parent function name.
 #' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
 #'
-#' @param package_status named vector with status of each package; installed (`TRUE`) or not (`FALSE`)
+#' @inheritParams check_packages_installed
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' abort_packages_not_installed(check_packages_installed("base"))
+#' abort_packages_not_installed("base")
 #' \dontrun{
-#' abort_packages_not_installed(check_packages_installed(
-#'   "not-a-package-name", "caret", "dplyr", "non_package"
-#' ))
+#' abort_packages_not_installed("not-a-package-name", "caret", "dplyr", "non_package")
 #' }
-abort_packages_not_installed <- function(package_status) {
+abort_packages_not_installed <- function(...) {
+  package_status <- check_packages_installed(...)
   parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
   packages_not_installed <- Filter(isFALSE, package_status)
   if (length(packages_not_installed) > 0) {
@@ -304,7 +303,7 @@ check_features <- function(features, check_missing = TRUE) {
 #'
 #' @inheritParams run_ml
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' check_groups(mikropml::otu_mini,
@@ -388,7 +387,6 @@ check_perf_metric_function <- function(perf_metric_function) {
 #'
 #' @param perf_metric_name performance metric function
 #'
-#' @return
 #' @noRd
 #'
 #' @examples
@@ -396,5 +394,21 @@ check_perf_metric_function <- function(perf_metric_function) {
 check_perf_metric_name <- function(perf_metric_name) {
   if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
+  }
+}
+
+#' Check remove_var
+#'
+#' @inheritParmas preprocess_data
+#' 
+#' @noRd
+#'
+#' @examples
+#' check_remove_var(NULL)
+check_remove_var <- function(remove_var){
+  if(!is.null(remove_var)){
+    if(!(remove_var %in% c('nzv','zv'))){
+      stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
+    }
   }
 }

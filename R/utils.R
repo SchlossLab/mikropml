@@ -65,10 +65,7 @@ pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
 #'
 #' @examples
 #' randomize_feature_order(otu_small, "dx")
-randomize_feature_order <- function(dataset, outcome_colname, seed = NULL) {
-  if (!is.null(seed)) {
-    set.seed(seed)
-  }
+randomize_feature_order <- function(dataset, outcome_colname) {
   features <- sample(colnames(dataset[names(dataset) != outcome_colname]))
   dataset <- dplyr::select(
     dataset,

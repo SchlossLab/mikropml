@@ -87,23 +87,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/introduction.html">Introduction to mikropml</a>
-    </li>
-    <li>
-      <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/preprocess.html">Preprocessing data prior to machine learning</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -147,7 +132,7 @@
   training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
   perf_metric_function <span class='op'>=</span> <span class='cn'>NULL</span>,
   perf_metric_name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>,
   corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>
 <span class='op'>)</span></pre>
@@ -200,7 +185,7 @@
       <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
-      <th>groups</th>
+      <th>group</th>
       <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
     </tr>
     <tr>
