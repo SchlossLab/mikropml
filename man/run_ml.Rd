@@ -21,37 +21,49 @@ run_ml(
 )
 }
 \arguments{
-\item{dataset}{dataframe with an outcome variable and other columns as features}
+\item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
+<<<<<<< HEAD
 \item{hyperparameters}{dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.}
+=======
+\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
 
-\item{find_feature_importance}{run permutation imporance (default: FALSE)}
+\item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; will be chosen automatically).}
+>>>>>>> master
 
-\item{kfold}{fold number for k-fold cross-validation (default: 5)}
+\item{find_feature_importance}{Run permutation imporance (default: \code{FALSE}). This is recommended, but it is resource-intensive.}
 
-\item{cv_times}{number of partitions to create}
+\item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
-\item{training_frac}{fraction size of data for training (default: 0.8)}
+\item{cv_times}{Number of partitions to create (default: \code{100}).}
 
+\item{training_frac}{Fraction of data for training set (default: \code{0.8}). The remaining data will be used in the testing set.}
+
+<<<<<<< HEAD
 \item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = \code{multiClassSummary}, regression = \code{defaultSummary}}
 
 \item{perf_metric_name}{the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"AUC"} (AUROC), multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
+=======
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 
-\item{group}{vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups)}
+\item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
+>>>>>>> master
 
-\item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
+\item{group}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
 
-\item{seed}{random seed (default: NA)}
+\item{corr_thresh}{For feature importance, group correlations above or equal to corr_thresh (default: \code{1}).}
+
+\item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
 named list with results
 }
 \description{
-Run the machine learning pipeline
+TODO: more details
 }
 \examples{
 \dontrun{

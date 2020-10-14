@@ -23,17 +23,21 @@ get_feature_importance(
 
 \item{test_data}{held out test data: dataframe of outcome and features}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
+<<<<<<< HEAD
 \item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = \code{multiClassSummary}, regression = \code{defaultSummary}}
 
 \item{perf_metric_name}{the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"AUC"} (AUROC), multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
+=======
+\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
+>>>>>>> master
 
-\item{method}{ML method ("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")}
+\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
 
-\item{seed}{random seed (default: NA)}
+\item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 
-\item{corr_thresh}{for feature importance, group correlations above or equal to corr_thresh (default: 1)}
+\item{corr_thresh}{For feature importance, group correlations above or equal to corr_thresh (default: \code{1}).}
 }
 \value{
 dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc
