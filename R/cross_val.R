@@ -11,15 +11,13 @@
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#'
 #' @examples
 #' define_cv(train_data_sm,
 #'   outcome_colname = "dx",
 #'   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
 #'   perf_metric_function = caret::twoClassSummary,
 #'   class_probs = TRUE,
-#'   kfold = 5,
-#'   seed = 2019
+#'   kfold = 5
 #' )
 define_cv <- function(train_data, outcome_colname, hyperparams_list,
                       perf_metric_function, class_probs,
