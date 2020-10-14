@@ -104,13 +104,13 @@ create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   #   groups <- groups[, "time"]
   # }
   prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
-                      sep = ""
+    sep = ""
   )
   for (i in 1:cv_times) {
     tmp <- caret::groupKFold(groups, k = kfold)
     names(tmp) <- paste("Fold", gsub(" ", "0", format(seq(along = tmp))),
-                        ".", prettyNums[i],
-                        sep = ""
+      ".", prettyNums[i],
+      sep = ""
     )
     out <- if (i == 1) {
       tmp

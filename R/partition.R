@@ -16,8 +16,9 @@
 get_partition_indices <- function(outcomes, training_frac = 0.8, groups = NULL) {
   if (is.null(groups)) {
     training_inds <- caret::createDataPartition(outcomes,
-                                                p = training_frac,
-                                                list = FALSE)
+      p = training_frac,
+      list = FALSE
+    )
   } else {
     training_inds <- create_grouped_data_partition(groups, p = training_frac)
   }
@@ -67,4 +68,3 @@ create_grouped_data_partition <- function(groups, p) {
   # get train groups indices
   return(train_set)
 }
-

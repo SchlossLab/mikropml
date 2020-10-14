@@ -71,8 +71,9 @@ run_ml <-
 
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
     training_inds <- get_partition_indices(outcomes_vec,
-                                           training_frac = training_frac,
-                                           groups = groups)
+      training_frac = training_frac,
+      groups = groups
+    )
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
     # train_groups & test_groups will be NULL if groups is NULL

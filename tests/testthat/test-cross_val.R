@@ -63,4 +63,4 @@ test_that("create_grouped_k_multifolds works", {
 
   set.seed(5)
   expect_error(create_grouped_k_multifolds(group, kfold = 2, cv_times = 2), "Could not split the data into train and validate folds")
-  })
+})
