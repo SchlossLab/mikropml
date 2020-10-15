@@ -3,11 +3,9 @@
 \docType{data}
 \name{train_data_sm}
 \alias{train_data_sm}
-\title{Small training dataset}
+\title{A training data partition from \code{otu_small}}
 \format{
-A data frame with 30 rows and 61 variables.
-The \code{dx} column is the diagnosis: healthy or cancerous (colorectal).
-All other columns are OTU relative abundances.
+An object of class \code{data.frame} with 161 rows and 61 columns.
 }
 \usage{
 train_data_sm
