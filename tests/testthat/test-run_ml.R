@@ -42,22 +42,24 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   )
 }
 
-otu_mini_group <- c("I", "J", "E", "A", "H", "G", "C", "J", "I", "J", "A", "H",
-                    "C", "G", "H", "C", "D", "E", "C", "D", "E", "G", "I", "A", "G",
-                    "F", "F", "A", "J", "G", "F", "E", "A", "F", "E", "J", "F", "A",
-                    "B", "A", "A", "I", "I", "C", "A", "H", "J", "G", "G", "B", "F",
-                    "F", "I", "J", "H", "G", "F", "H", "H", "C", "I", "E", "B", "B",
-                    "I", "H", "G", "C", "G", "G", "I", "F", "I", "D", "J", "H", "C",
-                    "F", "C", "F", "E", "C", "B", "B", "D", "G", "F", "F", "J", "B",
-                    "B", "G", "G", "J", "B", "J", "J", "G", "D", "G", "H", "I", "H",
-                    "D", "G", "I", "F", "A", "E", "C", "B", "B", "E", "J", "F", "H",
-                    "C", "F", "C", "D", "I", "H", "A", "G", "E", "F", "A", "C", "E",
-                    "I", "D", "A", "C", "D", "H", "A", "A", "J", "F", "E", "C", "J",
-                    "J", "G", "C", "D", "H", "E", "E", "F", "G", "F", "C", "E", "F",
-                    "D", "D", "B", "J", "B", "H", "A", "A", "A", "B", "D", "J", "D",
-                    "F", "F", "B", "G", "J", "B", "F", "G", "F", "J", "B", "D", "B",
-                    "C", "C", "H", "B", "F", "I", "G", "I", "D", "G", "G", "E", "F",
-                    "I", "B", "B", "I", "J", "A")
+otu_mini_group <- c(
+  "I", "J", "E", "A", "H", "G", "C", "J", "I", "J", "A", "H",
+  "C", "G", "H", "C", "D", "E", "C", "D", "E", "G", "I", "A", "G",
+  "F", "F", "A", "J", "G", "F", "E", "A", "F", "E", "J", "F", "A",
+  "B", "A", "A", "I", "I", "C", "A", "H", "J", "G", "G", "B", "F",
+  "F", "I", "J", "H", "G", "F", "H", "H", "C", "I", "E", "B", "B",
+  "I", "H", "G", "C", "G", "G", "I", "F", "I", "D", "J", "H", "C",
+  "F", "C", "F", "E", "C", "B", "B", "D", "G", "F", "F", "J", "B",
+  "B", "G", "G", "J", "B", "J", "J", "G", "D", "G", "H", "I", "H",
+  "D", "G", "I", "F", "A", "E", "C", "B", "B", "E", "J", "F", "H",
+  "C", "F", "C", "D", "I", "H", "A", "G", "E", "F", "A", "C", "E",
+  "I", "D", "A", "C", "D", "H", "A", "A", "J", "F", "E", "C", "J",
+  "J", "G", "C", "D", "H", "E", "E", "F", "G", "F", "C", "E", "F",
+  "D", "D", "B", "J", "B", "H", "A", "A", "A", "B", "D", "J", "D",
+  "F", "F", "B", "G", "J", "B", "F", "G", "F", "J", "B", "D", "B",
+  "C", "C", "H", "B", "F", "I", "G", "I", "D", "G", "G", "E", "F",
+  "I", "B", "B", "I", "J", "A"
+)
 test_that("run_ml works for L2 logistic regression with grouping & feature importance", {
   expect_equal_ml_results(
     run_ml(otu_mini, # use built-in hyperparameters
@@ -74,7 +76,6 @@ test_that("run_ml works for L2 logistic regression with grouping & feature impor
   )
 })
 test_that("run_ml works for random forest", {
-
   expect_equal_ml_results( # use built-in hyperparams function
     mikropml::run_ml(otu_mini,
       "rf",
@@ -88,10 +89,8 @@ test_that("run_ml works for random forest", {
     otu_mini_results2,
     tol = 1e-3
   )
-
 })
 test_that("run_ml works for svmRadial", {
-
   expect_equal_ml_results(
     mikropml::run_ml(otu_mini,
       "svmRadial",
@@ -105,10 +104,8 @@ test_that("run_ml works for svmRadial", {
     ),
     otu_mini_results3
   )
-
 })
 test_that("run_ml works for xgbTree", {
-
   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
   expect_equal_ml_results(
     mikropml::run_ml(
@@ -125,10 +122,8 @@ test_that("run_ml works for xgbTree", {
     otu_mini_results4,
     tol = 1e-3
   )
-
 })
 test_that("run_ml works for rpart2", {
-
   expect_equal_ml_results(
     mikropml::run_ml(otu_mini,
       "rpart2",
@@ -141,7 +136,6 @@ test_that("run_ml works for rpart2", {
     ),
     otu_mini_results5
   )
-
 })
 test_that("run_ml errors for unsupported method", {
   expect_error(

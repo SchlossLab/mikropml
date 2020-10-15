@@ -14,7 +14,7 @@
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, outcome_value, method, seed = NA, corr_thresh = 1) {
-  abort_packages_not_installed('future.apply')
+  abort_packages_not_installed("future.apply")
 
   # get outcome and features
   split_dat <- split_outcome_features(train_data, outcome_colname)
@@ -54,7 +54,7 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 find_permuted_auc <- function(method, test_data, outcome_colname, feat, outcome_value, seed) {
-  abort_packages_not_installed('future.apply')
+  abort_packages_not_installed("future.apply")
 
   # Calculate the test-auc for the actual pre-processed held-out data
   test_auc <- calc_aucs(method, test_data, outcome_colname, outcome_value)$auroc
