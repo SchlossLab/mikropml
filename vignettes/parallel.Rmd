@@ -1,5 +1,6 @@
 ---
 title: "Parallel processing"
+author: "Kelly L. Sovacool"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Parallel processing}
