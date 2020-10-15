@@ -8,7 +8,8 @@ calc_perf_metrics(
   test_data,
   trained_model,
   outcome_colname,
-  perf_metric_function
+  perf_metric_function,
+  class_probs
 )
 }
 \arguments{
@@ -16,9 +17,9 @@ calc_perf_metrics(
 
 \item{trained_model}{trained model}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
-\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = \code{multiClassSummary}, regression = \code{defaultSummary}}
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 }
 \value{
 performance metrics
@@ -28,5 +29,5 @@ Get performance metrics for test data
 }
 \examples{
 results <- run_ml(mikropml::otu_mini,'regLogistic',kfold = 2)
-calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary)
+calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary, class_probs = TRUE)
 }

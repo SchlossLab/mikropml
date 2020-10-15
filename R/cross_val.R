@@ -20,7 +20,7 @@
 #'   kfold = 5
 #' )
 define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL) {
-  if (is.null(group)) {
+  if (is.null(groups)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
       dplyr::pull(outcome_colname)),
     kfold,

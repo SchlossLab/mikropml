@@ -27,8 +27,8 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
   grps <- group_correlated_features(corr_mat, features)
 
   imps <- do.call("rbind", future.apply::future_lapply(grps, function(feat) {
-    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat))
-  }, future.seed = as.integer(seed)))
+    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat, seed))
+  }, future.seed = seed))
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
@@ -71,13 +71,12 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     } else {
       permuted_test_data[, fs] <- t(sample(data.frame(t(permuted_test_data[, fs]))))
     }
-<<<<<<< HEAD
     # Calculate the new performance metric
     new_perf_metric <- calc_perf_metrics(permuted_test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
     # Return how does this feature being permuted effect the performance metric
     return(c(new_perf_metric = new_perf_metric, diff = (test_perf_metric - new_perf_metric)))
-  }, future.seed = as.integer(seed))
-  set.seed(seed) # must set seed back to its original value
+  }, future.seed = seed)
+  if(!is.na(seed)) set.seed(seed) # must set seed back to its original value
   rownames(perf_metric_diffs) = gsub('\\..*','',rownames(perf_metric_diffs))
   perf_metric <- mean(perf_metric_diffs["new_perf_metric", ])
   perf_metric_diff <- mean(perf_metric_diffs["diff", ])

@@ -69,7 +69,7 @@ test_that("run_ml works for L2 logistic regression with grouping & feature impor
       seed = 2019,
       kfold = 2,
       cv_times = 2,
-      group = otu_mini_group
+      groups = otu_mini_group
     ),
     otu_mini_results1
   )
@@ -85,8 +85,7 @@ test_that("run_ml works for linear regression", {
            find_feature_importance = TRUE,
            seed = 2019,
            kfold = 2,
-           cv_times = 2,
-           group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+           cv_times = 2
     ),
     otu_mini_cont_results1
   )
@@ -142,7 +141,6 @@ test_that("run_ml works for rpart2", {
     mikropml::run_ml(otu_mini,
       "rpart2",
       outcome_colname = "dx",
-      hyperparameters = test_hyperparams %>% get_hyperparams_from_df("rpart2"),
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,

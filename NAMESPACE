@@ -5,11 +5,7 @@ export("%>%")
 export(.data)
 export(calc_perf_metrics)
 export(change_to_num)
-<<<<<<< HEAD
 export(check_features)
-export(check_group)
-=======
->>>>>>> master
 export(collapse_correlated_features)
 export(contr.ltfr)
 export(create_grouped_data_partition)

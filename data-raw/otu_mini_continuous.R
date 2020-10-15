@@ -35,8 +35,7 @@ otu_mini_cont_results1 <- mikropml::run_ml(otu_mini[,2:4], # use built-in hyperp
                                       find_feature_importance = TRUE,
                                       seed = 2019,
                                       kfold = 2,
-                                      cv_times = 2,
-                                      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+                                      cv_times = 2
 )
 usethis::use_data(otu_mini_cont_results1, overwrite = TRUE)
 

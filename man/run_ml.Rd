@@ -27,13 +27,7 @@ run_ml(
 
 \item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
-<<<<<<< HEAD
-\item{hyperparameters}{dataframe of hyperparameters (default: NULL). if NULL given, they will be chosen automatically.}
-=======
-\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
-
 \item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; will be chosen automatically).}
->>>>>>> master
 
 \item{find_feature_importance}{Run permutation imporance (default: \code{FALSE}). This is recommended, but it is resource-intensive.}
 
@@ -43,15 +37,9 @@ run_ml(
 
 \item{training_frac}{Fraction of data for training set (default: \code{0.8}). The remaining data will be used in the testing set.}
 
-<<<<<<< HEAD
-\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = \code{multiClassSummary}, regression = \code{defaultSummary}}
-
-\item{perf_metric_name}{the column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"AUC"} (AUROC), multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
-=======
 \item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
->>>>>>> master
 
 \item{groups}{Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).}
 

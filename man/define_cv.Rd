@@ -12,12 +12,7 @@ define_cv(
   class_probs,
   kfold = 5,
   cv_times = 100,
-<<<<<<< HEAD
-  group = NULL,
-  seed = NA
-=======
   groups = NULL
->>>>>>> master
 )
 }
 \arguments{
@@ -27,11 +22,7 @@ define_cv(
 
 \item{hyperparams_list}{named list of lists of hyperparameters}
 
-<<<<<<< HEAD
-\item{perf_metric_function}{function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: classification (binary and multi-class) = \code{multiClassSummary}, regression = \code{defaultSummary}}
-=======
 \item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
->>>>>>> master
 
 \item{class_probs}{Whether the \verb{\link[caret]\{trainControl\}} \code{classProbs} argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)}
 
