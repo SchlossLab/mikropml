@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL)
-check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, seed) {
+check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
@@ -18,6 +18,7 @@ check_all <- function(dataset, method, permute, kfold, training_frac, perf_metri
   check_perf_metric_name(perf_metric_name)
   check_groups(dataset, group, kfold)
   check_corr_thresh(corr_thresh)
+  check_ntree(ntree)
   check_seed(seed)
 }
 
@@ -430,6 +431,24 @@ check_remove_var <- function(remove_var) {
   if (!is.null(remove_var)) {
     if (!(remove_var %in% c("nzv", "zv"))) {
       stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
+    }
+  }
+}
+
+#' Check ntree
+#'
+#' @inheritParmas run_ml
+#'
+#' @noRd
+#'
+#' @examples
+#' check_ntree(NULL)
+check_ntree <- function(ntree){
+  if(!is.null(ntree)){
+    if (!is.numeric(ntree) | length(ntree) > 1) {
+      stop(paste0("`ntree` must be of length 1 and class numeric. You provided: ", class(ntree)))
+    }else if(ntree < 1){
+      stop(paste0("`ntree` must be greater than zero. You provided: ", ntree))
     }
   }
 }

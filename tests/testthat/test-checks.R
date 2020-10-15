@@ -192,3 +192,11 @@ test_that("check_remove_var works", {
   expect_null(check_remove_var("nzv"))
   expect_error(check_remove_var("asdf"), "`remove_var` must be one of: NULL, 'nzv','zv'. You provided:")
 })
+
+test_that("check_ntree works",{
+  expect_null(check_ntree(NULL))
+  expect_null(check_ntree(1000))
+  expect_error(check_ntree('asdf'), '`ntree` must be of length 1 and class numeric. You provided: ')
+  expect_error(check_ntree(-10), '`ntree` must be greater than zero. You provided: ')
+  expect_error(check_ntree(c(0,1)), '`ntree` must be of length 1 and class numeric. You provided: ')
+})

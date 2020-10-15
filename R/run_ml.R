@@ -3,7 +3,7 @@
 #' TODO: more details
 #'
 #' @param dataset Dataframe with an outcome variable and other columns as features.
-#' @param method ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``
+#' @param method ML method. Options: `c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")`
 #' @param outcome_colname Column name as a string of the outcome variable (default `NULL`; will be chosen automatically).
 #' @param hyperparameters Dataframe of hyperparameters (default `NULL`; will be chosen automatically).
 #' @param seed Random seed (default: `NA`). Your results will be reproducible if you set a seed.
@@ -15,6 +15,7 @@
 #' @param perf_metric_name The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"ROC"`, multi-class classification = `"logLoss"`, regression = `"RMSE"`.
 #' @param groups Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).
 #' @param corr_thresh For feature importance, group correlations above or equal to corr_thresh (default: `1`).
+#' @param ntree For random forest, how many trees to use (default: 1000). Note that caret doesn't allow this parameter to be tuned.
 #'
 #' @return named list with results
 #' @export
@@ -24,10 +25,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' run_ml(otu_large, "regLogistic")
-#' run_ml(otu_mini, "regLogistic",
+#' run_ml(otu_small, "glmnet",
 #'   kfold = 2,
-#'   find_feature_importance = TRUE
+#'   cv_times = 2,
+#'   seed = 2019
 #' )
 #' }
 run_ml <-
@@ -43,6 +44,7 @@ run_ml <-
            perf_metric_name = NULL,
            groups = NULL,
            corr_thresh = 1,
+           ntree = 1000,
            seed = NA) {
     check_all(
       dataset,
@@ -54,6 +56,7 @@ run_ml <-
       perf_metric_name,
       groups,
       corr_thresh,
+      ntree,
       seed
     )
     if (!is.na(seed)) {
@@ -108,7 +111,7 @@ run_ml <-
     )
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-    if (method == "regLogistic") {
+   
       trained_model_caret <- caret::train(
         model_formula,
         data = train_data,
@@ -116,31 +119,9 @@ run_ml <-
         trControl = cv,
         metric = perf_metric_name,
         tuneGrid = tune_grid,
-        family = "binomial"
-      )
-    }
-    else if (method == "rf") {
-      trained_model_caret <- caret::train(
-        model_formula,
-        data = train_data,
-        method = method,
-        trControl = cv,
-        metric = perf_metric_name,
-        tuneGrid = tune_grid,
-        ntree = 1000
-      ) # caret doesn't allow ntree to be tuned
-    }
-    else {
-      trained_model_caret <- caret::train(
-        model_formula,
-        data = train_data,
-        method = method,
-        trControl = cv,
-        metric = perf_metric_name,
-        tuneGrid = tune_grid
-      )
-    }
-    
+        ntree = ntree
+      ) 
+
     performance_tbl <- get_performance_tbl(
       trained_model_caret,
       test_data,
