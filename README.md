@@ -17,6 +17,15 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 User-Friendly R Package for Robust Machine Learning Pipelines
 
+Machine learning (ML) for classification of data into groups is a popular tool. It is now being used to make high stakes decisions in healthcare, economics, criminal justice and more.
+
+However, implementing a robust ML classification pipeline can be time-consuming, confusing, and difficult. Here, we present __mikRopML__, an easy-to-use R package that acts as a wrapper around the R caret package and can be used for binary classification problems using L2-regularied logistic regression, SVM with radial basis kernel, decision tree and random forest, and xgBoost.
+
+__mikRopML__ provides functions to facilitate the crucial steps of ML: pre-processing, cross-validation, testing, model evaluation, and model interpretation.
+
+
+
+
 ## Installation
 
 You can install the development version from

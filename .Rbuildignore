@@ -9,6 +9,8 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^doc$
+^Meta$
 ^data-raw$
 ^doc$
 ^Meta$
