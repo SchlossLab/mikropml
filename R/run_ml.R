@@ -111,8 +111,6 @@ run_ml <-
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
     
-    
-    
       trained_model_caret <- train_model(
         model_formula,
         train_data,

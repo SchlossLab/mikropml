@@ -214,10 +214,12 @@ check_outcome_value <- function(dataset, outcome_colname) {
   
   # check if continuous outcome
   isnum <- is.numeric(outcomes_all)
-  # if(isnum){
-  #   # TODO Make continuous work
-  #   stop('We don\'t support continuous outcomes right now.')
-  # }
+  if(isnum){
+    # check if it might actually be categorical
+    if(all(floor(outcomes_all) == outcomes_all)){
+      warning('Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values.')
+    }
+  }
 
   # check binary and multiclass outcome
   outcomes <- outcomes_all %>%
