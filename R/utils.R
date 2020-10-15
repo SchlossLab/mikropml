@@ -38,8 +38,8 @@ utils::globalVariables(c("."))
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_outcome_value(otu_medium, "dx")
-#' get_outcome_value(otu_medium, "dx", "first")
+#' get_outcome_value(otu_small, "dx")
+#' get_outcome_value(otu_small, "dx", "first")
 pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
   if (method == "fewer") {
     outcome_value <- names(which.min(table(dataset %>% dplyr::pull(outcome_colname))))

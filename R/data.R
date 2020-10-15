@@ -1,24 +1,7 @@
-#' Large OTU abundance dataset
-#'
-#' A dataset containing relatives abundances of 6,920 OTUs for 490 human stool samples
-#'
-#' @format A data frame with 490 rows and 6,921 variables.
-#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
-#' All other columns are OTU relative abundances.
-"otu_large"
-
-#' Medium-sized OTU abundance dataset
-#'
-#' A dataset containing relatives abundances of 6,920 OTUs for 60 human stool samples
-#'
-#' @format A data frame with 60 rows and 6921 variables.
-#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
-#' All other columns are OTU relative abundances.
-"otu_medium"
-
 #' Small OTU abundance dataset
 #'
-#' A dataset containing relatives abundances of 60 OTUs for 60 human stool samples
+#' A dataset containing relatives abundances of 60 OTUs for 60 human stool samples.
+#' This is a subset of the data provided in `extdata/otu_large.csv`.
 #'
 #' @format A data frame with 60 rows and 61 variables.
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
@@ -27,7 +10,8 @@
 
 #' Mini OTU abundance dataset
 #'
-#' A dataset containing relatives abundances of OTUs for human stool samples
+#' A dataset containing relatives abundances of OTUs for human stool samples.
+#' This is a subset of the data provided in `extdata/otu_large.csv`.
 #'
 #' @format A data frame
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
