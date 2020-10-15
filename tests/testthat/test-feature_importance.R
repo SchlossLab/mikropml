@@ -30,12 +30,21 @@ test_that("permuted auc returns correct value for [fake] correlated feature", {
   )
 })
 
-feat_imps <- structure(list(auc = c(0.551578947368421, 0.512447368421053,
-  0.574421052631579), auc_diff = c(0.0194736842105264, 0.0586052631578948,
-  -0.00336842105263154), names = structure(1:3, .Label = c("Otu00001",
-  "Otu00002", "Otu00003"), class = "factor"), method = c("regLogistic",
-  "regLogistic", "regLogistic"), seed = c(2019, 2019, 2019)),
-  class = "data.frame", row.names = c(NA, -3L))
+feat_imps <- structure(list(auc = c(
+  0.551578947368421, 0.512447368421053,
+  0.574421052631579
+), auc_diff = c(
+  0.0194736842105264, 0.0586052631578948,
+  -0.00336842105263154
+), names = structure(1:3, .Label = c(
+  "Otu00001",
+  "Otu00002", "Otu00003"
+), class = "factor"), method = c(
+  "regLogistic",
+  "regLogistic", "regLogistic"
+), seed = c(2019, 2019, 2019)),
+class = "data.frame", row.names = c(NA, -3L)
+)
 
 test_that("feature importances are correct", {
   expect_equal(get_feature_importance(

@@ -395,7 +395,7 @@ test_that("process_cont_feats works", {
     )), removed_cont = character(0))
   )
   expect_equal(process_cont_feats(NULL), list(transformed_cont = NULL, removed_cont = NULL))
-  expect_error(process_cont_feats(NA), 'Argument `features` must be a `data.frame` or `tibble`')
+  expect_error(process_cont_feats(NA), "Argument `features` must be a `data.frame` or `tibble`")
 })
 
 test_that("get_caret_processed_df works", {
@@ -455,14 +455,16 @@ test_that("get_caret_dummyvars_df works", {
 })
 
 test_that("collapse_correlated_features works", {
-  expect_equal(collapse_correlated_features(test_df[1:3, c(2, 5, 8)]),
-               list(
-    features = structure(list(
-      var1 = 1:3, var4 = c(0, 1, 0),
-      var7 = c(1, 1, 0)
-    ), row.names = c(NA, -3L), class = "data.frame"),
-    grp_feats = NULL
-  ))
+  expect_equal(
+    collapse_correlated_features(test_df[1:3, c(2, 5, 8)]),
+    list(
+      features = structure(list(
+        var1 = 1:3, var4 = c(0, 1, 0),
+        var7 = c(1, 1, 0)
+      ), row.names = c(NA, -3L), class = "data.frame"),
+      grp_feats = NULL
+    )
+  )
   expect_equal(
     collapse_correlated_features(cbind(test_df[1:3, c(2, 5, 8)], var8 = c(1, 1, 0))),
     list(
