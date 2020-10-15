@@ -1,6 +1,7 @@
 ## code to prepare `otu_small` dataset
 otu_large <- read.delim(system.file("data-raw", "otu_large.csv",
-                                    package = 'mikropml'), sep = ",")
+  package = "mikropml"
+), sep = ",")
 otu_small <- otu_large[1:200, 1:61]
 usethis::use_data(otu_small, overwrite = TRUE)
 
