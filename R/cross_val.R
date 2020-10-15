@@ -11,20 +11,15 @@
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #'
-#'
 #' @examples
 #' define_cv(train_data_sm,
 #'   outcome_colname = "dx",
 #'   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
 #'   perf_metric_function = caret::twoClassSummary,
 #'   class_probs = TRUE,
-#'   kfold = 5,
-#'   seed = 2019
+#'   kfold = 5
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, group = NULL, seed = NA) {
-  if (!is.na(seed)) {
-    set.seed(seed)
-  }
+define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL) {
   if (is.null(group)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
       dplyr::pull(outcome_colname)),
@@ -32,7 +27,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
     times = cv_times
     )
   } else {
-    cvIndex <- groupKMultiFolds(group, kfold = kfold, cv_times = cv_times)
+    cvIndex <- create_grouped_k_multifolds(groups, kfold = kfold, cv_times = cv_times)
   }
 
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))
@@ -62,6 +57,8 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
 #'
 #' @return seeds for `caret::trainControl`
 #' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
@@ -77,4 +74,48 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
   ## For the last model:
   seeds[[kfold * cv_times + 1]] <- sample.int(n = sample_from, size = 1)
   return(seeds)
+}
+
+
+#' Splitting into folds for cross-validation when using groups
+#'
+#' Like \link[caret]{createMultiFolds} but still splitting by groups using \link[caret]{groupKFold}. Code modified from \link[caret]{createMultiFolds}.
+#'
+#' @param groups equivalent to y in caret::createMultiFolds
+#' @param kfold equivalent to k in caret::createMultiFolds
+#' @param cv_times equivalent to cv_times in caret::createMultiFolds
+#'
+#' @return indices of folds for CV
+#' @export
+#' @author Zena Lapp, {zenalapp@@umich.edu}
+#'
+#' @examples
+#' set.seed(0)
+#' groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
+#' folds <- create_grouped_k_multifolds(groups, kfold = 2, cv_times = 2)
+create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
+  # we're not doign anything with survival in caret (i.e. copied from caret, but not useful for us)
+  # if (class(groups)[1] == "Surv") {
+  #   groups <- groups[, "time"]
+  # }
+  prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
+    sep = ""
+  )
+  for (i in 1:cv_times) {
+    tmp <- caret::groupKFold(groups, k = kfold)
+    names(tmp) <- paste("Fold", gsub(" ", "0", format(seq(along = tmp))),
+      ".", prettyNums[i],
+      sep = ""
+    )
+    out <- if (i == 1) {
+      tmp
+    } else {
+      c(out, tmp)
+    }
+  }
+  sapply_fn <- select_apply("sapply")
+  if (any(sapply_fn(out, length) == 0)) {
+    stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the groupsing functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
+  }
+  out
 }

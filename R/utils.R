@@ -33,10 +33,7 @@ utils::globalVariables(c("."))
 #'
 #' @examples
 #' randomize_feature_order(otu_small, "dx")
-randomize_feature_order <- function(dataset, outcome_colname, seed = NA) {
-  if (!is.na(seed)) {
-    set.seed(seed)
-  }
+randomize_feature_order <- function(dataset, outcome_colname) {
   features <- sample(colnames(dataset[names(dataset) != outcome_colname]))
   dataset <- dplyr::select(
     dataset,

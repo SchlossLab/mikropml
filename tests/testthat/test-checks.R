@@ -149,14 +149,14 @@ test_that("check_features works", {
   )
 })
 
-test_that("check_group works", {
-  expect_null(check_group(mikropml::otu_mini, NULL, 2))
-  expect_null(check_group(mikropml::otu_mini, sample(LETTERS, nrow(mikropml::otu_mini), replace = T), 2))
-  expect_error(check_group(mikropml::otu_mini, c(1, 2), 2), "group should be a vector that is the same length as the number of rows in the dataset")
-  expect_error(check_group(mikropml::otu_mini, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
-  expect_error(check_group(mikropml::otu_mini, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
-  expect_error(check_group(mikropml::otu_mini, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
-  expect_error(check_group(mikropml::otu_mini, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
+test_that("check_groups works", {
+  expect_null(check_groups(mikropml::otu_mini, NULL, 2))
+  expect_null(check_groups(mikropml::otu_mini, sample(LETTERS, nrow(mikropml::otu_mini), replace = T), 2))
+  expect_error(check_groups(mikropml::otu_mini, c(1, 2), 2), "group should be a vector that is the same length as the number of rows in the dataset")
+  expect_error(check_groups(mikropml::otu_mini, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
+  expect_error(check_groups(mikropml::otu_mini, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
+  expect_error(check_groups(mikropml::otu_mini, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
+  expect_error(check_groups(mikropml::otu_mini, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
 })
 
 test_that("check_corr_thresh works", {
@@ -185,4 +185,10 @@ test_that("check_perf_metric_name works", {
 test_that("check_cat_feats works", {
   expect_null(check_cat_feats(test_df[,2:3]))
   expect_error(check_cat_feats(test_df), 'No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
+})
+
+test_that("check_remove_var works", {
+  expect_null(check_remove_var(NULL))
+  expect_null(check_remove_var("nzv"))
+  expect_error(check_remove_var("asdf"), "`remove_var` must be one of: NULL, 'nzv','zv'. You provided:")
 })

@@ -1,8 +1,22 @@
-hparams_list <- list(
-  cost = c("1e-3", "1e-2", "1e-1"),
-  epsilon = "0.01",
-  loss = "L2_primal"
+
+hparams_list <- list(cost = c("1e-3", "1e-2", "1e-1"), epsilon = "0.01", loss = "L2_primal")
+cv2_group <- c(
+  "A", "A", "B", "A", "A", "A", "D", "C", "A", "D", "C", "B",
+  "A", "A", "B", "B", "A", "D", "C", "C", "B", "B", "C", "D", "C",
+  "D", "C", "A", "C", "D", "A", "C", "C", "A", "D", "A", "B", "C",
+  "C", "D", "B", "D", "B", "A", "C", "D", "B", "C", "D", "B", "A",
+  "D", "C", "A", "B", "C", "B", "D", "A", "B", "B", "B", "A", "A",
+  "D", "B", "A", "A", "A", "D", "A", "D", "C", "A", "D", "C", "A",
+  "D", "B", "C", "C", "B", "D", "A", "B", "C", "B", "A", "A", "B",
+  "D", "C", "B", "D", "C", "D", "D", "D", "C", "C", "A", "A", "A",
+  "B", "B", "B", "A", "B", "D", "C", "C", "D", "D", "C", "B", "D",
+  "D", "C", "A", "D", "B", "C", "A", "D", "D", "B", "C", "B", "D",
+  "C", "B", "A", "C", "B", "B", "C", "A", "C", "B", "D", "B", "D",
+  "C", "B"
 )
+outcome_type <- get_outcome_type(otu_mini %>% dplyr::pull("dx"))
+class_probs <- outcome_type != "numeric"
+perf_metric_function <- get_perf_metric_fn(outcome_type)
 
 test_that("define_cv works for 2-fold cv on otu_mini training data with groups", {
   set.seed(2019)
@@ -14,11 +28,7 @@ test_that("define_cv works for 2-fold cv on otu_mini training data with groups",
       class_probs = TRUE,
       kfold = 2,
       cv_times = 2,
-      seed = 2019,
-      group = sample(LETTERS[1:4],
-        nrow(otu_mini_results1$trained_model$trainingData),
-        replace = TRUE
-      )
+      group = cv2_group
     ),
     otu_mini_cv2
   )
@@ -42,4 +52,25 @@ test_that("get_seeds_trainControl works", {
       270L
     ), c(1211L, 597L, 1301L), 1974L)
   )
+})
+
+test_that("create_grouped_k_multifolds works", {
+  set.seed(0)
+  group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
+  folds <- create_grouped_k_multifolds(group, kfold = 2, cv_times = 2)
+
+  expect_equal(folds, list(Fold1.Rep1 = c(1L, 3L, 5L, 6L, 7L, 8L), Fold2.Rep1 = c(
+    2L,
+    4L, 9L
+  ), Fold1.Rep2 = c(2L, 4L), Fold2.Rep2 = c(
+    1L, 3L, 5L, 6L,
+    7L, 8L, 9L
+  )))
+
+  fold_grps <- sapply(folds, function(x) group[x])
+  expect_false(any(fold_grps$Fold1.Rep1 %in% fold_grps$Fold2.Rep1))
+  expect_false(any(fold_grps$Fold1.Rep2 %in% fold_grps$Fold2.Rep2))
+
+  set.seed(5)
+  expect_error(create_grouped_k_multifolds(group, kfold = 2, cv_times = 2), "Could not split the data into train and validate folds")
 })

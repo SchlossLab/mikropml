@@ -43,7 +43,7 @@ get_feature_importance(
 dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc
 }
 \description{
-Get feature importance using permutation method
+Requires the \code{future.apply} package
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

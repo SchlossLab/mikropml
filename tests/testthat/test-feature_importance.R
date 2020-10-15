@@ -12,11 +12,11 @@ options(
 # find_permuted_perf_metric
 test_that("find_permuted_perf_metric works", {
   expect_equal(
-    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049"),
+    find_permuted_perf_metric(test_data_mini, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049"),
     c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000), tol = 10e-5
   )
   expect_equal(
-    find_permuted_perf_metric(test_data_sm, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049|Otu00050"),c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000), tol = 10e-5)
+    find_permuted_perf_metric(test_data_mini, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049|Otu00050"),c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000), tol = 10e-5)
 })
 
 feat_imps <- structure(list(
@@ -29,7 +29,7 @@ feat_imps <- structure(list(
 ),
 class = "data.frame", row.names = c(NA, -3L)
 )
-# get_feature_importance
+
 test_that("feature importances are correct", {
   expect_equal(get_feature_importance(
     trained_model_mini,

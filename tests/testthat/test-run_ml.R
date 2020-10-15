@@ -42,10 +42,25 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   )
 }
 
-test_that("run_ml works for L2 logistic regression", {
-  hparams_list <- test_hyperparams %>% get_hyperparams_from_df("regLogistic")
-  hparams_list[["epsilon"]] <- as.numeric(hparams_list[["epsilon"]])
-  set.seed(2019)
+otu_mini_group <- c(
+  "I", "J", "E", "A", "H", "G", "C", "J", "I", "J", "A", "H",
+  "C", "G", "H", "C", "D", "E", "C", "D", "E", "G", "I", "A", "G",
+  "F", "F", "A", "J", "G", "F", "E", "A", "F", "E", "J", "F", "A",
+  "B", "A", "A", "I", "I", "C", "A", "H", "J", "G", "G", "B", "F",
+  "F", "I", "J", "H", "G", "F", "H", "H", "C", "I", "E", "B", "B",
+  "I", "H", "G", "C", "G", "G", "I", "F", "I", "D", "J", "H", "C",
+  "F", "C", "F", "E", "C", "B", "B", "D", "G", "F", "F", "J", "B",
+  "B", "G", "G", "J", "B", "J", "J", "G", "D", "G", "H", "I", "H",
+  "D", "G", "I", "F", "A", "E", "C", "B", "B", "E", "J", "F", "H",
+  "C", "F", "C", "D", "I", "H", "A", "G", "E", "F", "A", "C", "E",
+  "I", "D", "A", "C", "D", "H", "A", "A", "J", "F", "E", "C", "J",
+  "J", "G", "C", "D", "H", "E", "E", "F", "G", "F", "C", "E", "F",
+  "D", "D", "B", "J", "B", "H", "A", "A", "A", "B", "D", "J", "D",
+  "F", "F", "B", "G", "J", "B", "F", "G", "F", "J", "B", "D", "B",
+  "C", "C", "H", "B", "F", "I", "G", "I", "D", "G", "G", "E", "F",
+  "I", "B", "B", "I", "J", "A"
+)
+test_that("run_ml works for L2 logistic regression with grouping & feature importance", {
   expect_equal_ml_results(
     run_ml(otu_mini, # use built-in hyperparameters
       "regLogistic",
@@ -54,7 +69,7 @@ test_that("run_ml works for L2 logistic regression", {
       seed = 2019,
       kfold = 2,
       cv_times = 2,
-      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+      group = otu_mini_group
     ),
     otu_mini_results1
   )

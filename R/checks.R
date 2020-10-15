@@ -16,7 +16,7 @@ check_all <- function(dataset, method, permute, kfold, training_frac, perf_metri
   check_training_frac(training_frac)
   check_perf_metric_function(perf_metric_function)
   check_perf_metric_name(perf_metric_name)
-  check_group(dataset, group, kfold)
+  check_groups(dataset, group, kfold)
   check_corr_thresh(corr_thresh)
   check_seed(seed)
 }
@@ -254,18 +254,17 @@ check_packages_installed <- function(...) {
 #' Reports which packages need to be installed and the parent function name.
 #' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
 #'
-#' @param package_status named vector with status of each package; installed (`TRUE`) or not (`FALSE`)
+#' @inheritParams check_packages_installed
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' abort_packages_not_installed(check_packages_installed("base"))
+#' abort_packages_not_installed("base")
 #' \dontrun{
-#' abort_packages_not_installed(check_packages_installed(
-#'   "not-a-package-name", "caret", "dplyr", "non_package"
-#' ))
+#' abort_packages_not_installed("not-a-package-name", "caret", "dplyr", "non_package")
 #' }
-abort_packages_not_installed <- function(package_status) {
+abort_packages_not_installed <- function(...) {
+  package_status <- check_packages_installed(...)
   parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
   packages_not_installed <- Filter(isFALSE, package_status)
   if (length(packages_not_installed) > 0) {
@@ -311,35 +310,35 @@ check_features <- function(features, check_missing = TRUE) {
 #'
 #' @inheritParams run_ml
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
-#' check_group(mikropml::otu_mini,
+#' check_groups(mikropml::otu_mini,
 #'   sample(LETTERS, nrow(mikropml::otu_mini), replace = TRUE),
 #'   kfold = 2
 #' )
-check_group <- function(dataset, group, kfold) {
-  # check that group is a vector or NULL
-  isvec <- is.vector(group)
-  isnull <- is.null(group)
+check_groups <- function(dataset, groups, kfold) {
+  # check that groups is a vector or NULL
+  isvec <- is.vector(groups)
+  isnull <- is.null(groups)
   if (!(isvec | isnull)) {
-    stop(paste0("group should be either a vector or NULL, but group is class ", class(group), "."))
+    stop(paste0("group should be either a vector or NULL, but group is class ", class(groups), "."))
   }
   # if group is a vector, check that it's the correct length
   if (isvec) {
     ndat <- nrow(dataset)
-    ngrp <- length(group)
+    ngrp <- length(groups)
     if (ndat != ngrp) {
       stop(paste0("group should be a vector that is the same length as the number of rows in the dataset (", ndat, "), but it is of length ", ngrp, "."))
     }
     # check that there are no NAs in group
-    nas <- is.na(group)
+    nas <- is.na(groups)
     nnas <- sum(nas)
     if (any(nas)) {
       stop(paste0("No NA values are allowed in group, but ", nnas, " NA(s) are present."))
     }
     # check that there is more than 1 group
-    ngrp <- length(unique(group))
+    ngrp <- length(unique(groups))
     if (ngrp < 2) {
       stop(paste0("The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"))
     }
@@ -395,7 +394,6 @@ check_perf_metric_function <- function(perf_metric_function) {
 #'
 #' @param perf_metric_name performance metric function
 #'
-#' @return
 #' @noRd
 #'
 #' @examples
@@ -417,5 +415,21 @@ check_perf_metric_name <- function(perf_metric_name) {
 check_cat_feats <- function(feats){
   if(any(sapply(feats,class) %in% c('factor','character'))){
     stop('No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
+  }
+}
+
+#' Check remove_var
+#'
+#' @inheritParmas preprocess_data
+#'
+#' @noRd
+#'
+#' @examples
+#' check_remove_var(NULL)
+check_remove_var <- function(remove_var) {
+  if (!is.null(remove_var)) {
+    if (!(remove_var %in% c("nzv", "zv"))) {
+      stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
+    }
   }
 }

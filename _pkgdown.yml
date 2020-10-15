@@ -1,5 +1,11 @@
 url: http://www.schlosslab.org/mikropml
 destination: docs
+articles:
+    - title: All vignettes
+      contents:
+          - introduction
+          - preprocess
+          - parallel
 authors:
     Begüm Topçuoğlu:
         href: "https://github.com/BTopcuoglu"

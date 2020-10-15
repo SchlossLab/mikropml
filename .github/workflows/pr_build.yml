@@ -1,4 +1,4 @@
-name: build
+name: pr_build
 
 on:
   pull_request:
@@ -45,6 +45,11 @@ jobs:
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '📄 Render README.Rmd' || echo "No changes to commit"
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
       - name: Docs
         run: |
           Rscript -e "devtools::build_site()"
@@ -52,7 +57,7 @@ jobs:
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m "📑 Build docs site" || echo "No changes to commit"
-      - name: Push
+      - name: Push final
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

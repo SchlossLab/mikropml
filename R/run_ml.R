@@ -13,7 +13,7 @@
 #' @param training_frac Fraction of data for training set (default: `0.8`). The remaining data will be used in the testing set.
 #' @param perf_metric_function Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = `twoClassSummary`, multi-class classification = `multiClassSummary`, regression = `defaultSummary`.
 #' @param perf_metric_name The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = `"ROC"`, multi-class classification = `"logLoss"`, regression = `"RMSE"`.
-#' @param group Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).
+#' @param groups Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).
 #' @param corr_thresh For feature importance, group correlations above or equal to corr_thresh (default: `1`).
 #'
 #' @return named list with results
@@ -41,7 +41,7 @@ run_ml <-
            training_frac = 0.8,
            perf_metric_function = NULL,
            perf_metric_name = NULL,
-           group = NULL,
+           groups = NULL,
            corr_thresh = 1,
            seed = NA) {
     check_all(
@@ -52,49 +52,42 @@ run_ml <-
       training_frac,
       perf_metric_function,
       perf_metric_name,
-      group,
+      groups,
       corr_thresh,
       seed
     )
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
+    if (find_feature_importance) { # `future.apply` is required for `find_feature_importance()``
+      abort_packages_not_installed("future.apply")
+    }
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     if(find_feature_importance){ # can't have categorical features for feature importance beause have to find correlations
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
     }
-    dataset <- randomize_feature_order(dataset, outcome_colname, seed = seed)
+    dataset <- randomize_feature_order(dataset, outcome_colname)
 
-    if (!is.na(seed)) {
-      set.seed(seed)
-    }
-
-    if (is.null(group)) {
-      training_inds <-
-        caret::createDataPartition(dataset %>% dplyr::pull(outcome_colname),
-          p = training_frac, list = FALSE
-        )
-      train_group <- NULL
-      test_group <- NULL
-    } else {
-      training_inds <-
-        createGroupedDataPartition(group,
-          p = training_frac
-        )
-      train_group <- group[training_inds]
-      test_group <- group[-training_inds]
-    }
+    outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
+    training_inds <- get_partition_indices(outcomes_vec,
+      training_frac = training_frac,
+      groups = groups
+    )
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
+    # train_groups & test_groups will be NULL if groups is NULL
+    train_groups <- groups[training_inds]
+    test_groups <- groups[-training_inds]
 
     if (is.null(hyperparameters)) {
       hyperparameters <- get_hyperparams_list(dataset, method)
     }
     check_hyperparams(hyperparameters, method = method)
-
     tune_grid <- get_tuning_grid(hyperparameters, method)
 
-    outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
 
     outcome_type <- get_outcome_type(outcomes_vec)
-    class_probs <- ifelse(outcome_type == "continuous", FALSE, TRUE)
+    class_probs <- outcome_type != "continuous"
 
     if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
@@ -111,8 +104,7 @@ run_ml <-
       class_probs,
       kfold = kfold,
       cv_times = cv_times,
-      seed = seed,
-      group = train_group
+      groups = train_groups
     )
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
