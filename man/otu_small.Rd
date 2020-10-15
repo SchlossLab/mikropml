@@ -13,6 +13,7 @@ All other columns are OTU relative abundances.
 otu_small
 }
 \description{
-A dataset containing relatives abundances of 60 OTUs for 60 human stool samples
+A dataset containing relatives abundances of 60 OTUs for 60 human stool samples.
+This is a subset of the data provided in \code{extdata/otu_large.csv}.
 }
 \keyword{datasets}
