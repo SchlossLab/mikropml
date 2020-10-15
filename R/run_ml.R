@@ -85,7 +85,6 @@ run_ml <-
     if (is.null(hyperparameters)) {
       hyperparameters <- get_hyperparams_list(dataset, method)
     }
-    check_hyperparams(hyperparameters, method = method)
     tune_grid <- get_tuning_grid(hyperparameters, method)
 
 
@@ -111,15 +110,17 @@ run_ml <-
     )
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-   
-      trained_model_caret <- caret::train(
+    
+    
+    
+      trained_model_caret <- train_model(
         model_formula,
-        data = train_data,
-        method = method,
-        trControl = cv,
-        metric = perf_metric_name,
-        tuneGrid = tune_grid,
-        ntree = ntree
+        train_data,
+        method,
+        cv,
+        perf_metric_name,
+        tune_grid,
+        ntree
       ) 
 
     performance_tbl <- get_performance_tbl(

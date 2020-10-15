@@ -30,7 +30,7 @@ get_feature_importance(
 
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
-\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
 
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 

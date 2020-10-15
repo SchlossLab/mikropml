@@ -28,14 +28,14 @@ test_that("feature importances are correct", {
     caret::multiClassSummary,
     'AUC',
     TRUE,
-    "regLogistic",
+    "glmnet",
     seed = 2019,
     corr_thresh = 1
   ), structure(list(perf_metric = c(0.551578947368421, 0.512447368421053, 
                                     0.574421052631579), perf_metric_diff = c(0.0194736842105263, 
                                                                              0.0586052631578947, -0.00336842105263156), names = structure(1:3, .Label = c("Otu00001", 
-                                                                                                                                                          "Otu00002", "Otu00003"), class = "factor"), method = c("regLogistic", 
-                                                                                                                                                                                                                 "regLogistic", "regLogistic"), perf_metric_name = c("AUC", "AUC", 
+                                                                                                                                                          "Otu00002", "Otu00003"), class = "factor"), method = c("glmnet", 
+                                                                                                                                                                                                                 "glmnet", "glmnet"), perf_metric_name = c("AUC", "AUC", 
                                                                                                                                                                                                                                                                      "AUC"), seed = c(2019, 2019, 2019)), class = "data.frame", row.names = c(NA, 
                                                                                                                                                                                                                                                                                                                                               -3L)))
 })

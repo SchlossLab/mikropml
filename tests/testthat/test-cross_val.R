@@ -1,5 +1,5 @@
 
-hparams_list <- list(cost = c("1e-3", "1e-2", "1e-1"), epsilon = "0.01", loss = "L2_primal")
+hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 cv2_group <- c(
   "A", "A", "B", "A", "A", "A", "D", "C", "A", "D", "C", "B",
   "A", "A", "B", "B", "A", "D", "C", "C", "B", "B", "C", "D", "C",
@@ -74,3 +74,4 @@ test_that("create_grouped_k_multifolds works", {
   set.seed(5)
   expect_error(create_grouped_k_multifolds(group, kfold = 2, cv_times = 2), "Could not split the data into train and validate folds")
 })
+

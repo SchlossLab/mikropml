@@ -2,7 +2,7 @@
 % Please edit documentation in R/checks.R
 \name{check_features}
 \alias{check_features}
-\title{Title}
+\title{Check features}
 \usage{
 check_features(features, check_missing = TRUE)
 }
@@ -15,5 +15,8 @@ check_features(features, check_missing = TRUE)
 
 }
 \description{
-Title
+Check features
+}
+\examples{
+check_features(otu_mini[,2:4])
 }

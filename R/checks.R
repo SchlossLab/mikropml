@@ -7,7 +7,7 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL)
+#' check_all(otu_small, "rf", TRUE, as.integer(5), 0.8, NULL)
 check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
@@ -55,14 +55,14 @@ check_dataset <- function(dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_method("regLogistic")
+#' check_method("rf")
 check_method <- function(method) {
-  methods <- c("regLogistic", "glmnet", "svmRadial", "rpart2", "rf", "xgbTree")
+  methods <- c("glmnet", "svmRadial", "rpart2", "rf", "xgbTree")
   if (!(method %in% methods)) {
-    stop(paste0(
+    warning(paste0(
       "Method '",
       method,
-      "' is not supported. Supported methods are:\n    ",
+      "' is not officially supported by mikropml. However, this method might work in our pipeline. You can use the caret documentation to see what hyperparameters are required. Supported methods are:\n    ",
       paste(methods, collapse = ", ")
     ))
   }
@@ -278,7 +278,7 @@ abort_packages_not_installed <- function(...) {
   }
 }
 
-#' Title
+#' Check features
 #'
 #' @param features features for machine learning
 #' @param check_missing check whether the features have missing data (default: TRUE)
@@ -287,6 +287,7 @@ abort_packages_not_installed <- function(...) {
 #' @export
 #'
 #' @examples
+#' check_features(otu_mini[,2:4])
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
@@ -407,7 +408,7 @@ check_perf_metric_name <- function(perf_metric_name) {
 
 #' Check if any features are categorical
 #'
-#' @param feats 
+#' @param feats features
 #'
 #' @noRd
 #'
@@ -421,7 +422,7 @@ check_cat_feats <- function(feats){
 
 #' Check remove_var
 #'
-#' @inheritParmas preprocess_data
+#' @inheritParams preprocess_data
 #'
 #' @noRd
 #'
@@ -437,7 +438,7 @@ check_remove_var <- function(remove_var) {
 
 #' Check ntree
 #'
-#' @inheritParmas run_ml
+#' @inheritParams run_ml
 #'
 #' @noRd
 #'

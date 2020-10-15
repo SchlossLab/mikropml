@@ -45,11 +45,11 @@ test_that("check_dataset works", {
 })
 
 test_that("check_method works", {
-  expect_error(
+  expect_warning(
     check_method("not_a_method"),
-    "Method 'not_a_method' is not supported. Supported methods are:"
+    "Method 'not_a_method' is not officially supported by mikropml. However, this method might work in our pipeline. You can use the caret documentation to see what hyperparameters are required. Supported methods are:"
   )
-  expect_true(is.null(check_method("regLogistic")))
+  expect_null(check_method("glmnet"))
 })
 
 test_that("check_outcome_column works", {
@@ -127,7 +127,7 @@ test_that("check_seed works", {
 })
 
 test_that("check_all works", {
-  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NA))
+  expect_null(check_all(otu_small, "glmnet", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NULL, NA))
 })
 
 test_that("check_packages_installed works", {
