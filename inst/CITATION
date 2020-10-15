@@ -1,4 +1,4 @@
-citHeader("To cite mikRopML in publications use:")
+citHeader("To cite mikRopML in publications, use:")
 
 citEntry(
   entry = "manual",
