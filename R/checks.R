@@ -7,8 +7,8 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL)
-check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, seed) {
+#' check_all(otu_small, "rf", TRUE, as.integer(5), 0.8, NULL)
+check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
@@ -18,6 +18,7 @@ check_all <- function(dataset, method, permute, kfold, training_frac, perf_metri
   check_perf_metric_name(perf_metric_name)
   check_groups(dataset, group, kfold)
   check_corr_thresh(corr_thresh)
+  check_ntree(ntree)
   check_seed(seed)
 }
 
@@ -54,14 +55,14 @@ check_dataset <- function(dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_method("regLogistic")
+#' check_method("rf")
 check_method <- function(method) {
-  methods <- c("regLogistic", "svmRadial", "rpart2", "rf", "xgbTree")
+  methods <- c("glmnet", "svmRadial", "rpart2", "rf", "xgbTree")
   if (!(method %in% methods)) {
-    stop(paste0(
+    warning(paste0(
       "Method '",
       method,
-      "' is not supported. Supported methods are:\n    ",
+      "' is not officially supported by mikropml. However, this method might work in our pipeline. You can use the caret documentation to see what hyperparameters are required. Supported methods are:\n    ",
       paste(methods, collapse = ", ")
     ))
   }
@@ -147,6 +148,8 @@ check_seed <- function(seed) {
 
 #' Check that outcome column exists. Pick outcome column if not specified.
 #'
+#' @param check_values whether to check the outcome values or just get the column (default:TRUE)
+#' @param show_message whether to show which column is being used as the output column (default: TRUE)
 #' @inheritParams run_ml
 #'
 #' @return outcome colname
@@ -156,7 +159,7 @@ check_seed <- function(seed) {
 #' @examples
 #' check_outcome_column(otu_small, NULL)
 #' check_outcome_column(otu_small, "dx")
-check_outcome_column <- function(dataset, outcome_colname) {
+check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, show_message = TRUE) {
   # If no outcome colname specified, use first column in data
   if (is.null(outcome_colname)) {
     outcome_colname <- colnames(dataset)[1]
@@ -166,13 +169,25 @@ check_outcome_column <- function(dataset, outcome_colname) {
       stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
     }
   }
+  
+  if(check_values) check_outcome_value(dataset, outcome_colname)
+  
+  if(show_message){
+    message(
+      paste0(
+        "Using '",
+        outcome_colname,
+        "' as the outcome column."
+      )
+    )
+  }
+  
   return(outcome_colname)
 }
 
 #' Check that the outcome variable is binary. Pick outcome value if necessary.
 #'
 #' @inheritParams run_ml
-#' @inheritParams pick_outcome_value
 #'
 #' @return outcome value
 #' @noRd
@@ -180,7 +195,7 @@ check_outcome_column <- function(dataset, outcome_colname) {
 #'
 #' @examples
 #' check_outcome_value(otu_small, "dx", "cancer")
-check_outcome_value <- function(dataset, outcome_colname, outcome_value, method = "fewer") {
+check_outcome_value <- function(dataset, outcome_colname) {
   # check no NA's
   outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
   num_missing <- sum(is.na(outcomes_vec))
@@ -193,45 +208,31 @@ check_outcome_value <- function(dataset, outcome_colname, outcome_value, method 
   if (num_empty != 0) {
     warning(paste0("Possible missing data in the output variable: ", num_empty, " empty value(s)."))
   }
+  
+  outcomes_all <- dataset %>%
+    dplyr::pull(outcome_colname)
+  
+  # check if continuous outcome
+  isnum <- is.numeric(outcomes_all)
+  if(isnum){
+    # check if it might actually be categorical
+    if(all(floor(outcomes_all) == outcomes_all)){
+      warning('Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values.')
+    }
+  }
 
-  # check binary outcome
-  outcomes <- dataset %>%
-    dplyr::pull(outcome_colname) %>%
+  # check binary and multiclass outcome
+  outcomes <- outcomes_all %>%
     unique()
   num_outcomes <- length(outcomes)
-  if (num_outcomes != 2) {
+  if (num_outcomes < 2) {
     stop(
       paste0(
-        "A binary outcome variable is required, but this dataset has ",
+        "A binary or multi-class outcome variable is required, but this dataset has ",
         num_outcomes,  " outcome(s): ", paste(outcomes, collapse = ", ")
       )
     )
   }
-  # pick binary outcome value of interest if not provided by user
-  if (is.null(outcome_value)) {
-    outcome_value <-
-      pick_outcome_value(dataset, outcome_colname, method = method)
-  } else if (!any(outcomes_vec == outcome_value)) {
-    stop(
-      paste0(
-        "No rows in the outcome column (",
-        outcome_colname,
-        ") with the outcome of interest (",
-        outcome_value,
-        ") were detected."
-      )
-    )
-  }
-  message(
-    paste0(
-      "Using '",
-      outcome_colname,
-      "' as the outcome column and '",
-      outcome_value,
-      "' as the outcome value of interest."
-    )
-  )
-  return(outcome_value)
 }
 
 #' Check whether package(s) are installed
@@ -279,6 +280,15 @@ abort_packages_not_installed <- function(...) {
   }
 }
 
+#' Check features
+#'
+#' @param features features for machine learning
+#' @param check_missing check whether the features have missing data (default: TRUE)
+#'
+#' @export
+#'
+#' @examples
+#' check_features(otu_mini[,2:4])
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
@@ -397,9 +407,23 @@ check_perf_metric_name <- function(perf_metric_name) {
   }
 }
 
+#' Check if any features are categorical
+#'
+#' @param feats features
+#'
+#' @noRd
+#'
+#' @examples
+#' check_cat_feats(otu_mini)
+check_cat_feats <- function(feats){
+  if(any(sapply(feats,class) %in% c('factor','character'))){
+    stop('No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
+  }
+}
+
 #' Check remove_var
 #'
-#' @inheritParmas preprocess_data
+#' @inheritParams preprocess_data
 #'
 #' @noRd
 #'
@@ -409,6 +433,24 @@ check_remove_var <- function(remove_var) {
   if (!is.null(remove_var)) {
     if (!(remove_var %in% c("nzv", "zv"))) {
       stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
+    }
+  }
+}
+
+#' Check ntree
+#'
+#' @inheritParams run_ml
+#'
+#' @noRd
+#'
+#' @examples
+#' check_ntree(NULL)
+check_ntree <- function(ntree){
+  if(!is.null(ntree)){
+    if (!is.numeric(ntree) | length(ntree) > 1) {
+      stop(paste0("`ntree` must be of length 1 and class numeric. You provided: ", class(ntree)))
+    }else if(ntree < 1){
+      stop(paste0("`ntree` must be greater than zero. You provided: ", ntree))
     }
   }
 }

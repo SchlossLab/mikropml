@@ -8,8 +8,7 @@ usethis::use_data(otu_small, overwrite = TRUE)
 ## code to prepare models with the `otu_small` otu_small
 set.seed(2019)
 outcome_colname <- "dx"
-outcome_value <- "cancer"
-kfolds <- 5
+kfolds <- 2
 
 inTraining <-
   caret::createDataPartition(otu_small[, outcome_colname], p = .80, list = FALSE)
@@ -68,7 +67,7 @@ class = "col_spec"
 
 set.seed(2019)
 hparams_list <- get_hyperparams_from_df(default_hyperparams, "regLogistic")
-otu_sm_cv5 <- define_cv(train_data_sm, outcome_colname, hparams_list, kfolds, 100, 2019)
+otu_sm_cv5 <- define_cv(train_data_sm, outcome_colname, hparams_list, perf_metric_function = twoClassSummary, class_probs = TRUE, 2, 5, seed = 2019)
 
 trained_model_sm1 <- caret::train(
   stats::as.formula(paste(outcome_colname, "~ .")),
@@ -84,11 +83,12 @@ trained_model_sm1 <- caret::train(
 otu_sm_results1 <- mikropml::run_ml(otu_small,
   "regLogistic",
   outcome_colname = outcome_colname,
-  outcome_value = outcome_value,
   find_feature_importance = FALSE,
+  kfold = 2,
+  cv_times = 5,
   seed = 2019
 )
-usethis::use_data(otu_sm_results1, overwrite = TRUE)
+# usethis::use_data(otu_sm_results1, overwrite = TRUE)
 
 # TODO: fix error:
 # Error in { :

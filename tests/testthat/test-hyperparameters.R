@@ -1,8 +1,8 @@
 default_hyperparams <- structure(list(
   param = c(
-    "cost", "cost", "cost", "cost", "cost",
-    "cost", "cost", "cost", "cost", "cost", "cost", "cost", "cost",
-    "loss", "epsilon", "sigma", "sigma", "sigma", "sigma", "sigma",
+    "lambda", "lambda", "lambda", "lambda", "lambda",
+    "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", 
+    "lambda", "alpha", "sigma", "sigma", "sigma", "sigma", "sigma",
     "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
     "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",
     "maxdepth", "nrounds", "gamma", "eta", "eta", "eta", "eta", "max_depth",
@@ -12,7 +12,7 @@ default_hyperparams <- structure(list(
   value = c(
     "1e-6",
     "1e-5", "1e-4", "1e-3", "0.0025", "0.005", "0.01", "0.05", "0.1",
-    "0.25", "0.5", "1", "10", "L2_primal", "0.01", "0.00000001",
+    "0.25", "0.5", "1", "10", "0", "0.00000001",
     "0.0000001", "0.000001", "0.00001", "0.0001", "0.001", "0.01",
     "0.1", "0.0000001", "0.000001", "0.00001", "0.0001", "0.001",
     "0.01", "0.1", "1", "10", "1", "2", "3", "4", "5", "6", "500",
@@ -20,10 +20,10 @@ default_hyperparams <- structure(list(
     "0.6", "0.7", "500", "1000"
   ),
   method = c(
-    "regLogistic", "regLogistic",
-    "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
-    "regLogistic", "regLogistic", "regLogistic", "regLogistic", "regLogistic",
-    "regLogistic", "regLogistic", "regLogistic", "svmRadial", "svmRadial",
+    "glmnet", "glmnet",
+    "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
+    "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
+    "glmnet", "glmnet", "svmRadial", "svmRadial",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
@@ -33,7 +33,7 @@ default_hyperparams <- structure(list(
   )
 ),
 class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"),
-row.names = c(NA, -53L),
+row.names = c(NA, -52L),
 spec = structure(list(
   cols = list(
     param = structure(list(), class = c("collector_character", "collector")),
@@ -47,15 +47,14 @@ class = "col_spec"
 )
 
 # tune grid tests for each method
-test_that("tune grid works for regLogistic", {
+test_that("tune grid works for glmnet", {
   hyperparams_lst <- default_hyperparams %>%
-    get_hyperparams_from_df("regLogistic")
+    get_hyperparams_from_df("glmnet")
   grid <- expand.grid(
-    cost = hyperparams_lst$cost,
-    epsilon = hyperparams_lst$epsilon,
-    loss = hyperparams_lst$loss
+    alpha = hyperparams_lst$alpha,
+    lambda = hyperparams_lst$lambda
   ) %>% mutate_all_types()
-  expect_equal(get_tuning_grid(hyperparams_lst, "regLogistic"), grid)
+  expect_equal(get_tuning_grid(hyperparams_lst, "glmnet"), grid)
 })
 test_that("tune grid works for svmRadial", {
   hyperparams_lst <- default_hyperparams %>%
@@ -96,11 +95,10 @@ test_that("tune grid works for xgbTree", {
 # get_hyperparams_list
 test_that("get_hyperparams_list works for all models", {
   expect_equal(
-    get_hyperparams_list(otu_mini, "regLogistic"),
+    get_hyperparams_list(otu_mini, "glmnet"),
     list(
-      cost = c(1e-04, 0.001, 0.01, 0.1, 1, 10),
-      epsilon = 0.01,
-      loss = "L2_primal"
+      lambda = c(1e-04, 0.001, 0.01, 0.1, 1, 10),
+      alpha = 0
     )
   )
   expect_equal(
@@ -144,27 +142,4 @@ test_that("get_hyperparams_list throws error for unsupported method", {
     get_hyperparams_list(otu_mini, "not_a_method"),
     "method 'not_a_method' is not supported."
   )
-})
-
-# check_hyperparams
-l2logit_required <- list(
-  epsilon = c(0.01),
-  loss = c("L2_primal")
-)
-l2_warning <-
-  "For L2-normalized Logistic Regression, `loss` must be 'L2_primal' and `epsilon` must be `0.01`,"
-wrong_loss <- list(
-  epsilon = c(0.01),
-  loss = c("L1_primal")
-)
-wrong_epsilon <- list(
-  epsilon = c(0.1),
-  loss = c("L2_primal")
-)
-test_that("check_hyperparams prints warning for l2logit", {
-  expect_warning(check_hyperparams(wrong_loss, "regLogistic"), l2_warning)
-  expect_warning(check_hyperparams(wrong_epsilon, "regLogistic"), l2_warning)
-})
-test_that("check_hyperparams returns nothing on success for l2logit", {
-  expect_true(is.null(check_hyperparams(l2logit_required, "regLogistic")))
 })

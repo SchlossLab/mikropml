@@ -8,7 +8,6 @@ run_ml(
   dataset,
   method,
   outcome_colname = NULL,
-  outcome_value = NULL,
   hyperparameters = NULL,
   find_feature_importance = FALSE,
   kfold = 5,
@@ -18,17 +17,16 @@ run_ml(
   perf_metric_name = NULL,
   groups = NULL,
   corr_thresh = 1,
+  ntree = 1000,
   seed = NA
 )
 }
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{method}{ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
 
 \item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
-
-\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
 
 \item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; will be chosen automatically).}
 
@@ -48,6 +46,8 @@ run_ml(
 
 \item{corr_thresh}{For feature importance, group correlations above or equal to corr_thresh (default: \code{1}).}
 
+\item{ntree}{For random forest, how many trees to use (default: 1000). Note that caret doesn't allow this parameter to be tuned.}
+
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
@@ -58,10 +58,10 @@ TODO: more details
 }
 \examples{
 \dontrun{
-run_ml(otu_large, "regLogistic")
-run_ml(otu_mini, "regLogistic",
+run_ml(otu_small, "glmnet",
   kfold = 2,
-  find_feature_importance = TRUE
+  cv_times = 2,
+  seed = 2019
 )
 }
 }

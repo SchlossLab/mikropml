@@ -9,50 +9,13 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' ml_method <- "regLogistic"
+#' ml_method <- "glmnet"
 #' hparams_list <- get_hyperparams_list(otu_small, ml_method)
 #' get_tuning_grid(hparams_list, ml_method)
 get_tuning_grid <- function(hyperparams_list, method) {
   return(hyperparams_list %>%
     expand.grid() %>%
     mutate_all_types())
-}
-
-#' Check that hyperparameters are valid
-#'
-#' Currently, it only checks the loss & epsilon hyperparameters for L2-normalized logistic regression.
-#'
-#' @param hp_list named list of hyperparameters
-#' @inheritParams run_ml
-#'
-#' @noRd
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#' # no warning message if defaults are used
-#' set_hparams_regLogistic() %>%
-#'   check_hyperparams()
-check_hyperparams <- function(hp_list, method) {
-  if (method == "regLogistic") {
-    epsilon_req <- c(0.01)
-    loss_req <- c("L2_primal")
-    logit_given <- hp_list[names(hp_list) %in% c("epsilon", "loss")]
-
-    # must use !isTRUE intead of isFALSE because `all.equal.list` returns description of differences when not equal
-    if ((as.numeric(logit_given$epsilon) != epsilon_req) | (as.character(logit_given$loss) != loss_req)) {
-      warning(
-        paste0(
-          "For L2-normalized Logistic Regression, ",
-          "`loss` must be 'L2_primal' and `epsilon` must be `0.01`,",
-          "\n  Be sure you intend to not perform L2-normalization.",
-          "\n  You supplied these hyperparameters:\n    ",
-          paste0(utils::capture.output(logit_given), collapse = "\n    ")
-        )
-      )
-    } else {
-      message("Using L2 normalization for Logistic Regression")
-    }
-  }
 }
 
 #' Split hyperparameters dataframe into named lists for each parameter
@@ -69,11 +32,11 @@ check_hyperparams <- function(hp_list, method) {
 #'
 #' @examples
 #' hparams_df <- dplyr::tibble(
-#'   param = c("cost", "cost", "loss", "epsilon"),
-#'   value = c(1, 0.1, "L2_primal", 0.01),
-#'   method = rep("regLogistic", 4)
+#'   param = c("alpha", "lambda", "lambda"),
+#'   value = c(1,0, 1),
+#'   method = rep("glmnet", 3)
 #' )
-#' get_hyperparams_from_df(hparams_df, "regLogistic")
+#' get_hyperparams_from_df(hparams_df, "glmnet")
 get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
   hyperparams_df_filt <- hyperparams_df %>% dplyr::filter(.data$method == ml_method)
   return(split(hyperparams_df_filt$value, hyperparams_df_filt$param))
@@ -96,7 +59,7 @@ get_hyperparams_list <- function(dataset, method) {
   n_features <- ncol(dataset) - 1
   n_samples <- nrow(dataset)
   hparams_functions <- list(
-    regLogistic = rlang::quo(set_hparams_regLogistic()),
+    glmnet = rlang::quo(set_hparams_glmnet()),
     rf = rlang::quo(set_hparams_rf(n_features)),
     rpart2 = rlang::quo(set_hparams_rpart2(n_samples)),
     svmRadial = rlang::quo(set_hparams_svmRadial()),
@@ -108,19 +71,10 @@ get_hyperparams_list <- function(dataset, method) {
   return(rlang::eval_tidy(hparams_functions[[method]]))
 }
 
-#' Set hyperparameters for logistic regression models
-#'
-#' @return named list of hyperparameters
-#' @export
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#' set_hparams_regLogistic()
-set_hparams_regLogistic <- function() {
+set_hparams_glmnet <- function(){
   return(list(
-    cost = 10^seq(-4, 1, 1),
-    epsilon = c(0.01),
-    loss = c("L2_primal")
+    lambda = 10^seq(-4, 1, 1),
+    alpha = 0 # this makes it ridge (i.e. L2) regression. 1 would make it lasso (i.e. L1) regression
   ))
 }
 
