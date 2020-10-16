@@ -66,7 +66,7 @@ run_ml <-
       abort_packages_not_installed("future.apply")
     }
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
-    if(find_feature_importance){ # can't have categorical features for feature importance beause have to find correlations
+    if (find_feature_importance) { # can't have categorical features for feature importance beause have to find correlations
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
     }
     dataset <- randomize_feature_order(dataset, outcome_colname)
@@ -110,16 +110,16 @@ run_ml <-
     )
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-    
-      trained_model_caret <- train_model(
-        model_formula,
-        train_data,
-        method,
-        cv,
-        perf_metric_name,
-        tune_grid,
-        ntree
-      ) 
+
+    trained_model_caret <- train_model(
+      model_formula,
+      train_data,
+      method,
+      cv,
+      perf_metric_name,
+      tune_grid,
+      ntree
+    )
 
     performance_tbl <- get_performance_tbl(
       trained_model_caret,

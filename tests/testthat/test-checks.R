@@ -23,7 +23,7 @@ test_df_empty <- data.frame(
 )
 
 test_df_numeric <- data.frame(
-  outcome = c(0,1,2),
+  outcome = c(0, 1, 2),
   var1 = 1:3,
   var2 = 4:6
 )
@@ -53,7 +53,7 @@ test_that("check_method works", {
 })
 
 test_that("check_outcome_column works", {
-  expect_equal(expect_message(check_outcome_column(test_df, NULL),'Using'), "outcome")
+  expect_equal(expect_message(check_outcome_column(test_df, NULL), "Using"), "outcome")
   expect_error(
     check_outcome_column(test_df, "not_a_column"),
     "Outcome 'not_a_column' not in column names of data."
@@ -70,9 +70,8 @@ test_that("check_outcome_value works", {
     check_outcome_value(test_df_empty, "outcome"),
     "Possible missing data in the output variable: "
   )
-  expect_error(check_outcome_value(test_df_novar,"outcome"), "A binary or multi-class outcome variable is required, but this dataset has")
-  expect_null(expect_warning(check_outcome_value(test_df_numeric,"outcome"),'Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values.'))
-  
+  expect_error(check_outcome_value(test_df_novar, "outcome"), "A binary or multi-class outcome variable is required, but this dataset has")
+  expect_null(expect_warning(check_outcome_value(test_df_numeric, "outcome"), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values."))
 })
 
 test_that("check_permute works", {
@@ -183,8 +182,8 @@ test_that("check_perf_metric_name works", {
 })
 
 test_that("check_cat_feats works", {
-  expect_null(check_cat_feats(test_df[,2:3]))
-  expect_error(check_cat_feats(test_df), 'No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
+  expect_null(check_cat_feats(test_df[, 2:3]))
+  expect_error(check_cat_feats(test_df), "No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
 })
 
 test_that("check_remove_var works", {
@@ -193,10 +192,10 @@ test_that("check_remove_var works", {
   expect_error(check_remove_var("asdf"), "`remove_var` must be one of: NULL, 'nzv','zv'. You provided:")
 })
 
-test_that("check_ntree works",{
+test_that("check_ntree works", {
   expect_null(check_ntree(NULL))
   expect_null(check_ntree(1000))
-  expect_error(check_ntree('asdf'), '`ntree` must be of length 1 and class numeric. You provided: ')
-  expect_error(check_ntree(-10), '`ntree` must be greater than zero. You provided: ')
-  expect_error(check_ntree(c(0,1)), '`ntree` must be of length 1 and class numeric. You provided: ')
+  expect_error(check_ntree("asdf"), "`ntree` must be of length 1 and class numeric. You provided: ")
+  expect_error(check_ntree(-10), "`ntree` must be greater than zero. You provided: ")
+  expect_error(check_ntree(c(0, 1)), "`ntree` must be of length 1 and class numeric. You provided: ")
 })

@@ -3,6 +3,7 @@ set.seed(2019)
 outcome_colname <- "Otu00001"
 kfolds <- 2
 otu_mini <- otu_small[, 1:4]
+# usethis::use_data(otu_mini, overwrite = TRUE)
 
 test_hyperparams <- structure(list(
   param = c(
@@ -34,13 +35,13 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -19L)
 ## code to prepare `otu_mini_cont_results1`
 # includes grouping functionality & feature importance
 set.seed(2019)
-otu_mini_cont_results1 <- mikropml::run_ml(otu_mini[,2:4], # use built-in hyperparams
-                                      "glmnet",
-                                      outcome_colname = outcome_colname,
-                                      find_feature_importance = TRUE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2
+otu_mini_cont_results1 <- mikropml::run_ml(otu_mini[, 2:4], # use built-in hyperparams
+  "glmnet",
+  outcome_colname = outcome_colname,
+  find_feature_importance = TRUE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2
 )
 usethis::use_data(otu_mini_cont_results1, overwrite = TRUE)
 

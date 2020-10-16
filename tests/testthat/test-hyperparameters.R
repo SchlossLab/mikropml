@@ -1,7 +1,7 @@
 default_hyperparams <- structure(list(
   param = c(
     "lambda", "lambda", "lambda", "lambda", "lambda",
-    "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", 
+    "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", "lambda",
     "lambda", "alpha", "sigma", "sigma", "sigma", "sigma", "sigma",
     "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
     "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",

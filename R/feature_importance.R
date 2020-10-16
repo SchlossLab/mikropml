@@ -77,8 +77,8 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     # Return how does this feature being permuted effect the performance metric
     return(c(new_perf_metric = new_perf_metric, diff = (test_perf_metric - new_perf_metric)))
   }, future.seed = seed)
-  if(!is.na(seed)) set.seed(seed) # must set seed back to its original value
-  rownames(perf_metric_diffs) = gsub('\\..*','',rownames(perf_metric_diffs))
+  if (!is.na(seed)) set.seed(seed) # must set seed back to its original value
+  rownames(perf_metric_diffs) <- gsub("\\..*", "", rownames(perf_metric_diffs))
   perf_metric <- mean(perf_metric_diffs["new_perf_metric", ])
   perf_metric_diff <- mean(perf_metric_diffs["diff", ])
   return(c(perf_metric = perf_metric, perf_metric_diff = perf_metric_diff))

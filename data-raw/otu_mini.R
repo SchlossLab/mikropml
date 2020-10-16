@@ -6,23 +6,23 @@ usethis::use_data(otu_mini, overwrite = TRUE)
 test_hyperparams <- structure(list(
   param = c(
     "lambda", "lambda", "lambda", "alpha",
-    "sigma", "sigma", "C", "C", 
-    "maxdepth", "maxdepth", 
-    "nrounds", "gamma", "eta", "max_depth", "colsample_bytree", "min_child_weight", "subsample", 
+    "sigma", "sigma", "C", "C",
+    "maxdepth", "maxdepth",
+    "nrounds", "gamma", "eta", "max_depth", "colsample_bytree", "min_child_weight", "subsample",
     "mtry", "mtry"
   ),
   value = c(
-    "1e-3", "1e-2", "1e-1", "1", 
+    "1e-3", "1e-2", "1e-1", "1",
     "0.00000001", "0.0000001", "0.01", "0.1",
-    "1", "2", 
-    "10", "0", "0.01", "1", "0.8", "1", "0.4", 
+    "1", "2",
+    "10", "0", "0.01", "1", "0.8", "1", "0.4",
     "1", "2"
   ),
   method = c(
     "glmnet", "glmnet", "glmnet", "glmnet",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-    "rpart2", "rpart2", 
-    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", 
+    "rpart2", "rpart2",
+    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
     "rf", "rf"
   )
 ),

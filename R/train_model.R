@@ -13,14 +13,14 @@
 #' @return trained model
 #' @export
 #'
-train_model <- function(        model_formula,
-                                train_data,
-                                method,
-                                cv,
-                                perf_metric_name,
-                                tune_grid,
-                                ntree){
-  if(method == 'rf'){
+train_model <- function(model_formula,
+                        train_data,
+                        method,
+                        cv,
+                        perf_metric_name,
+                        tune_grid,
+                        ntree) {
+  if (method == "rf") {
     trained_model_caret <- caret::train(
       model_formula,
       data = train_data,
@@ -29,8 +29,8 @@ train_model <- function(        model_formula,
       metric = perf_metric_name,
       tuneGrid = tune_grid,
       ntree = ntree
-    ) 
-  }else{
+    )
+  } else {
     trained_model_caret <- caret::train(
       model_formula,
       data = train_data,
@@ -38,7 +38,7 @@ train_model <- function(        model_formula,
       trControl = cv,
       metric = perf_metric_name,
       tuneGrid = tune_grid
-    ) 
+    )
   }
   return(trained_model_caret)
 }
