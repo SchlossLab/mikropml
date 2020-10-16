@@ -1,6 +1,8 @@
 ---
 title: "Preprocessing data prior to machine learning"
+author: "Zena Lapp"
 output: rmarkdown::html_vignette
+bibliography: paper.bib
 vignette: >
   %\VignetteIndexEntry{Preprocessing data prior to machine learning}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,7 +18,7 @@ knitr::opts_chunk$set(
 
 Before running machine learning, it's often necessary and prudent to preprocess your input data. 
 We provide a function (`preprocess_data()`) to preprocess input data. 
-The defaults we chose are based on best practices used in  [FIDDLE](https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/).
+The defaults we chose are based on best practices used in  [FIDDLE](https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/) [@tang_democratizing_2020].
 Feel free to check out FIDDLE for more information about data preprocessing!
 
 `preprocess_data()` takes an input dataset where the rows are the samples and the columns are the outcome variable and features.

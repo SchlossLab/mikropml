@@ -1,6 +1,6 @@
 ## code to prepare `otu_mini` dataset
 set.seed(2019)
-otu_mini <- otu_medium[,1:4]
+otu_mini <- otu_small[, 1:4]
 usethis::use_data(otu_mini, overwrite = TRUE)
 
 test_hyperparams <- structure(list(

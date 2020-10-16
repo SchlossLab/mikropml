@@ -1,5 +1,6 @@
 ---
 title: "Parallel processing"
+author: "Kelly L. Sovacool"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Parallel processing}
@@ -8,11 +9,13 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-options(future.supportsMulticore.unstable = FALSE)
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  warning = FALSE
+  warning = FALSE,
+  purl = NOT_CRAN,
+  eval = NOT_CRAN
 )
 ```
 
