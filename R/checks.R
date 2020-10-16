@@ -169,10 +169,10 @@ check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, 
       stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
     }
   }
-  
-  if(check_values) check_outcome_value(dataset, outcome_colname)
-  
-  if(show_message){
+
+  if (check_values) check_outcome_value(dataset, outcome_colname)
+
+  if (show_message) {
     message(
       paste0(
         "Using '",
@@ -181,7 +181,7 @@ check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, 
       )
     )
   }
-  
+
   return(outcome_colname)
 }
 
@@ -208,16 +208,16 @@ check_outcome_value <- function(dataset, outcome_colname) {
   if (num_empty != 0) {
     warning(paste0("Possible missing data in the output variable: ", num_empty, " empty value(s)."))
   }
-  
+
   outcomes_all <- dataset %>%
     dplyr::pull(outcome_colname)
-  
+
   # check if continuous outcome
   isnum <- is.numeric(outcomes_all)
-  if(isnum){
+  if (isnum) {
     # check if it might actually be categorical
-    if(all(floor(outcomes_all) == outcomes_all)){
-      warning('Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values.')
+    if (all(floor(outcomes_all) == outcomes_all)) {
+      warning("Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values.")
     }
   }
 
@@ -288,7 +288,7 @@ abort_packages_not_installed <- function(...) {
 #' @export
 #'
 #' @examples
-#' check_features(otu_mini[,2:4])
+#' check_features(otu_mini[, 2:4])
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
@@ -415,9 +415,9 @@ check_perf_metric_name <- function(perf_metric_name) {
 #'
 #' @examples
 #' check_cat_feats(otu_mini)
-check_cat_feats <- function(feats){
-  if(any(sapply(feats,class) %in% c('factor','character'))){
-    stop('No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.')
+check_cat_feats <- function(feats) {
+  if (any(sapply(feats, class) %in% c("factor", "character"))) {
+    stop("No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
   }
 }
 
@@ -445,11 +445,11 @@ check_remove_var <- function(remove_var) {
 #'
 #' @examples
 #' check_ntree(NULL)
-check_ntree <- function(ntree){
-  if(!is.null(ntree)){
+check_ntree <- function(ntree) {
+  if (!is.null(ntree)) {
     if (!is.numeric(ntree) | length(ntree) > 1) {
       stop(paste0("`ntree` must be of length 1 and class numeric. You provided: ", class(ntree)))
-    }else if(ntree < 1){
+    } else if (ntree < 1) {
       stop(paste0("`ntree` must be greater than zero. You provided: ", ntree))
     }
   }

@@ -116,14 +116,14 @@ mutate_all_types <- function(dat) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 get_performance_tbl <- function(trained_model, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, seed = NA) {
   test_perf_metrics <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)
-  cv_metric = caret::getTrainPerf(trained_model)[[paste0('Train',perf_metric_name)]]
-  if(is.null(cv_metric)) warning(paste0('The cv metric provided does not match with that used to train the data. You provided: '), perf_metric_name, '. The options are ',paste0(gsub('Train|method','',names(caret::getTrainPerf(trained_model))),sep=', '))
+  cv_metric <- caret::getTrainPerf(trained_model)[[paste0("Train", perf_metric_name)]]
+  if (is.null(cv_metric)) warning(paste0("The cv metric provided does not match with that used to train the data. You provided: "), perf_metric_name, ". The options are ", paste0(gsub("Train|method", "", names(caret::getTrainPerf(trained_model))), sep = ", "))
   all_info <- dplyr::bind_rows(c(
     cv_metric = cv_metric,
     test_perf_metrics,
     method = trained_model$method,
     seed = seed
   ))
-  names(all_info)[names(all_info) == 'cv_metric'] <- paste0('cv_metric_',perf_metric_name)
+  names(all_info)[names(all_info) == "cv_metric"] <- paste0("cv_metric_", perf_metric_name)
   return(change_to_num(all_info))
 }

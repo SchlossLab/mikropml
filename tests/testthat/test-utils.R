@@ -68,7 +68,7 @@ test_that("get_performance_tbl works", {
       otu_mini_results1$test_data,
       "dx",
       caret::multiClassSummary,
-      'AUC',
+      "AUC",
       TRUE,
       seed = 2019
     ),
@@ -79,8 +79,8 @@ test_that("get_performance_tbl works", {
     otu_mini_results1$test_data,
     "dx",
     caret::multiClassSummary,
-    'asdf',
+    "asdf",
     TRUE,
     seed = 2019
-  ),'The cv metric provided does not match with that used to train the data. You provided:')
+  ), "The cv metric provided does not match with that used to train the data. You provided:")
 })

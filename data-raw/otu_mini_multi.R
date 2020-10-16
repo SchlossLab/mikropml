@@ -32,61 +32,61 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -20L)
 # includes grouping functionality & feature importance
 set.seed(2019)
 otu_mini_results1 <- mikropml::run_ml(otu_mini, # use built-in hyperparams
-                                      "regLogistic",
-                                      outcome_colname = "dx",
-                                      find_feature_importance = TRUE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2,
-                                      group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
+  "regLogistic",
+  outcome_colname = "dx",
+  find_feature_importance = TRUE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2,
+  group = sample(LETTERS[1:10], nrow(otu_mini), replace = TRUE)
 )
-#usethis::use_data(otu_mini_results1, overwrite = TRUE)
+# usethis::use_data(otu_mini_results1, overwrite = TRUE)
 
 hparams_list <- get_hyperparams_from_df(test_hyperparams, "regLogistic")
 set.seed(2019)
 otu_mini_cv2 <- define_cv(otu_mini_results1$trained_model$trainingData,
-                          "dx",
-                          hparams_list,
-                          perf_metric_function = caret::multiClassSummary,
-                          class_probs = TRUE,
-                          kfold = 2,
-                          cv_times = 2,
-                          seed = 2019,
-                          group = sample(LETTERS[1:4],
-                                         nrow(otu_mini_results1$trained_model$trainingData),
-                                         replace = TRUE
-                          )
+  "dx",
+  hparams_list,
+  perf_metric_function = caret::multiClassSummary,
+  class_probs = TRUE,
+  kfold = 2,
+  cv_times = 2,
+  seed = 2019,
+  group = sample(LETTERS[1:4],
+    nrow(otu_mini_results1$trained_model$trainingData),
+    replace = TRUE
+  )
 )
-#usethis::use_data(otu_mini_cv2, overwrite = TRUE)
+# usethis::use_data(otu_mini_cv2, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
 otu_mini_results2 <- mikropml::run_ml(otu_mini,
-                                      "rf",
-                                      outcome_colname = "dx",
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 5
+  "rf",
+  outcome_colname = "dx",
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 5
 )
-#usethis::use_data(otu_mini_results2, overwrite = TRUE)
+# usethis::use_data(otu_mini_results2, overwrite = TRUE)
 
 otu_mini_results4 <- mikropml::run_ml(otu_mini,
-                                      "xgbTree",
-                                      outcome_colname = "dx",
-                                      hyperparameters = get_hyperparams_from_df(test_hyperparams, "xgbTree"),
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 5
+  "xgbTree",
+  outcome_colname = "dx",
+  hyperparameters = get_hyperparams_from_df(test_hyperparams, "xgbTree"),
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 5
 )
-#usethis::use_data(otu_mini_results4, overwrite = TRUE)
+# usethis::use_data(otu_mini_results4, overwrite = TRUE)
 
 otu_mini_results5 <- mikropml::run_ml(otu_mini,
-                                      "rpart2",
-                                      outcome_colname = "dx",
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 5
+  "rpart2",
+  outcome_colname = "dx",
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 5
 )
-#usethis::use_data(otu_mini_results5, overwrite = TRUE)
+# usethis::use_data(otu_mini_results5, overwrite = TRUE)

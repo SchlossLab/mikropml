@@ -33,7 +33,7 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' @examples
 #' hparams_df <- dplyr::tibble(
 #'   param = c("alpha", "lambda", "lambda"),
-#'   value = c(1,0, 1),
+#'   value = c(1, 0, 1),
 #'   method = rep("glmnet", 3)
 #' )
 #' get_hyperparams_from_df(hparams_df, "glmnet")
@@ -71,7 +71,7 @@ get_hyperparams_list <- function(dataset, method) {
   return(rlang::eval_tidy(hparams_functions[[method]]))
 }
 
-set_hparams_glmnet <- function(){
+set_hparams_glmnet <- function() {
   return(list(
     lambda = 10^seq(-4, 1, 1),
     alpha = 0 # this makes it ridge (i.e. L2) regression. 1 would make it lasso (i.e. L1) regression
