@@ -6,6 +6,7 @@
 #' @param trained_model trained model from caret
 #' @param train_data training data: dataframe of outcome and features
 #' @param test_data held out test data: dataframe of outcome and features
+#' @param class_probs whether to use class probabilities
 #' @inheritParams run_ml
 #'
 #' @return dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc

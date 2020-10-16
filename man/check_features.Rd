@@ -11,9 +11,6 @@ check_features(features, check_missing = TRUE)
 
 \item{check_missing}{check whether the features have missing data (default: TRUE)}
 }
-\value{
-
-}
 \description{
 Check features
 }

@@ -34,6 +34,15 @@
 #' All other columns are OTU relative abundances.
 "otu_mini"
 
+#' Mini OTU abundance dataset with 3 categorical variables
+#'
+#' A dataset containing relatives abundances of OTUs for human stool samples
+#'
+#' @format A data frame
+#' The `dx` column is the colorectal cancerl diagnosis: adenoma, carcinoma, normal.
+#' All other columns are OTU relative abundances.
+"otu_mini_multi"
+
 #' Small training dataset
 #'
 #' A training data partition from `otu_small`

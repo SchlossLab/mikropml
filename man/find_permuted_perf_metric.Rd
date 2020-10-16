@@ -26,6 +26,8 @@ find_permuted_perf_metric(
 
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
+\item{class_probs}{whether to use class probabilities}
+
 \item{feat}{feature or group of correlated features to permute}
 
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}

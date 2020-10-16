@@ -27,6 +27,8 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -19L)
 tg_rpart2 <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams,'rpart2'),'rpart2')
 tg_rf <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams,'rf'),'rf')
 
+
+hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 cv <- define_cv(train_data_mini,
                           "dx",
                           hparams_list,

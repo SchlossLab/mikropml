@@ -20,6 +20,8 @@ calc_perf_metrics(
 \item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
 \item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
+
+\item{class_probs}{whether to use class probabilities}
 }
 \value{
 performance metrics
@@ -29,5 +31,9 @@ Get performance metrics for test data
 }
 \examples{
 results <- run_ml(otu_small,'glmnet',kfold = 2, cv_times = 2)
-calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary, class_probs = TRUE)
+calc_perf_metrics(results$test_data, 
+results$trained_model, 
+'dx',
+multiClassSummary, 
+class_probs = TRUE)
 }

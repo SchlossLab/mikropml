@@ -285,7 +285,6 @@ abort_packages_not_installed <- function(...) {
 #' @param features features for machine learning
 #' @param check_missing check whether the features have missing data (default: TRUE)
 #'
-#' @return
 #' @export
 #'
 #' @examples

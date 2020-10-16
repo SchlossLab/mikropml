@@ -3,11 +3,11 @@
 #' Train model
 #'
 #' @param model_formula model formula
-#' @param data train_data
+#' @param train_data train_data
 #' @param method method
-#' @param trControl cross-validation caret scheme
-#' @param metric performance metric name
-#' @param tuneGrid tuning grid
+#' @param cv cross-validation caret scheme
+#' @param perf_metric_name performance metric name
+#' @param tune_grid tuning grid
 #' @param ntree number of trees for random forest
 #'
 #' @return trained model

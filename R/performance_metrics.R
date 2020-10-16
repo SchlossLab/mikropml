@@ -84,6 +84,7 @@ get_perf_metric_name <- function(outcome_type) {
 #'
 #' @param test_data test data
 #' @param trained_model trained model
+#' @param class_probs whether to use class probabilities
 #' @inheritParams run_ml
 #'
 #' @return performance metrics
@@ -91,7 +92,11 @@ get_perf_metric_name <- function(outcome_type) {
 #'
 #' @examples
 #' results <- run_ml(otu_small,'glmnet',kfold = 2, cv_times = 2)
-#' calc_perf_metrics(results$test_data, results$trained_model, 'dx',multiClassSummary, class_probs = TRUE)
+#' calc_perf_metrics(results$test_data, 
+#' results$trained_model, 
+#' 'dx',
+#' multiClassSummary, 
+#' class_probs = TRUE)
 calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function, class_probs){
   pred_type <- 'raw'
   if(class_probs) pred_type <- 'prob'

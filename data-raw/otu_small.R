@@ -85,7 +85,7 @@ otu_sm_results1 <- mikropml::run_ml(otu_small,
   cv_times = 5,
   seed = 2019
 )
-usethis::use_data(otu_sm_results1, overwrite = TRUE)
+# usethis::use_data(otu_sm_results1, overwrite = TRUE)
 
 # TODO: fix error:
 # Error in { :
