@@ -42,7 +42,7 @@ default_hyperparams <- structure(list(
     "glmnet", "glmnet",
     "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
     "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
-    "glmnet", "glmnet",  "svmRadial", "svmRadial",
+    "glmnet", "glmnet", "svmRadial", "svmRadial",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",

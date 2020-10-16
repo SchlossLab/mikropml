@@ -33,7 +33,7 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -19L)
 # includes grouping functionality & feature importance
 set.seed(2019)
 otu_mini_group <- sample(LETTERS[1:5], nrow(otu_small), replace = TRUE)
-otu_mini_results1 <- mikropml::run_ml(otu_small[,1:20], # use built-in hyperparams
+otu_mini_results1 <- mikropml::run_ml(otu_small[, 1:20], # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
   find_feature_importance = FALSE,
