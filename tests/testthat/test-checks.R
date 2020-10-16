@@ -4,6 +4,12 @@ test_df <- data.frame(
   var2 = 4:6
 )
 
+test_df_novar <- data.frame(
+  outcome = c("normal", "normal", "normal"),
+  var1 = 1:3,
+  var2 = 4:6
+)
+
 test_df_na <- data.frame(
   outcome = c("normal", NA, "cancer"),
   var1 = 1:3,
@@ -12,6 +18,12 @@ test_df_na <- data.frame(
 
 test_df_empty <- data.frame(
   outcome = c("", "", "cancer"),
+  var1 = 1:3,
+  var2 = 4:6
+)
+
+test_df_numeric <- data.frame(
+  outcome = c(0, 1, 2),
   var1 = 1:3,
   var2 = 4:6
 )
@@ -33,15 +45,15 @@ test_that("check_dataset works", {
 })
 
 test_that("check_method works", {
-  expect_error(
+  expect_warning(
     check_method("not_a_method"),
-    "Method 'not_a_method' is not supported. Supported methods are:"
+    "Method 'not_a_method' is not officially supported by mikropml. However, this method might work in our pipeline. You can use the caret documentation to see what hyperparameters are required. Supported methods are:"
   )
-  expect_true(is.null(check_method("regLogistic")))
+  expect_null(check_method("glmnet"))
 })
 
 test_that("check_outcome_column works", {
-  expect_equal(check_outcome_column(test_df, NULL), "outcome")
+  expect_equal(expect_message(check_outcome_column(test_df, NULL), "Using"), "outcome")
   expect_error(
     check_outcome_column(test_df, "not_a_column"),
     "Outcome 'not_a_column' not in column names of data."
@@ -49,35 +61,17 @@ test_that("check_outcome_column works", {
 })
 
 test_that("check_outcome_value works", {
-  expect_equal(check_outcome_value(test_df, "outcome", "cancer"), "cancer")
-  expect_equal(
-    check_outcome_value(test_df, "outcome", NULL, method = "fewer"),
-    "cancer"
-  )
-  expect_equal(
-    check_outcome_value(test_df, "outcome", NULL, method = "first"),
-    "normal"
-  )
+  expect_null(check_outcome_value(test_df, "outcome"))
   expect_error(
-    check_outcome_value(test_df, "outcome", NULL, method = "not_a_method"),
-    "Method not_a_method for selecting outcome value not recognized."
-  )
-  expect_message(
-    check_outcome_value(test_df, "outcome", "cancer"),
-    "Using 'outcome' as the outcome column and 'cancer' as the outcome value of interest."
-  )
-  expect_error(
-    check_outcome_value(test_df, "outcome", "not_an_outcome"),
-    "No rows in the outcome column "
-  )
-  expect_error(
-    check_outcome_value(test_df_na, "outcome", "cancer"),
+    check_outcome_value(test_df_na, "outcome"),
     "Missing data in the output variable is not allowed, but the outcome variable has"
   )
   expect_warning(
-    check_outcome_value(test_df_empty, "outcome", "cancer"),
+    check_outcome_value(test_df_empty, "outcome"),
     "Possible missing data in the output variable: "
   )
+  expect_error(check_outcome_value(test_df_novar, "outcome"), "A binary or multi-class outcome variable is required, but this dataset has")
+  expect_null(expect_warning(check_outcome_value(test_df_numeric, "outcome"), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values."))
 })
 
 test_that("check_permute works", {
@@ -132,7 +126,7 @@ test_that("check_seed works", {
 })
 
 test_that("check_all works", {
-  expect_null(check_all(otu_small, "regLogistic", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NA))
+  expect_null(check_all(otu_small, "glmnet", TRUE, as.integer(5), 0.8, NULL, NULL, NULL, NULL, NULL, NA))
 })
 
 test_that("check_packages_installed works", {
@@ -187,8 +181,21 @@ test_that("check_perf_metric_name works", {
   expect_error(check_perf_metric_name(1), "`perf_metric_name` must be `NULL` or a character\n    You provided: 1")
 })
 
+test_that("check_cat_feats works", {
+  expect_null(check_cat_feats(test_df[, 2:3]))
+  expect_error(check_cat_feats(test_df), "No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
+})
+
 test_that("check_remove_var works", {
   expect_null(check_remove_var(NULL))
   expect_null(check_remove_var("nzv"))
   expect_error(check_remove_var("asdf"), "`remove_var` must be one of: NULL, 'nzv','zv'. You provided:")
+})
+
+test_that("check_ntree works", {
+  expect_null(check_ntree(NULL))
+  expect_null(check_ntree(1000))
+  expect_error(check_ntree("asdf"), "`ntree` must be of length 1 and class numeric. You provided: ")
+  expect_error(check_ntree(-10), "`ntree` must be greater than zero. You provided: ")
+  expect_error(check_ntree(c(0, 1)), "`ntree` must be of length 1 and class numeric. You provided: ")
 })

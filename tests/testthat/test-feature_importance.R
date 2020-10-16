@@ -9,42 +9,18 @@ options(
 #   partial argument match of 'contrasts' to 'contrasts.arg'
 
 
-test_that("permuted auc returns correct value for non-correlated feature", {
+# find_permuted_perf_metric
+test_that("find_permuted_perf_metric works", {
   expect_equal(
-    find_permuted_auc(trained_model_mini, test_data_sm, "dx", "Otu00049", "cancer", seed = 2019),
-    c(auc = 0.571052631578947, auc_diff = 0)
+    find_permuted_perf_metric(test_data_mini, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049", seed = 2019),
+    c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000),
+    tol = 10e-5
+  )
+  expect_equal(
+    find_permuted_perf_metric(test_data_mini, trained_model_mini, "dx", caret::multiClassSummary, "AUC", TRUE, "Otu00049|Otu00050", seed = 2019), c(perf_metric = 0.5710526, perf_metric_diff = 0.0000000),
+    tol = 10e-5
   )
 })
-
-test_that("permuted auc returns correct value for [fake] correlated feature", {
-  expect_equal(
-    find_permuted_auc(
-      trained_model_mini,
-      test_data_mini,
-      "dx",
-      "Otu00049|Otu00050",
-      "cancer",
-      2019
-    ),
-    c(auc = 0.571052631578947, auc_diff = 0)
-  )
-})
-
-feat_imps <- structure(list(auc = c(
-  0.551578947368421, 0.512447368421053,
-  0.574421052631579
-), auc_diff = c(
-  0.0194736842105264, 0.0586052631578948,
-  -0.00336842105263154
-), names = structure(1:3, .Label = c(
-  "Otu00001",
-  "Otu00002", "Otu00003"
-), class = "factor"), method = c(
-  "regLogistic",
-  "regLogistic", "regLogistic"
-), seed = c(2019, 2019, 2019)),
-class = "data.frame", row.names = c(NA, -3L)
-)
 
 test_that("feature importances are correct", {
   expect_equal(get_feature_importance(
@@ -52,9 +28,29 @@ test_that("feature importances are correct", {
     train_data_mini,
     test_data_mini,
     "dx",
-    "cancer",
-    "regLogistic",
+    caret::multiClassSummary,
+    "AUC",
+    TRUE,
+    "glmnet",
     seed = 2019,
     corr_thresh = 1
-  ), feat_imps, tolerance = 1e-5)
+  ), structure(list(perf_metric = c(
+    0.551578947368421, 0.512447368421053,
+    0.574421052631579
+  ), perf_metric_diff = c(
+    0.0194736842105263,
+    0.0586052631578947, -0.00336842105263156
+  ), names = structure(1:3, .Label = c(
+    "Otu00001",
+    "Otu00002", "Otu00003"
+  ), class = "factor"), method = c(
+    "glmnet",
+    "glmnet", "glmnet"
+  ), perf_metric_name = c(
+    "AUC", "AUC",
+    "AUC"
+  ), seed = c(2019, 2019, 2019)), class = "data.frame", row.names = c(
+    NA,
+    -3L
+  )))
 })
