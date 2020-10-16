@@ -33,24 +33,6 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -19L)
 # includes grouping functionality & feature importance
 set.seed(2019)
 otu_mini_group <- sample(LETTERS[1:5], nrow(otu_small), replace = TRUE)
-# otu_mini_group <- c(
-#   "I", "J", "E", "A", "H", "G", "C", "J", "I", "J", "A", "H",
-#   "C", "G", "H", "C", "D", "E", "C", "D", "E", "G", "I", "A", "G",
-#   "F", "F", "A", "J", "G", "F", "E", "A", "F", "E", "J", "F", "A",
-#   "B", "A", "A", "I", "I", "C", "A", "H", "J", "G", "G", "B", "F",
-#   "F", "I", "J", "H", "G", "F", "H", "H", "C", "I", "E", "B", "B",
-#   "I", "H", "G", "C", "G", "G", "I", "F", "I", "D", "J", "H", "C",
-#   "F", "C", "F", "E", "C", "B", "B", "D", "G", "F", "F", "J", "B",
-#   "B", "G", "G", "J", "B", "J", "J", "G", "D", "G", "H", "I", "H",
-#   "D", "G", "I", "F", "A", "E", "C", "B", "B", "E", "J", "F", "H",
-#   "C", "F", "C", "D", "I", "H", "A", "G", "E", "F", "A", "C", "E",
-#   "I", "D", "A", "C", "D", "H", "A", "A", "J", "F", "E", "C", "J",
-#   "J", "G", "C", "D", "H", "E", "E", "F", "G", "F", "C", "E", "F",
-#   "D", "D", "B", "J", "B", "H", "A", "A", "A", "B", "D", "J", "D",
-#   "F", "F", "B", "G", "J", "B", "F", "G", "F", "J", "B", "D", "B",
-#   "C", "C", "H", "B", "F", "I", "G", "I", "D", "G", "G", "E", "F",
-#   "I", "B", "B", "I", "J", "A"
-# )
 otu_mini_results1 <- mikropml::run_ml(otu_small[,1:20], # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
@@ -76,9 +58,7 @@ cv2_group <- c(
   "C", "B", "A", "C", "B", "B", "C", "A", "C", "B", "D", "B", "D",
   "C", "B"
 )
-# hparams_list <- list(param = c("lambda", "lambda", "lambda", "alpha"),
-#                      value = c("1e-3", "1e-2", "1e-1", "1"),
-#                      method = c("glmnet", "glmnet", "glmnet", "glmnet"))
+
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 outcome_type <- get_outcome_type(otu_mini %>% dplyr::pull("dx"))
 class_probs <- outcome_type != "numeric"
