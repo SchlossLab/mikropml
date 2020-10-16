@@ -15,5 +15,5 @@ check_features(features, check_missing = TRUE)
 Check features
 }
 \examples{
-check_features(otu_mini[,2:4])
+check_features(otu_mini[, 2:4])
 }

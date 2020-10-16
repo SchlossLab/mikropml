@@ -30,10 +30,11 @@ performance metrics
 Get performance metrics for test data
 }
 \examples{
-results <- run_ml(otu_small,'glmnet',kfold = 2, cv_times = 2)
-calc_perf_metrics(results$test_data, 
-results$trained_model, 
-'dx',
-multiClassSummary, 
-class_probs = TRUE)
+results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
+calc_perf_metrics(results$test_data,
+  results$trained_model,
+  "dx",
+  multiClassSummary,
+  class_probs = TRUE
+)
 }
