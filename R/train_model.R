@@ -6,9 +6,9 @@
 #' @param train_data train_data
 #' @param method method
 #' @param cv cross-validation caret scheme
-#' @param perf_metric_name performance metric name
 #' @param tune_grid tuning grid
-#' @param ntree number of trees for random forest
+#' 
+#' @inheritParams run_ml
 #'
 #' @return trained model
 #' @export
