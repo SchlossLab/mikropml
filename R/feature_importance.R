@@ -6,6 +6,7 @@
 #' @param trained_model trained model from caret
 #' @param train_data training data: dataframe of outcome and features
 #' @param test_data held out test data: dataframe of outcome and features
+#' @param class_probs whether to use class probabilities
 #' @inheritParams run_ml
 #'
 #' @return dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc
@@ -13,7 +14,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, outcome_value, method, seed = NA, corr_thresh = 1) {
+get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, method, seed = NA, corr_thresh = 1) {
   abort_packages_not_installed("future.apply")
 
   # get outcome and features
@@ -27,20 +28,21 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
   grps <- group_correlated_features(corr_mat, features)
 
   imps <- do.call("rbind", future.apply::future_lapply(grps, function(feat) {
-    return(find_permuted_auc(trained_model, test_data, outcome_colname, feat, outcome_value, seed))
-  }, future.seed = as.integer(seed)))
+    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat, seed))
+  }, future.seed = seed))
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
       names = factor(grps),
       method = method,
+      perf_metric_name = perf_metric_name,
       seed = seed
     ))
 }
 
 
 
-#' Get permuted AUROC difference for a single feature (or group of features)
+#' Get permuted performance metric difference for a single feature (or group of features)
 #'
 #' Requires the `future.apply` package
 #'
@@ -53,30 +55,31 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-find_permuted_auc <- function(method, test_data, outcome_colname, feat, outcome_value, seed) {
+find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat, seed) {
   abort_packages_not_installed("future.apply")
-
-  # Calculate the test-auc for the actual pre-processed held-out data
-  test_auc <- calc_aucs(method, test_data, outcome_colname, outcome_value)$auroc
+  # Calculate the test performance metric for the actual pre-processed held-out data
+  test_perf_metric <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
-
-  auc_diffs <- future.apply::future_sapply(0:99, function(s) {
+  # get the new performance metric and performance metric differences
+  perf_metric_diffs <- future.apply::future_sapply(0:99, function(s) {
     set.seed(s)
-    full_permuted <- test_data
+    permuted_test_data <- test_data
     if (length(fs) == 1) {
-      full_permuted[, fs] <- sample(full_permuted[, fs])
+      permuted_test_data[, fs] <- sample(permuted_test_data[, fs])
     } else {
-      full_permuted[, fs] <- t(sample(data.frame(t(full_permuted[, fs]))))
+      permuted_test_data[, fs] <- t(sample(data.frame(t(permuted_test_data[, fs]))))
     }
-    new_auc <- calc_aucs(method, full_permuted, outcome_colname, outcome_value)$auroc
-    return(c(new_auc = new_auc, diff = (test_auc - new_auc)))
-  }, future.seed = as.integer(seed))
-  set.seed(seed) # must set seed back to its original value
-
-  auc <- mean(auc_diffs["new_auc", ])
-  auc_diff <- mean(auc_diffs["diff", ])
-  return(c(auc = auc, auc_diff = auc_diff))
+    # Calculate the new performance metric
+    new_perf_metric <- calc_perf_metrics(permuted_test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
+    # Return how does this feature being permuted effect the performance metric
+    return(c(new_perf_metric = new_perf_metric, diff = (test_perf_metric - new_perf_metric)))
+  }, future.seed = seed)
+  if (!is.na(seed)) set.seed(seed) # must set seed back to its original value
+  rownames(perf_metric_diffs) <- gsub("\\..*", "", rownames(perf_metric_diffs))
+  perf_metric <- mean(perf_metric_diffs["new_perf_metric", ])
+  perf_metric_diff <- mean(perf_metric_diffs["diff", ])
+  return(c(perf_metric = perf_metric, perf_metric_diff = perf_metric_diff))
 }

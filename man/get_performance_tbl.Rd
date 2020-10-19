@@ -8,18 +8,24 @@ get_performance_tbl(
   trained_model,
   test_data,
   outcome_colname,
-  outcome_value,
+  perf_metric_function,
+  perf_metric_name,
+  class_probs,
   seed = NA
 )
 }
 \arguments{
-\item{trained_model}{trained model from caret}
+\item{trained_model}{trained model}
 
-\item{test_data}{held out test data: dataframe of outcome and features}
+\item{test_data}{test data}
 
 \item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
 
-\item{outcome_value}{Outcome value of interest as a string (default \code{NULL}; will be chosen automatically).}
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
+
+\item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
+
+\item{class_probs}{whether to use class probabilities}
 
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }

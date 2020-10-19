@@ -125,7 +125,9 @@
   <span class='va'>train_data</span>,
   <span class='va'>test_data</span>,
   <span class='va'>outcome_colname</span>,
-  <span class='va'>outcome_value</span>,
+  <span class='va'>perf_metric_function</span>,
+  <span class='va'>perf_metric_name</span>,
+  <span class='va'>class_probs</span>,
   <span class='va'>method</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>,
   corr_thresh <span class='op'>=</span> <span class='fl'>1</span>
@@ -151,12 +153,20 @@
       <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
-      <th>outcome_value</th>
-      <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <th>perf_metric_function</th>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+    </tr>
+    <tr>
+      <th>perf_metric_name</th>
+      <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>class_probs</th>
+      <td><p>whether to use class probabilities</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``</p></td>
+      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code></p></td>
     </tr>
     <tr>
       <th>seed</th>

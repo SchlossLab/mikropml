@@ -14,14 +14,12 @@
 #' @examples
 #' define_cv(train_data_sm,
 #'   outcome_colname = "dx",
-#'   hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
-#'   perf_metric_function = caret::twoClassSummary,
+#'   hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
+#'   perf_metric_function = caret::multiClassSummary,
 #'   class_probs = TRUE,
 #'   kfold = 5
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list,
-                      perf_metric_function, class_probs,
-                      kfold = 5, cv_times = 100, groups = NULL) {
+define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL) {
   if (is.null(groups)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
       dplyr::pull(outcome_colname)),
@@ -63,7 +61,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list,
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_seeds_trainControl(get_hyperparams_list(otu_small, "regLogistic"), 5, 100, 60)
+#' get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"), 5, 100, 60)
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000

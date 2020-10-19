@@ -4,10 +4,13 @@
     <loc>http://www.schlosslab.org/mikropml/index.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/calc_aucs.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/calc_perf_metrics.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/change_to_num.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/check_features.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/collapse_correlated_features.html</loc>
@@ -22,7 +25,7 @@
     <loc>http://www.schlosslab.org/mikropml/reference/define_cv.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/find_permuted_auc.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/find_permuted_perf_metric.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/flatten_corr_mat.html</loc>
@@ -79,7 +82,13 @@
     <loc>http://www.schlosslab.org/mikropml/reference/otu_mini.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_cont_results1.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_cv2.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_multi.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results1.html</loc>
@@ -124,9 +133,6 @@
     <loc>http://www.schlosslab.org/mikropml/reference/run_ml.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/set_hparams_regLogistic.html</loc>
-  </url>
-  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/split_outcome_features.html</loc>
   </url>
   <url>
@@ -140,6 +146,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/train_data_sm.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/train_model.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/trained_model_mini.html</loc>
