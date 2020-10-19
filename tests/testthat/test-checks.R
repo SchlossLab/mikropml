@@ -71,7 +71,7 @@ test_that("check_outcome_value works", {
     "Possible missing data in the output variable: "
   )
   expect_error(check_outcome_value(test_df_novar, "outcome"), "A binary or multi-class outcome variable is required, but this dataset has")
-  expect_null(expect_warning(check_outcome_value(test_df_numeric, "outcome"), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values."))
+  expect_null(expect_warning(check_outcome_value(test_df_numeric, "outcome"), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values."))
 })
 
 test_that("check_permute works", {
