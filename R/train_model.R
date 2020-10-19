@@ -7,7 +7,7 @@
 #' @param method method
 #' @param cv cross-validation caret scheme
 #' @param tune_grid tuning grid
-#' 
+#'
 #' @inheritParams run_ml
 #'
 #' @return trained model
