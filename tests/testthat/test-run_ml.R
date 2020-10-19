@@ -42,24 +42,23 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   )
 }
 
-otu_mini_group <- c(
-  "I", "J", "E", "A", "H", "G", "C", "J", "I", "J", "A", "H",
-  "C", "G", "H", "C", "D", "E", "C", "D", "E", "G", "I", "A", "G",
-  "F", "F", "A", "J", "G", "F", "E", "A", "F", "E", "J", "F", "A",
-  "B", "A", "A", "I", "I", "C", "A", "H", "J", "G", "G", "B", "F",
-  "F", "I", "J", "H", "G", "F", "H", "H", "C", "I", "E", "B", "B",
-  "I", "H", "G", "C", "G", "G", "I", "F", "I", "D", "J", "H", "C",
-  "F", "C", "F", "E", "C", "B", "B", "D", "G", "F", "F", "J", "B",
-  "B", "G", "G", "J", "B", "J", "J", "G", "D", "G", "H", "I", "H",
-  "D", "G", "I", "F", "A", "E", "C", "B", "B", "E", "J", "F", "H",
-  "C", "F", "C", "D", "I", "H", "A", "G", "E", "F", "A", "C", "E",
-  "I", "D", "A", "C", "D", "H", "A", "A", "J", "F", "E", "C", "J",
-  "J", "G", "C", "D", "H", "E", "E", "F", "G", "F", "C", "E", "F",
-  "D", "D", "B", "J", "B", "H", "A", "A", "A", "B", "D", "J", "D",
-  "F", "F", "B", "G", "J", "B", "F", "G", "F", "J", "B", "D", "B",
-  "C", "C", "H", "B", "F", "I", "G", "I", "D", "G", "G", "E", "F",
-  "I", "B", "B", "I", "J", "A"
-)
+otu_mini_group <- c("A", "E", "B", "E", "E", "A", "E", "D", "C", "B", "A", "E", 
+                    "B", "A", "C", "C", "D", "E", "C", "D", "E", "A", "D", "A", "D", 
+                    "D", "A", "B", "E", "D", "A", "D", "E", "B", "E", "A", "B", "A", 
+                    "E", "A", "D", "A", "D", "A", "C", "A", "B", "B", "E", "A", "E", 
+                    "B", "C", "D", "D", "C", "A", "E", "E", "B", "B", "A", "C", "D", 
+                    "D", "D", "D", "A", "D", "C", "A", "D", "D", "B", "C", "E", "C", 
+                    "E", "C", "B", "D", "B", "D", "C", "B", "B", "B", "B", "B", "B", 
+                    "B", "C", "D", "D", "E", "A", "E", "D", "E", "A", "D", "A", "E", 
+                    "E", "C", "B", "B", "E", "B", "C", "C", "D", "A", "A", "E", "E", 
+                    "C", "A", "C", "E", "A", "D", "A", "C", "D", "E", "E", "A", "A", 
+                    "B", "E", "C", "B", "B", "C", "C", "D", "C", "E", "E", "E", "C", 
+                    "E", "D", "D", "B", "B", "B", "E", "E", "A", "A", "A", "B", "D", 
+                    "B", "D", "B", "B", "B", "D", "B", "B", "D", "B", "D", "C", "C", 
+                    "B", "A", "A", "D", "C", "E", "E", "A", "B", "B", "A", "B", "A", 
+                    "B", "E", "A", "C", "E", "A", "A", "E", "C", "C", "C", "B", "D", 
+                    "D", "B", "B", "E", "D", "D")
+
 test_that("run_ml works for L2 logistic regression with grouping & feature importance", {
   expect_equal_ml_results(
     run_ml(otu_small[, 1:20], # use built-in hyperparameters
@@ -76,23 +75,22 @@ test_that("run_ml works for L2 logistic regression with grouping & feature impor
 
 test_that("run_ml works for linear regression", {
   hparams_list <- test_hyperparams %>% get_hyperparams_from_df("glmnet")
-  set.seed(2019)
   expect_equal_ml_results(
-    run_ml(otu_mini[, 2:4], # use built-in hyperparameters
+    expect_message(expect_warning(run_ml(otu_mini[, 2:4], # use built-in hyperparameters
       "glmnet",
       outcome_colname = "Otu00001",
       find_feature_importance = TRUE,
       seed = 2019,
       kfold = 2,
       cv_times = 2
-    ),
+    ),"Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")),
     otu_mini_cont_results1
   )
 })
 
 test_that("run_ml works for random forest", {
-  set.seed(2019)
-  otu_mini_group <- sample(LETTERS[1:5], nrow(otu_mini), replace = TRUE)
+  # set.seed(2019)
+  # otu_mini_group <- sample(LETTERS[1:5], nrow(otu_mini), replace = TRUE)
   expect_equal_ml_results( # use built-in hyperparams function
     mikropml::run_ml(otu_mini,
       "rf",

@@ -31,8 +31,26 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -19L)
 
 ## code to prepare `otu_mini_results`
 # includes grouping functionality & feature importance
-set.seed(2019)
-otu_mini_group <- sample(LETTERS[1:5], nrow(otu_small), replace = TRUE)
+# set.seed(2019)
+# otu_mini_group <- sample(LETTERS[1:5], nrow(otu_small), replace = TRUE)
+
+otu_mini_group <- c("A", "E", "B", "E", "E", "A", "E", "D", "C", "B", "A", "E", 
+  "B", "A", "C", "C", "D", "E", "C", "D", "E", "A", "D", "A", "D", 
+  "D", "A", "B", "E", "D", "A", "D", "E", "B", "E", "A", "B", "A", 
+  "E", "A", "D", "A", "D", "A", "C", "A", "B", "B", "E", "A", "E", 
+  "B", "C", "D", "D", "C", "A", "E", "E", "B", "B", "A", "C", "D", 
+  "D", "D", "D", "A", "D", "C", "A", "D", "D", "B", "C", "E", "C", 
+  "E", "C", "B", "D", "B", "D", "C", "B", "B", "B", "B", "B", "B", 
+  "B", "C", "D", "D", "E", "A", "E", "D", "E", "A", "D", "A", "E", 
+  "E", "C", "B", "B", "E", "B", "C", "C", "D", "A", "A", "E", "E", 
+  "C", "A", "C", "E", "A", "D", "A", "C", "D", "E", "E", "A", "A", 
+  "B", "E", "C", "B", "B", "C", "C", "D", "C", "E", "E", "E", "C", 
+  "E", "D", "D", "B", "B", "B", "E", "E", "A", "A", "A", "B", "D", 
+  "B", "D", "B", "B", "B", "D", "B", "B", "D", "B", "D", "C", "C", 
+  "B", "A", "A", "D", "C", "E", "E", "A", "B", "B", "A", "B", "A", 
+  "B", "E", "A", "C", "E", "A", "A", "E", "C", "C", "C", "B", "D", 
+  "D", "B", "B", "E", "D", "D")
+
 otu_mini_results1 <- mikropml::run_ml(otu_small[, 1:20], # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
