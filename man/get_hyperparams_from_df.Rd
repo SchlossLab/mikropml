@@ -20,7 +20,7 @@ Using \code{\link{get_hyperparams_list}} is preferred over this function.
 \examples{
 hparams_df <- dplyr::tibble(
   param = c("alpha", "lambda", "lambda"),
-  value = c(1,0, 1),
+  value = c(1, 0, 1),
   method = rep("glmnet", 3)
 )
 get_hyperparams_from_df(hparams_df, "glmnet")
