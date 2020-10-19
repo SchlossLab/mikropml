@@ -23,15 +23,18 @@ train_model(
 
 \item{cv}{cross-validation caret scheme}
 
-\item{perf_metric_name}{performance metric name}
+\item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{tune_grid}{tuning grid}
 
-\item{ntree}{number of trees for random forest}
+\item{ntree}{For random forest, how many trees to use (default: 1000). Note that caret doesn't allow this parameter to be tuned.}
 }
 \value{
 trained model
 }
 \description{
 Train model
+}
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
 }
