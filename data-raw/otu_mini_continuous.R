@@ -8,23 +8,23 @@ otu_mini <- otu_small[, 1:4]
 test_hyperparams <- structure(list(
   param = c(
     "lambda", "lambda", "lambda", "alpha",
-    "sigma", "sigma", "C", "C", 
-    "maxdepth", "maxdepth", 
-    "nrounds", "gamma", "eta", "max_depth", "colsample_bytree", "min_child_weight", "subsample", 
+    "sigma", "sigma", "C", "C",
+    "maxdepth", "maxdepth",
+    "nrounds", "gamma", "eta", "max_depth", "colsample_bytree", "min_child_weight", "subsample",
     "mtry", "mtry"
   ),
   value = c(
-    "1e-3", "1e-2", "1e-1", "1", 
+    "1e-3", "1e-2", "1e-1", "1",
     "0.00000001", "0.0000001", "0.01", "0.1",
-    "1", "2", 
-    "10", "0", "0.01", "1", "0.8", "1", "0.4", 
+    "1", "2",
+    "10", "0", "0.01", "1", "0.8", "1", "0.4",
     "1", "2"
   ),
   method = c(
     "glmnet", "glmnet", "glmnet", "glmnet",
     "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-    "rpart2", "rpart2", 
-    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", 
+    "rpart2", "rpart2",
+    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
     "rf", "rf"
   )
 ),
@@ -47,39 +47,39 @@ usethis::use_data(otu_mini_cont_results1, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
 otu_mini_cont_results2 <- mikropml::run_ml(otu_mini,
-                                      "rf",
-                                      outcome_colname = outcome_colname,
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2
+  "rf",
+  outcome_colname = outcome_colname,
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2
 )
 
 otu_mini_cont_results3 <- mikropml::run_ml(otu_mini,
-                                      "svmRadial",
-                                      outcome_colname = outcome_colname,
-                                      hyperparameters = get_hyperparams_from_df(test_hyperparams, "svmRadial"),
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2
+  "svmRadial",
+  outcome_colname = outcome_colname,
+  hyperparameters = get_hyperparams_from_df(test_hyperparams, "svmRadial"),
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2
 )
 
 otu_mini_cont_results4 <- mikropml::run_ml(otu_mini,
-                                      "xgbTree",
-                                      outcome_colname = "dx",
-                                      hyperparameters = get_hyperparams_from_df(test_hyperparams, "xgbTree"),
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2
+  "xgbTree",
+  outcome_colname = "dx",
+  hyperparameters = get_hyperparams_from_df(test_hyperparams, "xgbTree"),
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2
 )
 
 otu_mini_cont_results5 <- mikropml::run_ml(otu_mini,
-                                      "rpart2",
-                                      outcome_colname = "dx",
-                                      find_feature_importance = FALSE,
-                                      seed = 2019,
-                                      kfold = 2,
-                                      cv_times = 2
+  "rpart2",
+  outcome_colname = "dx",
+  find_feature_importance = FALSE,
+  seed = 2019,
+  kfold = 2,
+  cv_times = 2
 )
