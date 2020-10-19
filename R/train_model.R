@@ -12,6 +12,7 @@
 #'
 #' @return trained model
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 train_model <- function(model_formula,
                         train_data,
