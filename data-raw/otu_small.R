@@ -8,7 +8,6 @@ usethis::use_data(otu_small, overwrite = TRUE)
 ## code to prepare models with the `otu_small` otu_small
 set.seed(2019)
 outcome_colname <- "dx"
-kfolds <- 2
 
 inTraining <-
   caret::createDataPartition(otu_small[, outcome_colname], p = .80, list = FALSE)
