@@ -32,14 +32,17 @@ utils::globalVariables(c("."))
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' randomize_feature_order(otu_small, "dx")
+#' dat <- (outcome = 1:3, a = 4:6, b = 7:9, c = 10:12)
+#' randomize_feature_order(dat, "outcome")
 randomize_feature_order <- function(dataset, outcome_colname) {
-  features <- sample(colnames(dataset[names(dataset) != outcome_colname]))
-  dataset <- dplyr::select(
-    dataset,
-    dplyr::one_of(outcome_colname),
-    dplyr::one_of(features)
-  )
+  features_reordered <- dataset %>%
+    split_outcome_features(outcome_colname) %>% .[['features']] %>%
+    colnames() %>%
+    sample()
+  dataset <- dplyr::select(dataset,
+                           dplyr::one_of(outcome_colname),
+                           dplyr::one_of(features_reordered)
+                           )
   return(dataset)
 }
 
