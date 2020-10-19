@@ -217,7 +217,7 @@ check_outcome_value <- function(dataset, outcome_colname) {
   if (isnum) {
     # check if it might actually be categorical
     if (all(floor(outcomes_all) == outcomes_all)) {
-      warning("Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character or numeric values.")
+      warning("Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")
     }
   }
 
