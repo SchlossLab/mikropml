@@ -41,8 +41,8 @@ See \link[caret]{trainControl} for info on how the seed is being set.
 \examples{
 define_cv(train_data_sm,
   outcome_colname = "dx",
-  hyperparams_list = get_hyperparams_list(otu_small, "regLogistic"),
-  perf_metric_function = caret::twoClassSummary,
+  hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
+  perf_metric_function = caret::multiClassSummary,
   class_probs = TRUE,
   kfold = 5
 )

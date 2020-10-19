@@ -22,38 +22,6 @@ rlang::`!!`
 ## See: \url{https://github.com/tidyverse/magrittr/issues/29}
 utils::globalVariables(c("."))
 
-
-#' Get the outcome value of interest for AUC calculations
-#'
-#' Choose the outcome value of interest from the outcome column based on
-#' which outcome has fewer rows, or is the first row of the dataframe.
-#'
-#' @inheritParams run_ml
-#' @param method Method to choose outcome value of interest ("fewer", "first")
-#'
-#' @return outcome value of interest
-#' @noRd
-#'
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-#' @examples
-#' get_outcome_value(otu_small, "dx")
-#' get_outcome_value(otu_small, "dx", "first")
-pick_outcome_value <- function(dataset, outcome_colname, method = "fewer") {
-  if (method == "fewer") {
-    outcome_value <- names(which.min(table(dataset %>% dplyr::pull(outcome_colname))))
-  } else if (method == "first") {
-    outcome_value <- as.character(dataset[1, outcome_colname])
-  } else {
-    stop(paste(
-      "Method", method, "for selecting outcome value not recognized.\n",
-      '  Supported methods: "fewer", "first"'
-    ))
-  }
-  return(outcome_value)
-}
-
 #' Randomize feature order to eliminate any position-dependent effects
 #'
 #' @inheritParams run_ml
@@ -90,7 +58,7 @@ randomize_feature_order <- function(dataset, outcome_colname) {
 split_outcome_features <- function(dataset, outcome_colname) {
   # input validation
   check_dataset(dataset)
-  check_outcome_column(dataset, outcome_colname)
+  check_outcome_column(dataset, outcome_colname, show_message = FALSE)
   # split outcome and features
   outcome <- dataset %>% dplyr::select(outcome_colname)
   features <- dataset %>% dplyr::select(!dplyr::matches(outcome_colname))
@@ -142,20 +110,23 @@ mutate_all_types <- function(dat) {
 }
 #' Get model performance metrics as a one-row tibble
 #'
-#' @inheritParams calc_aucs
+#' @inheritParams calc_perf_metrics
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
 #'
 #' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_performance_tbl <- function(trained_model, test_data, outcome_colname, outcome_value, seed = NA) {
-  test_aucs <- calc_aucs(trained_model, test_data, outcome_colname, outcome_value)
-  return(dplyr::tibble(
-    cv_auroc = caret::getTrainPerf(trained_model)$TrainROC,
-    test_auroc = test_aucs$auroc,
-    test_auprc = test_aucs$auprc,
+get_performance_tbl <- function(trained_model, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, seed = NA) {
+  test_perf_metrics <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)
+  cv_metric <- caret::getTrainPerf(trained_model)[[paste0("Train", perf_metric_name)]]
+  if (is.null(cv_metric)) warning(paste0("The cv metric provided does not match with that used to train the data. You provided: "), perf_metric_name, ". The options are ", paste0(gsub("Train|method", "", names(caret::getTrainPerf(trained_model))), sep = ", "))
+  all_info <- dplyr::bind_rows(c(
+    cv_metric = cv_metric,
+    test_perf_metrics,
     method = trained_model$method,
     seed = seed
   ))
+  names(all_info)[names(all_info) == "cv_metric"] <- paste0("cv_metric_", perf_metric_name)
+  return(change_to_num(all_info))
 }

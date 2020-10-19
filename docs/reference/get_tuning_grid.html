@@ -131,7 +131,7 @@
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``</p></td>
+      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code></p></td>
     </tr>
     </table>
 
@@ -144,16 +144,16 @@
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"regLogistic"</span>
+    <pre class="examples"><div class='input'><span class='va'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"glmnet"</span>
 <span class='va'>hparams_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='va'>ml_method</span><span class='op'>)</span>
 <span class='fu'>get_tuning_grid</span><span class='op'>(</span><span class='va'>hparams_list</span>, <span class='va'>ml_method</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    cost epsilon      loss
-#&gt; 1 1e-04    0.01 L2_primal
-#&gt; 2 1e-03    0.01 L2_primal
-#&gt; 3 1e-02    0.01 L2_primal
-#&gt; 4 1e-01    0.01 L2_primal
-#&gt; 5 1e+00    0.01 L2_primal
-#&gt; 6 1e+01    0.01 L2_primal</div></pre>
+</div><div class='output co'>#&gt;   lambda alpha
+#&gt; 1  1e-04     0
+#&gt; 2  1e-03     0
+#&gt; 3  1e-02     0
+#&gt; 4  1e-01     0
+#&gt; 5  1e+00     0
+#&gt; 6  1e+01     0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
