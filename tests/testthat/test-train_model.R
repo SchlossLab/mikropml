@@ -26,6 +26,7 @@ class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"), row.names = c(NA, -19L)
 
 tg_rpart2 <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "rpart2"), "rpart2")
 tg_rf <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "rf"), "rf")
+tg_lr <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "glmnet"), "glmnet")
 
 
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
@@ -37,6 +38,11 @@ cv <- define_cv(train_data_mini,
   kfold = 2,
   cv_times = 2
 )
+
+test_that("train_model_w_warnings works",{
+  set.seed(2019)
+  expect_equal(expect_warning(train_model_w_warnings(stats::as.formula(paste("dx", "~ .")), train_data_mini, "glmnet", cv, "AUC", tg_lr, NULL)$bestTune$lambda,"There were missing values in resampled performance measures."), 0.001) # test() outputs 1, test_file() outputs 2...
+})
 
 
 test_that("train_model works", {

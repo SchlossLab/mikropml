@@ -76,7 +76,6 @@ test_that("run_ml works for L2 logistic regression with grouping & feature impor
 })
 
 test_that("run_ml works for linear regression", {
-  hparams_list <- test_hyperparams %>% get_hyperparams_from_df("glmnet")
   expect_equal_ml_results(
     expect_message(expect_warning(run_ml(otu_mini[, 2:4], # use built-in hyperparameters
       "glmnet",
