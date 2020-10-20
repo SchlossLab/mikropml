@@ -39,9 +39,9 @@ cv <- define_cv(train_data_mini,
   cv_times = 2
 )
 
-test_that("train_model_w_warnings works",{
+test_that("train_model_w_warnings works", {
   set.seed(2019)
-  expect_equal(expect_warning(train_model_w_warnings(stats::as.formula(paste("dx", "~ .")), train_data_mini, "glmnet", cv, "AUC", tg_lr, NULL)$bestTune$lambda,"There were missing values in resampled performance measures."), 0.001) # test() outputs 1, test_file() outputs 2...
+  expect_equal(expect_warning(train_model_w_warnings(stats::as.formula(paste("dx", "~ .")), train_data_mini, "glmnet", cv, "AUC", tg_lr, NULL)$bestTune$lambda, "There were missing values in resampled performance measures."), 0.001) # test() outputs 1, test_file() outputs 2...
 })
 
 
