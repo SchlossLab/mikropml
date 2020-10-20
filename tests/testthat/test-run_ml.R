@@ -63,16 +63,16 @@ otu_mini_group <- c(
 
 test_that("run_ml works for L2 logistic regression with grouping & feature importance", {
   expect_equal_ml_results(
-    run_ml(otu_small[, 1:20], # use built-in hyperparameters
+    expect_warning(run_ml(otu_small[, 1:4], # use built-in hyperparameters
       "glmnet",
       outcome_colname = "dx",
       find_feature_importance = FALSE,
       seed = 2019,
       kfold = 2,
       cv_times = 2
-    ),
+    ),"The model didn't converge in some cross-validation folds because it is predicting something close to a constant. This means that certain performance metrics can't be calculated, and suggests that some of the hyperparameters being used are doing very poorly."),
     otu_mini_results1
-  )
+  ) 
 })
 
 test_that("run_ml works for linear regression", {
