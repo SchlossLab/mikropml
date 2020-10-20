@@ -54,7 +54,7 @@ train_model <- function(model_formula,
 #' @inheritParams run_ml
 #'
 #' @return trained model
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 train_model_w_warnings <- function(model_formula,
