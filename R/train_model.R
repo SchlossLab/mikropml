@@ -21,6 +21,49 @@ train_model <- function(model_formula,
                         perf_metric_name,
                         tune_grid,
                         ntree) {
+  withCallingHandlers(
+    {
+      trained_model_caret <- train_model_w_warnings(
+        model_formula,
+        train_data,
+        method,
+        cv,
+        perf_metric_name,
+        tune_grid,
+        ntree
+      )
+    },
+    warning = function(w) {
+      if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
+        warning("The model didn't converge in some cross-validation folds because it is predicting something close to a constant. This means that certain performance metrics can't be calculated, and suggests that some of the hyperparameters being used are doing very poorly.")
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+  return(trained_model_caret)
+}
+
+#' Train model with warnings
+#'
+#' @param model_formula model formula
+#' @param train_data train_data
+#' @param method method
+#' @param cv cross-validation caret scheme
+#' @param tune_grid tuning grid
+#'
+#' @inheritParams run_ml
+#'
+#' @return trained model
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+train_model_w_warnings <- function(model_formula,
+                                   train_data,
+                                   method,
+                                   cv,
+                                   perf_metric_name,
+                                   tune_grid,
+                                   ntree) {
   if (method == "rf") {
     trained_model_caret <- caret::train(
       model_formula,
