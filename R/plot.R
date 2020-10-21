@@ -181,13 +181,15 @@ combine_hp_performance <- function(trained_model_lst) {
 #' plot_hp_performance(hp_metrics$dat, lambda, AUC)
 #' }
 plot_hp_performance <- function(dat, param_col, metric_col) {
-  abort_packages_not_installed('ggplot2')
+  abort_packages_not_installed("ggplot2")
   return(dat %>%
-           dplyr::group_by({{ param_col }}) %>% 
-           dplyr::summarise(mean_metric = mean( {{metric_col}} ), sd_metric = sd( {{metric_col}} )) %>% 
-           ggplot2::ggplot(ggplot2::aes(x = {{ param_col }},
-                                        y = mean_metric)) +
-           ggplot2::geom_line() + 
-           ggplot2::geom_point() +
-           ggplot2::geom_errorbar(ggplot2::aes(ymin=mean_metric-sd_metric, ymax=mean_metric+sd_metric), width=.001))
+    dplyr::group_by({{ param_col }}) %>%
+    dplyr::summarise(mean_metric = mean({{ metric_col }}), sd_metric = sd({{ metric_col }})) %>%
+    ggplot2::ggplot(ggplot2::aes(
+      x = {{ param_col }},
+      y = mean_metric
+    )) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = mean_metric - sd_metric, ymax = mean_metric + sd_metric), width = .001))
 }
