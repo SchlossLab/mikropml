@@ -181,11 +181,13 @@ combine_hp_performance <- function(trained_model_lst) {
 #' plot_hp_performance(hp_metrics$dat, lambda, AUC)
 #' }
 plot_hp_performance <- function(dat, param_col, metric_col) {
-  abort_packages_not_installed("ggplot2")
+  abort_packages_not_installed('ggplot2')
   return(dat %>%
-    ggplot2::ggplot(ggplot2::aes(
-      group = {{ param_col }},
-      y = {{ metric_col }}
-    )) +
-    ggplot2::geom_boxplot())
+           dplyr::group_by({{ param_col }}) %>% 
+           dplyr::summarise(mean_AUC = mean( {{metric_col}} ), sd_AUC = sd( {{metric_col}} )) %>% 
+           ggplot2::ggplot(ggplot2::aes(x = {{ param_col }},
+                                        y = mean_AUC)) +
+           ggplot2::geom_line() + 
+           ggplot2::geom_point() +
+           ggplot2::geom_errorbar(ggplot2::aes(ymin=mean_AUC-sd_AUC, ymax=mean_AUC+sd_AUC), width=.001))
 }
