@@ -44,11 +44,13 @@ train_model <- function(model_formula,
     },
     warning = function(w) {
       if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
-        warning("`caret::train()` issued the following warning:\n \n", w, "\n",
-                "This warning usually means that the model didn't converge in some cross-validation folds",
-                "because it is predicting something close to a constant. ",
-                "As a result, certain performance metrics can't be calculated. ",
-                "This suggests that some of the hyperparameters chosen are doing very poorly.")
+        warning(
+          "`caret::train()` issued the following warning:\n \n", w, "\n",
+          "This warning usually means that the model didn't converge in some cross-validation folds",
+          "because it is predicting something close to a constant. ",
+          "As a result, certain performance metrics can't be calculated. ",
+          "This suggests that some of the hyperparameters chosen are doing very poorly."
+        )
         invokeRestart("muffleWarning")
       }
     }
@@ -77,6 +79,5 @@ train_model_w_warnings <- function(model_formula,
                                    perf_metric_name,
                                    tune_grid,
                                    ntree) {
-
   return(trained_model_caret)
 }
