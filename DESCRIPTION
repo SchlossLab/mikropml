@@ -65,6 +65,7 @@ Suggests:
     kernlab,
     knitr,
     MLmetrics,
+    purrr,
     randomForest,
     rmarkdown,
     rpart,
