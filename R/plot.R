@@ -113,8 +113,8 @@ get_hp_performance <- function(trained_model) {
   metric <- trained_model$metric
   dat <- trained_model$results %>%
     dplyr::select(
-      dplyr::all_of(trained_model$modelInfo$parameters$parameter),
-      dplyr::all_of(metric)
+      trained_model$modelInfo$parameters$parameter,
+      metric
     )
   params <- sapply(dat, function(x) length(unique(x)) > 1) %>%
     Filter(isTRUE, .) %>%
@@ -187,7 +187,7 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
     dplyr::summarise(mean_performance = mean({{ metric_col }}), sd_performance = sd({{ metric_col }})) %>%
     ggplot2::ggplot(ggplot2::aes(
       x = {{ param_col }},
-      y = mean_metric
+      y = mean_performance
     )) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
