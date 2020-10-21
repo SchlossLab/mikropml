@@ -29,10 +29,10 @@ devtools::install_github("SchlossLab/mikropml")
 
 ### Dependencies
 
-  - Required: caret, dplyr, LiblineaR, PRROC, rlang, stats, utils
-  - Optional: doFuture, foreach, future, future.apply, kernlab,
-    randomForest, rpart, xgboost
-  - For developers: knitr, rmarkdown, testthat
+  - Imports: caret, dplyr, LiblineaR, rlang, stats, utils
+  - Suggests: doFuture, e1071, foreach, future, future.apply, glmnet,
+    ggplot2, kernlab, knitr, MLmetrics, randomForest, rmarkdown, rpart,
+    testthat, tidyr, xgboost
 
 ## Usage
 

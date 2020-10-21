@@ -33,16 +33,22 @@ User-Friendly R Package for Robust Machine Learning Pipelines
 
 You can install the development version from [GitHub](https://github.com/) with:
 
-``` r
+```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("SchlossLab/mikropml")
 ```
 
 ### Dependencies
 
-- Required: caret, dplyr, LiblineaR, PRROC, rlang, stats, utils
-- Optional: doFuture, foreach, future, future.apply, kernlab, randomForest, rpart, xgboost
-- For developers: knitr, rmarkdown, testthat
+```{r, echo = FALSE, message = FALSE}
+library(dplyr)
+description <- utils::packageDescription('mikropml')
+imports <- description$Imports %>% gsub("\n", " ", .)
+suggests <- description$Suggests %>% gsub("\n", " ", .)
+```
+
+- Imports: `r imports`
+- Suggests: `r suggests`
 
 ## Usage
 
