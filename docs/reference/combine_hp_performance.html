@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Define Cross-Validation Scheme and Training Parameters — define_cv • mikropml</title>
+<title>Combine hyperparameter performance metrics for multiple train/test splits — combine_hp_performance • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Define Cross-Validation Scheme and Training Parameters — define_cv" />
-<meta property="og:description" content="Define Cross-Validation Scheme and Training Parameters" />
+<meta property="og:title" content="Combine hyperparameter performance metrics for multiple train/test splits — combine_hp_performance" />
+<meta property="og:description" content="Combine hyperparameter performance metrics for multiple train/test splits" />
 
 
 
@@ -111,85 +111,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Define Cross-Validation Scheme and Training Parameters</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/cross_val.R'><code>R/cross_val.R</code></a></small>
-    <div class="hidden name"><code>define_cv.Rd</code></div>
+    <h1>Combine hyperparameter performance metrics for multiple train/test splits</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
+    <div class="hidden name"><code>combine_hp_performance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Define Cross-Validation Scheme and Training Parameters</p>
+    <p>Combine hyperparameter performance metrics for multiple train/test splits</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_cv</span><span class='op'>(</span>
-  <span class='va'>train_data</span>,
-  <span class='va'>outcome_colname</span>,
-  <span class='va'>hyperparams_list</span>,
-  <span class='va'>perf_metric_function</span>,
-  <span class='va'>class_probs</span>,
-  kfold <span class='op'>=</span> <span class='fl'>5</span>,
-  cv_times <span class='op'>=</span> <span class='fl'>100</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>combine_hp_performance</span><span class='op'>(</span><span class='va'>trained_model_lst</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>train_data</th>
-      <td><p>Dataframe for training model</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
-    </tr>
-    <tr>
-      <th>hyperparams_list</th>
-      <td><p>named list of lists of hyperparameters</p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
-    </tr>
-    <tr>
-      <th>class_probs</th>
-      <td><p>Whether the <code>\link[caret]{trainControl}</code> <code>classProbs</code> argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)</p></td>
-    </tr>
-    <tr>
-      <th>kfold</th>
-      <td><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></td>
-    </tr>
-    <tr>
-      <th>cv_times</th>
-      <td><p>Number of partitions to create (default: <code>100</code>).</p></td>
-    </tr>
-    <tr>
-      <th>groups</th>
-      <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
+      <th>trained_model_lst</th>
+      <td><p>list of trained models</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Caret object for trainControl that controls cross-validation</p>
+    <p>list: dat - dataframe of performance metric for each group of hyperparameters, params - hyperparameters tuned, metric - performance metric used</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
-<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
+    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_partition_indices.html'>get_partition_indices</a></span><span class='op'>(</span><span class='va'>otu_small</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='st'>"dx"</span><span class='op'>)</span>,
-  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_small</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span>
-<span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_small</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span>
-<span class='va'>cv</span> <span class='op'>&lt;-</span> <span class='fu'>define_cv</span><span class='op'>(</span><span class='va'>train_data</span>,
-  outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,
-  hyperparams_list <span class='op'>=</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span><span class='op'>)</span>,
-  perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>multiClassSummary</a></span>,
-  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  kfold <span class='op'>=</span> <span class='fl'>5</span>
-<span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>102</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+<span class='va'>models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>results</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>)</span>
+<span class='fu'>combine_hp_performance</span><span class='op'>(</span><span class='va'>models</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

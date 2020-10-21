@@ -7,6 +7,9 @@
     <loc>http://www.schlosslab.org/mikropml/reference/calc_perf_metrics.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/combine_hp_performance.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/define_cv.html</loc>
   </url>
   <url>
@@ -17,6 +20,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_feature_importance.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/get_hp_performance.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_hyperparams_list.html</loc>
@@ -71,6 +77,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_small.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/plot_hp_performance.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/plot_performance.html</loc>
