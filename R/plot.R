@@ -113,8 +113,8 @@ get_hp_performance <- function(trained_model) {
   metric <- trained_model$metric
   dat <- trained_model$results %>%
     dplyr::select(
-      trained_model$modelInfo$parameters$parameter,
-      metric
+      dplyr::all_of(trained_model$modelInfo$parameters$parameter),
+      dplyr::all_of(metric)
     )
   params <- sapply(dat, function(x) length(unique(x)) > 1) %>%
     Filter(isTRUE, .) %>%
