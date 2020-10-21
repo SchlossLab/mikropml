@@ -39,16 +39,25 @@ cv <- define_cv(train_data_mini,
   cv_times = 2
 )
 
-test_that("train_model_w_warnings works", {
-  set.seed(2019)
-  expect_equal(expect_warning(train_model_w_warnings(stats::as.formula(paste("dx", "~ .")), train_data_mini, "glmnet", cv, "AUC", tg_lr, NULL)$bestTune$lambda, "There were missing values in resampled performance measures."), 0.001) # test() outputs 1, test_file() outputs 2...
-})
-
 
 test_that("train_model works", {
+  # NOTE: these tests pass when you run test(), but not when you run test_file()
+  # Perhaps something weird is going on with random seeds.
   set.seed(2019)
-  expect_equal(train_model(stats::as.formula(paste("dx", "~ .")), train_data_mini, "rf", cv, "AUC", tg_rf, 1000)$bestTune, structure(list(mtry = 1L), row.names = 1L, class = "data.frame"))
+  expect_equal(train_model(stats::as.formula(paste("dx", "~ .")),
+                           train_data_mini, "rf", cv, "AUC", tg_rf,
+                           1000)$bestTune,
+               structure(list(mtry = 1L), row.names = 1L, class = "data.frame"))
 
   set.seed(2019)
-  expect_equal(train_model(stats::as.formula(paste("dx", "~ .")), train_data_mini, "rpart2", cv, "AUC", tg_rpart2, NULL)$bestTune$maxdepth, 1) # test() outputs 1, test_file() outputs 2...
+  expect_equal(train_model(stats::as.formula(paste("dx", "~ .")),
+                           train_data_mini, "rpart2", cv, "AUC",
+                           tg_rpart2, NULL)$bestTune$maxdepth,
+               1)
+
+  set.seed(2019)
+  expect_equal(expect_warning(train_model(stats::as.formula(paste("dx", "~ .")),
+                                          train_data_mini, "glmnet", cv, "AUC", tg_lr, NULL)$bestTune$lambda,
+                              "`caret::train\\(\\)` issued the following warning:"),
+               0.001)
 })

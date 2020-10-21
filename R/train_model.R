@@ -1,5 +1,3 @@
-# train model
-
 #' Train model
 #'
 #' @param model_formula model formula
@@ -23,19 +21,34 @@ train_model <- function(model_formula,
                         ntree) {
   withCallingHandlers(
     {
-      trained_model_caret <- train_model_w_warnings(
-        model_formula,
-        train_data,
-        method,
-        cv,
-        perf_metric_name,
-        tune_grid,
-        ntree
-      )
+      if (method == "rf") {
+        trained_model_caret <- caret::train(
+          model_formula,
+          data = train_data,
+          method = method,
+          trControl = cv,
+          metric = perf_metric_name,
+          tuneGrid = tune_grid,
+          ntree = ntree
+        )
+      } else {
+        trained_model_caret <- caret::train(
+          model_formula,
+          data = train_data,
+          method = method,
+          trControl = cv,
+          metric = perf_metric_name,
+          tuneGrid = tune_grid
+        )
+      }
     },
     warning = function(w) {
       if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
-        warning("The model didn't converge in some cross-validation folds because it is predicting something close to a constant. This means that certain performance metrics can't be calculated, and suggests that some of the hyperparameters being used are doing very poorly.")
+        warning("`caret::train()` issued the following warning:\n \n", w, "\n",
+                "This warning usually means that the model didn't converge in some cross-validation folds",
+                "because it is predicting something close to a constant. ",
+                "As a result, certain performance metrics can't be calculated. ",
+                "This suggests that some of the hyperparameters chosen are doing very poorly.")
         invokeRestart("muffleWarning")
       }
     }
@@ -64,25 +77,6 @@ train_model_w_warnings <- function(model_formula,
                                    perf_metric_name,
                                    tune_grid,
                                    ntree) {
-  if (method == "rf") {
-    trained_model_caret <- caret::train(
-      model_formula,
-      data = train_data,
-      method = method,
-      trControl = cv,
-      metric = perf_metric_name,
-      tuneGrid = tune_grid,
-      ntree = ntree
-    )
-  } else {
-    trained_model_caret <- caret::train(
-      model_formula,
-      data = train_data,
-      method = method,
-      trControl = cv,
-      metric = perf_metric_name,
-      tuneGrid = tune_grid
-    )
-  }
+
   return(trained_model_caret)
 }

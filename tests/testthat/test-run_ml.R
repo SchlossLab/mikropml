@@ -70,7 +70,8 @@ test_that("run_ml works for L2 logistic regression with grouping & feature impor
       seed = 2019,
       kfold = 2,
       cv_times = 2
-    ), "The model didn't converge in some cross-validation folds because it is predicting something close to a constant. This means that certain performance metrics can't be calculated, and suggests that some of the hyperparameters being used are doing very poorly."),
+    ),
+    "`caret::train\\(\\)` issued the following warning:"),
     otu_mini_results1
   )
 })
