@@ -7,6 +7,7 @@
 \alias{.data}
 \alias{contr.ltfr}
 \alias{!!}
+\alias{:=}
 \title{dplyr pipe}
 \keyword{internal}
 \description{
@@ -18,6 +19,6 @@ below to see their documentation.
 
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
 
-  \item{rlang}{\code{\link[rlang:nse-force]{!!}}, \code{\link[rlang:tidyeval-data]{.data}}}
+  \item{rlang}{\code{\link[rlang:nse-force]{!!}}, \code{\link[rlang:tidyeval-data]{.data}}, \code{\link[rlang:nse-force]{:=}}}
 }}
 

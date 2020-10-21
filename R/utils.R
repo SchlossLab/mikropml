@@ -18,6 +18,10 @@ caret::contr.ltfr
 #' @export
 rlang::`!!`
 
+#' @importFrom rlang :=
+#' @export
+rlang::`:=`
+
 ## make R CMD CHECK shut up about the dot `.``
 ## See: \url{https://github.com/tidyverse/magrittr/issues/29}
 utils::globalVariables(c("."))
@@ -32,18 +36,22 @@ utils::globalVariables(c("."))
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' dat <- data.frame(outcome = c('1', '2', '3'),
-#'                   a = 4:6, b = 7:9, c = 10:12, d = 13:15)
+#' dat <- data.frame(
+#'   outcome = c("1", "2", "3"),
+#'   a = 4:6, b = 7:9, c = 10:12, d = 13:15
+#' )
 #' randomize_feature_order(dat, "outcome")
 randomize_feature_order <- function(dataset, outcome_colname) {
   features_reordered <- dataset %>%
-    split_outcome_features(outcome_colname) %>% .[['features']] %>%
+    split_outcome_features(outcome_colname) %>%
+    .[["features"]] %>%
     colnames() %>%
     sample()
-  dataset <- dplyr::select(dataset,
-                           dplyr::one_of(outcome_colname),
-                           dplyr::one_of(features_reordered)
-                           )
+  dataset <- dplyr::select(
+    dataset,
+    dplyr::one_of(outcome_colname),
+    dplyr::one_of(features_reordered)
+  )
   return(dataset)
 }
 

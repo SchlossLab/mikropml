@@ -131,34 +131,40 @@ get_performance_tbl <- function(trained_model,
                                 perf_metric_name,
                                 class_probs,
                                 seed = NA) {
-
-  test_perf_metrics <- calc_perf_metrics(test_data,
-                                         trained_model,
-                                         outcome_colname,
-                                         perf_metric_function,
-                                         class_probs)
+  test_perf_metrics <- calc_perf_metrics(
+    test_data,
+    trained_model,
+    outcome_colname,
+    perf_metric_function,
+    class_probs
+  )
 
   train_perf <- caret::getTrainPerf(trained_model)
   cv_metric_name <- paste0("Train", perf_metric_name)
   cv_metric_options <- names(train_perf)
 
   if (!(cv_metric_name %in% cv_metric_options)) {
-    warning("The performance metric provided does not match the metric used to train the data.\n",
-            "You provided: `", perf_metric_name, "`\n",
-            "The options are: \n    ",
-            paste(gsub("Train|method", "", cv_metric_options),
-                  collapse = ", ")
+    warning(
+      "The performance metric provided does not match the metric used to train the data.\n",
+      "You provided: `", perf_metric_name, "`\n",
+      "The options are: \n    ",
+      paste(gsub("Train|method", "", cv_metric_options),
+        collapse = ", "
+      )
     )
     cv_metric_value <- NA
   } else {
     cv_metric_value <- train_perf[[cv_metric_name]]
   }
-  return(dplyr::bind_rows(c(cv_metric = cv_metric_value,
-                            test_perf_metrics,
-                            method = trained_model$method,
-                            seed = seed)) %>%
-           dplyr::rename_with(function(x) paste0("cv_metric_", perf_metric_name),
-                              .data$cv_metric) %>%
-           change_to_num()
-  )
+  return(dplyr::bind_rows(c(
+    cv_metric = cv_metric_value,
+    test_perf_metrics,
+    method = trained_model$method,
+    seed = seed
+  )) %>%
+    dplyr::rename_with(
+      function(x) paste0("cv_metric_", perf_metric_name),
+      .data$cv_metric
+    ) %>%
+    change_to_num())
 }
