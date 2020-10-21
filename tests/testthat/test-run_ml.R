@@ -63,20 +63,22 @@ otu_mini_group <- c(
 
 test_that("run_ml works for L2 logistic regression with grouping & feature importance", {
   expect_equal_ml_results(
-    run_ml(otu_small[, 1:20], # use built-in hyperparameters
-      "glmnet",
-      outcome_colname = "dx",
-      find_feature_importance = FALSE,
-      seed = 2019,
-      kfold = 2,
-      cv_times = 2
+    expect_warning(
+      run_ml(otu_small[, 1:4], # use built-in hyperparameters
+        "glmnet",
+        outcome_colname = "dx",
+        find_feature_importance = FALSE,
+        seed = 2019,
+        kfold = 2,
+        cv_times = 2
+      ),
+      "`caret::train\\(\\)` issued the following warning:"
     ),
     otu_mini_results1
   )
 })
 
 test_that("run_ml works for linear regression", {
-  hparams_list <- test_hyperparams %>% get_hyperparams_from_df("glmnet")
   expect_equal_ml_results(
     expect_message(expect_warning(run_ml(otu_mini[, 2:4], # use built-in hyperparameters
       "glmnet",
