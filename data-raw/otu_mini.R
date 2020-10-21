@@ -53,7 +53,7 @@ otu_mini_group <- c(
   "D", "B", "B", "E", "D", "D"
 )
 
-otu_mini_results1 <- mikropml::run_ml(otu_small[, 1:20], # use built-in hyperparams
+otu_mini_results1 <- mikropml::run_ml(otu_mini, # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
   find_feature_importance = FALSE,
