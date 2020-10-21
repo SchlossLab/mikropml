@@ -111,7 +111,7 @@ get_hp_performance <- function(trained_model){
 #' @examples
 #' combine_hp_performance(list(otu_mini_results1$trained_model,otu_mini_results1$trained_model))
 combine_hp_performance <- function(trained_model_lst){
-  bort_packages_not_installed("purrr")
+  abort_packages_not_installed("purrr")
   dat_params <- lapply(trained_model_lst, function(x) get_hp_performance(x)) %>% purrr::transpose()
   dat <- dplyr::bind_rows(dat_params$dat)
   params <- unique(unlist(dat_params$params))
