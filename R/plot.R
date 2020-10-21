@@ -182,12 +182,24 @@ combine_hp_performance <- function(trained_model_lst) {
 #' }
 plot_hp_performance <- function(dat, param_col, metric_col) {
   abort_packages_not_installed('ggplot2')
-  return(dat %>%
-           dplyr::group_by({{ param_col }}) %>% 
-           dplyr::summarise(mean_metric = mean( {{metric_col}} ), sd_metric = sd( {{metric_col}} )) %>% 
+  mean_colname <- paste0('mean_', rlang::as_name(rlang::enquo(metric_col)))
+  sd_colname <- paste0('sd_', rlang::as_name(rlang::enquo(metric_col)))
+  dat_sum <- dat %>%
+    dplyr::group_by({{ param_col }}) %>%
+    dplyr::summarise("mean_{{ metric_col }}" := mean( {{ metric_col }} ),
+                     "sd_{{ metric_col }}" := stats::sd( {{ metric_col }} ),
+                     # is there a less repetitive way to do this cleanly?
+                     ymin_metric = !!rlang::sym(mean_colname) - !!rlang::sym(sd_colname),
+                     ymax_metric = !!rlang::sym(mean_colname) + !!rlang::sym(sd_colname))
+  return(dat_sum %>%
            ggplot2::ggplot(ggplot2::aes(x = {{ param_col }},
-                                        y = mean_metric)) +
-           ggplot2::geom_line() + 
+                                        y = !!rlang::sym(mean_colname)
+                                        )
+                           ) +
+           ggplot2::geom_line() +
            ggplot2::geom_point() +
-           ggplot2::geom_errorbar(ggplot2::aes(ymin=mean_metric-sd_metric, ymax=mean_metric+sd_metric), width=.001))
+           ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$ymin_metric,
+                                               ymax = .data$ymax_metric),
+                                  width=.001)
+)
 }

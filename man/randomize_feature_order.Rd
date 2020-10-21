@@ -18,8 +18,10 @@ dataset with feature order randomized
 Randomize feature order to eliminate any position-dependent effects
 }
 \examples{
-dat <- data.frame(outcome = c('1', '2', '3'),
-                  a = 4:6, b = 7:9, c = 10:12, d = 13:15)
+dat <- data.frame(
+  outcome = c("1", "2", "3"),
+  a = 4:6, b = 7:9, c = 10:12, d = 13:15
+)
 randomize_feature_order(dat, "outcome")
 }
 \author{

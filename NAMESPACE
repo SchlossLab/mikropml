@@ -2,6 +2,7 @@
 
 export("!!")
 export("%>%")
+export(":=")
 export(.data)
 export(calc_perf_metrics)
 export(combine_hp_performance)
@@ -29,4 +30,5 @@ importFrom(caret,contr.ltfr)
 importFrom(dplyr,"%>%")
 importFrom(dplyr,.data)
 importFrom(rlang,"!!")
+importFrom(rlang,":=")
 importFrom(rlang,.data)
