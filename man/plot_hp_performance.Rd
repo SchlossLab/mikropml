@@ -21,12 +21,11 @@ Plot hyperparameter performance metrics
 hp_metrics <- get_hp_performance(otu_mini_results1$trained_model)
 hp_metrics
 plot_hp_performance(hp_metrics$dat, lambda, AUC)
-
 \dontrun{
 # plot for multiple `run_ml()` calls
 results <- lapply(seq(100, 102), function(seed) {
   run_ml(otu_small, "glmnet", seed = seed)
-  })
+})
 models <- lapply(results, function(x) x$trained_model)
 hp_metrics <- combine_hp_performance(models)
 plot_hp_performance(hp_metrics$dat, lambda, AUC)

@@ -19,7 +19,7 @@ Combine hyperparameter performance metrics for multiple train/test splits
 \dontrun{
 results <- lapply(seq(100, 102), function(seed) {
   run_ml(otu_small, "glmnet", seed = seed)
-  })
+})
 models <- lapply(results, function(x) x$trained_model)
 combine_hp_performance(models)
 }
