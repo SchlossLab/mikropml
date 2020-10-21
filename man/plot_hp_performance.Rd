@@ -9,9 +9,9 @@ plot_hp_performance(performance_df, param, metric)
 \arguments{
 \item{performance_df}{dataframe of hyperparameters and performance metric (e.g. from \code{get_hp_performance()} or \code{combine_hp_performance()})}
 
-\item{metric}{performance metric}
+\item{param}{hyperparameter to be plotted}
 
-\item{params}{hyperparameter to be plotted}
+\item{metric}{performance metric}
 }
 \description{
 Plot hyperparameter performance metrics

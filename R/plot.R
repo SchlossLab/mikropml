@@ -111,6 +111,7 @@ get_hp_performance <- function(trained_model){
 #' @examples
 #' combine_hp_performance(list(otu_mini_results1$trained_model,otu_mini_results1$trained_model))
 combine_hp_performance <- function(trained_model_lst){
+  bort_packages_not_installed("purrr")
   dat_params <- lapply(trained_model_lst, function(x) get_hp_performance(x)) %>% purrr::transpose()
   dat <- dplyr::bind_rows(dat_params$dat)
   params <- unique(unlist(dat_params$params))
@@ -121,7 +122,7 @@ combine_hp_performance <- function(trained_model_lst){
 #' Plot hyperparameter performance metrics
 #'
 #' @param performance_df dataframe of hyperparameters and performance metric (e.g. from `get_hp_performance()` or `combine_hp_performance()`)
-#' @param params hyperparameter to be plotted
+#' @param param hyperparameter to be plotted
 #' @param metric performance metric
 #'
 #' @export
@@ -130,6 +131,7 @@ combine_hp_performance <- function(trained_model_lst){
 #' hp_metrics <- get_hp_performance(otu_mini_results1$trained_model)
 #' plot_hp_performance(hp_metrics$dat,hp_metrics$params[1],hp_metrics$metric)
 plot_hp_performance <- function(performance_df, param, metric){
+  bort_packages_not_installed("ggplot2")
   ggplot2::theme_set(ggplot2::theme_bw())
   if(length(param) == 0){
     stop('The hyperparmaeter has no different values. Exiting without plotting.')
