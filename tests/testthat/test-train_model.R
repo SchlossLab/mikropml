@@ -28,13 +28,13 @@ tg_lr <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "glmnet"), "g
 
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 cv <- define_cv(otu_mini_results1$trained_model$trainingData %>%
-                  dplyr::rename(dx = .outcome),
-  "dx",
-  hparams_list,
-  perf_metric_function = caret::multiClassSummary,
-  class_probs = TRUE,
-  kfold = 2,
-  cv_times = 2
+  dplyr::rename(dx = .outcome),
+"dx",
+hparams_list,
+perf_metric_function = caret::multiClassSummary,
+class_probs = TRUE,
+kfold = 2,
+cv_times = 2
 )
 
 

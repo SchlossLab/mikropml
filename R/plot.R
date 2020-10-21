@@ -109,11 +109,13 @@ tidy_perf_data <- function(performance_df) {
 #'
 #' @examples
 #' get_hp_performance(otu_mini_results1$trained_model)
-get_hp_performance <- function(trained_model){
+get_hp_performance <- function(trained_model) {
   metric <- trained_model$metric
   dat <- trained_model$results %>%
-    dplyr::select(dplyr::all_of(trained_model$modelInfo$parameters$parameter),
-                  dplyr::all_of(metric))
+    dplyr::select(
+      dplyr::all_of(trained_model$modelInfo$parameters$parameter),
+      dplyr::all_of(metric)
+    )
   params <- sapply(dat, function(x) length(unique(x)) > 1) %>%
     Filter(isTRUE, .) %>%
     names() %>%
@@ -137,19 +139,21 @@ get_hp_performance <- function(trained_model){
 #' \dontrun{
 #' results <- lapply(seq(100, 102), function(seed) {
 #'   run_ml(otu_small, "glmnet", seed = seed)
-#'   })
+#' })
 #' models <- lapply(results, function(x) x$trained_model)
 #' combine_hp_performance(models)
 #' }
-combine_hp_performance <- function(trained_model_lst){
-  abort_packages_not_installed('purrr')
+combine_hp_performance <- function(trained_model_lst) {
+  abort_packages_not_installed("purrr")
   # TODO: can we do this without purrr so we don't have to add a new dep?
   dat_params <- lapply(trained_model_lst, function(x) get_hp_performance(x)) %>%
     purrr::transpose()
   dat <- dplyr::bind_rows(dat_params$dat)
-  return(list(dat = dat,
-              params = unique(unlist(dat_params$params)),
-              metric = unique(unlist(dat_params$metric))))
+  return(list(
+    dat = dat,
+    params = unique(unlist(dat_params$params)),
+    metric = unique(unlist(dat_params$metric))
+  ))
 }
 
 #' Plot hyperparameter performance metrics
@@ -167,21 +171,21 @@ combine_hp_performance <- function(trained_model_lst){
 #' hp_metrics <- get_hp_performance(otu_mini_results1$trained_model)
 #' hp_metrics
 #' plot_hp_performance(hp_metrics$dat, lambda, AUC)
-#'
 #' \dontrun{
 #' # plot for multiple `run_ml()` calls
 #' results <- lapply(seq(100, 102), function(seed) {
 #'   run_ml(otu_small, "glmnet", seed = seed)
-#'   })
+#' })
 #' models <- lapply(results, function(x) x$trained_model)
 #' hp_metrics <- combine_hp_performance(models)
 #' plot_hp_performance(hp_metrics$dat, lambda, AUC)
 #' }
 plot_hp_performance <- function(dat, param_col, metric_col) {
-  abort_packages_not_installed('ggplot2')
+  abort_packages_not_installed("ggplot2")
   return(dat %>%
-          ggplot2::ggplot(ggplot2::aes(group = {{ param_col }},
-                                       y = {{ metric_col }})) +
-           ggplot2::geom_boxplot())
+    ggplot2::ggplot(ggplot2::aes(
+      group = {{ param_col }},
+      y = {{ metric_col }}
+    )) +
+    ggplot2::geom_boxplot())
 }
-
