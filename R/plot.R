@@ -93,7 +93,7 @@ tidy_perf_data <- function(performance_df) {
 get_hp_performance <- function(trained_model){
   params <- trained_model$modelInfo$parameters$parameter
   metric <- trained_model$metric
-  dat <- trained_model$results %>% dplyr::select(all_of(params),all_of(metric))
+  dat <- trained_model$results %>% dplyr::select(dplyr::all_of(params),dplyr::all_of(metric))
   params <- params[params %in% names(which(lapply(dat, function(x) length(unique(x))) > 1))]
   return(list(dat=dat,params=params,metric=metric))
 }
