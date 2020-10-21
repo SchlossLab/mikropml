@@ -131,7 +131,7 @@
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method. Options: `c("regLogistic", "rf", "rpart2", "svmRadial", "xgbTree")``</p></td>
+      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code></p></td>
     </tr>
     </table>
 
@@ -146,13 +146,13 @@
     <pre class="examples"><div class='input'><span class='fu'>get_hyperparams_list</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"rf"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $mtry
 #&gt; [1] 1 2
-#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span><span class='op'>(</span><span class='va'>otu_medium</span>, <span class='st'>"rf"</span><span class='op'>)</span>
+#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"rf"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $mtry
-#&gt; [1]  7 14 28
+#&gt; [1]  4  8 16
 #&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='st'>"rpart2"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $maxdepth
 #&gt; [1]  1  2  4  8 16 30
-#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span><span class='op'>(</span><span class='va'>otu_medium</span>, <span class='st'>"rpart2"</span><span class='op'>)</span>
+#&gt; </div><div class='input'><span class='fu'>get_hyperparams_list</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"rpart2"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $maxdepth
 #&gt; [1]  1  2  4  8 16 30
 #&gt; </div></pre>

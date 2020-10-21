@@ -19,7 +19,22 @@
 #' All other columns are OTU relative abundances.
 "otu_mini"
 
-#' A training data partition from `otu_small`.
+#' Mini OTU abundance dataset with 3 categorical variables
+#'
+#' A dataset containing relatives abundances of OTUs for human stool samples
+#'
+#' @format A data frame
+#' The `dx` column is the colorectal cancerl diagnosis: adenoma, carcinoma, normal.
+#' All other columns are OTU relative abundances.
+"otu_mini_multi"
+
+#' Small training dataset
+#'
+#' A training data partition from `otu_small`
+#'
+#' @format A data frame with 30 rows and 61 variables.
+#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
+#' All other columns are OTU relative abundances.
 "train_data_sm"
 
 #' A test data partition from `otu_small`.
@@ -52,3 +67,6 @@
 
 #' Results from running the pipline with rpart2 on `otu_mini`.
 "otu_mini_results5"
+
+#' Results from running the pipeline with glmnet on `otu_mini` with `Otu00001` as the outcome
+"otu_mini_cont_results1"

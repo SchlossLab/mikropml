@@ -124,7 +124,9 @@
   <span class='va'>trained_model</span>,
   <span class='va'>test_data</span>,
   <span class='va'>outcome_colname</span>,
-  <span class='va'>outcome_value</span>,
+  <span class='va'>perf_metric_function</span>,
+  <span class='va'>perf_metric_name</span>,
+  <span class='va'>class_probs</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>
 <span class='op'>)</span></pre>
 
@@ -133,19 +135,27 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>trained_model</th>
-      <td><p>trained model from caret</p></td>
+      <td><p>trained model</p></td>
     </tr>
     <tr>
       <th>test_data</th>
-      <td><p>held out test data: dataframe of outcome and features</p></td>
+      <td><p>test data</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
       <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
     </tr>
     <tr>
-      <th>outcome_value</th>
-      <td><p>Outcome value of interest as a string (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <th>perf_metric_function</th>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+    </tr>
+    <tr>
+      <th>perf_metric_name</th>
+      <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>class_probs</th>
+      <td><p>whether to use class probabilities</p></td>
     </tr>
     <tr>
       <th>seed</th>

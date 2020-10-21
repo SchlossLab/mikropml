@@ -67,7 +67,7 @@
 
       
 
-      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data prior to machine learning</h1>
@@ -126,6 +126,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="co"># preprocess raw binary data</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">bin_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   outcome var1_yes var2_1 var3_b</span>
@@ -139,7 +140,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; character(0)</span></pre></div>
-<p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
+<p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
 <p>The first column (<code>var1</code>) in <code>dat_transformed</code> is a character and is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>. The third column (<code>var3</code>) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name <code>var3_b</code>.</p>
 </div>
 <div id="categorical-data" class="section level2">
@@ -160,6 +161,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="co"># preprocess raw categorical data</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cat_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   outcome var1_a var1_b var1_c</span>
@@ -193,6 +195,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="co"># preprocess raw continuous data</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   outcome  var1</span>
@@ -210,6 +213,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="co"># preprocess raw continuous data, no normalization</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, method <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   outcome  var1</span>
@@ -239,6 +243,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="co"># preprocess raw continuous character data as numeric</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_char_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   outcome  var1</span>
@@ -256,6 +261,7 @@
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="co"># preprocess raw continuous character data as characters</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_char_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, to_numeric <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   outcome var1_1 var1_2 var1_3</span>
@@ -291,6 +297,7 @@
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="co"># preprocess raw correlated dataset</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   outcome  grp1</span>
@@ -311,6 +318,7 @@
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="co"># preprocess raw correlated dataset; don't group negatively correlated features</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, group_neg_corr <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   outcome var3_1  grp1</span>
@@ -333,6 +341,7 @@
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="co"># preprocess raw correlated dataset; don't group negatively correlated features</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   outcome var1_yes var2_1 var3_1</span>
@@ -371,6 +380,7 @@
 <div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="co"># remove features with near-zero variance</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   outcome var1_yes var2_1</span>
@@ -388,6 +398,7 @@
 <div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="co"># remove features with zero variance</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="st">'zv'</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   outcome var1_yes var2_1</span>
@@ -405,6 +416,7 @@
 <div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="co"># don't remove features with near-zero or zero variance</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="cn">NULL</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 6</span>
 <span class="co">#&gt;   outcome var1_yes var2_1  var3  var4  var5</span>
@@ -450,6 +462,7 @@
 <div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="co"># preprocess raw dataset with missing outcome value</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_oc_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; Removed 1/4 (25%) of samples because of missing outcome value (NA).</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
@@ -483,6 +496,7 @@
 <div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="co"># preprocess raw dataset with missing value in non-variable feature</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
@@ -501,6 +515,7 @@
 <div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="co"># preprocess raw dataset with missing value in non-variable feature</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="cn">NULL</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
@@ -534,6 +549,7 @@
 <div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="co"># preprocess raw dataset with missing value in non-variable feature</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_cat_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; 4 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
@@ -578,6 +594,7 @@
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="co"># preprocess raw dataset with missing value in continuous feature</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, method <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; 2 missing continuous value(s) were imputed using the median value of the feature.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 4 x 3</span>
@@ -624,6 +641,7 @@
 <p>Let’s throw this into the preprocessing function with the default values:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit">
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">test_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
+<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; Removed 1/4 (25%) of samples because of missing outcome value (NA).</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
 <span class="co">#&gt; 4 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>

@@ -178,8 +178,8 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>define_cv</span><span class='op'>(</span><span class='va'>train_data_sm</span>,
   outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,
-  hyperparams_list <span class='op'>=</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"regLogistic"</span><span class='op'>)</span>,
-  perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>twoClassSummary</a></span>,
+  hyperparams_list <span class='op'>=</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span><span class='op'>)</span>,
+  perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>multiClassSummary</a></span>,
   class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>,
   kfold <span class='op'>=</span> <span class='fl'>5</span>
 <span class='op'>)</span>
@@ -228,24 +228,60 @@
 #&gt; $summaryFunction
 #&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
-#&gt;     if (length(lev) &gt; 2) {
-#&gt;         stop(paste("Your outcome has", length(lev), "levels. The twoClassSummary() function isn't appropriate."))
-#&gt;     }
-#&gt;     requireNamespaceQuietStop("pROC")
-#&gt;     if (!all(levels(data[, "pred"]) == lev)) {
+#&gt;     if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) 
 #&gt;         stop("levels of observed and predicted data do not match")
+#&gt;     has_class_probs &lt;- all(lev %in% colnames(data))
+#&gt;     if (has_class_probs) {
+#&gt;         lloss &lt;- mnLogLoss(data = data, lev = lev, model = model)
+#&gt;         requireNamespaceQuietStop("pROC")
+#&gt;         requireNamespaceQuietStop("MLmetrics")
+#&gt;         prob_stats &lt;- lapply(levels(data[, "pred"]), function(x) {
+#&gt;             obs &lt;- ifelse(data[, "obs"] == x, 1, 0)
+#&gt;             prob &lt;- data[, x]
+#&gt;             roc_auc &lt;- try(pROC::roc(obs, data[, x], direction = "&lt;", 
+#&gt;                 quiet = TRUE), silent = TRUE)
+#&gt;             roc_auc &lt;- if (inherits(roc_auc, "try-error")) 
+#&gt;                 NA
+#&gt;             else roc_auc$auc
+#&gt;             pr_auc &lt;- try(MLmetrics::PRAUC(y_pred = data[, x], 
+#&gt;                 y_true = obs), silent = TRUE)
+#&gt;             if (inherits(pr_auc, "try-error")) 
+#&gt;                 pr_auc &lt;- NA
+#&gt;             res &lt;- c(ROC = roc_auc, AUC = pr_auc)
+#&gt;             return(res)
+#&gt;         })
+#&gt;         prob_stats &lt;- do.call("rbind", prob_stats)
+#&gt;         prob_stats &lt;- colMeans(prob_stats, na.rm = TRUE)
 #&gt;     }
-#&gt;     rocObject &lt;- try(pROC::roc(data$obs, data[, lev[1]], direction = "&gt;", 
-#&gt;         quiet = TRUE), silent = TRUE)
-#&gt;     rocAUC &lt;- if (inherits(rocObject, "try-error")) 
-#&gt;         NA
-#&gt;     else rocObject$auc
-#&gt;     out &lt;- c(rocAUC, sensitivity(data[, "pred"], data[, "obs"], 
-#&gt;         lev[1]), specificity(data[, "pred"], data[, "obs"], lev[2]))
-#&gt;     names(out) &lt;- c("ROC", "Sens", "Spec")
-#&gt;     out
+#&gt;     CM &lt;- confusionMatrix(data[, "pred"], data[, "obs"], mode = "everything")
+#&gt;     if (length(levels(data[, "pred"])) == 2) {
+#&gt;         class_stats &lt;- CM$byClass
+#&gt;     }
+#&gt;     else {
+#&gt;         class_stats &lt;- colMeans(CM$byClass)
+#&gt;         names(class_stats) &lt;- paste("Mean", names(class_stats))
+#&gt;     }
+#&gt;     overall_stats &lt;- if (has_class_probs) 
+#&gt;         c(CM$overall, logLoss = as.numeric(lloss), AUC = unname(prob_stats["ROC"]), 
+#&gt;             prAUC = unname(prob_stats["AUC"]))
+#&gt;     else CM$overall
+#&gt;     stats &lt;- c(overall_stats, class_stats)
+#&gt;     stats &lt;- stats[!names(stats) %in% c("AccuracyNull", "AccuracyLower", 
+#&gt;         "AccuracyUpper", "AccuracyPValue", "McnemarPValue", "Mean Prevalence", 
+#&gt;         "Mean Detection Prevalence")]
+#&gt;     names(stats) &lt;- gsub("[[:blank:]]+", "_", names(stats))
+#&gt;     stat_list &lt;- c("Accuracy", "Kappa", "Mean_F1", "Mean_Sensitivity", 
+#&gt;         "Mean_Specificity", "Mean_Pos_Pred_Value", "Mean_Neg_Pred_Value", 
+#&gt;         "Mean_Precision", "Mean_Recall", "Mean_Detection_Rate", 
+#&gt;         "Mean_Balanced_Accuracy")
+#&gt;     if (has_class_probs) 
+#&gt;         stat_list &lt;- c("logLoss", "AUC", "prAUC", stat_list)
+#&gt;     if (length(levels(data[, "pred"])) == 2) 
+#&gt;         stat_list &lt;- gsub("^Mean_", "", stat_list)
+#&gt;     stats &lt;- stats[c(stat_list)]
+#&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7fba582b3f90&gt;
+#&gt; &lt;bytecode: 0x7fe4b2bf58c0&gt;
 #&gt; &lt;environment: namespace:caret&gt;
 #&gt; 
 #&gt; $selectionFunction
