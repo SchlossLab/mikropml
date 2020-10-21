@@ -1,28 +1,3 @@
-# These functions compute a correlation matrix of the features and return all features that are correlated above a certain threshold.
-
-#' Flatten correlation matrix to pairs
-#'
-#' @param cormat correlation matrix computed with stats::cor
-#'
-#' @return flattened correlation matrix (pairs of features their correlation)
-#' @export
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-#' @examples
-#' set.seed(0)
-#' mat <- matrix(runif(100), nrow = 20)
-#' rownames(mat) <- 1:nrow(mat)
-#' colnames(mat) <- 1:ncol(mat)
-#' corr_mat <- stats::cor(mat, method = "spearman")
-#' flatten_corr_mat(corr_mat)
-flatten_corr_mat <- function(cormat) {
-  ut <- upper.tri(cormat)
-  return(data.frame(
-    feature1 = rownames(cormat)[row(cormat)[ut]],
-    feature2 = rownames(cormat)[col(cormat)[ut]],
-    corr = cormat[ut]
-  ))
-}
 
 #' Identify correlated features
 #'
@@ -56,13 +31,37 @@ get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE) {
   return(corr_feats)
 }
 
+#' Flatten correlation matrix to pairs
+#'
+#' @param cormat correlation matrix computed with stats::cor
+#'
+#' @return flattened correlation matrix (pairs of features their correlation)
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' set.seed(0)
+#' mat <- matrix(runif(100), nrow = 20)
+#' rownames(mat) <- 1:nrow(mat)
+#' colnames(mat) <- 1:ncol(mat)
+#' corr_mat <- stats::cor(mat, method = "spearman")
+#' flatten_corr_mat(corr_mat)
+flatten_corr_mat <- function(cormat) {
+  ut <- upper.tri(cormat)
+  return(data.frame(
+    feature1 = rownames(cormat)[row(cormat)[ut]],
+    feature2 = rownames(cormat)[col(cormat)[ut]],
+    corr = cormat[ut]
+  ))
+}
+
 #' Group correlated features
 #'
 #' @param corr output of get_corr_feats (pairs of correlated features)
 #' @param features features for ML
 #'
 #' @return vector of correlated features where each element is the group of correlated features separated by pipes (|)
-#' @export
+#' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'

@@ -4,14 +4,14 @@
 \alias{plot_hp_performance}
 \title{Plot hyperparameter performance metrics}
 \usage{
-plot_hp_performance(dat, param_column, metric_column)
+plot_hp_performance(dat, param_col, metric_col)
 }
 \arguments{
 \item{dat}{dataframe of hyperparameters and performance metric (e.g. from \code{get_hp_performance()} or \code{combine_hp_performance()})}
 
-\item{param_column}{hyperparameter to be plotted. must be a column in \code{dat}.}
+\item{param_col}{hyperparameter to be plotted. must be a column in \code{dat}.}
 
-\item{metric_column}{performance metric. must be a column in \code{dat}.}
+\item{metric_col}{performance metric. must be a column in \code{dat}.}
 }
 \description{
 Plot hyperparameter performance metrics
