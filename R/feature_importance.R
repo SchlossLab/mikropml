@@ -1,4 +1,3 @@
-
 #' Get feature importance using permutation method
 #'
 #' Requires the `future.apply` package
@@ -13,7 +12,6 @@
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
 get_feature_importance <- function(trained_model, train_data, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, method, seed = NA, corr_thresh = 1) {
   abort_packages_not_installed("future.apply")
 
@@ -40,8 +38,6 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
     ))
 }
 
-
-
 #' Get permuted performance metric difference for a single feature (or group of features)
 #'
 #' Requires the `future.apply` package
@@ -51,7 +47,7 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 #' @inheritParams get_feature_importance
 #'
 #' @return vector of mean permuted auc and mean difference between test and permuted auc
-#' @export
+#' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'

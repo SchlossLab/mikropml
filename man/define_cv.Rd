@@ -36,17 +36,24 @@ define_cv(
 Caret object for trainControl that controls cross-validation
 }
 \description{
-See \link[caret]{trainControl} for info on how the seed is being set.
+Define Cross-Validation Scheme and Training Parameters
 }
 \examples{
-define_cv(train_data_sm,
-  outcome_colname = "dx",
-  hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
-  perf_metric_function = caret::multiClassSummary,
-  class_probs = TRUE,
-  kfold = 5
+training_inds <- get_partition_indices(otu_small \%>\% dplyr::pull('dx'),
+                                       training_frac = 0.8,
+                                       groups = NULL)
+train_data <- otu_small[training_inds, ]
+test_data <- otu_small[-training_inds, ]
+cv <- define_cv(train_data,
+                outcome_colname = "dx",
+                hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
+                perf_metric_function = caret::multiClassSummary,
+                class_probs = TRUE,
+               kfold = 5
 )
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
+
+Kelly Sovacool, \email{sovacool@umich.edu}
 }

@@ -27,12 +27,13 @@ utils::globalVariables(c("."))
 #' @inheritParams run_ml
 #'
 #' @return dataset with feature order randomized
-#' @noRd
+#' @export
 #' @author Nick Lesniak, \email{nlesniak@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' dat <- (outcome = 1:3, a = 4:6, b = 7:9, c = 10:12)
+#' dat <- data.frame(outcome = c('1', '2', '3'),
+#'                   a = 4:6, b = 7:9, c = 10:12, d = 13:15)
 #' randomize_feature_order(dat, "outcome")
 randomize_feature_order <- function(dataset, outcome_colname) {
   features_reordered <- dataset %>%
@@ -51,7 +52,7 @@ randomize_feature_order <- function(dataset, outcome_colname) {
 #' @inheritParams run_ml
 #'
 #' @return list of length two: outcome, features (as dataframes)
-#' @export
+#' @noRd
 #'
 #' @examples
 #' split_outcome_features(mikropml::otu_mini, "dx")
@@ -84,14 +85,14 @@ select_apply <- function(fun = "apply") {
   return(utils::getFromNamespace(fun, pkg))
 }
 
-#' Mutate all columns with type.convert
+#' Mutate all columns with `utils::type.convert()`.`
 #'
-#' Turns factors into characters and numerics where possible
+#' Turns factors into characters and numerics where possible.
 #'
 #' @param dat data.frame to convert
 #'
 #' @return data.frame with no factors
-#' @export
+#' @noRd
 #'
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
@@ -107,26 +108,4 @@ select_apply <- function(fun = "apply") {
 #' class(dat$c2)
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
-}
-#' Get model performance metrics as a one-row tibble
-#'
-#' @inheritParams calc_perf_metrics
-#' @inheritParams run_ml
-#' @inheritParams get_feature_importance
-#'
-#' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
-#' @export
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_performance_tbl <- function(trained_model, test_data, outcome_colname, perf_metric_function, perf_metric_name, class_probs, seed = NA) {
-  test_perf_metrics <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)
-  cv_metric <- caret::getTrainPerf(trained_model)[[paste0("Train", perf_metric_name)]]
-  if (is.null(cv_metric)) warning(paste0("The cv metric provided does not match with that used to train the data. You provided: "), perf_metric_name, ". The options are ", paste0(gsub("Train|method", "", names(caret::getTrainPerf(trained_model))), sep = ", "))
-  all_info <- dplyr::bind_rows(c(
-    cv_metric = cv_metric,
-    test_perf_metrics,
-    method = trained_model$method,
-    seed = seed
-  ))
-  names(all_info)[names(all_info) == "cv_metric"] <- paste0("cv_metric_", perf_metric_name)
-  return(change_to_num(all_info))
 }
