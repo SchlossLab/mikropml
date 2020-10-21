@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get model performance metrics as a one-row tibble — get_performance_tbl • mikropml</title>
+<title>Tidy the performance dataframe — tidy_perf_data • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get model performance metrics as a one-row tibble — get_performance_tbl" />
-<meta property="og:description" content="Get model performance metrics as a one-row tibble" />
+<meta property="og:title" content="Tidy the performance dataframe — tidy_perf_data" />
+<meta property="og:description" content="Used by plot_performance()." />
 
 
 
@@ -111,65 +111,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get model performance metrics as a one-row tibble</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/performance_metrics.R'><code>R/performance_metrics.R</code></a></small>
-    <div class="hidden name"><code>get_performance_tbl.Rd</code></div>
+    <h1>Tidy the performance dataframe</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
+    <div class="hidden name"><code>tidy_perf_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get model performance metrics as a one-row tibble</p>
+    <p>Used by <code><a href='plot_performance.html'>plot_performance()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_performance_tbl</span><span class='op'>(</span>
-  <span class='va'>trained_model</span>,
-  <span class='va'>test_data</span>,
-  <span class='va'>outcome_colname</span>,
-  <span class='va'>perf_metric_function</span>,
-  <span class='va'>perf_metric_name</span>,
-  <span class='va'>class_probs</span>,
-  seed <span class='op'>=</span> <span class='cn'>NA</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tidy_perf_data</span><span class='op'>(</span><span class='va'>performance_df</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>trained_model</th>
-      <td><p>trained model</p></td>
-    </tr>
-    <tr>
-      <th>test_data</th>
-      <td><p>test data</p></td>
-    </tr>
-    <tr>
-      <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
-    </tr>
-    <tr>
-      <th>perf_metric_name</th>
-      <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>class_probs</th>
-      <td><p>whether to use class probabilities</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>Random seed (default: <code>NA</code>). Your results will be reproducible if you set a seed.</p></td>
+      <th>performance_df</th>
+      <td><p>dataframe of performance results from multiple calls to <code><a href='run_ml.html'>run_ml()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a one-row tibble with columns <code>cv_auroc</code>, <code>test_auroc</code>, <code>test_auprc</code>, <code>method</code>, and <code>seed</code></p>
+    <p>Tidy dataframe with model performance metrics</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
-<p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
+    <p>Begüm Topçuoglu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
+<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
