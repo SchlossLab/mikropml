@@ -201,5 +201,5 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
            ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$ymin_metric,
                                                ymax = .data$ymax_metric),
                                   width=.001)
-)
+         )
 }
