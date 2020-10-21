@@ -75,7 +75,7 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #' @inheritParams run_ml
 #'
 #' @return dataset with no missing outcomes
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -101,7 +101,7 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @param features dataframe of features for machine learning
 #'
 #' @return dataframe with numeric columns where possible
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -124,7 +124,7 @@ change_to_num <- function(features) {
 #' @param features dataframe of features for machine learning
 #'
 #' @return list of two dataframes: features with variability (unprocessed) and without (processed)
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -190,7 +190,7 @@ process_novar_feats <- function(features) {
 #' @param features dataframe of features for machine learning
 #'
 #' @return list of two dataframes: categorical (processed) and continuous features (unprocessed)
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -255,11 +255,10 @@ process_cat_feats <- function(features) {
 
 #' Preprocess continuous features
 #'
-#' @param features dataframe of features for machine learning
-#' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`)
+#' @inheritParams get_caret_processed_df
 #'
 #' @return dataframe of preprocessed features
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -309,7 +308,8 @@ process_cont_feats <- function(features, method) {
 
 #' Get preprocessed dataframe for continuous variables
 #'
-#' @inheritParams process_cont_feats
+#' @param features dataframe of features for machine learning
+#' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`)
 #'
 #' @return processed matrix
 #' @export
@@ -335,7 +335,7 @@ get_caret_processed_df <- function(features, method) {
 #' @param full_rank whether matrix should be full rank or not (see `caret::dummyVars`)
 #'
 #' @return design matrix
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -365,7 +365,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 #' @inheritParams get_corr_feats
 #'
 #' @return features where perfectly correlated ones are collapsed
-#' @export
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples

@@ -125,6 +125,9 @@ run_ml <-
       tune_grid,
       ntree
     )
+    if (!is.na(seed)) {
+      set.seed(seed)
+    }
 
     performance_tbl <- get_performance_tbl(
       trained_model_caret,

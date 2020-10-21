@@ -58,11 +58,14 @@ plot_performance <- function(performance_df) {
 }
 
 #' Tidy the performance dataframe
+#'
+#' Used by `plot_performance()`.
+#'
 #' @inheritParams plot_performance
 #' @return Tidy dataframe with model performance metrics
-#' @noRd
+#' @export
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
-#' @author Kelly Sovacool, \email(sovacool@@umich.edu)
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 tidy_perf_data <- function(performance_df) {
   abort_packages_not_installed("tidyr")
   performance_df %>%

@@ -57,27 +57,3 @@ train_model <- function(model_formula,
   )
   return(trained_model_caret)
 }
-
-#' Train model with warnings
-#'
-#' @param model_formula model formula
-#' @param train_data train_data
-#' @param method method
-#' @param cv cross-validation caret scheme
-#' @param tune_grid tuning grid
-#'
-#' @inheritParams run_ml
-#'
-#' @return trained model
-#' @noRd
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-train_model_w_warnings <- function(model_formula,
-                                   train_data,
-                                   method,
-                                   cv,
-                                   perf_metric_name,
-                                   tune_grid,
-                                   ntree) {
-  return(trained_model_caret)
-}

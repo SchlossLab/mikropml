@@ -36,7 +36,7 @@ get_partition_indices <- function(outcomes, training_frac = 0.8, groups = NULL) 
 #' @param p maximum fraction of data that goes to training (maybe less depending on groups sizes)
 #'
 #' @return vector of row indices for the training set
-#' @export
+#' @noRd
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #'
 #' @examples
