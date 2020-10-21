@@ -27,3 +27,28 @@ test_that("calc_perf_metrics works", {
                                  class_probs = TRUE),
                unlist(c(otu_mini_results1$performance[, !(colnames(otu_mini_results1$performance) %in% c("cv_metric_AUC", "method", "seed"))])))
 })
+
+test_that("get_performance_tbl works", {
+  set.seed(2019)
+  expect_equal(
+    get_performance_tbl(
+      otu_mini_results1$trained_model,
+      otu_mini_results1$test_data,
+      "dx",
+      caret::multiClassSummary,
+      "AUC",
+      TRUE,
+      seed = 2019
+    ),
+    otu_mini_results1$performance
+  )
+  expect_warning(get_performance_tbl(
+    otu_mini_results1$trained_model,
+    otu_mini_results1$test_data,
+    "dx",
+    caret::multiClassSummary,
+    "not_a_perf_metric",
+    TRUE,
+    seed = 2019
+  ), "The performance metric provided does not match the metric used to train the data.")
+})

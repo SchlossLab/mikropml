@@ -32,7 +32,8 @@ utils::globalVariables(c("."))
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' dat <- (outcome = 1:3, a = 4:6, b = 7:9, c = 10:12)
+#' dat <- data.frame(outcome = c('1', '2', '3'),
+#'                   a = 4:6, b = 7:9, c = 10:12, d = 13:15)
 #' randomize_feature_order(dat, "outcome")
 randomize_feature_order <- function(dataset, outcome_colname) {
   features_reordered <- dataset %>%
@@ -107,53 +108,4 @@ select_apply <- function(fun = "apply") {
 #' class(dat$c2)
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
-}
-
-#' Get model performance metrics as a one-row tibble
-#'
-#' @inheritParams calc_perf_metrics
-#' @inheritParams run_ml
-#' @inheritParams get_feature_importance
-#'
-#' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
-#' @export
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-get_performance_tbl <- function(trained_model,
-                                test_data,
-                                outcome_colname,
-                                perf_metric_function,
-                                perf_metric_name,
-                                class_probs,
-                                seed = NA) {
-
-  test_perf_metrics <- calc_perf_metrics(test_data,
-                                         trained_model,
-                                         outcome_colname,
-                                         perf_metric_function,
-                                         class_probs)
-
-  train_perf <- caret::getTrainPerf(trained_model)
-  cv_metric_name <- paste0("Train", perf_metric_name)
-  cv_metric_options <- names(train_perf)
-
-  if (!(cv_metric_name %in% cv_metric_options)) {
-    warning("The performance metric provided does not match the metric used to train the data.\n",
-            "You provided: `", perf_metric_name, "`\n",
-            "The options are: \n    ",
-            paste(gsub("Train|method", "", cv_metric_options),
-                   collapse = ", ")
-            )
-    cv_metric_value <- NA
-  } else {
-    cv_metric_value <- train_perf[[cv_metric_name]]
-  }
-  return(dplyr::bind_rows(c(cv_metric = cv_metric_value,
-                            test_perf_metrics,
-                            method = trained_model$method,
-                            seed = seed)) %>%
-           dplyr::rename_with(function(x) paste0("cv_metric_", perf_metric_name),
-                              cv_metric) %>%
-           change_to_num()
-         )
 }
