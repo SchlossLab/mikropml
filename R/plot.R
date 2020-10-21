@@ -184,10 +184,10 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
   abort_packages_not_installed('ggplot2')
   return(dat %>%
            dplyr::group_by({{ param_col }}) %>% 
-           dplyr::summarise(mean_AUC = mean( {{metric_col}} ), sd_AUC = sd( {{metric_col}} )) %>% 
+           dplyr::summarise(mean_metric = mean( {{metric_col}} ), sd_metric = sd( {{metric_col}} )) %>% 
            ggplot2::ggplot(ggplot2::aes(x = {{ param_col }},
-                                        y = mean_AUC)) +
+                                        y = mean_metric)) +
            ggplot2::geom_line() + 
            ggplot2::geom_point() +
-           ggplot2::geom_errorbar(ggplot2::aes(ymin=mean_AUC-sd_AUC, ymax=mean_AUC+sd_AUC), width=.001))
+           ggplot2::geom_errorbar(ggplot2::aes(ymin=mean_metric-sd_metric, ymax=mean_metric+sd_metric), width=.001))
 }
