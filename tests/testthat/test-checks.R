@@ -199,3 +199,12 @@ test_that("check_ntree works", {
   expect_error(check_ntree(-10), "`ntree` must be greater than zero. You provided: ")
   expect_error(check_ntree(c(0, 1)), "`ntree` must be of length 1 and class numeric. You provided: ")
 })
+
+test_that("abort_packages_not_installed works", {
+  testfun <- function(...) abort_packages_not_installed(...)
+  expect_null(testfun("utils"))
+  expect_error(
+    testfun("not_a_package"),
+    "The following package\\(s\\) are required for `testfun\\(\\)` but are not installed:"
+  )
+})

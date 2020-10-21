@@ -4,6 +4,7 @@
 #'
 #' @return outcome type
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_outcome_type(c(1, 2, 1))
@@ -32,17 +33,16 @@ get_outcome_type <- function(outcomes_vec) {
 #'
 #' @return performance metric function
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_perf_metric_fn("continuous")
 #' get_perf_metric_fn("binary")
 #' get_perf_metric_fn("multiclass")
 get_perf_metric_fn <- function(outcome_type) {
-  if (outcome_type == "continuous") {
-    # regression
+  if (outcome_type == "continuous") { # regression
     perf_metric_fn <- caret::defaultSummary
-  } else if (outcome_type %in% c("binary", "multiclass")) {
-    # multi-class classification
+  } else if (outcome_type %in% c("binary", "multiclass")) { # multi-class classification
     perf_metric_fn <- caret::multiClassSummary
   } else {
     stop(paste0('Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ', outcome_type))
@@ -57,21 +57,19 @@ get_perf_metric_fn <- function(outcome_type) {
 #'
 #' @return performance metric name
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' get_perf_metric_name("continuous")
 #' get_perf_metric_name("binary")
 #' get_perf_metric_name("multiclass")
 get_perf_metric_name <- function(outcome_type) {
-  if (outcome_type == "continuous") {
-    # regression
+  if (outcome_type == "continuous") { # regression
     perf_metric_name <- "RMSE"
   } else {
-    if (outcome_type == "binary") {
-      # binary classification
+    if (outcome_type == "binary") { # binary classification
       perf_metric_name <- "AUC"
-    } else if (outcome_type == "multiclass") {
-      # multi-class classification
+    } else if (outcome_type == "multiclass") { # multi-class classification
       perf_metric_name <- "logLoss"
     } else {
       stop(paste0('Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ', outcome_type))
@@ -89,6 +87,7 @@ get_perf_metric_name <- function(outcome_type) {
 #'
 #' @return performance metrics
 #' @export
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
@@ -112,4 +111,54 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
     perf_met <- perf_metric_function(data.frame(obs = obs, pred = preds))
   }
   return(perf_met)
+}
+
+
+#' Get model performance metrics as a one-row tibble
+#'
+#' @inheritParams calc_perf_metrics
+#' @inheritParams run_ml
+#' @inheritParams get_feature_importance
+#'
+#' @return a one-row tibble with columns `cv_auroc`, `test_auroc`, `test_auprc`, `method`, and `seed`
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+get_performance_tbl <- function(trained_model,
+                                test_data,
+                                outcome_colname,
+                                perf_metric_function,
+                                perf_metric_name,
+                                class_probs,
+                                seed = NA) {
+
+  test_perf_metrics <- calc_perf_metrics(test_data,
+                                         trained_model,
+                                         outcome_colname,
+                                         perf_metric_function,
+                                         class_probs)
+
+  train_perf <- caret::getTrainPerf(trained_model)
+  cv_metric_name <- paste0("Train", perf_metric_name)
+  cv_metric_options <- names(train_perf)
+
+  if (!(cv_metric_name %in% cv_metric_options)) {
+    warning("The performance metric provided does not match the metric used to train the data.\n",
+            "You provided: `", perf_metric_name, "`\n",
+            "The options are: \n    ",
+            paste(gsub("Train|method", "", cv_metric_options),
+                  collapse = ", ")
+    )
+    cv_metric_value <- NA
+  } else {
+    cv_metric_value <- train_perf[[cv_metric_name]]
+  }
+  return(dplyr::bind_rows(c(cv_metric = cv_metric_value,
+                            test_perf_metrics,
+                            method = trained_model$method,
+                            seed = seed)) %>%
+           dplyr::rename_with(function(x) paste0("cv_metric_", perf_metric_name),
+                              .data$cv_metric) %>%
+           change_to_num()
+  )
 }

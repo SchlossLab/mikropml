@@ -20,3 +20,6 @@ get_perf_metric_name("continuous")
 get_perf_metric_name("binary")
 get_perf_metric_name("multiclass")
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}
