@@ -5,9 +5,6 @@
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#' check_all(otu_small, "rf", TRUE, as.integer(5), 0.8, NULL)
 check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
@@ -256,6 +253,7 @@ check_packages_installed <- function(...) {
 #'
 #' Reports which packages need to be installed and the parent function name.
 #' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
+#' This is only intended to be used inside a function. It will error otherwise.
 #'
 #' @inheritParams check_packages_installed
 #' @noRd
@@ -285,7 +283,8 @@ abort_packages_not_installed <- function(...) {
 #' @param features features for machine learning
 #' @param check_missing check whether the features have missing data (default: TRUE)
 #'
-#' @export
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_features(otu_mini[, 2:4])
@@ -314,6 +313,7 @@ check_features <- function(features, check_missing = TRUE) {
 #' @inheritParams run_ml
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_groups(mikropml::otu_mini,
@@ -357,6 +357,7 @@ check_groups <- function(dataset, groups, kfold) {
 #' @param corr_thresh correlation threshold
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_corr_thresh(1)
@@ -384,6 +385,7 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @return
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_perf_metric_function(NULL)
@@ -398,6 +400,7 @@ check_perf_metric_function <- function(perf_metric_function) {
 #' @param perf_metric_name performance metric function
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_perf_metric_name(NULL)
@@ -412,6 +415,7 @@ check_perf_metric_name <- function(perf_metric_name) {
 #' @param feats features
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_cat_feats(otu_mini)
@@ -426,6 +430,7 @@ check_cat_feats <- function(feats) {
 #' @inheritParams preprocess_data
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_remove_var(NULL)
@@ -442,6 +447,7 @@ check_remove_var <- function(remove_var) {
 #' @inheritParams run_ml
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_ntree(NULL)

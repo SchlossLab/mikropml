@@ -20,3 +20,6 @@ get_outcome_type(c(1, 2, 1))
 get_outcome_type(c("a", "b", "b"))
 get_outcome_type(c("a", "b", "c"))
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}
