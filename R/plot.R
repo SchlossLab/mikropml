@@ -184,7 +184,7 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
   abort_packages_not_installed("ggplot2")
   return(dat %>%
     dplyr::group_by({{ param_col }}) %>%
-    dplyr::summarise(mean_performanc = mean({{ metric_col }}), sd_performance = sd({{ metric_col }})) %>%
+    dplyr::summarise(mean_performance = mean({{ metric_col }}), sd_performance = sd({{ metric_col }})) %>%
     ggplot2::ggplot(ggplot2::aes(
       x = {{ param_col }},
       y = mean_metric
