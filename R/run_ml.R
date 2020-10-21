@@ -62,13 +62,18 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-    if (find_feature_importance) { # `future.apply` is required for `find_feature_importance()``
+
+    # `future.apply` is required for `find_feature_importance()`.
+    # check it here to adhere to the fail fast principle.
+    if (find_feature_importance) {
       abort_packages_not_installed("future.apply")
     }
+    # can't have categorical features for feature importance beause have to find correlations
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
-    if (find_feature_importance) { # can't have categorical features for feature importance beause have to find correlations
+    if (find_feature_importance) {
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
     }
+
     dataset <- randomize_feature_order(dataset, outcome_colname)
 
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
