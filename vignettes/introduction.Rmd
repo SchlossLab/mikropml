@@ -45,28 +45,31 @@ If the `run_ml()` function is running super slow, you should consider paralleliz
 
 ## The input data
 
-The input data to `run_ml()` is a dataframe where each row is a sample. 
+The input data to `run_ml()` is a dataframe where each row is a sample or observation. 
 One column (assumed to be the first) is the outcome of interest, 
 and all of the other columns are the features. 
-Here's an example that comes with `mikropml`:
+We package `otu_mini` as an example dataset with `mikropml`.
 
 ```{r}
-# uncomment the next two lines if you don't have mikropml installed yet
-# install.packages("devtools")
-# devtools::install_github("SchlossLab/mikropml")
+#install.packages("devtools")
+#devtools::install_github("SchlossLab/mikropml")
 library(mikropml)
 head(otu_mini)
 ```
 
-Here, dx is the outcome column (normal or cancer), and there are 3 features (Otu00001 to Otu00003). 
+Here, `dx` is the outcome column (normal or cancer), and there are 3 features (`Otu00001` through `Otu00003`). 
 Because there are only 2 outcomes, we will be performing binary classification in the majority of the examples below. 
 At the bottom, we will also briefly provide examples of multi-class and continuous outcomes. 
 As you'll see, you run them in the same way as for binary classification!
 
-The feature columns are the amount of each operational taxonomic unit (OTU; ~species) in microbiomes samples from patients with cancer and without cancer. 
-The goal is to predict cancer or not based on an individual's microbiome. No need to understand exactly what that means, but if you're interested you can read more about it from the original paper [@topcuoglu_framework_2020].
+The feature columns are the amount of each [Operational Taxonomic Unit (OTU; proxy for species)](https://en.wikipedia.org/wiki/Operational_taxonomic_unit) 
+in microbiome samples from patients with cancer and without cancer. 
+The goal is to predict cancer or not based on an individual's microbiome. 
+No need to understand exactly what that means, 
+but if you're interested you can read more about it from the original paper [@topcuoglu_framework_2020].
 
-For real machine learning you'll want to use more features, but for the purposes of this vignette we'll stick with this dataset so everything runs faster.
+For real machine learning you'll want to use more features, 
+but for the purposes of this vignette we'll stick with this dataset so everything runs faster.
 
 ## The methods we support
 
@@ -97,7 +100,8 @@ You can learn more about this in the preprocessing vignette: `vignette(preproces
 Running it with default options will center and scale the features of our dataset.
 
 ```{r}
-preproc <- preprocess_data(dataset = otu_mini, outcome_colname = 'dx')
+preproc <- preprocess_data(dataset = otu_mini, 
+                           outcome_colname = 'dx')
 dat <- preproc$dat_transformed
 ```
 
@@ -115,11 +119,11 @@ We may also want to provide:
 Say we want to use `glmnet`.Then, run ML with:
 
 ```{r}
-results <- run_ml(dataset = dat, 
-                  method = 'glmnet', 
+results <- run_ml(dat, 
+                  'glmnet', 
                   outcome_colname = 'dx', 
-                  kfold = 3, 
-                  seed = 2019) # once we make otu_mini larger, i'll get rid of kfold
+                  kfold = 3, # TODO once we make otu_mini larger, i'll get rid of kfold in this example
+                  seed = 2019) 
 ```
 
 You'll notice a few things:
@@ -165,14 +169,19 @@ Below you can find more information about using other performance metrics.
 `cv_metric_AUC` is the AUC for the cross-validation folds for the training data. 
 This gives us a sense of how good the model is on the training data.
 
-Most of the other columns are performance metrics for the test data - the data that wasn't used to build the model.
-Here, you can see that the AUC for the test data is not much above 0.5, suggesting that this model does not predict much better than chance, and that the model is overfitted because the cross-validation AUC is much higher than the training AUC. 
+Most of the other columns are performance metrics for the test data — the data that wasn't used to build the model.
+Here, you can see that the AUC for the test data is not much above 0.5, 
+suggesting that this model does not predict much better than chance, 
+and that the model is overfitted because the cross-validation AUC is much higher than the training AUC. 
 This isn't too surprising since we're using so few features.
-The default option also provides a number of other performance metrics that you might be interested in, including area under the precision-recall curve (prAUC).
+The default option also provides a number of other performance metrics that you might be interested in, 
+including area under the precision-recall curve (prAUC).
 
-At the very end, there are columns that tell you the method and seed (if you set one).
+At the very end, there are columns for the method and seed (if you set one)
+to help with combining results from multiple runs (see `vignette('parallel')`).
 
-`feature_importance` has information about feature importances if `find_feature_importance = TRUE` (the default is `FALSE`). 
+`feature_importance` has information about feature importances if 
+`find_feature_importance = TRUE` (the default is `FALSE`). 
 Since we used the defaults, there's nothing here:
 
 ```{r}
