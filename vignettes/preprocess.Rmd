@@ -1,10 +1,10 @@
 ---
-title: "Preprocessing data prior to machine learning"
+title: "Preprocessing data"
 author: "Zena Lapp"
 output: rmarkdown::html_vignette
 bibliography: paper.bib
 vignette: >
-  %\VignetteIndexEntry{Preprocessing data prior to machine learning}
+  %\VignetteIndexEntry{Preprocessing data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
