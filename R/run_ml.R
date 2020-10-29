@@ -1,6 +1,6 @@
 #' Run the machine learning pipeline
 #'
-#' TODO: more details
+#' See `vignette('introduction')` for more details.
 #'
 #' @param dataset Dataframe with an outcome variable and other columns as features.
 #' @param method ML method. Options: `c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")`
