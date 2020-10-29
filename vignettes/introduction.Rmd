@@ -18,13 +18,14 @@ knitr::opts_chunk$set(
 
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you 
 to run while not losing any of the rigor associated with robust machine learning pipelines. 
-All you need to run ML is one function - `run_ml()`. 
-We've chosen a bunch of default arguments that are related to best practices [@topcuoglu_framework_2020]. 
-However, we also allow you to change those arguments if you'd like. 
+All you need to run ML is one function: `run_ml()`. 
+We've selected sane default arguments related to best practices [@topcuoglu_framework_2020], 
+but we allow you to change those arguments to tailor `run_ml()` to the needs of your data.
 
-This document takes you through all of the `run_ml` inputs, both required and optional, as well as the outputs.
+This document takes you through all of the `run_ml()` inputs, 
+both required and optional, as well as the outputs.
 
-In a nutshell, you provide:
+In summary, you provide:
 
 - A dataset with an outcome column and feature columns (rows are samples)
 - Model choice (i.e. method)
@@ -33,7 +34,7 @@ And the function outputs:
 
 - The trained model
 - Model performance metrics
-- [Optional] feature importance metrics
+- (Optional) feature importance metrics
 
 # It's running so slow!
 
@@ -88,7 +89,7 @@ For documentation on these methods, as well as many others, you can look at the
 (or see [here](https://topepo.github.io/caret/train-models-by-tag.html) for a list by tag). 
 While we have not vetted the other models used by `caret`, our function is general enough that others might work.
 While we can't promise that we can help with other models, 
-feel free to open an issue on GitHub if you have questions about other models if you want to see if we can help.
+feel free to [open an issue on GitHub](https://github.com/SchlossLab/mikropml/issues) if you have questions about other models and we _might_ be able to help.
 
 We will focus on `glmnet` here, then cover a few other examples towards the end.
 
@@ -188,7 +189,7 @@ Since we used the defaults, there's nothing here:
 results$feature_importance
 ```
 
-# Changing exactly how to `run_ml()`
+# Customizing parameters
 
 There are a few arguments that allow you to change how you run ML. 
 We've chosen reasonable defaults for you, but we encourage you to change these 
@@ -397,7 +398,8 @@ results_multi <- run_ml(otu_mini_multi,
                         seed = 2019)
 ```
 
-The performance metrics are slightly different, but the format of everything else is the same:
+The performance metrics are slightly different, 
+but the format of everything else is the same:
 
 ```{r}
 results_multi$performance
@@ -418,7 +420,8 @@ results_cont <- run_ml(dat,
 
 You can ignore the warning, because we want it to be continuous data. 
 
-Again, the performance metrics are slightly different but the format of the rest is the same:
+Again, the performance metrics are slightly different, 
+but the format of the rest is the same:
 
 ```{r}
 results_cont$performance
