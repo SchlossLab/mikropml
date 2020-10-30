@@ -182,12 +182,13 @@ check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, 
   return(outcome_colname)
 }
 
-#' Check that the outcome variable is binary. Pick outcome value if necessary.
+#' Check that the outcome variable is valid. Pick outcome value if necessary.
 #'
 #' @inheritParams run_ml
 #'
 #' @return outcome value
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
