@@ -381,7 +381,7 @@ results_svm <- run_ml(dat,
                       seed = 2019)
 ```
 
-Don't worry about the maximum number of iterations reached. [**TODO Check if it's an issue**]
+For more information on the message "maximum number of iterations reached", see [this](https://github.com/topepo/caret/issues/425) post. 
 
 # Other data
 
