@@ -142,8 +142,7 @@ names(results)
 
 `trained_model` is the trained model from `caret`. 
 There is a bunch of info in this that we won't get into, 
-because you can learn more from the `caret` documentation. 
-**TODO: link to relevant part of caret docs**
+because you can learn more from the `caret::train()` documentation. 
 
 ```{r}
 names(results$trained_model)
