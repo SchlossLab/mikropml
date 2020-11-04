@@ -349,7 +349,7 @@ test_that("process_cat_feats works", {
     )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), cont_feats = structure(list(var1 = 1:3), row.names = c(
       NA,
       -3L
-    ), class = c("tbl_df", "tbl", "data.frame")))
+    ), class = c("data.frame")))
   )
   expect_equal(
     expect_message(process_cat_feats(test_df[1:3, c(2:5, 8:11)])),
@@ -368,12 +368,16 @@ test_that("process_cat_feats works", {
     ), class = c("tbl_df", "tbl", "data.frame")), cont_feats = structure(list(
       var1 = 1:3, var8 = c(5, 6, NA)
     ), row.names = c(NA, -3L), class = c(
-      "tbl_df",
-      "tbl", "data.frame"
+      "data.frame"
     )))
   )
 
   expect_error(process_cat_feats(NA))
+})
+
+test_that("get_cat_feats_bool works", {
+  expect_equal(get_cat_feats_bool(otu_mini[,2]), FALSE)
+  expect_equal(get_cat_feats_bool(c('a','b')), TRUE)
 })
 
 test_that("process_cont_feats works", {

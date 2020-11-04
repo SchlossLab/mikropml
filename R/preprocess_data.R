@@ -185,6 +185,19 @@ process_novar_feats <- function(features) {
   return(list(novar_feats = novar_feats, var_feats = var_feats))
 }
 
+#' Get boolean of whether categorical feature or not
+#'
+#' @param feature_col one feature column
+#'
+#' @return boolean of whether features are categorical or not
+#'
+#' @examples
+#' get_cat_feats_bool(otu_mini[,2])
+get_cat_feats_bool <- function(feature_col) {
+  xu <- unique(feature_col[!is.na(feature_col)])
+  bool <- class(feature_col) %in% c("character", "factor") | (length(xu) == 2 & all(c(0, 1) %in% xu))
+}
+
 #' Process categorical features
 #'
 #' @param features dataframe of features for machine learning
@@ -202,23 +215,22 @@ process_cat_feats <- function(features) {
     check_features(features, check_missing = FALSE)
 
     sapply_fn <- select_apply("sapply")
-    cat_feats_bool <- sapply_fn(features, function(x) {
-      xu <- unique(x[!is.na(x)])
-      cl <- class(x)
-      bool <- (cl %in% c("character", "factor") | length(xu) == 2) &
-        !((is.numeric(x) | is.integer(x)) & !all(c(0, 1) %in% xu))
-    })
-    cat_feats <- features %>%
-      dplyr::select_if(cat_feats_bool) %>%
+
+    # cat_feats_bool <- sapply_fn(features, function(x) {
+    #   xu <- unique(x[!is.na(x)])
+    #   bool <- class(x) %in% c("character", "factor") | (length(xu) == 2 & all(c(0, 1) %in% xu))
+    # })
+    cat_feats <- Filter(get_cat_feats_bool,features) %>%
+      # dplyr::select_if(cat_feats_bool) %>%
       dplyr::mutate_all(as.character)
     lapply_fn <- select_apply(fun = "lapply")
     cat_feats[] <- lapply_fn(cat_feats, function(x) {
       x[!is.na(x)] <- paste0("_", x[!is.na(x)])
       x
     })
-    cont_feats <- features %>%
-      dplyr::select_if(!cat_feats_bool) %>%
-      dplyr::as_tibble()
+    cont_feats <- 
+      Filter(Negate(get_cat_feats_bool), features) #%>%
+      #dplyr::as_tibble()
     if (ncol(cont_feats) == 0) cont_feats <- NULL
 
 
