@@ -18,7 +18,7 @@
 #' preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = "nzv", collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
   check_dataset(dataset)
-  check_outcome_column(dataset, outcome_colname, check_values = FALSE)
+  check_outcome_column(dataset, outcome_colname, check_values = FALSE, show_message = FALSE)
   check_remove_var(remove_var)
 
   dataset <- rm_missing_outcome(dataset, outcome_colname)
