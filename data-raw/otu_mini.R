@@ -53,7 +53,7 @@ otu_mini_group <- c(
   "D", "B", "B", "E", "D", "D"
 )
 
-otu_mini_results1 <- mikropml::run_ml(otu_mini, # use built-in hyperparams
+otu_mini_results_glmnet <- mikropml::run_ml(otu_mini, # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
   find_feature_importance = FALSE,
@@ -61,10 +61,10 @@ otu_mini_results1 <- mikropml::run_ml(otu_mini, # use built-in hyperparams
   kfold = 2,
   cv_times = 2
 )
-usethis::use_data(otu_mini_results1, overwrite = TRUE)
+usethis::use_data(otu_mini_results_glmnet, overwrite = TRUE)
 
-# cv2_group <- sample(LETTERS[1:4], nrow(otu_mini_results1$trained_model$trainingData), replace = TRUE)
-cv2_group <- c(
+# cv_group <- sample(LETTERS[1:4], nrow(otu_mini_results1$trained_model$trainingData), replace = TRUE)
+cv_group <- c(
   "A", "A", "B", "A", "A", "A", "D", "C", "A", "D", "C", "B",
   "A", "A", "B", "B", "A", "D", "C", "C", "B", "B", "C", "D", "C",
   "D", "C", "A", "C", "D", "A", "C", "C", "A", "D", "A", "B", "C",
@@ -84,19 +84,18 @@ outcome_type <- get_outcome_type(otu_mini %>% dplyr::pull("dx"))
 class_probs <- outcome_type != "numeric"
 perf_metric_function <- get_perf_metric_fn(outcome_type)
 set.seed(2019)
-otu_mini_cv2 <- define_cv(otu_mini_results1$trained_model$trainingData,
+otu_mini_cv <- define_cv(otu_mini_results1$trained_model$trainingData,
   "dx",
   hparams_list,
   perf_metric_function = caret::multiClassSummary,
   class_probs = TRUE,
-  kfold = 2,
   cv_times = 2,
   group = cv2_group
 )
-usethis::use_data(otu_mini_cv2, overwrite = TRUE)
+usethis::use_data(otu_mini_cv, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
-otu_mini_results2 <- mikropml::run_ml(otu_mini,
+otu_mini_results_rf <- mikropml::run_ml(otu_mini,
   "rf",
   outcome_colname = "dx",
   find_feature_importance = TRUE,
@@ -105,9 +104,9 @@ otu_mini_results2 <- mikropml::run_ml(otu_mini,
   cv_times = 2,
   group = otu_mini_group
 )
-usethis::use_data(otu_mini_results2, overwrite = TRUE)
+usethis::use_data(otu_mini_results_rf, overwrite = TRUE)
 
-otu_mini_results3 <- mikropml::run_ml(otu_mini,
+otu_mini_results_svmRadial <- mikropml::run_ml(otu_mini,
   "svmRadial",
   outcome_colname = "dx",
   hyperparameters = get_hyperparams_from_df(test_hyperparams, "svmRadial"),
@@ -118,7 +117,7 @@ otu_mini_results3 <- mikropml::run_ml(otu_mini,
 )
 usethis::use_data(otu_mini_results3, overwrite = TRUE)
 
-otu_mini_results4 <- mikropml::run_ml(otu_mini,
+otu_mini_results_xgbTree <- mikropml::run_ml(otu_mini,
   "xgbTree",
   outcome_colname = "dx",
   hyperparameters = get_hyperparams_from_df(test_hyperparams, "xgbTree"),
@@ -127,9 +126,9 @@ otu_mini_results4 <- mikropml::run_ml(otu_mini,
   kfold = 2,
   cv_times = 2
 )
-usethis::use_data(otu_mini_results4, overwrite = TRUE)
+usethis::use_data(otu_mini_results_sgbTree, overwrite = TRUE)
 
-otu_mini_results5 <- mikropml::run_ml(otu_mini,
+otu_mini_results_rpart2 <- mikropml::run_ml(otu_mini,
   "rpart2",
   outcome_colname = "dx",
   find_feature_importance = FALSE,
@@ -137,4 +136,4 @@ otu_mini_results5 <- mikropml::run_ml(otu_mini,
   kfold = 2,
   cv_times = 2
 )
-usethis::use_data(otu_mini_results5, overwrite = TRUE)
+usethis::use_data(otu_mini_results_rpart2, overwrite = TRUE)
