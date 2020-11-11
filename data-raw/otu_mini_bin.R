@@ -72,7 +72,7 @@ otu_mini_bin_results_rf <- mikropml::run_ml(otu_mini_bin,
   cv_times = 2,
   group = otu_mini_group
 )
-usethis::use_data(otu_mini_results_rf, overwrite = TRUE)
+usethis::use_data(otu_mini_bin_results_rf, overwrite = TRUE)
 
 otu_mini_bin_results_svmRadial <- mikropml::run_ml(otu_mini_bin,
   "svmRadial",
@@ -81,7 +81,7 @@ otu_mini_bin_results_svmRadial <- mikropml::run_ml(otu_mini_bin,
   seed = 2019,
   cv_times = 2
 )
-usethis::use_data(otu_mini__bin_results_svmRadial, overwrite = TRUE)
+usethis::use_data(otu_mini_bin_results_svmRadial, overwrite = TRUE)
 
 otu_mini_bin_results_xgbTree <- mikropml::run_ml(otu_mini,
   "xgbTree",
