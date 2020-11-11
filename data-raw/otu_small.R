@@ -1,5 +1,5 @@
 ## code to prepare `otu_small` dataset
-otu_large <- read.delim(system.file("data-raw", "otu_large.csv",
+otu_large <- read.delim(system.file("data-raw", "otu_large_bin.csv",
   package = "mikropml"
 ), sep = ",")
 otu_small <- otu_large[1:200, 1:61]
