@@ -3,6 +3,9 @@ title: "mikropml: User-Friendly R Package for Robust Machine Learning Pipelines"
 output: 
   rmarkdown::html_vignette:
     keep_md: true
+  pdf_document:
+    latex_engine: xelatex
+urlcolor: blue
 tags:
   - R
   - machine learning
@@ -56,7 +59,7 @@ vignette: >
 
 Machine learning (ML) for classification and prediction based on a set of features is used to make decisions in healthcare, economics, criminal justice and more. 
 However, implementing a robust ML pipeline can be time-consuming, confusing, and difficult. 
-Here, we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced "meek-ROPE em el"), an easy-to-use R package that implements robust ML pipelines using regression, support vector machines, decision trees, random forest, or gradient boosted trees.
+Here, we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced "meek-ROPE em el"), an easy-to-use R package that implements robust ML pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees.
 It is available on [GitHub](https://github.com/SchlossLab/mikropml/) and CRAN [**link to CRAN**]. 
 
 # Statement of need
@@ -71,50 +74,57 @@ This, paired with the vast number of options available, makes it difficult for n
 Furthermore, these packages do not offer a unified way to identify features that contribute to improved model performance.
 
 To enable a broader range of researchers to perform robust ML analyses, we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use package in R [@r_core_team_r_2020] that implements the ML framework created by Topçuoğlu _et al._ [@topcuoglu_framework_2020]. 
-`mikropml` leverages the R `caret` package to support five different ML algorithms: logistic regression, support vector machine with a radial basis kernel, decision tree, random forest, and gradient boosted trees.  
+`mikropml` leverages the `caret` package to support several ML algorithms:
+linear regression, logistic regression, support vector machine with a radial basis kernel, decision tree, random forest, and gradient boosted trees.
 It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;@teschendorff_avoiding_2019]. <!-- @Begum should we cite something else here [as well]? --  Added 1 more but Jenna might have opinions on this -->
-Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang et al. [@tang_democratizing_2020] and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
+Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang _et al._ [@tang_democratizing_2020] 
+and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
 
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
-It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], to identify differences in genomic and clinical features associated with bacterial infections [@lapp_machine_2020], and to predict gender-based biases in academic publishing [**cite Ada’s paper**]. 
-
+It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], 
+to identify differences in genomic and clinical features associated with bacterial infections [@lapp_machine_2020], 
+and to predict gender-based biases in academic publishing [**cite Ada’s paper**]. 
 
 # mikropml package
 
-The `mikropml` package has functions to preprocess the data, train ML models, and quantify feature importance. 
-We also provide [vignettes](http://www.schlosslab.org/mikropml/articles/index.html) and an [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) [@koster_snakemakescalable_2012] to showcase how to run an ideal ML pipeline with multiple different train/test data splits.
-The results can be visualized using functions in the package that leverage the functionality of `ggplot2` [@pedersen_ggplot2_nodate].
+The `mikropml` package includes functions to preprocess the data, train ML models, and quantify feature importance. 
+We also provide [vignettes](http://www.schlosslab.org/mikropml/articles/index.html) 
+and an [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) [@koster_snakemakescalable_2012] 
+to showcase how to run an ideal ML pipeline with multiple different train/test data splits.
+The results can be visualized using helper functions that use `ggplot2` [@pedersen_ggplot2_nodate].
 
 ## Preprocessing data
 
-We provide a function (`preprocess_data`) that preprocesses features using several different functions from the `caret` package. 
-The `preprocess_data` function takes continuous and categorical data, re-factors categorical data into binary features, and provides options to normalize continuous data, remove features with near-zero variance, and keep only one instance of perfectly correlated features. 
+We provide a function `preprocess_data()` to preprocess features using several different functions from the `caret` package.
+The `preprocess_data()` function takes continuous and categorical data, re-factors categorical data into binary features, and provides options to normalize continuous data, remove features with near-zero variance, and keep only one instance of perfectly correlated features. 
 We set the default options based on best practices implemented in FIDDLE [@tang_democratizing_2020]. 
-More details on how to use the `mikropml` `preprocess_data` function can be found in the [vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
+More details on how to use `:preprocess_data()` can be found in the accompanying [vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
 
 ## Running ML
 
-The main function in mikropml (`run_ml`) minimally takes in a data frame including outcome and categorical or continuous features, and model choice.
-`mikropml` currently supports logistic and linear regression [@friedman_regularization_2010], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision tree [@therneau_rpart_2019], random forest [@liaw_classication_2002], and xgBoost [@chen_xgboost_2020]. 
-It randomly splits the data into train and test sets while also maintaining the distribution of the outcomes found in the full dataset. 
+The main function in mikropml, `run_ml()`, minimally takes in the model choice and a data frame with an outcome column and remaining columns as categorical or continuous features.
+For model choice, `mikropml` currently supports logistic and linear regression [@friedman_regularization_2010], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision trees [@therneau_rpart_2019], random forest [@liaw_classication_2002], and gradient-boosted trees [@chen_xgboost_2020]. 
+`run_ml()` randomly splits the data into train and test sets while maintaining the distribution of the outcomes found in the full dataset. 
 It also provides the option to split the data into train and test sets based on categorical variables (e.g. batch, geographic location, etc.).
-`mikropml` uses the `caret` R package [@kuhn_building_2008] to train and evaluate the model, and optionally quantifies feature importance.
+`mikropml` uses the `caret` package [@kuhn_building_2008] to train and evaluate the model, and optionally quantifies feature importance.
 The output includes the best model built based on tuning hyperparameters in an internal and repeated cross-validation step, model evaluation metrics, and optional feature importances (Figure 1). 
 The quantification of feature importance using permutation allows the calculation of the decrease in the model's prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
-Our [vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) contains a comprehensive tutorial on how to use the `run_ml` function.
+Our [vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) contains a comprehensive tutorial on how to use `run_ml()`.
 
 ![Figure 1. mikropml pipeline](mikRopML-pipeline.png){width=100%}
 
 ## Ideal workflow for running mikropml with many different train/test splits
 
-To investigate the variation in model performance depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020], we provide examples of how to run the `run_ml` function many times with different train/test splits and how to get summary information about model performance on [your local computer](http://www.schlosslab.org/mikropml/articles/parallel.html) or on a high-performance computing cluster using a [snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow). 
+To investigate the variation in model performance depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020], 
+we provide examples of how to run the `run_ml()` function many times with different train/test splits 
+and how to get summary information about model performance on [your local computer](http://www.schlosslab.org/mikropml/articles/parallel.html) or on a high-performance computing cluster using a [snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow). 
 
-## Plotting ML results 
+## Tuning & visualization
 
 One particularly important aspect of ML is hyperparameter tuning. 
 Practitioners must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset.
-Therefore, we provide a function (`plot_hp_performance`) to plot the cross-validation performance metric of models built using different train/test splits to evaluate if we are exhausing our hyperparameter search range to pick the ideal one. 
-We also provide summary plots of test performance metrics for the many train/test splits using `plot_performance`.
+Therefore, we provide a function `plot_hp_performance()` to plot the cross-validation performance metric of models built using different train/test splits to evaluate if we are exhausing our hyperparameter search range to pick the ideal one. 
+We also provide summary plots of test performance metrics for the many train/test splits with different models using `plot_model_performance()`.
 
 ## Dependencies
 
@@ -129,6 +139,7 @@ Finally, we use `ggplot2` for plotting [@pedersen_ggplot2_nodate].
 We thank members of the Schloss Lab who participated in code clubs related to the initial development of the pipeline.
 
 # Funding
+
 Salary support for PDS came from NIH grant 1R01CA215574.
 KLS received support from the NIH Training Program in Bioinformatics (T32 GM070449).
 ZL received support from the National Science Foundation Graduate Research Fellowship Program under Grant No. DGE 1256260. 
