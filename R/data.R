@@ -16,7 +16,7 @@
 #' @format A data frame
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
 #' All other columns are OTU relative abundances.
-"otu_mini"
+"otu_mini_bin"
 
 #' Mini OTU abundance dataset with 3 categorical variables
 #'
@@ -27,23 +27,26 @@
 #' All other columns are OTU relative abundances.
 "otu_mini_multi"
 
-#' 2-fold cross validation on `train_data_mini` with grouped features
-"otu_mini_cv2"
+#' cross validation on `train_data_mini` with grouped features
+"otu_mini_cv"
 
 #' Results from running the pipline with L2 logistic regression on `otu_mini` with feature importance and grouping
-"otu_mini_results1"
+"otu_mini_bin_results_glmnet"
 
 #' Results from running the pipline with random forest on `otu_mini`
-"otu_mini_results2"
+"otu_mini_bin_results_rf"
 
 #' Results from running the pipline with svmRadial on `otu_mini`
-"otu_mini_results3"
+"otu_mini_bin_results_svmRadial"
 
 #' Results from running the pipline with xbgTree on `otu_mini`
-"otu_mini_results4"
+"otu_mini_bin_results_xgbTree"
 
 #' Results from running the pipline with rpart2 on `otu_mini`
-"otu_mini_results5"
+"otu_mini_bin_results_rpart2"
 
 #' Results from running the pipeline with glmnet on `otu_mini` with `Otu00001` as the outcome
-"otu_mini_cont_results1"
+"otu_mini_cont_results_glmnet"
+
+#' Results from running the pipeline with glmnet on `otu_mini_multi` for multiclass outcomes
+"otu_mini_multi_results_glmnet"

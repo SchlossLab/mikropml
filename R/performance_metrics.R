@@ -1,8 +1,12 @@
-#' Get outcome type
+#' Get outcome type.
+#'
+#' If the outcome is numeric, the type is continuous.
+#' Otherwise, the outcome type is binary if there are only two outcomes or
+#' multiclass if there are more than two outcomes.
 #'
 #' @param outcomes_vec vector of outcomes
 #'
-#' @return outcome type
+#' @return outcome type (continuous, binary, or multiclass)
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -15,7 +19,16 @@ get_outcome_type <- function(outcomes_vec) {
     # regression
     otype <- "continuous"
   } else {
-    if (length(unique(outcomes_vec)) == 2) {
+    num_outcomes <- length(unique(outcomes_vec))
+    if (num_outcomes < 2) {
+      stop(
+        paste0(
+          "A continuous, binary, or multi-class outcome variable is required, but this dataset has ",
+          num_outcomes,
+          " outcome(s)."
+        )
+      )
+    } else if (num_outcomes == 2) {
       # binary classification
       otype <- "binary"
     } else {
