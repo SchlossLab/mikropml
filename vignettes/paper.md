@@ -17,7 +17,7 @@ tags:
 authors:
   - name: Begüm D. Topçuoğlu
     orcid: 0000-0003-3140-537X
-    affiliation: 1;4
+    affiliation: 3;4
   - name: Zena Lapp
     orcid: 0000-0003-4674-2176
     affiliation: 1
@@ -60,7 +60,7 @@ vignette: >
 Machine learning (ML) for classification and prediction based on a set of features is used to make decisions in healthcare, economics, criminal justice and more. 
 However, implementing a robust ML pipeline can be time-consuming, confusing, and difficult. 
 Here, we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced "meek-ROPE em el"), an easy-to-use R package that implements robust ML pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees.
-It is available on [GitHub](https://github.com/SchlossLab/mikropml/) and CRAN [**link to CRAN**]. 
+The package is available on [GitHub](https://github.com/SchlossLab/mikropml/) and CRAN [**link to CRAN**]. 
 
 # Statement of need
 
