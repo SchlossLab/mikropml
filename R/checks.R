@@ -288,7 +288,7 @@ abort_packages_not_installed <- function(...) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_features(otu_mini[, 2:4])
+#' check_features(otu_mini_bin[, 2:11])
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
@@ -317,8 +317,8 @@ check_features <- function(features, check_missing = TRUE) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_groups(mikropml::otu_mini,
-#'   sample(LETTERS, nrow(mikropml::otu_mini), replace = TRUE),
+#' check_groups(mikropml::otu_mini_bin,
+#'   sample(LETTERS, nrow(mikropml::otu_mini_bin), replace = TRUE),
 #'   kfold = 2
 #' )
 check_groups <- function(dataset, groups, kfold) {
@@ -419,7 +419,7 @@ check_perf_metric_name <- function(perf_metric_name) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_cat_feats(otu_mini)
+#' check_cat_feats(otu_mini_bin)
 check_cat_feats <- function(feats) {
   if (any(sapply(feats, class) %in% c("factor", "character"))) {
     stop("No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
