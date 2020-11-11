@@ -13,6 +13,9 @@ plot_hp_performance(dat, param_col, metric_col)
 
 \item{metric_col}{performance metric. must be a column in \code{dat}.}
 }
+\value{
+ggplot of hyperparameter performance.
+}
 \description{
 Plot hyperparameter performance metrics
 }

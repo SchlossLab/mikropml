@@ -9,10 +9,10 @@ randomize_feature_order(dataset, outcome_colname)
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
 }
 \value{
-dataset with feature order randomized
+Dataset with feature order randomized.
 }
 \description{
 Randomize feature order to eliminate any position-dependent effects

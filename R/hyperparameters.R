@@ -1,9 +1,9 @@
-#' Generate the Tuning Grid for Tuning Hyperparameters
+#' Generate the tuning grid for tuning hyperparameters
 #'
-#' @param hyperparams_list named list of lists of hyperparameters
+#' @param hyperparams_list Named list of lists of hyperparameters.
 #' @inheritParams run_ml
 #'
-#' @return The tuning grid
+#' @return The tuning grid.
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -46,7 +46,7 @@ get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
 #'
 #' @inheritParams run_ml
 #'
-#' @return named list of hyperparameters
+#' @return Named list of hyperparameters.
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'

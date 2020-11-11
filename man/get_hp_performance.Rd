@@ -10,7 +10,12 @@ get_hp_performance(trained_model)
 \item{trained_model}{trained model (e.g. from \code{run_ml()})}
 }
 \value{
-list: dat - dataframe of performance metric for each group of hyperparameters, params - hyperparameters tuned, metric - performance metric used
+Named list:
+\itemize{
+\item \code{dat}: Dataframe of performance metric for each group of hyperparameters.
+\item \code{params}: Hyperparameters tuned.
+\item \code{metric}: Performance metric used.
+}
 }
 \description{
 Get hyperparameter peformance metrics
