@@ -1,4 +1,8 @@
-#' Get outcome type
+#' Get outcome type.
+#'
+#' If the outcome is numeric, the type is continuous.
+#' Otherwise, the outcome type is binary if there are only two outcomes or
+#' multiclass if there are more than two outcomes.
 #'
 #' @param outcomes_vec Vector of outcomes.
 #'
@@ -15,7 +19,16 @@ get_outcome_type <- function(outcomes_vec) {
     # regression
     otype <- "continuous"
   } else {
-    if (length(unique(outcomes_vec)) == 2) {
+    num_outcomes <- length(unique(outcomes_vec))
+    if (num_outcomes < 2) {
+      stop(
+        paste0(
+          "A continuous, binary, or multi-class outcome variable is required, but this dataset has ",
+          num_outcomes,
+          " outcome(s)."
+        )
+      )
+    } else if (num_outcomes == 2) {
       # binary classification
       otype <- "binary"
     } else {
@@ -52,7 +65,7 @@ get_perf_metric_fn <- function(outcome_type) {
 
 
 #' Get default performance metric name
-#' 
+#'
 #' Get default performance metric name for cross-validation.
 #'
 #' @param outcome_type Type of outcome (one of: `"continuous"`,`"binary"`,`"multiclass"`).
@@ -87,10 +100,10 @@ get_perf_metric_name <- function(outcome_type) {
 #' @param class_probs Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).
 #' @inheritParams run_ml
 #'
-#' @return 
-#' 
+#' @return
+#'
 #' Dataframe of performance metrics.
-#' 
+#'
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -128,9 +141,9 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #'
 #' @return A one-row tibble with columns `cv_auroc`, [all of the performance metrics for the test data] `method`, and `seed`.
 #' @export
-#' 
-#' @examples 
-#' 
+#'
+#' @examples
+#'
 #' \dontrun{
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
 #' names(results$trained_model$trainingData)[1] <- 'dx'
@@ -140,7 +153,7 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #'   class_probs = TRUE
 #' )
 #' }
-#' 
+#'
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 get_performance_tbl <- function(trained_model,

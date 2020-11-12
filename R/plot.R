@@ -31,7 +31,7 @@
 #' )
 #' results_mtx <- mapply(
 #'   function(seed, method) {
-#'     run_ml(otu_mini, method, seed = seed, kfold = 2)
+#'     run_ml(otu_mini_bin, method, seed = seed, kfold = 2)
 #'   },
 #'   param_grid$seeds, param_grid$methods
 #' )
@@ -114,7 +114,7 @@ tidy_perf_data <- function(performance_df) {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' get_hp_performance(otu_mini_results1$trained_model)
+#' get_hp_performance(otu_mini_bin_results_glmnet$trained_model)
 get_hp_performance <- function(trained_model) {
   metric <- trained_model$metric
   dat <- trained_model$results %>%
@@ -183,7 +183,7 @@ combine_hp_performance <- function(trained_model_lst) {
 #'
 #' @examples
 #' # plot for a single `run_ml()` call
-#' hp_metrics <- get_hp_performance(otu_mini_results1$trained_model)
+#' hp_metrics <- get_hp_performance(otu_mini_bin_results_glmnet$trained_model)
 #' hp_metrics
 #' plot_hp_performance(hp_metrics$dat, lambda, AUC)
 #' \dontrun{

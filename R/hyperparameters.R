@@ -51,9 +51,9 @@ get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' get_hyperparams_list(otu_mini, "rf")
+#' get_hyperparams_list(otu_mini_bin, "rf")
 #' get_hyperparams_list(otu_small, "rf")
-#' get_hyperparams_list(otu_mini, "rpart2")
+#' get_hyperparams_list(otu_mini_bin, "rpart2")
 #' get_hyperparams_list(otu_small, "rpart2")
 get_hyperparams_list <- function(dataset, method) {
   n_features <- ncol(dataset) - 1

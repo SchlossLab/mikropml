@@ -89,9 +89,9 @@ preprocess_data <- function(dataset, outcome_colname, method = c("center", "scal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' rm_missing_outcome(mikropml::otu_mini, "dx")
+#' rm_missing_outcome(mikropml::otu_mini_bin, "dx")
 #'
-#' test_df <- mikropml::otu_mini
+#' test_df <- mikropml::otu_mini_bin
 #' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
 rm_missing_outcome <- function(dataset, outcome_colname) {

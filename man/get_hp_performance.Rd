@@ -21,7 +21,7 @@ Named list:
 Get hyperparameter peformance metrics
 }
 \examples{
-get_hp_performance(otu_mini_results1$trained_model)
+get_hp_performance(otu_mini_bin_results_glmnet$trained_model)
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

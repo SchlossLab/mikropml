@@ -50,7 +50,6 @@ RoxygenNote: 7.1.1
 Imports: 
     caret,
     dplyr,
-    LiblineaR,
     rlang,
     stats,
     utils

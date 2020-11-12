@@ -18,9 +18,9 @@ Named list of hyperparameters.
 Set hyperparameters based on ML method and dataset characteristics
 }
 \examples{
-get_hyperparams_list(otu_mini, "rf")
+get_hyperparams_list(otu_mini_bin, "rf")
 get_hyperparams_list(otu_small, "rf")
-get_hyperparams_list(otu_mini, "rpart2")
+get_hyperparams_list(otu_mini_bin, "rpart2")
 get_hyperparams_list(otu_small, "rpart2")
 }
 \author{
