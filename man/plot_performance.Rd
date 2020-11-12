@@ -36,7 +36,7 @@ param_grid <- expand.grid(
 )
 results_mtx <- mapply(
   function(seed, method) {
-    run_ml(otu_mini, method, seed = seed, kfold = 2)
+    run_ml(otu_mini_bin, method, seed = seed, kfold = 2)
   },
   param_grid$seeds, param_grid$methods
 )

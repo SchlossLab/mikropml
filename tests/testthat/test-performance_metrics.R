@@ -21,13 +21,13 @@ test_that("get_perf_metric_name works", {
 
 test_that("calc_perf_metrics works", {
   expect_equal(
-    calc_perf_metrics(otu_mini_results1$test_data,
-      otu_mini_results1$trained_model,
+    calc_perf_metrics(otu_mini_bin_results_glmnet$test_data,
+      otu_mini_bin_results_glmnet$trained_model,
       "dx",
       caret::multiClassSummary,
       class_probs = TRUE
     ),
-    unlist(c(otu_mini_results1$performance[, !(colnames(otu_mini_results1$performance) %in% c("cv_metric_AUC", "method", "seed"))]))
+    unlist(c(otu_mini_bin_results_glmnet$performance[, !(colnames(otu_mini_bin_results_glmnet$performance) %in% c("cv_metric_AUC", "method", "seed"))]))
   )
 })
 
@@ -35,19 +35,19 @@ test_that("get_performance_tbl works", {
   set.seed(2019)
   expect_equal(
     get_performance_tbl(
-      otu_mini_results1$trained_model,
-      otu_mini_results1$test_data,
+      otu_mini_bin_results_glmnet$trained_model,
+      otu_mini_bin_results_glmnet$test_data,
       "dx",
       caret::multiClassSummary,
       "AUC",
       TRUE,
       seed = 2019
     ),
-    otu_mini_results1$performance
+    otu_mini_bin_results_glmnet$performance
   )
   expect_warning(get_performance_tbl(
-    otu_mini_results1$trained_model,
-    otu_mini_results1$test_data,
+    otu_mini_bin_results_glmnet$trained_model,
+    otu_mini_bin_results_glmnet$test_data,
     "dx",
     caret::multiClassSummary,
     "not_a_perf_metric",
