@@ -17,7 +17,7 @@
 #' @format A data frame
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
 #' All other columns are OTU relative abundances.
-"otu_mini"
+"otu_mini_bin"
 
 #' Mini OTU abundance dataset with 3 categorical variables
 #'
@@ -28,45 +28,26 @@
 #' All other columns are OTU relative abundances.
 "otu_mini_multi"
 
-#' Small training dataset
-#'
-#' A training data partition from `otu_small`
-#'
-#' @format A data frame with 30 rows and 61 variables.
-#' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
-#' All other columns are OTU relative abundances.
-"train_data_sm"
+#' cross validation on `train_data_mini` with grouped features
+"otu_mini_cv"
 
-#' A test data partition from `otu_small`.
-"test_data_sm"
+#' Results from running the pipline with L2 logistic regression on `otu_mini` with feature importance and grouping
+"otu_mini_bin_results_glmnet"
 
-#' A training data partition from `otu_mini`.
-"train_data_mini"
+#' Results from running the pipline with random forest on `otu_mini`
+"otu_mini_bin_results_rf"
 
-#' A test data partition from `otu_mini`.
-"test_data_mini"
+#' Results from running the pipline with svmRadial on `otu_mini`
+"otu_mini_bin_results_svmRadial"
 
-#' A trained model from L2 logistic regression on `train_data_mini`.
-"trained_model_mini"
+#' Results from running the pipline with xbgTree on `otu_mini`
+"otu_mini_bin_results_xgbTree"
 
-#' 2-fold cross validation on `train_data_mini` with grouped features.
-"otu_mini_cv2"
-
-#' Results from running the pipline with L2 logistic regression on `otu_mini`
-#' with feature importance and grouping.
-"otu_mini_results1"
-
-#' Results from running the pipline with random forest on `otu_mini`.
-"otu_mini_results2"
-
-#' Results from running the pipline with svmRadial on `otu_mini`.
-"otu_mini_results3"
-
-#' Results from running the pipline with xbgTree on `otu_mini`.
-"otu_mini_results4"
-
-#' Results from running the pipline with rpart2 on `otu_mini`.
-"otu_mini_results5"
+#' Results from running the pipline with rpart2 on `otu_mini`
+"otu_mini_bin_results_rpart2"
 
 #' Results from running the pipeline with glmnet on `otu_mini` with `Otu00001` as the outcome
-"otu_mini_cont_results1"
+"otu_mini_cont_results_glmnet"
+
+#' Results from running the pipeline with glmnet on `otu_mini_multi` for multiclass outcomes
+"otu_mini_multi_results_glmnet"

@@ -67,7 +67,8 @@
 
       
 
-      </header><div class="row">
+      </header><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="paper_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</h1>
@@ -92,7 +93,7 @@
 <p>A robust machine learning (ML) pipeline requires data pre-processing, cross-validation, testing, model evaluation, and often interpretation of why the model makes particular predictions. Performing these steps using the correct methodology is extremely important, as failure to implement them can result in incorrect and misleading results <span class="citation">(Teschendorff 2019; Wiens et al. 2019)</span>.</p>
 <p>Supervised ML is widely used to recognize patterns in large datasets and to make predictions to categorize data. Several packages including <code>caret</code> <span class="citation">(Kuhn 2008)</span> and <code>tidymodels</code> <span class="citation">(Kuhn, Wickham, and RStudio 2020)</span> in R and <code>scikitlearn</code> <span class="citation">(Pedregosa et al. 2011)</span> in Python allow scientists to train ML models with a variety of algorithms. While these packages provide all of the tools necessary for each ML step, they do not implement a complete robust ML pipeline according to best practices in the literature. This, paired with the vast number of options available, make it difficult for non-experts to easily perform robust ML analyses using these packages. Furthermore, these packages do not offer a unified way to identify features that contribute to improved model performance.</p>
 <p>To enable a broader range of researchers to perform robust ML analyses, we created <a href="https://github.com/SchlossLab/mikropml/"><code>mikropml</code></a>, an easy-to-use package in R <span class="citation">(R Core Team 2020)</span> that implements the ML framework for binary classification problems created by Topçuoğlu <em>et al.</em> <span class="citation">(Topçuoğlu et al. 2020)</span>. <code>mikropml</code> leverages the R <code>caret</code> package to support five different ML algorithms: logistic regression, support vector machine with a radial basis kernel, decision tree , random forest, and gradient boosted trees.<br>
-It incorporates best practices in ML training, testing, and model evaluation <span class="citation">(Topçuoğlu et al. 2020; Teschendorff 2019)</span> <!-- @Begum should we cite something else here [as well]? --  Added 1 more but Jenna might have opinions on this --> Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang et al. <span class="citation">(Tang et al. 2020)</span> and post-training permutation importance steps to measure the importance of each feature in the model <span class="citation">(Breiman 2001; Fisher, Rudin, and Dominici 2018)</span>.</p>
+It incorporates best practices in ML training, testing, and model evaluation <span class="citation">(Topçuoğlu et al. 2020; Teschendorff 2019)</span> <!-- @Begum should we cite something else here [as well]? --  Added 1 more but Jenna might have opinions on this --> Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang et al. <span class="citation">(Tang et al. 2020)</span> and post-training permutation importance steps to measure the importance of each feature in the model <span class="citation">(Breiman 2001; Fisher, Rudin, and Dominici 2018)</span>.</p>
 <p>The framework implemented in <code>mikropml</code> is generalizable to perform ML on datasets from many different fields. It has already been applied to microbiome data to categorize patients with colorectal cancer <span class="citation">(Topçuoğlu et al. 2020)</span>, to identify differences in genomic and clinical features associated with bacterial infections <span class="citation">(Lapp et al. 2020)</span>, and to predict gender-based biases in academic publishing [<strong>cite Ada’s paper</strong>].</p>
 </div>
 <div id="mikropml-package" class="section level1">
@@ -195,7 +196,7 @@ It incorporates best practices in ML training, testing, and model evaluation <sp
 <p>Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011. “Scikit-Learn: Machine Learning in Python.” <em>Journal of Machine Learning Research</em> 12 (85): 2825–30.</p>
 </div>
 <div id="ref-r_core_team_r_2020">
-<p>R Core Team. 2020. “R: A Language and Environment for Statistical Computing.” Vienna, Austria: R Foundation for Statistical Computing.</p>
+<p>R Core Team. 2020. “R: A Language and Environment for Statistical Computing.”</p>
 </div>
 <div id="ref-tang_democratizing_2020">
 <p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
@@ -207,7 +208,7 @@ It incorporates best practices in ML training, testing, and model evaluation <sp
 <p>Therneau, Terry, Beth Atkinson, Brian Ripley (producer of the initial R. port, and maintainer 1999-2017). 2019. “Rpart: Recursive Partitioning and Regression Trees,” April.</p>
 </div>
 <div id="ref-topcuoglu_framework_2020">
-<p>Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. “A Framework for Effective Application of Machine Learning to Microbiome-Based Classification Problems.” <em>mBio</em> 11 (3). American Society for Microbiology. <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.</p>
+<p>Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. “A Framework for Effective Application of Machine Learning to Microbiome-Based Classification Problems.” <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.</p>
 </div>
 <div id="ref-wickham_dplyr_2020">
 <p>Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and RStudio. 2020. “Dplyr: A Grammar of Data Manipulation,” August.</p>

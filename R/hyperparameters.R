@@ -26,7 +26,7 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' @param ml_method machine learning method
 #'
 #' @return named list of lists of hyperparameters
-#' @export
+#' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
@@ -51,9 +51,9 @@ get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' get_hyperparams_list(otu_mini, "rf")
+#' get_hyperparams_list(otu_mini_bin, "rf")
 #' get_hyperparams_list(otu_small, "rf")
-#' get_hyperparams_list(otu_mini, "rpart2")
+#' get_hyperparams_list(otu_mini_bin, "rpart2")
 #' get_hyperparams_list(otu_small, "rpart2")
 get_hyperparams_list <- function(dataset, method) {
   n_features <- ncol(dataset) - 1
@@ -71,10 +71,17 @@ get_hyperparams_list <- function(dataset, method) {
   return(rlang::eval_tidy(hparams_functions[[method]]))
 }
 
+#' Set hyperparameters for regression models for use with glmnet
+#'
+#' Alpha is set to `0` for ridge (L2). An alpha of `1` would make it lasso (L1).
+#'
+#' @return default lambda & alpha values
+#' @noRd
+#' @author Zena Lapp, {zenalapp@@umich.edu}
 set_hparams_glmnet <- function() {
   return(list(
     lambda = 10^seq(-4, 1, 1),
-    alpha = 0 # this makes it ridge (i.e. L2) regression. 1 would make it lasso (i.e. L1) regression
+    alpha = 0 # this makes it ridge (i.e. L2). 1 would make it lasso (i.e. L1).
   ))
 }
 

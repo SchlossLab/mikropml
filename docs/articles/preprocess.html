@@ -67,7 +67,8 @@
 
       
 
-      </header><div class="row">
+      </header><link href="preprocess_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="preprocess_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data prior to machine learning</h1>
@@ -140,7 +141,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; character(0)</span></pre></div>
-<p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
+<p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
 <p>The first column (<code>var1</code>) in <code>dat_transformed</code> is a character and is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>. The third column (<code>var3</code>) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name <code>var3_b</code>.</p>
 </div>
 <div id="categorical-data" class="section level2">

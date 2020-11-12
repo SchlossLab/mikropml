@@ -5,9 +5,6 @@
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#' check_all(otu_small, "rf", TRUE, as.integer(5), 0.8, NULL)
 check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
@@ -185,12 +182,13 @@ check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, 
   return(outcome_colname)
 }
 
-#' Check that the outcome variable is binary. Pick outcome value if necessary.
+#' Check that the outcome variable is valid. Pick outcome value if necessary.
 #'
 #' @inheritParams run_ml
 #'
 #' @return outcome value
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -256,6 +254,7 @@ check_packages_installed <- function(...) {
 #'
 #' Reports which packages need to be installed and the parent function name.
 #' See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the-calling-function-inside-the-called-routine}
+#' This is only intended to be used inside a function. It will error otherwise.
 #'
 #' @inheritParams check_packages_installed
 #' @noRd
@@ -285,10 +284,11 @@ abort_packages_not_installed <- function(...) {
 #' @param features features for machine learning
 #' @param check_missing check whether the features have missing data (default: TRUE)
 #'
-#' @export
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_features(otu_mini[, 2:4])
+#' check_features(otu_mini_bin[, 2:11])
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
@@ -314,10 +314,11 @@ check_features <- function(features, check_missing = TRUE) {
 #' @inheritParams run_ml
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_groups(mikropml::otu_mini,
-#'   sample(LETTERS, nrow(mikropml::otu_mini), replace = TRUE),
+#' check_groups(mikropml::otu_mini_bin,
+#'   sample(LETTERS, nrow(mikropml::otu_mini_bin), replace = TRUE),
 #'   kfold = 2
 #' )
 check_groups <- function(dataset, groups, kfold) {
@@ -357,6 +358,7 @@ check_groups <- function(dataset, groups, kfold) {
 #' @param corr_thresh correlation threshold
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_corr_thresh(1)
@@ -384,6 +386,7 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @return
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_perf_metric_function(NULL)
@@ -398,6 +401,7 @@ check_perf_metric_function <- function(perf_metric_function) {
 #' @param perf_metric_name performance metric function
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_perf_metric_name(NULL)
@@ -412,9 +416,10 @@ check_perf_metric_name <- function(perf_metric_name) {
 #' @param feats features
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' check_cat_feats(otu_mini)
+#' check_cat_feats(otu_mini_bin)
 check_cat_feats <- function(feats) {
   if (any(sapply(feats, class) %in% c("factor", "character"))) {
     stop("No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
@@ -426,6 +431,7 @@ check_cat_feats <- function(feats) {
 #' @inheritParams preprocess_data
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_remove_var(NULL)
@@ -442,6 +448,7 @@ check_remove_var <- function(remove_var) {
 #' @inheritParams run_ml
 #'
 #' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' check_ntree(NULL)

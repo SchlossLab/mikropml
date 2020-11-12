@@ -1,7 +1,5 @@
 #' Define Cross-Validation Scheme and Training Parameters
 #'
-#' See \link[caret]{trainControl} for info on how the seed is being set.
-#'
 #' @param train_data Dataframe for training model
 #' @param class_probs Whether the `\link[caret]{trainControl}` `classProbs` argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)
 #' @inheritParams run_ml
@@ -10,9 +8,16 @@
 #' @return Caret object for trainControl that controls cross-validation
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' define_cv(train_data_sm,
+#' training_inds <- get_partition_indices(otu_small %>% dplyr::pull("dx"),
+#'   training_frac = 0.8,
+#'   groups = NULL
+#' )
+#' train_data <- otu_small[training_inds, ]
+#' test_data <- otu_small[-training_inds, ]
+#' cv <- define_cv(train_data,
 #'   outcome_colname = "dx",
 #'   hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
 #'   perf_metric_function = caret::multiClassSummary,
@@ -27,7 +32,10 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
     times = cv_times
     )
   } else {
-    cvIndex <- create_grouped_k_multifolds(groups, kfold = kfold, cv_times = cv_times)
+    cvIndex <- create_grouped_k_multifolds(groups,
+      kfold = kfold,
+      cv_times = cv_times
+    )
   }
 
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))
@@ -46,17 +54,17 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
   return(cv)
 }
 
-#' Get seeds for caret::trainControl
+#' Get seeds for `caret::trainControl()`
 #'
 #' Adapted from \href{https://stackoverflow.com/a/32598959}{this Stack Overflow post}
-#' and the \link[caret]{trainControl} documentation
+#' and the \link[caret]{trainControl} documentation.
 #'
 #' @param ncol_train number of columns in training data
 #' @inheritParams run_ml
 #' @inheritParams define_cv
 #'
-#' @return seeds for `caret::trainControl`
-#' @export
+#' @return seeds for `caret::trainControl()`
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -86,7 +94,7 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' @param cv_times equivalent to cv_times in caret::createMultiFolds
 #'
 #' @return indices of folds for CV
-#' @export
+#' @noRd
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #'
 #' @examples

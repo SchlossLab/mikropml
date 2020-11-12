@@ -38,3 +38,6 @@ calc_perf_metrics(results$test_data,
   class_probs = TRUE
 )
 }
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
+}

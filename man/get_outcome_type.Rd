@@ -2,7 +2,7 @@
 % Please edit documentation in R/performance_metrics.R
 \name{get_outcome_type}
 \alias{get_outcome_type}
-\title{Get outcome type}
+\title{Get outcome type.}
 \usage{
 get_outcome_type(outcomes_vec)
 }
@@ -10,13 +10,18 @@ get_outcome_type(outcomes_vec)
 \item{outcomes_vec}{vector of outcomes}
 }
 \value{
-outcome type
+outcome type (continuous, binary, or multiclass)
 }
 \description{
-Get outcome type
+If the outcome is numeric, the type is continuous.
+Otherwise, the outcome type is binary if there are only two outcomes or
+multiclass if there are more than two outcomes.
 }
 \examples{
 get_outcome_type(c(1, 2, 1))
 get_outcome_type(c("a", "b", "b"))
 get_outcome_type(c("a", "b", "c"))
+}
+\author{
+Zena Lapp, \email{zenalapp@umich.edu}
 }
