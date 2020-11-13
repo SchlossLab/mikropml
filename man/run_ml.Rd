@@ -61,6 +61,7 @@ Named list with results:
 }
 \description{
 This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in \href{https://mbio.asm.org/content/11/3/e00434-20/}{this} paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method.
+See \code{vignette('introduction')} for more details.
 }
 \section{More details}{
 
