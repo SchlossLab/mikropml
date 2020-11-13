@@ -10,6 +10,7 @@ vignette: >
 
 ```{r, include = FALSE}
 NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+#NOT_CRAN <- TRUE
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -21,6 +22,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(mikropml)
+library(dplyr)
 ```
 
 ## Speed up single runs
@@ -49,7 +51,6 @@ otu_data_preproc <- preprocess_data(otu_mini_bin, 'dx')$dat_transformed
 result1 <- run_ml(otu_data_preproc, 'glmnet')
 ```
 
-
 ## Call `run_ml()` multiple times in parallel in R
 
 You can use functions from the `future.apply` package to call 
@@ -58,8 +59,8 @@ You will first need to run `future::plan()` as above if you haven't already.
 Then, call `run_ml()` with multiple seeds using `future_lapply()`:
 
 ```{r multi_seeds}
-results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
 # NOTE: use more seeds for real-world data
+results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
   run_ml(otu_data_preproc, 'glmnet', seed = seed)
   }, future.seed = TRUE)
 ```
@@ -78,7 +79,10 @@ Extract the performance results and combine into one dataframe for all seeds:
 
 ```{r bind_multi_seeds}
 perf_df <- future.apply::future_lapply(results_multi, 
-                                       function(result) {result[['performance']]},
+                                       function(result) {
+                                         result[['performance']] %>% 
+                                           select(cv_metric_AUC, AUC, method)
+                                         },
                                        future.seed = TRUE) %>% 
   dplyr::bind_rows()
 perf_df
@@ -99,7 +103,7 @@ results_mtx <- future.apply::future_mapply(
       run_ml(otu_data_preproc, method, seed = seed)
       },
     param_grid$seeds,
-    param_grid$methods,
+    param_grid$methods %>% as.character(),
     future.seed = TRUE
   )
 ```
@@ -107,7 +111,10 @@ results_mtx <- future.apply::future_mapply(
 Extract and combine the performance results for all seeds and methods:
 
 ```{r bind_multi_methods}
-perf_df2 <- dplyr::bind_rows(results_mtx['performance',])
+perf_df2 <- lapply(results_mtx['performance',], 
+                   function(x) {x %>% 
+                       select(cv_metric_AUC, AUC, method)}) %>% 
+  dplyr::bind_rows()
 perf_df2
 ```
 
