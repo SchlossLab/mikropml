@@ -42,13 +42,19 @@ devtools::install_github("SchlossLab/mikropml")
 
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
-description <- utils::packageDescription('mikropml')
-imports <- description[["Imports"]] %>% gsub("\n", " ", .)
-suggests <- description[["Suggests"]] %>% gsub("\n", " ", .)
+description <- utils::packageDescription('mikropml', 
+                                         fields = c('Imports', 'Suggests'))
+deps <- lapply(names(description), 
+               function (x) {
+                 paste0('- ', x, ': ', 
+                        description[[x]] %>% 
+                          gsub("\n", " ", .))}
+               ) %>% 
+  unlist() %>% 
+  paste(., collapse = '\n')
 ```
 
-- Imports: `r imports`
-- Suggests: `r suggests`
+`r deps`
 
 ## Usage
 
