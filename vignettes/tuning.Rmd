@@ -126,10 +126,8 @@ plot_hp_performance(hp_metrics$dat, lambda, AUC)
 
 As you can see, we get a mean maxima at 0.3 which is the best `lambda` value for this dataset when we run 3 datasplits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more datasplits. 
 
-# Hyperparameter options
+## Hyperparameter options
 
-Here are the hyperparameters that are tuned for each of the modeling methods.
-The output for all of them is very similar, so we won't go into those details.
 You can see which default hyperparameters would be used for your dataset with `get_hyperparams_list()`. 
 Here are a few examples with built-in datasets we provide:
 
@@ -139,8 +137,21 @@ get_hyperparams_list(otu_mini_bin, 'rf')
 get_hyperparams_list(otu_small, 'rf')
 ```
 
+Here are the hyperparameters that are tuned for each of the modeling methods.
+The output for all of them is very similar, so we won't go into those details.
 
-## Random forest
+### Regression
+
+As mentioned above, `glmnet` uses the `alpha` and `lambda` hyperparameters.
+`alpha` of `0` is for L2 regularization (ridge).
+`alpha` of `1` is for L1 regularization (lasso).
+The default hyperparameters chosen by `run_ml()` are fixed for `glmnet`.
+
+```{r, echo = FALSE}
+mikropml:::set_hparams_glmnet()
+```
+
+### Random forest
 
 When we run the `rf` method, we are tuning the `mtry` hyperparameter. 
 This is the number of features that are randomly collected to be sampled at each tree node. 
@@ -157,7 +168,7 @@ mikropml:::set_hparams_rf(1000)
 
 Similar to `glmnet` method, we can provide our own `mtry` range.
 
-## Decision tree
+### Decision tree
 
 When we run the `rpart2` method, we are tuning the `maxdepth` hyperparameter. 
 This is the maximum depth of any node of the final tree.
@@ -177,7 +188,7 @@ mikropml:::set_hparams_rpart2(10)
 ```
 
 
-## SVM
+### SVM
 
 When we run the `svmRadial` method, we are tuning the `C` and `sigma` hyperparameters. 
 `sigma` defines how far the influence of a single training example reaches and `C` behaves as a regularization parameter.
@@ -188,7 +199,7 @@ By default, we provide 2 separate range of values for the two hyperparameters.
 mikropml:::set_hparams_svmRadial()
 ```
 
-## XGBoost
+### XGBoost
 
 When we run the `xgbTree` method, we are tuning the 
 `nrounds`, `gamma`, `eta` `max_depth`, `colsample_bytree`, `min_child_weight` and `subsample` hyperparameters. 
