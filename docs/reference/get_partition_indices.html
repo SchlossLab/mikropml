@@ -40,8 +40,7 @@
 
 
 <meta property="og:title" content="Select indices to partition the data into training &amp; testing sets. — get_partition_indices" />
-<meta property="og:description" content="If groups is NULL, uses createDataPartition.
-Otherwises, uses create_grouped_data_partition()." />
+<meta property="og:description" content="Use this function to get the row indices for the training set." />
 
 
 
@@ -95,6 +94,13 @@ Otherwises, uses create_grouped_data_partition()." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
     <li>
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
@@ -103,9 +109,6 @@ Otherwises, uses create_grouped_data_partition()." />
     </li>
     <li>
       <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
     </li>
   </ul>
 </li>
@@ -136,8 +139,7 @@ Otherwises, uses create_grouped_data_partition()." />
     </div>
 
     <div class="ref-description">
-    <p>If <code>groups</code> is <code>NULL</code>, uses <a href='https://rdrr.io/pkg/caret/man/createDataPartition.html'>createDataPartition</a>.
-Otherwises, uses <code>create_grouped_data_partition()</code>.</p>
+    <p>Use this function to get the row indices for the training set.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>outcomes</span>, training_frac <span class='op'>=</span> <span class='fl'>0.8</span>, groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -161,15 +163,23 @@ Otherwises, uses <code>create_grouped_data_partition()</code>.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of row indices for the training set</p>
+    <p>Vector of row indices for the training set.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Set the seed prior to calling this function if you would like your data
+    <p>If <code>groups</code> is <code>NULL</code>, uses <a href='https://rdrr.io/pkg/caret/man/createDataPartition.html'>createDataPartition</a>.
+Otherwises, uses <code>create_grouped_data_partition()</code>.</p>
+<p>Set the seed prior to calling this function if you would like your data
 partitions to be reproducible (recommended).</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Kelly Sovacool, sovacool@umich.edu</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>$</span><span class='va'>dx</span><span class='op'>)</span>
+<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span>
+<span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

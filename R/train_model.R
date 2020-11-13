@@ -1,7 +1,7 @@
 #' Train model
-#' 
-#' Train model using [caret::train()]. 
-#' 
+#'
+#' Train model using [caret::train()].
+#'
 #' TODO: Add example.
 #'
 #' @param model_formula Model formula.
@@ -12,10 +12,10 @@
 #' @inheritParams run_ml
 #'
 #' @return Trained model from [caret::train()].
-#' 
+#'
 #' @export
-#' 
-#' 
+#'
+#'
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 train_model <- function(model_formula,

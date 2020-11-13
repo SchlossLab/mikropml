@@ -3,19 +3,21 @@ hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 outcome_type <- get_outcome_type(otu_mini_bin %>% dplyr::pull("dx"))
 class_probs <- outcome_type != "numeric"
 perf_metric_function <- get_perf_metric_fn(outcome_type)
-cv_group <- c("C", "D", "E", "C", "D", "E", "A", "D", "A", "D", "D", "A",
-              "B", "E", "D", "A", "D", "E", "B", "E", "A", "B", "A", "E", "A",
-              "D", "A", "D", "A", "C", "A", "B", "B", "E", "A", "E", "B", "C",
-              "D", "D", "C", "A", "E", "E", "B", "B", "A", "C", "D", "D", "D",
-              "D", "A", "D", "C", "A", "D", "D", "B", "C", "E", "C", "E", "C",
-              "B", "D", "B", "D", "C", "B", "B", "B", "B", "B", "B", "B", "C",
-              "D", "D", "E", "A", "E", "D", "E", "A", "D", "A", "E", "E", "C",
-              "B", "B", "E", "B", "C", "C", "D", "A", "A", "E", "E", "C", "A",
-              "C", "E", "A", "D", "A", "C", "D", "E", "E", "A", "A", "B", "E",
-              "C", "B", "B", "C", "C", "D", "C", "E", "E", "E", "C", "E", "D",
-              "D", "B", "B", "B", "E", "E", "A", "A", "A", "B", "D", "B", "D",
-              "B", "B", "B", "D", "B", "B", "D", "B", "D", "C", "C", "B", "A",
-              "A", "D", "C", "E", "E", "A")
+cv_group <- c(
+  "C", "D", "E", "C", "D", "E", "A", "D", "A", "D", "D", "A",
+  "B", "E", "D", "A", "D", "E", "B", "E", "A", "B", "A", "E", "A",
+  "D", "A", "D", "A", "C", "A", "B", "B", "E", "A", "E", "B", "C",
+  "D", "D", "C", "A", "E", "E", "B", "B", "A", "C", "D", "D", "D",
+  "D", "A", "D", "C", "A", "D", "D", "B", "C", "E", "C", "E", "C",
+  "B", "D", "B", "D", "C", "B", "B", "B", "B", "B", "B", "B", "C",
+  "D", "D", "E", "A", "E", "D", "E", "A", "D", "A", "E", "E", "C",
+  "B", "B", "E", "B", "C", "C", "D", "A", "A", "E", "E", "C", "A",
+  "C", "E", "A", "D", "A", "C", "D", "E", "E", "A", "A", "B", "E",
+  "C", "B", "B", "C", "C", "D", "C", "E", "E", "E", "C", "E", "D",
+  "D", "B", "B", "B", "E", "E", "A", "A", "A", "B", "D", "B", "D",
+  "B", "B", "B", "D", "B", "B", "D", "B", "D", "C", "C", "B", "A",
+  "A", "D", "C", "E", "E", "A"
+)
 
 test_that("define_cv works for 2-fold cv on otu_mini training data with groups", {
   set.seed(2019)
