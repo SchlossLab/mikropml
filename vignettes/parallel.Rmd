@@ -45,8 +45,8 @@ After registering a future plan, you can call `preprocess_data()` and `run_ml()`
 as usual, and they will run certain tasks in parallel.
 
 ```{r run_single}
-otu_data_preproc <- preprocess_data(otu_small, 'dx')$dat_transformed
-result1 <- run_ml(otu_data_preproc, 'regLogistic')
+otu_data_preproc <- preprocess_data(otu_mini_bin, 'dx')$dat_transformed
+result1 <- run_ml(otu_data_preproc, 'glmnet')
 ```
 
 
@@ -60,7 +60,7 @@ Then, call `run_ml()` with multiple seeds using `future_lapply()`:
 ```{r multi_seeds}
 results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
 # NOTE: use more seeds for real-world data
-  run_ml(otu_data_preproc, 'regLogistic', seed = seed)
+  run_ml(otu_data_preproc, 'glmnet', seed = seed)
   }, future.seed = TRUE)
 ```
 
@@ -93,7 +93,7 @@ and `future_mapply()` works the same way:
 ```{r multi_methods_seeds}
 # NOTE: use more seeds for real-world data
 param_grid <- expand.grid(seeds = seq(100, 102),
-                          methods = c('regLogistic', 'rf'))
+                          methods = c('glmnet', 'rf'))
 results_mtx <- future.apply::future_mapply(
     function(seed, method) {
       run_ml(otu_data_preproc, method, seed = seed)
@@ -114,11 +114,11 @@ perf_df2
 Visualize the performance results (`ggplot2` is required):
 
 ```{r plot_perf}
-perf_boxplot <- plot_performance(perf_df2)
+perf_boxplot <- plot_model_performance(perf_df2)
 perf_boxplot
 ```
 
-`plot_performance()` returns a ggplot2 object. 
+`plot_model_performance()` returns a ggplot2 object. 
 You can add layers to customize the plot:
 
 ```{r customize_plot}
