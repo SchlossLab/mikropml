@@ -41,7 +41,7 @@ test_that("get_performance_tbl works", {
       caret::multiClassSummary,
       "AUC",
       TRUE,
-      'glmnet',
+      "glmnet",
       seed = 2019
     ),
     otu_mini_bin_results_glmnet$performance
@@ -53,7 +53,7 @@ test_that("get_performance_tbl works", {
     caret::multiClassSummary,
     "not_a_perf_metric",
     TRUE,
-    'glmnet',
+    "glmnet",
     seed = 2019
   ), "The performance metric provided does not match the metric used to train the data.")
 })

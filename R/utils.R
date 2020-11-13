@@ -27,7 +27,7 @@ rlang::`:=`
 utils::globalVariables(c("."))
 
 #' Randomize feature order to eliminate any position-dependent effects
-#' 
+#'
 #'
 #' @inheritParams run_ml
 #'
