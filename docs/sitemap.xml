@@ -49,31 +49,34 @@
     <loc>http://www.schlosslab.org/mikropml/reference/mikropml.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_bin.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_cont_results1.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_bin_results_glmnet.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_cv2.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_bin_results_rf.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_bin_results_rpart2.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_bin_results_svmRadial.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_bin_results_xgbTree.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_cont_results_glmnet.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_cv.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_multi.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results1.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results2.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results3.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results4.html</loc>
-  </url>
-  <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_results5.html</loc>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_mini_multi_results_glmnet.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_small.html</loc>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get outcome type — get_outcome_type • mikropml</title>
+<title>Get outcome type. — get_outcome_type • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Get outcome type — get_outcome_type" />
-<meta property="og:description" content="Get outcome type" />
+<meta property="og:title" content="Get outcome type. — get_outcome_type" />
+<meta property="og:description" content="If the outcome is numeric, the type is continuous.
+Otherwise, the outcome type is binary if there are only two outcomes or
+multiclass if there are more than two outcomes." />
 
 
 
@@ -87,8 +89,26 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -111,13 +131,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get outcome type</h1>
+    <h1>Get outcome type.</h1>
     <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/performance_metrics.R'><code>R/performance_metrics.R</code></a></small>
     <div class="hidden name"><code>get_outcome_type.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get outcome type</p>
+    <p>If the outcome is numeric, the type is continuous.
+Otherwise, the outcome type is binary if there are only two outcomes or
+multiclass if there are more than two outcomes.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_outcome_type</span><span class='op'>(</span><span class='va'>outcomes_vec</span><span class='op'>)</span></pre>
@@ -133,7 +155,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>outcome type</p>
+    <p>outcome type (continuous, binary, or multiclass)</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>

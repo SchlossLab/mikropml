@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Combine hyperparameter performance metrics for multiple train/test splits — combine_hp_performance • mikropml</title>
+<title>Results from running the pipline with L2 logistic regression on otu_mini with feature importance and grouping — otu_mini_bin_results_glmnet • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Combine hyperparameter performance metrics for multiple train/test splits — combine_hp_performance" />
-<meta property="og:description" content="Combine hyperparameter performance metrics for multiple train/test splits" />
+<meta property="og:title" content="Results from running the pipline with L2 logistic regression on otu_mini with feature importance and grouping — otu_mini_bin_results_glmnet" />
+<meta property="og:description" content="Results from running the pipline with L2 logistic regression on otu_mini with feature importance and grouping" />
 
 
 
@@ -129,42 +129,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Combine hyperparameter performance metrics for multiple train/test splits</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
-    <div class="hidden name"><code>combine_hp_performance.Rd</code></div>
+    <h1>Results from running the pipline with L2 logistic regression on <code>otu_mini</code> with feature importance and grouping</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>otu_mini_bin_results_glmnet.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Combine hyperparameter performance metrics for multiple train/test splits</p>
+    <p>Results from running the pipline with L2 logistic regression on <code>otu_mini</code> with feature importance and grouping</p>
     </div>
 
-    <pre class="usage"><span class='fu'>combine_hp_performance</span><span class='op'>(</span><span class='va'>trained_model_lst</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>otu_mini_bin_results_glmnet</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>trained_model_lst</th>
-      <td><p>list of trained models</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>list: dat - dataframe of performance metric for each group of hyperparameters, params - hyperparameters tuned, metric - performance metric used</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+    <p>An object of class <code>list</code> of length 4.</p>
 
-    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>102</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-<span class='va'>models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>results</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>)</span>
-<span class='fu'>combine_hp_performance</span><span class='op'>(</span><span class='va'>models</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -15,22 +15,22 @@ tags:
   - xgBoost
   - microbiology
 authors:
-  - name: Begüm D. Topçuoğlu
+  - name: Begüm D. Topçuoğlu^[co-first author]
     orcid: 0000-0003-3140-537X
-    affiliation: 3;4
-  - name: Zena Lapp
+    affiliation: "3, 4"
+  - name: Zena Lapp^[co-first author]
     orcid: 0000-0003-4674-2176
     affiliation: 1
-  - name: Kelly L. Sovacool
+  - name: Kelly L. Sovacool^[co-first author]
     orcid: 0000-0003-3283-829X
     affiliation: 1
   - name: Evan Snitkin
     orcid: 0000-0001-8409-278X
-    affiliation: 3;5
+    affiliation: "3, 5"
   - name: Jenna Wiens
     orcid: 0000-0002-1057-7722
     affiliation: 2
-  - name: Patrick D. Schloss
+  - name: Patrick D. Schloss^[corresponding author]
     orcid: 0000-0002-6935-4275
     affiliation: 3
 affiliations:
@@ -83,7 +83,7 @@ and post-training permutation importance steps to measure the importance of each
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
 It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], 
 to identify differences in genomic and clinical features associated with bacterial infections [@lapp_machine_2020], 
-and to predict gender-based biases in academic publishing [**cite Ada’s paper**]. 
+and to predict gender-based biases in academic publishing [@hagan_women_2020]. 
 
 # mikropml package
 
@@ -91,14 +91,14 @@ The `mikropml` package includes functions to preprocess the data, train ML model
 We also provide [vignettes](http://www.schlosslab.org/mikropml/articles/index.html) 
 and an [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) [@koster_snakemakescalable_2012] 
 to showcase how to run an ideal ML pipeline with multiple different train/test data splits.
-The results can be visualized using helper functions that use `ggplot2` [@pedersen_ggplot2_nodate].
+The results can be visualized using helper functions that use `ggplot2` [@wickham_ggplot2_2016].
 
 ## Preprocessing data
 
 We provide a function `preprocess_data()` to preprocess features using several different functions from the `caret` package.
 The `preprocess_data()` function takes continuous and categorical data, re-factors categorical data into binary features, and provides options to normalize continuous data, remove features with near-zero variance, and keep only one instance of perfectly correlated features. 
 We set the default options based on best practices implemented in FIDDLE [@tang_democratizing_2020]. 
-More details on how to use `:preprocess_data()` can be found in the accompanying [vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
+More details on how to use `preprocess_data()` can be found in the accompanying [vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
 
 ## Running ML
 
@@ -111,13 +111,13 @@ The output includes the best model built based on tuning hyperparameters in an i
 The quantification of feature importance using permutation allows the calculation of the decrease in the model's prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
 Our [vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) contains a comprehensive tutorial on how to use `run_ml()`.
 
-![Figure 1. mikropml pipeline](mikRopML-pipeline.png){width=100%}
+![mikropml pipeline](mikRopML-pipeline.png){width=100%}
 
 ## Ideal workflow for running mikropml with many different train/test splits
 
 To investigate the variation in model performance depending on the train and test set used [@topcuoglu_framework_2020; @lapp_machine_2020], 
 we provide examples of how to run the `run_ml()` function many times with different train/test splits 
-and how to get summary information about model performance on [your local computer](http://www.schlosslab.org/mikropml/articles/parallel.html) or on a high-performance computing cluster using a [snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow). 
+and how to get summary information about model performance on [a local computer](http://www.schlosslab.org/mikropml/articles/parallel.html) or on a high-performance computing cluster using a [snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow). 
 
 ## Tuning & visualization
 
@@ -132,7 +132,7 @@ mikropml is written in R [@r_core_team_r_2020] and depends on several packages: 
 The ML algorithms supported by `mikropml` require:
 `glmnet` [@friedman_regularization_2010], `e1071` [@meyer_e1071_2020], and `MLmetrics` [@yan_mlmetrics_2016] for logistic regression, `rpart2` [@therneau_rpart_2019] for decision trees, `randomForest` [@liaw_classication_2002] for random forest, `xgboost` [@chen_xgboost_2020] for xgBoost, and `kernlab` [@karatzoglou_kernlab_2004] for support vector machines. 
 We also allow for parallelization of cross-validation and other steps using the `foreach`, `doFuture`, `future.apply`, and `future` packages [@bengtsson_futureapply_2020].
-Finally, we use `ggplot2` for plotting [@pedersen_ggplot2_nodate].
+Finally, we use `ggplot2` for plotting [@wickham_ggplot2_2016].
 
 # Acknowledgements
 
@@ -154,6 +154,7 @@ BT, ZL, and KLS wrote the original draft.
 All authors reviewed and edited the manuscript.
 
 # Conflicts of interest
-<!--TODO Add conflicts of interest here -->
+
+None.
 
 # References
