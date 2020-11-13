@@ -43,7 +43,8 @@ Function to preprocess your data for input into \code{\link[=run_ml]{run_ml()}}.
 \section{More details}{
 
 
-For more details, please see the \href{http://www.schlosslab.org/mikropml/articles/preprocess.html}{preprocessing vignette}.
+See the \href{http://www.schlosslab.org/mikropml/articles/preprocess.html}{preprocessing vignette}
+for more details.
 }
 
 \examples{
