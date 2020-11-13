@@ -1,10 +1,10 @@
 ---
-title: "Preprocessing data prior to machine learning"
+title: "Preprocessing data"
 author: "Zena Lapp"
 output: rmarkdown::html_vignette
 bibliography: paper.bib
 vignette: >
-  %\VignetteIndexEntry{Preprocessing data prior to machine learning}
+  %\VignetteIndexEntry{Preprocessing data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,7 +35,7 @@ We preprocess the data as follows:
 
 # It's running so slow!
 
-Since I assume a lot of you won't read this entire vignette, I'm going to say this at the beginning. If the `preprocess_data` function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in `vignette(parallel)`
+Since I assume a lot of you won't read this entire vignette, I'm going to say this at the beginning. If the `preprocess_data()` function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in `vignette(parallel)`.
 
 # Examples
 

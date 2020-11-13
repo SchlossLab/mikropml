@@ -1,6 +1,7 @@
 #' Run the machine learning pipeline
 #'
 #' This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in [this](https://mbio.asm.org/content/11/3/e00434-20/) paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method.
+#' See `vignette('introduction')` for more details.
 #'
 #' @param dataset Dataframe with an outcome variable and other columns as features.
 #' @param method ML method. Options: `c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")`.
