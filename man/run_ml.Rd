@@ -54,7 +54,7 @@ run_ml(
 named list with results
 }
 \description{
-TODO: more details
+See \code{vignette('introduction')} for more details.
 }
 \examples{
 \dontrun{

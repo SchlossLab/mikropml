@@ -5,12 +5,16 @@
 \alias{mikropml}
 \title{mikropml: User-Friendly R Package for Robust Machine Learning Pipelines}
 \description{
-TODO longer description (paragraph) goes here
+\code{mikropml} implements robust machine learning pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees. The main functions are \code{preprocess_data()} to process your data prior to running machine learning, and \code{run_ml()} to run machine learning.
 }
-\section{TODO}{
- brief overview of functions
+\section{Authors}{
 
-The heart of \code{mikropml} is \code{run_ml()}.
-TODO: brief overview of \code{run_ml()} and \code{preprocess_data()}, then link to vignettes.
+\itemize{
+\item Begüm D. Topçuoğlu (\href{0000-0003-3140-537X}{ORCID})
+}
+}
+
+\section{See also}{
+
 }
 
