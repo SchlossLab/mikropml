@@ -108,6 +108,9 @@
       <a href="../articles/preprocess.html">Preprocessing data</a>
     </li>
     <li>
+      <a href="../articles/tuning.html">Hyperparameter tuning</a>
+    </li>
+    <li>
       <a href="../articles/parallel.html">Parallel processing</a>
     </li>
   </ul>
@@ -171,7 +174,7 @@
 #&gt;         data$obs &lt;- factor(data$obs, levels = lev)
 #&gt;     postResample(data[, "pred"], data[, "obs"])
 #&gt; }
-#&gt; &lt;bytecode: 0x7f921f8cce48&gt;
+#&gt; &lt;bytecode: 0x7fe908304038&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"binary"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
@@ -228,7 +231,7 @@
 #&gt;     stats &lt;- stats[c(stat_list)]
 #&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7f9238490fd8&gt;
+#&gt; &lt;bytecode: 0x7fe91cca8000&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"multiclass"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
@@ -285,7 +288,7 @@
 #&gt;     stats &lt;- stats[c(stat_list)]
 #&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7f9238490fd8&gt;
+#&gt; &lt;bytecode: 0x7fe91cca8000&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
