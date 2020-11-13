@@ -119,7 +119,7 @@ The output includes the best model built based on tuning hyperparameters in an i
 The quantification of feature importance using permutation allows the calculation of the decrease in the model's prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
 Our [vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) contains a comprehensive tutorial on how to use `run_ml()`.
 
-![Figure 1. mikropml pipeline](mikRopML-pipeline.png){width=100%}
+![mikropml pipeline](mikRopML-pipeline.png){width=100%}
 
 ## Ideal workflow for running mikropml with many different train/test splits
 
