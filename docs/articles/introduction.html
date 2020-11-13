@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -70,6 +70,9 @@
       <a href="../articles/parallel.html">Parallel processing</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -120,7 +123,7 @@
 <div id="its-running-so-slow" class="section level1">
 <h1 class="hasAnchor">
 <a href="#its-running-so-slow" class="anchor"></a>It’s running so slow!</h1>
-<p>Since I assume a lot of you won’t read this entire vignette, I’m going to say this at the beginning. If the <code><a href="../reference/run_ml.html">run_ml()</a></code> function is running super slow, you should consider parallelizing. See <code>vignette(parallel)</code> for examples.</p>
+<p>Since I assume a lot of you won’t read this entire vignette, I’m going to say this at the beginning. If the <code><a href="../reference/run_ml.html">run_ml()</a></code> function is running super slow, you should consider parallelizing. See <code><a href="../articles/parallel.html">vignette("parallel")</a></code> for examples.</p>
 </div>
 <div id="understanding-the-inputs" class="section level1">
 <h1 class="hasAnchor">
@@ -132,7 +135,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="co">#install.packages("devtools")</span>
 <span class="co">#devtools::install_github("SchlossLab/mikropml")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.schlosslab.org/mikropml">mikropml</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.schlosslab.org/mikropml/">mikropml</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>
 <span class="co">#&gt;       dx Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007</span>
 <span class="co">#&gt; 1 normal      350      268      213        1      208      230       70</span>
@@ -171,7 +174,7 @@
 <div id="before-running-ml" class="section level1">
 <h1 class="hasAnchor">
 <a href="#before-running-ml" class="anchor"></a>Before running ML</h1>
-<p>Before you run ML, you should consider preprocessing your data, either on your own or with the <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> function. You can learn more about this in the preprocessing vignette: <code>vignette(preprocess)</code>. Running it with default options will center and scale the features of our dataset.</p>
+<p>Before you run ML, you should consider preprocessing your data, either on your own or with the <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> function. You can learn more about this in the preprocessing vignette: <code><a href="../articles/preprocess.html">vignette("preprocess")</a></code>. Running it with default options will center and scale the features of our dataset.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="va">preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">otu_mini_bin</span>,
                            outcome_colname <span class="op">=</span> <span class="st">'dx'</span><span class="op">)</span>
@@ -248,7 +251,7 @@
 <p>When using logistic regression for binary classification, area under the receiver-operator characteristic curve (AUC) is a useful meric to evaluate model performance. Because of that, it’s the default that we use for <code>mikropml</code>. However, it is crucial to evaluate your model performance using multiple metrics. Below you can find more information about other performance metrics and how to use them in our package.</p>
 <p><code>cv_metric_AUC</code> is the AUC for the cross-validation folds for the training data. This gives us a sense of how good the model is on the training data.</p>
 <p>Most of the other columns are performance metrics for the test data — the data that wasn’t used to build the model. Here, you can see that the AUC for the test data is not much above 0.5, suggesting that this model does not predict much better than chance, and that the model is overfitted because the cross-validation AUC is much higher than the training AUC. This isn’t too surprising since we’re using so few features so don’t be discouraged. The default option also provides a number of other performance metrics that you might be interested in, including area under the precision-recall curve (prAUC).</p>
-<p>At the very end, there are columns for the method and seed (if you set one) to help with combining results from multiple runs (see <code><a href="../articles/parallel.html">vignette('parallel')</a></code>).</p>
+<p>At the very end, there are columns for the method and seed (if you set one) to help with combining results from multiple runs (see <code><a href="../articles/parallel.html">vignette("parallel")</a></code>).</p>
 <p><code>feature_importance</code> has information about feature importances if <code>find_feature_importance = TRUE</code> (the default is <code>FALSE</code>). Since we used the defaults, there’s nothing here:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="va">results</span><span class="op">$</span><span class="va">feature_importance</span>
