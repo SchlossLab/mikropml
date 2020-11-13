@@ -21,7 +21,8 @@
 #' }) %>%
 #'   dplyr::bind_rows()
 #' # plot the performance results
-#' p <- plot_performance(perf_df)
+#' p <- plot_model_performance(perf_df)
+#'
 #'
 #' # call `run_ml()` with different ML methods
 #' param_grid <- expand.grid(
@@ -37,7 +38,7 @@
 #' # extract and combine the performance results
 #' perf_df2 <- dplyr::bind_rows(results_mtx["performance", ])
 #' # plot the performance results
-#' p <- plot_performance(perf_df2)
+#' p <- plot_model_performance(perf_df2)
 #'
 #' # you can continue adding layers to customize the plot
 #' p +
@@ -45,7 +46,7 @@
 #'   scale_color_brewer(palette = "Dark2") +
 #'   coord_flip()
 #' }
-plot_performance <- function(performance_df) {
+plot_model_performance <- function(performance_df) {
   abort_packages_not_installed("ggplot2", "tidyr")
   performance_df %>%
     tidy_perf_data() %>%
@@ -59,9 +60,9 @@ plot_performance <- function(performance_df) {
 
 #' Tidy the performance dataframe
 #'
-#' Used by `plot_performance()`.
+#' Used by `plot_model_performance()`.
 #'
-#' @inheritParams plot_performance
+#' @inheritParams plot_model_performance
 #' @return Tidy dataframe with model performance metrics
 #' @export
 #' @author Begüm Topçuoglu, \email{topcuoglu.begum@@gmail.com}
@@ -82,20 +83,21 @@ plot_performance <- function(performance_df) {
 #' }
 tidy_perf_data <- function(performance_df) {
   abort_packages_not_installed("tidyr")
-  performance_df %>%
-    dplyr::select(-.data$seed) %>%
+  cv_colname <- performance_df %>%
+    dplyr::select(dplyr::starts_with('cv_metric_')) %>%
+    colnames()
+  test_colname <- cv_colname %>%
+    gsub('cv_metric_', '', .)
+  return(performance_df %>%
+    dplyr::select(.data[['method']], .data[[cv_colname]], .data[[test_colname]]) %>%
     tidyr::pivot_longer(
-      cols = c(.data$cv_auroc, .data$test_auroc, .data$test_auprc),
+      cols = c(.data[[cv_colname]], .data[[test_colname]]),
       names_to = "metric"
     ) %>%
-    dplyr::mutate(
-      metric = dplyr::case_when(
-        # TODO: these metrics are hard-coded, but they can change depending on the input data. need to make them dynamic.
-        metric == "cv_auroc" ~ "Cross-validation AUROC",
-        metric == "test_auroc" ~ "Testing AUROC",
-        metric == "test_auprc" ~ "Testing AUPRC"
-      )
-    )
+    dplyr::mutate(metric = dplyr::case_when(
+      startsWith(metric, 'cv_metric_') ~ gsub('cv_metric_', 'CV ', metric),
+      TRUE ~ paste('Test', metric)
+    )))
 }
 
 #' Get hyperparameter peformance metrics
