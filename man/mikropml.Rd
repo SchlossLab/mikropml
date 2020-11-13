@@ -5,7 +5,10 @@
 \alias{mikropml}
 \title{mikropml: User-Friendly R Package for Robust Machine Learning Pipelines}
 \description{
-\code{mikropml} implements robust machine learning pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees. The main functions are \code{preprocess_data()} to process your data prior to running machine learning, and \code{run_ml()} to run machine learning.
+\code{mikropml} implements robust machine learning pipelines using regression,
+support vector machines, decision trees, random forest, or gradient-boosted trees.
+The main functions are \code{preprocess_data()} to process your data prior to
+running machine learning, and \code{run_ml()} to run machine learning.
 }
 \section{Authors}{
 
@@ -21,13 +24,12 @@
 
 \section{See also}{
 
-
-For more details, please see the corresponding vignettes:
 \itemize{
 \item \href{http://www.schlosslab.org/mikropml/articles/}{All vignettes}.
 \item \href{http://www.schlosslab.org/mikropml/articles/introduction.html}{Intro vignette}.
 \item \href{http://www.schlosslab.org/mikropml/articles/parallel.html}{Parallel vignette} to make it run faster.
 \item \href{https://github.com/SchlossLab/mikropml-snakemake-workflow}{Snakemake workflow} for high-performance computing clusters.
+\item \href{http://www.schlosslab.org/mikropml/articles/paper.html}{The mikropml paper}.
 }
 }
 
