@@ -1,14 +1,24 @@
 #' Get feature importance using permutation method
 #'
-#' Requires the `future.apply` package
+#' Calculates feature importance using a trained model and test data. Requires the `future.apply` package.
 #'
-#' @param trained_model trained model from caret
-#' @param train_data training data: dataframe of outcome and features
-#' @param test_data held out test data: dataframe of outcome and features
-#' @param class_probs whether to use class probabilities
+#' @param train_data Training data: dataframe of outcome and features.
 #' @inheritParams run_ml
+#' @inheritParams calc_perf_metrics
 #'
-#' @return dataframe with aucs when each feature is permuted, and differences between test auc and permuted auc
+#' @return Dataframe with performance metrics for when each feature (or group of correlated features; `names`) is permuted (`perf_metric`), and differences between test performance metric and permuted performance metric (`perf_metric_diff`). The performance metric name (`perf_metric_name`) and seed (`seed`) are also returned.
+#' 
+#' @examples
+#' \dontrun{
+#' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
+#' names(results$trained_model$trainingData)[1] <- 'dx'
+#' get_feature_importance(results$trained_model,results$trained_model$trainingData, results$test_data,
+#'   "dx",
+#'   multiClassSummary, 'AUC',
+#'   class_probs = TRUE, method = 'glmnet'
+#' )
+#' }
+#' 
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
