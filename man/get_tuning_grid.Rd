@@ -2,20 +2,20 @@
 % Please edit documentation in R/hyperparameters.R
 \name{get_tuning_grid}
 \alias{get_tuning_grid}
-\title{Generate the Tuning Grid for Tuning Hyperparameters}
+\title{Generate the tuning grid for tuning hyperparameters}
 \usage{
 get_tuning_grid(hyperparams_list, method)
 }
 \arguments{
-\item{hyperparams_list}{named list of lists of hyperparameters}
+\item{hyperparams_list}{Named list of lists of hyperparameters.}
 
-\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.}
 }
 \value{
-The tuning grid
+The tuning grid.
 }
 \description{
-Generate the Tuning Grid for Tuning Hyperparameters
+Generate the tuning grid for tuning hyperparameters
 }
 \examples{
 ml_method <- "glmnet"

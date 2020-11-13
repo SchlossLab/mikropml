@@ -1,11 +1,11 @@
 
 #' Identify correlated features
 #'
-#' @param features features used for machine learning
-#' @param group_neg_corr whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))
+#' @param features Features used for machine learning.
+#' @param group_neg_corr Whether to group negatively correlated features together (e.g. c(0,1) and c(1,0)).
 #' @inheritParams run_ml
 #'
-#' @return correlated features
+#' @return Dataframe of correlated features where the columns are feature1, feature2, and the correlation between those two features (anything exceeding corr_thresh).
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}

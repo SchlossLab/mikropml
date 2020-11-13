@@ -1,16 +1,27 @@
 
 #' Preprocess data prior to running machine learning
 #'
+#' Function to preprocess your data for input into [run_ml()].
 #'
-#' @param dataset dataframe where rows are samples and colums are the outcome variable and features
-#' @param outcome_colname column name as a string of the outcome variable
-#' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`, use `NULL` for no normalization)
-#' @param remove_var whether to remove variables with near-zero variance (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`)
-#' @param collapse_corr_feats whether to keep only one of perfectly correlated features
-#' @param to_numeric whether to change features to numeric where possible
+#' @param method Methods to preprocess the data, described in [caret::preProcess()] (defaut: `c("center","scale")`, use `NULL` for no normalization).
+#' @param remove_var Whether to remove variables with near-zero variance (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
+#' @param collapse_corr_feats Whether to keep only one of perfectly correlated features.
+#' @param to_numeric Whether to change features to numeric where possible.
+#' @inheritParams run_ml
 #' @inheritParams get_corr_feats
 #'
-#' @return preprocessed data
+#' @return
+#'
+#' Named list including:
+#' - `dat_transformed`: Preprocessed data.
+#' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
+#' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
+#'
+#' @section More details:
+#'
+#' See the [preprocessing vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html)
+#' for more details.
+#'
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -308,10 +319,15 @@ process_cont_feats <- function(features, method) {
 
 #' Get preprocessed dataframe for continuous variables
 #'
-#' @param features dataframe of features for machine learning
-#' @param method methods to preprocess the data, described in `caret::preProcess` (defaut: `c("center","scale")`)
+#' @param features Dataframe of features for machine learning
+#' @inheritParams preprocess_data
 #'
-#' @return processed matrix
+#' @return
+#'
+#' Named list:
+#' - `processed`: Dataframe of processed features.
+#' - `removed`: Names of any features removed during preprocessing.
+#'
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -332,7 +348,7 @@ get_caret_processed_df <- function(features, method) {
 #' Get dummyvars dataframe (i.e. design matrix)
 #'
 #' @param features dataframe of features for machine learning
-#' @param full_rank whether matrix should be full rank or not (see `caret::dummyVars`)
+#' @param full_rank whether matrix should be full rank or not (see `[caret::dummyVars])
 #'
 #' @return design matrix
 #' @noRd
@@ -361,7 +377,6 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
 
 #' Collapse correlated features
 #'
-#' @param features features for ML
 #' @inheritParams get_corr_feats
 #'
 #' @return features where perfectly correlated ones are collapsed

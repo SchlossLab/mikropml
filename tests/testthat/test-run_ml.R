@@ -21,31 +21,33 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   )
 }
 
-otu_mini_group <- c("B", "F", "E", "D", "A", "F", "F", "D", "E", "B", "F", "F",
-                    "E", "A", "B", "A", "E", "A", "D", "A", "D", "A", "C", "A", "B",
-                    "B", "E", "F", "F", "A", "E", "B", "F", "C", "D", "D", "C", "A",
-                    "E", "E", "B", "B", "F", "A", "F", "C", "D", "D", "F", "D", "D",
-                    "A", "D", "F", "C", "A", "D", "D", "B", "F", "C", "F", "E", "C",
-                    "F", "F", "E", "C", "B", "D", "B", "D", "F", "C", "F", "B", "B",
-                    "B", "B", "B", "B", "B", "F", "C", "D", "D", "E", "A", "F", "E",
-                    "D", "E", "A", "D", "F", "A", "E", "E", "C", "B", "B", "E", "B",
-                    "F", "C", "F", "C", "D", "A", "F", "A", "F", "E", "E", "C", "F",
-                    "A", "C", "E", "A", "D", "A", "C", "D", "E", "E", "A", "A", "B",
-                    "F", "E", "C", "B", "B", "C", "C", "D", "C", "E", "E", "F", "F",
-                    "E", "C", "E", "F", "D", "D", "B", "B", "B", "E", "E", "A", "A",
-                    "A", "B", "D", "B", "D", "F", "F", "F", "B", "B", "B", "F", "F",
-                    "D", "B", "B", "D", "B", "D", "C", "C", "B", "F", "A", "F", "A",
-                    "F", "D", "C", "E", "E", "F", "A", "B", "B", "A", "B", "A", "B",
-                    "E", "A", "C", "E", "F", "A")
+otu_mini_group <- c(
+  "B", "F", "E", "D", "A", "F", "F", "D", "E", "B", "F", "F",
+  "E", "A", "B", "A", "E", "A", "D", "A", "D", "A", "C", "A", "B",
+  "B", "E", "F", "F", "A", "E", "B", "F", "C", "D", "D", "C", "A",
+  "E", "E", "B", "B", "F", "A", "F", "C", "D", "D", "F", "D", "D",
+  "A", "D", "F", "C", "A", "D", "D", "B", "F", "C", "F", "E", "C",
+  "F", "F", "E", "C", "B", "D", "B", "D", "F", "C", "F", "B", "B",
+  "B", "B", "B", "B", "B", "F", "C", "D", "D", "E", "A", "F", "E",
+  "D", "E", "A", "D", "F", "A", "E", "E", "C", "B", "B", "E", "B",
+  "F", "C", "F", "C", "D", "A", "F", "A", "F", "E", "E", "C", "F",
+  "A", "C", "E", "A", "D", "A", "C", "D", "E", "E", "A", "A", "B",
+  "F", "E", "C", "B", "B", "C", "C", "D", "C", "E", "E", "F", "F",
+  "E", "C", "E", "F", "D", "D", "B", "B", "B", "E", "E", "A", "A",
+  "A", "B", "D", "B", "D", "F", "F", "F", "B", "B", "B", "F", "F",
+  "D", "B", "B", "D", "B", "D", "C", "C", "B", "F", "A", "F", "A",
+  "F", "D", "C", "E", "E", "F", "A", "B", "B", "A", "B", "A", "B",
+  "E", "A", "C", "E", "F", "A"
+)
 
 test_that("run_ml works for linear regression", {
   expect_equal_ml_results(
     expect_message(expect_warning(run_ml(otu_mini_bin[, 2:11], # use built-in hyperparameters
-                                         "glmnet",
-                                         outcome_colname = "Otu00001",
-                                         find_feature_importance = TRUE,
-                                         seed = 2019,
-                                         cv_times = 2
+      "glmnet",
+      outcome_colname = "Otu00001",
+      find_feature_importance = TRUE,
+      seed = 2019,
+      cv_times = 2
     ), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")),
     otu_mini_cont_results_glmnet
   )

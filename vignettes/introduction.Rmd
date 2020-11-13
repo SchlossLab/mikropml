@@ -40,7 +40,7 @@ And the function outputs:
 
 Since I assume a lot of you won't read this entire vignette,
 I'm going to say this at the beginning.
-If the `run_ml()` function is running super slow, you should consider parallelizing. See `vignette(parallel)` for examples.
+If the `run_ml()` function is running super slow, you should consider parallelizing. See `vignette("parallel")` for examples.
 
 # Understanding the inputs
 
@@ -97,7 +97,7 @@ We will focus on `glmnet` which is our defualt implementation of L2-regularized 
 
 Before you run ML, you should consider preprocessing your data,
 either on your own or with the `preprocess_data()` function.
-You can learn more about this in the preprocessing vignette: `vignette(preprocess)`.
+You can learn more about this in the preprocessing vignette: `vignette("preprocess")`.
 Running it with default options will center and scale the features of our dataset.
 
 ```{r}
@@ -177,7 +177,7 @@ The default option also provides a number of other performance metrics that you 
 including area under the precision-recall curve (prAUC).
 
 At the very end, there are columns for the method and seed (if you set one)
-to help with combining results from multiple runs (see `vignette('parallel')`).
+to help with combining results from multiple runs (see `vignette("parallel")`).
 
 `feature_importance` has information about feature importances if
 `find_feature_importance = TRUE` (the default is `FALSE`).

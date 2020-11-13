@@ -1,9 +1,9 @@
-#' Define Cross-Validation Scheme and Training Parameters
+#' Define cross-validation scheme and training parameters
 #'
-#' @param train_data Dataframe for training model
-#' @param class_probs Whether the `\link[caret]{trainControl}` `classProbs` argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)
+#' @param train_data Dataframe for training model.
 #' @inheritParams run_ml
 #' @inheritParams get_tuning_grid
+#' @inheritParams calc_perf_metrics
 #'
 #' @return Caret object for trainControl that controls cross-validation
 #' @export

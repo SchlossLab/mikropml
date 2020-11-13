@@ -39,21 +39,26 @@ Authors@R: c(
            email = "nlesniak@umich.edu",
            comment = c(ORCID = "0000-0001-9359-5194")))
 Date: 2020-11-13
-URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
+URL: http://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
 BugReports: https://github.com/SchlossLab/mikropml/issues
-Description: What the package does (one paragraph).
+Description: mikropml provides an interface to build machine learning 
+    models for classification and regression problems. It implements a robust
+    ML pipeline with reasonable default options for data pre-processing,
+    hyperparameter tuning, cross-validation, testing, model evaluation,
+    and interpretation steps. See the mikropml website for more information,
+    documentation, and examples.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
+Imports:
     caret,
     dplyr,
     rlang,
     stats,
     utils
-Suggests: 
+Suggests:
     doFuture,
     e1071,
     foreach,
@@ -72,5 +77,5 @@ Suggests:
     tidyr,
     xgboost
 VignetteBuilder: knitr
-Depends: 
+Depends:
     R (>= 2.10)

@@ -7,10 +7,10 @@
 get_outcome_type(outcomes_vec)
 }
 \arguments{
-\item{outcomes_vec}{vector of outcomes}
+\item{outcomes_vec}{Vector of outcomes.}
 }
 \value{
-outcome type (continuous, binary, or multiclass)
+Outcome type (continuous, binary, or multiclass).
 }
 \description{
 If the outcome is numeric, the type is continuous.

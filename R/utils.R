@@ -28,9 +28,10 @@ utils::globalVariables(c("."))
 
 #' Randomize feature order to eliminate any position-dependent effects
 #'
+#'
 #' @inheritParams run_ml
 #'
-#' @return dataset with feature order randomized
+#' @return Dataset with feature order randomized.
 #' @export
 #' @author Nick Lesniak, \email{nlesniak@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
