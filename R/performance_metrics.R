@@ -139,7 +139,7 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #' @inheritParams get_feature_importance
 #'
 #'
-#' @return A one-row tibble with columns `cv_auroc`, [all of the performance metrics for the test data] `method`, and `seed`.
+#' @return A one-row tibble with columns `cv_auroc`, column for each of the performance metrics for the test data `method`, and `seed`.
 #' @export
 #'
 #' @examples

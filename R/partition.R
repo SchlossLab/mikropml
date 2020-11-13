@@ -15,9 +15,9 @@
 #' @return Vector of row indices for the training set.
 #' 
 #' @examples
-#' training_inds <- get_partition_indices(otu_mini$dx)
-#' train_data <- otu_mini[training_inds, ]
-#' test_data <- otu_mini[-training_inds, ]
+#' training_inds <- get_partition_indices(otu_mini_bin$dx)
+#' train_data <- otu_mini_bin[training_inds, ]
+#' test_data <- otu_mini_bin[-training_inds, ]
 #' 
 #' @export
 #' @author Kelly Sovacool, {sovacool@@umich.edu}

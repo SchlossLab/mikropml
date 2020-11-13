@@ -27,9 +27,9 @@ Set the seed prior to calling this function if you would like your data
 partitions to be reproducible (recommended).
 }
 \examples{
-training_inds <- get_partition_indices(otu_mini$dx)
-train_data <- otu_mini[training_inds, ]
-test_data <- otu_mini[-training_inds, ]
+training_inds <- get_partition_indices(otu_mini_bin$dx)
+train_data <- otu_mini_bin[training_inds, ]
+test_data <- otu_mini_bin[-training_inds, ]
 
 }
 \author{
