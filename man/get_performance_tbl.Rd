@@ -30,7 +30,7 @@ get_performance_tbl(
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
-A one-row tibble with columns \code{cv_auroc}, \link{all of the performance metrics for the test data} \code{method}, and \code{seed}.
+A one-row tibble with columns \code{cv_auroc}, column for each of the performance metrics for the test data \code{method}, and \code{seed}.
 }
 \description{
 Get model performance metrics as a one-row tibble
