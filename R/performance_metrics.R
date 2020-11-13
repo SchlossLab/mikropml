@@ -146,10 +146,10 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #'
 #' \dontrun{
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
-#' names(results$trained_model$trainingData)[1] <- 'dx'
-#' get_performance_tbl(results$trained_model,results$test_data,
+#' names(results$trained_model$trainingData)[1] <- "dx"
+#' get_performance_tbl(results$trained_model, results$test_data,
 #'   "dx",
-#'   multiClassSummary, 'AUC',
+#'   multiClassSummary, "AUC",
 #'   class_probs = TRUE
 #' )
 #' }

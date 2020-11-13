@@ -85,19 +85,19 @@ plot_model_performance <- function(performance_df) {
 tidy_perf_data <- function(performance_df) {
   abort_packages_not_installed("tidyr")
   cv_colname <- performance_df %>%
-    dplyr::select(dplyr::starts_with('cv_metric_')) %>%
+    dplyr::select(dplyr::starts_with("cv_metric_")) %>%
     colnames()
   test_colname <- cv_colname %>%
-    gsub('cv_metric_', '', .)
+    gsub("cv_metric_", "", .)
   return(performance_df %>%
-    dplyr::select(.data[['method']], .data[[cv_colname]], .data[[test_colname]]) %>%
+    dplyr::select(.data[["method"]], .data[[cv_colname]], .data[[test_colname]]) %>%
     tidyr::pivot_longer(
       cols = c(.data[[cv_colname]], .data[[test_colname]]),
       names_to = "metric"
     ) %>%
     dplyr::mutate(metric = dplyr::case_when(
-      startsWith(metric, 'cv_metric_') ~ gsub('cv_metric_', 'CV ', metric),
-      TRUE ~ paste('Test', metric)
+      startsWith(metric, "cv_metric_") ~ gsub("cv_metric_", "CV ", metric),
+      TRUE ~ paste("Test", metric)
     )))
 }
 
@@ -198,25 +198,28 @@ combine_hp_performance <- function(trained_model_lst) {
 #' plot_hp_performance(hp_metrics$dat, lambda, AUC)
 #' }
 plot_hp_performance <- function(dat, param_col, metric_col) {
-  abort_packages_not_installed('ggplot2')
-  mean_colname <- paste0('mean_', rlang::as_name(rlang::enquo(metric_col)))
-  sd_colname <- paste0('sd_', rlang::as_name(rlang::enquo(metric_col)))
+  abort_packages_not_installed("ggplot2")
+  mean_colname <- paste0("mean_", rlang::as_name(rlang::enquo(metric_col)))
+  sd_colname <- paste0("sd_", rlang::as_name(rlang::enquo(metric_col)))
   dat_sum <- dat %>%
     dplyr::group_by({{ param_col }}) %>%
-    dplyr::summarise("mean_{{ metric_col }}" := mean( {{ metric_col }} ),
-                     "sd_{{ metric_col }}" := stats::sd( {{ metric_col }} ),
-                     # is there a less repetitive way to do this cleanly?
-                     ymin_metric = !!rlang::sym(mean_colname) - !!rlang::sym(sd_colname),
-                     ymax_metric = !!rlang::sym(mean_colname) + !!rlang::sym(sd_colname))
+    dplyr::summarise("mean_{{ metric_col }}" := mean({{ metric_col }}),
+      "sd_{{ metric_col }}" := stats::sd({{ metric_col }}),
+      # is there a less repetitive way to do this cleanly?
+      ymin_metric = !!rlang::sym(mean_colname) - !!rlang::sym(sd_colname),
+      ymax_metric = !!rlang::sym(mean_colname) + !!rlang::sym(sd_colname)
+    )
   return(dat_sum %>%
-           ggplot2::ggplot(ggplot2::aes(x = {{ param_col }},
-                                        y = !!rlang::sym(mean_colname)
-                                        )
-                           ) +
-           ggplot2::geom_line() +
-           ggplot2::geom_point() +
-           ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$ymin_metric,
-                                               ymax = .data$ymax_metric),
-                                  width=.001)
-         )
+    ggplot2::ggplot(ggplot2::aes(
+      x = {{ param_col }},
+      y = !!rlang::sym(mean_colname)
+    )) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::geom_errorbar(ggplot2::aes(
+      ymin = .data$ymin_metric,
+      ymax = .data$ymax_metric
+    ),
+    width = .001
+    ))
 }
