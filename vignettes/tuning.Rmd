@@ -17,7 +17,8 @@ knitr::opts_chunk$set(
 ```
 
 One particularly important aspect of ML is hyperparameter tuning. 
-We must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset. In this package, we do this during the cross-validation step.
+We must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset. 
+In this package, we do this during the cross-validation step.
 
 Let's start with an example ML run. 
 The input data to `run_ml()` is a dataframe where each row is a sample or observation.
@@ -33,7 +34,7 @@ head(otu_mini_bin)
 ```
 
 Before we run ML, we can preprocess the data. 
-You can learn more about this in the preprocessing vignette: `vignette(preprocess)`.
+You can learn more about this in the preprocessing vignette: `vignette("preprocess")`.
 
 ```{r}
 preproc <- preprocess_data(dataset = otu_mini_bin,
@@ -47,11 +48,10 @@ We'll use `dat` for the following examples.
 
 As mentioned above, the minimal input is your dataset (`dataset`) and the machine learning model you want to use (`method`).
 
-When we `run_ml()`, by default we do a 100 times repeated, 5-fold cross-validation, where we evaluate the hyperparameters in these 500 total iterations.
+When we `run_ml()`, by default we do a 100 times repeated, 5-fold cross-validation, 
+where we evaluate the hyperparameters in these 500 total iterations.
 
-Say we want to run L2 regularized logistic regression. 
-
-We run ML with:
+Say we want to run L2 regularized logistic regression. We run ML with:
 
 ```{r}
 results <- run_ml(dat,
@@ -62,7 +62,9 @@ results <- run_ml(dat,
 ```
 
 By default, we provide the `run_ML` function with pre-determined parameters and hyperparameters.
-As you can see the `alpha` is set to 0. This is to make sure we are running L2 regularization. `glmnet` gives us the option to run both L1 and L2 regularization. 
+As you can see the `alpha` is set to 0.
+This is to make sure we are running L2 regularization.
+`glmnet` gives us the option to run both L1 and L2 regularization.
 If we change `alpha` to 1, we would have been running L1-regularized logistic regression. The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
 
 ```{r}
@@ -71,26 +73,21 @@ default_glmnet
 ```
 
 
-When we look at the 100 repeated cross-validation performance metrics such as `AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, we see that some are not appropriate for this dataset and some do better than others. 
+When we look at the 100 repeated cross-validation performance metrics such as 
+`AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, 
+we see that some are not appropriate for this dataset and some do better than others. 
 
 ```{r}
 results$trained_model
 ```
 
-We want to change the `lambda` values to provide a better range to test in cross-validation step. We don't want to use the defaults but provide our own dataframe with new set of values. 
-
-This dataframe hyperparameters should have columns `param`, `value`, and `method`.
+We want to change the `lambda` values to provide a better range to test in the cross-validation step. 
+We don't want to use the defaults but provide our own named list with new values. 
 
 For example:
 ```{r}
-hparams_df <- dplyr::tibble(
-  param = c("alpha", "lambda", "lambda", "lambda",  "lambda",  "lambda", "lambda", "lambda", "lambda"),
-  value = c(1, 10^-2, 0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06),
-  method = rep("glmnet", 9)
-)
-hparams_df
-
-new_hp <- get_hyperparams_from_df(hparams_df, "glmnet")
+new_hp <- list(alpha = 1, 
+               lambda = c(0.01, 0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06))
 new_hp
 ```
 
