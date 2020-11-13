@@ -16,3 +16,4 @@
 ^Meta$
 ^vignettes/parallel\.Rmd$
 ^cran-comments\.md$
+^revdep$
