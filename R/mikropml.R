@@ -14,13 +14,12 @@
 #' - Jenna Wiens ([ORCID](http://orcid.org/0000-0002-1057-7722))
 #' - Patrick D. Schloss ([ORCID](http://orcid.org/0000-0002-6935-4275))
 #'
-#' @section See also:
+#' @section See vignettes:
 #'
-#' - [All vignettes](http://www.schlosslab.org/mikropml/articles/).
-#' - [Intro vignette](http://www.schlosslab.org/mikropml/articles/introduction.html).
-#' - [Parallel vignette](http://www.schlosslab.org/mikropml/articles/parallel.html) to make it run faster.
-#' - [Snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) for high-performance computing clusters.
-#' - [The mikropml paper](http://www.schlosslab.org/mikropml/articles/paper.html).
+#' - [Introduction](http://www.schlosslab.org/mikropml/articles/introduction.html)
+#' - [Preprocessing data](http://www.schlosslab.org/mikropml/articles/preprocess.html)
+#' - [Parallel processing](http://www.schlosslab.org/mikropml/articles/parallel.html)
+#' - [The mikropml paper](http://www.schlosslab.org/mikropml/articles/paper.html)
 #'
 #' @docType package
 #' @name mikropml
