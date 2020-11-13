@@ -2,7 +2,6 @@
 title: "Hyperparameter tuning"
 author: "Begüm D. Topçuoğlu"
 output: rmarkdown::html_vignette
-bibliography: paper.bib
 vignette: >
   %\VignetteIndexEntry{Hyperparameter tuning}
   %\VignetteEngine{knitr::rmarkdown}
@@ -53,7 +52,7 @@ where we evaluate the hyperparameters in these 500 total iterations.
 
 Say we want to run L2 regularized logistic regression. We run ML with:
 
-```{r}
+```{r, warning = FALSE}
 results <- run_ml(dat,
                   'glmnet',
                   outcome_colname = 'dx',
@@ -61,24 +60,24 @@ results <- run_ml(dat,
                   seed = 2019)
 ```
 
-By default, we provide the `run_ML` function with pre-determined parameters and hyperparameters.
+By default, we provide `run_ml()` with pre-determined parameters and hyperparameters.
 As you can see the `alpha` is set to 0.
 This is to make sure we are running L2 regularization.
-`glmnet` gives us the option to run both L1 and L2 regularization.
-If we change `alpha` to 1, we would have been running L1-regularized logistic regression. The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
 
 ```{r}
-default_glmnet <- set_hparams_glmnet()
-default_glmnet
+results$trained_model
 ```
 
+
+`glmnet` gives us the option to run both L1 and L2 regularization.
+If we change `alpha` to 1, we would have been running L1-regularized logistic regression. The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
 
 When we look at the 100 repeated cross-validation performance metrics such as 
 `AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, 
 we see that some are not appropriate for this dataset and some do better than others. 
 
 ```{r}
-results$trained_model
+results$trained_model$results
 ```
 
 ## Customizing hyperparameters
@@ -96,7 +95,7 @@ new_hp
 
 Now let's run L2 logistic regression with the new `lambda` values:
 
-```{r}
+```{r, warning = FALSE}
 results <- run_ml(dat,
                   'glmnet',
                   outcome_colname = 'dx',
@@ -117,7 +116,7 @@ We describe how to run ML with multiple data splits in `vignette("parallel")`.
 Here we run ML on 3 data splits with the new `lambda` range we defined above. 
 We can then use `plot_hp_performance` to see which `lambda` gives us the largest mean AUC value across modeling experiments. 
 
-```{r}
+```{r, warning = FALSE}
 results <- lapply(seq(100, 102), function(seed) {
    run_ml(dat, "glmnet", seed = seed, hyperparameters = new_hp)
  })
@@ -154,7 +153,7 @@ and we provide a range that is `[sqrt_features / 2, sqrt_features, sqrt_features
 For example if the number of features is 1000:
 
 ```{r, echo = FALSE}
-set_hparams_rf(1000)
+mikropml:::set_hparams_rf(1000)
 ```
 
 Similar to `glmnet` method, we can provide our own `mtry` range.
@@ -169,12 +168,13 @@ By default, we provide a range that is less than the number of features in the d
 For example if we have 1000 features:
 
 ```{r, echo = FALSE}
-set_hparams_rpart2(1000)
+mikropml:::set_hparams_rpart2(1000)
 ```
 
 or 10 features:
+
 ```{r, echo = FALSE}
-set_hparams_rpart2(10)
+mikropml:::set_hparams_rpart2(10)
 ```
 
 
@@ -186,7 +186,7 @@ When we run the `svmRadial` method, we are tuning the `C` and `sigma` hyperparam
 By default, we provide 2 separate range of values for the two hyperparameters. 
 
 ```{r, echo = FALSE}
-set_hparams_svmRadial()
+mikropml:::set_hparams_svmRadial()
 ```
 
 ## XGBoost
@@ -201,5 +201,5 @@ All of these can be changed and optimized by the user by supplying a custom
 named list of hyperparameters to `run_ml()`.
 
 ```{r, echo = FALSE}
-set_hparams_xgbTree(1000)
+mikropml:::set_hparams_xgbTree(1000)
 ```
