@@ -132,6 +132,15 @@ As you can see, we get a mean maxima at 0.3 which is the best `lambda` value for
 
 Here are the hyperparameters that are tuned for each of the modeling methods.
 The output for all of them is very similar, so we won't go into those details.
+You can see which default hyperparameters would be used for your dataset with `get_hyperparams_list()`. 
+Here are a few examples with built-in datasets we provide:
+
+```{r}
+get_hyperparams_list(otu_mini_bin, 'glmnet')
+get_hyperparams_list(otu_mini_bin, 'rf')
+get_hyperparams_list(otu_small, 'rf')
+```
+
 
 ## Random forest
 
