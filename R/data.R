@@ -11,7 +11,8 @@
 
 #' Mini OTU abundance dataset
 #'
-#' A dataset containing relatives abundances of OTUs for human stool samples.
+#' A dataset containing relatives abundances of OTUs for human stool samples
+#' with a binary outcome, `dx`.
 #' This is a subset of `otu_small`.
 #'
 #' @format A data frame
@@ -28,25 +29,25 @@
 #' All other columns are OTU relative abundances.
 "otu_mini_multi"
 
-#' cross validation on `train_data_mini` with grouped features
+#' Cross validation on `train_data_mini` with grouped features.
 "otu_mini_cv"
 
-#' Results from running the pipline with L2 logistic regression on `otu_mini` with feature importance and grouping
+#' Results from running the pipline with L2 logistic regression on `otu_mini_bin` with feature importance and grouping
 "otu_mini_bin_results_glmnet"
 
-#' Results from running the pipline with random forest on `otu_mini`
+#' Results from running the pipline with random forest on `otu_mini_bin`
 "otu_mini_bin_results_rf"
 
-#' Results from running the pipline with svmRadial on `otu_mini`
+#' Results from running the pipline with svmRadial on `otu_mini_bin`
 "otu_mini_bin_results_svmRadial"
 
-#' Results from running the pipline with xbgTree on `otu_mini`
+#' Results from running the pipline with xbgTree on `otu_mini_bin`
 "otu_mini_bin_results_xgbTree"
 
-#' Results from running the pipline with rpart2 on `otu_mini`
+#' Results from running the pipline with rpart2 on `otu_mini_bin`
 "otu_mini_bin_results_rpart2"
 
-#' Results from running the pipeline with glmnet on `otu_mini` with `Otu00001` as the outcome
+#' Results from running the pipeline with glmnet on `otu_mini_bin` with `Otu00001` as the outcome
 "otu_mini_cont_results_glmnet"
 
 #' Results from running the pipeline with glmnet on `otu_mini_multi` for multiclass outcomes
