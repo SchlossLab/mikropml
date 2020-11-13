@@ -7,10 +7,10 @@
 get_perf_metric_fn(outcome_type)
 }
 \arguments{
-\item{outcome_type}{type of outcome (one of: \code{"continuous"},\code{"binary"},\code{"multiclass"})}
+\item{outcome_type}{Type of outcome (one of: \code{"continuous"},\code{"binary"},\code{"multiclass"}).}
 }
 \value{
-performance metric function
+Performance metric function.
 }
 \description{
 Get default performance metric function

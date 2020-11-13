@@ -15,26 +15,37 @@ preprocess_data(
 )
 }
 \arguments{
-\item{dataset}{dataframe where rows are samples and colums are the outcome variable and features}
+\item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{outcome_colname}{column name as a string of the outcome variable}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
 
-\item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization)}
+\item{method}{Methods to preprocess the data, described in \code{\link[caret:preProcess]{caret::preProcess()}} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization).}
 
-\item{remove_var}{whether to remove variables with near-zero variance (\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL})}
+\item{remove_var}{Whether to remove variables with near-zero variance (\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL}).}
 
-\item{collapse_corr_feats}{whether to keep only one of perfectly correlated features}
+\item{collapse_corr_feats}{Whether to keep only one of perfectly correlated features.}
 
-\item{to_numeric}{whether to change features to numeric where possible}
+\item{to_numeric}{Whether to change features to numeric where possible.}
 
-\item{group_neg_corr}{whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))}
+\item{group_neg_corr}{Whether to group negatively correlated features together (e.g. c(0,1) and c(1,0)).}
 }
 \value{
-preprocessed data
+Named list including:
+\itemize{
+\item \code{dat_transformed}: Preprocessed data.
+\item \code{grp_feats}: If features were grouped together, a named list of the features corresponding to each group.
+\item \code{removed_feats}: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
+}
 }
 \description{
-Preprocess data prior to running machine learning
+Function to preprocess your data for input into \code{\link[=run_ml]{run_ml()}}.
 }
+\section{More details}{
+
+
+For more details, please see the \href{http://www.schlosslab.org/mikropml/articles/preprocess.html}{preprocessing vignette}.
+}
+
 \examples{
 preprocess_data(mikropml::otu_small, "dx")
 }

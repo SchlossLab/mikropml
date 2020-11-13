@@ -7,13 +7,13 @@
 get_perf_metric_name(outcome_type)
 }
 \arguments{
-\item{outcome_type}{type of outcome (one of: \code{"continuous"},\code{"binary"},\code{"multiclass"})}
+\item{outcome_type}{Type of outcome (one of: \code{"continuous"},\code{"binary"},\code{"multiclass"}).}
 }
 \value{
-performance metric name
+Performance metric name.
 }
 \description{
-Get default performance metric name
+Get default performance metric name for cross-validation.
 }
 \examples{
 get_perf_metric_name("continuous")
