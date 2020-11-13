@@ -1,7 +1,8 @@
 #' Small OTU abundance dataset
 #'
 #' A dataset containing relatives abundances of 60 OTUs for 60 human stool samples.
-#' This is a subset of the data provided in `extdata/otu_large.csv`.
+#' This is a subset of the data provided in `extdata/otu_large.csv`, which was
+#' used in [Topçuoğlu _et al._ 2020](https://mbio.asm.org/content/11/3/e00434-20).
 #'
 #' @format A data frame with 60 rows and 61 variables.
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
@@ -11,7 +12,7 @@
 #' Mini OTU abundance dataset
 #'
 #' A dataset containing relatives abundances of OTUs for human stool samples.
-#' This is a subset of the data provided in `extdata/otu_large.csv`.
+#' This is a subset of `otu_small`.
 #'
 #' @format A data frame
 #' The `dx` column is the diagnosis: healthy or cancerous (colorectal).
