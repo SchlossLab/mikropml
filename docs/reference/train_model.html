@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Train model — train_model" />
-<meta property="og:description" content="Train model" />
+<meta property="og:description" content="Train model using caret::train()." />
 
 
 
@@ -94,6 +94,13 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
     <li>
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
@@ -102,9 +109,6 @@
     </li>
     <li>
       <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
     </li>
   </ul>
 </li>
@@ -135,7 +139,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Train model</p>
+    <p>Train model using <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>train_model</span><span class='op'>(</span>
@@ -153,19 +157,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model_formula</th>
-      <td><p>model formula</p></td>
+      <td><p>Model formula.</p></td>
     </tr>
     <tr>
       <th>train_data</th>
-      <td><p>train_data</p></td>
+      <td><p>Training data.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>method</p></td>
+      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code>.</p></td>
     </tr>
     <tr>
       <th>cv</th>
-      <td><p>cross-validation caret scheme</p></td>
+      <td><p>Cross-validation caret scheme.</p></td>
     </tr>
     <tr>
       <th>perf_metric_name</th>
@@ -173,7 +177,7 @@
     </tr>
     <tr>
       <th>tune_grid</th>
-      <td><p>tuning grid</p></td>
+      <td><p>Tuning grid.</p></td>
     </tr>
     <tr>
       <th>ntree</th>
@@ -183,7 +187,10 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>trained model</p>
+    <p>Trained model from <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>TODO: Add example.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>

@@ -39,7 +39,7 @@ Authors@R: c(
            email = "nlesniak@umich.edu",
            comment = c(ORCID = "0000-0001-9359-5194")))
 Date: 2020-10-14
-URL: http://www.schlosslab.org/mikropml, https://github.com/SchlossLab/mikropml
+URL: http://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
 BugReports: https://github.com/SchlossLab/mikropml/issues
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE

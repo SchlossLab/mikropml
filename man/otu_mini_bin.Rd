@@ -14,6 +14,6 @@ otu_mini_bin
 }
 \description{
 A dataset containing relatives abundances of OTUs for human stool samples.
-This is a subset of the data provided in \code{extdata/otu_large.csv}.
+This is a subset of \code{otu_small}.
 }
 \keyword{datasets}

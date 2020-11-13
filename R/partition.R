@@ -1,7 +1,7 @@
 #' Select indices to partition the data into training & testing sets.
 #'
-#' Use this function to get the row indices for the training set. 
-#' 
+#' Use this function to get the row indices for the training set.
+#'
 #' If `groups` is `NULL`, uses \link[caret]{createDataPartition}.
 #' Otherwises, uses `create_grouped_data_partition()`.
 #'
@@ -13,12 +13,11 @@
 #' @param groups vector of groups. length must match the number of rows in the dataset. (default: NULL)
 #'
 #' @return Vector of row indices for the training set.
-#' 
+#'
 #' @examples
 #' training_inds <- get_partition_indices(otu_mini_bin$dx)
 #' train_data <- otu_mini_bin[training_inds, ]
 #' test_data <- otu_mini_bin[-training_inds, ]
-#' 
 #' @export
 #' @author Kelly Sovacool, {sovacool@@umich.edu}
 get_partition_indices <- function(outcomes, training_frac = 0.8, groups = NULL) {

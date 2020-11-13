@@ -94,6 +94,13 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
     <li>
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
@@ -102,9 +109,6 @@
     </li>
     <li>
       <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
     </li>
   </ul>
 </li>
@@ -153,19 +157,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>trained_model</th>
-      <td><p>trained model</p></td>
+      <td><p>Trained model from <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>.</p></td>
     </tr>
     <tr>
       <th>test_data</th>
-      <td><p>test data</p></td>
+      <td><p>Held out test data: dataframe of outcome and features.</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; the first column will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <code><a href='https://rdrr.io/pkg/caret/man/postResample.html'>caret::defaultSummary()</a></code>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>perf_metric_name</th>
@@ -173,7 +177,7 @@
     </tr>
     <tr>
       <th>class_probs</th>
-      <td><p>whether to use class probabilities</p></td>
+      <td><p>Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -183,12 +187,25 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a one-row tibble with columns <code>cv_auroc</code>, <code>test_auroc</code>, <code>test_auprc</code>, <code>method</code>, and <code>seed</code></p>
+    <p>A one-row tibble with columns <code>cv_auroc</code>, column for each of the performance metrics for the test data <code>method</code>, and <code>seed</code>.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, kfold <span class='op'>=</span> <span class='fl'>2</span>, cv_times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>'dx'</span>
+<span class='fu'>get_performance_tbl</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>,<span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,
+  <span class='st'>"dx"</span>,
+  <span class='va'>multiClassSummary</span>, <span class='st'>'AUC'</span>,
+  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

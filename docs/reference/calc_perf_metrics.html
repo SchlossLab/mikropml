@@ -94,6 +94,13 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
     <li>
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
@@ -102,9 +109,6 @@
     </li>
     <li>
       <a href="../articles/parallel.html">Parallel processing</a>
-    </li>
-    <li>
-      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
     </li>
   </ul>
 </li>
@@ -151,29 +155,29 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>test_data</th>
-      <td><p>test data</p></td>
+      <td><p>Held out test data: dataframe of outcome and features.</p></td>
     </tr>
     <tr>
       <th>trained_model</th>
-      <td><p>trained model</p></td>
+      <td><p>Trained model from <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>.</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; the first column will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <code><a href='https://rdrr.io/pkg/caret/man/postResample.html'>caret::defaultSummary()</a></code>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>class_probs</th>
-      <td><p>whether to use class probabilities</p></td>
+      <td><p>Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>performance metrics</p>
+    <p>Dataframe of performance metrics.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>

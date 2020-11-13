@@ -14,6 +14,7 @@ tags:
   - random forest
   - xgBoost
   - microbiology
+author: Begüm D. Topçuoğlu, Zena Lapp, Kelly L. Sovacool, Evan Snitkin, Jenna Wiens, Patrick D. Schloss
 authors:
   - name: Begüm D. Topçuoğlu^[co-first author]
     orcid: 0000-0003-3140-537X
