@@ -17,7 +17,7 @@ tags:
 authors:
   - name: Begüm D. Topçuoğlu
     orcid: 0000-0003-3140-537X
-    affiliation: 3;4
+    affiliation: "3, 4"
   - name: Zena Lapp
     orcid: 0000-0003-4674-2176
     affiliation: 1
@@ -26,7 +26,7 @@ authors:
     affiliation: 1
   - name: Evan Snitkin
     orcid: 0000-0001-8409-278X
-    affiliation: 3;5
+    affiliation: "3, 5"
   - name: Jenna Wiens
     orcid: 0000-0002-1057-7722
     affiliation: 2
