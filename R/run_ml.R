@@ -136,6 +136,7 @@ run_ml <-
       perf_metric_function,
       perf_metric_name,
       class_probs,
+      method,
       seed
     )
     feature_importance_tbl <- "Skipped feature importance"

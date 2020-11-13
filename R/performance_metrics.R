@@ -143,6 +143,7 @@ get_performance_tbl <- function(trained_model,
                                 perf_metric_function,
                                 perf_metric_name,
                                 class_probs,
+                                method,
                                 seed = NA) {
   test_perf_metrics <- calc_perf_metrics(
     test_data,
@@ -172,7 +173,7 @@ get_performance_tbl <- function(trained_model,
   return(dplyr::bind_rows(c(
     cv_metric = cv_metric_value,
     test_perf_metrics,
-    method = trained_model$method,
+    method = method,
     seed = seed
   )) %>%
     dplyr::rename_with(
