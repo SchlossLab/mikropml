@@ -15,13 +15,13 @@ tags:
   - xgBoost
   - microbiology
 authors:
-  - name: Begüm D. Topçuoğlu
+  - name: Begüm D. Topçuoğlu^[co-first author]
     orcid: 0000-0003-3140-537X
     affiliation: "3, 4"
-  - name: Zena Lapp
+  - name: Zena Lapp^[co-first author]
     orcid: 0000-0003-4674-2176
     affiliation: 1
-  - name: Kelly L. Sovacool
+  - name: Kelly L. Sovacool^[co-first author]
     orcid: 0000-0003-3283-829X
     affiliation: 1
   - name: Evan Snitkin
@@ -30,7 +30,7 @@ authors:
   - name: Jenna Wiens
     orcid: 0000-0002-1057-7722
     affiliation: 2
-  - name: Patrick D. Schloss
+  - name: Patrick D. Schloss^[corresponding author]
     orcid: 0000-0002-6935-4275
     affiliation: 3
 affiliations:
