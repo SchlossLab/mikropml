@@ -43,8 +43,8 @@ devtools::install_github("SchlossLab/mikropml")
 ```{r, echo = FALSE, message = FALSE}
 library(dplyr)
 description <- utils::packageDescription('mikropml')
-imports <- description$Imports %>% gsub("\n", " ", .)
-suggests <- description$Suggests %>% gsub("\n", " ", .)
+imports <- description[["Imports"]] %>% gsub("\n", " ", .)
+suggests <- description[["Suggests"]] %>% gsub("\n", " ", .)
 ```
 
 - Imports: `r imports`

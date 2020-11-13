@@ -31,8 +31,8 @@ devtools::install_github("SchlossLab/mikropml")
 
   - Imports: caret, dplyr, LiblineaR, rlang, stats, utils
   - Suggests: doFuture, e1071, foreach, future, future.apply, glmnet,
-    ggplot2, kernlab, knitr, MLmetrics, randomForest, rmarkdown, rpart,
-    testthat, tidyr, xgboost
+    ggplot2, kernlab, knitr, MLmetrics, purrr, randomForest, rmarkdown,
+    rpart, testthat, tidyr, xgboost
 
 ## Usage
 
