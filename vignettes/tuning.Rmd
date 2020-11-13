@@ -70,11 +70,12 @@ default_glmnet <- set_hparams_glmnet()
 default_glmnet
 ```
 
+
+When we look at the 100 repeated cross-validation performance metrics such as `AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, we see that some are not appropriate for this dataset and some do better than others. 
+
 ```{r}
 results$trained_model
 ```
-
-When we look at the 100 repeated cross-validation performance metrics such as `AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, we see that some are not appropriate for this dataset and some do better than others. 
 
 We want to change the `lambda` values to provide a better range to test in cross-validation step. We don't want to use the defaults but provide our own dataframe with new set of values. 
 
@@ -124,7 +125,7 @@ hp_metrics <- combine_hp_performance(models)
 plot_hp_performance(hp_metrics$dat, lambda, AUC)
 ```
 
-As you can see, we get a maxima at 0.25 which is the best `lambda` value for this dataset. This value is used for building the final model.
+As you can see, we get a mean maxima at 0.3 which is the best `lambda` value for this dataset when we run 3 datasplits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more datasplits. 
 
 # Other methods
 
