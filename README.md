@@ -12,7 +12,7 @@
 [![docs](https://img.shields.io/badge/docs-here-brightgreen)](http://www.schlosslab.org/mikropml/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
 User-Friendly R Package for Robust Machine Learning Pipelines
