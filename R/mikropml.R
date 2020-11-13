@@ -13,7 +13,6 @@
 #' 
 #' @section See also:
 #' 
-#' For more details, please see the corresponding vignettes: 
 #' - [All vignettes](http://www.schlosslab.org/mikropml/articles/).
 #' - [Intro vignette](http://www.schlosslab.org/mikropml/articles/introduction.html).
 #' - [Parallel vignette](http://www.schlosslab.org/mikropml/articles/parallel.html) to make it run faster.
