@@ -1,7 +1,9 @@
 ## Test environments
+
 * local R installation, R 4.0.2
-* ubuntu 16.04 (on travis-ci), R 4.0.2
-* win-builder (devel)
+* macOS 10.15.7 (on github-actions), R 4.0.2 and devel
+* ubuntu 18.04.5 (on github-actions), R devel
+* windows 10.0.17763 (on github-actions), R 4.0.2 and devel
 
 ## R CMD check results
 
