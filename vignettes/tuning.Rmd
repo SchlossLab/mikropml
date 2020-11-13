@@ -61,12 +61,13 @@ results <- run_ml(dat,
                   seed = 2019)
 ```
 
-By default, we provide the `run_ML` function with pre-determined parameters and hyperparameters. As you can see the `alpha` is set to 0. This is to make sure we are running L2 regularization. `glmnet` gives us the option to run both L1 and L2 regularization. If we change `alpha` to 1, we would have been running L1-regularized logistic regression. The hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
+By default, we provide the `run_ML` function with pre-determined parameters and hyperparameters.
+As you can see the `alpha` is set to 0. This is to make sure we are running L2 regularization. `glmnet` gives us the option to run both L1 and L2 regularization. 
+If we change `alpha` to 1, we would have been running L1-regularized logistic regression. The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
 
 ```{r}
 default_glmnet <- set_hparams_glmnet()
 default_glmnet
-
 ```
 
 ```{r}
@@ -82,9 +83,9 @@ This dataframe hyperparameters should have columns `param`, `value`, and `method
 For example:
 ```{r}
 hparams_df <- dplyr::tibble(
-  param = c("alpha", "lambda", "lambda", "lambda",  "lambda",  "lambda"),
-  value = c(1, 10^-2, 0.015, 0.025, 0.05, 0.06),
-  method = rep("glmnet", 6)
+  param = c("alpha", "lambda", "lambda", "lambda",  "lambda",  "lambda", "lambda", "lambda", "lambda"),
+  value = c(1, 10^-2, 0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06),
+  method = rep("glmnet", 9)
 )
 hparams_df
 
@@ -107,9 +108,12 @@ results$trained_model
 
 This time, we cover a different range of `lambda` settings in cross-validation. 
 
-How do we know which `lambda` value is the best one? To answer that, we need to run the ML pipeline on multiple datasplits and look at the mean cross-validation performance of each `lambda` across those modeling experiments. We describe how to run ML with multiple datasplits here: http://www.schlosslab.org/mikropml/articles/parallel.html
+How do we know which `lambda` value is the best one? 
+To answer that, we need to run the ML pipeline on multiple datasplits and look at the mean cross-validation performance of each `lambda` across those modeling experiments. 
+We describe how to run ML with multiple datasplits here: http://www.schlosslab.org/mikropml/articles/parallel.html
 
-Here we run ML on 3 dataplits with the new `lambda` range we defined above. We can then use `plot_hp_performance` to see which `lambda` gives us the largest mean AUC value across modeling experiments. 
+Here we run ML on 3 dataplits with the new `lambda` range we defined above. 
+We can then use `plot_hp_performance` to see which `lambda` gives us the largest mean AUC value across modeling experiments. 
 
 ```{r}
 results <- lapply(seq(100, 102), function(seed) {
@@ -168,7 +172,7 @@ set_hparams_rpart2(10)
 When we run `svmRadial` method, we are tuning the `C` and `sigma` hyperparameters. 
 `sigma` defines how far the influence of a single training example reaches and `C` behaves as a regularization parameter.
 
-By default, we provide 2 separate ranges for the two. 
+By default, we provide 2 separate range of values for the two hyperparameters. 
 
 
 ```{r}
@@ -177,9 +181,9 @@ set_hparams_svmRadial()
 
 ## XGBoost
 
-When we run `svmRadial` method, we are tuning the `nrounds`, `gamma`, `eta` `max_depth`, `colsample_bytree`, `min_child_weight` and `subsample` hyperparameters. Like other tree-based methods some of these hyperparameters need to be an appropriate in relation to the number of features in the dataset.
+When we run `xgbTree` method, we are tuning the `nrounds`, `gamma`, `eta` `max_depth`, `colsample_bytree`, `min_child_weight` and `subsample` hyperparameters. Like other tree-based methods some of these hyperparameters need to be appropriate in relation to the number of features in the dataset.
 
-By default, we fix the `nrounds`, `gamma`, `colsample_bytree` and `min_child_weight` to set values and we provide a range of values for `eta`, `max_depth` and `subsample`. All of these can be changed and optimized by the user. 
+By default, we set the `nrounds`, `gamma`, `colsample_bytree` and `min_child_weight` to fixed values and we provide a range of values for `eta`, `max_depth` and `subsample`. All of these can be changed and optimized by the user. 
 
 ```{r}
 set_hparams_xgbTree(1000)
