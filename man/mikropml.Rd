@@ -10,11 +10,24 @@
 \section{Authors}{
 
 \itemize{
-\item Begüm D. Topçuoğlu (\href{0000-0003-3140-537X}{ORCID})
+\item Begüm D. Topçuoğlu (\href{http://orcid.org/0000-0003-3140-537X}{ORCID})
+\item Zena Lapp (\href{http://orcid.org/0000-0003-4674-2176}{ORCID})
+\item Kelly L. Sovacool (\href{http://orcid.org/0000-0003-3283-829X}{ORCID})
+\item Evan Snitkin (\href{http://orcid.org/0000-0001-8409-278X}{ORCID})
+\item Jenna Wiens (\href{http://orcid.org/0000-0002-1057-7722}{ORCID})
+\item Patrick D. Schloss (\href{http://orcid.org/0000-0002-6935-4275}{ORCID})
 }
 }
 
 \section{See also}{
 
+
+For more details, please see the corresponding vignettes:
+\itemize{
+\item \href{http://www.schlosslab.org/mikropml/articles/}{All vignettes}.
+\item \href{http://www.schlosslab.org/mikropml/articles/introduction.html}{Intro vignette}.
+\item \href{http://www.schlosslab.org/mikropml/articles/parallel.html}{Parallel vignette} to make it run faster.
+\item \href{https://github.com/SchlossLab/mikropml-snakemake-workflow}{Snakemake workflow} for high-performance computing clusters.
+}
 }
 
