@@ -134,7 +134,7 @@ The output for all of them is very similar, so we won't go into those details.
 
 ## Random forest
 
-When we run `rf` method, we are tuning the `mtry` hyperparameter. This is the number of features that are randomly collected to be sampled at each tree node. It needs to be an appropriate number in relation to the number of features in the dataset.
+When we run the `rf` method, we are tuning the `mtry` hyperparameter. This is the number of features that are randomly collected to be sampled at each tree node. It needs to be an appropriate number in relation to the number of features in the dataset.
 
 By default, we take the square root of number of features in the dataset and we provide a range that is
 `[sqrt_features / 2, sqrt_features, sqrt_features * 2]`. 
@@ -149,7 +149,7 @@ Similar to `glmnet` method, we can provide our own `mtry` range.
 
 ## Decision tree
 
-When we run `rpart2` method, we are tuning the `maxdepth` hyperparameter. This is the maximum depth of any node of the final tree.
+When we run the `rpart2` method, we are tuning the `maxdepth` hyperparameter. This is the maximum depth of any node of the final tree.
 
 By default, we provide a range that is less than the number of features in the dataset. 
 
@@ -170,7 +170,7 @@ set_hparams_rpart2(10)
 
 ## SVM
 
-When we run `svmRadial` method, we are tuning the `C` and `sigma` hyperparameters. 
+When we run the `svmRadial` method, we are tuning the `C` and `sigma` hyperparameters. 
 `sigma` defines how far the influence of a single training example reaches and `C` behaves as a regularization parameter.
 
 By default, we provide 2 separate range of values for the two hyperparameters. 
@@ -182,7 +182,7 @@ set_hparams_svmRadial()
 
 ## XGBoost
 
-When we run `xgbTree` method, we are tuning the `nrounds`, `gamma`, `eta` `max_depth`, `colsample_bytree`, `min_child_weight` and `subsample` hyperparameters. Like other tree-based methods some of these hyperparameters need to be appropriate in relation to the number of features in the dataset.
+When we run the `xgbTree` method, we are tuning the `nrounds`, `gamma`, `eta` `max_depth`, `colsample_bytree`, `min_child_weight` and `subsample` hyperparameters. Like other tree-based methods some of these hyperparameters need to be appropriate in relation to the number of features in the dataset.
 
 By default, we set the `nrounds`, `gamma`, `colsample_bytree` and `min_child_weight` to fixed values and we provide a range of values for `eta`, `max_depth` and `subsample`. All of these can be changed and optimized by the user. 
 
