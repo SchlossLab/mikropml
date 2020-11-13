@@ -60,17 +60,16 @@ results <- run_ml(dat,
                   seed = 2019)
 ```
 
-By default, we provide `run_ml()` with pre-determined parameters and hyperparameters.
-As you can see the `alpha` is set to 0.
-This is to make sure we are running L2 regularization.
+By default, `run_ml()` selects default hyperparameters depending on the dataset and method used.
 
 ```{r}
 results$trained_model
 ```
 
-
+As you can see, the `alpha` hyperparameter is set to 0, which specifies L2 regularization.
 `glmnet` gives us the option to run both L1 and L2 regularization.
-If we change `alpha` to 1, we would have been running L1-regularized logistic regression. The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
+If we change `alpha` to 1, we would run L1-regularized logistic regression. 
+The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
 
 When we look at the 100 repeated cross-validation performance metrics such as 
 `AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, 
