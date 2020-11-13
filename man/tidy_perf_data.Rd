@@ -13,7 +13,7 @@ tidy_perf_data(performance_df)
 Tidy dataframe with model performance metrics.
 }
 \description{
-Used by \code{plot_performance()}.
+Used by \code{plot_model_performance()}.
 }
 \examples{
 \dontrun{

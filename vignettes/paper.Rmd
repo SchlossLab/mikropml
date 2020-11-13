@@ -3,14 +3,11 @@ title: "mikropml: User-Friendly R Package for Robust Machine Learning Pipelines"
 output: 
   rmarkdown::html_vignette:
     keep_md: true
-  pdf_document:
-    latex_engine: xelatex
-urlcolor: blue
 tags:
   - R
   - machine learning
-  - logistic regression
-  - decision tree
+  - regression
+  - decision trees
   - random forest
   - xgBoost
   - microbiology

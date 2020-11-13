@@ -1,6 +1,6 @@
 
 #' Preprocess data prior to running machine learning
-#' 
+#'
 #' Function to preprocess your data for input into [run_ml()].
 #'
 #' @param method Methods to preprocess the data, described in [caret::preProcess()] (defaut: `c("center","scale")`, use `NULL` for no normalization).
@@ -10,17 +10,18 @@
 #' @inheritParams run_ml
 #' @inheritParams get_corr_feats
 #'
-#' @return 
-#' 
+#' @return
+#'
 #' Named list including:
 #' - `dat_transformed`: Preprocessed data.
 #' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
 #' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
-#' 
+#'
 #' @section More details:
-#' 
-#' For more details, please see the [preprocessing vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
-#' 
+#'
+#' See the [preprocessing vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html)
+#' for more details.
+#'
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -321,12 +322,12 @@ process_cont_feats <- function(features, method) {
 #' @param features Dataframe of features for machine learning
 #' @inheritParams preprocess_data
 #'
-#' @return 
-#' 
+#' @return
+#'
 #' Named list:
 #' - `processed`: Dataframe of processed features.
 #' - `removed`: Names of any features removed during preprocessing.
-#' 
+#'
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'

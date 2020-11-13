@@ -18,21 +18,21 @@
 #' @param corr_thresh For feature importance, group correlations above or equal to corr_thresh (default: `1`).
 #' @param ntree For random forest, how many trees to use (default: 1000). Note that caret doesn't allow this parameter to be tuned.
 #'
-#' @return 
-#' 
+#' @return
+#'
 #' Named list with results:
 #' - `trained_model`: Output of [caret::train()], including the best model.
 #' - `test_data`: Part of the data that was used for testing.
 #' - `performance`: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data.
-#' - `feature_importance`: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome. 
-#' 
+#' - `feature_importance`: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome.
+#'
 #' @section More details:
-#' For more details, please see the corresponding vignettes: 
+#' For more details, please see the corresponding vignettes:
 #' - [All vignettes](http://www.schlosslab.org/mikropml/articles/).
 #' - [Intro vignette](http://www.schlosslab.org/mikropml/articles/introduction.html).
 #' - [Parallel vignette](http://www.schlosslab.org/mikropml/articles/parallel.html) to make it run faster.
 #' - [Snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) for high-performance computing clusters.
-#' 
+#'
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
@@ -151,6 +151,7 @@ run_ml <-
       perf_metric_function,
       perf_metric_name,
       class_probs,
+      method,
       seed
     )
     feature_importance_tbl <- "Skipped feature importance"
