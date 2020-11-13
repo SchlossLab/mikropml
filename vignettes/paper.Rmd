@@ -6,8 +6,8 @@ output:
 tags:
   - R
   - machine learning
-  - logistic regression
-  - decision tree
+  - regression
+  - decision trees
   - random forest
   - xgBoost
   - microbiology
