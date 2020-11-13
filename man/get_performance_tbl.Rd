@@ -11,6 +11,7 @@ get_performance_tbl(
   perf_metric_function,
   perf_metric_name,
   class_probs,
+  method,
   seed = NA
 )
 }
@@ -26,6 +27,8 @@ get_performance_tbl(
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
+
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
 
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
