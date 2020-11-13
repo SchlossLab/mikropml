@@ -9,10 +9,10 @@ get_hyperparams_list(dataset, method)
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.}
 }
 \value{
-named list of hyperparameters
+Named list of hyperparameters.
 }
 \description{
 Set hyperparameters based on ML method and dataset characteristics

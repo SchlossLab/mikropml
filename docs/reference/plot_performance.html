@@ -87,8 +87,30 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -133,7 +155,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a ggplot2 plot</p>
+    <p>A ggplot2 plot of performance.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Begüm Topçuoglu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
@@ -160,7 +182,7 @@
 <span class='op'>)</span>
 <span class='va'>results_mtx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mapply.html'>mapply</a></span><span class='op'>(</span>
   <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span>, <span class='va'>method</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_mini</span>, <span class='va'>method</span>, seed <span class='op'>=</span> <span class='va'>seed</span>, kfold <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+    <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_mini_bin</span>, <span class='va'>method</span>, seed <span class='op'>=</span> <span class='va'>seed</span>, kfold <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
   <span class='op'>}</span>,
   <span class='va'>param_grid</span><span class='op'>$</span><span class='va'>seeds</span>, <span class='va'>param_grid</span><span class='op'>$</span><span class='va'>methods</span>
 <span class='op'>)</span>

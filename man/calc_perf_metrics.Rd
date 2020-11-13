@@ -13,18 +13,18 @@ calc_perf_metrics(
 )
 }
 \arguments{
-\item{test_data}{test data}
+\item{test_data}{Held out test data: dataframe of outcome and features.}
 
-\item{trained_model}{trained model}
+\item{trained_model}{Trained model from \code{\link[caret:train]{caret::train()}}.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
 
-\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 
-\item{class_probs}{whether to use class probabilities}
+\item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
 }
 \value{
-performance metrics
+Dataframe of performance metrics.
 }
 \description{
 Get performance metrics for test data

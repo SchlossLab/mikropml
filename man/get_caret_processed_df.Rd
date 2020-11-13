@@ -7,12 +7,16 @@
 get_caret_processed_df(features, method)
 }
 \arguments{
-\item{features}{dataframe of features for machine learning}
+\item{features}{Dataframe of features for machine learning}
 
-\item{method}{methods to preprocess the data, described in \code{caret::preProcess} (defaut: \code{c("center","scale")})}
+\item{method}{Methods to preprocess the data, described in \code{\link[caret:preProcess]{caret::preProcess()}} (defaut: \code{c("center","scale")}, use \code{NULL} for no normalization).}
 }
 \value{
-processed matrix
+Named list:
+\itemize{
+\item \code{processed}: Dataframe of processed features.
+\item \code{removed}: Names of any features removed during preprocessing.
+}
 }
 \description{
 Get preprocessed dataframe for continuous variables

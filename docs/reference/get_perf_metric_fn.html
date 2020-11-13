@@ -87,8 +87,30 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -127,13 +149,13 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>outcome_type</th>
-      <td><p>type of outcome (one of: <code>"continuous"</code>,<code>"binary"</code>,<code>"multiclass"</code>)</p></td>
+      <td><p>Type of outcome (one of: <code>"continuous"</code>,<code>"binary"</code>,<code>"multiclass"</code>).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>performance metric function</p>
+    <p>Performance metric function.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
@@ -146,7 +168,7 @@
 #&gt;         data$obs &lt;- factor(data$obs, levels = lev)
 #&gt;     postResample(data[, "pred"], data[, "obs"])
 #&gt; }
-#&gt; &lt;bytecode: 0x7fed407468e8&gt;
+#&gt; &lt;bytecode: 0x7fb22247fff8&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"binary"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
@@ -203,7 +225,7 @@
 #&gt;     stats &lt;- stats[c(stat_list)]
 #&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7fed411d3890&gt;
+#&gt; &lt;bytecode: 0x7fb224296570&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"multiclass"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
 #&gt; {
@@ -260,7 +282,7 @@
 #&gt;     stats &lt;- stats[c(stat_list)]
 #&gt;     return(stats)
 #&gt; }
-#&gt; &lt;bytecode: 0x7fed411d3890&gt;
+#&gt; &lt;bytecode: 0x7fb224296570&gt;
 #&gt; &lt;environment: namespace:caret&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

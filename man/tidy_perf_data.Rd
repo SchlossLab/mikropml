@@ -10,7 +10,7 @@ tidy_perf_data(performance_df)
 \item{performance_df}{dataframe of performance results from multiple calls to \code{run_ml()}}
 }
 \value{
-Tidy dataframe with model performance metrics
+Tidy dataframe with model performance metrics.
 }
 \description{
 Used by \code{plot_model_performance()}.

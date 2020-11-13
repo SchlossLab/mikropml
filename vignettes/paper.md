@@ -14,6 +14,7 @@ tags:
   - random forest
   - xgBoost
   - microbiology
+author: Begüm D. Topçuoğlu, Zena Lapp, Kelly L. Sovacool, Evan Snitkin, Jenna Wiens, Patrick D. Schloss
 authors:
   - name: Begüm D. Topçuoğlu^[co-first author]
     orcid: 0000-0003-3140-537X
@@ -83,7 +84,7 @@ and post-training permutation importance steps to measure the importance of each
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
 It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], 
 to identify differences in genomic and clinical features associated with bacterial infections [@lapp_machine_2020], 
-and to predict gender-based biases in academic publishing [**cite Ada’s paper**]. 
+and to predict gender-based biases in academic publishing [@hagan_women_2020]. 
 
 # mikropml package
 

@@ -10,7 +10,7 @@ plot_model_performance(performance_df)
 \item{performance_df}{dataframe of performance results from multiple calls to \code{run_ml()}}
 }
 \value{
-a ggplot2 plot
+A ggplot2 plot of performance.
 }
 \description{
 ggplot2 is required to use this function.

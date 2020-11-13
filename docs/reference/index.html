@@ -86,8 +86,30 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -150,7 +172,7 @@
         <td>
           <p><code><a href="define_cv.html">define_cv()</a></code> </p>
         </td>
-        <td><p>Define Cross-Validation Scheme and Training Parameters</p></td>
+        <td><p>Define cross-validation scheme and training parameters</p></td>
       </tr><tr>
         
         <td>
@@ -186,7 +208,7 @@
         <td>
           <p><code><a href="get_outcome_type.html">get_outcome_type()</a></code> </p>
         </td>
-        <td><p>Get outcome type</p></td>
+        <td><p>Get outcome type.</p></td>
       </tr><tr>
         
         <td>
@@ -216,7 +238,7 @@
         <td>
           <p><code><a href="get_tuning_grid.html">get_tuning_grid()</a></code> </p>
         </td>
-        <td><p>Generate the Tuning Grid for Tuning Hyperparameters</p></td>
+        <td><p>Generate the tuning grid for tuning hyperparameters</p></td>
       </tr><tr>
         
         <td>
@@ -226,21 +248,51 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="otu_mini.html">otu_mini</a></code> </p>
+          <p><code><a href="otu_mini_bin.html">otu_mini_bin</a></code> </p>
         </td>
         <td><p>Mini OTU abundance dataset</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="otu_mini_cont_results1.html">otu_mini_cont_results1</a></code> </p>
+          <p><code><a href="otu_mini_bin_results_glmnet.html">otu_mini_bin_results_glmnet</a></code> </p>
+        </td>
+        <td><p>Results from running the pipline with L2 logistic regression on <code>otu_mini</code> with feature importance and grouping</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="otu_mini_bin_results_rf.html">otu_mini_bin_results_rf</a></code> </p>
+        </td>
+        <td><p>Results from running the pipline with random forest on <code>otu_mini</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="otu_mini_bin_results_rpart2.html">otu_mini_bin_results_rpart2</a></code> </p>
+        </td>
+        <td><p>Results from running the pipline with rpart2 on <code>otu_mini</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="otu_mini_bin_results_svmRadial.html">otu_mini_bin_results_svmRadial</a></code> </p>
+        </td>
+        <td><p>Results from running the pipline with svmRadial on <code>otu_mini</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="otu_mini_bin_results_xgbTree.html">otu_mini_bin_results_xgbTree</a></code> </p>
+        </td>
+        <td><p>Results from running the pipline with xbgTree on <code>otu_mini</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="otu_mini_cont_results_glmnet.html">otu_mini_cont_results_glmnet</a></code> </p>
         </td>
         <td><p>Results from running the pipeline with glmnet on <code>otu_mini</code> with <code>Otu00001</code> as the outcome</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="otu_mini_cv2.html">otu_mini_cv2</a></code> </p>
+          <p><code><a href="otu_mini_cv.html">otu_mini_cv</a></code> </p>
         </td>
-        <td><p>2-fold cross validation on <code>train_data_mini</code> with grouped features</p></td>
+        <td><p>cross validation on <code>train_data_mini</code> with grouped features</p></td>
       </tr><tr>
         
         <td>
@@ -250,33 +302,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="otu_mini_results1.html">otu_mini_results1</a></code> </p>
+          <p><code><a href="otu_mini_multi_results_glmnet.html">otu_mini_multi_results_glmnet</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with L2 logistic regression on <code>otu_mini</code> with feature importance and grouping</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="otu_mini_results2.html">otu_mini_results2</a></code> </p>
-        </td>
-        <td><p>Results from running the pipline with random forest on <code>otu_mini</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="otu_mini_results3.html">otu_mini_results3</a></code> </p>
-        </td>
-        <td><p>Results from running the pipline with svmRadial on <code>otu_mini</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="otu_mini_results4.html">otu_mini_results4</a></code> </p>
-        </td>
-        <td><p>Results from running the pipline with xbgTree on <code>otu_mini</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="otu_mini_results5.html">otu_mini_results5</a></code> </p>
-        </td>
-        <td><p>Results from running the pipline with rpart2 on <code>otu_mini</code></p></td>
+        <td><p>Results from running the pipeline with glmnet on <code>otu_mini_multi</code> for multiclass outcomes</p></td>
       </tr><tr>
         
         <td>
