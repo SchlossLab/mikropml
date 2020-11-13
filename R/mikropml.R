@@ -18,6 +18,7 @@
 #'
 #' - [Introduction](http://www.schlosslab.org/mikropml/articles/introduction.html)
 #' - [Preprocessing data](http://www.schlosslab.org/mikropml/articles/preprocess.html)
+#' - [Hyperparamter tuning](http://www.schlosslab.org/mikropml/articles/tuning.html)
 #' - [Parallel processing](http://www.schlosslab.org/mikropml/articles/parallel.html)
 #' - [The mikropml paper](http://www.schlosslab.org/mikropml/articles/paper.html)
 #'

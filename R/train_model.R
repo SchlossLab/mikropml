@@ -52,7 +52,7 @@ train_model <- function(model_formula,
       if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
         warning(
           "`caret::train()` issued the following warning:\n \n", w, "\n",
-          "This warning usually means that the model didn't converge in some cross-validation folds",
+          "This warning usually means that the model didn't converge in some cross-validation folds ",
           "because it is predicting something close to a constant. ",
           "As a result, certain performance metrics can't be calculated. ",
           "This suggests that some of the hyperparameters chosen are doing very poorly."

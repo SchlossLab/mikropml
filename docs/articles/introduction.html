@@ -67,6 +67,9 @@
       <a href="../articles/preprocess.html">Preprocessing data</a>
     </li>
     <li>
+      <a href="../articles/tuning.html">Hyperparameter tuning</a>
+    </li>
+    <li>
       <a href="../articles/parallel.html">Parallel processing</a>
     </li>
   </ul>
@@ -205,12 +208,12 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation foldsbecause it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
 <p>You’ll notice a few things:</p>
 <ol style="list-style-type: decimal">
 <li>It takes a little while to run. This is because of some of the parameters we use.</li>
 <li>There is a message stating that ‘dx’ is being used as the outcome column. This is what we want, but it’s a nice sanity check!</li>
-<li>There was a warning. Don’t worry about this warning right now - it just means that some of the hyperparameters aren’t a good fit - but if you’re interested in learning more, head over to the hyperparameter tuning vignette to learn more [<strong>link to these once we have the vignette</strong>].</li>
+<li>There was a warning. Don’t worry about this warning right now - it just means that some of the hyperparameters aren’t a good fit - but if you’re interested in learning more, see <code><a href="../articles/tuning.html">vignette("tuning")</a></code>.</li>
 </ol>
 <p>Now, let’s dig into the output a bit. The results is a list of 4 things:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
@@ -286,7 +289,7 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation foldsbecause it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
 <p>You might have noticed that this one ran faster — that’s because we reduced <code>kfold</code> and <code>cv_times</code>. This is okay for testing things out, but in general it’s better to have these numbers be larger <span class="citation">(Topçuoğlu et al. 2020)</span>.</p>
 </div>
 <div id="changing-the-performance-metric" class="section level2">
@@ -316,7 +319,7 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation foldsbecause it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
 <p>You’ll see that the cross-validation metric is prAUC, instead of the default AUC:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="va">results_pr</span><span class="op">$</span><span class="va">performance</span>
@@ -362,7 +365,7 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation foldsbecause it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
 <p>Now, we can check out the feature importances:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span>
@@ -406,7 +409,7 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation foldsbecause it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span>
 <span class="va">results_imp_corr</span><span class="op">$</span><span class="va">feature_importance</span>
 <span class="co">#&gt;   perf_metric perf_metric_diff</span>
 <span class="co">#&gt; 1   0.6473684            0.000</span>
@@ -425,7 +428,7 @@
 <div id="tuning-hyperparameters-using-the-hyperparameter-argument" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tuning-hyperparameters-using-the-hyperparameter-argument" class="anchor"></a>Tuning hyperparameters (using the <code>hyperparameter</code> argument)</h1>
-<p>This is important, so we have a whole vignette about them. The bottom line is we provide default hyperparameters that you can start with, but it’s important to tune your hyperparameters. For more information about what the default hyperparameters are, and how to tune hyperparameters, check out the hyperparameter tuning vignette [<strong>link to this once we have the vignette</strong>].</p>
+<p>This is important, so we have a whole vignette about them. The bottom line is we provide default hyperparameters that you can start with, but it’s important to tune your hyperparameters. For more information about what the default hyperparameters are, and how to tune hyperparameters, see <code><a href="../articles/tuning.html">vignette("tuning")</a></code>.</p>
 </div>
 <div id="other-models" class="section level1">
 <h1 class="hasAnchor">
@@ -484,7 +487,7 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation foldsbecause it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></pre></div>
 <p>The performance metrics are slightly different, but the format of everything else is the same:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="va">results_multi</span><span class="op">$</span><span class="va">performance</span>
