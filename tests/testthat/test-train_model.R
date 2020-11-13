@@ -27,14 +27,13 @@ tg_rf <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "rf"), "rf")
 tg_lr <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "glmnet"), "glmnet")
 
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
-cv <- define_cv(otu_mini_results1$trained_model$trainingData %>%
-                  dplyr::rename(dx = .outcome),
-  "dx",
-  hparams_list,
-  perf_metric_function = caret::multiClassSummary,
-  class_probs = TRUE,
-  kfold = 2,
-  cv_times = 2
+cv <- define_cv(otu_mini_bin_results_glmnet$trained_model$trainingData %>%
+  dplyr::rename(dx = .outcome),
+"dx",
+hparams_list,
+perf_metric_function = caret::multiClassSummary,
+class_probs = TRUE,
+cv_times = 2
 )
 
 
@@ -45,9 +44,12 @@ test_that("train_model works", {
   expect_equal(
     train_model(
       stats::as.formula(paste("dx", "~ .")),
-      otu_mini_results1$trained_model$trainingData %>%
+      otu_mini_bin_results_glmnet$trained_model$trainingData %>%
         dplyr::rename(dx = .outcome),
-      "rf", cv, "AUC", tg_rf,
+      "rf",
+      cv,
+      "AUC",
+      tg_rf,
       1000
     )$bestTune,
     data.frame(mtry = 1L)
@@ -57,7 +59,7 @@ test_that("train_model works", {
   expect_equal(
     train_model(
       stats::as.formula(paste("dx", "~ .")),
-      otu_mini_results1$trained_model$trainingData %>%
+      otu_mini_bin_results_glmnet$trained_model$trainingData %>%
         dplyr::rename(dx = .outcome),
       "rpart2", cv, "AUC",
       tg_rpart2, NULL
@@ -70,7 +72,7 @@ test_that("train_model works", {
     expect_warning(
       train_model(
         stats::as.formula(paste("dx", "~ .")),
-        otu_mini_results1$trained_model$trainingData %>%
+        otu_mini_bin_results_glmnet$trained_model$trainingData %>%
           dplyr::rename(dx = .outcome),
         "glmnet", cv, "AUC", tg_lr, NULL
       )$bestTune$lambda,

@@ -24,13 +24,13 @@ run_ml(
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
 
 \item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; will be chosen automatically).}
 
-\item{find_feature_importance}{Run permutation imporance (default: \code{FALSE}). This is recommended, but it is resource-intensive.}
+\item{find_feature_importance}{Run permutation imporance (default: \code{FALSE}). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.}
 
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
@@ -38,7 +38,7 @@ run_ml(
 
 \item{training_frac}{Fraction of data for training set (default: \code{0.8}). The remaining data will be used in the testing set.}
 
-\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
@@ -51,11 +51,29 @@ run_ml(
 \item{seed}{Random seed (default: \code{NA}). Your results will be reproducible if you set a seed.}
 }
 \value{
-named list with results
+Named list with results:
+\itemize{
+\item \code{trained_model}: Output of \code{\link[caret:train]{caret::train()}}, including the best model.
+\item \code{test_data}: Part of the data that was used for testing.
+\item \code{performance}: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data.
+\item \code{feature_importance}: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome.
+}
 }
 \description{
-TODO: more details
+This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in \href{https://mbio.asm.org/content/11/3/e00434-20/}{this} paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method.
+See \code{vignette('introduction')} for more details.
 }
+\section{More details}{
+
+For more details, please see the corresponding vignettes:
+\itemize{
+\item \href{http://www.schlosslab.org/mikropml/articles/}{All vignettes}.
+\item \href{http://www.schlosslab.org/mikropml/articles/introduction.html}{Intro vignette}.
+\item \href{http://www.schlosslab.org/mikropml/articles/parallel.html}{Parallel vignette} to make it run faster.
+\item \href{https://github.com/SchlossLab/mikropml-snakemake-workflow}{Snakemake workflow} for high-performance computing clusters.
+}
+}
+
 \examples{
 \dontrun{
 run_ml(otu_small, "glmnet",

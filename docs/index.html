@@ -46,8 +46,30 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="divider">
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -76,7 +98,7 @@
 <p>meek-ROPE em el</p>
 </blockquote>
 <!-- badges: start -->
-<p><a href="https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster"><img src="https://github.com/SchlossLab/mikropml/workflows/check/badge.svg" alt="check"></a> <a href="https://codecov.io/gh/SchlossLab/mikropml"><img src="https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg" alt="codecov"></a> <a href="http://www.schlosslab.org/mikropml/"><img src="https://img.shields.io/badge/docs-here-brightgreen" alt="docs"></a> <a href="LICENSE.html"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle: experimental"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster"><img src="https://github.com/SchlossLab/mikropml/workflows/check/badge.svg" alt="check"></a> <a href="https://codecov.io/gh/SchlossLab/mikropml"><img src="https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg" alt="codecov"></a> <a href="http://www.schlosslab.org/mikropml/"><img src="https://img.shields.io/badge/docs-here-brightgreen" alt="docs"></a> <a href="LICENSE.html"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle: maturing"></a> <!-- badges: end --></p>
 <p>User-Friendly R Package for Robust Machine Learning Pipelines</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -90,7 +112,7 @@
 <a href="#dependencies" class="anchor"></a>Dependencies</h3>
 <ul>
 <li>Imports: caret, dplyr, LiblineaR, rlang, stats, utils</li>
-<li>Suggests: doFuture, e1071, foreach, future, future.apply, glmnet, ggplot2, kernlab, knitr, MLmetrics, randomForest, rmarkdown, rpart, testthat, tidyr, xgboost</li>
+<li>Suggests: doFuture, e1071, foreach, future, future.apply, glmnet, ggplot2, kernlab, knitr, MLmetrics, purrr, randomForest, rmarkdown, rpart, testthat, tidyr, xgboost</li>
 </ul>
 </div>
 </div>

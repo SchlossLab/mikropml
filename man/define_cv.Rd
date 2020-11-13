@@ -2,7 +2,7 @@
 % Please edit documentation in R/cross_val.R
 \name{define_cv}
 \alias{define_cv}
-\title{Define Cross-Validation Scheme and Training Parameters}
+\title{Define cross-validation scheme and training parameters}
 \usage{
 define_cv(
   train_data,
@@ -16,15 +16,15 @@ define_cv(
 )
 }
 \arguments{
-\item{train_data}{Dataframe for training model}
+\item{train_data}{Dataframe for training model.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; will be chosen automatically).}
+\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
 
-\item{hyperparams_list}{named list of lists of hyperparameters}
+\item{hyperparams_list}{Named list of lists of hyperparameters.}
 
-\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \link[caret]{defaultSummary}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
+\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
 
-\item{class_probs}{Whether the \verb{\link[caret]\{trainControl\}} \code{classProbs} argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)}
+\item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
 
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
@@ -36,20 +36,21 @@ define_cv(
 Caret object for trainControl that controls cross-validation
 }
 \description{
-Define Cross-Validation Scheme and Training Parameters
+Define cross-validation scheme and training parameters
 }
 \examples{
-training_inds <- get_partition_indices(otu_small \%>\% dplyr::pull('dx'),
-                                       training_frac = 0.8,
-                                       groups = NULL)
+training_inds <- get_partition_indices(otu_small \%>\% dplyr::pull("dx"),
+  training_frac = 0.8,
+  groups = NULL
+)
 train_data <- otu_small[training_inds, ]
 test_data <- otu_small[-training_inds, ]
 cv <- define_cv(train_data,
-                outcome_colname = "dx",
-                hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
-                perf_metric_function = caret::multiClassSummary,
-                class_probs = TRUE,
-               kfold = 5
+  outcome_colname = "dx",
+  hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
+  perf_metric_function = caret::multiClassSummary,
+  class_probs = TRUE,
+  kfold = 5
 )
 }
 \author{

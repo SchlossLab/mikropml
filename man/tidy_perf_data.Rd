@@ -10,10 +10,25 @@ tidy_perf_data(performance_df)
 \item{performance_df}{dataframe of performance results from multiple calls to \code{run_ml()}}
 }
 \value{
-Tidy dataframe with model performance metrics
+Tidy dataframe with model performance metrics.
 }
 \description{
-Used by \code{plot_performance()}.
+Used by \code{plot_model_performance()}.
+}
+\examples{
+\dontrun{
+# call `run_ml()` multiple times with different seeds
+results_lst <- lapply(seq(100, 104), function(seed) {
+  run_ml(otu_small, "glmnet", seed = seed)
+})
+# extract and combine the performance results
+perf_df <- lapply(results_lst, function(result) {
+  result[["performance"]]
+}) \%>\%
+  dplyr::bind_rows()
+# make it pretty!
+tidy_perf_data(perf_df)
+}
 }
 \author{
 Begüm Topçuoglu, \email{topcuoglu.begum@gmail.com}

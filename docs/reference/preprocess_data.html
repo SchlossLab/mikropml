@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Preprocess data prior to running machine learning — preprocess_data" />
-<meta property="og:description" content="Preprocess data prior to running machine learning" />
+<meta property="og:description" content="Function to preprocess your data for input into run_ml()." />
 
 
 
@@ -87,8 +87,30 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -117,7 +139,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Preprocess data prior to running machine learning</p>
+    <p>Function to preprocess your data for input into <code><a href='run_ml.html'>run_ml()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>preprocess_data</span><span class='op'>(</span>
@@ -135,37 +157,48 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dataset</th>
-      <td><p>dataframe where rows are samples and colums are the outcome variable and features</p></td>
+      <td><p>Dataframe with an outcome variable and other columns as features.</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>column name as a string of the outcome variable</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; the first column will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>methods to preprocess the data, described in <code><a href='https://rdrr.io/pkg/caret/man/preProcess.html'>caret::preProcess</a></code> (defaut: <code><a href='https://rdrr.io/r/base/c.html'>c("center","scale")</a></code>, use <code>NULL</code> for no normalization)</p></td>
+      <td><p>Methods to preprocess the data, described in <code><a href='https://rdrr.io/pkg/caret/man/preProcess.html'>caret::preProcess()</a></code> (defaut: <code><a href='https://rdrr.io/r/base/c.html'>c("center","scale")</a></code>, use <code>NULL</code> for no normalization).</p></td>
     </tr>
     <tr>
       <th>remove_var</th>
-      <td><p>whether to remove variables with near-zero variance (<code>'nzv'</code>; default), zero variance (<code>'zv'</code>), or none (<code>NULL</code>)</p></td>
+      <td><p>Whether to remove variables with near-zero variance (<code>'nzv'</code>; default), zero variance (<code>'zv'</code>), or none (<code>NULL</code>).</p></td>
     </tr>
     <tr>
       <th>collapse_corr_feats</th>
-      <td><p>whether to keep only one of perfectly correlated features</p></td>
+      <td><p>Whether to keep only one of perfectly correlated features.</p></td>
     </tr>
     <tr>
       <th>to_numeric</th>
-      <td><p>whether to change features to numeric where possible</p></td>
+      <td><p>Whether to change features to numeric where possible.</p></td>
     </tr>
     <tr>
       <th>group_neg_corr</th>
-      <td><p>whether to group negatively correlated features together (e.g. c(0,1) and c(1,0))</p></td>
+      <td><p>Whether to group negatively correlated features together (e.g. c(0,1) and c(1,0)).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>preprocessed data</p>
+    <p>Named list including:</p><ul>
+<li><p><code>dat_transformed</code>: Preprocessed data.</p></li>
+<li><p><code>grp_feats</code>: If features were grouped together, a named list of the features corresponding to each group.</p></li>
+<li><p><code>removed_feats</code>: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="more-details"><a class="anchor" href="#more-details"></a>More details</h2>
+
+    
+
+
+<p>For more details, please see the <a href='http://www.schlosslab.org/mikropml/articles/preprocess.html'>preprocessing vignette</a>.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>

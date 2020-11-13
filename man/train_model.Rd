@@ -15,25 +15,28 @@ train_model(
 )
 }
 \arguments{
-\item{model_formula}{model formula}
+\item{model_formula}{Model formula.}
 
-\item{train_data}{train_data}
+\item{train_data}{Training data.}
 
-\item{method}{method}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.}
 
-\item{cv}{cross-validation caret scheme}
+\item{cv}{Cross-validation caret scheme.}
 
 \item{perf_metric_name}{The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = \code{"ROC"}, multi-class classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
-\item{tune_grid}{tuning grid}
+\item{tune_grid}{Tuning grid.}
 
 \item{ntree}{For random forest, how many trees to use (default: 1000). Note that caret doesn't allow this parameter to be tuned.}
 }
 \value{
-trained model
+Trained model from \code{\link[caret:train]{caret::train()}}.
 }
 \description{
-Train model
+Train model using \code{\link[caret:train]{caret::train()}}.
+}
+\details{
+TODO: Add example.
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

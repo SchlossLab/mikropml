@@ -1,9 +1,9 @@
-#' Define Cross-Validation Scheme and Training Parameters
+#' Define cross-validation scheme and training parameters
 #'
-#' @param train_data Dataframe for training model
-#' @param class_probs Whether the `\link[caret]{trainControl}` `classProbs` argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)
+#' @param train_data Dataframe for training model.
 #' @inheritParams run_ml
 #' @inheritParams get_tuning_grid
+#' @inheritParams calc_perf_metrics
 #'
 #' @return Caret object for trainControl that controls cross-validation
 #' @export
@@ -11,29 +11,31 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' training_inds <- get_partition_indices(otu_small %>% dplyr::pull('dx'),
-#'                                        training_frac = 0.8,
-#'                                        groups = NULL)
+#' training_inds <- get_partition_indices(otu_small %>% dplyr::pull("dx"),
+#'   training_frac = 0.8,
+#'   groups = NULL
+#' )
 #' train_data <- otu_small[training_inds, ]
 #' test_data <- otu_small[-training_inds, ]
 #' cv <- define_cv(train_data,
-#'                 outcome_colname = "dx",
-#'                 hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
-#'                 perf_metric_function = caret::multiClassSummary,
-#'                 class_probs = TRUE,
-#'                kfold = 5
+#'   outcome_colname = "dx",
+#'   hyperparams_list = get_hyperparams_list(otu_small, "glmnet"),
+#'   perf_metric_function = caret::multiClassSummary,
+#'   class_probs = TRUE,
+#'   kfold = 5
 #' )
 define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL) {
   if (is.null(groups)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
-                                                dplyr::pull(outcome_colname)),
-                                       kfold,
-                                       times = cv_times
-                                       )
+      dplyr::pull(outcome_colname)),
+    kfold,
+    times = cv_times
+    )
   } else {
     cvIndex <- create_grouped_k_multifolds(groups,
-                                           kfold = kfold,
-                                           cv_times = cv_times)
+      kfold = kfold,
+      cv_times = cv_times
+    )
   }
 
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))

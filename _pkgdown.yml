@@ -1,7 +1,12 @@
 url: http://www.schlosslab.org/mikropml
 destination: docs
 articles:
-    - title: All vignettes
+    - title: Paper
+      navbar: Paper
+      contents:
+          - paper
+    - title: Vignettes
+      navbar: Vignettes
       contents:
           - introduction
           - preprocess

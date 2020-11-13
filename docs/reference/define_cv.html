@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Define Cross-Validation Scheme and Training Parameters — define_cv • mikropml</title>
+<title>Define cross-validation scheme and training parameters — define_cv • mikropml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Define Cross-Validation Scheme and Training Parameters — define_cv" />
-<meta property="og:description" content="Define Cross-Validation Scheme and Training Parameters" />
+<meta property="og:title" content="Define cross-validation scheme and training parameters — define_cv" />
+<meta property="og:description" content="Define cross-validation scheme and training parameters" />
 
 
 
@@ -87,8 +87,30 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -111,13 +133,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Define Cross-Validation Scheme and Training Parameters</h1>
+    <h1>Define cross-validation scheme and training parameters</h1>
     <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/cross_val.R'><code>R/cross_val.R</code></a></small>
     <div class="hidden name"><code>define_cv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Define Cross-Validation Scheme and Training Parameters</p>
+    <p>Define cross-validation scheme and training parameters</p>
     </div>
 
     <pre class="usage"><span class='fu'>define_cv</span><span class='op'>(</span>
@@ -136,23 +158,23 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>train_data</th>
-      <td><p>Dataframe for training model</p></td>
+      <td><p>Dataframe for training model.</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; the first column will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>hyperparams_list</th>
-      <td><p>named list of lists of hyperparameters</p></td>
+      <td><p>Named list of lists of hyperparameters.</p></td>
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <code><a href='https://rdrr.io/pkg/caret/man/postResample.html'>caret::defaultSummary()</a></code>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>class_probs</th>
-      <td><p>Whether the <code>\link[caret]{trainControl}</code> <code>classProbs</code> argument should be TRUE or FALSE (TRUE for classification, FALSE for regression)</p></td>
+      <td><p>Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).</p></td>
     </tr>
     <tr>
       <th>kfold</th>
@@ -177,17 +199,18 @@
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_partition_indices.html'>get_partition_indices</a></span><span class='op'>(</span><span class='va'>otu_small</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='st'>'dx'</span><span class='op'>)</span>,
-                                       training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
-                                       groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_partition_indices.html'>get_partition_indices</a></span><span class='op'>(</span><span class='va'>otu_small</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='st'>"dx"</span><span class='op'>)</span>,
+  training_frac <span class='op'>=</span> <span class='fl'>0.8</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 <span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_small</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span>
 <span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_small</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span>
 <span class='va'>cv</span> <span class='op'>&lt;-</span> <span class='fu'>define_cv</span><span class='op'>(</span><span class='va'>train_data</span>,
-                outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,
-                hyperparams_list <span class='op'>=</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span><span class='op'>)</span>,
-                perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>multiClassSummary</a></span>,
-                class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>,
-               kfold <span class='op'>=</span> <span class='fl'>5</span>
+  outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,
+  hyperparams_list <span class='op'>=</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span><span class='op'>)</span>,
+  perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>multiClassSummary</a></span>,
+  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  kfold <span class='op'>=</span> <span class='fl'>5</span>
 <span class='op'>)</span>
 </div></pre>
   </div>

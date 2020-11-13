@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Run the machine learning pipeline — run_ml" />
-<meta property="og:description" content="TODO: more details" />
+<meta property="og:description" content="This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in this paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method." />
 
 
 
@@ -87,8 +87,30 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li class="dropdown-header">Paper</li>
+    <li>
+      <a href="../articles/paper.html">mikropml: User-Friendly R Package for Robust Machine Learning Pipelines</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Vignettes</li>
+    <li>
+      <a href="../articles/introduction.html">Introduction to mikropml</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess.html">Preprocessing data</a>
+    </li>
+    <li>
+      <a href="../articles/parallel.html">Parallel processing</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -117,7 +139,7 @@
     </div>
 
     <div class="ref-description">
-    <p>TODO: more details</p>
+    <p>This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in <a href='https://mbio.asm.org/content/11/3/e00434-20/'>this</a> paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method.</p>
     </div>
 
     <pre class="usage"><span class='fu'>run_ml</span><span class='op'>(</span>
@@ -146,11 +168,11 @@
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code></p></td>
+      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code>.</p></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; the first column will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>hyperparameters</th>
@@ -158,7 +180,7 @@
     </tr>
     <tr>
       <th>find_feature_importance</th>
-      <td><p>Run permutation imporance (default: <code>FALSE</code>). This is recommended, but it is resource-intensive.</p></td>
+      <td><p>Run permutation imporance (default: <code>FALSE</code>). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.</p></td>
     </tr>
     <tr>
       <th>kfold</th>
@@ -174,7 +196,7 @@
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <a href='https://rdrr.io/pkg/caret/man/postResample.html'>defaultSummary</a>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <code><a href='https://rdrr.io/pkg/caret/man/postResample.html'>caret::defaultSummary()</a></code>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>perf_metric_name</th>
@@ -200,7 +222,24 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named list with results</p>
+    <p>Named list with results:</p><ul>
+<li><p><code>trained_model</code>: Output of <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>, including the best model.</p></li>
+<li><p><code>test_data</code>: Part of the data that was used for testing.</p></li>
+<li><p><code>performance</code>: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data.</p></li>
+<li><p><code>feature_importance</code>: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="more-details"><a class="anchor" href="#more-details"></a>More details</h2>
+
+    
+
+<p>For more details, please see the corresponding vignettes:</p><ul>
+<li><p><a href='http://www.schlosslab.org/mikropml/articles/'>All vignettes</a>.</p></li>
+<li><p><a href='http://www.schlosslab.org/mikropml/articles/introduction.html'>Intro vignette</a>.</p></li>
+<li><p><a href='http://www.schlosslab.org/mikropml/articles/parallel.html'>Parallel vignette</a> to make it run faster.</p></li>
+<li><p><a href='https://github.com/SchlossLab/mikropml-snakemake-workflow'>Snakemake workflow</a> for high-performance computing clusters.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>

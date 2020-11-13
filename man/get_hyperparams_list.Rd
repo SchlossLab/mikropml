@@ -9,18 +9,18 @@ get_hyperparams_list(dataset, method)
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}}
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.}
 }
 \value{
-named list of hyperparameters
+Named list of hyperparameters.
 }
 \description{
 Set hyperparameters based on ML method and dataset characteristics
 }
 \examples{
-get_hyperparams_list(otu_mini, "rf")
+get_hyperparams_list(otu_mini_bin, "rf")
 get_hyperparams_list(otu_small, "rf")
-get_hyperparams_list(otu_mini, "rpart2")
+get_hyperparams_list(otu_mini_bin, "rpart2")
 get_hyperparams_list(otu_small, "rpart2")
 }
 \author{

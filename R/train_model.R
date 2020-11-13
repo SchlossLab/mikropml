@@ -1,15 +1,21 @@
 #' Train model
 #'
-#' @param model_formula model formula
-#' @param train_data train_data
-#' @param method method
-#' @param cv cross-validation caret scheme
-#' @param tune_grid tuning grid
+#' Train model using [caret::train()].
+#'
+#' TODO: Add example.
+#'
+#' @param model_formula Model formula.
+#' @param train_data Training data.
+#' @param cv Cross-validation caret scheme.
+#' @param tune_grid Tuning grid.
 #'
 #' @inheritParams run_ml
 #'
-#' @return trained model
+#' @return Trained model from [caret::train()].
+#'
 #' @export
+#'
+#'
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 train_model <- function(model_formula,
