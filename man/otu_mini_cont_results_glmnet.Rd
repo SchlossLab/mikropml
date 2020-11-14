@@ -3,7 +3,7 @@
 \docType{data}
 \name{otu_mini_cont_results_glmnet}
 \alias{otu_mini_cont_results_glmnet}
-\title{Results from running the pipeline with glmnet on \code{otu_mini} with \code{Otu00001} as the outcome}
+\title{Results from running the pipeline with glmnet on \code{otu_mini_bin} with \code{Otu00001} as the outcome}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 4.
 otu_mini_cont_results_glmnet
 }
 \description{
-Results from running the pipeline with glmnet on \code{otu_mini} with \code{Otu00001} as the outcome
+Results from running the pipeline with glmnet on \code{otu_mini_bin} with \code{Otu00001} as the outcome
 }
 \keyword{datasets}
