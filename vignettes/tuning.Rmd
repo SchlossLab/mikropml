@@ -142,7 +142,7 @@ The output for all of them is very similar, so we won't go into those details.
 
 ### Regression
 
-As mentioned above, `glmnet` uses the `alpha` and `lambda` hyperparameters.
+As mentioned above, `glmnet` uses the `alpha` parameter and `lambda` hyperparameter.
 `alpha` of `0` is for L2 regularization (ridge).
 `alpha` of `1` is for L1 regularization (lasso).
 The default hyperparameters chosen by `run_ml()` are fixed for `glmnet`.
