@@ -33,10 +33,10 @@ test_that("find_permuted_perf_metric works", {
   )
   expect_equal(
     find_permuted_perf_metric(otu_mini_bin_results_glmnet$test_data %>% dplyr::as_tibble(),
-                              otu_mini_bin_results_glmnet$trained_model,
-                              "dx", caret::multiClassSummary,
-                              "AUC", TRUE, "Otu00009",
-                              seed = 2019
+      otu_mini_bin_results_glmnet$trained_model,
+      "dx", caret::multiClassSummary,
+      "AUC", TRUE, "Otu00009",
+      seed = 2019
     ),
     c(perf_metric = 0.639105263, perf_metric_diff = 0.008263158),
     tol = 10e-5
