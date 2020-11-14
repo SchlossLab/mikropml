@@ -20,3 +20,46 @@ authors:
         href: "https://github.com/kelly-sovacool"
     Patrick Schloss:
         href: "https://github.com/pschloss"
+reference:
+    - title: Main functions
+    - contents:
+        - preprocess_data
+        - run_ml
+    - title: Plotting helpers
+    - contents:
+        - starts_with('plot')
+        - tidy_perf_data
+        - get_hp_performance
+        - combine_hp_performance
+    - title: Package Data
+    - contents:
+        - subtitle: datasets
+        - contents:
+            - otu_small
+            - otu_mini_bin
+            - otu_mini_multi
+        - subtitle: ML results
+        - contents:
+            - contains("results")
+        - subtitle: misc
+        - contents:
+            - otu_mini_cv
+    - title: Pipeline customization
+    - desc: >
+        These are functions called by preprocess_data() or run_ml().
+        We make them available in case you would like to customize various steps
+        of the pipeline beyond the options set in run_ml().
+    - contents:
+        - get_caret_processed_df
+        - randomize_feature_order
+        - get_partition_indices
+        - get_outcome_type
+        - get_tuning_grid
+        - define_cv
+        - get_perf_metric_name
+        - get_perf_metric_fn
+        - train_model
+        - calc_perf_metrics
+        - get_performance_tbl
+        - get_corr_feats
+        - get_feature_importance
