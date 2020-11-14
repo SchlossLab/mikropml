@@ -22,6 +22,8 @@ authors:
         href: "https://github.com/pschloss"
 reference:
 - title: Main
+  desc: >
+    These functions provide all you need to build robust machine learning models.
   contents:
   - mikropml
   - preprocess_data
