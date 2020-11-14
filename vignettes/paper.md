@@ -58,7 +58,7 @@ vignette: >
 Machine learning (ML) for classification and prediction based on a set of features is used to make decisions in healthcare, economics, criminal justice and more. 
 However, implementing a robust ML pipeline can be time-consuming, confusing, and difficult. 
 Here, we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced "meek-ROPE em el"), an easy-to-use R package that implements robust ML pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees.
-The package is available on [GitHub](https://github.com/SchlossLab/mikropml/) and CRAN [**link to CRAN**]. 
+The package is available on [GitHub](https://github.com/SchlossLab/mikropml/) and CRAN. 
 
 # Statement of need
 
@@ -74,7 +74,7 @@ Furthermore, these packages do not offer a unified way to identify features that
 To enable a broader range of researchers to perform robust ML analyses, we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use package in R [@r_core_team_r_2020] that implements the ML framework created by Topçuoğlu _et al._ [@topcuoglu_framework_2020]. 
 `mikropml` leverages the `caret` package to support several ML algorithms:
 linear regression, logistic regression, support vector machine with a radial basis kernel, decision tree, random forest, and gradient boosted trees.
-It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;@teschendorff_avoiding_2019]. <!-- @Begum should we cite something else here [as well]? --  Added 1 more but Jenna might have opinions on this -->
+It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;@teschendorff_avoiding_2019].
 Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang _et al._ [@tang_democratizing_2020] 
 and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
 
