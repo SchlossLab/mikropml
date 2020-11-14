@@ -35,9 +35,14 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 
   grps <- group_correlated_features(corr_mat, features)
 
-  imps <- do.call("rbind", future.apply::future_lapply(grps, function(feat) {
-    return(find_permuted_perf_metric(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat, seed))
-  }, future.seed = seed))
+  imps <- future.apply::future_lapply(grps, function(feat) {
+    return(find_permuted_perf_metric(
+      test_data, trained_model, outcome_colname,
+      perf_metric_function, perf_metric_name,
+      class_probs, feat, seed
+    ))
+  }, future.seed = seed) %>%
+    dplyr::bind_rows()
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
@@ -60,11 +65,24 @@ get_feature_importance <- function(trained_model, train_data, test_data, outcome
 #' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname, perf_metric_function, perf_metric_name, class_probs, feat, seed) {
   abort_packages_not_installed("future.apply")
+
+  # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
+  # We should probably refactor those to use tidyverse functions instead,
+  # but for now this is a temporary fix.
+  test_data <- as.data.frame(test_data)
+
   # Calculate the test performance metric for the actual pre-processed held-out data
-  test_perf_metric <- calc_perf_metrics(test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
+  test_perf_metric <- calc_perf_metrics(
+    test_data,
+    trained_model,
+    outcome_colname,
+    perf_metric_function,
+    class_probs
+  )[perf_metric_name]
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
@@ -79,7 +97,13 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
       permuted_test_data[, fs] <- t(sample(data.frame(t(permuted_test_data[, fs]))))
     }
     # Calculate the new performance metric
-    new_perf_metric <- calc_perf_metrics(permuted_test_data, trained_model, outcome_colname, perf_metric_function, class_probs)[perf_metric_name]
+    new_perf_metric <- calc_perf_metrics(
+      permuted_test_data,
+      trained_model,
+      outcome_colname,
+      perf_metric_function,
+      class_probs
+    )[perf_metric_name]
     # Return how does this feature being permuted effect the performance metric
     return(c(new_perf_metric = new_perf_metric, diff = (test_perf_metric - new_perf_metric)))
   }, future.seed = seed)

@@ -22,14 +22,13 @@ running machine learning, and \code{run_ml()} to run machine learning.
 }
 }
 
-\section{See also}{
+\section{See vignettes}{
 
 \itemize{
-\item \href{http://www.schlosslab.org/mikropml/articles/}{All vignettes}.
-\item \href{http://www.schlosslab.org/mikropml/articles/introduction.html}{Intro vignette}.
-\item \href{http://www.schlosslab.org/mikropml/articles/parallel.html}{Parallel vignette} to make it run faster.
-\item \href{https://github.com/SchlossLab/mikropml-snakemake-workflow}{Snakemake workflow} for high-performance computing clusters.
-\item \href{http://www.schlosslab.org/mikropml/articles/paper.html}{The mikropml paper}.
+\item \href{http://www.schlosslab.org/mikropml/articles/introduction.html}{Introduction}
+\item \href{http://www.schlosslab.org/mikropml/articles/preprocess.html}{Preprocessing data}
+\item \href{http://www.schlosslab.org/mikropml/articles/parallel.html}{Parallel processing}
+\item \href{http://www.schlosslab.org/mikropml/articles/paper.html}{The mikropml paper}
 }
 }
 
