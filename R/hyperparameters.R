@@ -44,6 +44,8 @@ get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
 
 #' Set hyperparameters based on ML method and dataset characteristics
 #'
+#' For more details see the vignette on [hyperparameter tuning](http://www.schlosslab.org/mikropml/articles/tuning.html).
+#'
 #' @inheritParams run_ml
 #'
 #' @return Named list of hyperparameters.

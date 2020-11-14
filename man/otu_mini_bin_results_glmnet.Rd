@@ -3,7 +3,7 @@
 \docType{data}
 \name{otu_mini_bin_results_glmnet}
 \alias{otu_mini_bin_results_glmnet}
-\title{Results from running the pipline with L2 logistic regression on \code{otu_mini} with feature importance and grouping}
+\title{Results from running the pipline with L2 logistic regression on \code{otu_mini_bin} with feature importance and grouping}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 4.
 otu_mini_bin_results_glmnet
 }
 \description{
-Results from running the pipline with L2 logistic regression on \code{otu_mini} with feature importance and grouping
+Results from running the pipline with L2 logistic regression on \code{otu_mini_bin} with feature importance and grouping
 }
 \keyword{datasets}

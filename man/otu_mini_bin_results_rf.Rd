@@ -3,7 +3,7 @@
 \docType{data}
 \name{otu_mini_bin_results_rf}
 \alias{otu_mini_bin_results_rf}
-\title{Results from running the pipline with random forest on \code{otu_mini}}
+\title{Results from running the pipline with random forest on \code{otu_mini_bin}}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 4.
 otu_mini_bin_results_rf
 }
 \description{
-Results from running the pipline with random forest on \code{otu_mini}
+Results from running the pipline with random forest on \code{otu_mini_bin}
 }
 \keyword{datasets}

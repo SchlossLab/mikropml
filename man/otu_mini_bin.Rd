@@ -13,7 +13,8 @@ All other columns are OTU relative abundances.
 otu_mini_bin
 }
 \description{
-A dataset containing relatives abundances of OTUs for human stool samples.
+A dataset containing relatives abundances of OTUs for human stool samples
+with a binary outcome, \code{dx}.
 This is a subset of \code{otu_small}.
 }
 \keyword{datasets}

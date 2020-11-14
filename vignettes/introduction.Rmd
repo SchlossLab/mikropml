@@ -130,7 +130,7 @@ You'll notice a few things:
 
 1. It takes a little while to run. This is because of some of the parameters we use.
 1. There is a message stating that 'dx' is being used as the outcome column. This is what we want, but it's a nice sanity check!
-1. There was a warning. Don't worry about this warning right now - it just means that some of the hyperparameters aren't a good fit - but if you're interested in learning more, head over to the hyperparameter tuning vignette to learn more [**link to these once we have the vignette**].
+1. There was a warning. Don't worry about this warning right now - it just means that some of the hyperparameters aren't a good fit - but if you're interested in learning more, see `vignette("tuning")`.
 
 Now, let's dig into the output a bit.
 The results is a list of 4 things:
@@ -338,8 +338,7 @@ You can see what features were permuted together in the `names` column. Here all
 
 This is important, so we have a whole vignette about them.
 The bottom line is we provide default hyperparameters that you can start with, but it's important to tune your hyperparameters.
-For more information about what the default hyperparameters are, and how to tune hyperparameters,
-check out the hyperparameter tuning vignette [**link to this once we have the vignette**].
+For more information about what the default hyperparameters are, and how to tune hyperparameters, see `vignette("tuning")`.
 
 # Other models
 
