@@ -41,8 +41,6 @@
 #' @examples
 #' \dontrun{
 #' run_ml(otu_small, "glmnet",
-#'   kfold = 2,
-#'   cv_times = 2,
 #'   seed = 2019
 #' )
 #' }
