@@ -43,7 +43,7 @@ URL: http://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
 BugReports: https://github.com/SchlossLab/mikropml/issues
 Description: An interface to build machine learning models for classification 
     and regression problems. mikropml implements a robust ML pipeline with 
-    reasonable default options for data pre-processing, hyperparameter tuning, 
+    reasonable default options for data preprocessing, hyperparameter tuning, 
     cross-validation, testing, model evaluation, and interpretation steps. 
     See the website for more information, documentation, and examples.
 License: MIT + file LICENSE
