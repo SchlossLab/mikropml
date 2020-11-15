@@ -15,7 +15,7 @@ get_hyperparams_list(dataset, method)
 Named list of hyperparameters.
 }
 \description{
-Set hyperparameters based on ML method and dataset characteristics
+For more details see the vignette on \href{http://www.schlosslab.org/mikropml/articles/tuning.html}{hyperparameter tuning}.
 }
 \examples{
 get_hyperparams_list(otu_mini_bin, "rf")
