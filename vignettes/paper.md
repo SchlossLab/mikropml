@@ -107,7 +107,7 @@ It also provides the option to split the data into train and test sets based on 
 `mikropml` uses the `caret` package [@kuhn_building_2008] to train and evaluate the model, and optionally quantifies feature importance.
 The output includes the best model built based on tuning hyperparameters in an internal and repeated cross-validation step, model evaluation metrics, and optional feature importances (Figure 1). 
 The quantification of feature importance using permutation allows the calculation of the decrease in the model's prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation [@topcuoglu_framework_2020]. 
-Our [vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) contains a comprehensive tutorial on how to use `run_ml()`.
+Our [introductory vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) contains a comprehensive tutorial on how to use `run_ml()`.
 
 ![mikropml pipeline](mikRopML-pipeline.png){width=100%}
 
@@ -123,6 +123,7 @@ One particularly important aspect of ML is hyperparameter tuning.
 Practitioners must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset.
 Therefore, we provide a function `plot_hp_performance()` to plot the cross-validation performance metric of models built using different train/test splits to evaluate if we are exhausing our hyperparameter search range to pick the ideal one. 
 We also provide summary plots of test performance metrics for the many train/test splits with different models using `plot_model_performance()`.
+Examples are described in the accompanying [vignette on hyperparameter tuning](http://www.schlosslab.org/mikropml/articles/tuning.html).
 
 ## Dependencies
 
