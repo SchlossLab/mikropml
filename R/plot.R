@@ -101,7 +101,7 @@ tidy_perf_data <- function(performance_df) {
     )))
 }
 
-#' Get hyperparameter peformance metrics
+#' Get hyperparameter performance metrics
 #'
 #' @param trained_model trained model (e.g. from `run_ml()`)
 #'

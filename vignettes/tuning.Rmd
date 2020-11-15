@@ -128,7 +128,7 @@ hp_metrics <- combine_hp_performance(models)
 plot_hp_performance(hp_metrics$dat, lambda, AUC)
 ```
 
-As you can see, we get a mean maxima at 0.3 which is the best `lambda` value for this dataset when we run 3 datasplits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more datasplits. 
+As you can see, we get a mean maxima at 0.3 which is the best `lambda` value for this dataset when we run 3 data splits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more datasplits. 
 
 ## Hyperparameter options
 

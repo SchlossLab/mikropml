@@ -147,7 +147,7 @@ As you can see from this output, in this case the features are treated as groups
 
 ## Collapse perfectly correlated features
 
-By default, `preprocess_data()` collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those feautres does not add information to machine learning, and it makes `run_ml` faster.
+By default, `preprocess_data()` collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those features does not add information to machine learning, and it makes `run_ml` faster.
 
 ```{r}
 # raw correlated dataset

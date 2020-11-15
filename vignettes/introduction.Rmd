@@ -82,7 +82,7 @@ The methods we have tested (and their backend packages) are:
 - Random forest (`"rf"`)
 - Decision tree (`"rpart2"`)
 - Support vector machine with a linear basis kernel (`"svmRadial"`)
-- xgBoost (`"xgbTree"`)
+- xgboost (`"xgbTree"`)
 
 For documentation on these methods, as well as many others, you can look at the
 [available models](https://topepo.github.io/caret/available-models.html)
@@ -91,7 +91,7 @@ While we have not vetted the other models used by `caret`, our function is gener
 While we can't promise that we can help with other models,
 feel free to [open an issue on GitHub](https://github.com/SchlossLab/mikropml/issues) if you have questions about other models and we _might_ be able to help.
 
-We will focus on `glmnet` which is our defualt implementation of L2-regularized logistic regression. here, then cover a few other examples towards the end.
+We will focus on `glmnet` which is our default implementation of L2-regularized logistic regression. here, then cover a few other examples towards the end.
 
 # Before running ML
 
@@ -161,7 +161,7 @@ head(results$test_data)
 results$performance
 ```
 
-When using logistic regression for binary classification, area under the receiver-operator characteristic curve (AUC) is a useful meric to evaluate model performance.
+When using logistic regression for binary classification, area under the receiver-operator characteristic curve (AUC) is a useful metric to evaluate model performance.
 Because of that, it's the default that we use for `mikropml`. However, it is crucial to evaluate your model performance using multiple metrics.
 Below you can find more information about other performance metrics and how to use them in our package.
 
@@ -215,8 +215,8 @@ This is okay for testing things out, but in general it's better to have these nu
 
 ## Changing the performance metric
 
-There are two arguments that allow you to change what performance metric to use for model evaluation, a
-nd what performance metrics to calculate on the test data.
+There are two arguments that allow you to change what performance metric to use for model evaluation,
+and what performance metrics to calculate on the test data.
 
 `perf_metric_function` is the function to use to calculate the performance metrics.
 
@@ -259,7 +259,7 @@ results_pr$performance
 ## Using groups
 
 The optional `groups` is a vector of groups to keep together when splitting the data into train and test sets and for cross-validation.
-This can be a little finnicky depending on how many samples you have and how many groups you have,
+This can be a little finicky depending on how many samples you have and how many groups you have,
 but sometimes it's important to split up the data based on group instead of just randomly.
 This allows you to control for similarities within groups that you don't want to skew your predictions (i.e. batch effects).
 For example, with biological data you may have samples collected from multiple hospitals,
@@ -318,7 +318,7 @@ There are several columns:
 1. `perf_metric_name`: The peformance metric used.
 1. `seed`: The seed (if set).
 
-As you can see here, the differences are negligible here (close to zero), which makes sense since our model isn't great. If you're interested in feature importance, it's especially uesful to run multiple different train/test splits, as described here [**Link to snakemake workflow**].
+As you can see here, the differences are negligible here (close to zero), which makes sense since our model isn't great. If you're interested in feature importance, it's especially useful to run multiple different train/test splits, as described here [**Link to snakemake workflow**].
 
 You can also choose to permute correlated features together using `corr_thresh` (default: 1). Any features that are above the correlation threshold are permuted together; i.e. perfectly correlated features are permuted together when using the default value.
 

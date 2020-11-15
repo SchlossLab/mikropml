@@ -8,7 +8,7 @@
 #' @param outcome_colname Column name as a string of the outcome variable (default `NULL`; the first column will be chosen automatically).
 #' @param hyperparameters Dataframe of hyperparameters (default `NULL`; will be chosen automatically).
 #' @param seed Random seed (default: `NA`). Your results will be reproducible if you set a seed.
-#' @param find_feature_importance Run permutation imporance (default: `FALSE`). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.
+#' @param find_feature_importance Run permutation importance (default: `FALSE`). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.
 #' @param kfold Fold number for k-fold cross-validation (default: `5`).
 #' @param cv_times Number of partitions to create (default: `100`).
 #' @param training_frac Fraction of data for training set (default: `0.8`). The remaining data will be used in the testing set.

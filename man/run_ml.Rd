@@ -30,7 +30,7 @@ run_ml(
 
 \item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; will be chosen automatically).}
 
-\item{find_feature_importance}{Run permutation imporance (default: \code{FALSE}). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.}
+\item{find_feature_importance}{Run permutation importance (default: \code{FALSE}). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.}
 
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
