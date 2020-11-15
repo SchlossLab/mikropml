@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-One particularly important aspect of ML is hyperparameter tuning. 
+One particularly important aspect of machine learning (ML) is hyperparameter tuning. 
 We must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset. 
 In this package, we do this during the cross-validation step.
 
@@ -60,7 +60,9 @@ results <- run_ml(dat,
                   seed = 2019)
 ```
 
-By default, `run_ml()` selects default hyperparameters depending on the dataset and method used.
+You'll probably get a warning when you run this because the dataset is very small. If you want to learn more about that, check out the introductory vignette about running ML: `vignette("introduction")`.
+
+By default, `run_ml()` selects hyperparameters depending on the dataset and method used.
 
 ```{r}
 results$trained_model
@@ -69,6 +71,8 @@ results$trained_model
 As you can see, the `alpha` hyperparameter is set to 0, which specifies L2 regularization.
 `glmnet` gives us the option to run both L1 and L2 regularization.
 If we change `alpha` to 1, we would run L1-regularized logistic regression. 
+You can also tune `alpha` by specifying a variety of values between 0 and 1, inclusive. 
+When you use a value that is between 0 and 1, you are running elastic net.
 The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
 
 When we look at the 100 repeated cross-validation performance metrics such as 
@@ -145,6 +149,7 @@ The output for all of them is very similar, so we won't go into those details.
 As mentioned above, `glmnet` uses the `alpha` parameter and `lambda` hyperparameter.
 `alpha` of `0` is for L2 regularization (ridge).
 `alpha` of `1` is for L1 regularization (lasso).
+`alpha` in between is elastic net. You can also tune `alpha` like you would any other hyperparameter. 
 The default hyperparameters chosen by `run_ml()` are fixed for `glmnet`.
 
 ```{r, echo = FALSE}
