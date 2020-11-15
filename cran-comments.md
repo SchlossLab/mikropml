@@ -4,6 +4,7 @@
 * macOS 10.15.7 (on github-actions), R 4.0.2 and devel
 * ubuntu 18.04.5 (on github-actions), R devel
 * windows 10.0.17763 (on github-actions), R 4.0.2 and devel
+* win-builder, R devel
 
 ## R CMD check results
 
