@@ -16,7 +16,7 @@ This is the first release version of mikropml! 🎉
     * `xgbTree`: gradient-boosted trees
 * New vignettes:
     * [Introduction](http://www.schlosslab.org/mikropml/articles/introduction.html)
-    * [Preprocessing data](http://www.schlosslab.org/mikropml/articles/preprocess.html)
+    * [Preprocess data](http://www.schlosslab.org/mikropml/articles/preprocess.html)
     * [Hyperparameter tuning](http://www.schlosslab.org/mikropml/articles/tuning.html)
     * [Parallel processing](http://www.schlosslab.org/mikropml/articles/parallel.html)
     * [The mikropml paper](http://www.schlosslab.org/mikropml/articles/paper.html)
