@@ -95,7 +95,7 @@
 
       
 
-      </header><link href="tuning_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><script src="tuning_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="tuning_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="tuning_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -194,7 +194,7 @@
 <span class="co">#&gt; Tuning parameter 'alpha' was held constant at a value of 0</span>
 <span class="co">#&gt; AUC was used to select the optimal model using the largest value.</span>
 <span class="co">#&gt; The final values used for the model were alpha = 0 and lambda = 1.</span></code></pre></div>
-<p>As you can see, the <code>alpha</code> hyperparameter is set to 0, which specifies L2 regularization. <code>glmnet</code> gives us the option to run both L1 and L2 regularization. If we change <code>alpha</code> to 1, we would run L1-regularized logistic regression. You can also tune <code>alpha</code> by specifying a variety of values between 0 and 1, inclusive. When you use a value that is between 0 and 1, you are running elastic net. The default hyperparameter <code>lambda</code> which adjusts the L2 regularization penalty is a range of values between 10^4 to 10.</p>
+<p>As you can see, the <code>alpha</code> hyperparameter is set to 0, which specifies L2 regularization. <code>glmnet</code> gives us the option to run both L1 and L2 regularization. If we change <code>alpha</code> to 1, we would run L1-regularized logistic regression. You can also tune <code>alpha</code> by specifying a variety of values between 0 and 1, inclusive. When you use a value that is between 0 and 1, you are running elastic net. The default hyperparameter <code>lambda</code> which adjusts the L2 regularization penalty is a range of values between 10^-4 to 10.</p>
 <p>When we look at the 100 repeated cross-validation performance metrics such as <code>AUC</code>, <code>Accuracy</code>, <code>prAUC</code> for each tested <code>lambda</code> value, we see that some are not appropriate for this dataset and some do better than others.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">results</span>
@@ -315,7 +315,7 @@
 <span class="va">hp_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combine_hp_performance.html">combine_hp_performance</a></span><span class="op">(</span><span class="va">models</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot_hp_performance.html">plot_hp_performance</a></span><span class="op">(</span><span class="va">hp_metrics</span><span class="op">$</span><span class="va">dat</span>, <span class="va">lambda</span>, <span class="va">AUC</span><span class="op">)</span></code></pre></div>
 <p><img src="tuning_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>As you can see, we get a mean maxima at <code>0.3</code> which is the best <code>lambda</code> value for this dataset when we run 3 data splits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more data splits by using more seeds. We picked 3 seeds to keep the runtime down for this vignette, but for real-world data we recommend using many more seeds.</p>
+<p>As you can see, we get a mean maxima at <code>0.03</code> which is the best <code>lambda</code> value for this dataset when we run 3 data splits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more data splits by using more seeds. We picked 3 seeds to keep the runtime down for this vignette, but for real-world data we recommend using many more seeds.</p>
 </div>
 <div id="hyperparameter-options" class="section level2">
 <h2 class="hasAnchor">
