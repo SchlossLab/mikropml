@@ -40,7 +40,11 @@
 
 
 <meta property="og:title" content="Run the machine learning pipeline — run_ml" />
-<meta property="og:description" content="This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in this paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method.
+<meta property="og:description" content="This function runs machine learning (ML), evaluates the best model,
+and optionally calculates feature importance using a robust framework
+outlined in Topçuoğlu et al. 2020 (doi:10.1128/mBio.00434-20).
+Required inputs are a dataframe with an outcome variable and other columns
+as features, as well as the ML method.
 See vignette('introduction') for more details." />
 
 
@@ -146,7 +150,11 @@ See vignette('introduction') for more details." />
     </div>
 
     <div class="ref-description">
-    <p>This function runs machine learning (ML), evaluates the best model, and optionally calculates feature importance using a robust framework outlined in <a href='https://mbio.asm.org/content/11/3/e00434-20/'>this</a> paper. Required inputs are a dataframe with an outcome variable and other columns as features, as well as the ML method.
+    <p>This function runs machine learning (ML), evaluates the best model,
+and optionally calculates feature importance using a robust framework
+outlined in Topçuoğlu <em>et al.</em> 2020 (<a href='https://doi.org/10.1128/mBio.00434-20'>doi:10.1128/mBio.00434-20</a>).
+Required inputs are a dataframe with an outcome variable and other columns
+as features, as well as the ML method.
 See <code><a href='../articles/introduction.html'>vignette('introduction')</a></code> for more details.</p>
     </div>
 
@@ -176,19 +184,30 @@ See <code><a href='../articles/introduction.html'>vignette('introduction')</a></
     </tr>
     <tr>
       <th>method</th>
-      <td><p>ML method. Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code>.</p></td>
+      <td><p>ML method.
+Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code>.</p><ul>
+<li><p>glmnet: linear, logistic, or multiclass regression</p></li>
+<li><p>rf: random forest</p></li>
+<li><p>rpart2: decision tree</p></li>
+<li><p>svmRadial: support vector machine</p></li>
+<li><p>xgbTree: xgboost</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>outcome_colname</th>
-      <td><p>Column name as a string of the outcome variable (default <code>NULL</code>; the first column will be chosen automatically).</p></td>
+      <td><p>Column name as a string of the outcome variable
+(default <code>NULL</code>; the first column will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>hyperparameters</th>
-      <td><p>Dataframe of hyperparameters (default <code>NULL</code>; will be chosen automatically).</p></td>
+      <td><p>Dataframe of hyperparameters
+(default <code>NULL</code>; sensible defaults will be chosen automatically).</p></td>
     </tr>
     <tr>
       <th>find_feature_importance</th>
-      <td><p>Run permutation imporance (default: <code>FALSE</code>). This is recommended if you would like to identify features important for predicting your outcome, but it is resource-intensive.</p></td>
+      <td><p>Run permutation importance (default: <code>FALSE</code>).
+<code>TRUE</code> is recommended if you would like to identify features important for
+predicting your outcome, but it is resource-intensive.</p></td>
     </tr>
     <tr>
       <th>kfold</th>
@@ -196,35 +215,50 @@ See <code><a href='../articles/introduction.html'>vignette('introduction')</a></
     </tr>
     <tr>
       <th>cv_times</th>
-      <td><p>Number of partitions to create (default: <code>100</code>).</p></td>
+      <td><p>Number of cross-validation partitions to create (default: <code>100</code>).</p></td>
     </tr>
     <tr>
       <th>training_frac</th>
-      <td><p>Fraction of data for training set (default: <code>0.8</code>). The remaining data will be used in the testing set.</p></td>
+      <td><p>Fraction of data for training set (default: <code>0.8</code>).
+The remaining data will be used in the testing set.</p></td>
     </tr>
     <tr>
       <th>perf_metric_function</th>
-      <td><p>Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see <code><a href='https://rdrr.io/pkg/caret/man/postResample.html'>caret::defaultSummary()</a></code>). Defaults: binary classification = <code>twoClassSummary</code>, multi-class classification = <code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></td>
+      <td><p>Function to calculate the performance metric to
+be used for cross-validation and test performance. Some functions are
+provided by caret (see <code><a href='https://rdrr.io/pkg/caret/man/postResample.html'>caret::defaultSummary()</a></code>).
+Defaults: binary classification = <code>twoClassSummary</code>,
+multi-class classification = <code>multiClassSummary</code>,
+regression = <code>defaultSummary</code>.</p></td>
     </tr>
     <tr>
       <th>perf_metric_name</th>
-      <td><p>The column name from the output of the function provided to perf_metric_function that is to be used as the performance metric. Defaults: binary classification = <code>"ROC"</code>, multi-class classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></td>
+      <td><p>The column name from the output of the function
+provided to perf_metric_function that is to be used as the performance metric.
+Defaults: binary classification = <code>"ROC"</code>,
+multi-class classification = <code>"logLoss"</code>,
+regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
       <th>groups</th>
-      <td><p>Vector of groups to keep together when splitting the data into train and test sets, and for cross-validation; length matches the number of rows in the dataset (default: no groups).</p></td>
+      <td><p>Vector of groups to keep together when splitting the data into
+train and test sets, and for cross-validation.
+length matches the number of rows in the dataset (default: <code>NULL</code>).</p></td>
     </tr>
     <tr>
       <th>corr_thresh</th>
-      <td><p>For feature importance, group correlations above or equal to corr_thresh (default: <code>1</code>).</p></td>
+      <td><p>For feature importance, group correlations
+above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</code>; default: <code>1</code>).</p></td>
     </tr>
     <tr>
       <th>ntree</th>
-      <td><p>For random forest, how many trees to use (default: 1000). Note that caret doesn't allow this parameter to be tuned.</p></td>
+      <td><p>For random forest, how many trees to use (default: 1000).
+Note that caret doesn't allow this parameter to be tuned.</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>Random seed (default: <code>NA</code>). Your results will be reproducible if you set a seed.</p></td>
+      <td><p>Random seed (default: <code>NA</code>).
+Your results will only be reproducible if you set a seed.</p></td>
     </tr>
     </table>
 
@@ -233,7 +267,7 @@ See <code><a href='../articles/introduction.html'>vignette('introduction')</a></
     <p>Named list with results:</p><ul>
 <li><p><code>trained_model</code>: Output of <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>, including the best model.</p></li>
 <li><p><code>test_data</code>: Part of the data that was used for testing.</p></li>
-<li><p><code>performance</code>: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data.</p></li>
+<li><p><code>performance</code>: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data. This contains only one row, so you can easily combine performance dataframes from multiple calls to <code>run_ml()</code> (see <code><a href='../articles/parallel.html'>vignette("parallel")</a></code>).</p></li>
 <li><p><code>feature_importance</code>: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome.</p></li>
 </ul>
 
@@ -241,13 +275,8 @@ See <code><a href='../articles/introduction.html'>vignette('introduction')</a></
 
     
 
-<p>For more details, please see the corresponding vignettes:</p><ul>
-<li><p><a href='http://www.schlosslab.org/mikropml/articles/'>All vignettes</a>.</p></li>
-<li><p><a href='http://www.schlosslab.org/mikropml/articles/introduction.html'>Intro vignette</a>.</p></li>
-<li><p><a href='http://www.schlosslab.org/mikropml/articles/parallel.html'>Parallel vignette</a> to make it run faster.</p></li>
-<li><p><a href='https://github.com/SchlossLab/mikropml-snakemake-workflow'>Snakemake workflow</a> for high-performance computing clusters.</p></li>
-</ul>
 
+<p>For more details, please see <a href='http://www.schlosslab.org/mikropml/articles/'>the vignettes</a>.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
@@ -257,9 +286,11 @@ See <code><a href='../articles/introduction.html'>vignette('introduction')</a></
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>,
-  kfold <span class='op'>=</span> <span class='fl'>2</span>,
-  cv_times <span class='op'>=</span> <span class='fl'>2</span>,
   seed <span class='op'>=</span> <span class='fl'>2019</span>
+<span class='op'>)</span>
+<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"rf"</span>,
+  outcome_colname <span class='op'>=</span> <span class='st'>'dx'</span>,
+  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>

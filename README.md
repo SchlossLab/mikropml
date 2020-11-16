@@ -20,7 +20,7 @@ User-Friendly R Package for Robust Machine Learning Pipelines
 ## Installation
 
 You can install the development version from
-[GitHub](https://github.com/mikropml) with:
+[GitHub](https://github.com/SchlossLab/mikRopML) with:
 
 ``` r
 # install.packages("devtools")

@@ -9,7 +9,8 @@ get_corr_feats(features, corr_thresh = 1, group_neg_corr = TRUE)
 \arguments{
 \item{features}{Features used for machine learning.}
 
-\item{corr_thresh}{For feature importance, group correlations above or equal to corr_thresh (default: \code{1}).}
+\item{corr_thresh}{For feature importance, group correlations
+above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
 \item{group_neg_corr}{Whether to group negatively correlated features together (e.g. c(0,1) and c(1,0)).}
 }

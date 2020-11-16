@@ -17,7 +17,8 @@ preprocess_data(
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
+\item{outcome_colname}{Column name as a string of the outcome variable
+(default \code{NULL}; the first column will be chosen automatically).}
 
 \item{method}{Methods to preprocess the data, described in \code{\link[caret:preProcess]{caret::preProcess()}} (default: \code{c("center","scale")}, use \code{NULL} for no normalization).}
 
