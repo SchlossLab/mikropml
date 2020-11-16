@@ -10,7 +10,7 @@
 [![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster)
 [![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikropml)
 [![docs](https://img.shields.io/badge/docs-here-brightgreen)](http://www.schlosslab.org/mikropml/)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md)
 [![lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
@@ -20,7 +20,7 @@ User-Friendly R Package for Robust Machine Learning Pipelines
 ## Installation
 
 You can install the development version from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/mikropml) with:
 
 ``` r
 # install.packages("devtools")
@@ -29,10 +29,10 @@ devtools::install_github("SchlossLab/mikropml")
 
 ### Dependencies
 
-  - Imports: caret, dplyr, rlang, stats, utils
-  - Suggests: doFuture, e1071, foreach, future, future.apply, glmnet,
-    ggplot2, kernlab, knitr, MLmetrics, purrr, randomForest, rmarkdown,
-    rpart, testthat, tidyr, xgboost
+  - Imports: caret, dplyr, glmnet, kernlab, randomForest, rlang, stats,
+    utils, xgboost
+  - Suggests: doFuture, e1071, foreach, future, future.apply, ggplot2,
+    knitr, MLmetrics, purrr, rmarkdown, rpart, testthat, tidyr
 
 ## Usage
 
@@ -50,7 +50,7 @@ issue](https://github.com/SchlossLab/mikropml/issues) and include a
 [minimal reproducible example](https://www.tidyverse.org/help/).
 
 If you’d like to contribute, see our guidelines
-[here](.github/CONTRIBUTING.md).
+[here](http://www.schlosslab.org/mikropml/CONTRIBUTING.html).
 
 ## Code of Conduct
 

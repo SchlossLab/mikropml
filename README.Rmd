@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 [![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster)
 [![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikropml)
 [![docs](https://img.shields.io/badge/docs-here-brightgreen)](http://www.schlosslab.org/mikropml/)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md)
 [![lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
@@ -31,7 +31,7 @@ User-Friendly R Package for Robust Machine Learning Pipelines
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/mikropml) with:
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
@@ -70,7 +70,7 @@ and/or take a look at the
 
 If you come across a bug, [open an issue](https://github.com/SchlossLab/mikropml/issues) and include a [minimal reproducible example](https://www.tidyverse.org/help/).
 
-If you'd like to contribute, see our guidelines [here](.github/CONTRIBUTING.md).
+If you'd like to contribute, see our guidelines [here](http://www.schlosslab.org/mikropml/CONTRIBUTING.html).
 
 ## Code of Conduct
 
