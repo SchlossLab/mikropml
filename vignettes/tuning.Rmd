@@ -177,9 +177,12 @@ mikropml:::set_hparams_glmnet()
 
 ### Random forest
 
-When we run the `rf` package implementation of random forest, we are tuning the `mtry` hyperparameter. 
+When we run `rf` we are using the the `randomForest` package implementation.
+We are tuning the `mtry` hyperparameter. 
 This is the number of features that are randomly collected to be sampled at each tree node. 
 This number needs to be less than the number of features in the dataset.
+Please refer to the original documentation for more information:
+https://cran.r-project.org/web/packages/randomForest/randomForest.pdf
 
 By default, we take the square root of number of features in the dataset 
 and we provide a range that is `[sqrt_features / 2, sqrt_features, sqrt_features * 2]`. 
