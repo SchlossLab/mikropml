@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 ```
 
 One particularly important aspect of machine learning (ML) is hyperparameter tuning. 
+A hyperparameter is a parameter that is set before the ML training begins. 
+These parameters are tunable and they effect how well the model trains.
 We must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset. 
 In this package, we do this during the cross-validation step.
 
