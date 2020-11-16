@@ -116,8 +116,11 @@ To answer that, we need to run the ML pipeline on multiple data splits
 and look at the mean cross-validation performance of each `lambda` across those modeling experiments. 
 We describe how to run ML with multiple data splits in `vignette("parallel")`.
 
-Here we run ML on 3 data splits with the new `lambda` range we defined above. 
+Here we run ML with the new `lambda` range we defined above. 
+We run it 3 times each with a different seed, which will result in different
+splits of the data into training and testing sets.
 We can then use `plot_hp_performance` to see which `lambda` gives us the largest mean AUC value across modeling experiments. 
+
 
 ```{r, warning = FALSE}
 results <- lapply(seq(100, 102), function(seed) {
@@ -128,7 +131,13 @@ hp_metrics <- combine_hp_performance(models)
 plot_hp_performance(hp_metrics$dat, lambda, AUC)
 ```
 
-As you can see, we get a mean maxima at 0.3 which is the best `lambda` value for this dataset when we run 3 data splits. This value is used for building the final model. For a better understanding of the global maxima, it would be better to run more datasplits. 
+As you can see, we get a mean maxima at `0.3` which is the best `lambda` value 
+for this dataset when we run 3 data splits. 
+This value is used for building the final model. 
+For a better understanding of the global maxima, 
+it would be better to run more data splits by using more seeds. 
+We picked 3 seeds to keep the runtime down for this vignette,
+but for real-world data we recommend using many more seeds.
 
 ## Hyperparameter options
 
