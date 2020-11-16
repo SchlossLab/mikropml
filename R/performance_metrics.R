@@ -108,6 +108,7 @@ get_perf_metric_name <- function(outcome_type) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
 #' calc_perf_metrics(results$test_data,
 #'   results$trained_model,
@@ -115,6 +116,7 @@ get_perf_metric_name <- function(outcome_type) {
 #'   multiClassSummary,
 #'   class_probs = TRUE
 #' )
+#' }
 calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function, class_probs) {
   pred_type <- "raw"
   if (class_probs) pred_type <- "prob"
