@@ -84,7 +84,7 @@ To enable a broader range of researchers to perform robust ML analyses, we creat
 linear regression, logistic regression, support vector machine with a radial basis kernel, decision tree, random forest, and gradient boosted trees.
 It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;@teschendorff_avoiding_2019].
 Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang _et al._ [@tang_democratizing_2020] 
-and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
+and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher_all_2018].
 
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
 It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], 

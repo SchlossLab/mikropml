@@ -9,7 +9,7 @@ tags:
   - regression
   - decision trees
   - random forest
-  - xgBoost
+  - xgboost
   - microbiology
 author: Begüm D. Topçuoğlu, Zena Lapp, Kelly L. Sovacool, Evan Snitkin, Jenna Wiens, Patrick D. Schloss
 authors:
@@ -76,7 +76,7 @@ To enable a broader range of researchers to perform robust ML analyses, we creat
 linear regression, logistic regression, support vector machine with a radial basis kernel, decision tree, random forest, and gradient boosted trees.
 It incorporates best practices in ML training, testing, and model evaluation [@topcuoglu_framework_2020;@teschendorff_avoiding_2019].
 Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang _et al._ [@tang_democratizing_2020] 
-and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher2018models].
+and post-training permutation importance steps to measure the importance of each feature in the model [@breiman_random_2001; @fisher_all_2018].
 
 The framework implemented in `mikropml` is generalizable to perform ML on datasets from many different fields.
 It has already been applied to microbiome data to categorize patients with colorectal cancer [@topcuoglu_framework_2020], 
@@ -121,7 +121,7 @@ and how to get summary information about model performance on [a local computer]
 
 One particularly important aspect of ML is hyperparameter tuning. 
 Practitioners must explore a range of hyperparameter possibilities to pick the ideal value for the model and dataset.
-Therefore, we provide a function `plot_hp_performance()` to plot the cross-validation performance metric of models built using different train/test splits to evaluate if we are exhausing our hyperparameter search range to pick the ideal one. 
+Therefore, we provide a function `plot_hp_performance()` to plot the cross-validation performance metric of models built using different train/test splits to evaluate if we are exhausting our hyperparameter search range to pick the ideal one. 
 We also provide summary plots of test performance metrics for the many train/test splits with different models using `plot_model_performance()`.
 Examples are described in the accompanying [vignette on hyperparameter tuning](http://www.schlosslab.org/mikropml/articles/tuning.html).
 
@@ -129,11 +129,11 @@ Examples are described in the accompanying [vignette on hyperparameter tuning](h
 
 mikropml is written in R [@r_core_team_r_2020] and depends on several packages: `dplyr` [@wickham_dplyr_2020], `rlang` [@henry_rlang_2020] and `caret` [@kuhn_building_2008].
 The ML algorithms supported by `mikropml` require:
-`glmnet` [@friedman_regularization_2010], `e1071` [@meyer_e1071_2020], and `MLmetrics` [@yan_mlmetrics_2016] for logistic regression, `rpart2` [@therneau_rpart_2019] for decision trees, `randomForest` [@liaw_classication_2002] for random forest, `xgboost` [@chen_xgboost_2020] for xgBoost, and `kernlab` [@karatzoglou_kernlab_2004] for support vector machines. 
+`glmnet` [@friedman_regularization_2010], `e1071` [@meyer_e1071_2020], and `MLmetrics` [@yan_mlmetrics_2016] for logistic regression, `rpart2` [@therneau_rpart_2019] for decision trees, `randomForest` [@liaw_classication_2002] for random forest, `xgboost` [@chen_xgboost_2020] for xgboost, and `kernlab` [@karatzoglou_kernlab_2004] for support vector machines. 
 We also allow for parallelization of cross-validation and other steps using the `foreach`, `doFuture`, `future.apply`, and `future` packages [@bengtsson_futureapply_2020].
 Finally, we use `ggplot2` for plotting [@wickham_ggplot2_2016].
 
-# Acknowledgements
+# Acknowledgments
 
 We thank members of the Schloss Lab who participated in code clubs related to the initial development of the pipeline.
 
