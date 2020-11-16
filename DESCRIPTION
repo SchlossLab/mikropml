@@ -54,27 +54,27 @@ RoxygenNote: 7.1.1
 Imports:
     caret,
     dplyr,
+    e1071,
+    glmnet,
+    kernlab,
+    MLmetrics,
+    randomForest,
     rlang,
     stats,
-    utils
+    utils,
+    xgboost
 Suggests:
     doFuture,
-    e1071,
     foreach,
     future,
     future.apply,
-    glmnet,
     ggplot2,
-    kernlab,
     knitr,
-    MLmetrics,
     purrr,
-    randomForest,
     rmarkdown,
     rpart,
     testthat,
-    tidyr,
-    xgboost
+    tidyr
 VignetteBuilder: knitr
 Depends:
     R (>= 2.10)
