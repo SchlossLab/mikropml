@@ -17,9 +17,15 @@ calc_perf_metrics(
 
 \item{trained_model}{Trained model from \code{\link[caret:train]{caret::train()}}.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable (default \code{NULL}; the first column will be chosen automatically).}
+\item{outcome_colname}{Column name as a string of the outcome variable
+(default \code{NULL}; the first column will be chosen automatically).}
 
-\item{perf_metric_function}{Function to calculate the performance metric to be used for cross-validation and test performance. Some functions are provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary classification = \code{twoClassSummary}, multi-class classification = \code{multiClassSummary}, regression = \code{defaultSummary}.}
+\item{perf_metric_function}{Function to calculate the performance metric to
+be used for cross-validation and test performance. Some functions are
+provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}).
+Defaults: binary classification = \code{twoClassSummary},
+multi-class classification = \code{multiClassSummary},
+regression = \code{defaultSummary}.}
 
 \item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
 }
