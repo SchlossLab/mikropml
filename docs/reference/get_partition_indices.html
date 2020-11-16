@@ -173,7 +173,7 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>groups</code> is <code>NULL</code>, uses <a href='https://rdrr.io/pkg/caret/man/createDataPartition.html'>createDataPartition</a>.
-Otherwises, uses <code>create_grouped_data_partition()</code>.</p>
+Otherwise, uses <code>create_grouped_data_partition()</code>.</p>
 <p>Set the seed prior to calling this function if you would like your data
 partitions to be reproducible (recommended).</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
@@ -184,7 +184,6 @@ partitions to be reproducible (recommended).</p>
     <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>$</span><span class='va'>dx</span><span class='op'>)</span>
 <span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span>
 <span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span>
-
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
