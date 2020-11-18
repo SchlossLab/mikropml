@@ -31,6 +31,7 @@ test_that("find_permuted_perf_metric works", {
     c(perf_metric = 0.6473684, perf_metric_diff = 0.0000000),
     tol = 10e-5
   )
+  skip_on_cran()
   expect_equal(
     find_permuted_perf_metric(otu_mini_bin_results_glmnet$test_data %>% dplyr::as_tibble(),
       otu_mini_bin_results_glmnet$trained_model,
@@ -92,6 +93,7 @@ test_that("feature importances are correct", {
   )
 })
 test_that("feature importances are correct when tibbles used", {
+  skip_on_cran()
   expect_equal(
     get_feature_importance(
       otu_mini_bin_results_glmnet$trained_model,
