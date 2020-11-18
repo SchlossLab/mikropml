@@ -205,7 +205,7 @@ if you think something else would be better for your data.
 
 Here's an example where we change some of the default parameters:
 
-```{r, eval}
+```{r}
 results_custom <- run_ml(dat,
                          'glmnet',
                          kfold = 2,
