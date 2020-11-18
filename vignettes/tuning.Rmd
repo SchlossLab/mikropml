@@ -73,7 +73,7 @@ As you can see, the `alpha` hyperparameter is set to 0, which specifies L2 regul
 If we change `alpha` to 1, we would run L1-regularized logistic regression. 
 You can also tune `alpha` by specifying a variety of values between 0 and 1, inclusive. 
 When you use a value that is between 0 and 1, you are running elastic net.
-The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^4 to 10. 
+The default hyperparameter `lambda` which adjusts the L2 regularization penalty is a range of values between 10^-4 to 10. 
 
 When we look at the 100 repeated cross-validation performance metrics such as 
 `AUC`, `Accuracy`, `prAUC` for each tested `lambda` value, 
@@ -131,7 +131,7 @@ hp_metrics <- combine_hp_performance(models)
 plot_hp_performance(hp_metrics$dat, lambda, AUC)
 ```
 
-As you can see, we get a mean maxima at `0.3` which is the best `lambda` value 
+As you can see, we get a mean maxima at `0.03` which is the best `lambda` value 
 for this dataset when we run 3 data splits. 
 This value is used for building the final model. 
 For a better understanding of the global maxima, 
