@@ -15,6 +15,7 @@
 ^doc$
 ^Meta$
 ^vignettes/parallel\.Rmd$
+^vignettes/tuning\.Rmd$
 ^cran-comments\.md$
 ^revdep$
 ^CRAN-RELEASE$
