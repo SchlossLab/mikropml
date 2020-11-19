@@ -226,7 +226,8 @@ Any opinions, findings, and conclusions or recommendations expressed in this mat
 
 # Author contributions
 
-BT, ZL, and KLS conceptualized the study and created the package.
+BT, ZL, and KLS conceptualized the study and wrote the code.
+KLS structured the code in R package form.
 BT, ZL, JW, and PDS developed methodology. 
 PDS, ES, and JW supervised the project. 
 BT, ZL, and KLS wrote the original draft. 
