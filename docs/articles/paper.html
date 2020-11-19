@@ -95,7 +95,7 @@
 
       
 
-      </header><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><script src="paper_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="paper_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -138,7 +138,7 @@
 <a href="#running-ml" class="anchor"></a>Running ML</h2>
 <p>The main function in mikropml, <code><a href="../reference/run_ml.html">run_ml()</a></code>, minimally takes in the model choice and a data frame with an outcome column and remaining columns as categorical or continuous features. For model choice, <code>mikropml</code> currently supports logistic and linear regression <span class="citation">(Friedman, Hastie, and Tibshirani 2010)</span>, support vector machine with a radial basis kernel <span class="citation">(Karatzoglou et al. 2004)</span>, decision trees <span class="citation">(Therneau et al. 2019)</span>, random forest <span class="citation">(Liaw and Wiener 2002)</span>, and gradient-boosted trees <span class="citation">(Chen et al. 2020)</span>. <code><a href="../reference/run_ml.html">run_ml()</a></code> randomly splits the data into train and test sets while maintaining the distribution of the outcomes found in the full dataset. It also provides the option to split the data into train and test sets based on categorical variables (e.g. batch, geographic location, etc.). <code>mikropml</code> uses the <code>caret</code> package <span class="citation">(Kuhn 2008)</span> to train and evaluate the model, and optionally quantifies feature importance. The output includes the best model built based on tuning hyperparameters in an internal and repeated cross-validation step, model evaluation metrics, and optional feature importances (Figure 1). The quantification of feature importance using permutation allows the calculation of the decrease in the model’s prediction performance after breaking the relationship between the feature and the true outcome, and is thus particularly useful for model interpretation <span class="citation">(Topçuoğlu et al. 2020)</span>. Our <a href="http://www.schlosslab.org/mikropml/articles/introduction.html">introductory vignette</a> contains a comprehensive tutorial on how to use <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
 <div class="figure">
-<img src="mikRopML-pipeline.png" alt="mikropml pipeline" style="width:100.0%"><p class="caption">mikropml pipeline</p>
+<img src="mikRopML-pipeline.png" style="width:100.0%" alt=""><p class="caption">mikropml pipeline</p>
 </div>
 </div>
 <div id="ideal-workflow-for-running-mikropml-with-many-different-traintest-splits" class="section level2">
@@ -197,7 +197,7 @@
 <p>Friedman, Jerome H., Trevor Hastie, and Rob Tibshirani. 2010. “Regularization Paths for Generalized Linear Models via Coordinate Descent.” <em>Journal of Statistical Software</em> 33 (1): 1–22. <a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.</p>
 </div>
 <div id="ref-hagan_women_2020">
-<p>Hagan, AK, BD Topçuoğlu, ME Gregory, HA Barton, and PD Schloss. 2020. “Women Are Underrepresented and Receive Differential Outcomes at ASM Journals: A Six-Year Retrospective Analysis.” <em>mBio</em> 11:e01680-20. <a href="https://doi.org/10.1128/mBio.01680-20">https://doi.org/10.1128/mBio.01680-20</a>.</p>
+<p>Hagan, AK, BD Topçuoğlu, ME Gregory, HA Barton, and PD Schloss. 2020. “Women Are Underrepresented and Receive Differential Outcomes at ASM Journals: A Six-Year Retrospective Analysis.” <em>mBio</em> 11:e01680-20.</p>
 </div>
 <div id="ref-henry_rlang_2020">
 <p>Henry, Lionel, Hadley Wickham, and RStudio. 2020. “Rlang: Functions for Base Types and Core R and ’Tidyverse’ Features,” July.</p>
@@ -258,10 +258,10 @@
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>

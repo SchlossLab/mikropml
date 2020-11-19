@@ -70,7 +70,7 @@
 #'   seed = 2019
 #' )
 #' run_ml(otu_small, "rf",
-#'   outcome_colname = 'dx',
+#'   outcome_colname = "dx",
 #'   find_feature_importance = TRUE
 #' )
 #' }
