@@ -88,7 +88,7 @@ makes it difficult for non-experts to easily perform preliminary ML analyses
 to identify the direct impact of individual features on model performance across
 different train/test splits and model types.
 
-To enable a broader range of researchers to perform ML analyses, we created 
+To enable a broader range of researchers to quickstart their ML analyses, we created 
 [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use package 
 in R [@r_core_team_r_2020] that implements the ML pipeline created by 
 Topçuoğlu _et al._ [@topcuoglu_framework_2020] in a single function.
@@ -134,13 +134,13 @@ FIDDLE [@tang_democratizing_2020]. More details on how to use
 ## Running ML
 
 The main function in mikropml, `run_ml()`, minimally takes in the model choice and a data frame with an outcome column and remaining columns as categorical or continuous features.
-For model choice, `mikropml` currently supports logistic and linear regression [@friedman_regularization_2010], support vector machine with a radial basis kernel [@karatzoglou_kernlab_2004], decision trees [@therneau_rpart_2019], random forest [@liaw_classication_2002], and gradient-boosted trees [@chen_xgboost_2020]. 
+For model choice, `mikropml` currently supports logistic and linear regression [`glm`: @friedman_regularization_2010], support vector machine with a radial basis kernel [`kernlab`: @karatzoglou_kernlab_2004], decision trees [`rpart`: @therneau_rpart_2019], random forest [`randomForest`: @liaw_classication_2002], and gradient-boosted trees [`xgboost`:  @chen_xgboost_2020]. 
 `run_ml()` randomly splits the data into train and test sets while maintaining 
 the distribution of the outcomes found in the full dataset. 
 It also provides the option to split the data into train and test sets based on 
 categorical variables (e.g. batch, geographic location, etc.).
 `mikropml` uses the `caret` package [@kuhn_building_2008] to train and evaluate 
-the model, and optionally quantifies feature importance.
+the models , and optionally quantifies feature importance.
 The output includes the best model built based on tuning hyperparameters in an 
 internal and repeated cross-validation step, model evaluation metrics, and 
 optional feature importances (Figure 1). 
@@ -167,10 +167,8 @@ or on a high-performance computing cluster using a
 ## Tuning & visualization
 
 One particularly important aspect of ML is hyperparameter tuning. 
-Practitioners must explore a range of hyperparameter possibilities to pick the 
-ideal value for the model and dataset. Therefore, we provide a function 
-`plot_hp_performance()` to plot the cross-validation performance metric of 
-models built using different train/test splits to evaluate if we are exhausting 
+Practitioners must explore a range of hyperparameter possibilities.
+Therefore, we provide a function `plot_hp_performance()` to plot the cross-validation performance metric of models built using different train/test splits to evaluate if we are exhausting 
 our hyperparameter search range to pick the ideal one. We also provide summary 
 plots of test performance metrics for the many train/test splits with different 
 models using `plot_model_performance()`. Examples are described in the 
