@@ -67,7 +67,7 @@ rmarkdown::render(here::here('vignettes','paper.Rmd'))
 
 Machine learning (ML) for classification and prediction based on a set of 
 features is used to make decisions in healthcare, economics, criminal justice 
-and more. However, implementing a ML pipeline including preprocessing, 
+and more. However, implementing an ML pipeline including preprocessing, 
 model selection, and evaluation can be time-consuming, confusing, and difficult. 
 Here, we present [`mikropml`](http://www.schlosslab.org/mikropml/) 
 (prononced "meek-ROPE em el"), an easy-to-use R package that implements ML 
@@ -78,7 +78,7 @@ and CRAN.
 
 # Statement of need
 
-Most applications of machine learning (ML) require reproducible data 
+Most applications of machine learning (ML) require reproducible steps for data 
 pre-processing, cross-validation, testing, model evaluation, and often 
 interpretation of why the model makes particular predictions. 
 Performing these steps is important, as failure to implement them can result in 
@@ -98,7 +98,7 @@ To enable a broader range of researchers to apply ML to their problem domains,
 we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use 
 package in R [@r_core_team_r_2020] that implements the ML pipeline created by 
 Topçuoğlu _et al._ [@topcuoglu_framework_2020] in a single function that returns
-the best model performance metrics and feature importance.
+the best model performance metrics and feature importances.
 `mikropml` leverages the `caret` package to support several ML algorithms:
 linear regression, logistic regression, 
 support vector machine with a radial basis kernel, decision tree, random forest, 
@@ -122,7 +122,7 @@ and to predict gender-based biases in academic publishing [@hagan_women_2020].
 The `mikropml` package includes functionality to preprocess the data, train ML 
 models, and quantify feature importance (Figure 1). We also provide 
 [vignettes](http://www.schlosslab.org/mikropml/articles/index.html) and an 
-[example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) [@koster_snakemakescalable_2012] 
+[example Snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) [@koster_snakemakescalable_2012] 
 to showcase how to run an ideal ML pipeline with multiple different train/test 
 data splits. The results can be visualized using helper functions that use 
 `ggplot2` [@wickham_ggplot2_2016].
@@ -136,7 +136,8 @@ features, and provides options to normalize continuous data, remove features
 with near-zero variance, and keep only one instance of perfectly correlated 
 features. We set the default options based on best practices implemented in 
 FIDDLE [@tang_democratizing_2020]. More details on how to use 
-`preprocess_data()` can be found in the accompanying [vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
+`preprocess_data()` can be found in the accompanying
+[vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
 
 ## Running ML
 
@@ -177,7 +178,7 @@ different train/test splits and how to get summary information about model
 performance on 
 [a local computer](http://www.schlosslab.org/mikropml/articles/parallel.html) 
 or on a high-performance computing cluster using a 
-[snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow). 
+[Snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow). 
 
 ## Tuning & visualization
 
