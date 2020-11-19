@@ -226,15 +226,15 @@ Any opinions, findings, and conclusions or recommendations expressed in this mat
 
 # Author contributions
 
-BT, ZL, and KLS contributed equally.
+BDT, ZL, and KLS contributed equally.
 Author order among the co-first authors was determined by time since joining
 the project.
 
-BT, ZL, and KLS conceptualized the study and wrote the code.
+BDT, ZL, and KLS conceptualized the study and wrote the code.
 KLS structured the code in R package form.
-BT, ZL, JW, and PDS developed methodology. 
+BDT, ZL, JW, and PDS developed methodology. 
 PDS, ES, and JW supervised the project. 
-BT, ZL, and KLS wrote the original draft. 
+BDT, ZL, and KLS wrote the original draft. 
 All authors reviewed and edited the manuscript.
 
 # Conflicts of interest
