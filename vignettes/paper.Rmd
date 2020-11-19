@@ -96,7 +96,7 @@ begin to perform ML analyses.
 
 To enable a broader range of researchers to apply ML to their problem domains, 
 we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use 
-package in R [@r_core_team_r_2020] that implements the ML pipeline created by 
+R package [@r_core_team_r_2020] that implements the ML pipeline created by 
 Topçuoğlu _et al._ [@topcuoglu_framework_2020] in a single function that returns
 the best model performance metrics and feature importance.
 `mikropml` leverages the `caret` package to support several ML algorithms:
@@ -120,8 +120,8 @@ and to predict gender-based biases in academic publishing [@hagan_women_2020].
 # mikropml package
 
 The `mikropml` package includes functionality to preprocess the data, train ML 
-models, and quantify feature importance (Figure 1). We also provide 
-[vignettes](http://www.schlosslab.org/mikropml/articles/index.html) and an 
+models, evaluate model performance, and quantify feature importance (Figure 1). 
+We also provide [vignettes](http://www.schlosslab.org/mikropml/articles/index.html) and an 
 [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) [@koster_snakemakescalable_2012] 
 to showcase how to run an ideal ML pipeline with multiple different train/test 
 data splits. The results can be visualized using helper functions that use 
@@ -129,21 +129,22 @@ data splits. The results can be visualized using helper functions that use
 
 ## Preprocessing data
 
-We provide a function `preprocess_data()` to preprocess features using several 
-different functions from the `caret` package. The `preprocess_data()` function 
+We provide the function `preprocess_data()` to preprocess features using several 
+different functions from the `caret` package. `preprocess_data()` 
 takes continuous and categorical data, re-factors categorical data into binary 
 features, and provides options to normalize continuous data, remove features 
 with near-zero variance, and keep only one instance of perfectly correlated 
-features. We set the default options based on best practices implemented in 
+features. We set the default options based on those implemented in 
 FIDDLE [@tang_democratizing_2020]. More details on how to use 
-`preprocess_data()` can be found in the accompanying [vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
+`preprocess_data()` can be found in the accompanying 
+[vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html).
 
 ## Running ML
 
 The main function in mikropml, `run_ml()`, minimally takes in the model choice 
-and a data frame with an outcome column and remaining columns as categorical 
-or continuous features. For model choice, `mikropml` currently supports logistic 
-and linear regression [`glm`: @friedman_regularization_2010], support vector 
+and a data frame with an outcome column and feature columns. 
+For model choice, `mikropml` currently supports logistic 
+and linear regression [`glmnet`: @friedman_regularization_2010], support vector 
 machines with a radial basis kernel [`kernlab`: @karatzoglou_kernlab_2004], 
 decision trees [`rpart`: @therneau_rpart_2019], 
 random forest [`randomForest`: @liaw_classication_2002], 
@@ -172,7 +173,7 @@ contains a comprehensive tutorial on how to use `run_ml()`.
 
 To investigate the variation in model performance depending on the train and 
 test set used [@topcuoglu_framework_2020; @lapp_machine_2020], 
-we provide examples of how to run the `run_ml()` function many times with 
+we provide examples of how to `run_ml()` many times with 
 different train/test splits and how to get summary information about model 
 performance on 
 [a local computer](http://www.schlosslab.org/mikropml/articles/parallel.html) 
@@ -182,10 +183,12 @@ or on a high-performance computing cluster using a
 ## Tuning & visualization
 
 One particularly important aspect of ML is hyperparameter tuning. 
-Practitioners must explore a range of hyperparameter possibilities.
+We provide a reasonable range of default hyperparameters for each model type. 
+However practitioners should explore whether that range is appropriate for their data,
+or if they should customize the hyperparameter range.
 Therefore, we provide a function `plot_hp_performance()` to plot the 
-cross-validation performance metric of models built using different train/test 
-splits. This helps evaluate if the hyperparameter range is being searched 
+cross-validation performance metric of a single model or models built using 
+different train/test splits. This helps evaluate if the hyperparameter range is being searched 
 exhaustively and allows the user to pick the ideal set. We also provide summary 
 plots of test performance metrics for the many train/test splits with different 
 models using `plot_model_performance()`. Examples are described in the 
