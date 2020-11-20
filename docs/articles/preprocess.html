@@ -169,7 +169,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; character(0)</span></code></pre></div>
-<p>The output is a list of length two: <code>dat_transformed</code> which has the transformed data, and <code>grp_feats</code> which is a list of grouped features. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
+<p>The output is a list: <code>dat_transformed</code> which has the transformed data, <code>grp_feats</code> which is a list of grouped features, and <code>removed_feats</code> which is a list of featuures that were removed. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
 <p>The first column (<code>var1</code>) in <code>dat_transformed</code> is a character and is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>. The third column (<code>var3</code>) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name <code>var3_b</code>.</p>
 </div>
 <div id="categorical-data" class="section level2">
@@ -238,11 +238,11 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; character(0)</span></code></pre></div>
-<p>Wow! Why did the numbers change? This is because the default is to normalize the data using <code><a href="https://rdrr.io/r/base/c.html">c("center","scale")</a></code>. While this is often best practice, you may not want to normalize the data, or you may want to normalize the data in a different way. If you don’t want to normalize the data, you can use <code>method=NULL</code>:</p>
+<p>Wow! Why did the numbers change? This is because the default is to normalize the data using <code>"center"</code> and <code>"scale"</code>. While this is often best practice, you may not want to normalize the data, or you may want to normalize the data in a different way. If you don’t want to normalize the data, you can use <code>method=NULL</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># preprocess raw continuous data, no normalization</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, method <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<p>You can also normalize the data in different ways. You can implement any method used by the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> function (the <code>method</code> argument). Note that these methods are only applied to continuous variables.</p>
+<p>You can also normalize the data in different ways. You can choose any method supported by the <code>method</code> argument of <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> (see the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> docs for details). Note that these methods are only applied to continuous variables.</p>
 <p>Another feature of <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> is that if you provide continuous variables as characters, they will be converted to numeric:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># raw continuous dataset as characters</span>
