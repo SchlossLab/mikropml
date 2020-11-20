@@ -44,11 +44,11 @@ test_that("run_ml works for logistic regression", {
   expect_equal_ml_results(
     expect_warning(
       run_ml(otu_mini_bin, # use built-in hyperparameters
-             "glmnet",
-             outcome_colname = "dx",
-             find_feature_importance = FALSE,
-             seed = 2019,
-             cv_times = 2
+        "glmnet",
+        outcome_colname = "dx",
+        find_feature_importance = FALSE,
+        seed = 2019,
+        cv_times = 2
       ),
       "`caret::train\\(\\)` issued the following warning:"
     ),
