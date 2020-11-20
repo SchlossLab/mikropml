@@ -15,7 +15,7 @@
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
-User-Friendly R Package for Robust Machine Learning Pipelines
+User-Friendly R Package for Supervised Machine Learning Pipelines
 
 ## Installation
 
