@@ -3,7 +3,7 @@
 - Switched \dontrun{} to \donttest{} for long-running examples.
 - Fixed description:
     - Enclosed package name in single quotes.
-    - Added a link to the website.
+    - Added relevant links to the package website & paper.
 
 ## Test environments
 
