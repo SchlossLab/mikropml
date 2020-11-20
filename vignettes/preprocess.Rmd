@@ -121,16 +121,24 @@ cont_df
 preprocess_data(dataset = cont_df, outcome_colname = "outcome")
 ```
 
-Wow! Why did the numbers change? This is because the default is to normalize the data using `c("center","scale")`. While this is often best practice, you may not want to normalize the data, or you may want to normalize the data in a different way. If you don't want to normalize the data, you can use `method=NULL`:
+Wow! Why did the numbers change? This is because the default is to normalize the 
+data using `"center"` and `"scale"`. While this is often best practice, you may 
+not want to normalize the data, or you may want to normalize the data in a 
+different way. If you don't want to normalize the data, you can use 
+`method=NULL`:
 
 ```{r}
 # preprocess raw continuous data, no normalization
 preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
 ```
 
-You can also normalize the data in different ways. You can implement any method used by the `caret::preProcess()` function (the `method` argument). Note that these methods are only applied to continuous variables. 
+You can also normalize the data in different ways. You can choose any method 
+supported by the `method` argument of `caret::preProcess()` (see the 
+`caret::preProcess()` docs for details). Note that these methods are only 
+applied to continuous variables. 
 
-Another feature of `preprocess_data()` is that if you provide continuous variables as characters, they will be converted to numeric:
+Another feature of `preprocess_data()` is that if you provide continuous 
+variables as characters, they will be converted to numeric:
 
 ```{r}
 # raw continuous dataset as characters
@@ -146,14 +154,17 @@ cont_char_df
 preprocess_data(dataset = cont_char_df, outcome_colname = "outcome")
 ```
 
-If you don't want this to happen, and you want character data to remain character data even if it can be converted to numeric, you can use `to_numeric=FALSE` and they will be kept as categorical:
+If you don't want this to happen, and you want character data to remain 
+character data even if it can be converted to numeric, you can use 
+`to_numeric=FALSE` and they will be kept as categorical:
 
 ```{r}
 # preprocess raw continuous character data as characters
 preprocess_data(dataset = cont_char_df, outcome_colname = "outcome", to_numeric = FALSE)
 ```
 
-As you can see from this output, in this case the features are treated as groups rather than numbers (e.g. they are not normalized). 
+As you can see from this output, in this case the features are treated as groups 
+rather than numbers (e.g. they are not normalized). 
 
 ## Collapse perfectly correlated features
 
