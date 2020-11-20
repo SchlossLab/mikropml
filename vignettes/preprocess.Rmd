@@ -16,15 +16,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-Before running machine learning, it's often necessary and prudent to preprocess 
-your input data. 
-We provide a function (`preprocess_data()`) to preprocess input data. 
-The defaults we chose are based on best practices used in 
-[FIDDLE](https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/) [@tang_democratizing_2020].
-Feel free to check out FIDDLE for more information about data preprocessing!
+Before running machine learning, it's often necessary and prudent to preprocess
+your input data. We provide a function (`preprocess_data()`) to preprocess input
+data. The defaults we chose are based on best practices used in
+[FIDDLE](https://gitlab.eecs.umich.edu/mld3/FIDDLE/-/tree/master/)
+[@tang_democratizing_2020]. Feel free to check out FIDDLE for more information
+about data preprocessing!
 
-`preprocess_data()` takes an input dataset where the rows are the samples and the columns are the outcome variable and features.
-We preprocess the data as follows:
+`preprocess_data()` takes an input dataset where the rows are the samples and
+the columns are the outcome variable and features. We preprocess the data as
+follows:
 
 - Remove missing outcome values. 
 - Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).
@@ -37,11 +38,15 @@ We preprocess the data as follows:
 
 # It's running so slow!
 
-Since I assume a lot of you won't read this entire vignette, I'm going to say this at the beginning. If the `preprocess_data()` function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in `vignette("parallel")`.
+Since I assume a lot of you won't read this entire vignette, I'm going to say
+this at the beginning. If the `preprocess_data()` function is running super
+slow, you should consider parallelizing it so it goes faster! You can learn more
+about how to do that in `vignette("parallel")`.
 
 # Examples
 
-We're going to start off simple and get more complicated, but if you want the whole shebang at once, just scroll to the bottom.
+We're going to start off simple and get more complicated, but if you want the
+whole shebang at once, just scroll to the bottom.
 
 First, we have to load `mikropml`:
 
@@ -101,7 +106,8 @@ cat_df
 preprocess_data(dataset = cat_df, outcome_colname = "outcome")
 ```
 
-As you can see, this variable was split into 3 different columns - one for each type (a, b, and c). And again, `grp_feats` is `NULL`.
+As you can see, this variable was split into 3 different columns - one for each
+type (a, b, and c). And again, `grp_feats` is `NULL`.
 
 ## Continuous data
 
@@ -168,7 +174,10 @@ rather than numbers (e.g. they are not normalized).
 
 ## Collapse perfectly correlated features
 
-By default, `preprocess_data()` collapses features that are perfectly positively or negatively correlated. This is because having multiple copies of those features does not add information to machine learning, and it makes `run_ml` faster.
+By default, `preprocess_data()` collapses features that are perfectly positively 
+or negatively correlated. This is because having multiple copies of those 
+features does not add information to machine learning, and it makes `run_ml` 
+faster.
 
 ```{r}
 # raw correlated dataset
@@ -186,19 +195,22 @@ corr_df
 preprocess_data(dataset = corr_df, outcome_colname = "outcome")
 ```
 
-As you can see, we end up with only one variable, as all 3 are grouped together. 
-Also, the second element in the list is no longer `NULL`. 
-Instead, it tells you that `grp1` contains `var1`, `var2`, and `var3`. 
+As you can see, we end up with only one variable, as all 3 are grouped together.
+Also, the second element in the list is no longer `NULL`. Instead, it tells you
+that `grp1` contains `var1`, `var2`, and `var3`.
 
-If you want to group positively correlated features, but not negatively correlated features (e.g. for interpretability, or another downstream application), you can do that by using `group_neg_corr=FALSE`:
+If you want to group positively correlated features, but not negatively
+correlated features (e.g. for interpretability, or another downstream
+application), you can do that by using `group_neg_corr=FALSE`:
 
 ```{r}
 # preprocess raw correlated dataset; don't group negatively correlated features
 preprocess_data(dataset = corr_df, outcome_colname = "outcome", group_neg_corr = FALSE)
 ```
 
-Here, `var3` is kept on it's own because it's negatively correlated with `var1` and `var2`. 
-You can also choose to keep all features separate, even if they are perfectly correlated, by using `collapse_corr_feats=FALSE`:
+Here, `var3` is kept on it's own because it's negatively correlated with `var1`
+and `var2`. You can also choose to keep all features separate, even if they are
+perfectly correlated, by using `collapse_corr_feats=FALSE`:
 
 ```{r}
 # preprocess raw correlated dataset; don't group negatively correlated features
@@ -209,7 +221,8 @@ In this case, `grp_feats` will always be `NULL`.
 
 ## Data with near-zero variance
 
-What if we have variables that are all zero, or all "no"? Those ones won't contribute any information, so we remove them:
+What if we have variables that are all zero, or all "no"? Those ones won't
+contribute any information, so we remove them:
 
 ```{r}
 # raw dataset with non-variable features
@@ -224,28 +237,40 @@ nonvar_df <- data.frame(
 nonvar_df
 ```
 
-Here, `var3`, `var4`, and `var5` all have no variability, so these variables are removed during preprocessing:
+Here, `var3`, `var4`, and `var5` all have no variability, so these variables are
+removed during preprocessing:
 
 ```{r}
 # remove features with near-zero variance
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome")
 ```
 
-You can read the `caret::preProcess()` documentation for more information. By default, we remove features with "near-zero variance" (`remove_var='nzv'`). This uses the default arguments from `caret::nearZeroVar()`. However, particularly with smaller datasets, you might not want to remove features with near-zero variance. If you want to remove only features with zero variance, you can use `remove_var='zv'`:
+You can read the `caret::preProcess()` documentation for more information. By
+default, we remove features with "near-zero variance" (`remove_var='nzv'`). This
+uses the default arguments from `caret::nearZeroVar()`. However, particularly
+with smaller datasets, you might not want to remove features with near-zero
+variance. If you want to remove only features with zero variance, you can use
+`remove_var='zv'`:
 
 ```{r}
 # remove features with zero variance
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = 'zv')
 ```
 
-If you want to include all features, you can use the argument `remove_zv=NULL`. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying `caret` function we use). 
+If you want to include all features, you can use the argument `remove_zv=NULL`.
+For this to work, you cannot collapse correlated features (otherwise it errors
+out because of the underlying `caret` function we use).
 
 ```{r}
 # don't remove features with near-zero or zero variance
 preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = NULL, collapse_corr_feats = FALSE)
 ```
 
-If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the `caret::preProcess()` function after running `preprocess_data` with `remove_var=NULL` (see the `caret::nearZeroVar()` function for more information).
+If you want to be more nuanced in how you remove near-zero variance features
+(e.g. change the default 10% cutoff for the percentage of distinct values out of
+the total number of samples), you can use the `caret::preProcess()` function
+after running `preprocess_data` with `remove_var=NULL` (see the
+`caret::nearZeroVar()` function for more information).
 
 ## Missing data
 
@@ -256,7 +281,8 @@ If you want to be more nuanced in how you remove near-zero variance features (e.
 - Replaces missing binary and categorical variables with zero (after splitting into multiple columns).
 - Replaces missing continuous data with the median value of that feature.
 
-If you'd like to deal with missing data in a different way, please do that prior to inputting the data to `preprocess_data()`.
+If you'd like to deal with missing data in a different way, please do that prior
+to inputting the data to `preprocess_data()`.
 
 ### Remove missing outcome variables
 
@@ -292,7 +318,9 @@ miss_nonvar_df
 preprocess_data(dataset = miss_nonvar_df, outcome_colname = "outcome")
 ```
 
-Here, the non-variable feature with missing data is removed because we removed features with near-zero variance. If we maintained that feature, it'd be all ones:
+Here, the non-variable feature with missing data is removed because we removed
+features with near-zero variance. If we maintained that feature, it'd be all
+ones:
 
 ```{r}
 # preprocess raw dataset with missing value in non-variable feature
@@ -316,7 +344,8 @@ miss_cat_df
 preprocess_data(dataset = miss_cat_df, outcome_colname = "outcome")
 ```
 
-Here each binary variable is split into two, and the missing value is considered zero for both of them.
+Here each binary variable is split into two, and the missing value is considered
+zero for both of them.
 
 ### Replace missing continuous data with the median value of that feature
 
@@ -330,7 +359,8 @@ miss_cont_df <- data.frame(
 miss_cont_df
 ```
 
-Here we're not normalizing continuous features so it's easier to see what's going on (i.e. the median value is used):
+Here we're not normalizing continuous features so it's easier to see what's
+going on (i.e. the median value is used):
 
 ```{r}
 # preprocess raw dataset with missing value in continuous feature
@@ -374,10 +404,13 @@ As you can see, we got several messages:
 There are 4 missing rather than just 1 (like in the raw data) because we split the categorical variable into 4 different columns first.
 - One missing continuous value was imputed using the median value of that feature (`var8`).
 
-Additionally, you can see that the continuous variables were normalized, the categorical variables were all changed to binary, and several features were grouped together. The variables in each group can be found in `grp_feats`.
+Additionally, you can see that the continuous variables were normalized, the
+categorical variables were all changed to binary, and several features were
+grouped together. The variables in each group can be found in `grp_feats`.
 
 ## Next step: run machine learning!
 
-After you preprocess your data (either using `preprocess_data()` or by preprocessing the data on your own), 
+After you preprocess your data (either using `preprocess_data()` or by
+preprocessing the data on your own),
 you're ready to run machine learning! 
 Please see `run_ml()` information about running machine learning. 
