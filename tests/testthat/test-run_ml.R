@@ -40,7 +40,24 @@ otu_mini_group <- c(
   "E", "A", "C", "E", "F", "A"
 )
 
+test_that("run_ml works for logistic regression", {
+  expect_equal_ml_results(
+    expect_warning(
+      run_ml(otu_mini_bin, # use built-in hyperparameters
+             "glmnet",
+             outcome_colname = "dx",
+             find_feature_importance = FALSE,
+             seed = 2019,
+             cv_times = 2
+      ),
+      "`caret::train\\(\\)` issued the following warning:"
+    ),
+    otu_mini_bin_results_glmnet
+  )
+})
+
 test_that("run_ml works for linear regression", {
+  skip_on_cran()
   expect_equal_ml_results(
     expect_message(expect_warning(run_ml(otu_mini_bin[, 2:11], # use built-in hyperparameters
       "glmnet",
@@ -53,23 +70,8 @@ test_that("run_ml works for linear regression", {
   )
 })
 
-test_that("run_ml works for logistic regression", {
-  expect_equal_ml_results(
-    expect_warning(
-      run_ml(otu_mini_bin, # use built-in hyperparameters
-        "glmnet",
-        outcome_colname = "dx",
-        find_feature_importance = FALSE,
-        seed = 2019,
-        cv_times = 2
-      ),
-      "`caret::train\\(\\)` issued the following warning:"
-    ),
-    otu_mini_bin_results_glmnet
-  )
-})
-
 test_that("run_ml works for random forest with grouping & feature importance", {
+  skip_on_cran()
   expect_equal_ml_results( # use built-in hyperparams function
     mikropml::run_ml(otu_mini_bin,
       "rf",
@@ -85,6 +87,7 @@ test_that("run_ml works for random forest with grouping & feature importance", {
 })
 
 test_that("run_ml works for svmRadial", {
+  skip_on_cran()
   expect_equal_ml_results(
     expect_warning(mikropml::run_ml(otu_mini_bin,
       "svmRadial",
@@ -114,6 +117,7 @@ test_that("run_ml works for xgbTree", {
 })
 
 test_that("run_ml works for rpart2", {
+  skip_on_cran()
   expect_equal_ml_results(
     mikropml::run_ml(otu_mini_bin,
       "rpart2",

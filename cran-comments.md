@@ -2,22 +2,22 @@
 
 - Fixed possible invalid links in the README and vignettes. 
 - Moved the packages that the datasets use from Suggests to Imports.
-- Checked the package with rhub's debian-clang-devel image, 
-which should closely match CRAN's r-devel-linux-x86_64-debian-gcc flavor.
+- Checked the package with rhub's debian-clang-devel image.
+- Reduced the overall checktime even further by skipping some tests on CRAN and reducing vignette build time.
 
 ## Test environments
 
-- local macOS install, R 4.0.2
-- macOS 10.15.7 (on github-actions), R 4.0.2 and devel
-- ubuntu 18.04.5 (on github-actions), R devel
-- windows 10.0.17763 (on github-actions), R 4.0.2 and devel
+- local macOS install, R 4.0.3
 - win-builder, R devel
 - rhub debian-clang-devel
+- macOS 10.15.7 (on github-actions), R 4.0.3 and devel
+- ubuntu 18.04.5 (on github-actions), R devel
+- windows 10.0.17763 (on github-actions), R 4.0.3 and devel
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-- New submission - this is a new release.
+- New submission
 - Possibly mis-spelled words in DESCRIPTION:
     mikropml (46:30) - this is the name of the package.
