@@ -20,9 +20,12 @@ preprocess_data(
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
 
-\item{method}{Methods to preprocess the data, described in \code{\link[caret:preProcess]{caret::preProcess()}} (default: \code{c("center","scale")}, use \code{NULL} for no normalization).}
+\item{method}{Methods to preprocess the data, described in
+\code{\link[caret:preProcess]{caret::preProcess()}} (default: \code{c("center","scale")}, use \code{NULL} for
+no normalization).}
 
-\item{remove_var}{Whether to remove variables with near-zero variance (\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL}).}
+\item{remove_var}{Whether to remove variables with near-zero variance
+(\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL}).}
 
 \item{collapse_corr_feats}{Whether to keep only one of perfectly correlated features.}
 
