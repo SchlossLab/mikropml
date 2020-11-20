@@ -95,7 +95,7 @@
 
       
 
-      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="preprocess_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><link href="preprocess_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="preprocess_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -241,21 +241,7 @@
 <p>Wow! Why did the numbers change? This is because the default is to normalize the data using <code><a href="https://rdrr.io/r/base/c.html">c("center","scale")</a></code>. While this is often best practice, you may not want to normalize the data, or you may want to normalize the data in a different way. If you don’t want to normalize the data, you can use <code>method=NULL</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># preprocess raw continuous data, no normalization</span>
-<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, method <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
-<span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
-<span class="co">#&gt;   outcome  var1</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal      1</span>
-<span class="co">#&gt; 2 normal      2</span>
-<span class="co">#&gt; 3 cancer      3</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; character(0)</span></code></pre></div>
+<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, method <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <p>You can also normalize the data in different ways. You can implement any method used by the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> function (the <code>method</code> argument). Note that these methods are only applied to continuous variables.</p>
 <p>Another feature of <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> is that if you provide continuous variables as characters, they will be converted to numeric:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -271,21 +257,7 @@
 <span class="co">#&gt; 3  cancer    3</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># preprocess raw continuous character data as numeric</span>
-<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_char_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
-<span class="co">#&gt; Using 'outcome' as the outcome column.</span>
-<span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
-<span class="co">#&gt;   outcome  var1</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal     -1</span>
-<span class="co">#&gt; 2 normal      0</span>
-<span class="co">#&gt; 3 cancer      1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; character(0)</span></code></pre></div>
+<span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_char_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span></code></pre></div>
 <p>If you don’t want this to happen, and you want character data to remain character data even if it can be converted to numeric, you can use <code>to_numeric=FALSE</code> and they will be kept as categorical:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># preprocess raw continuous character data as characters</span>

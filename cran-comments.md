@@ -2,8 +2,8 @@
 
 - Fixed possible invalid links in the README and vignettes. 
 - Moved the packages that the datasets use from Suggests to Imports.
-- Checked the package with rhub's debian-clang-devel image, 
-which should closely match CRAN's r-devel-linux-x86_64-debian-gcc flavor.
+- Checked the package with rhub's debian-clang-devel image.
+- Reduced the overall checktime even further by skipping some tests on CRAN and reducing vignette build time.
 
 ## Test environments
 

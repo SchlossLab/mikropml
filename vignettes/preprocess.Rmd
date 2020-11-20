@@ -133,7 +133,7 @@ not want to normalize the data, or you may want to normalize the data in a
 different way. If you don't want to normalize the data, you can use 
 `method=NULL`:
 
-```{r}
+```{r, eval = FALSE}
 # preprocess raw continuous data, no normalization
 preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
 ```
@@ -155,7 +155,7 @@ cont_char_df <- data.frame(
 cont_char_df
 ```
 
-```{r}
+```{r, eval = FALSE}
 # preprocess raw continuous character data as numeric
 preprocess_data(dataset = cont_char_df, outcome_colname = "outcome")
 ```
