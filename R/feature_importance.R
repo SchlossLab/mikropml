@@ -61,12 +61,12 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     dplyr::bind_rows()
 
   return(as.data.frame(imps) %>%
-           dplyr::mutate(
-             names = factor(grps),
-             method = method,
-             perf_metric_name = perf_metric_name,
-             seed = seed
-           ))
+    dplyr::mutate(
+      names = factor(grps),
+      method = method,
+      perf_metric_name = perf_metric_name,
+      seed = seed
+    ))
 }
 
 #' Get permuted performance metric difference for a single feature
@@ -105,7 +105,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
   fs <- fs[fs %in% colnames(test_data)]
   # get the new performance metric and performance metric differences
   n_rows <- nrow(test_data)
-  perm_perfs <- sapply(seq(1, nperms), function (x) {
+  perm_perfs <- sapply(seq(1, nperms), function(x) {
     permuted_test_data <- test_data
     # this strategy works for any number of features
     rows_shuffled <- sample(n_rows)
@@ -121,7 +121,8 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     )
   })
   mean_perm_perf <- sum(perm_perfs) / nperms
-  return(c(perf_metric = mean_perm_perf,
-           perf_metric_diff = test_perf_value - mean_perm_perf))
+  return(c(
+    perf_metric = mean_perm_perf,
+    perf_metric_diff = test_perf_value - mean_perm_perf
+  ))
 }
-

@@ -80,14 +80,18 @@ group_correlated_features <- function(corr, features) {
   c <- length(grps) + 1
   for (i in corr_feats) {
     if (i %in% accounted_for) next
-    feats <- unique(c(i, corr$feature1[corr$feature2 == i],
-                      corr$feature2[corr$feature1 == i]))
+    feats <- unique(c(
+      i, corr$feature1[corr$feature2 == i],
+      corr$feature2[corr$feature1 == i]
+    ))
     new_feats <- T
     while (new_feats) {
       len_feats <- length(feats)
       for (j in feats) {
-        feats <- unique(c(feats, j, corr$feature1[corr$feature2 == j],
-                          corr$feature2[corr$feature1 == j]))
+        feats <- unique(c(
+          feats, j, corr$feature1[corr$feature2 == j],
+          corr$feature2[corr$feature1 == j]
+        ))
       }
       new_feats <- length(feats) > len_feats
     }
