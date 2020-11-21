@@ -50,23 +50,23 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     outcome_colname,
     perf_metric_function,
     class_probs
-  )[perf_metric_name]
+  )[[perf_metric_name]]
   imps <- future.apply::future_lapply(grps, function(feat) {
     return(find_permuted_perf_metric(
       test_data, trained_model, outcome_colname,
       perf_metric_function, perf_metric_name,
-      class_probs, feat, seed, test_perf_value
+      class_probs, feat, test_perf_value
     ))
   }, future.seed = seed) %>%
     dplyr::bind_rows()
 
   return(as.data.frame(imps) %>%
-    dplyr::mutate(
-      names = factor(grps),
-      method = method,
-      perf_metric_name = perf_metric_name,
-      seed = seed
-    ))
+           dplyr::mutate(
+             names = factor(grps),
+             method = method,
+             perf_metric_name = perf_metric_name,
+             seed = seed
+           ))
 }
 
 #' Get permuted performance metric difference for a single feature
@@ -74,9 +74,10 @@ get_feature_importance <- function(trained_model, train_data, test_data,
 #'
 #' Requires the `future.apply` package
 #'
-#' @param feat feature or group of correlated features to permute
+#' @param feat feature or group of correlated features to permute.
 #' @param test_perf_value value of the true performance metric on the held-out
-#'   test data
+#'   test data.
+#' @param nperms number of permutations to perform (default: `100`).
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
 #'
@@ -89,8 +90,9 @@ get_feature_importance <- function(trained_model, train_data, test_data,
 #'
 find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       perf_metric_function, perf_metric_name,
-                                      class_probs, feat, seed,
-                                      test_perf_value) {
+                                      class_probs, feat,
+                                      test_perf_value,
+                                      nperms = 100) {
   abort_packages_not_installed("future.apply")
 
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
@@ -98,37 +100,30 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
   # but for now this is a temporary fix.
   test_data <- as.data.frame(test_data)
 
-  # Calculate the test performance metric for the actual pre-processed held-out test data
   # permute grouped features together
   fs <- strsplit(feat, "\\|")[[1]]
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
   # get the new performance metric and performance metric differences
-  perf_metric_diffs <- future.apply::future_sapply(0:99, function(s) {
-    set.seed(s)
+  total_perm_perf <- 0
+  perf_metric_diffs <- for (s in seq(1, nperms)) {
     permuted_test_data <- test_data
     if (length(fs) == 1) {
       permuted_test_data[, fs] <- sample(permuted_test_data[, fs])
     } else {
       permuted_test_data[, fs] <- t(sample(data.frame(t(permuted_test_data[, fs]))))
     }
-    # Calculate the new performance metric
     new_perf_value <- calc_perf_metrics(
       permuted_test_data,
       trained_model,
       outcome_colname,
       perf_metric_function,
       class_probs
-    )[perf_metric_name]
-    # Return how does this feature being permuted affect the performance metric
-    return(c(
-      new_perf_value = new_perf_value,
-      diff = (test_perf_value - new_perf_value)
-    ))
-  }, future.seed = seed)
-  if (!is.na(seed)) set.seed(seed) # must set seed back to its original value
-  rownames(perf_metric_diffs) <- gsub("\\..*", "", rownames(perf_metric_diffs))
-  perf_metric <- mean(perf_metric_diffs["new_perf_value", ])
-  perf_metric_diff <- mean(perf_metric_diffs["diff", ])
-  return(c(perf_metric = perf_metric, perf_metric_diff = perf_metric_diff))
+    )[[perf_metric_name]]
+    total_perm_perf = total_perm_perf + new_perf_value
+  }
+  mean_perm_perf <- total_perm_perf / nperms
+  return(c(perf_metric = mean_perm_perf,
+           perf_metric_diff = test_perf_value - mean_perm_perf))
 }
+
