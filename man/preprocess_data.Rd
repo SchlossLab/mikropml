@@ -31,7 +31,8 @@ no normalization).}
 
 \item{to_numeric}{Whether to change features to numeric where possible.}
 
-\item{group_neg_corr}{Whether to group negatively correlated features together (e.g. c(0,1) and c(1,0)).}
+\item{group_neg_corr}{Whether to group negatively correlated features
+together (e.g. c(0,1) and c(1,0)).}
 }
 \value{
 Named list including:
