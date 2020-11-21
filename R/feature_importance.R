@@ -93,7 +93,6 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       class_probs, feat,
                                       test_perf_value,
                                       nperms = 100) {
-  abort_packages_not_installed("future.apply")
 
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
@@ -105,24 +104,23 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
   # only include ones in the test data split
   fs <- fs[fs %in% colnames(test_data)]
   # get the new performance metric and performance metric differences
-  total_perm_perf <- 0
-  perf_metric_diffs <- for (s in seq(1, nperms)) {
+  n_rows <- nrow(test_data)
+  perm_perfs <- sapply(seq(1, nperms), function (x) {
     permuted_test_data <- test_data
-    if (length(fs) == 1) {
-      permuted_test_data[, fs] <- sample(permuted_test_data[, fs])
-    } else {
-      permuted_test_data[, fs] <- t(sample(data.frame(t(permuted_test_data[, fs]))))
-    }
-    new_perf_value <- calc_perf_metrics(
-      permuted_test_data,
-      trained_model,
-      outcome_colname,
-      perf_metric_function,
-      class_probs
-    )[[perf_metric_name]]
-    total_perm_perf = total_perm_perf + new_perf_value
-  }
-  mean_perm_perf <- total_perm_perf / nperms
+    # this strategy works for any number of features
+    rows_shuffled <- sample(n_rows)
+    permuted_test_data[, fs] <- permuted_test_data[rows_shuffled, fs]
+    return(
+      calc_perf_metrics(
+        permuted_test_data,
+        trained_model,
+        outcome_colname,
+        perf_metric_function,
+        class_probs
+      )[[perf_metric_name]]
+    )
+  })
+  mean_perm_perf <- sum(perm_perfs) / nperms
   return(c(perf_metric = mean_perm_perf,
            perf_metric_diff = test_perf_value - mean_perm_perf))
 }
