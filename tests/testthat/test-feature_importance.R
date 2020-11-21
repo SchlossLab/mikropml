@@ -28,7 +28,8 @@ test_that("find_permuted_perf_metric works", {
       otu_mini_bin_results_glmnet$trained_model,
       "dx", caret::multiClassSummary,
       "AUC", TRUE, "Otu00049|Otu00050",
-      seed = 2019
+      seed = 2019,
+      0.6473684
     ),
     c(perf_metric = 0.6473684, perf_metric_diff = 0.0000000),
     tol = 10e-5
@@ -39,7 +40,8 @@ test_that("find_permuted_perf_metric works", {
       otu_mini_bin_results_glmnet$trained_model,
       "dx", caret::multiClassSummary,
       "AUC", TRUE, "Otu00009",
-      seed = 2019
+      seed = 2019,
+      0.6473684
     ),
     c(perf_metric = 0.639105263, perf_metric_diff = 0.008263158),
     tol = 10e-5
