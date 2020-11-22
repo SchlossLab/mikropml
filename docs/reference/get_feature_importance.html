@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Get feature importance using permutation method — get_feature_importance" />
-<meta property="og:description" content="Calculates feature importance using a trained model and test data. Requires the future.apply package." />
+<meta property="og:description" content="Calculates feature importance using a trained model and test data. Requires
+the future.apply package." />
 
 
 
@@ -145,7 +146,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Calculates feature importance using a trained model and test data. Requires the <code>future.apply</code> package.</p>
+    <p>Calculates feature importance using a trained model and test data. Requires
+the <code>future.apply</code> package.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_feature_importance</span><span class='op'>(</span>
@@ -227,7 +229,11 @@ above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</cod
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe with performance metrics for when each feature (or group of correlated features; <code>names</code>) is permuted (<code>perf_metric</code>), and differences between test performance metric and permuted performance metric (<code>perf_metric_diff</code>). The performance metric name (<code>perf_metric_name</code>) and seed (<code>seed</code>) are also returned.</p>
+    <p>Dataframe with performance metrics for when each feature (or group of
+correlated features; <code>names</code>) is permuted (<code>perf_metric</code>), and differences
+between test performance metric and permuted performance metric
+(<code>perf_metric_diff</code>). The performance metric name (<code>perf_metric_name</code>) and
+seed (<code>seed</code>) are also returned.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
@@ -237,7 +243,8 @@ above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</cod
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, kfold <span class='op'>=</span> <span class='fl'>2</span>, cv_times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"dx"</span>
-<span class='fu'>get_feature_importance</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>, <span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span>, <span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,
+<span class='fu'>get_feature_importance</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>,
+  <span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span>, <span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,
   <span class='st'>"dx"</span>,
   <span class='va'>multiClassSummary</span>, <span class='st'>"AUC"</span>,
   class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"glmnet"</span>
