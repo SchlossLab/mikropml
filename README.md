@@ -17,7 +17,7 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 status](https://www.r-pkg.org/badges/version/mikropml)](https://CRAN.R-project.org/package=mikropml)
 <!-- badges: end -->
 
-User-Friendly R Package for Robust Machine Learning Pipelines
+User-Friendly R Package for Supervised Machine Learning Pipelines
 
 ## Installation
 

@@ -101,6 +101,7 @@ test_that("run_ml works for svmRadial", {
 })
 
 test_that("run_ml works for xgbTree", {
+  skip_on_cran()
   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
   expect_equal_ml_results(
     mikropml::run_ml(

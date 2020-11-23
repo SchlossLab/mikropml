@@ -101,7 +101,7 @@ For more details, please see \href{http://www.schlosslab.org/mikropml/articles/}
 }
 
 \examples{
-\dontrun{
+\donttest{
 run_ml(otu_small, "glmnet",
   seed = 2019
 )
