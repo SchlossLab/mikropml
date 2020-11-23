@@ -21,7 +21,7 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 
 ## Installation
 
-You can install the latest reulease from CRAN:
+You can install the latest release from CRAN:
 
 ``` r
 install.packages('mikropml')
