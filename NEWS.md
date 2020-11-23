@@ -1,6 +1,6 @@
 # development version
 
-
+- Fixes check error on Solaris & note on Fedora.
 
 # mikropml 0.0.1
 
