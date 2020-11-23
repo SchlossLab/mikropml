@@ -33,7 +33,7 @@ utils::globalVariables(c("."))
 #' @importFrom MLmetrics AUC
 #' @importFrom e1071 best.randomForest
 #' @importFrom glmnet glmnet
-#' @importFrom kernlab kernalFast
+#' @importFrom kernlab as.kernelMatrix
 #' @importFrom randomForest getTree
 #' @importFrom xgboost xgboost
 NULL
