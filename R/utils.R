@@ -26,6 +26,15 @@ rlang::`:=`
 ## See: \url{https://github.com/tidyverse/magrittr/issues/29}
 utils::globalVariables(c("."))
 
+## Suppress R CMD check note 'All declared Imports should be used'
+#' @importFrom MLmetrics AUC
+#' @importFrom e1071 best.randomForest
+#' @importFrom glmnet glmnet
+#' @importFrom kernlab kernalFast
+#' @importFrom randomForest getTree
+#' @importFrom xgboost xgboost
+NULL
+
 #' Randomize feature order to eliminate any position-dependent effects
 #'
 #'
