@@ -13,14 +13,22 @@
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md)
 [![lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/mikropml)](https://CRAN.R-project.org/package=mikropml)
 <!-- badges: end -->
 
-User-Friendly R Package for Robust Machine Learning Pipelines
+User-Friendly R Package for Supervised Machine Learning Pipelines
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/SchlossLab/mikRopML) with:
+You can install the latest release from CRAN:
+
+``` r
+install.packages('mikropml')
+```
+
+or the development version from
+[GitHub](https://github.com/SchlossLab/mikRopML):
 
 ``` r
 # install.packages("devtools")

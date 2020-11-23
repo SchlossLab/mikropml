@@ -65,7 +65,7 @@ we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced
 "meek-ROPE em el"), an easy-to-use R package that implements ML pipelines using
 regression, support vector machines, decision trees, random forest, or
 gradient-boosted trees. The package is available on
-[GitHub](https://github.com/SchlossLab/mikropml/) and CRAN.
+[GitHub](https://github.com/SchlossLab/mikropml/) and [CRAN](https://cran.r-project.org/package=mikropml).
 
 # Statement of need
 
@@ -171,59 +171,57 @@ workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow).
 
 ## Tuning & visualization
 
-One particularly important aspect of ML is hyperparameter tuning. 
-We provide a reasonable range of default hyperparameters for each model type. 
-However practitioners should explore whether that range is appropriate for their data,
-or if they should customize the hyperparameter range.
-Therefore, we provide a function `plot_hp_performance()` to plot the 
-cross-validation performance metric of a single model or models built using 
-different train/test splits. This helps evaluate if the hyperparameter range is being searched 
-exhaustively and allows the user to pick the ideal set. We also provide summary 
-plots of test performance metrics for the many train/test splits with different 
-models using `plot_model_performance()`. Examples are described in the 
-accompanying [vignette on hyperparameter tuning](http://www.schlosslab.org/mikropml/articles/tuning.html).
+One particularly important aspect of ML is hyperparameter tuning. We provide a
+reasonable range of default hyperparameters for each model type. However
+practitioners should explore whether that range is appropriate for their data,
+or if they should customize the hyperparameter range. Therefore, we provide a
+function `plot_hp_performance()` to plot the cross-validation performance metric
+of a single model or models built using different train/test splits. This helps
+evaluate if the hyperparameter range is being searched exhaustively and allows
+the user to pick the ideal set. We also provide summary plots of test
+performance metrics for the many train/test splits with different models using
+`plot_model_performance()`. Examples are described in the accompanying [vignette
+on hyperparameter
+tuning](http://www.schlosslab.org/mikropml/articles/tuning.html).
 
 ## Dependencies
 
 mikropml is written in R [@r_core_team_r_2020] and depends on several packages:
-`dplyr` [@wickham_dplyr_2020], `rlang` [@henry_rlang_2020] 
-and `caret` [@kuhn_building_2008].
-The ML algorithms supported by `mikropml` require:
-`glmnet` [@friedman_regularization_2010], `e1071` [@meyer_e1071_2020], 
-and `MLmetrics` [@yan_mlmetrics_2016] for logistic regression, 
-`rpart2` [@therneau_rpart_2019] for decision trees, 
-`randomForest` [@liaw_classication_2002] for random forest, 
-`xgboost` [@chen_xgboost_2020] for xgboost, and 
-`kernlab` [@karatzoglou_kernlab_2004] for support vector machines. 
-We also allow for parallelization of cross-validation and other steps using 
-the `foreach`, `doFuture`, `future.apply`, 
-and `future` packages [@bengtsson_futureapply_2020].
-Finally, we use `ggplot2` for plotting [@wickham_ggplot2_2016].
+`dplyr` [@wickham_dplyr_2020], `rlang` [@henry_rlang_2020] and `caret`
+[@kuhn_building_2008]. The ML algorithms supported by `mikropml` require:
+`glmnet` [@friedman_regularization_2010], `e1071` [@meyer_e1071_2020], and
+`MLmetrics` [@yan_mlmetrics_2016] for logistic regression, `rpart2`
+[@therneau_rpart_2019] for decision trees, `randomForest`
+[@liaw_classication_2002] for random forest, `xgboost` [@chen_xgboost_2020] for
+xgboost, and `kernlab` [@karatzoglou_kernlab_2004] for support vector machines.
+We also allow for parallelization of cross-validation and other steps using the
+`foreach`, `doFuture`, `future.apply`, and `future` packages
+[@bengtsson_futureapply_2020]. Finally, we use `ggplot2` for plotting
+[@wickham_ggplot2_2016].
 
 # Acknowledgments
 
-We thank members of the Schloss Lab who participated in code clubs related to 
+We thank members of the Schloss Lab who participated in code clubs related to
 the initial development of the pipeline.
 
 # Funding
 
-Salary support for PDS came from NIH grant 1R01CA215574.
-KLS received support from the NIH Training Program in Bioinformatics (T32 GM070449).
-ZL received support from the National Science Foundation Graduate Research Fellowship Program under Grant No. DGE 1256260. 
-Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+Salary support for PDS came from NIH grant 1R01CA215574. KLS received support
+from the NIH Training Program in Bioinformatics (T32 GM070449). ZL received
+support from the National Science Foundation Graduate Research Fellowship
+Program under Grant No. DGE 1256260. Any opinions, findings, and conclusions or
+recommendations expressed in this material are those of the authors and do not
+necessarily reflect the views of the National Science Foundation.
 
 # Author contributions
 
-BDT, ZL, and KLS contributed equally.
-Author order among the co-first authors was determined by time since joining
-the project.
+BDT, ZL, and KLS contributed equally. Author order among the co-first authors
+was determined by time since joining the project.
 
-BDT, ZL, and KLS conceptualized the study and wrote the code.
-KLS structured the code in R package form.
-BDT, ZL, JW, and PDS developed methodology. 
-PDS, ES, and JW supervised the project. 
-BDT, ZL, and KLS wrote the original draft. 
-All authors reviewed and edited the manuscript.
+BDT, ZL, and KLS conceptualized the study and wrote the code. KLS structured the
+code in R package form. BDT, ZL, JW, and PDS developed methodology. PDS, ES, and
+JW supervised the project. BDT, ZL, and KLS wrote the original draft. All
+authors reviewed and edited the manuscript.
 
 # Conflicts of interest
 

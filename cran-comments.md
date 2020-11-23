@@ -1,9 +1,9 @@
 ## Resubmission
 
-- Fixed possible invalid links in the README and vignettes. 
-- Moved the packages that the datasets use from Suggests to Imports.
-- Checked the package with rhub's debian-clang-devel image.
-- Reduced the overall checktime even further by skipping some tests on CRAN and reducing vignette build time.
+- Switched \dontrun{} to \donttest{} for long-running examples.
+- Fixed description:
+    - Enclosed package name in single quotes.
+    - Added relevant links to the package website & paper.
 
 ## Test environments
 
@@ -19,5 +19,3 @@
 0 errors | 0 warnings | 1 note
 
 - New submission
-- Possibly mis-spelled words in DESCRIPTION:
-    mikropml (46:30) - this is the name of the package.

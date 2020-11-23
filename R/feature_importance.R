@@ -14,7 +14,7 @@
 #'   seed (`seed`) are also returned.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
 #' names(results$trained_model$trainingData)[1] <- "dx"
 #' get_feature_importance(results$trained_model,
