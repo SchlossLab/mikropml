@@ -75,6 +75,11 @@ This example uses only a few seeds for speed and simplicity,
 but for real data we recommend using many more seeds to get a better estimate 
 of model performance.
 
+In these examples, we used functions from the `future.apply` package to
+`run_ml()` in parallel, but you can accomplish the same thing with parallel
+versions of the `purrr::map()` functions using the `furrr` package (e.g.
+`furrr::future_map_dfr()`).
+
 Extract the performance results and combine into one dataframe for all seeds:
 
 ```{r bind_multi_seeds}
