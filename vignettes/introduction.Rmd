@@ -17,10 +17,11 @@ knitr::opts_chunk$set(
 ```
 
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you
-to run while not losing any of the rigor associated with robust machine learning pipelines.
-All you need to run ML is one function: `run_ml()`.
-We've selected sensible default arguments related to best practices [@topcuoglu_framework_2020, @tang_democratizing_2020],
-but we allow you to change those arguments to tailor `run_ml()` to the needs of your data.
+to run while implementing good practices for machine learning pipelines. All you
+need to run ML is one function: `run_ml()`. We've selected sensible default
+arguments related to good practices [@topcuoglu_framework_2020;
+@tang_democratizing_2020], but we allow you to change those arguments to tailor
+`run_ml()` to the needs of your data.
 
 This document takes you through all of the `run_ml()` inputs,
 both required and optional, as well as the outputs.
@@ -108,7 +109,7 @@ You may also want to provide:
 - The outcome column name. By default `run_ml()` will pick the first column, but it's best practice to specify the column name explicitly.
 - A seed so that the results will be reproducible, and so that you get the same results as those you see here (i.e have the same train/test split).
 
-Say we want to use `glmnet`.  Then, run ML with:
+Say we want to use `glmnet`.Then, run ML with:
 
 ```{r, eval = FALSE}
 results <- run_ml(otu_mini_bin,

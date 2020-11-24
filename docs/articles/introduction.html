@@ -95,7 +95,7 @@
 
       
 
-      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="introduction_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><link href="introduction_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="introduction_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -110,7 +110,7 @@
 
     
     
-<p>The goal of <code>mikropml</code> is to make supervised machine learning (ML) easy for you to run while not losing any of the rigor associated with robust machine learning pipelines. All you need to run ML is one function: <code><a href="../reference/run_ml.html">run_ml()</a></code>. We’ve selected sensible default arguments related to best practices <span class="citation">(Topçuoğlu et al. 2020, @tang_democratizing_2020)</span>, but we allow you to change those arguments to tailor <code><a href="../reference/run_ml.html">run_ml()</a></code> to the needs of your data.</p>
+<p>The goal of <code>mikropml</code> is to make supervised machine learning (ML) easy for you to run while implementing good practices for machine learning pipelines. All you need to run ML is one function: <code><a href="../reference/run_ml.html">run_ml()</a></code>. We’ve selected sensible default arguments related to good practices <span class="citation">(Topçuoğlu et al. 2020; Tang et al. 2020)</span>, but we allow you to change those arguments to tailor <code><a href="../reference/run_ml.html">run_ml()</a></code> to the needs of your data.</p>
 <p>This document takes you through all of the <code><a href="../reference/run_ml.html">run_ml()</a></code> inputs, both required and optional, as well as the outputs.</p>
 <p>In summary, you provide:</p>
 <ul>
@@ -357,16 +357,16 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span>
 <span class="co">#&gt;    perf_metric perf_metric_diff    names method perf_metric_name seed</span>
-<span class="co">#&gt; 1    0.5411250        0.0213750 Otu00009     rf              AUC 2019</span>
-<span class="co">#&gt; 2    0.5179625        0.0445375 Otu00005     rf              AUC 2019</span>
-<span class="co">#&gt; 3    0.4996375        0.0628625 Otu00010     rf              AUC 2019</span>
-<span class="co">#&gt; 4    0.5520625        0.0104375 Otu00001     rf              AUC 2019</span>
-<span class="co">#&gt; 5    0.5322750        0.0302250 Otu00008     rf              AUC 2019</span>
-<span class="co">#&gt; 6    0.6352875       -0.0727875 Otu00004     rf              AUC 2019</span>
-<span class="co">#&gt; 7    0.5527375        0.0097625 Otu00003     rf              AUC 2019</span>
-<span class="co">#&gt; 8    0.5723000       -0.0098000 Otu00002     rf              AUC 2019</span>
-<span class="co">#&gt; 9    0.5423500        0.0201500 Otu00007     rf              AUC 2019</span>
-<span class="co">#&gt; 10   0.5448000        0.0177000 Otu00006     rf              AUC 2019</span></code></pre></div>
+<span class="co">#&gt; 1    0.5421875        0.0203125 Otu00009     rf              AUC 2019</span>
+<span class="co">#&gt; 2    0.5104625        0.0520375 Otu00005     rf              AUC 2019</span>
+<span class="co">#&gt; 3    0.5014375        0.0610625 Otu00010     rf              AUC 2019</span>
+<span class="co">#&gt; 4    0.5508000        0.0117000 Otu00001     rf              AUC 2019</span>
+<span class="co">#&gt; 5    0.5275125        0.0349875 Otu00008     rf              AUC 2019</span>
+<span class="co">#&gt; 6    0.6441750       -0.0816750 Otu00004     rf              AUC 2019</span>
+<span class="co">#&gt; 7    0.5527750        0.0097250 Otu00003     rf              AUC 2019</span>
+<span class="co">#&gt; 8    0.5695750       -0.0070750 Otu00002     rf              AUC 2019</span>
+<span class="co">#&gt; 9    0.5435875        0.0189125 Otu00007     rf              AUC 2019</span>
+<span class="co">#&gt; 10   0.5487625        0.0137375 Otu00006     rf              AUC 2019</span></code></pre></div>
 <p>There are several columns:</p>
 <ol style="list-style-type: decimal">
 <li>
