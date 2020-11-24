@@ -65,7 +65,9 @@ we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced
 "meek-ROPE em el"), an easy-to-use R package that implements ML pipelines using
 regression, support vector machines, decision trees, random forest, or
 gradient-boosted trees. The package is available on
-[GitHub](https://github.com/SchlossLab/mikropml/) and [CRAN](https://cran.r-project.org/package=mikropml).
+[GitHub](https://github.com/SchlossLab/mikropml/),
+[CRAN](https://cran.r-project.org/package=mikropml), and
+[conda](https://anaconda.org/conda-forge/r-mikropml).
 
 # Statement of need
 
