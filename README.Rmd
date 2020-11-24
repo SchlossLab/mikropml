@@ -29,20 +29,22 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
 <!-- badges: end -->
 
-An interface to build machine learning models for classification 
-and regression problems. `mikropml` implements the ML pipeline described
-by [Topçuoğlu _et al._ (2020)](doi:10.1128/mBio.00434-20) with reasonable 
-default options for data preprocessing, hyperparameter tuning, 
-cross-validation, testing, model evaluation, and interpretation steps. 
-See the [website](http://www.schlosslab.org/mikropml/) for more information, 
+An interface to build machine learning models for classification and regression
+problems. `mikropml` implements the ML pipeline described by [Topçuoğlu _et al._
+(2020)](https://doi.org/doi:10.1128/mBio.00434-20) with reasonable default
+options for data preprocessing, hyperparameter tuning, cross-validation,
+testing, model evaluation, and interpretation steps. See the
+[website](http://www.schlosslab.org/mikropml/) for more information,
 documentation, and examples.
 
 ## Installation
 
-You can install the latest release from CRAN:
+You can install the latest release from
+[CRAN](https://cran.r-project.org/package=mikropml):
 ```{r, eval = FALSE}
 install.packages('mikropml')
 ```
+
 or the development version from 
 [GitHub](https://github.com/SchlossLab/mikRopML):
 
@@ -51,7 +53,8 @@ or the development version from
 devtools::install_github("SchlossLab/mikropml")
 ```
 
-or install from a terminal using [conda](https://docs.conda.io/projects/conda/en/latest/index.html):
+or install from a terminal using
+[conda](https://docs.conda.io/projects/conda/en/latest/index.html):
 
 ```{bash, eval = FALSE}
 conda install -c conda-forge r-mikropml

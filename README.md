@@ -18,15 +18,16 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 
 An interface to build machine learning models for classification and
 regression problems. `mikropml` implements the ML pipeline described by
-[Topçuoğlu *et al.* (2020)](doi:10.1128/mBio.00434-20) with reasonable
-default options for data preprocessing, hyperparameter tuning,
-cross-validation, testing, model evaluation, and interpretation steps.
-See the [website](http://www.schlosslab.org/mikropml/) for more
+[Topçuoğlu *et al.* (2020)](https://doi.org/doi:10.1128/mBio.00434-20)
+with reasonable default options for data preprocessing, hyperparameter
+tuning, cross-validation, testing, model evaluation, and interpretation
+steps. See the [website](http://www.schlosslab.org/mikropml/) for more
 information, documentation, and examples.
 
 ## Installation
 
-You can install the latest release from CRAN:
+You can install the latest release from
+[CRAN](https://cran.r-project.org/package=mikropml):
 
 ``` r
 install.packages('mikropml')
