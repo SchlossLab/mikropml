@@ -22,10 +22,9 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster)
 [![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikropml)
-[![docs](https://img.shields.io/static/v1?style=flat&label=Docs&message=Website&color=success)](http://www.schlosslab.org/mikropml/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md)
-[![lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN](https://img.shields.io/cran/v/mikropml?color=blue&label=CRAN&logo=R)](https://CRAN.R-project.org/package=mikropml)
+[![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
 <!-- badges: end -->
 
 User-Friendly R Package for Supervised Machine Learning Pipelines
@@ -36,7 +35,6 @@ You can install the latest release from CRAN:
 ```{r, eval = FALSE}
 install.packages('mikropml')
 ```
-
 or the development version from 
 [GitHub](https://github.com/SchlossLab/mikRopML):
 
@@ -44,6 +42,13 @@ or the development version from
 # install.packages("devtools")
 devtools::install_github("SchlossLab/mikropml")
 ```
+
+or install from a terminal using [conda](https://docs.conda.io/projects/conda/en/latest/index.html):
+
+```{bash, eval = FALSE}
+conda install -c conda-forge r-mikropml
+```
+
 
 ### Dependencies
 
