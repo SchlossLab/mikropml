@@ -5,6 +5,8 @@
 
 > meek-ROPE em el
 
+User-Friendly R Package for Supervised Machine Learning Pipelines
+
 <!-- badges: start -->
 
 [![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster)
@@ -14,7 +16,13 @@
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
 <!-- badges: end -->
 
-User-Friendly R Package for Supervised Machine Learning Pipelines
+An interface to build machine learning models for classification and
+regression problems. `mikropml` implements the ML pipeline described by
+[Topçuoğlu *et al.* (2020)](doi:10.1128/mBio.00434-20) with reasonable
+default options for data preprocessing, hyperparameter tuning,
+cross-validation, testing, model evaluation, and interpretation steps.
+See the [website](http://www.schlosslab.org/mikropml/) for more
+information, documentation, and examples.
 
 ## Installation
 
@@ -54,6 +62,9 @@ for a quick start tutorial. For a more in-depth discussion, read [all
 the vignettes](http://www.schlosslab.org/mikropml/articles/index.html)
 and/or take a look at the [reference
 documentation](http://www.schlosslab.org/mikropml/reference/index.html).
+We also provide an [example Snakemake
+workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) for
+running `mikropml` on an HPC.
 
 ## Help & Contributing
 

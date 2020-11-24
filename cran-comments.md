@@ -1,9 +1,6 @@
-## Resubmission
+## Changes
 
-- Switched \dontrun{} to \donttest{} for long-running examples.
-- Fixed description:
-    - Enclosed package name in single quotes.
-    - Added relevant links to the package website & paper.
+- Fixed test error on Solaris and check note on Fedora.
 
 ## Test environments
 
@@ -16,6 +13,6 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-- New submission
+## revdepcheck results

@@ -35,6 +35,7 @@ utils::globalVariables(c("."))
 #' @importFrom glmnet glmnet
 #' @importFrom kernlab as.kernelMatrix
 #' @importFrom randomForest getTree
+#' @importFrom rpart rpart
 #' @importFrom xgboost xgboost
 NULL
 
