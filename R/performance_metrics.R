@@ -153,7 +153,7 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #'   "dx",
 #'   multiClassSummary, "AUC",
 #'   class_probs = TRUE,
-#'   method = 'glmnet'
+#'   method = "glmnet"
 #' )
 #' }
 #'
