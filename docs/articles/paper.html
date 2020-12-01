@@ -95,7 +95,7 @@
 
       
 
-      </header><script src="paper_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="paper_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -114,7 +114,7 @@
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h1>
-<p>Machine learning (ML) for classification and prediction based on a set of features is used to make decisions in healthcare, economics, criminal justice and more. However, implementing an ML pipeline including preprocessing, model selection, and evaluation can be time-consuming, confusing, and difficult. Here, we present <a href="http://www.schlosslab.org/mikropml/"><code>mikropml</code></a> (prononced “meek-ROPE em el”), an easy-to-use R package that implements ML pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees. The package is available on <a href="https://github.com/SchlossLab/mikropml/">GitHub</a> and <a href="https://cran.r-project.org/package=mikropml">CRAN</a>.</p>
+<p>Machine learning (ML) for classification and prediction based on a set of features is used to make decisions in healthcare, economics, criminal justice and more. However, implementing an ML pipeline including preprocessing, model selection, and evaluation can be time-consuming, confusing, and difficult. Here, we present <a href="http://www.schlosslab.org/mikropml/"><code>mikropml</code></a> (prononced “meek-ROPE em el”), an easy-to-use R package that implements ML pipelines using regression, support vector machines, decision trees, random forest, or gradient-boosted trees. The package is available on <a href="https://github.com/SchlossLab/mikropml/">GitHub</a>, <a href="https://cran.r-project.org/package=mikropml">CRAN</a>, and <a href="https://anaconda.org/conda-forge/r-mikropml">conda</a>.</p>
 </div>
 <div id="statement-of-need" class="section level1">
 <h1 class="hasAnchor">
@@ -138,7 +138,7 @@
 <a href="#running-ml" class="anchor"></a>Running ML</h2>
 <p>The main function in mikropml, <code><a href="../reference/run_ml.html">run_ml()</a></code>, minimally takes in the model choice and a data frame with an outcome column and feature columns. For model choice, <code>mikropml</code> currently supports logistic and linear regression <span class="citation">(<code>glmnet</code>: Friedman, Hastie, and Tibshirani 2010)</span>, support vector machines with a radial basis kernel <span class="citation">(<code>kernlab</code>: Karatzoglou et al. 2004)</span>, decision trees <span class="citation">(<code>rpart</code>: Therneau et al. 2019)</span>, random forest <span class="citation">(<code>randomForest</code>: Liaw and Wiener 2002)</span>, and gradient-boosted trees <span class="citation">(<code>xgboost</code>: Chen et al. 2020)</span>. <code><a href="../reference/run_ml.html">run_ml()</a></code> randomly splits the data into train and test sets while maintaining the distribution of the outcomes found in the full dataset. It also provides the option to split the data into train and test sets based on categorical variables (e.g. batch, geographic location, etc.). <code>mikropml</code> uses the <code>caret</code> package <span class="citation">(Kuhn 2008)</span> to train and evaluate the models, and optionally quantifies feature importance. The output includes the best model built based on tuning hyperparameters in an internal and repeated cross-validation step, model evaluation metrics, and optional feature importances. Feature importances are calculated using a permutation test, which breaks the relationship between the feature and the true outcome in the test data, and measures the change in model performance. This provides an intuitive metric of how individual features influence model performance and is comparable across model types, which is particularly useful for model interpretation <span class="citation">(Topçuoğlu et al. 2020)</span>. Our <a href="http://www.schlosslab.org/mikropml/articles/introduction.html">introductory vignette</a> contains a comprehensive tutorial on how to use <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
 <div class="figure">
-<img src="mikRopML-pipeline.png" style="width:100.0%" alt=""><p class="caption">mikropml pipeline</p>
+<img src="mikRopML-pipeline.png" alt="mikropml pipeline" style="width:100.0%"><p class="caption">mikropml pipeline</p>
 </div>
 </div>
 <div id="ideal-workflow-for-running-mikropml-with-many-different-traintest-splits" class="section level2">
@@ -201,7 +201,7 @@
 <p>H2O.ai. 2020. <em>H2O: Scalable Machine Learning Platform</em>. Manual.</p>
 </div>
 <div id="ref-hagan_women_2020">
-<p>Hagan, AK, BD Topçuoğlu, ME Gregory, HA Barton, and PD Schloss. 2020. “Women Are Underrepresented and Receive Differential Outcomes at ASM Journals: A Six-Year Retrospective Analysis.” <em>mBio</em> 11:e01680-20.</p>
+<p>Hagan, Ada K., Begüm D. Topçuoğlu, Mia E. Gregory, Hazel A. Barton, and Patrick D. Schloss. 2020. “Women Are Underrepresented and Receive Differential Outcomes at ASM Journals: A Six-Year Retrospective Analysis.” <em>mBio</em> 11 (6). <a href="https://doi.org/10.1128/mBio.01680-20">https://doi.org/10.1128/mBio.01680-20</a>.</p>
 </div>
 <div id="ref-henry_rlang_2020">
 <p>Henry, Lionel, Hadley Wickham, and RStudio. 2020. “Rlang: Functions for Base Types and Core R and ’Tidyverse’ Features,” July.</p>
@@ -262,10 +262,10 @@
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
   </div>
