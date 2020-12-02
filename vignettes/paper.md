@@ -91,23 +91,23 @@ To enable a broader range of researchers to apply ML to their problem domains,
 we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use
 R package [@r_core_team_r_2020] that implements the ML pipeline created by
 Topçuoğlu _et al._ [@topcuoglu_framework_2020] in a single function that returns
-the best model performance metrics and feature importances. `mikropml` leverages
+the best model performance metrics and feature importance. `mikropml` leverages
 the `caret` package to support several ML algorithms: linear regression,
-logistic regression, support vector machine with a radial basis kernel, decision
-tree, random forest, and gradient boosted trees. It incorporates good practices
-in ML training, testing, and model evaluation
+logistic regression, support vector machines with a radial basis kernel,
+decision trees, random forest, and gradient boosted trees. It incorporates good
+practices in ML training, testing, and model evaluation
 [@topcuoglu_framework_2020;@teschendorff_avoiding_2019]. Furthermore, it
 provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven
 pipeLinE) framework outlined in Tang _et al._ [@tang_democratizing_2020] and
-post-training permutation importance steps to measure the importance of each
+post-training permutation importance steps to estimate the importance of each
 feature in the models trained [@breiman_random_2001; @fisher_all_2018].
 
-The pipeline implemented in `mikropml` is generalizable to perform ML on
-datasets from many different fields. It has already been applied to microbiome
-data to categorize patients with colorectal cancer [@topcuoglu_framework_2020],
-to identify differences in genomic and clinical features associated with
-bacterial infections [@lapp_machine_2020], and to predict gender-based biases in
-academic publishing [@hagan_women_2020].
+`mikropml` can be used as a starting point in the application of ML to datasets
+from many different fields. It has already been applied to microbiome data to
+categorize patients with colorectal cancer [@topcuoglu_framework_2020], to
+identify differences in genomic and clinical features associated with bacterial
+infections [@lapp_machine_2020], and to predict gender-based biases in academic
+publishing [@hagan_women_2020].
 
 # mikropml package
 
@@ -120,6 +120,13 @@ workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow)
 [@koster_snakemakescalable_2012] to showcase how to run an ideal ML pipeline
 with multiple different train/test data splits. The results can be visualized
 using helper functions that use `ggplot2` [@wickham_ggplot2_2016].
+
+While mikropml allows users to get started quickly and facilitates
+reproducibility, it is not a replacement for understanding the ML workflow which
+is still necessary when interpreting results [@pollard_turning_2019]. To
+facilitate understanding and enable one to tailor the code to their application,
+we have heavily commented the code and have provided supporting documentation
+which can be read [online](http://www.schlosslab.org/mikropml/).
 
 ## Preprocessing data
 

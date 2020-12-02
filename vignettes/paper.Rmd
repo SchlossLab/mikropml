@@ -129,11 +129,12 @@ workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow)
 with multiple different train/test data splits. The results can be visualized
 using helper functions that use `ggplot2` [@wickham_ggplot2_2016].
 
-While mikropml allows users to get started quickly and facilitates reproducibility, 
-it is not a replacement for understanding the ML workflow which is still necessary 
-when interpreting results [@pollard_turning_2019]. To facilitate understanding and 
-enable one to tailor the code to their application, we have heavily commented the 
-code and have provided supporting documentation.
+While mikropml allows users to get started quickly and facilitates
+reproducibility, it is not a replacement for understanding the ML workflow which
+is still necessary when interpreting results [@pollard_turning_2019]. To
+facilitate understanding and enable one to tailor the code to their application,
+we have heavily commented the code and have provided supporting documentation
+which can be read [online](http://www.schlosslab.org/mikropml/).
 
 ## Preprocessing data
 
