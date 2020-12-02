@@ -90,8 +90,8 @@ to perform ML analyses.
 To enable a broader range of researchers to apply ML to their problem domains,
 we created [`mikropml`](https://github.com/SchlossLab/mikropml/), an easy-to-use
 R package [@r_core_team_r_2020] that implements the ML pipeline created by
-Topçuoğlu _et al._ [@topcuoglu_framework_2020] in a single function that returns
-the best model performance metrics and feature importance. `mikropml` leverages
+Topçuoğlu _et al._ [@topcuoglu_framework_2020] in a single function that returns a trained model,
+model performance metrics and feature importance. `mikropml` leverages
 the `caret` package to support several ML algorithms: linear regression,
 logistic regression, support vector machines with a radial basis kernel,
 decision trees, random forest, and gradient boosted trees. It incorporates good
@@ -211,7 +211,8 @@ We also allow for parallelization of cross-validation and other steps using the
 # Acknowledgments
 
 We thank members of the Schloss Lab who participated in code clubs related to
-the initial development of the pipeline.
+the initial development of the pipeline, made documentation improvements, and
+provided general feedback.
 
 # Funding
 
