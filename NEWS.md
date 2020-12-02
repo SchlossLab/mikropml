@@ -1,6 +1,8 @@
-# development version
+# mikropml 0.0.2
 
-- Fixes check error on Solaris & note on Fedora.
+- Fixed a test failure on Solaris.
+- Made minor documentation improvements.
+- Moved `rpart` from Suggests to Imports for consistency.
 
 # mikropml 0.0.1
 
