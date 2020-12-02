@@ -1,8 +1,10 @@
 ## Changes
 
-This release fixes:
+This release fixes several problems found by CRAN's check server:
+
 - test failure on r-patched-solaris-x86.
-- check note on r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, and r-release-macos-x86_64.
+- check note about unused Imports on r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, and r-release-macos-x86_64.
+- multiple test failtures with r-oldrel due to `stringsAsFactors` behavior.
 
 ## Test environments
 

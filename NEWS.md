@@ -1,8 +1,9 @@
 # mikropml 0.0.2
 
 - Fixed a test failure on Solaris.
+- Fixed multiple test failtures with R 3.6.2 due to `stringsAsFactors` behavior.
 - Made minor documentation improvements.
-- Moved `rpart` from Suggests to Imports for consistency.
+- Moved `rpart` from Suggests to Imports for consistency with other packages used during model training.
 
 # mikropml 0.0.1
 
