@@ -1,3 +1,6 @@
+options( # for compatibility with R < 4.0
+  stringsAsFactors = FALSE
+)
 test_df <- data.frame(
   outcome = c("normal", "normal", "cancer", NA),
   var1 = 1:4,
