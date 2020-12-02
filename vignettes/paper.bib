@@ -1,465 +1,578 @@
 
-@article{allaire_rmarkdown_2020,
-  title = {Rmarkdown: {{Dynamic Documents}} for {{R}}},
-  shorttitle = {Rmarkdown},
-  author = {Allaire, J. J. and Xie [aut, Yihui and {cre} and McPherson, Jonathan and Luraschi, Javier and Ushey, Kevin and Atkins, Aron and Wickham, Hadley and Cheng, Joe and Chang, Winston and Iannone, Richard and Dunning, Andrew and Yasumoto, Atsushi and Schloerke, Barret and Dervieux, Christophe and Aust, Frederik and Allen, Jeff and Seo, JooYoung and Barrett, Malcolm and Hyndman, Rob and Lesur, Romain and Storey, Roy and Arslan, Ruben and Oller, Sergio and {RStudio} and {PBC} and {library)}, jQuery Foundation (jQuery and library; authors listed in {inst/rmd/h/jquery-AUTHORS.txt)}, jQuery contributors (jQuery and library; authors listed in {inst/rmd/h/jqueryui-AUTHORS.txt)}, jQuery UI contributors (jQuery UI and {library)}, Mark Otto (Bootstrap and {library)}, Jacob Thornton (Bootstrap and {library)}, Bootstrap contributors (Bootstrap and {Twitter} and {library)}, Inc (Bootstrap and {library)}, Alexander Farkas (html5shiv and js {library)}, Scott Jehl (Respond and js {library)}, Ivan Sagalaev (highlight and {library)}, Greg Franko (tocify and {templates)}, John MacFarlane (Pandoc and {Google} and {library)}, Inc (ioslides and {library)}, Dave Raggett (slidy and {library)}, W3C (slidy and {Gandy (Font-Awesome)}, Dave and Sperry (Ionicons), Ben and (Ionicons), Drifty and StickyTabs), Aidan Lister (jQuery and lua {filter)}, Benct Philip Jonsson (pagebreak and lua {filter)}, Albert Krewinkel (pagebreak},
-  year = {2020},
-  month = jun,
-  abstract = {Convert R Markdown documents into a variety of formats.},
-  copyright = {GPL-3},
-  keywords = {ReproducibleResearch}
-}
-
-@article{bengtsson_futureapply_2020,
-  title = {Future.Apply: {{Apply Function}} to {{Elements}} in {{Parallel}} Using {{Futures}}},
-  shorttitle = {Future.Apply},
-  author = {Bengtsson, Henrik and Team, R Core},
-  year = {2020},
-  month = jul,
-  abstract = {Implementations of apply(), by(), eapply(), lapply(), Map(), .mapply(), mapply(), replicate(), sapply(), tapply(), and vapply() that can be resolved using any future-supported backend, e.g. parallel on the local machine or distributed on a compute cluster. These future\_*apply() functions come with the same pros and cons as the corresponding base-R *apply() functions but with the additional feature of being able to be processed via the future framework.},
-  copyright = {GPL-2 | GPL-3 [expanded from: GPL ({$\geq$} 2)]}
-}
-
-@article{breiman_random_2001,
-  title = {Random Forests},
-  author = {Breiman, Leo},
-  year = {2001},
-  month = oct,
-  volume = {45},
-  pages = {5--32},
-  issn = {1573-0565},
-  doi = {10.1023/A:1010933404324},
-  abstract = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund \& R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, ***, 148156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.},
-  journal = {Machine Learning},
-  number = {1}
-}
-
-@article{chen_xgboost_2020,
-  title = {Xgboost: {{Extreme Gradient Boosting}}},
-  shorttitle = {Xgboost},
-  author = {Chen, Tianqi and He, Tong and Benesty, Michael and Khotilovich, Vadim and Tang, Yuan and Cho, Hyunsu and Chen, Kailong and Mitchell, Rory and Cano, Ignacio and Zhou, Tianyi and Li, Mu and Xie, Junyuan and Lin, Min and Geng, Yifeng and Li, Yutian and {implementation)}, XGBoost contributors (base XGBoost},
-  year = {2020},
-  month = jun,
-  abstract = {Extreme Gradient Boosting, which is an efficient implementation of the gradient boosting framework from Chen \& Guestrin (2016) {$<$}doi:10.1145/2939672.2939785{$>$}. This package is its R interface. The package includes efficient linear model solver and tree learning algorithms. The package can automatically do parallel computation on a single machine which could be more than 10 times faster than existing gradient boosting packages. It supports various objective functions, including regression, classification and ranking. The package is made to be extensible, so that users are also allowed to define their own objectives easily.},
-  copyright = {Apache License (== 2.0) | file LICENSE},
-  keywords = {HighPerformanceComputing,MachineLearning,ModelDeployment}
-}
-
-@article{dukes_how_2020,
-  title = {How to Better Support {{Black}} Trainees in the Biomedical Sciences},
-  author = {Dukes, Angeline},
-  year = {2020},
-  month = oct,
-  pages = {1--1},
-  publisher = {{Nature Publishing Group}},
-  issn = {1546-170X},
-  doi = {10.1038/s41591-020-1101-3},
-  abstract = {The relentless violence against Black people takes an overwhelming emotional toll on Black trainees. In those we continue to lose, we see our families, our friends and our own lives being taken.},
-  copyright = {2020 Springer Nature America, Inc.},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/TZMHK83G/Dukes_2020_Nature_Medicine.pdf},
-  journal = {Nature Medicine},
-  language = {en}
+@article{topcuoglu_framework_2020,
+	title = {A {Framework} for {Effective} {Application} of {Machine} {Learning} to {Microbiome}-{Based} {Classification} {Problems}},
+	volume = {11},
+	copyright = {Copyright © 2020 Topçuoğlu et al.. This is an open-access article distributed under the terms of the Creative Commons Attribution 4.0 International license.},
+	issn = {2150-7511},
+	url = {https://mbio.asm.org/content/11/3/e00434-20},
+	doi = {10.1128/mBio.00434-20},
+	abstract = {Machine learning (ML) modeling of the human microbiome has the potential to identify microbial biomarkers and aid in the diagnosis of many diseases such as inflammatory bowel disease, diabetes, and colorectal cancer. Progress has been made toward developing ML models that predict health outcomes using bacterial abundances, but inconsistent adoption of training and evaluation methods call the validity of these models into question. Furthermore, there appears to be a preference by many researchers to favor increased model complexity over interpretability. To overcome these challenges, we trained seven models that used fecal 16S rRNA sequence data to predict the presence of colonic screen relevant neoplasias (SRNs) (n = 490 patients, 261 controls and 229 cases). We developed a reusable open-source pipeline to train, validate, and interpret ML models. To show the effect of model selection, we assessed the predictive performance, interpretability, and training time of L2-regularized logistic regression, L1- and L2-regularized support vector machines (SVM) with linear and radial basis function kernels, a decision tree, random forest, and gradient boosted trees (XGBoost). The random forest model performed best at detecting SRNs with an area under the receiver operating characteristic curve (AUROC) of 0.695 (interquartile range [IQR], 0.651 to 0.739) but was slow to train (83.2 h) and not inherently interpretable. Despite its simplicity, L2-regularized logistic regression followed random forest in predictive performance with an AUROC of 0.680 (IQR, 0.625 to 0.735), trained faster (12 min), and was inherently interpretable. Our analysis highlights the importance of choosing an ML approach based on the goal of the study, as the choice will inform expectations of performance and interpretability.
+IMPORTANCE Diagnosing diseases using machine learning (ML) is rapidly being adopted in microbiome studies. However, the estimated performance associated with these models is likely overoptimistic. Moreover, there is a trend toward using black box models without a discussion of the difficulty of interpreting such models when trying to identify microbial biomarkers of disease. This work represents a step toward developing more-reproducible ML practices in applying ML to microbiome research. We implement a rigorous pipeline and emphasize the importance of selecting ML models that reflect the goal of the study. These concepts are not particular to the study of human health but can also be applied to environmental microbiology studies.},
+	language = {en},
+	number = {3},
+	urldate = {2020-07-09},
+	journal = {mBio},
+	author = {Topçuoğlu, Begüm D. and Lesniak, Nicholas A. and Ruffin, Mack T. and Wiens, Jenna and Schloss, Patrick D.},
+	month = jun,
+	year = {2020},
+	pmid = {32518182},
+	note = {tex.copyright: Copyright © 2020 Topçuoğlu et al.. This is an open-access article distributed under the terms of the Creative Commons Attribution 4.0 International license.
+publisher: American Society for Microbiology
+section: Research Article},
+	annote = {Publisher: American Society for Microbiology Section: Research Article},
+	file = {Topçuoğlu_et_al_2020_mBio.pdf:/Users/zenalapp/Zotero/storage/LQNE87HC/Topçuoğlu_et_al_2020_mBio.pdf:application/pdf}
 }
 
 @article{fisher_all_2018,
-  title = {All Models Are Wrong, but Many Are Useful: {{Learning}} a Variable's Importance by Studying an Entire Class of Prediction Models Simultaneously},
-  author = {Fisher, Aaron and Rudin, Cynthia and Dominici, Francesca},
-  year = {2018}
+	title = {All models are wrong, but many are useful: {Learning} a variable's importance by studying an entire class of prediction models simultaneously},
+	url = {https://arxiv.org/abs/1801.01489v5},
+	author = {Fisher, Aaron and Rudin, Cynthia and Dominici, Francesca},
+	year = {2018}
 }
 
-@article{friedman_regularization_2010,
-  title = {Regularization {{Paths}} for {{Generalized Linear Models}} via {{Coordinate Descent}}},
-  author = {Friedman, Jerome H. and Hastie, Trevor and Tibshirani, Rob},
-  year = {2010},
-  month = feb,
-  volume = {33},
-  pages = {1--22},
-  issn = {1548-7660},
-  doi = {10.18637/jss.v033.i01},
-  copyright = {Copyright (c) 2009 Jerome H. Friedman, Trevor Hastie, Rob Tibshirani},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/VRZC6MLJ/Friedman et al. - 2010 - Regularization Paths for Generalized Linear Models.pdf;/Volumes/GoogleDrive/My Drive/Zotero/storage/E7WRDR4C/v033i01.html;/Volumes/GoogleDrive/My Drive/Zotero/storage/VHVXUBTW/v033i01.html},
-  journal = {Journal of Statistical Software},
-  language = {en},
-  number = {1}
-}
-
-@article{grau_prroc_2015,
-  title = {{{PRROC}}: Computing and Visualizing Precision-Recall and Receiver Operating Characteristic Curves in {{R}}},
-  shorttitle = {{{PRROC}}},
-  author = {Grau, Jan and Grosse, Ivo and Keilwagen, Jens},
-  year = {2015},
-  month = aug,
-  volume = {31},
-  pages = {2595--2597},
-  issn = {1367-4803},
-  doi = {10.1093/bioinformatics/btv153},
-  abstract = {Summary: Precision-recall (PR) and receiver operating characteristic (ROC) curves are valuable measures of classifier performance. Here, we present the R-package PRROC, which allows for computing and visualizing both PR and ROC curves. In contrast to available R-packages, PRROC allows for computing PR and ROC curves and areas under these curves for soft-labeled data using a continuous interpolation between the points of PR curves. In addition, PRROC provides a generic plot function for generating publication-quality graphics of PR and ROC curves., Availability and implementation: PRROC is available from CRAN and is licensed under GPL 3., Contact: grau@informatik.uni-halle.de},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/GV45VBEV/Grau et al. - 2015 - PRROC computing and visualizing precision-recall .pdf},
-  journal = {Bioinformatics},
-  number = {15},
-  pmcid = {PMC4514923},
-  pmid = {25810428}
-}
-
-@manual{h2o_platform,
-  title = {{{H2O}}: {{Scalable}} Machine Learning Platform},
-  author = {{H2O.ai}},
-  year = {2020},
-  type = {Manual}
-}
-
-@article{hagan_women_2020,
-  title = {Women Are Underrepresented and Receive Differential Outcomes at {{ASM}} Journals: A Six-Year Retrospective Analysis.},
-  author = {Hagan, AK and Top{\c c}uo{\u g}lu, BD and Gregory, ME and Barton, HA and Schloss, PD},
-  year = {2020},
-  volume = {11:e01680-20},
-  journal = {mBio}
-}
-
-@article{henry_rlang_2020,
-  title = {Rlang: {{Functions}} for {{Base Types}} and {{Core R}} and '{{Tidyverse}}' {{Features}}},
-  shorttitle = {Rlang},
-  author = {Henry, Lionel and Wickham, Hadley and {RStudio}},
-  year = {2020},
-  month = jul,
-  abstract = {A toolbox for working with base types, core R features like the condition system, and core 'Tidyverse' features like tidy evaluation.},
-  copyright = {GPL-3}
-}
-
-@article{karatzoglou_kernlab_2004,
-  title = {Kernlab - {{An S4 Package}} for {{Kernel Methods}} in {{R}}},
-  author = {Karatzoglou, Alexandros and Smola, Alexandros and Hornik, Kurt and Zeileis, Achim},
-  year = {2004},
-  month = nov,
-  volume = {11},
-  pages = {1--20},
-  issn = {1548-7660},
-  doi = {10.18637/jss.v011.i09},
-  copyright = {Copyright (c) 2004 Alexandros Karatzoglou, Alexandros Smola, Kurt Hornik, Achim Zeileis},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/ZVWNLJEQ/Karatzoglou et al. - 2004 - kernlab - An S4 Package for Kernel Methods in R.pdf;/Volumes/GoogleDrive/My Drive/Zotero/storage/6DE3BJI4/v011i09.html},
-  journal = {Journal of Statistical Software},
-  language = {English},
-  number = {1}
-}
-
-@article{koster_snakemakescalable_2012,
-  title = {Snakemake\textemdash a Scalable Bioinformatics Workflow Engine},
-  author = {K{\"o}ster, Johannes and Rahmann, Sven},
-  year = {2012},
-  month = oct,
-  volume = {28},
-  pages = {2520--2522},
-  issn = {1367-4803},
-  doi = {10.1093/bioinformatics/bts480},
-  abstract = {Abstract. Summary: Snakemake is a workflow engine that provides a readable Python-based workflow definition language and a powerful execution environment that},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/B3EJVPVH/Köster and Rahmann - 2012 - Snakemake—a scalable bioinformatics workflow engin.pdf;/Volumes/GoogleDrive/My Drive/Zotero/storage/Y84G98EQ/290322.html},
-  journal = {Bioinformatics},
-  language = {English},
-  number = {19}
-}
-
-@article{kuhn_building_2008,
-  title = {Building {{Predictive Models}} in {{R Using}} the Caret {{Package}}},
-  author = {Kuhn, Max},
-  year = {2008},
-  month = nov,
-  volume = {28},
-  pages = {1--26},
-  issn = {1548-7660},
-  doi = {10.18637/jss.v028.i05},
-  copyright = {Copyright (c) 2008 Max Kuhn},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/2QEECTTK/Kuhn - 2008 - Building Predictive Models in R Using the caret Pa.pdf;/Volumes/GoogleDrive/My Drive/Zotero/storage/V6EH5X2B/v028i05.html},
-  journal = {Journal of Statistical Software},
-  language = {English},
-  number = {1}
-}
-
-@article{kuhn_tidymodels_2020,
-  title = {Tidymodels: {{Easily Install}} and {{Load}} the '{{Tidymodels}}' {{Packages}}},
-  shorttitle = {Tidymodels},
-  author = {Kuhn, Max and Wickham, Hadley and {RStudio}},
-  year = {2020},
-  month = jul,
-  abstract = {The tidy modeling "verse" is a collection of packages for modeling and statistical analysis that share the underlying design philosophy, grammar, and data structures of the tidyverse.},
-  copyright = {GPL-3 | file LICENSE}
-}
-
-@article{lapp_machine_2020,
-  title = {Machine Learning Models to Identify Patient and Microbial Genetic Factors Associated with Carbapenem-Resistant {{Klebsiella}} Pneumoniae Infection},
-  author = {Lapp, Zena and Han, Jennifer and Wiens, Jenna and Goldstein, Ellie JC and Lautenbach, Ebbing and Snitkin, Evan},
-  year = {2020},
-  month = jul,
-  pages = {2020.07.06.20147306},
-  doi = {10.1101/2020.07.06.20147306},
-  abstract = {{$<$}p{$>$}Wurtzite boron nitride (w-BN) is a metastable superhard material that is a high-pressure polymorph of BN. Clarifying how the metastable high-pressure material can be stabilized at atmospheric pressure is a challenging issue of fundamental scientific importance and promising technological value. Here, we fabricate millimeter-size w-BN bulk crystals via the hexagonal-to-wurtzite phase transformation at high pressure and high temperature. By combining transmission electron microscopy and ab initio molecular dynamics simulations, we reveal a stabilization mechanism for w-BN, i.e., the metastable high-pressure phase can be stabilized by 3D networks of planar defects which are constructed by a high density of intersecting (0001) stacking faults and \{10{$<$}math xmlns="http://www.w3.org/1998/Math/MathML" id="i1" overflow="scroll"{$><$}mrow{$><$}mover accent="true"{$><$}mn{$>$}1{$<$}/mn{$><$}mo stretchy="true"{$>$}\textasciimacron{$<$}/mo{$><$}/mover{$><$}/mrow{$><$}/math{$>$}0\} inversion domain boundaries. The 3D networks of planar defects segment the w-BN bulk crystal into numerous nanometer-size prismatic domains with the reverse crystallographic polarities. Our findings unambiguously demonstrate the retarding effect of crystal defects on the phase transformations of metastable materials, which is in contrast to the common knowledge that the crystal defects in materials will facilitate the occurrence of phase transformations.{$<$}/p{$>$}},
-  copyright = {\textcopyright{} 2020, Posted by Cold Spring Harbor Laboratory. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/NJYERLGR/Lapp et al. - 2020 - Machine learning models to identify patient and mi.pdf;/Volumes/GoogleDrive/My Drive/Zotero/storage/FH3EYCR2/2020.07.06.html},
-  journal = {medRxiv},
-  language = {English}
-}
-
-@article{liaw_classication_2002,
-  title = {Classification and {{Regression}} by {{randomForest}}},
-  author = {Liaw, Andy and Wiener, Matthew},
-  year = {2002},
-  volume = {2},
-  pages = {5},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/YZD2ALMT/Liaw and Wiener - 2002 - Classiﬁcation and Regression by randomForest.pdf},
-  language = {English}
-}
-
-@misc{meyer_e1071_2020,
-  title = {E1071: {{Misc Functions}} of the {{Department}} of {{Statistics}}, {{Probability Theory Group}} ({{Formerly}}: {{E1071}}), {{TU Wien}}},
-  shorttitle = {E1071},
-  author = {Meyer, David and Dimitriadou, Evgenia and Hornik, Kurt and Weingessel, Andreas and Leisch, Friedrich and {C++-code)}, Chih-Chung Chang (libsvm and {C++-code)}, Chih-Chen Lin (libsvm},
-  year = {2020},
-  month = oct,
-  abstract = {Functions for latent class analysis, short time Fourier transform, fuzzy clustering, support vector machines, shortest path computation, bagged clustering, naive Bayes classifier, ...},
-  copyright = {GPL-2 | GPL-3},
-  keywords = {Cluster,Distributions,Environmetrics,MachineLearning,Multivariate,Psychometrics}
-}
-
-@article{ooi_doparallel_2019,
-  title = {{{doParallel}}: {{Foreach Parallel Adaptor}} for the 'parallel' {{Package}}},
-  shorttitle = {{{doParallel}}},
-  author = {Ooi, Hong and Corporation, Microsoft and Weston, Steve and Tenenbaum, Dan},
-  year = {2019},
-  month = aug,
-  abstract = {Provides a parallel backend for the \%dopar\% function using the parallel package.},
-  copyright = {GPL-2}
-}
-
-@article{ooi_foreach_2020,
-  title = {Foreach: {{Provides Foreach Looping Construct}}},
-  shorttitle = {Foreach},
-  author = {Ooi, Hong and {Microsoft} and Weston, Steve},
-  year = {2020},
-  month = mar,
-  abstract = {Support for the foreach looping construct. Foreach is an idiom that allows for iterating over elements in a collection, without the use of an explicit loop counter. This package in particular is intended to be used for its return value, rather than for its side effects. In that sense, it is similar to the standard lapply function, but doesn't require the evaluation of a function. Using foreach without side effects also facilitates executing the loop in parallel.},
-  copyright = {Apache License (== 2.0)},
-  keywords = {HighPerformanceComputing}
-}
-
-@article{pasolli_machine_2016,
-  title = {Machine {{Learning Meta}}-Analysis of {{Large Metagenomic Datasets}}: {{Tools}} and {{Biological Insights}}},
-  shorttitle = {Machine {{Learning Meta}}-Analysis of {{Large Metagenomic Datasets}}},
-  author = {Pasolli, Edoardo and Truong, Duy Tin and Malik, Faizan and Waldron, Levi and Segata, Nicola},
-  year = {2016},
-  month = jul,
-  volume = {12},
-  pages = {e1004977},
-  issn = {1553-7358},
-  doi = {10.1371/journal.pcbi.1004977},
-  abstract = {Shotgun metagenomic analysis of the human associated microbiome provides a rich set of microbial features for prediction and biomarker discovery in the context of human diseases and health conditions. However, the use of such high-resolution microbial features presents new challenges, and validated computational tools for learning tasks are lacking. Moreover, classification rules have scarcely been validated in independent studies, posing questions about the generality and generalization of disease-predictive models across cohorts. In this paper, we comprehensively assess approaches to metagenomics-based prediction tasks and for quantitative assessment of the strength of potential microbiome-phenotype associations. We develop a computational framework for prediction tasks using quantitative microbiome profiles, including species-level relative abundances and presence of strain-specific markers. A comprehensive meta-analysis, with particular emphasis on generalization across cohorts, was performed in a collection of 2424 publicly available metagenomic samples from eight large-scale studies. Cross-validation revealed good disease-prediction capabilities, which were in general improved by feature selection and use of strain-specific markers instead of species-level taxonomic abundance. In cross-study analysis, models transferred between studies were in some cases less accurate than models tested by within-study cross-validation. Interestingly, the addition of healthy (control) samples from other studies to training sets improved disease prediction capabilities. Some microbial species (most notably Streptococcus anginosus) seem to characterize general dysbiotic states of the microbiome rather than connections with a specific disease. Our results in modelling features of the ``healthy'' microbiome can be considered a first step toward defining general microbial dysbiosis. The software framework, microbiome profiles, and metadata for thousands of samples are publicly available at http://segatalab.cibio.unitn.it/tools/metaml.},
-  journal = {PLOS Computational Biology},
-  keywords = {Cirrhosis,Forecasting,Machine learning,Metagenomics,Microbiome,Obesity,Species diversity,Type 2 diabetes},
-  language = {English},
-  number = {7}
-}
-
-@article{paul_liblinear_2017,
-  title = {{{LiblineaR}}: {{Linear Predictive Models Based}} on the '{{LIBLINEAR}}' {{C}}/{{C}}++ {{Library}}},
-  shorttitle = {{{LiblineaR}}},
-  author = {Paul, Thibault Helleputte; Pierre Gramme; Jerome},
-  year = {2017},
-  month = feb,
-  abstract = {A wrapper around the 'LIBLINEAR' C/C++ library for machine learning (available at {$<$}http://www.csie.ntu.edu.tw/\textasciitilde cjlin/liblinear{$>$}). 'LIBLINEAR' is a simple library for solving large-scale regularized linear classification and regression. It currently supports L2-regularized classification (such as logistic regression, L2-loss linear SVM and L1-loss linear SVM) as well as L1-regularized classification (such as L2-loss linear SVM and logistic regression) and L2-regularized support vector regression (with L1- or L2-loss). The main features of LiblineaR include multi-class classification (one-vs-the rest, and Crammer \& Singer method), cross validation for model selection, probability estimates (logistic regression only) or weights for unbalanced data. The estimation of the models is particularly fast as compared to other libraries.},
-  copyright = {GPL-2},
-  keywords = {MachineLearning}
-}
-
-@article{pedregosa_scikit-learn_2011,
-  title = {Scikit-Learn: {{Machine Learning}} in {{Python}}},
-  shorttitle = {Scikit-Learn},
-  author = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu and Duchesnay, {\'E}douard},
-  year = {2011},
-  volume = {12},
-  pages = {2825--2830},
-  abstract = {Scikit-learn is a Python module integrating a wide range of state-of-the-art machine learning algorithms for medium-scale supervised and unsupervised problems. This package focuses on bringing machine learning to non-specialists using a general-purpose high-level language. Emphasis is put on ease of use, performance, documentation, and API consistency. It has minimal dependencies and is distributed under the simplified BSD license, encouraging its use in both academic and commercial settings. Source code, binaries, and documentation can be downloaded from http://scikit-learn.sourceforge.net.},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/WM7EF3D2/Pedregosa et al. - 2011 - Scikit-learn Machine Learning in Python.pdf},
-  journal = {Journal of Machine Learning Research},
-  number = {85}
-}
-
-@article{r_core_team_r_2020,
-  title = {R: {{A Language}} and {{Environment}} for {{Statistical Computing}}},
-  author = {{R Core Team}},
-  year = {2020},
-  publisher = {{R Foundation for Statistical Computing}},
-  address = {{Vienna, Austria}}
-}
-
-@article{tang_democratizing_2020,
-  title = {Democratizing {{EHR}} Analyses with {{FIDDLE}}: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data},
-  shorttitle = {Democratizing {{EHR}} Analyses with {{FIDDLE}}},
-  author = {Tang, Shengpu and Davarmanesh, Parmida and Song, Yanmeng and Koutra, Danai and Sjoding, Michael W. and Wiens, Jenna},
-  year = {2020},
-  month = oct,
-  doi = {10.1093/jamia/ocaa139},
-  abstract = {AbstractObjective.  In applying machine learning (ML) to electronic health record (EHR) data, many decisions must be made before any ML is applied; such preproc},
-  journal = {J Am Med Inform Assoc},
-  language = {en}
-}
-
-@article{teschendorff_avoiding_2019,
-  title = {Avoiding Common Pitfalls in Machine Learning Omic Data Science},
-  author = {Teschendorff, Andrew E.},
-  year = {2019},
-  month = may,
-  volume = {18},
-  pages = {422--427},
-  issn = {1476-4660},
-  doi = {10.1038/s41563-018-0241-z},
-  abstract = {This Comment describes some of the common pitfalls encountered in deriving and validating predictive statistical models from high-dimensional data. It offers a fresh perspective on some key statistical issues, providing some guidelines to avoid pitfalls, and to help unfamiliar readers better assess the reliability and significance of their results.},
-  copyright = {2018 Springer Nature Limited},
-  journal = {Nature Materials},
-  language = {English},
-  number = {5}
-}
-
-@article{therneau_rpart_2019,
-  title = {Rpart: {{Recursive Partitioning}} and {{Regression Trees}}},
-  shorttitle = {Rpart},
-  author = {Therneau, Terry and Atkinson, Beth and {port}, Brian Ripley (producer of the initial R. and {1999-2017)}, maintainer},
-  year = {2019},
-  month = apr,
-  abstract = {Recursive partitioning for classification, regression and survival trees. An implementation of most of the functionality of the 1984 book by Breiman, Friedman, Olshen and Stone.},
-  copyright = {GPL-2 | GPL-3},
-  keywords = {Environmetrics,MachineLearning,Multivariate,Survival}
-}
-
-@article{topcuoglu_framework_2020,
-  title = {A {{Framework}} for {{Effective Application}} of {{Machine Learning}} to {{Microbiome}}-{{Based Classification Problems}}},
-  author = {Top{\c c}uo{\u g}lu, Beg{\"u}m D. and Lesniak, Nicholas A. and Ruffin, Mack T. and Wiens, Jenna and Schloss, Patrick D.},
-  year = {2020},
-  month = jun,
-  volume = {11},
-  publisher = {{American Society for Microbiology}},
-  issn = {2150-7511},
-  doi = {10.1128/mBio.00434-20},
-  abstract = {Machine learning (ML) modeling of the human microbiome has the potential to identify microbial biomarkers and aid in the diagnosis of many diseases such as inflammatory bowel disease, diabetes, and colorectal cancer. Progress has been made toward developing ML models that predict health outcomes using bacterial abundances, but inconsistent adoption of training and evaluation methods call the validity of these models into question. Furthermore, there appears to be a preference by many researchers to favor increased model complexity over interpretability. To overcome these challenges, we trained seven models that used fecal 16S rRNA sequence data to predict the presence of colonic screen relevant neoplasias (SRNs) (n = 490 patients, 261 controls and 229 cases). We developed a reusable open-source pipeline to train, validate, and interpret ML models. To show the effect of model selection, we assessed the predictive performance, interpretability, and training time of L2-regularized logistic regression, L1- and L2-regularized support vector machines (SVM) with linear and radial basis function kernels, a decision tree, random forest, and gradient boosted trees (XGBoost). The random forest model performed best at detecting SRNs with an area under the receiver operating characteristic curve (AUROC) of 0.695 (interquartile range [IQR], 0.651 to 0.739) but was slow to train (83.2 h) and not inherently interpretable. Despite its simplicity, L2-regularized logistic regression followed random forest in predictive performance with an AUROC of 0.680 (IQR, 0.625 to 0.735), trained faster (12 min), and was inherently interpretable. Our analysis highlights the importance of choosing an ML approach based on the goal of the study, as the choice will inform expectations of performance and interpretability. IMPORTANCE Diagnosing diseases using machine learning (ML) is rapidly being adopted in microbiome studies. However, the estimated performance associated with these models is likely overoptimistic. Moreover, there is a trend toward using black box models without a discussion of the difficulty of interpreting such models when trying to identify microbial biomarkers of disease. This work represents a step toward developing more-reproducible ML practices in applying ML to microbiome research. We implement a rigorous pipeline and emphasize the importance of selecting ML models that reflect the goal of the study. These concepts are not particular to the study of human health but can also be applied to environmental microbiology studies.},
-  chapter = {Research Article},
-  copyright = {Copyright \textcopyright{} 2020 Top\c{c}uo\u{g}lu et al.. This is an open-access article distributed under the terms of the Creative Commons Attribution 4.0 International license.},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/LQNE87HC/Topçuoğlu_et_al_2020_mBio.pdf},
-  journal = {mBio},
-  language = {en},
-  number = {3},
-  pmid = {32518182}
-}
-
-@article{wickham_dplyr_2020,
-  title = {Dplyr: {{A Grammar}} of {{Data Manipulation}}},
-  shorttitle = {Dplyr},
-  author = {Wickham, Hadley and Fran{\c c}ois, Romain and Henry, Lionel and M{\"u}ller, Kirill and {RStudio}},
-  year = {2020},
-  month = aug,
-  abstract = {A fast, consistent tool for working with data frame like objects, both in memory and out of memory.},
-  copyright = {MIT + file LICENSE},
-  keywords = {Databases,ModelDeployment}
-}
-
-@book{wickham_ggplot2_2016,
-  title = {Ggplot2: {{Elegant Graphics}} for {{Data Analysis}}},
-  author = {Wickham, Hadley},
-  year = {2016},
-  publisher = {{Springer International Publishing}},
-  address = {{Cham}},
-  doi = {10.1007/978-3-319-24277-4},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/FEPMIX3S/Wickham - 2016 - ggplot2.pdf},
-  isbn = {978-3-319-24275-0 978-3-319-24277-4},
-  language = {en},
-  series = {Use {{R}}!}
-}
-
-@article{wickham_testthat_2011,
-  title = {Testthat: {{Get Started}} with {{Testing}}},
-  shorttitle = {Testthat},
-  author = {Wickham, Hadley},
-  year = {2011},
-  volume = {3},
-  pages = {5},
-  issn = {2073-4859},
-  doi = {10.32614/RJ-2011-002},
-  abstract = {Software testing is important, but many of us don't do it because it is frustrating and boring. testthat is a new testing framework for R that is easy learn and use, and integrates with your existing workflow. This paper shows how, with illustrations from existing packages.},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/NYTVT6JG/Wickham - 2011 - testthat Get Started with Testing.pdf},
-  journal = {The R Journal},
-  language = {English},
-  number = {1}
-}
-
-@article{wickham_welcome_2019,
-  title = {Welcome to the {{Tidyverse}}},
-  author = {Wickham, Hadley and Averick, Mara and Bryan, Jennifer and Chang, Winston and McGowan, Lucy D'Agostino and Fran{\c c}ois, Romain and Grolemund, Garrett and Hayes, Alex and Henry, Lionel and Hester, Jim and Kuhn, Max and Pedersen, Thomas Lin and Miller, Evan and Bache, Stephan Milton and M{\"u}ller, Kirill and Ooms, Jeroen and Robinson, David and Seidel, Dana Paige and Spinu, Vitalie and Takahashi, Kohske and Vaughan, Davis and Wilke, Claus and Woo, Kara and Yutani, Hiroaki},
-  year = {2019},
-  month = nov,
-  volume = {4},
-  pages = {1686},
-  issn = {2475-9066},
-  doi = {10.21105/joss.01686},
-  abstract = {Wickham et al., (2019). Welcome to the Tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686},
-  file = {/Volumes/GoogleDrive/My Drive/Zotero/storage/RMCWDQZH/Wickham et al. - 2019 - Welcome to the Tidyverse.pdf;/Volumes/GoogleDrive/My Drive/Zotero/storage/GWE3A6ZQ/joss.html},
-  journal = {Journal of Open Source Software},
-  language = {English},
-  number = {43}
+@article{breiman_random_2001,
+	title = {Random forests},
+	volume = {45},
+	issn = {1573-0565},
+	url = {https://doi.org/10.1023/A:1010933404324},
+	doi = {10.1023/A:1010933404324},
+	abstract = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund \& R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, ***, 148156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.},
+	number = {1},
+	journal = {Machine Learning},
+	author = {Breiman, Leo},
+	month = oct,
+	year = {2001},
+	pages = {5--32}
 }
 
 @article{wiens_no_2019,
-  title = {Do No Harm: A Roadmap for Responsible Machine Learning for Health Care},
-  shorttitle = {Do No Harm},
-  author = {Wiens, Jenna and Saria, Suchi and Sendak, Mark and Ghassemi, Marzyeh and Liu, Vincent X. and {Doshi-Velez}, Finale and Jung, Kenneth and Heller, Katherine and Kale, David and Saeed, Mohammed and Ossorio, Pilar N. and {Thadaney-Israni}, Sonoo and Goldenberg, Anna},
-  year = {2019},
-  volume = {25},
-  pages = {1337--1340},
-  issn = {1546-170X},
-  doi = {10.1038/s41591-019-0548-6},
-  abstract = {Interest in machine-learning applications within medicine has been growing, but few studies have progressed to deployment in patient care. We present a framework, context and ultimately guidelines for accelerating the translation of machine-learning-based interventions in health care. To be successful, translation will require a team of engaged stakeholders and a systematic process from beginning (problem formulation) to end (widespread deployment).},
-  journal = {Nat. Med.},
-  keywords = {Clinical Decision-Making,Delivery of Health Care,Humans,Machine Learning},
-  number = {9},
-  pmid = {31427808}
+	title = {Do no harm: a roadmap for responsible machine learning for health care},
+	volume = {25},
+	issn = {1546-170X},
+	shorttitle = {Do no harm},
+	doi = {10.1038/s41591-019-0548-6},
+	abstract = {Interest in machine-learning applications within medicine has been growing, but few studies have progressed to deployment in patient care. We present a framework, context and ultimately guidelines for accelerating the translation of machine-learning-based interventions in health care. To be successful, translation will require a team of engaged stakeholders and a systematic process from beginning (problem formulation) to end (widespread deployment).},
+	number = {9},
+	journal = {Nat. Med.},
+	author = {Wiens, Jenna and Saria, Suchi and Sendak, Mark and Ghassemi, Marzyeh and Liu, Vincent X. and Doshi-Velez, Finale and Jung, Kenneth and Heller, Katherine and Kale, David and Saeed, Mohammed and Ossorio, Pilar N. and Thadaney-Israni, Sonoo and Goldenberg, Anna},
+	year = {2019},
+	pmid = {31427808},
+	keywords = {Humans, Clinical Decision-Making, Delivery of Health Care, Machine Learning},
+	pages = {1337--1340}
+}
+
+@article{teschendorff_avoiding_2019,
+	title = {Avoiding common pitfalls in machine learning omic data science},
+	volume = {18},
+	issn = {1476-4660},
+	url = {http://www.nature.com/articles/s41563-018-0241-z},
+	doi = {10.1038/s41563-018-0241-z},
+	abstract = {This Comment describes some of the common pitfalls encountered in deriving and validating predictive statistical models from high-dimensional data. It offers a fresh perspective on some key statistical issues, providing some guidelines to avoid pitfalls, and to help unfamiliar readers better assess the reliability and significance of their results.},
+	language = {English},
+	number = {5},
+	urldate = {2020-08-26},
+	journal = {Nature Materials},
+	author = {Teschendorff, Andrew E.},
+	month = may,
+	year = {2019},
+	note = {tex.copyright: 2018 Springer Nature Limited},
+	pages = {422--427},
+	annote = {Number: 5 Publisher: Nature Publishing Group}
+}
+
+@article{pasolli_machine_2016,
+	title = {Machine {Learning} {Meta}-analysis of {Large} {Metagenomic} {Datasets}: {Tools} and {Biological} {Insights}},
+	volume = {12},
+	issn = {1553-7358},
+	shorttitle = {Machine {Learning} {Meta}-analysis of {Large} {Metagenomic} {Datasets}},
+	url = {https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004977},
+	doi = {10.1371/journal.pcbi.1004977},
+	abstract = {Shotgun metagenomic analysis of the human associated microbiome provides a rich set of microbial features for prediction and biomarker discovery in the context of human diseases and health conditions. However, the use of such high-resolution microbial features presents new challenges, and validated computational tools for learning tasks are lacking. Moreover, classification rules have scarcely been validated in independent studies, posing questions about the generality and generalization of disease-predictive models across cohorts. In this paper, we comprehensively assess approaches to metagenomics-based prediction tasks and for quantitative assessment of the strength of potential microbiome-phenotype associations. We develop a computational framework for prediction tasks using quantitative microbiome profiles, including species-level relative abundances and presence of strain-specific markers. A comprehensive meta-analysis, with particular emphasis on generalization across cohorts, was performed in a collection of 2424 publicly available metagenomic samples from eight large-scale studies. Cross-validation revealed good disease-prediction capabilities, which were in general improved by feature selection and use of strain-specific markers instead of species-level taxonomic abundance. In cross-study analysis, models transferred between studies were in some cases less accurate than models tested by within-study cross-validation. Interestingly, the addition of healthy (control) samples from other studies to training sets improved disease prediction capabilities. Some microbial species (most notably Streptococcus anginosus) seem to characterize general dysbiotic states of the microbiome rather than connections with a specific disease. Our results in modelling features of the “healthy” microbiome can be considered a first step toward defining general microbial dysbiosis. The software framework, microbiome profiles, and metadata for thousands of samples are publicly available at http://segatalab.cibio.unitn.it/tools/metaml.},
+	language = {English},
+	number = {7},
+	urldate = {2020-08-04},
+	journal = {PLOS Computational Biology},
+	author = {Pasolli, Edoardo and Truong, Duy Tin and Malik, Faizan and Waldron, Levi and Segata, Nicola},
+	month = jul,
+	year = {2016},
+	keywords = {Microbiome, Metagenomics, Species diversity, Forecasting, Type 2 diabetes, Machine learning, Cirrhosis, Obesity},
+	pages = {e1004977},
+	annote = {Publisher: Public Library of Science}
+}
+
+@article{lapp_machine_2020,
+	title = {Machine learning models to identify patient and microbial genetic factors associated with carbapenem-resistant {Klebsiella} pneumoniae infection},
+	url = {https://www.medrxiv.org/content/10.1101/2020.07.06.20147306v1},
+	doi = {10.1101/2020.07.06.20147306},
+	abstract = {{\textless}p{\textgreater}Wurtzite boron nitride (w-BN) is a metastable superhard material that is a high-pressure polymorph of BN. Clarifying how the metastable high-pressure material can be stabilized at atmospheric pressure is a challenging issue of fundamental scientific importance and promising technological value. Here, we fabricate millimeter-size w-BN bulk crystals via the hexagonal-to-wurtzite phase transformation at high pressure and high temperature. By combining transmission electron microscopy and ab initio molecular dynamics simulations, we reveal a stabilization mechanism for w-BN, i.e., the metastable high-pressure phase can be stabilized by 3D networks of planar defects which are constructed by a high density of intersecting (0001) stacking faults and \{10{\textless}math xmlns="http://www.w3.org/1998/Math/MathML" id="i1" overflow="scroll"{\textgreater}{\textless}mrow{\textgreater}{\textless}mover accent="true"{\textgreater}{\textless}mn{\textgreater}1{\textless}/mn{\textgreater}{\textless}mo stretchy="true"{\textgreater}¯{\textless}/mo{\textgreater}{\textless}/mover{\textgreater}{\textless}/mrow{\textgreater}{\textless}/math{\textgreater}0\} inversion domain boundaries. The 3D networks of planar defects segment the w-BN bulk crystal into numerous nanometer-size prismatic domains with the reverse crystallographic polarities. Our findings unambiguously demonstrate the retarding effect of crystal defects on the phase transformations of metastable materials, which is in contrast to the common knowledge that the crystal defects in materials will facilitate the occurrence of phase transformations.{\textless}/p{\textgreater}},
+	language = {English},
+	urldate = {2020-08-26},
+	journal = {medRxiv},
+	author = {Lapp, Zena and Han, Jennifer and Wiens, Jenna and Goldstein, Ellie JC and Lautenbach, Ebbing and Snitkin, Evan},
+	month = jul,
+	year = {2020},
+	note = {tex.copyright: © 2020, Posted by Cold Spring Harbor Laboratory. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/},
+	pages = {2020.07.06.20147306},
+	annote = {Publisher: Cold Spring Harbor Laboratory Press},
+	file = {Full Text PDF:/Users/zenalapp/Zotero/storage/NJYERLGR/Lapp et al. - 2020 - Machine learning models to identify patient and mi.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/FH3EYCR2/2020.07.06.html:text/html}
+}
+
+@article{kuhn_building_2008,
+	title = {Building {Predictive} {Models} in {R} {Using} the caret {Package}},
+	volume = {28},
+	issn = {1548-7660},
+	url = {https://www.jstatsoft.org/index.php/jss/article/view/v028i05},
+	doi = {10.18637/jss.v028.i05},
+	language = {English},
+	number = {1},
+	urldate = {2020-08-26},
+	journal = {Journal of Statistical Software},
+	author = {Kuhn, Max},
+	month = nov,
+	year = {2008},
+	note = {tex.copyright: Copyright (c) 2008 Max Kuhn},
+	pages = {1--26},
+	annote = {Number: 1},
+	file = {Full Text:/Users/zenalapp/Zotero/storage/2QEECTTK/Kuhn - 2008 - Building Predictive Models in R Using the caret Pa.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/V6EH5X2B/v028i05.html:text/html}
+}
+
+@article{grau_prroc_2015,
+	title = {{PRROC}: computing and visualizing precision-recall and receiver operating characteristic curves in {R}},
+	volume = {31},
+	issn = {1367-4803},
+	shorttitle = {{PRROC}},
+	url = {https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4514923/},
+	doi = {10.1093/bioinformatics/btv153},
+	abstract = {Summary: Precision-recall (PR) and receiver operating characteristic (ROC) curves are valuable measures of classifier performance. Here, we present the R-package PRROC, which allows for computing and visualizing both PR and ROC curves. In contrast to available R-packages, PRROC allows for computing PR and ROC curves and areas under these curves for soft-labeled data using a continuous interpolation between the points of PR curves. In addition, PRROC provides a generic plot function for generating publication-quality graphics of PR and ROC curves., Availability and implementation: PRROC is available from CRAN and is licensed under GPL 3., Contact: grau@informatik.uni-halle.de},
+	number = {15},
+	urldate = {2020-08-26},
+	journal = {Bioinformatics},
+	author = {Grau, Jan and Grosse, Ivo and Keilwagen, Jens},
+	month = aug,
+	year = {2015},
+	pmid = {25810428},
+	note = {tex.pmcid: PMC4514923},
+	pages = {2595--2597},
+	file = {PubMed Central Full Text PDF:/Users/zenalapp/Zotero/storage/GV45VBEV/Grau et al. - 2015 - PRROC computing and visualizing precision-recall .pdf:application/pdf}
+}
+
+@article{wickham_welcome_2019,
+	title = {Welcome to the {Tidyverse}},
+	volume = {4},
+	issn = {2475-9066},
+	url = {https://joss.theoj.org/papers/10.21105/joss.01686},
+	doi = {10.21105/joss.01686},
+	abstract = {Wickham et al., (2019). Welcome to the Tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686},
+	language = {English},
+	number = {43},
+	urldate = {2020-08-26},
+	journal = {Journal of Open Source Software},
+	author = {Wickham, Hadley and Averick, Mara and Bryan, Jennifer and Chang, Winston and McGowan, Lucy D'Agostino and François, Romain and Grolemund, Garrett and Hayes, Alex and Henry, Lionel and Hester, Jim and Kuhn, Max and Pedersen, Thomas Lin and Miller, Evan and Bache, Stephan Milton and Müller, Kirill and Ooms, Jeroen and Robinson, David and Seidel, Dana Paige and Spinu, Vitalie and Takahashi, Kohske and Vaughan, Davis and Wilke, Claus and Woo, Kara and Yutani, Hiroaki},
+	month = nov,
+	year = {2019},
+	pages = {1686},
+	file = {Full Text PDF:/Users/zenalapp/Zotero/storage/RMCWDQZH/Wickham et al. - 2019 - Welcome to the Tidyverse.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/GWE3A6ZQ/joss.html:text/html}
+}
+
+@article{r_core_team_r_2020,
+	title = {R: {A} {Language} and {Environment} for {Statistical} {Computing}},
+	url = {https://www.R-project.org/},
+	author = {{R Core Team}},
+	year = {2020},
+	note = {Publisher: R Foundation for Statistical Computing
+tex.address: Vienna, Austria}
+}
+
+@article{paul_liblinear_2017,
+	title = {{LiblineaR}: {Linear} {Predictive} {Models} {Based} on the '{LIBLINEAR}' {C}/{C}++ {Library}},
+	shorttitle = {{LiblineaR}},
+	url = {https://CRAN.R-project.org/package=LiblineaR},
+	abstract = {A wrapper around the 'LIBLINEAR' C/C++ library for machine learning (available at {\textless}http://www.csie.ntu.edu.tw/{\textasciitilde}cjlin/liblinear{\textgreater}). 'LIBLINEAR' is a simple library for solving large-scale regularized linear classification and regression. It currently supports L2-regularized classification (such as logistic regression, L2-loss linear SVM and L1-loss linear SVM) as well as L1-regularized classification (such as L2-loss linear SVM and logistic regression) and L2-regularized support vector regression (with L1- or L2-loss). The main features of LiblineaR include multi-class classification (one-vs-the rest, and Crammer \& Singer method), cross validation for model selection, probability estimates (logistic regression only) or weights for unbalanced data. The estimation of the models is particularly fast as compared to other libraries.},
+	urldate = {2020-08-26},
+	author = {Paul, Thibault Helleputte; Pierre Gramme; Jerome},
+	month = feb,
+	year = {2017},
+	note = {tex.copyright: GPL-2},
+	keywords = {MachineLearning}
+}
+
+@article{wickham_dplyr_2020,
+	title = {dplyr: {A} {Grammar} of {Data} {Manipulation}},
+	shorttitle = {dplyr},
+	url = {https://CRAN.R-project.org/package=dplyr},
+	abstract = {A fast, consistent tool for working with data frame like objects, both in memory and out of memory.},
+	urldate = {2020-08-26},
+	author = {Wickham, Hadley and François, Romain and Henry, Lionel and Müller, Kirill and {RStudio}},
+	month = aug,
+	year = {2020},
+	note = {tex.copyright: MIT + file LICENSE},
+	keywords = {Databases, ModelDeployment}
+}
+
+@article{henry_rlang_2020,
+	title = {rlang: {Functions} for {Base} {Types} and {Core} {R} and '{Tidyverse}' {Features}},
+	shorttitle = {rlang},
+	url = {https://CRAN.R-project.org/package=rlang},
+	abstract = {A toolbox for working with base types, core R features like the condition system, and core 'Tidyverse' features like tidy evaluation.},
+	urldate = {2020-08-26},
+	author = {Henry, Lionel and Wickham, Hadley and {RStudio}},
+	month = jul,
+	year = {2020},
+	note = {tex.copyright: GPL-3}
+}
+
+@article{wickham_testthat_2011,
+	title = {testthat: {Get} {Started} with {Testing}},
+	volume = {3},
+	issn = {2073-4859},
+	shorttitle = {testthat},
+	url = {https://journal.r-project.org/archive/2011/RJ-2011-002/index.html},
+	doi = {10.32614/RJ-2011-002},
+	abstract = {Software testing is important, but many of us don’t do it because it is frustrating and boring. testthat is a new testing framework for R that is easy learn and use, and integrates with your existing workﬂow. This paper shows how, with illustrations from existing packages.},
+	language = {English},
+	number = {1},
+	urldate = {2020-08-26},
+	journal = {The R Journal},
+	author = {Wickham, Hadley},
+	year = {2011},
+	pages = {5},
+	file = {Wickham - 2011 - testthat Get Started with Testing.pdf:/Users/zenalapp/Zotero/storage/NYTVT6JG/Wickham - 2011 - testthat Get Started with Testing.pdf:application/pdf}
 }
 
 @book{xie_dynamic_2015,
-  title = {Dynamic {{Documents}} with {{R}} and {{Knitr}}},
-  author = {Xie, Yihui},
-  year = {2015},
-  publisher = {{CRC Press}},
-  abstract = {Quickly and Easily Write Dynamic Documents Suitable for both beginners and advanced users, Dynamic Documents with R and knitr, Second Edition makes writing statistical reports easier by integrating computing directly with reporting. Reports range from homework, projects, exams, books, blogs, and web pages to virtually any documents related to statistical graphics, computing, and data analysis. The book covers basic applications for beginners while guiding power users in understanding the extensibility of the knitr package.},
-  isbn = {978-1-4987-8739-0},
-  keywords = {MATHEMATICS / Probability \& Statistics / General},
-  language = {English}
+	title = {Dynamic {Documents} with {R} and {Knitr}},
+	isbn = {978-1-4987-8739-0},
+	abstract = {Quickly and Easily Write Dynamic Documents Suitable for both beginners and advanced users, Dynamic Documents with R and knitr, Second Edition makes writing statistical reports easier by integrating computing directly with reporting. Reports range from homework, projects, exams, books, blogs, and web pages to virtually any documents related to statistical graphics, computing, and data analysis. The book covers basic applications for beginners while guiding power users in understanding the extensibility of the knitr package.},
+	language = {English},
+	publisher = {CRC Press},
+	author = {Xie, Yihui},
+	year = {2015},
+	keywords = {MATHEMATICS / Probability \& Statistics / General},
+	annote = {Google-Books-ID: C1ZdswEACAAJ}
 }
 
 @article{xie_knitr_2020,
-  title = {Knitr: {{A General}}-{{Purpose Package}} for {{Dynamic Report Generation}} in {{R}}},
-  shorttitle = {Knitr},
-  author = {Xie, Yihui and Andrew, Alastair and Zvoleff, Alex and Simon, Andre and Atkins, Aron and Wolen, Aaron and Manton, Ashley and Yasumoto, Atsushi and Baumer, Ben and Diggs, Brian and Zhang, Brian and Pereira, Cassio and Dervieux, Christophe and {Hugh-Jones}, David and Robinson, David and Hemken, Doug and Murdoch, Duncan and Campitelli, Elio and Hughes, Ellis and Riederer, Emily and Hirschmann, Fabian and Simeon, Fitch and Fang, Forest and Harrell, Frank E. and {Aden-Buie}, Garrick and Detrez, Gregoire and Wickham, Hadley and Zhu, Hao and Jeon, Heewon and Bengtsson, Henrik and Yutani, Hiroaki and Lyttle, Ian and Daniel, Hodges and Burkhead, Jake and Manton, James and Lander, Jared and Punyon, Jason and Luraschi, Javier and Arnold, Jeff and Bryan, Jenny and Ashkenas, Jeremy and Stephens, Jeremy and Hester, Jim and Cheng, Joe and Ranke, Johannes and Honaker, John and Muschelli, John and Keane, Jonathan and Allaire, J. J. and Toloe, Johan and Sidi, Jonathan and Larmarange, Joseph and Barnier, Julien and Zhong, Kaiyin and Slowikowski, Kamil and Forner, Karl and Smith, Kevin K. and Mueller, Kirill and Takahashi, Kohske and Walthert, Lorenz and Gallindo, Lucas and Hofert, Marius and Modr{\'a}k, Martin and Chirico, Michael and Friendly, Michael and Bojanowski, Michal and Kuhlmann, Michel and Patrick, Miller and Caballero, Nacho and Salkowski, Nick and Hansen, Niels Richard and Ross, Noam and Mahdi, Obada and Li, Qiang and Vaidyanathan, Ramnath and Cotton, Richard and Krzyzanowski, Robert and Francois, Romain and Williamson, Ruaridh and Kostyshak, Scott and Meyer, Sebastian and Brouwer, Sietse and de Bernard, Simon and Rousseau, Sylvain and Wei, Taiyun and Assus, Thibaut and Lamadon, Thibaut and Leeper, Thomas and Mastny, Tim and {Torsney-Weir}, Tom and Davis, Trevor and Veitas, Viktoras and Zhu, Weicheng and Wu, Wush and Foster, Zachary},
-  year = {2020},
-  month = jun,
-  abstract = {Provides a general-purpose tool for dynamic report generation in R using Literate Programming techniques.},
-  copyright = {GPL-2 | GPL-3 [expanded from: GPL]},
-  keywords = {ReproducibleResearch}
+	title = {knitr: {A} {General}-{Purpose} {Package} for {Dynamic} {Report} {Generation} in {R}},
+	shorttitle = {knitr},
+	url = {https://CRAN.R-project.org/package=knitr},
+	abstract = {Provides a general-purpose tool for dynamic report generation in R using Literate Programming techniques.},
+	urldate = {2020-08-26},
+	author = {Xie, Yihui and Andrew, Alastair and Zvoleff, Alex and Simon, Andre and Atkins, Aron and Wolen, Aaron and Manton, Ashley and Yasumoto, Atsushi and Baumer, Ben and Diggs, Brian and Zhang, Brian and Pereira, Cassio and Dervieux, Christophe and Hugh-Jones, David and Robinson, David and Hemken, Doug and Murdoch, Duncan and Campitelli, Elio and Hughes, Ellis and Riederer, Emily and Hirschmann, Fabian and Simeon, Fitch and Fang, Forest and Harrell, Frank E. and Aden-Buie, Garrick and Detrez, Gregoire and Wickham, Hadley and Zhu, Hao and Jeon, Heewon and Bengtsson, Henrik and Yutani, Hiroaki and Lyttle, Ian and Daniel, Hodges and Burkhead, Jake and Manton, James and Lander, Jared and Punyon, Jason and Luraschi, Javier and Arnold, Jeff and Bryan, Jenny and Ashkenas, Jeremy and Stephens, Jeremy and Hester, Jim and Cheng, Joe and Ranke, Johannes and Honaker, John and Muschelli, John and Keane, Jonathan and Allaire, J. J. and Toloe, Johan and Sidi, Jonathan and Larmarange, Joseph and Barnier, Julien and Zhong, Kaiyin and Slowikowski, Kamil and Forner, Karl and Smith, Kevin K. and Mueller, Kirill and Takahashi, Kohske and Walthert, Lorenz and Gallindo, Lucas and Hofert, Marius and Modrák, Martin and Chirico, Michael and Friendly, Michael and Bojanowski, Michal and Kuhlmann, Michel and Patrick, Miller and Caballero, Nacho and Salkowski, Nick and Hansen, Niels Richard and Ross, Noam and Mahdi, Obada and Li, Qiang and Vaidyanathan, Ramnath and Cotton, Richard and Krzyzanowski, Robert and Francois, Romain and Williamson, Ruaridh and Kostyshak, Scott and Meyer, Sebastian and Brouwer, Sietse and Bernard, Simon de and Rousseau, Sylvain and Wei, Taiyun and Assus, Thibaut and Lamadon, Thibaut and Leeper, Thomas and Mastny, Tim and Torsney-Weir, Tom and Davis, Trevor and Veitas, Viktoras and Zhu, Weicheng and Wu, Wush and Foster, Zachary and Wu, Wush and Foster, Zachary},
+	month = jun,
+	year = {2020},
+	note = {tex.copyright: GPL-2 {\textbar} GPL-3 [expanded from: GPL]},
+	keywords = {ReproducibleResearch}
+}
+
+@article{allaire_rmarkdown_2020,
+	title = {rmarkdown: {Dynamic} {Documents} for {R}},
+	shorttitle = {rmarkdown},
+	url = {https://CRAN.R-project.org/package=rmarkdown},
+	abstract = {Convert R Markdown documents into a variety of formats.},
+	urldate = {2020-08-26},
+	author = {Allaire, J. J. and Xie [aut, Yihui and {cre} and McPherson, Jonathan and Luraschi, Javier and Ushey, Kevin and Atkins, Aron and Wickham, Hadley and Cheng, Joe and Chang, Winston and Iannone, Richard and Dunning, Andrew and Yasumoto, Atsushi and Schloerke, Barret and Dervieux, Christophe and Aust, Frederik and Allen, Jeff and Seo, JooYoung and Barrett, Malcolm and Hyndman, Rob and Lesur, Romain and Storey, Roy and Arslan, Ruben and Oller, Sergio and {RStudio} and {PBC} and library), jQuery Foundation (jQuery and inst/rmd/h/jquery-AUTHORS.txt), jQuery contributors (jQuery library; authors listed in and inst/rmd/h/jqueryui-AUTHORS.txt), jQuery UI contributors (jQuery UI library; authors listed in and library), Mark Otto (Bootstrap and library), Jacob Thornton (Bootstrap and library), Bootstrap contributors (Bootstrap and {Twitter} and library), Inc (Bootstrap and library), Alexander Farkas (html5shiv and library), Scott Jehl (Respond js and library), Ivan Sagalaev (highlight js and library), Greg Franko (tocify and templates), John MacFarlane (Pandoc and {Google} and library), Inc (ioslides and library), Dave Raggett (slidy and library), W3C (slidy and Gandy (Font-Awesome), Dave and Sperry (Ionicons), Ben and (Ionicons), Drifty and StickyTabs), Aidan Lister (jQuery and filter), Benct Philip Jonsson (pagebreak lua and filter), Albert Krewinkel (pagebreak lua},
+	month = jun,
+	year = {2020},
+	note = {tex.copyright: GPL-3},
+	keywords = {ReproducibleResearch}
 }
 
 @book{xie_r_2018,
-  title = {R {{Markdown}}: {{The Definitive Guide}}},
-  shorttitle = {R {{Markdown}}},
-  author = {Xie, Yihui and Allaire, J. J. and Grolemund, Garrett},
-  year = {2018},
-  publisher = {{Taylor \& Francis, CRC Press}},
-  abstract = {R Markdown: The Definitive Guide is the first official book authored by the core R Markdown developers that provides a comprehensive and accurate reference to the R Markdown ecosystem. With R Markdown, you can easily create reproducible data analysis reports, presentations, dashboards, interactive applications, books, dissertations, websites, and journal articles, while enjoying the simplicity of Markdown and the great power of R and other languages. In this book, you will learn Basics: Syntax of Markdown and R code chunks, how to generate figures and tables, and how to use other computing languages Built-in output formats of R Markdown: PDF/HTML/Word/RTF/Markdown documents and ioslides/Slidy/Beamer/PowerPoint presentations Extensions and applications: Dashboards, Tufte handouts, xaringan/reveal.js presentations, websites, books, journal articles, and interactive tutorials Advanced topics: Parameterized reports, HTML widgets, document templates, custom output formats, and Shiny documents. Yihui Xie is a software engineer at RStudio. He has authored and co-authored several R packages, including knitr, rmarkdown, bookdown, blogdown, shiny, xaringan, and animation. He has published three other books, Dynamic Documents with R and knitr, bookdown: Authoring Books and Technical Documents with R Markdown, and blogdown: Creating Websites with R Markdown. J.J. Allaire is the founder of RStudio and the creator of the RStudio IDE. He is an author of several packages in the R Markdown ecosystem including rmarkdown, flexdashboard, learnr, and radix. Garrett Grolemund is the co-author of R for Data Science and author of Hands-On Programming with R. He wrote the lubridate R package and works for RStudio as an advocate who trains engineers to do data science with R and the Tidyverse.},
-  isbn = {978-1-138-35933-8},
-  language = {English}
+	title = {R {Markdown}: {The} {Definitive} {Guide}},
+	isbn = {978-1-138-35933-8},
+	shorttitle = {R {Markdown}},
+	abstract = {R Markdown: The Definitive Guide is the first official book authored by the core R Markdown developers that provides a comprehensive and accurate reference to the R Markdown ecosystem. With R Markdown, you can easily create reproducible data analysis reports, presentations, dashboards, interactive applications, books, dissertations, websites, and journal articles, while enjoying the simplicity of Markdown and the great power of R and other languages. In this book, you will learn Basics: Syntax of Markdown and R code chunks, how to generate figures and tables, and how to use other computing languages Built-in output formats of R Markdown: PDF/HTML/Word/RTF/Markdown documents and ioslides/Slidy/Beamer/PowerPoint presentations Extensions and applications: Dashboards, Tufte handouts, xaringan/reveal.js presentations, websites, books, journal articles, and interactive tutorials Advanced topics: Parameterized reports, HTML widgets, document templates, custom output formats, and Shiny documents. Yihui Xie is a software engineer at RStudio. He has authored and co-authored several R packages, including knitr, rmarkdown, bookdown, blogdown, shiny, xaringan, and animation. He has published three other books, Dynamic Documents with R and knitr, bookdown: Authoring Books and Technical Documents with R Markdown, and blogdown: Creating Websites with R Markdown. J.J. Allaire is the founder of RStudio and the creator of the RStudio IDE. He is an author of several packages in the R Markdown ecosystem including rmarkdown, flexdashboard, learnr, and radix. Garrett Grolemund is the co-author of R for Data Science and author of Hands-On Programming with R. He wrote the lubridate R package and works for RStudio as an advocate who trains engineers to do data science with R and the Tidyverse.},
+	language = {English},
+	publisher = {Taylor \& Francis, CRC Press},
+	author = {Xie, Yihui and Allaire, J. J. and Grolemund, Garrett},
+	year = {2018},
+	annote = {Google-Books-ID: j9YyuAEACAAJ}
+}
+
+@article{bengtsson_futureapply_2020,
+	title = {future.apply: {Apply} {Function} to {Elements} in {Parallel} using {Futures}},
+	shorttitle = {future.apply},
+	url = {https://CRAN.R-project.org/package=future.apply},
+	abstract = {Implementations of apply(), by(), eapply(), lapply(), Map(), .mapply(), mapply(), replicate(), sapply(), tapply(), and vapply() that can be resolved using any future-supported backend, e.g. parallel on the local machine or distributed on a compute cluster. These future\_*apply() functions come with the same pros and cons as the corresponding base-R *apply() functions but with the additional feature of being able to be processed via the future framework.},
+	urldate = {2020-08-26},
+	author = {Bengtsson, Henrik and Team, R Core},
+	month = jul,
+	year = {2020},
+	note = {tex.copyright: GPL-2 {\textbar} GPL-3 [expanded from: GPL (≥ 2)]}
+}
+
+@article{liaw_classication_2002,
+	title = {Classiﬁcation and {Regression} by {randomForest}},
+	volume = {2},
+	language = {English},
+	author = {Liaw, Andy and Wiener, Matthew},
+	year = {2002},
+	pages = {5},
+	file = {Liaw and Wiener - 2002 - Classiﬁcation and Regression by randomForest.pdf:/Users/zenalapp/Zotero/storage/YZD2ALMT/Liaw and Wiener - 2002 - Classiﬁcation and Regression by randomForest.pdf:application/pdf}
+}
+
+@article{karatzoglou_kernlab_2004,
+	title = {kernlab - {An} {S4} {Package} for {Kernel} {Methods} in {R}},
+	volume = {11},
+	issn = {1548-7660},
+	url = {https://www.jstatsoft.org/index.php/jss/article/view/v011i09},
+	doi = {10.18637/jss.v011.i09},
+	language = {English},
+	number = {1},
+	urldate = {2020-08-26},
+	journal = {Journal of Statistical Software},
+	author = {Karatzoglou, Alexandros and Smola, Alexandros and Hornik, Kurt and Zeileis, Achim},
+	month = nov,
+	year = {2004},
+	note = {tex.copyright: Copyright (c) 2004 Alexandros Karatzoglou, Alexandros Smola, Kurt Hornik, Achim Zeileis},
+	pages = {1--20},
+	annote = {Number: 1},
+	file = {Full Text:/Users/zenalapp/Zotero/storage/ZVWNLJEQ/Karatzoglou et al. - 2004 - kernlab - An S4 Package for Kernel Methods in R.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/6DE3BJI4/v011i09.html:text/html}
+}
+
+@article{therneau_rpart_2019,
+	title = {rpart: {Recursive} {Partitioning} and {Regression} {Trees}},
+	shorttitle = {rpart},
+	url = {https://CRAN.R-project.org/package=rpart},
+	abstract = {Recursive partitioning for classification, regression and survival trees. An implementation of most of the functionality of the 1984 book by Breiman, Friedman, Olshen and Stone.},
+	urldate = {2020-08-26},
+	author = {Therneau, Terry and Atkinson, Beth and port, Brian Ripley (producer of the initial R. and 1999-2017), maintainer},
+	month = apr,
+	year = {2019},
+	note = {tex.copyright: GPL-2 {\textbar} GPL-3},
+	keywords = {Survival, Environmetrics, Multivariate, MachineLearning}
+}
+
+@article{chen_xgboost_2020,
+	title = {xgboost: {Extreme} {Gradient} {Boosting}},
+	shorttitle = {xgboost},
+	url = {https://CRAN.R-project.org/package=xgboost},
+	abstract = {Extreme Gradient Boosting, which is an efficient implementation of the gradient boosting framework from Chen \& Guestrin (2016) {\textless}doi:10.1145/2939672.2939785{\textgreater}. This package is its R interface. The package includes efficient linear model solver and tree learning algorithms. The package can automatically do parallel computation on a single machine which could be more than 10 times faster than existing gradient boosting packages. It supports various objective functions, including regression, classification and ranking. The package is made to be extensible, so that users are also allowed to define their own objectives easily.},
+	urldate = {2020-08-26},
+	author = {Chen, Tianqi and He, Tong and Benesty, Michael and Khotilovich, Vadim and Tang, Yuan and Cho, Hyunsu and Chen, Kailong and Mitchell, Rory and Cano, Ignacio and Zhou, Tianyi and Li, Mu and Xie, Junyuan and Lin, Min and Geng, Yifeng and Li, Yutian and implementation), XGBoost contributors (base XGBoost},
+	month = jun,
+	year = {2020},
+	note = {tex.copyright: Apache License (== 2.0) {\textbar} file LICENSE},
+	keywords = {MachineLearning, ModelDeployment, HighPerformanceComputing}
+}
+
+@article{ooi_doparallel_2019,
+	title = {{doParallel}: {Foreach} {Parallel} {Adaptor} for the 'parallel' {Package}},
+	shorttitle = {{doParallel}},
+	url = {https://CRAN.R-project.org/package=doParallel},
+	abstract = {Provides a parallel backend for the \%dopar\% function using the parallel package.},
+	urldate = {2020-08-26},
+	author = {Ooi, Hong and Corporation, Microsoft and Weston, Steve and Tenenbaum, Dan},
+	month = aug,
+	year = {2019},
+	note = {tex.copyright: GPL-2}
+}
+
+@article{ooi_foreach_2020,
+	title = {foreach: {Provides} {Foreach} {Looping} {Construct}},
+	shorttitle = {foreach},
+	url = {https://CRAN.R-project.org/package=foreach},
+	abstract = {Support for the foreach looping construct. Foreach is an idiom that allows for iterating over elements in a collection, without the use of an explicit loop counter. This package in particular is intended to be used for its return value, rather than for its side effects. In that sense, it is similar to the standard lapply function, but doesn't require the evaluation of a function. Using foreach without side effects also facilitates executing the loop in parallel.},
+	urldate = {2020-08-26},
+	author = {Ooi, Hong and {Microsoft} and Weston, Steve},
+	month = mar,
+	year = {2020},
+	note = {tex.copyright: Apache License (== 2.0)},
+	keywords = {HighPerformanceComputing}
+}
+
+@article{pedregosa_scikit-learn_2011,
+	title = {Scikit-learn: {Machine} {Learning} in {Python}},
+	volume = {12},
+	shorttitle = {Scikit-learn},
+	url = {http://jmlr.org/papers/v12/pedregosa11a.html},
+	abstract = {Scikit-learn is a Python module integrating a wide range of state-of-the-art machine learning algorithms for medium-scale supervised and unsupervised problems. This package focuses on bringing machine learning to non-specialists using a general-purpose high-level language. Emphasis is put on ease of use, performance, documentation, and API consistency. It has minimal dependencies and is distributed under the simplified BSD license, encouraging its use in both academic and commercial settings. Source code, binaries, and documentation can be downloaded from http://scikit-learn.sourceforge.net.},
+	number = {85},
+	urldate = {2020-08-26},
+	journal = {Journal of Machine Learning Research},
+	author = {Pedregosa, Fabian and Varoquaux, Gaël and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu and Duchesnay, Édouard},
+	year = {2011},
+	pages = {2825--2830},
+	file = {Fulltext PDF:/Users/zenalapp/Zotero/storage/WM7EF3D2/Pedregosa et al. - 2011 - Scikit-learn Machine Learning in Python.pdf:application/pdf}
+}
+
+@article{kuhn_tidymodels_2020,
+	title = {tidymodels: {Easily} {Install} and {Load} the '{Tidymodels}' {Packages}},
+	shorttitle = {tidymodels},
+	url = {https://CRAN.R-project.org/package=tidymodels},
+	abstract = {The tidy modeling "verse" is a collection of packages for modeling and statistical analysis that share the underlying design philosophy, grammar, and data structures of the tidyverse.},
+	urldate = {2020-09-09},
+	author = {Kuhn, Max and Wickham, Hadley and {RStudio}},
+	month = jul,
+	year = {2020},
+	note = {tex.copyright: GPL-3 {\textbar} file LICENSE}
+}
+
+@article{koster_snakemakescalable_2012,
+	title = {Snakemake—a scalable bioinformatics workflow engine},
+	volume = {28},
+	issn = {1367-4803},
+	url = {http://academic.oup.com/bioinformatics/article/28/19/2520/290322},
+	doi = {10.1093/bioinformatics/bts480},
+	abstract = {Abstract. Summary: Snakemake is a workflow engine that provides a readable Python-based workflow definition language and a powerful execution environment that},
+	language = {English},
+	number = {19},
+	urldate = {2020-09-09},
+	journal = {Bioinformatics},
+	author = {Köster, Johannes and Rahmann, Sven},
+	month = oct,
+	year = {2012},
+	pages = {2520--2522},
+	annote = {Publisher: Oxford Academic},
+	file = {Full Text PDF:/Users/zenalapp/Zotero/storage/B3EJVPVH/Köster and Rahmann - 2012 - Snakemake—a scalable bioinformatics workflow engin.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/Y84G98EQ/290322.html:text/html}
+}
+
+@article{tang_democratizing_2020,
+	title = {Democratizing {EHR} analyses with {FIDDLE}: a flexible data-driven preprocessing pipeline for structured clinical data},
+	shorttitle = {Democratizing {EHR} analyses with {FIDDLE}},
+	url = {https://academic.oup.com/jamia/advance-article/doi/10.1093/jamia/ocaa139/5920826},
+	doi = {10.1093/jamia/ocaa139},
+	abstract = {AbstractObjective.  In applying machine learning (ML) to electronic health record (EHR) data, many decisions must be made before any ML is applied; such preproc},
+	language = {en},
+	urldate = {2020-10-15},
+	journal = {J Am Med Inform Assoc},
+	author = {Tang, Shengpu and Davarmanesh, Parmida and Song, Yanmeng and Koutra, Danai and Sjoding, Michael W. and Wiens, Jenna},
+	month = oct,
+	year = {2020}
+}
+
+@article{dukes_how_2020,
+	title = {How to better support {Black} trainees in the biomedical sciences},
+	copyright = {2020 Springer Nature America, Inc.},
+	issn = {1546-170X},
+	url = {https://www.nature.com/articles/s41591-020-1101-3},
+	doi = {10.1038/s41591-020-1101-3},
+	abstract = {The relentless violence against Black people takes an overwhelming emotional toll on Black trainees. In those we continue to lose, we see our families, our friends and our own lives being taken.},
+	language = {en},
+	urldate = {2020-10-19},
+	journal = {Nature Medicine},
+	author = {Dukes, Angeline},
+	month = oct,
+	year = {2020},
+	note = {Publisher: Nature Publishing Group},
+	pages = {1--1},
+	file = {Dukes_2020_Nature_Medicine.pdf:/Users/zenalapp/Zotero/storage/TZMHK83G/Dukes_2020_Nature_Medicine.pdf:application/pdf}
+}
+
+@article{friedman_regularization_2010,
+	title = {Regularization {Paths} for {Generalized} {Linear} {Models} via {Coordinate} {Descent}},
+	volume = {33},
+	copyright = {Copyright (c) 2009 Jerome H. Friedman, Trevor Hastie, Rob Tibshirani},
+	issn = {1548-7660},
+	url = {https://www.jstatsoft.org/index.php/jss/article/view/v033i01},
+	doi = {10.18637/jss.v033.i01},
+	language = {en},
+	number = {1},
+	urldate = {2020-11-11},
+	journal = {Journal of Statistical Software},
+	author = {Friedman, Jerome H. and Hastie, Trevor and Tibshirani, Rob},
+	month = feb,
+	year = {2010},
+	note = {Number: 1},
+	pages = {1--22},
+	file = {Full Text:/Users/zenalapp/Zotero/storage/VRZC6MLJ/Friedman et al. - 2010 - Regularization Paths for Generalized Linear Models.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/E7WRDR4C/v033i01.html:text/html;Snapshot:/Users/zenalapp/Zotero/storage/VHVXUBTW/v033i01.html:text/html}
+}
+
+@misc{meyer_e1071_2020,
+	title = {e1071: {Misc} {Functions} of the {Department} of {Statistics}, {Probability} {Theory} {Group} ({Formerly}: {E1071}), {TU} {Wien}},
+	copyright = {GPL-2 {\textbar} GPL-3},
+	shorttitle = {e1071},
+	url = {https://CRAN.R-project.org/package=e1071},
+	abstract = {Functions for latent class analysis, short time Fourier transform, fuzzy clustering, support vector machines, shortest path computation, bagged clustering, naive Bayes classifier, ...},
+	urldate = {2020-11-11},
+	author = {Meyer, David and Dimitriadou, Evgenia and Hornik, Kurt and Weingessel, Andreas and Leisch, Friedrich and C++-code), Chih-Chung Chang (libsvm and C++-code), Chih-Chen Lin (libsvm},
+	month = oct,
+	year = {2020},
+	keywords = {Environmetrics, Multivariate, Psychometrics, MachineLearning, Cluster, Distributions}
 }
 
 @misc{yan_mlmetrics_2016,
-  title = {{{MLmetrics}}: {{Machine Learning Evaluation Metrics}}},
-  shorttitle = {{{MLmetrics}}},
-  author = {Yan, Yachen},
-  year = {2016},
-  month = may,
-  abstract = {A collection of evaluation metrics, including loss, score and utility functions, that measure regression, classification and ranking performance.},
-  copyright = {GPL-2}
+	title = {{MLmetrics}: {Machine} {Learning} {Evaluation} {Metrics}},
+	copyright = {GPL-2},
+	shorttitle = {{MLmetrics}},
+	url = {https://CRAN.R-project.org/package=MLmetrics},
+	abstract = {A collection of evaluation metrics, including loss, score and utility functions, that measure regression, classification and ranking performance.},
+	urldate = {2020-11-11},
+	author = {Yan, Yachen},
+	month = may,
+	year = {2016}
 }
 
+@techreport{h2o_platform,
+	type = {manual},
+	title = {{H2O}: {Scalable} machine learning platform},
+	url = {https://github.com/h2oai/h2o-3},
+	author = {{H2O.ai}},
+	year = {2020},
+	annote = {version 3.30.0.6}
+}
 
+@book{wickham_ggplot2_2016,
+	address = {Cham},
+	series = {Use {R}!},
+	title = {ggplot2: {Elegant} {Graphics} for {Data} {Analysis}},
+	isbn = {978-3-319-24275-0 978-3-319-24277-4},
+	url = {http://link.springer.com/10.1007/978-3-319-24277-4},
+	language = {en},
+	urldate = {2020-11-13},
+	publisher = {Springer International Publishing},
+	author = {Wickham, Hadley},
+	year = {2016},
+	doi = {10.1007/978-3-319-24277-4},
+	file = {Wickham - 2016 - ggplot2.pdf:/Users/zenalapp/Zotero/storage/FEPMIX3S/Wickham - 2016 - ggplot2.pdf:application/pdf}
+}
+
+@article{hagan_women_2020,
+	title = {Women {Are} {Underrepresented} and {Receive} {Differential} {Outcomes} at {ASM} {Journals}: a {Six}-{Year} {Retrospective} {Analysis}},
+	volume = {11},
+	copyright = {Copyright © 2020 Hagan et al.. This is an open-access article distributed under the terms of the Creative Commons Attribution 4.0 International license.},
+	issn = {2150-7511},
+	shorttitle = {Women {Are} {Underrepresented} and {Receive} {Differential} {Outcomes} at {ASM} {Journals}},
+	url = {https://mbio.asm.org/content/11/6/e01680-20},
+	doi = {10.1128/mBio.01680-20},
+	abstract = {Despite 50\% of biology Ph.D. graduates being women, the number of women that advance in academia decreases at each level (e.g., from graduate to postdoctorate to tenure track). Recently, scientific societies and publishers have begun examining internal submissions data to evaluate representation and evaluation of women in their peer review processes; however, representation and attitudes differ by scientific field, and to date, no studies have investigated academic publishing in the field of microbiology. Using manuscripts submitted between January 2012 and August 2018 to the 15 journals published by the American Society for Microbiology (ASM), we describe the representation of women at ASM journals and the outcomes of their manuscripts. Senior women authors at ASM journals were underrepresented compared to global and society estimates of microbiology researchers. Additionally, manuscripts submitted by corresponding authors that were women received more negative outcomes than those submitted by men. These negative outcomes were somewhat mediated by whether or not the corresponding author was based in the United States and by the type of institution for United States-based authors. Nonetheless, the pattern for women corresponding authors to receive more negative outcomes on their submitted manuscripts held. We conclude with suggestions to improve the representation of women and decrease structural penalties against women.
+IMPORTANCE Barriers in science and academia have prevented women from becoming researchers and experts that are viewed as equivalent to their colleagues who are men. We evaluated the participation and success of women researchers at ASM journals to better understand their success in the field of microbiology. We found that women are underrepresented as expert scientists at ASM journals. This is, in part, due to a combination of both low submissions from senior women authors and more negative outcomes on submitted manuscripts for women compared to men.},
+	language = {en},
+	number = {6},
+	urldate = {2020-12-01},
+	journal = {mBio},
+	author = {Hagan, Ada K. and Topçuoğlu, Begüm D. and Gregory, Mia E. and Barton, Hazel A. and Schloss, Patrick D.},
+	month = dec,
+	year = {2020},
+	note = {tex.ids: hagan\_women\_2020-2
+publisher: American Society for Microbiology
+section: Research Article}
+}
+
+@article{pollard_turning_2019,
+	title = {Turning the crank for machine learning: ease, at what expense?},
+	volume = {1},
+	issn = {2589-7500},
+	shorttitle = {Turning the crank for machine learning},
+	url = {http://www.thelancet.com/journals/landig/article/PIIS2589-7500(19)30112-8/abstract},
+	doi = {10.1016/S2589-7500(19)30112-8},
+	abstract = {Excitement around the transformative potential of machine learning in health care
+belies a reliance on deep technical expertise that leaves this technology in the hands
+of the few. Typically, a practitioner of machine learning undertakes numerous tasks
+in the process of training and testing a model for classification. The process requires
+substantial technical knowledge and—perhaps somewhat incongruously—is often both highly
+detailed and loosely defined. In The Lancet Digital Health, Livia Faes, Siegfried
+Wagner, and colleagues1 report on their experience of using a service that creates
+an abstraction from the training and testing process, enabling a professional with
+no coding experience to build a model that might once have been out of reach.},
+	language = {English},
+	number = {5},
+	urldate = {2020-12-02},
+	journal = {The Lancet Digital Health},
+	author = {Pollard, Tom J. and Chen, Irene and Wiens, Jenna and Horng, Steven and Wong, Danny and Ghassemi, Marzyeh and Mattie, Heather and Lindemer, Emily and Panch, Trishan},
+	month = sep,
+	year = {2019},
+	note = {Publisher: Elsevier},
+	pages = {e198--e199},
+	file = {Full Text PDF:/Users/zenalapp/Zotero/storage/S2HCCU7X/Pollard et al. - 2019 - Turning the crank for machine learning ease, at w.pdf:application/pdf;Snapshot:/Users/zenalapp/Zotero/storage/B3JTUXJD/fulltext.html:text/html}
+}

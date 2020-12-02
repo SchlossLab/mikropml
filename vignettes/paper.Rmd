@@ -111,9 +111,9 @@ importance steps to measure the importance of each feature in the
 models trained [@breiman_random_2001; @fisher_all_2018]. 
 While mikropml allows users to get started quickly and facilitates reproducibility, 
 it is not a replacement for understanding the ML workflow which is still necessary 
-when interpreting results. To facilitate understanding and enable one to tailor 
-the code to their application, we have heavily commented the code and have 
-provided supporting documentation.
+when interpreting results [@pollard_turning_2019]. To facilitate understanding and 
+enable one to tailor the code to their application, we have heavily commented the 
+code and have provided supporting documentation.
 
 The pipeline implemented in `mikropml` is generalizable to perform ML on 
 datasets from many different fields. It has already been applied to microbiome 
