@@ -36,6 +36,7 @@ Dataframe of performance metrics.
 Get performance metrics for test data
 }
 \examples{
+\donttest{
 results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
 calc_perf_metrics(results$test_data,
   results$trained_model,
@@ -43,6 +44,7 @@ calc_perf_metrics(results$test_data,
   multiClassSummary,
   class_probs = TRUE
 )
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
