@@ -13,7 +13,7 @@ This release fixes several problems found by CRAN's check server:
 - rhub debian-clang-devel
 - macOS 10.15.7 (on github-actions), R 4.0.3, devel, and oldrel
 - ubuntu 18.04.5 (on github-actions), R devel
-- windows 10.0.17763 (on github-actions), R 4.0.3 and devel
+- windows 10.0.17763 (on github-actions), R 4.0.3, devel, and oldrel
 
 ## R CMD check results
 
