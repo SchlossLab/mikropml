@@ -219,7 +219,8 @@ We also allow for parallelization of cross-validation and other steps using the
 # Acknowledgments
 
 We thank members of the Schloss Lab who participated in code clubs related to
-the initial development of the pipeline.
+the initial development of the pipeline, made documentation improvements, and
+provided general feedback.
 
 # Funding
 

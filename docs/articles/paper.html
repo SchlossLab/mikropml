@@ -95,8 +95,7 @@
 
       
 
-      </header><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="paper_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="paper_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines</h1>
@@ -121,7 +120,7 @@
 <a href="#statement-of-need" class="anchor"></a>Statement of need</h1>
 <p>Most applications of machine learning (ML) require reproducible steps for data pre-processing, cross-validation, testing, model evaluation, and often interpretation of why the model makes particular predictions. Performing these steps is important, as failure to implement them can result in incorrect and misleading results <span class="citation">(Teschendorff 2019; Wiens et al. 2019)</span>.</p>
 <p>Supervised ML is widely used to recognize patterns in large datasets and to make predictions about outcomes of interest. Several packages including <code>caret</code> <span class="citation">(Kuhn 2008)</span> and <code>tidymodels</code> <span class="citation">(Kuhn, Wickham, and RStudio 2020)</span> in R, <code>scikitlearn</code> <span class="citation">(Pedregosa et al. 2011)</span> in Python, and the H2O <code>autoML</code> platform <span class="citation">(H2O.ai 2020)</span> allow scientists to train ML models with a variety of algorithms. While these packages provide the tools necessary for each ML step, they do not implement a complete ML pipeline according to good practices in the literature. This makes it difficult for practitioners new to ML to easily begin to perform ML analyses.</p>
-<p>To enable a broader range of researchers to apply ML to their problem domains, we created <a href="https://github.com/SchlossLab/mikropml/"><code>mikropml</code></a>, an easy-to-use R package <span class="citation">(R Core Team 2020)</span> that implements the ML pipeline created by Topçuoğlu <em>et al.</em> <span class="citation">(Topçuoğlu et al. 2020)</span> in a single function that returns the best model performance metrics and feature importance. <code>mikropml</code> leverages the <code>caret</code> package to support several ML algorithms: linear regression, logistic regression, support vector machines with a radial basis kernel, decision trees, random forest, and gradient boosted trees. It incorporates good practices in ML training, testing, and model evaluation <span class="citation">(Topçuoğlu et al. 2020; Teschendorff 2019)</span>. Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang <em>et al.</em> <span class="citation">(Tang et al. 2020)</span> and post-training permutation importance steps to estimate the importance of each feature in the models trained <span class="citation">(Breiman 2001; Fisher, Rudin, and Dominici 2018)</span>.</p>
+<p>To enable a broader range of researchers to apply ML to their problem domains, we created <a href="https://github.com/SchlossLab/mikropml/"><code>mikropml</code></a>, an easy-to-use R package <span class="citation">(R Core Team 2020)</span> that implements the ML pipeline created by Topçuoğlu <em>et al.</em> <span class="citation">(Topçuoğlu et al. 2020)</span> in a single function that returns a trained model, model performance metrics and feature importance. <code>mikropml</code> leverages the <code>caret</code> package to support several ML algorithms: linear regression, logistic regression, support vector machines with a radial basis kernel, decision trees, random forest, and gradient boosted trees. It incorporates good practices in ML training, testing, and model evaluation <span class="citation">(Topçuoğlu et al. 2020; Teschendorff 2019)</span>. Furthermore, it provides data preprocessing steps based on the FIDDLE (FlexIble Data-Driven pipeLinE) framework outlined in Tang <em>et al.</em> <span class="citation">(Tang et al. 2020)</span> and post-training permutation importance steps to estimate the importance of each feature in the models trained <span class="citation">(Breiman 2001; Fisher, Rudin, and Dominici 2018)</span>.</p>
 <p><code>mikropml</code> can be used as a starting point in the application of ML to datasets from many different fields. It has already been applied to microbiome data to categorize patients with colorectal cancer <span class="citation">(Topçuoğlu et al. 2020)</span>, to identify differences in genomic and clinical features associated with bacterial infections <span class="citation">(Lapp et al. 2020)</span>, and to predict gender-based biases in academic publishing <span class="citation">(Hagan et al. 2020)</span>.</p>
 </div>
 <div id="mikropml-package" class="section level1">
@@ -139,7 +138,7 @@
 <a href="#running-ml" class="anchor"></a>Running ML</h2>
 <p>The main function in mikropml, <code><a href="../reference/run_ml.html">run_ml()</a></code>, minimally takes in the model choice and a data frame with an outcome column and feature columns. For model choice, <code>mikropml</code> currently supports logistic and linear regression <span class="citation">(<code>glmnet</code>: Friedman, Hastie, and Tibshirani 2010)</span>, support vector machines with a radial basis kernel <span class="citation">(<code>kernlab</code>: Karatzoglou et al. 2004)</span>, decision trees <span class="citation">(<code>rpart</code>: Therneau et al. 2019)</span>, random forest <span class="citation">(<code>randomForest</code>: Liaw and Wiener 2002)</span>, and gradient-boosted trees <span class="citation">(<code>xgboost</code>: Chen et al. 2020)</span>. <code><a href="../reference/run_ml.html">run_ml()</a></code> randomly splits the data into train and test sets while maintaining the distribution of the outcomes found in the full dataset. It also provides the option to split the data into train and test sets based on categorical variables (e.g. batch, geographic location, etc.). <code>mikropml</code> uses the <code>caret</code> package <span class="citation">(Kuhn 2008)</span> to train and evaluate the models, and optionally quantifies feature importance. The output includes the best model built based on tuning hyperparameters in an internal and repeated cross-validation step, model evaluation metrics, and optional feature importances. Feature importances are calculated using a permutation test, which breaks the relationship between the feature and the true outcome in the test data, and measures the change in model performance. This provides an intuitive metric of how individual features influence model performance and is comparable across model types, which is particularly useful for model interpretation <span class="citation">(Topçuoğlu et al. 2020)</span>. Our <a href="http://www.schlosslab.org/mikropml/articles/introduction.html">introductory vignette</a> contains a comprehensive tutorial on how to use <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
 <div class="figure">
-<img src="mikRopML-pipeline.png" alt="mikropml pipeline" style="width:100.0%"><p class="caption">mikropml pipeline</p>
+<img src="mikRopML-pipeline.png" style="width:100.0%" alt=""><p class="caption">mikropml pipeline</p>
 </div>
 </div>
 <div id="ideal-workflow-for-running-mikropml-with-many-different-traintest-splits" class="section level2">
@@ -161,7 +160,7 @@
 <div id="acknowledgments" class="section level1">
 <h1 class="hasAnchor">
 <a href="#acknowledgments" class="anchor"></a>Acknowledgments</h1>
-<p>We thank members of the Schloss Lab who participated in code clubs related to the initial development of the pipeline.</p>
+<p>We thank members of the Schloss Lab who participated in code clubs related to the initial development of the pipeline, made documentation improvements, and provided general feedback.</p>
 </div>
 <div id="funding" class="section level1">
 <h1 class="hasAnchor">
@@ -182,7 +181,7 @@
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-bengtsson_futureapply_2020">
 <p>Bengtsson, Henrik, and R Core Team. 2020. “Future.Apply: Apply Function to Elements in Parallel Using Futures,” July.</p>
 </div>
@@ -266,10 +265,10 @@
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
