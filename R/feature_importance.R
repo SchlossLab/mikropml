@@ -10,8 +10,9 @@
 #' @return Dataframe with performance metrics for when each feature (or group of
 #'   correlated features; `names`) is permuted (`perf_metric`), and differences
 #'   between test performance metric and permuted performance metric
-#'   (`perf_metric_diff`). The performance metric name (`perf_metric_name`) and
-#'   seed (`seed`) are also returned.
+#'   (`perf_metric_diff`; test minus permuted performance). Features with a
+#'   larger `perf_metric_diff` are more important. The performance metric name
+#'   (`perf_metric_name`) and seed (`seed`) are also returned.
 #'
 #' @examples
 #' \donttest{
@@ -81,8 +82,8 @@ get_feature_importance <- function(trained_model, train_data, test_data,
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
 #'
-#' @return vector of mean permuted auc and mean difference between test and
-#'   permuted auc
+#' @return vector of mean permuted performance and mean difference between test
+#'   and permuted performance (test minus permuted performance)
 #' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}

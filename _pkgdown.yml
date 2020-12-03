@@ -24,12 +24,14 @@ authors:
 reference:
 - title: Main
   desc: >
-    These functions provide all you need to build robust machine learning models.
+    The foundations for training machine learning models.
   contents:
   - mikropml
   - preprocess_data
   - run_ml
 - title: Plotting helpers
+  desc: >
+    Visualize performance to help you tune hyperparameters and choose model methods.
   contents:
   - starts_with('plot')
   - tidy_perf_data

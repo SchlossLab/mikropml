@@ -62,8 +62,9 @@ above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code
 Dataframe with performance metrics for when each feature (or group of
 correlated features; \code{names}) is permuted (\code{perf_metric}), and differences
 between test performance metric and permuted performance metric
-(\code{perf_metric_diff}). The performance metric name (\code{perf_metric_name}) and
-seed (\code{seed}) are also returned.
+(\code{perf_metric_diff}; test minus permuted performance). Features with a
+larger \code{perf_metric_diff} are more important. The performance metric name
+(\code{perf_metric_name}) and seed (\code{seed}) are also returned.
 }
 \description{
 Calculates feature importance using a trained model and test data. Requires

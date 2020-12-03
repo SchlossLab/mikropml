@@ -1,6 +1,6 @@
 #' mikropml: User-Friendly R Package for Robust Machine Learning Pipelines
 #'
-#' `mikropml` implements robust machine learning pipelines using regression,
+#' `mikropml` implements supervised machine learning pipelines using regression,
 #' support vector machines, decision trees, random forest, or gradient-boosted trees.
 #' The main functions are `preprocess_data()` to process your data prior to
 #' running machine learning, and `run_ml()` to run machine learning.

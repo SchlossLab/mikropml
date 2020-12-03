@@ -1,7 +1,7 @@
 #' Run the machine learning pipeline
 #'
 #' This function runs machine learning (ML), evaluates the best model,
-#' and optionally calculates feature importance using a robust framework
+#' and optionally calculates feature importance using the framework
 #' outlined in Topçuoğlu _et al._ 2020 ([doi:10.1128/mBio.00434-20](https://doi.org/10.1128/mBio.00434-20)).
 #' Required inputs are a dataframe with an outcome variable and other columns
 #' as features, as well as the ML method.
