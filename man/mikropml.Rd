@@ -5,7 +5,7 @@
 \alias{mikropml}
 \title{mikropml: User-Friendly R Package for Robust Machine Learning Pipelines}
 \description{
-\code{mikropml} implements robust machine learning pipelines using regression,
+\code{mikropml} implements supervised machine learning pipelines using regression,
 support vector machines, decision trees, random forest, or gradient-boosted trees.
 The main functions are \code{preprocess_data()} to process your data prior to
 running machine learning, and \code{run_ml()} to run machine learning.
