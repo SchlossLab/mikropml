@@ -1,6 +1,6 @@
 Package: mikropml
 Title: User-Friendly R Package for Supervised Machine Learning Pipelines
-Version: 0.0.1.9000
+Version: 0.0.2
 Authors@R: c(
     person(given = "Begüm",
            family = "Topçuoğlu",
@@ -38,7 +38,7 @@ Authors@R: c(
            role = c("ctb"),
            email = "nlesniak@umich.edu",
            comment = c(ORCID = "0000-0001-9359-5194")))
-Date: 2020-11-20
+Date: 2020-12-02
 URL: http://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
 BugReports: https://github.com/SchlossLab/mikropml/issues
 Description: An interface to build machine learning models for classification 

@@ -51,9 +51,9 @@ conda install -c conda-forge r-mikropml
 ### Dependencies
 
   - Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics,
-    randomForest, rlang, stats, utils, xgboost
+    randomForest, rlang, rpart, stats, utils, xgboost
   - Suggests: doFuture, foreach, future, future.apply, ggplot2, knitr,
-    purrr, rmarkdown, rpart, testthat, tidyr
+    purrr, rmarkdown, testthat, tidyr
 
 ## Usage
 
