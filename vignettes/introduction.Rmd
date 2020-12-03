@@ -317,8 +317,8 @@ results_imp$feature_importance
 
 There are several columns:
 
-1. `perf_metric`: The performance metric of the permuted feature.
-1. `perf_metric_diff`: The difference between the performance metric for the true and permuted data.
+1. `perf_metric`: The performance value of the permuted feature.
+1. `perf_metric_diff`: The difference between the performance for the true and permuted data (i.e. test performance minus permuted performance). Features with a larger `perf_metric_diff` are more important.
 1. `names`: The feature that was permuted.
 1. `method`: The ML method used.
 1. `perf_metric_name`: The peformance metric used.
