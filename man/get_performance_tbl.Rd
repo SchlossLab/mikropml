@@ -66,7 +66,7 @@ get_performance_tbl(results$trained_model, results$test_data,
   "dx",
   multiClassSummary, "AUC",
   class_probs = TRUE,
-  method = 'glmnet'
+  method = "glmnet"
 )
 }
 

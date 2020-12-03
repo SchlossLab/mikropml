@@ -1,3 +1,6 @@
+options( # for compatibility with R < 4.0
+  stringsAsFactors = FALSE
+)
 tol <- 1e-5
 test_that("flatten_corr_mat works", {
   corr_mat <- data.frame(

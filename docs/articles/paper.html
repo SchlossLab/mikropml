@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
 
       
 
-      </header><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><script src="paper_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="paper_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="paper_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -139,7 +139,7 @@
 <a href="#running-ml" class="anchor"></a>Running ML</h2>
 <p>The main function in mikropml, <code><a href="../reference/run_ml.html">run_ml()</a></code>, minimally takes in the model choice and a data frame with an outcome column and feature columns. For model choice, <code>mikropml</code> currently supports logistic and linear regression <span class="citation">(<code>glmnet</code>: Friedman, Hastie, and Tibshirani 2010)</span>, support vector machines with a radial basis kernel <span class="citation">(<code>kernlab</code>: Karatzoglou et al. 2004)</span>, decision trees <span class="citation">(<code>rpart</code>: Therneau et al. 2019)</span>, random forest <span class="citation">(<code>randomForest</code>: Liaw and Wiener 2002)</span>, and gradient-boosted trees <span class="citation">(<code>xgboost</code>: Chen et al. 2020)</span>. <code><a href="../reference/run_ml.html">run_ml()</a></code> randomly splits the data into train and test sets while maintaining the distribution of the outcomes found in the full dataset. It also provides the option to split the data into train and test sets based on categorical variables (e.g. batch, geographic location, etc.). <code>mikropml</code> uses the <code>caret</code> package <span class="citation">(Kuhn 2008)</span> to train and evaluate the models, and optionally quantifies feature importance. The output includes the best model built based on tuning hyperparameters in an internal and repeated cross-validation step, model evaluation metrics, and optional feature importances. Feature importances are calculated using a permutation test, which breaks the relationship between the feature and the true outcome in the test data, and measures the change in model performance. This provides an intuitive metric of how individual features influence model performance and is comparable across model types, which is particularly useful for model interpretation <span class="citation">(Topçuoğlu et al. 2020)</span>. Our <a href="http://www.schlosslab.org/mikropml/articles/introduction.html">introductory vignette</a> contains a comprehensive tutorial on how to use <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
 <div class="figure">
-<img src="mikRopML-pipeline.png" alt="mikropml pipeline" style="width:100.0%"><p class="caption">mikropml pipeline</p>
+<img src="mikRopML-pipeline.png" style="width:100.0%" alt=""><p class="caption">mikropml pipeline</p>
 </div>
 </div>
 <div id="ideal-workflow-for-running-mikropml-with-many-different-traintest-splits" class="section level2">
@@ -266,10 +266,10 @@
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>co-first author<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>co-first author<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>co-first author<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>corresponding author<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>

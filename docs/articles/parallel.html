@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -151,6 +151,7 @@
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span></code></pre></div>
 <p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a different random split of the data into training and testing sets. Since we are using seeds, we must set <code>future.seed</code> to <code>TRUE</code> (see the <a href="https://cran.r-project.org/web/packages/future.apply/future.apply.pdf"><code>future.apply</code> documentation</a> and <a href="https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/">this blog post</a> for details on parallel-safe random seeds). This example uses only a few seeds for speed and simplicity, but for real data we recommend using many more seeds to get a better estimate of model performance.</p>
+<p>In these examples, we used functions from the <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel, but you can accomplish the same thing with parallel versions of the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> functions using the <code>furrr</code> package (e.g. <code>furrr::future_map_dfr()</code>).</p>
 <p>Extract the performance results and combine into one dataframe for all seeds:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>, 
