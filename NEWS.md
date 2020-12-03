@@ -1,3 +1,7 @@
+# development version
+
+- Made documentation improvements (#238).
+
 # mikropml 0.0.2
 
 - Fixed a test failure on Solaris.
