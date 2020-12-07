@@ -65,7 +65,7 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' run_ml(otu_small, "glmnet",
 #'   seed = 2019
 #' )

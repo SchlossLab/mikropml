@@ -108,7 +108,7 @@ get_perf_metric_name <- function(outcome_type) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
 #' calc_perf_metrics(results$test_data,
 #'   results$trained_model,
@@ -146,7 +146,7 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #'
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #' results <- run_ml(otu_small, "glmnet", kfold = 2, cv_times = 2)
 #' names(results$trained_model$trainingData)[1] <- "dx"
 #' get_performance_tbl(results$trained_model, results$test_data,
