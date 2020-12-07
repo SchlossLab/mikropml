@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
       </span>
     </div>
 
@@ -370,9 +370,9 @@
 <p>There are several columns:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>perf_metric</code>: The performance metric of the permuted feature.</li>
+<code>perf_metric</code>: The performance value of the permuted feature.</li>
 <li>
-<code>perf_metric_diff</code>: The difference between the performance metric for the true and permuted data.</li>
+<code>perf_metric_diff</code>: The difference between the performance for the true and permuted data (i.e. test performance minus permuted performance). Features with a larger <code>perf_metric_diff</code> are more important.</li>
 <li>
 <code>names</code>: The feature that was permuted.</li>
 <li>
