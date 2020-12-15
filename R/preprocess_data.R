@@ -442,11 +442,12 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
   return(list(features = feats_nocorr, grp_feats = grp_feats))
 }
 
-#' Remove singleton columns appearing in only one row
+#' Remove columns appearing in only `threshold` row(s) or fewer.
 #'
-#' Removes columns which only have non-zero & non-NA values in a single row.
+#' Removes columns which only have non-zero & non-NA values in `threshold` row(s) or fewer.
 #'
 #' @param dat dataframe
+#' @param threshold
 #'
 #' @return dataframe without singleton columns
 #' @export
@@ -458,6 +459,11 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
 #' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, 0), c = 4:6))
 #' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, NA), c = 4:6))
 #' remove_singleton_columns(data.frame(a = 1:3, b = c(1, 1, 1), c = 4:6))
-remove_singleton_columns <- function(dat) {
-  return(dat[,colSums(dat != 0 & !is.na(dat)) > 1])
+remove_singleton_columns <- function(dat, threshold = 1) {
+  cols <- colSums(dat != 0 & !is.na(dat)) > threshold
+  keep <- cols %>% Filter(isTRUE, .) %>% names()
+  remove <- cols %>% Filter(isFALSE, .) %>% names()
+  return(list(dat = dat %>% dplyr::select(dplyr::all_of(keep)),
+              removed_feats = remove
+              ))
 }

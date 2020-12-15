@@ -513,33 +513,36 @@ test_that('remove_singleton_columns works', {
   expect_equal(remove_singleton_columns(data.frame(a = 1:3,
                                                    b = c(0, 1, 0),
                                                    c = 4:6)),
-               data.frame(a = 1:3,
-                          c = 4:6)
+               list(dat = data.frame(a = 1:3, c = 4:6),
+                    removed_feats = c('b')
                )
+  )
   expect_equal(remove_singleton_columns(data.frame(a = 1:3,
                                                    b = c(0, 1, NA),
                                                    c = 4:6)),
-               data.frame(a = 1:3,
-                          c = 4:6)
+               list(dat = data.frame(a = 1:3, c = 4:6),
+                    removed_feats = c('b')
+               )
   )
   expect_equal(remove_singleton_columns(data.frame(a = 1:3,
                                                    b = c(1, 1, 1),
                                                    c = 4:6)),
-               data.frame(a = 1:3,
-                          b = c(1, 1, 1),
-                          c = 4:6)
+               list(dat = data.frame(a = 1:3, b = c(1, 1, 1), c = 4:6),
+                    removed_feats = character(0)
                )
+  )
   expect_equal(remove_singleton_columns(test_df),
-               data.frame(
-                 outcome = c("normal", "normal", "cancer", NA),
-                 var1 = 1:4,
-                 var2 = c("a", "b", "c", "d"),
-                 var3 = c("no", "yes", "no", "no"),
-                 var6 = c("no", "no", "no", "no"),
-                 var7 = c(1, 1, 0, 0),
-                 var8 = c(5, 6, NA, 7),
-                 var9 = c(NA, "x", "y", "z"),
-                 var11 = c(1, 1, NA, NA),
-                 var12 = c("1", "2", "3", "4")
-               ))
+               list(dat = data.frame(outcome = c("normal", "normal", "cancer", NA),
+                                     var1 = 1:4,
+                                     var2 = c("a", "b", "c", "d"),
+                                     var3 = c("no", "yes", "no", "no"),
+                                     var6 = c("no", "no", "no", "no"),
+                                     var7 = c(1, 1, 0, 0),
+                                     var8 = c(5, 6, NA, 7),
+                                     var9 = c(NA, "x", "y", "z"),
+                                     var11 = c(1, 1, NA, NA),
+                                     var12 = c("1", "2", "3", "4")),
+                    removed_feats = c('var4', 'var5', 'var10')
+                 )
+  )
 })
