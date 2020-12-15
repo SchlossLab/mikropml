@@ -37,7 +37,12 @@ Authors@R: c(
            family = "Lesniak",
            role = c("ctb"),
            email = "nlesniak@umich.edu",
-           comment = c(ORCID = "0000-0001-9359-5194")))
+           comment = c(ORCID = "0000-0001-9359-5194")),
+    person(given = "Courtney",
+           family = "Armour",
+           role = c("ctb"),
+           email = "armourc@umich.edu",
+           comment = c(ORCID = "0000-0002-5250-1224")))
 Date: 2020-12-02
 URL: http://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
 BugReports: https://github.com/SchlossLab/mikropml/issues
