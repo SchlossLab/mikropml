@@ -10,6 +10,9 @@
 #'   (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
 #' @param collapse_corr_feats Whether to keep only one of perfectly correlated features.
 #' @param to_numeric Whether to change features to numeric where possible.
+#' @param prefilter_threshold Remove features which only have non-zero & non-NA
+#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
+#'   This step will also be skipped if `to_numeric` is set to `FALSE`.
 #' @inheritParams run_ml
 #' @inheritParams get_corr_feats
 #'
@@ -33,7 +36,8 @@
 preprocess_data <- function(dataset, outcome_colname,
                             method = c("center", "scale"),
                             remove_var = "nzv", collapse_corr_feats = TRUE,
-                            to_numeric = TRUE, group_neg_corr = TRUE) {
+                            to_numeric = TRUE, group_neg_corr = TRUE,
+                            prefilter_threshold = 1) {
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
@@ -43,8 +47,12 @@ preprocess_data <- function(dataset, outcome_colname,
   split_dat <- split_outcome_features(dataset, outcome_colname)
 
   features <- split_dat$features
+  removed_feats <- character(0)
   if (to_numeric) {
-    features <- change_to_num(features)
+    feats <- change_to_num(features) %>%
+      remove_singleton_columns(threshold = prefilter_threshold)
+    removed_feats <- feats$removed_feats
+    features <- feats$dat
   }
 
   nv_feats <- process_novar_feats(features)
@@ -60,7 +68,7 @@ preprocess_data <- function(dataset, outcome_colname,
   # remove features with (near-)zero variance
   feats <- get_caret_processed_df(processed_feats, remove_var)
   processed_feats <- feats$processed
-  removed_feats <- c(cont_feats$removed_cont, feats$removed)
+  removed_feats <- c(removed_feats, cont_feats$removed_cont, feats$removed)
 
   # remove perfectly correlated features
   grp_feats <- NULL
@@ -136,6 +144,35 @@ change_to_num <- function(features) {
   return(features)
 }
 
+
+#' Remove columns appearing in only `threshold` row(s) or fewer.
+#'
+#' Removes columns which only have non-zero & non-NA values in `threshold` row(s) or fewer.
+#'
+#' @param dat dataframe
+#' @param threshold Number of rows. If a column only has non-zero & non-NA values
+#'   in `threshold` row(s) or fewer, it will be removed.
+#'
+#' @return dataframe without singleton columns
+#' @export
+#'
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Courtney Armour
+#'
+#' @examples
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, 0), c = 4:6))
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, 0), c = 4:6), threshold = 0)
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, NA), c = 4:6))
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(1, 1, 1), c = 4:6))
+remove_singleton_columns <- function(dat, threshold = 1) {
+  cols <- colSums(dat != 0 & !is.na(dat)) > threshold
+  keep <- cols %>% Filter(isTRUE, .) %>% names()
+  remove <- cols %>% Filter(isFALSE, .) %>% names()
+  return(list(dat = dat %>% dplyr::select(dplyr::all_of(keep)),
+              removed_feats = remove
+  ))
+}
+
 #' Process features with no variation
 #'
 #' @param features dataframe of features for machine learning
@@ -154,9 +191,8 @@ process_novar_feats <- function(features) {
 
     # get features with no variation
     apply_fn <- select_apply(fun = "apply")
-    novar_feats_bool <-
-      apply_fn(features, 2, function(x) {
-        length(unique(x[!is.na(x)])) == 1
+    novar_feats_bool <- apply_fn(features, 2, function(x) {
+      length(unique(x[!is.na(x)])) == 1
       })
     novar_feats <- features %>% dplyr::select_if(novar_feats_bool)
 
@@ -201,6 +237,7 @@ process_novar_feats <- function(features) {
   }
   return(list(novar_feats = novar_feats, var_feats = var_feats))
 }
+
 
 #' Process categorical features
 #'
@@ -440,30 +477,4 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
     }
   }
   return(list(features = feats_nocorr, grp_feats = grp_feats))
-}
-
-#' Remove columns appearing in only `threshold` row(s) or fewer.
-#'
-#' Removes columns which only have non-zero & non-NA values in `threshold` row(s) or fewer.
-#'
-#' @param dat dataframe
-#' @param threshold
-#'
-#' @return dataframe without singleton columns
-#' @export
-#'
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#' @author Courtney Armour
-#'
-#' @examples
-#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, 0), c = 4:6))
-#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, NA), c = 4:6))
-#' remove_singleton_columns(data.frame(a = 1:3, b = c(1, 1, 1), c = 4:6))
-remove_singleton_columns <- function(dat, threshold = 1) {
-  cols <- colSums(dat != 0 & !is.na(dat)) > threshold
-  keep <- cols %>% Filter(isTRUE, .) %>% names()
-  remove <- cols %>% Filter(isFALSE, .) %>% names()
-  return(list(dat = dat %>% dplyr::select(dplyr::all_of(keep)),
-              removed_feats = remove
-              ))
 }

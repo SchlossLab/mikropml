@@ -19,7 +19,9 @@ test_df <- data.frame(
 
 test_that("preprocess_data works", {
   expect_equal(
-    expect_message(preprocess_data(test_df, "outcome"), "Removed "),
+    expect_message(preprocess_data(test_df, "outcome",
+                                   prefilter_threshold = -1),
+                   "Removed "),
     list(dat_transformed = structure(list(
       outcome = c(
         "normal", "normal",
@@ -38,7 +40,10 @@ test_that("preprocess_data works", {
       "var2_a"
     )), removed_feats = c("var5", "var6", "var11"))
   )
-  expect_equal(expect_message(preprocess_data(test_df, "outcome", group_neg_corr = FALSE)), list(dat_transformed = structure(list(
+  expect_equal(expect_message(preprocess_data(test_df, "outcome",
+                                              prefilter_threshold = -1,
+                                              group_neg_corr = FALSE)),
+               list(dat_transformed = structure(list(
     outcome = c(
       "normal", "normal",
       "cancer"
@@ -86,7 +91,8 @@ test_that("preprocess_data works", {
     )
   )
   expect_equal(
-    preprocess_data(test_df[1:3, c("outcome", "var4")], "outcome"),
+    preprocess_data(test_df[1:3, c("outcome", "var4")], "outcome",
+                    prefilter_threshold = -1),
     list(
       dat_transformed = dplyr::tibble(
         outcome = c("normal", "normal", "cancer"),
@@ -97,7 +103,9 @@ test_that("preprocess_data works", {
     )
   )
   expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ], "outcome", method = NULL)),
+    expect_message(preprocess_data(test_df[1:3, ], "outcome",
+                                   method = NULL,
+                                   prefilter_threshold = -1)),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -122,7 +130,10 @@ test_that("preprocess_data works", {
   )
   expect_error(preprocess_data(test_df[1:3, c("outcome", "var5")], "outcome"))
   expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ], "outcome", method = c("range"))),
+    expect_message(preprocess_data(test_df[1:3, ],
+                                   "outcome",
+                                   method = c("range"),
+                                   prefilter_threshold = -1)),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -145,7 +156,11 @@ test_that("preprocess_data works", {
       "var6", "var11"
     ))
   )
-  expect_equal(expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_var = "zv")), list(dat_transformed = structure(list(
+  expect_equal(expect_message(preprocess_data(test_df[1:3, ],
+                                              "outcome",
+                                              remove_var = "zv",
+                                              prefilter_threshold = -1)),
+               list(dat_transformed = structure(list(
     outcome = c(
       "normal", "normal",
       "cancer"
@@ -163,7 +178,10 @@ test_that("preprocess_data works", {
     "var2_a"
   )), removed_feats = c("var5", "var6", "var11")))
   expect_equal(expect_message(
-    preprocess_data(test_df[1:3, ], "outcome", remove_var = NULL),
+    preprocess_data(test_df[1:3, ],
+                    "outcome",
+                    remove_var = NULL,
+                    prefilter_threshold = -1),
     "Removing"
   ), list(dat_transformed = structure(list(
     outcome = c(
@@ -186,7 +204,11 @@ test_that("preprocess_data works", {
     "var6", "var11"
   )))
   expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ], "outcome", remove_var = NULL, collapse_corr_feats = FALSE)),
+    expect_message(preprocess_data(test_df[1:3, ],
+                                   "outcome",
+                                   remove_var = NULL,
+                                   collapse_corr_feats = FALSE,
+                                   prefilter_threshold = -1)),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -208,11 +230,16 @@ test_that("preprocess_data works", {
     ), var6 = c(0, 0, 0), var11 = c(1, 1, 1)), row.names = c(
       NA,
       -3L
-    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = NULL, removed_feats = character(0))
+    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = NULL,
+    removed_feats = character(0))
   )
-  expect_error(expect_message(preprocess_data(test_df[1:3, ], "outcome", method = c("asdf"))))
+  expect_error(expect_message(preprocess_data(test_df[1:3, ],
+                                              "outcome",
+                                              method = c("asdf"))))
   expect_equal(
-    expect_message(preprocess_data(test_df, "outcome", to_numeric = FALSE)),
+    expect_message(preprocess_data(test_df,
+                                   "outcome",
+                                   to_numeric = FALSE)),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -522,6 +549,16 @@ test_that('remove_singleton_columns works', {
                                                    c = 4:6)),
                list(dat = data.frame(a = 1:3, c = 4:6),
                     removed_feats = c('b')
+               )
+  )
+  expect_equal(remove_singleton_columns(data.frame(a = 1:3,
+                                                   b = c(0, 1, NA),
+                                                   c = 4:6),
+                                        threshold = 0),
+               list(dat = data.frame(a = 1:3,
+                                     b = c(0, 1, NA),
+                                     c = 4:6),
+                    removed_feats = character(0)
                )
   )
   expect_equal(remove_singleton_columns(data.frame(a = 1:3,
