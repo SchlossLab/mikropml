@@ -30,7 +30,10 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
-preprocess_data <- function(dataset, outcome_colname, method = c("center", "scale"), remove_var = "nzv", collapse_corr_feats = TRUE, to_numeric = TRUE, group_neg_corr = TRUE) {
+preprocess_data <- function(dataset, outcome_colname,
+                            method = c("center", "scale"),
+                            remove_var = "nzv", collapse_corr_feats = TRUE,
+                            to_numeric = TRUE, group_neg_corr = TRUE) {
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
@@ -437,4 +440,24 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
     }
   }
   return(list(features = feats_nocorr, grp_feats = grp_feats))
+}
+
+#' Remove singleton columns appearing in only one row
+#'
+#' Removes columns which only have non-zero & non-NA values in a single row.
+#'
+#' @param dat dataframe
+#'
+#' @return dataframe without singleton columns
+#' @export
+#'
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Courtney Armour
+#'
+#' @examples
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, 0), c = 4:6))
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(0, 1, NA), c = 4:6))
+#' remove_singleton_columns(data.frame(a = 1:3, b = c(1, 1, 1), c = 4:6))
+remove_singleton_columns <- function(dat) {
+  return(dat[,colSums(dat != 0 & !is.na(dat)) > 1])
 }
