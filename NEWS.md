@@ -1,6 +1,9 @@
-# development version
+# development version 0.1.2
 
 - Made documentation improvements (#238).
+- New option in `preprocess_data()`: `prefilter_threshold` (#240, @kelly-sovacool, @courtneyarmour)
+    - Remove any features that appear in N=`prefilter_threshold` or fewer rows in the data.
+    - Created function `remove_singleton_columns()` called by `preprocess_data()` to carry this out.
 
 # mikropml 0.0.2
 
