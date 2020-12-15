@@ -166,10 +166,15 @@ change_to_num <- function(features) {
 #' remove_singleton_columns(data.frame(a = 1:3, b = c(1, 1, 1), c = 4:6))
 remove_singleton_columns <- function(dat, threshold = 1) {
   cols <- colSums(dat != 0 & !is.na(dat)) > threshold
-  keep <- cols %>% Filter(isTRUE, .) %>% names()
-  remove <- cols %>% Filter(isFALSE, .) %>% names()
-  return(list(dat = dat %>% dplyr::select(dplyr::all_of(keep)),
-              removed_feats = remove
+  keep <- cols %>%
+    Filter(isTRUE, .) %>%
+    names()
+  remove <- cols %>%
+    Filter(isFALSE, .) %>%
+    names()
+  return(list(
+    dat = dat %>% dplyr::select(dplyr::all_of(keep)),
+    removed_feats = remove
   ))
 }
 
@@ -193,7 +198,7 @@ process_novar_feats <- function(features) {
     apply_fn <- select_apply(fun = "apply")
     novar_feats_bool <- apply_fn(features, 2, function(x) {
       length(unique(x[!is.na(x)])) == 1
-      })
+    })
     novar_feats <- features %>% dplyr::select_if(novar_feats_bool)
 
     # change categorical features with no variation to zero
