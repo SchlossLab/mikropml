@@ -1,4 +1,4 @@
-# development version 0.1.2
+# development version 0.1.0
 
 - Made documentation improvements (#238).
 - New option in `preprocess_data()`: `prefilter_threshold` (#240, @kelly-sovacool, @courtneyarmour)
