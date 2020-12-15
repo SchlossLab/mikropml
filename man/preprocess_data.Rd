@@ -11,7 +11,8 @@ preprocess_data(
   remove_var = "nzv",
   collapse_corr_feats = TRUE,
   to_numeric = TRUE,
-  group_neg_corr = TRUE
+  group_neg_corr = TRUE,
+  prefilter_threshold = 1
 )
 }
 \arguments{
@@ -33,6 +34,10 @@ no normalization).}
 
 \item{group_neg_corr}{Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).}
+
+\item{prefilter_threshold}{Remove features which only have non-zero & non-NA
+values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
+This step will also be skipped if \code{to_numeric} is set to \code{FALSE}.}
 }
 \value{
 Named list including:

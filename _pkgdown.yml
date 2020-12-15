@@ -55,6 +55,7 @@ reference:
     We make them available in case you would like to customize various steps
     of the pipeline beyond the arguments provided by the main functions.
   contents:
+  - remove_singleton_columns
   - get_caret_processed_df
   - randomize_feature_order
   - get_partition_indices
