@@ -3,8 +3,6 @@ title: "mikropml: User-Friendly R Package for Supervised Machine Learning Pipeli
 output: 
   rmarkdown::html_vignette:
     keep_md: true
-  pdf_document:
-    keep_tex: true
 tags:
   - R
   - machine learning
@@ -46,7 +44,7 @@ affiliations:
     index: 4
   - name: Department of Internal Medicine/Division of Infectious Diseases, University of Michigan
     index: 5
-date: 2021-01-22
+date: 2020
 bibliography: paper.bib
 vignette: >
   %\VignetteIndexEntry{mikropml paper}
