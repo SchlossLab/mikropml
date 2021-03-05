@@ -6,7 +6,7 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -42,14 +42,14 @@ documentation, and examples.
 
 You can install the latest release from
 [CRAN](https://cran.r-project.org/package=mikropml):
-```{r, eval = FALSE}
+```{r install_cran, eval = FALSE}
 install.packages('mikropml')
 ```
 
 or the development version from 
 [GitHub](https://github.com/SchlossLab/mikRopML):
 
-```{r, eval = FALSE}
+```{r install_github, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("SchlossLab/mikropml")
 ```
@@ -57,14 +57,14 @@ devtools::install_github("SchlossLab/mikropml")
 or install from a terminal using
 [conda](https://docs.conda.io/projects/conda/en/latest/index.html):
 
-```{bash, eval = FALSE}
+```{bash conda, eval = FALSE}
 conda install -c conda-forge r-mikropml
 ```
 
 
 ### Dependencies
 
-```{r, echo = FALSE, message = FALSE}
+```{r deps, echo = FALSE, message = FALSE, warning = FALSE}
 library(dplyr)
 description <- utils::packageDescription('mikropml', 
                                          fields = c('Imports', 'Suggests'))
