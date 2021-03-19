@@ -19,8 +19,9 @@ knitr::opts_chunk$set(
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you
 to run while implementing good practices for machine learning pipelines. All you
 need to run ML is one function: `run_ml()`. We've selected sensible default
-arguments related to good practices [@topcuoglu_framework_2020;
-@tang_democratizing_2020], but we allow you to change those arguments to tailor
+arguments related to good practices 
+[@topcuoglu_framework_2020; @tang_democratizing_2020], 
+but we allow you to change those arguments to tailor
 `run_ml()` to the needs of your data.
 
 This document takes you through all of the `run_ml()` inputs,
@@ -75,7 +76,9 @@ but for the purposes of this vignette we'll stick with this example dataset so e
 
 ## The methods we support
 
-All of the methods we use are supported by a great ML wrapper package [`caret`](https://topepo.github.io/caret/), which we use to train our machine learning models.
+All of the methods we use are supported by a great ML wrapper package
+[`caret`](https://topepo.github.io/caret/), which we use to train our machine
+learning models.
 
 The methods we have tested (and their backend packages) are:
 
@@ -86,19 +89,23 @@ The methods we have tested (and their backend packages) are:
 - xgboost (`"xgbTree"`)
 
 For documentation on these methods, as well as many others, you can look at the
-[available models](https://topepo.github.io/caret/available-models.html)
-(or see [here](https://topepo.github.io/caret/train-models-by-tag.html) for a list by tag).
-While we have not vetted the other models used by `caret`, our function is general enough that others might work.
-While we can't promise that we can help with other models,
-feel free to [open an issue on GitHub](https://github.com/SchlossLab/mikropml/issues) if you have questions about other models and we _might_ be able to help.
+[available models](https://topepo.github.io/caret/available-models.html) (or see
+[here](https://topepo.github.io/caret/train-models-by-tag.html) for a list by
+tag). While we have not vetted the other models used by `caret`, our function is
+general enough that others might work. While we can't promise that we can help
+with other models, feel free to [open an issue on
+GitHub](https://github.com/SchlossLab/mikropml/issues) if you have questions
+about other models and we _might_ be able to help.
 
-We will focus on `glmnet` which is our default implementation of L2-regularized logistic regression here, then cover a few other examples towards the end.
+We will first focus on `glmnet`, which is our default implementation of
+L2-regularized logistic regression. Then we will cover a few other examples
+towards the end.
 
 # Before running ML
 
-Before you run ML, you should consider preprocessing your data,
-either on your own or with the `preprocess_data()` function.
-You can learn more about this in the preprocessing vignette: `vignette("preprocess")`.
+Before you execute `run_ml()`, you should consider preprocessing your data,
+either on your own or with the `preprocess_data()` function. You can learn more
+about this in the preprocessing vignette: `vignette("preprocess")`.
 
 # The simplest way to `run_ml()`
 
@@ -109,7 +116,8 @@ You may also want to provide:
 - The outcome column name. By default `run_ml()` will pick the first column, but it's best practice to specify the column name explicitly.
 - A seed so that the results will be reproducible, and so that you get the same results as those you see here (i.e have the same train/test split).
 
-Say we want to use `glmnet`.Then, run ML with:
+Say we want to use logistic regression, then the method we will use is `glmnet`.
+To do so, run ML with:
 
 ```{r, eval = FALSE}
 results <- run_ml(otu_mini_bin,
@@ -143,45 +151,52 @@ because you can learn more from the `caret::train()` documentation.
 names(results$trained_model)
 ```
 
-`test_data` is the partition of the dataset that was used for testing.
-In machine learning, it's always important to have a held-out test dataset that is not used in the training stage. 
-In this pipeline we do that using `run_ml()` where we split your data into training and testing sets.
-The training data are used to build the model (e.g. tune hyperparameters, learn the data) and the test data are used to evaluate how well the model performs.
+`test_data` is the partition of the dataset that was used for testing. In
+machine learning, it's always important to have a held-out test dataset that is
+not used in the training stage. In this pipeline we do that using `run_ml()`
+where we split your data into training and testing sets. The training data are
+used to build the model (e.g. tune hyperparameters, learn the data) and the test
+data are used to evaluate how well the model performs.
 
 ```{r}
 head(results$test_data)
 ```
 
-`performance` is a dataframe of (mainly) performance metrics (1 column for cross-validation performance metric, several for test performance metrics, and 2 columns at the end with ML method and seed):
+`performance` is a dataframe of (mainly) performance metrics (1 column for
+cross-validation performance metric, several for test performance metrics, and 2
+columns at the end with ML method and seed):
 
 ```{r}
 results$performance
 ```
 
-When using logistic regression for binary classification, area under the receiver-operator characteristic curve (AUC) is a useful metric to evaluate model performance.
-Because of that, it's the default that we use for `mikropml`. 
-However, it is crucial to evaluate your model performance using multiple metrics.
-Below you can find more information about other performance metrics and how to use them in our package.
+When using logistic regression for binary classification, area under the
+receiver-operator characteristic curve (AUC) is a useful metric to evaluate
+model performance. Because of that, it's the default that we use for `mikropml`.
+However, it is crucial to evaluate your model performance using multiple
+metrics. Below you can find more information about other performance metrics and
+how to use them in our package.
 
-`cv_metric_AUC` is the AUC for the cross-valdaton folds for the training data.
+`cv_metric_AUC` is the AUC for the cross-valdation folds for the training data.
 This gives us a sense of how well the model performs on the training data.
 
-Most of the other columns are performance metrics for the test data — the data that wasn't used to build the model.
-Here, you can see that the AUC for the test data is not much above 0.5,
-suggesting that this model does not predict much better than chance,
-and that the model is overfitted because the cross-valdaton AUC 
-(`cv_metric_AUC`, measured during training) is much higher than the testing AUC.
-This isn't too surprising since we're using so few features with this example dataset,
-so don't be discouraged.
-The default option also provides a number of other performance metrics that you might be interested in,
-including area under the precision-recall curve (prAUC).
+Most of the other columns are performance metrics for the test data — the data
+that wasn't used to build the model. Here, you can see that the AUC for the test
+data is not much above 0.5, suggesting that this model does not predict much
+better than chance, and that the model is overfit because the cross-valdation
+AUC (`cv_metric_AUC`, measured during training) is much higher than the testing
+AUC. This isn't too surprising since we're using so few features with this
+example dataset, so don't be discouraged. The default option also provides a
+number of other performance metrics that you might be interested in, including
+area under the precision-recall curve (prAUC).
 
-The last columns of `results$performance` are the method and seed (if you set one)
-to help with combining results from multiple runs (see `vignette("parallel")`).
+The last columns of `results$performance` are the method and seed (if you set
+one) to help with combining results from multiple runs (see
+`vignette("parallel")`).
 
-`feature_importance` has information about feature importances if
-`find_feature_importance = TRUE` (the default is `FALSE`).
-Since we used the defaults, there's nothing here:
+`feature_importance` has information about feature importance values if
+`find_feature_importance = TRUE` (the default is `FALSE`). Since we used the
+defaults, there's nothing here:
 
 ```{r}
 results$feature_importance
@@ -189,7 +204,7 @@ results$feature_importance
 
 # Customizing parameters
 
-There are a few arguments that allow you to change how you run ML.
+There are a few arguments that allow you to change how you execute `run_ml()`.
 We've chosen reasonable defaults for you, but we encourage you to change these
 if you think something else would be better for your data.
 
@@ -212,22 +227,26 @@ results_custom <- run_ml(otu_mini_bin,
 
 You might have noticed that this one ran faster — that's because we reduced `kfold` and `cv_times`.
 This is okay for testing things out and may even be necessary for smaller datasets. 
-But in general it may be better to have larger numbers for these parameters like the defaults [@topcuoglu_framework_2020].
+But in general it may be better to have larger numbers for these parameters; 
+we think the defaults are a good starting point [@topcuoglu_framework_2020].
 
 ## Changing the performance metric
 
-There are two arguments that allow you to change what performance metric to use for model evaluation,
-and what performance metrics to calculate on the test data.
+There are two arguments that allow you to change what performance metric to use
+for model evaluation, and what performance metrics to calculate using the test
+data.
 
-`perf_metric_function` is the function to use to calculate the performance metrics.
+`perf_metric_function` is the function used to calculate the performance
+metrics.
 
-The default for classification is `caret::multiClassSummary()` and the default for regression is `caret::defaultSummary()`.
-We'd suggest not changing this unless you really know what you're doing.
+The default for classification is `caret::multiClassSummary()` and the default
+for regression is `caret::defaultSummary()`. We'd suggest not changing this
+unless you really know what you're doing.
 
-`perf_metric_name` is the column name from the output of `perf_metric_function` to use as the performance metric.
-We chose reasonable defaults (AUC for binary, logLoss for multiclass, and RMSE for continuous),
-but the default functions calculate a bunch of different performance metrics,
-so you can choose a different one if you'd like.
+`perf_metric_name` is the column name from the output of `perf_metric_function`.
+We chose reasonable defaults (AUC for binary, logLoss for multiclass, and RMSE
+for continuous), but the default functions calculate a bunch of different
+performance metrics, so you can choose a different one if you'd like.
 
 The default performance metrics available for classification are:
 
@@ -260,12 +279,14 @@ results_pr$performance
 
 ## Using groups
 
-The optional `groups` is a vector of groups to keep together when splitting the data into train and test sets and for cross-validation.
-This can be a little finicky depending on how many samples and groups you have,
-but sometimes it's important to split up the data based on group instead of just randomly.
-This allows you to control for similarities within groups that you don't want to skew your predictions (i.e. batch effects).
-For example, with biological data you may have samples collected from multiple hospitals,
-and you might like to keep observations from the same hospital in the same split.
+The optional `groups` is a vector of groups to keep together when splitting the
+data into train and test sets and for cross-validation. This can be a little
+finicky depending on how many samples and groups you have, but sometimes it's
+important to split up the data based on a grouping instead of just randomly.
+This allows you to control for similarities within groups that you don't want to
+skew your predictions (i.e. batch effects). For example, with biological data
+you may have samples collected from multiple hospitals, and you might like to
+keep observations from the same hospital in the same split.
 
 Here's an example where we split the data into train/test sets based on a group:
 
@@ -287,13 +308,14 @@ since you have to include all of one group in either the training set _or_ the t
 
 # Finding feature importance
 
-To find which features are contributing to predictive power,
-you can use `find_feature_importance = TRUE`.
-How we use permutation importance to determine feature importance is decribed in [@topcuoglu_framework_2020].
-Briefly, it permutes each of the features individually (or correlated ones together) and evaluates how much the performance metric decreases.
-The more performance decreases when the feature is randomly shuffled, the more important that feature is.
-The default is `FALSE` because it takes a while to run and is only useful if you
-want to know what features are important in predicting your outcome.
+To find which features are contributing to predictive power, you can use
+`find_feature_importance = TRUE`. How we use permutation importance to determine
+feature importance is decribed in [@topcuoglu_framework_2020]. Briefly, it
+permutes each of the features individually (or correlated ones together) and
+evaluates how much the performance metric decreases. The more performance
+decreases when the feature is randomly shuffled, the more important that feature
+is. The default is `FALSE` because it takes a while to run and is only useful if
+you want to know what features are important in predicting your outcome.
 
 Let's look at some feature importance results:
 
@@ -324,8 +346,11 @@ There are several columns:
 1. `perf_metric_name`: The peformance metric used.
 1. `seed`: The seed (if set).
 
-As you can see here, the differences are negligible here (close to zero), which makes sense since our model isn't great. 
-If you're interested in feature importance, it's especially useful to run multiple different train/test splits, as shown in our [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow/).
+As you can see here, the differences are negligible (close to zero), which makes
+sense since our model isn't great. If you're interested in feature importance,
+it's especially useful to run multiple different train/test splits, as shown in
+our 
+[example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow/).
 
 You can also choose to permute correlated features together using `corr_thresh` (default: 1). Any features that are above the correlation threshold are permuted together; i.e. perfectly correlated features are permuted together when using the default value.
 
@@ -400,7 +425,7 @@ If you get a message "maximum number of iterations reached", see [this issue](ht
 
 ## Multiclass data
 
-We provide `otu_mini_multi` with a multiclass outcome: 
+We provide `otu_mini_multi` with a multiclass outcome (three or more outcomes): 
 
 ```{r}
 otu_mini_multi %>% dplyr::pull('dx') %>% unique()
