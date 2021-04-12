@@ -50,39 +50,13 @@ test_that("get_corr_feats works", {
   )), tolerance = tol)
 })
 
-# group_correlated_features
-test_that("correlated groups correct", {
-  corr <- dplyr::tibble(
-    feature1 = c("A", "C", "D"),
-    feature2 = c("B", "A", "E")
-  )
-  features <- dplyr::tibble(
-    A = NA,
-    B = NA,
-    C = NA,
-    D = NA,
-    E = NA,
-    F = NA
-  )
-  expect_equal(sort(group_correlated_features(corr, features)), c("B|A|C", "E|D", "F"))
-})
-test_that("no correlated groups correct", {
-  corr <- dplyr::tibble(feature1 = c(character()), feature2 = character())
-  features <- dplyr::tibble(
-    A = NA,
-    B = NA,
-    C = NA,
-    D = NA,
-    E = NA,
-    F = NA
-  )
-  expect_equal(
-    sort(group_correlated_features(corr, features)),
-    c("A", "B", "C", "D", "E", "F")
-  )
-})
-test_that("empty dataframe correct", {
+test_that("group_correlated_features works", {
+  expect_equal(sort(group_correlated_features(data.frame(a=1:3, b=2:4, c=c(1,0,1)))),
+               c("b|a", "c"))
+  expect_equal(sort(group_correlated_features(data.frame(a=1:3, b=c(3,1,2)))),
+               c("a", 'b'))
+
   corr <- dplyr::tibble(feature1 = c(character()), feature2 = character())
   feature <- dplyr::tibble()
-  expect_equal(group_correlated_features(corr, feature), list())
+  expect_equal(group_correlated_features(feature), list())
 })

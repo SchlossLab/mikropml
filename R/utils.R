@@ -131,3 +131,21 @@ select_apply <- function(fun = "apply") {
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
 }
+
+#' Replace spaces in all elements of a character vector with underscores
+#'
+#' @param x a character vector
+#' @param new_char the character to replace spaces (default: `_`)
+#'
+#' @return
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' dat  <- data.frame(dx = c('outcome 1', 'outcome 2', 'outcome 1'),
+#'                    a=1:3, b=c(5,7,1))
+#' dat$dx <- replace_spaces(dat$dx)
+#' dat
+replace_spaces <- function(x, new_char = "_") {
+  gsub(" ", new_char, x)
+}

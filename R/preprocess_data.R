@@ -16,6 +16,7 @@
 #' @inheritParams run_ml
 #' @inheritParams get_corr_feats
 #'
+#'
 #' @return
 #'
 #' Named list including:
@@ -28,8 +29,12 @@
 #' See the [preprocessing vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html)
 #' for more details.
 #'
+#' Note that if any values in `outcome_colname` contain spaces, they will be
+#' converted to underscores for compatibility with `caret`.
+#'
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
@@ -41,6 +46,7 @@ preprocess_data <- function(dataset, outcome_colname,
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
+  dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
 
   dataset <- rm_missing_outcome(dataset, outcome_colname)
 
@@ -449,9 +455,8 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
       )
     }
     if (ncol(features) != 1) {
-      corr_feats <-
-        get_corr_feats(features, group_neg_corr = group_neg_corr) %>%
-        group_correlated_features(., features)
+      corr_feats <- group_correlated_features(features,
+                                              group_neg_corr = group_neg_corr)
       corr_cols <- gsub("\\|.*", "", corr_feats)
       feats_nocorr <-
         features %>% dplyr::select(dplyr::all_of(corr_cols))

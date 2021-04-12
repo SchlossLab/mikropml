@@ -95,7 +95,7 @@
 
       
 
-      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="preprocess_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data</h1>
@@ -113,6 +113,7 @@
 <p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> takes an input dataset where the rows are the samples and the columns are the outcome variable and features. We preprocess the data as follows:</p>
 <ul>
 <li>Remove missing outcome values.</li>
+<li>Convert any spaces in outcome names to underscores (<code>_</code>).</li>
 <li>Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).</li>
 <li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> based on the method provided.</li>
 <li>Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it’s own column).</li>
@@ -302,17 +303,17 @@
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   outcome  grp1</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal      1</span>
-<span class="co">#&gt; 2 normal      0</span>
-<span class="co">#&gt; 3 cancer      1</span>
+<span class="co">#&gt; 1 normal      0</span>
+<span class="co">#&gt; 2 normal      1</span>
+<span class="co">#&gt; 3 cancer      0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; $grp_feats$grp1</span>
-<span class="co">#&gt; [1] "var3_1"   "var1_yes"</span>
+<span class="co">#&gt; [1] "var2_1"   "var1_yes" "var3_1"  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var2"</span></code></pre></div>
+<span class="co">#&gt; character(0)</span></code></pre></div>
 <p>As you can see, we end up with only one variable, as all 3 are grouped together. Also, the second element in the list is no longer <code>NULL</code>. Instead, it tells you that <code>grp1</code> contains <code>var1</code>, <code>var2</code>, and <code>var3</code>.</p>
 <p>If you want to group positively correlated features, but not negatively correlated features (e.g. for interpretability, or another downstream application), you can do that by using <code>group_neg_corr=FALSE</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -321,41 +322,46 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
-<span class="co">#&gt;   outcome var1_yes var3_1</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal         0      1</span>
-<span class="co">#&gt; 2 normal         1      0</span>
-<span class="co">#&gt; 3 cancer         0      1</span>
+<span class="co">#&gt;   outcome var3_1  grp1</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal       1     0</span>
+<span class="co">#&gt; 2 normal       0     1</span>
+<span class="co">#&gt; 3 cancer       1     0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; $grp_feats$var3_1</span>
+<span class="co">#&gt; [1] "var3_1"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $grp_feats$grp1</span>
+<span class="co">#&gt; [1] "var2_1"   "var1_yes"</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var2"</span></code></pre></div>
+<span class="co">#&gt; character(0)</span></code></pre></div>
 <p>Here, <code>var3</code> is kept on it’s own because it’s negatively correlated with <code>var1</code> and <code>var2</code>. You can also choose to keep all features separate, even if they are perfectly correlated, by using <code>collapse_corr_feats=FALSE</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># preprocess raw correlated dataset; don't group negatively correlated features</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
-<span class="co">#&gt;   outcome var1_yes var3_1</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal         0      1</span>
-<span class="co">#&gt; 2 normal         1      0</span>
-<span class="co">#&gt; 3 cancer         0      1</span>
+<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt;   outcome var1_yes var2_1 var3_1</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal         0      0      1</span>
+<span class="co">#&gt; 2 normal         1      1      0</span>
+<span class="co">#&gt; 3 cancer         0      0      1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var2"</span></code></pre></div>
+<span class="co">#&gt; character(0)</span></code></pre></div>
 <p>In this case, <code>grp_feats</code> will always be <code>NULL</code>.</p>
 </div>
 <div id="data-with-near-zero-variance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-with-near-zero-variance" class="anchor"></a>Data with near-zero variance</h2>
-<p>What if we have variables that are all zero, or all “no”? Those ones won’t contribute any information, so we remove them:</p>
+<p>What if we have variables that are all zero, or all “no?” Those ones won’t contribute any information, so we remove them:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># raw dataset with non-variable features</span>
 <span class="va">nonvar_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -388,7 +394,7 @@
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var4" "var3" "var5"</span></code></pre></div>
+<span class="co">#&gt; [1] "var3" "var4" "var5"</span></code></pre></div>
 <p>You can read the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> documentation for more information. By default, we remove features with “near-zero variance” (<code>remove_var='nzv'</code>). This uses the default arguments from <code><a href="https://rdrr.io/pkg/caret/man/nearZeroVar.html">caret::nearZeroVar()</a></code>. However, particularly with smaller datasets, you might not want to remove features with near-zero variance. If you want to remove only features with zero variance, you can use <code>remove_var='zv'</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># remove features with zero variance</span>
@@ -406,25 +412,25 @@
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var4" "var3" "var5"</span></code></pre></div>
+<span class="co">#&gt; [1] "var3" "var4" "var5"</span></code></pre></div>
 <p>If you want to include all features, you can use the argument <code>remove_zv=NULL</code>. For this to work, you cannot collapse correlated features (otherwise it errors out because of the underlying <code>caret</code> function we use).</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># don't remove features with near-zero or zero variance</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="cn">NULL</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 5</span>
-<span class="co">#&gt;   outcome var1_yes var2_1  var3  var5</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal         0      0     0    12</span>
-<span class="co">#&gt; 2 normal         1      1     0    12</span>
-<span class="co">#&gt; 3 cancer         0      1     0    12</span>
+<span class="co">#&gt; # A tibble: 3 x 6</span>
+<span class="co">#&gt;   outcome var1_yes var2_1  var3  var4  var5</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal         0      0     0     0    12</span>
+<span class="co">#&gt; 2 normal         1      1     0     0    12</span>
+<span class="co">#&gt; 3 cancer         0      1     0     0    12</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var4"</span></code></pre></div>
+<span class="co">#&gt; NULL</span></code></pre></div>
 <p>If you want to be more nuanced in how you remove near-zero variance features (e.g. change the default 10% cutoff for the percentage of distinct values out of the total number of samples), you can use the <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> function after running <code>preprocess_data</code> with <code>remove_var=NULL</code> (see the <code><a href="https://rdrr.io/pkg/caret/man/nearZeroVar.html">caret::nearZeroVar()</a></code> function for more information).</p>
 </div>
 <div id="missing-data" class="section level2">
@@ -524,7 +530,7 @@
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; character(0)</span></code></pre></div>
+<span class="co">#&gt; NULL</span></code></pre></div>
 </div>
 <div id="replace-missing-binary-and-categorical-variables-with-zero" class="section level3">
 <h3 class="hasAnchor">
@@ -545,20 +551,28 @@
 <code class="sourceCode R"><span class="co"># preprocess raw dataset with missing value in non-variable feature</span>
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">miss_cat_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
-<span class="co">#&gt; 2 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
+<span class="co">#&gt; 4 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
-<span class="co">#&gt;   outcome var1_no var1_yes</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal        1        0</span>
-<span class="co">#&gt; 2 normal        0        1</span>
-<span class="co">#&gt; 3 cancer        0        0</span>
+<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt;   outcome var1_no var2_0  grp1</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal        1      0     0</span>
+<span class="co">#&gt; 2 normal        0      0     1</span>
+<span class="co">#&gt; 3 cancer        0      1     0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; $grp_feats$var1_no</span>
+<span class="co">#&gt; [1] "var1_no"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $grp_feats$var2_0</span>
+<span class="co">#&gt; [1] "var2_0"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $grp_feats$grp1</span>
+<span class="co">#&gt; [1] "var2_1"   "var1_yes"</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var2"</span></code></pre></div>
+<span class="co">#&gt; character(0)</span></code></pre></div>
 <p>Here each binary variable is split into two, and the missing value is considered zero for both of them.</p>
 </div>
 <div id="replace-missing-continuous-data-with-the-median-value-of-that-feature" class="section level3">
@@ -631,35 +645,35 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; Removed 1/4 (25%) of samples because of missing outcome value (NA).</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
-<span class="co">#&gt; 2 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
+<span class="co">#&gt; 4 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
 <span class="co">#&gt; 1 missing continuous value(s) were imputed using the median value of the feature.</span>
 <span class="co">#&gt; $dat_transformed</span>
 <span class="co">#&gt; # A tibble: 3 x 6</span>
-<span class="co">#&gt;   outcome   var8 var2_a  grp1  grp2  grp3</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal  -0.707      1    -1     0     0</span>
-<span class="co">#&gt; 2 normal   0.707      0     0     1     0</span>
-<span class="co">#&gt; 3 cancer   0          0     1     0     1</span>
+<span class="co">#&gt;   outcome   var8  grp1  grp2  grp3  grp4</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal  -0.707    -1     0     0     1</span>
+<span class="co">#&gt; 2 normal   0.707     0     1     0     0</span>
+<span class="co">#&gt; 3 cancer   0         1     0     1     0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; $grp_feats$var8</span>
 <span class="co">#&gt; [1] "var8"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $grp_feats$var2_a</span>
-<span class="co">#&gt; [1] "var2_a"</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp1</span>
 <span class="co">#&gt; [1] "var12" "var1" </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp2</span>
-<span class="co">#&gt; [1] "var2_b"   "var3_yes" "var9_x"  </span>
+<span class="co">#&gt; [1] "var4_1"   "var3_yes" "var2_b"   "var9_x"   "var10_0" </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp3</span>
 <span class="co">#&gt; [1] "var2_c" "var7_1" "var9_y"</span>
 <span class="co">#&gt; </span>
+<span class="co">#&gt; $grp_feats$grp4</span>
+<span class="co">#&gt; [1] "var10_1" "var2_a" </span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
-<span class="co">#&gt; [1] "var4"  "var5"  "var10" "var6"  "var11"</span></code></pre></div>
+<span class="co">#&gt; [1] "var5"  "var6"  "var11"</span></code></pre></div>
 <p>As you can see, we got several messages:</p>
 <ul>
 <li>One of the samples (row 4) was removed because the outcome value was missing.</li>
@@ -673,9 +687,9 @@
 <h2 class="hasAnchor">
 <a href="#next-step-run-machine-learning" class="anchor"></a>Next step: run machine learning!</h2>
 <p>After you preprocess your data (either using <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> or by preprocessing the data on your own), you’re ready to run machine learning! Please see <code><a href="../reference/run_ml.html">run_ml()</a></code> information about running machine learning.</p>
-<div id="refs" class="references">
-<div id="ref-tang_democratizing_2020">
-<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-tang_democratizing_2020" class="csl-entry">
+Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.
 </div>
 </div>
 </div>
