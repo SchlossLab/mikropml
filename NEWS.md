@@ -4,6 +4,9 @@
 - New option in `preprocess_data()`: `prefilter_threshold` (#240, @kelly-sovacool, @courtneyarmour)
     - Remove any features that appear in N=`prefilter_threshold` or fewer rows in the data.
     - Created function `remove_singleton_columns()` called by `preprocess_data()` to carry this out.
+- New option in `get_feature_importance()`: `groups` (#246, @kelly-sovacool)
+    - Provide custom groups of features to permute together during permutation importance.
+    - `groups` is `NULL` by default; in this case, correlated features above `corr_thresh` are grouped together.
 
 # mikropml 0.0.2
 
