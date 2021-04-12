@@ -43,7 +43,7 @@ Authors@R: c(
            role = c("ctb"),
            email = "armourc@umich.edu",
            comment = c(ORCID = "0000-0002-5250-1224")))
-Date: 2020-12-02
+Date: 2021-04-12
 URL: http://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
 BugReports: https://github.com/SchlossLab/mikropml/issues
 Description: An interface to build machine learning models for classification 
