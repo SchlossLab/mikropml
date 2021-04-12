@@ -61,8 +61,12 @@ test_that("mutate_all_types converts factors to other types", {
 })
 
 test_that("replace_spaces works", {
-  expect_equal(replace_spaces(c('outcome 1', 'outcome 2', 'outcome 1')),
-               c("outcome_1", "outcome_2", "outcome_1"))
-  expect_equal(replace_spaces(c('no_spaces_here', 'none')),
-               c('no_spaces_here', 'none'))
+  expect_equal(
+    replace_spaces(c("outcome 1", "outcome 2", "outcome 1")),
+    c("outcome_1", "outcome_2", "outcome_1")
+  )
+  expect_equal(
+    replace_spaces(c("no_spaces_here", "none")),
+    c("no_spaces_here", "none")
+  )
 })

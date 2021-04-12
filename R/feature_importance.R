@@ -35,15 +35,17 @@
 #'   "dx",
 #'   multiClassSummary, "AUC",
 #'   class_probs = TRUE, method = "glmnet",
-#'   groups = c("Otu00007", "Otu00008", "Otu00009", "Otu00011", "Otu00012",
-#'   "Otu00015", "Otu00016", "Otu00018", "Otu00019", "Otu00020", "Otu00022",
-#'   "Otu00023", "Otu00025", "Otu00028", "Otu00029", "Otu00030", "Otu00035",
-#'   "Otu00036", "Otu00037", "Otu00038", "Otu00039", "Otu00040", "Otu00047",
-#'   "Otu00050", "Otu00052", "Otu00054", "Otu00055", "Otu00056", "Otu00060",
-#'   "Otu00003|Otu00002|Otu00005|Otu00024|Otu00032|Otu00041|Otu00053|Otu00014|Otu00021|Otu00017|Otu00031|Otu00057",
-#'   "Otu00013|Otu00006", "Otu00026|Otu00001|Otu00034|Otu00048", "Otu00033|Otu00010",
-#'   "Otu00042|Otu00004", "Otu00043|Otu00027|Otu00049", "Otu00051|Otu00045",
-#'   "Otu00058|Otu00044", "Otu00059|Otu00046")
+#'   groups = c(
+#'     "Otu00007", "Otu00008", "Otu00009", "Otu00011", "Otu00012",
+#'     "Otu00015", "Otu00016", "Otu00018", "Otu00019", "Otu00020", "Otu00022",
+#'     "Otu00023", "Otu00025", "Otu00028", "Otu00029", "Otu00030", "Otu00035",
+#'     "Otu00036", "Otu00037", "Otu00038", "Otu00039", "Otu00040", "Otu00047",
+#'     "Otu00050", "Otu00052", "Otu00054", "Otu00055", "Otu00056", "Otu00060",
+#'     "Otu00003|Otu00002|Otu00005|Otu00024|Otu00032|Otu00041|Otu00053|Otu00014|Otu00021|Otu00017|Otu00031|Otu00057",
+#'     "Otu00013|Otu00006", "Otu00026|Otu00001|Otu00034|Otu00048", "Otu00033|Otu00010",
+#'     "Otu00042|Otu00004", "Otu00043|Otu00027|Otu00049", "Otu00051|Otu00045",
+#'     "Otu00058|Otu00044", "Otu00059|Otu00046"
+#'   )
 #' )
 #' }
 #'
@@ -65,11 +67,13 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     groups <- group_correlated_features(features, corr_thresh)
   }
 
-  test_perf_value <- calc_perf_metrics(test_data,
-                                       trained_model,
-                                       outcome_colname,
-                                       perf_metric_function,
-                                       class_probs)[[perf_metric_name]]
+  test_perf_value <- calc_perf_metrics(
+    test_data,
+    trained_model,
+    outcome_colname,
+    perf_metric_function,
+    class_probs
+  )[[perf_metric_name]]
 
   imps <- future.apply::future_lapply(groups, function(feat) {
     return(find_permuted_perf_metric(

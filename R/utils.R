@@ -142,8 +142,10 @@ mutate_all_types <- function(dat) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' dat  <- data.frame(dx = c('outcome 1', 'outcome 2', 'outcome 1'),
-#'                    a=1:3, b=c(5,7,1))
+#' dat <- data.frame(
+#'   dx = c("outcome 1", "outcome 2", "outcome 1"),
+#'   a = 1:3, b = c(5, 7, 1)
+#' )
 #' dat$dx <- replace_spaces(dat$dx)
 #' dat
 replace_spaces <- function(x, new_char = "_") {

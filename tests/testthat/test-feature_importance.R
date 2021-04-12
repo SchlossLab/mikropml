@@ -137,7 +137,8 @@ test_that("custom grouped features works", {
   set.seed(2019)
   feats <- otu_mini_bin_results_glmnet$trained_model$trainingData %>%
     dplyr::rename(dx = .outcome) %>%
-    split_outcome_features(., 'dx') %>% .$features
+    split_outcome_features(., "dx") %>%
+    .$features
   groups <- group_correlated_features(feats, corr_thresh = 0.5)
 
   expect_equal(
@@ -155,20 +156,35 @@ test_that("custom grouped features works", {
       seed = 2019,
       groups = groups
     ),
-    data.frame(perf_metric = c(0.638605263157895, 0.631263157894737,
-                                0.630815789473684, 0.59628947368421, 0.637368421052632, 0.6425,
-                                0.636, 0.584657894736842),
-               perf_metric_diff = c(0.00876315789473692,
-                                    0.0161052631578947, 0.0165526315789474, 0.0510789473684211, 0.01,
-                                    0.00486842105263163, 0.0113684210526316, 0.0627105263157894),
-                names = structure(c(7L, 8L, 1L, 6L, 3L, 5L, 4L, 2L),
-                                  .Label = c("Otu00001", "Otu00003|Otu00005|Otu00002", "Otu00004", "Otu00006", "Otu00007",
-                                             "Otu00008", "Otu00009", "Otu00010"), class = "factor"),
-               method = c("glmnet", "glmnet", "glmnet", "glmnet",
-                          "glmnet", "glmnet", "glmnet", "glmnet"),
-               perf_metric_name = c("AUC", "AUC", "AUC", "AUC",
-                                    "AUC", "AUC", "AUC", "AUC"),
-               seed = c(2019, 2019, 2019, 2019,
-                        2019, 2019, 2019, 2019))
+    data.frame(
+      perf_metric = c(
+        0.638605263157895, 0.631263157894737,
+        0.630815789473684, 0.59628947368421, 0.637368421052632, 0.6425,
+        0.636, 0.584657894736842
+      ),
+      perf_metric_diff = c(
+        0.00876315789473692,
+        0.0161052631578947, 0.0165526315789474, 0.0510789473684211, 0.01,
+        0.00486842105263163, 0.0113684210526316, 0.0627105263157894
+      ),
+      names = structure(c(7L, 8L, 1L, 6L, 3L, 5L, 4L, 2L),
+        .Label = c(
+          "Otu00001", "Otu00003|Otu00005|Otu00002", "Otu00004", "Otu00006", "Otu00007",
+          "Otu00008", "Otu00009", "Otu00010"
+        ), class = "factor"
+      ),
+      method = c(
+        "glmnet", "glmnet", "glmnet", "glmnet",
+        "glmnet", "glmnet", "glmnet", "glmnet"
+      ),
+      perf_metric_name = c(
+        "AUC", "AUC", "AUC", "AUC",
+        "AUC", "AUC", "AUC", "AUC"
+      ),
+      seed = c(
+        2019, 2019, 2019, 2019,
+        2019, 2019, 2019, 2019
+      )
+    )
   )
 })

@@ -51,10 +51,14 @@ test_that("get_corr_feats works", {
 })
 
 test_that("group_correlated_features works", {
-  expect_equal(sort(group_correlated_features(data.frame(a=1:3, b=2:4, c=c(1,0,1)))),
-               c("b|a", "c"))
-  expect_equal(sort(group_correlated_features(data.frame(a=1:3, b=c(3,1,2)))),
-               c("a", 'b'))
+  expect_equal(
+    sort(group_correlated_features(data.frame(a = 1:3, b = 2:4, c = c(1, 0, 1)))),
+    c("b|a", "c")
+  )
+  expect_equal(
+    sort(group_correlated_features(data.frame(a = 1:3, b = c(3, 1, 2)))),
+    c("a", "b")
+  )
 
   corr <- dplyr::tibble(feature1 = c(character()), feature2 = character())
   feature <- dplyr::tibble()
