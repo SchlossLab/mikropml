@@ -71,10 +71,10 @@ flatten_corr_mat <- function(cormat) {
 #'
 group_correlated_features <- function(features, corr_thresh = 1,
                                       group_neg_corr = TRUE) {
-
   corr <- get_corr_feats(features,
-                         corr_thresh = corr_thresh,
-                         group_neg_corr = group_neg_corr)
+    corr_thresh = corr_thresh,
+    group_neg_corr = group_neg_corr
+  )
   corr <- dplyr::select_if(corr, !(names(corr) %in% c("corr")))
 
   all_feats <- colnames(features)
