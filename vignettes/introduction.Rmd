@@ -364,8 +364,12 @@ results_imp_corr <- run_ml(otu_mini_bin,
 results_imp_corr$feature_importance
 ```
 
-You can see what features were permuted together in the `names` column. 
+You can see which features were permuted together in the `names` column. 
 Here all 3 features were permuted together (which doesn't really make sense, but it's just an example).
+
+If you previously executed `run_ml()` without feature importance but now wish
+to find feature importance after the fact, see the example code in the
+`get_feature_importance()` documentation.
 
 # Tuning hyperparameters (using the `hyperparameter` argument)
 
