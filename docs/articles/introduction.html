@@ -154,7 +154,7 @@
 <span class="co">#&gt; 5        1      537      533</span>
 <span class="co">#&gt; 6      251      155      122</span></code></pre></div>
 <p>Here, <code>dx</code> is the outcome column (normal or cancer), and there are 10 features (<code>Otu00001</code> through <code>Otu00010</code>). Because there are only 2 outcomes, we will be performing binary classification in the majority of the examples below. At the bottom, we will also briefly provide examples of multi-class and continuous outcomes. As you’ll see, you run them in the same way as for binary classification!</p>
-<p>The feature columns are the amount of each <a href="https://en.wikipedia.org/wiki/Operational_taxonomic_unit">Operational Taxonomic Unit (OTU; proxy for species)</a> in microbiome samples from patients with cancer and without cancer. The goal is to predict <code>dx</code>, which stands for diagnosis. This diagnosis can be cancer or not based on an individual’s microbiome. No need to understand exactly what that means, but if you’re interested you can read more about it from the original paper <span class="citation">(Topçuoğlu et al. 2020)</span>.</p>
+<p>The feature columns are the amount of each <a href="https://en.wikipedia.org/wiki/Operational_taxonomic_unit">Operational Taxonomic Unit (OTU)</a> in microbiome samples from patients with cancer and without cancer. The goal is to predict <code>dx</code>, which stands for diagnosis. This diagnosis can be cancer or not based on an individual’s microbiome. No need to understand exactly what that means, but if you’re interested you can read more about it from the original paper <span class="citation">(Topçuoğlu et al. 2020)</span>.</p>
 <p>For real machine learning applications you’ll need to use more features, but for the purposes of this vignette we’ll stick with this example dataset so everything runs faster.</p>
 </div>
 <div id="the-methods-we-support" class="section level2">
@@ -409,7 +409,8 @@
 <span class="co">#&gt; 1 glmnet              AUC 2019</span>
 <span class="co">#&gt; 2 glmnet              AUC 2019</span>
 <span class="co">#&gt; 3 glmnet              AUC 2019</span></code></pre></div>
-<p>You can see what features were permuted together in the <code>names</code> column. Here all 3 features were permuted together (which doesn’t really make sense, but it’s just an example).</p>
+<p>You can see which features were permuted together in the <code>names</code> column. Here all 3 features were permuted together (which doesn’t really make sense, but it’s just an example).</p>
+<p>If you previously executed <code><a href="../reference/run_ml.html">run_ml()</a></code> without feature importance but now wish to find feature importance after the fact, see the example code in the <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> documentation.</p>
 </div>
 <div id="tuning-hyperparameters-using-the-hyperparameter-argument" class="section level1">
 <h1 class="hasAnchor">
