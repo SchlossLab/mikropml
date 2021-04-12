@@ -60,16 +60,23 @@ flatten_corr_mat <- function(cormat) {
 
 #' Group correlated features
 #'
-#' @param corr output of get_corr_feats (pairs of correlated features)
-#' @param features features for ML
+#' @param features data frame with each column as a feature for ML
+#' @param corr_thresh correlation threshold (default: 1)
 #'
-#' @return vector of correlated features where each element is the group of
+#' @return vector of correlated features where each element is a group of
 #'   correlated features separated by pipes (|)
 #' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-group_correlated_features <- function(corr, features) {
+group_correlated_features <- function(features, corr_thresh = 1,
+                                      group_neg_corr = TRUE) {
+  corr <- get_corr_feats(features,
+    corr_thresh = corr_thresh,
+    group_neg_corr = group_neg_corr
+  )
+  corr <- dplyr::select_if(corr, !(names(corr) %in% c("corr")))
+
   all_feats <- colnames(features)
   corr_feats <- unique(c(corr$feature2, corr$feature1))
   noncorr_feats <- all_feats[!all_feats %in% corr_feats]
@@ -84,7 +91,7 @@ group_correlated_features <- function(corr, features) {
       i, corr$feature1[corr$feature2 == i],
       corr$feature2[corr$feature1 == i]
     ))
-    new_feats <- T
+    new_feats <- TRUE
     while (new_feats) {
       len_feats <- length(feats)
       for (j in feats) {

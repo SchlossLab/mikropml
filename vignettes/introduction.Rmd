@@ -19,13 +19,12 @@ knitr::opts_chunk$set(
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you
 to run while implementing good practices for machine learning pipelines. All you
 need to run ML is one function: `run_ml()`. We've selected sensible default
-arguments related to good practices 
-[@topcuoglu_framework_2020; @tang_democratizing_2020], 
-but we allow you to change those arguments to tailor
+arguments related to good practices [@topcuoglu_framework_2020;
+@tang_democratizing_2020], but we allow you to change those arguments to tailor
 `run_ml()` to the needs of your data.
 
-This document takes you through all of the `run_ml()` inputs,
-both required and optional, as well as the outputs.
+This document takes you through all of the `run_ml()` inputs, both required and
+optional, as well as the outputs.
 
 In summary, you provide:
 
@@ -40,18 +39,18 @@ And the function outputs:
 
 # It's running so slow!
 
-Since I assume a lot of you won't read this entire vignette,
-I'm going to say this at the beginning.
-If the `run_ml()` function is running super slow, you should consider parallelizing. See `vignette("parallel")` for examples.
+Since I assume a lot of you won't read this entire vignette, I'm going to say
+this at the beginning. If the `run_ml()` function is running super slow, you
+should consider parallelizing. See `vignette("parallel")` for examples.
 
 # Understanding the inputs
 
 ## The input data
 
-The input data to `run_ml()` is a dataframe where each row is a sample or observation.
-One column (assumed to be the first) is the outcome of interest,
-and all of the other columns are the features.
-We package `otu_mini_bin` as a small example dataset with `mikropml`.
+The input data to `run_ml()` is a dataframe where each row is a sample or
+observation. One column (assumed to be the first) is the outcome of interest,
+and all of the other columns are the features. We package `otu_mini_bin` as a
+small example dataset with `mikropml`.
 
 ```{r}
 #install.packages("devtools")
@@ -60,19 +59,24 @@ library(mikropml)
 head(otu_mini_bin)
 ```
 
-Here, `dx` is the outcome column (normal or cancer), and there are 10 features (`Otu00001` through `Otu00010`).
-Because there are only 2 outcomes, we will be performing binary classification in the majority of the examples below.
-At the bottom, we will also briefly provide examples of multi-class and continuous outcomes.
-As you'll see, you run them in the same way as for binary classification!
+Here, `dx` is the outcome column (normal or cancer), and there are 10 features
+(`Otu00001` through `Otu00010`). Because there are only 2 outcomes, we will be
+performing binary classification in the majority of the examples below. At the
+bottom, we will also briefly provide examples of multi-class and continuous
+outcomes. As you'll see, you run them in the same way as for binary
+classification!
 
-The feature columns are the amount of each [Operational Taxonomic Unit (OTU; proxy for species)](https://en.wikipedia.org/wiki/Operational_taxonomic_unit)
-in microbiome samples from patients with cancer and without cancer.
-The goal is to predict `dx`, which stands for diagnosis. This diagnosis can be cancer or not based on an individual's microbiome.
-No need to understand exactly what that means,
-but if you're interested you can read more about it from the original paper [@topcuoglu_framework_2020].
+The feature columns are the amount of each [Operational Taxonomic Unit
+(OTU)](https://en.wikipedia.org/wiki/Operational_taxonomic_unit) in microbiome
+samples from patients with cancer and without cancer. The goal is to predict
+`dx`, which stands for diagnosis. This diagnosis can be cancer or not based on
+an individual's microbiome. No need to understand exactly what that means, but
+if you're interested you can read more about it from the original paper
+[@topcuoglu_framework_2020].
 
-For real machine learning applications you'll need to use more features,
-but for the purposes of this vignette we'll stick with this example dataset so everything runs faster.
+For real machine learning applications you'll need to use more features, but for
+the purposes of this vignette we'll stick with this example dataset so
+everything runs faster.
 
 ## The methods we support
 
@@ -109,7 +113,8 @@ about this in the preprocessing vignette: `vignette("preprocess")`.
 
 # The simplest way to `run_ml()`
 
-As mentioned above, the minimal input is your dataset (`dataset`) and the machine learning model you want to use (`method`).
+As mentioned above, the minimal input is your dataset (`dataset`) and the
+machine learning model you want to use (`method`).
 
 You may also want to provide:
 
@@ -302,9 +307,10 @@ results_grp <- run_ml(otu_mini_bin,
                       seed = 2019)
 ```
 
-The one difference here is `run_ml()` will report how much of the data is in the training set if you run the above code chunk.
-This is because it won't be exactly what you specify with `training_frac`,
-since you have to include all of one group in either the training set _or_ the test set.
+The one difference here is `run_ml()` will report how much of the data is in the
+training set if you run the above code chunk. This is because it won't be
+exactly what you specify with `training_frac`, since you have to include all of
+one group in either the training set _or_ the test set.
 
 # Finding feature importance
 
@@ -352,7 +358,10 @@ it's especially useful to run multiple different train/test splits, as shown in
 our 
 [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow/).
 
-You can also choose to permute correlated features together using `corr_thresh` (default: 1). Any features that are above the correlation threshold are permuted together; i.e. perfectly correlated features are permuted together when using the default value.
+You can also choose to permute correlated features together using `corr_thresh`
+(default: 1). Any features that are above the correlation threshold are permuted
+together; i.e. perfectly correlated features are permuted together when using
+the default value.
 
 ```{r}
 results_imp_corr <- run_ml(otu_mini_bin,
@@ -364,14 +373,20 @@ results_imp_corr <- run_ml(otu_mini_bin,
 results_imp_corr$feature_importance
 ```
 
-You can see what features were permuted together in the `names` column. 
-Here all 3 features were permuted together (which doesn't really make sense, but it's just an example).
+You can see which features were permuted together in the `names` column. Here
+all 3 features were permuted together (which doesn't really make sense, but it's
+just an example).
+
+If you previously executed `run_ml()` without feature importance but now wish
+to find feature importance after the fact, see the example code in the
+`get_feature_importance()` documentation.
 
 # Tuning hyperparameters (using the `hyperparameter` argument)
 
-This is important, so we have a whole vignette about them.
-The bottom line is we provide default hyperparameters that you can start with, but it's important to tune your hyperparameters.
-For more information about what the default hyperparameters are, and how to tune hyperparameters, see `vignette("tuning")`.
+This is important, so we have a whole vignette about them. The bottom line is we
+provide default hyperparameters that you can start with, but it's important to
+tune your hyperparameters. For more information about what the default
+hyperparameters are, and how to tune hyperparameters, see `vignette("tuning")`.
 
 # Other models
 
