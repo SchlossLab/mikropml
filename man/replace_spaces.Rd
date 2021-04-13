@@ -18,8 +18,10 @@ character vector with all spaces replaced with \code{new_char}
 Replace spaces in all elements of a character vector with underscores
 }
 \examples{
-dat  <- data.frame(dx = c('outcome 1', 'outcome 2', 'outcome 1'),
-                   a=1:3, b=c(5,7,1))
+dat <- data.frame(
+  dx = c("outcome 1", "outcome 2", "outcome 1"),
+  a = 1:3, b = c(5, 7, 1)
+)
 dat$dx <- replace_spaces(dat$dx)
 dat
 }
