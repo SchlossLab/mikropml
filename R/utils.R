@@ -137,7 +137,7 @@ mutate_all_types <- function(dat) {
 #' @param x a character vector
 #' @param new_char the character to replace spaces (default: `_`)
 #'
-#' @return
+#' @return character vector with all spaces replaced with `new_char`
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
