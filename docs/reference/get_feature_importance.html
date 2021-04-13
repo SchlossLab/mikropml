@@ -160,7 +160,8 @@ the <code>future.apply</code> package.</p>
   <span class='va'>class_probs</span>,
   <span class='va'>method</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>,
-  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>
+  corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -225,6 +226,13 @@ Your results will only be reproducible if you set a seed.</p></td>
       <td><p>For feature importance, group correlations
 above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</code>; default: <code>1</code>).</p></td>
     </tr>
+    <tr>
+      <th>groups</th>
+      <td><p>Vector of feature names to group together during permutation.
+Each element should be a string with feature names separated by a pipe character (<code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>).
+If this is <code>NULL</code> (default), correlated features will be grouped together
+based on <code>corr_thresh</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -249,6 +257,25 @@ larger <code>perf_metric_diff</code> are more important. The performance metric 
   <span class='st'>"dx"</span>,
   <span class='va'>multiClassSummary</span>, <span class='st'>"AUC"</span>,
   class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"glmnet"</span>
+<span class='op'>)</span>
+
+<span class='co'># optionally, you can group features together with a custom grouping</span>
+<span class='fu'>get_feature_importance</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>,
+  <span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span>, <span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,
+  <span class='st'>"dx"</span>,
+  <span class='va'>multiClassSummary</span>, <span class='st'>"AUC"</span>,
+  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"glmnet"</span>,
+  groups <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Otu00007"</span>, <span class='st'>"Otu00008"</span>, <span class='st'>"Otu00009"</span>, <span class='st'>"Otu00011"</span>, <span class='st'>"Otu00012"</span>,
+    <span class='st'>"Otu00015"</span>, <span class='st'>"Otu00016"</span>, <span class='st'>"Otu00018"</span>, <span class='st'>"Otu00019"</span>, <span class='st'>"Otu00020"</span>, <span class='st'>"Otu00022"</span>,
+    <span class='st'>"Otu00023"</span>, <span class='st'>"Otu00025"</span>, <span class='st'>"Otu00028"</span>, <span class='st'>"Otu00029"</span>, <span class='st'>"Otu00030"</span>, <span class='st'>"Otu00035"</span>,
+    <span class='st'>"Otu00036"</span>, <span class='st'>"Otu00037"</span>, <span class='st'>"Otu00038"</span>, <span class='st'>"Otu00039"</span>, <span class='st'>"Otu00040"</span>, <span class='st'>"Otu00047"</span>,
+    <span class='st'>"Otu00050"</span>, <span class='st'>"Otu00052"</span>, <span class='st'>"Otu00054"</span>, <span class='st'>"Otu00055"</span>, <span class='st'>"Otu00056"</span>, <span class='st'>"Otu00060"</span>,
+    <span class='st'>"Otu00003|Otu00002|Otu00005|Otu00024|Otu00032|Otu00041|Otu00053|Otu00014|Otu00021|Otu00017|Otu00031|Otu00057"</span>,
+    <span class='st'>"Otu00013|Otu00006"</span>, <span class='st'>"Otu00026|Otu00001|Otu00034|Otu00048"</span>, <span class='st'>"Otu00033|Otu00010"</span>,
+    <span class='st'>"Otu00042|Otu00004"</span>, <span class='st'>"Otu00043|Otu00027|Otu00049"</span>, <span class='st'>"Otu00051|Otu00045"</span>,
+    <span class='st'>"Otu00058|Otu00044"</span>, <span class='st'>"Otu00059|Otu00046"</span>
+  <span class='op'>)</span>
 <span class='op'>)</span>
 <span class='op'>}</span>
 

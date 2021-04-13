@@ -449,9 +449,9 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
       )
     }
     if (ncol(features) != 1) {
-      corr_feats <-
-        get_corr_feats(features, group_neg_corr = group_neg_corr) %>%
-        group_correlated_features(., features)
+      corr_feats <- group_correlated_features(features,
+        group_neg_corr = group_neg_corr
+      )
       corr_cols <- gsub("\\|.*", "", corr_feats)
       feats_nocorr <-
         features %>% dplyr::select(dplyr::all_of(corr_cols))
