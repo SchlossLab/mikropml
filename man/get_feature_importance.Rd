@@ -60,9 +60,9 @@ Your results will only be reproducible if you set a seed.}
 above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
 \item{groups}{Vector of feature names to group together during permutation.
-Each element should be a string with feature names separated by a pipe character (\code{|}).
-If this is \code{NULL} (default), correlated features will be grouped together
-based on \code{corr_thresh}.}
+Each element should be a string with feature names separated by a pipe
+character (\code{|}). If this is \code{NULL} (default), correlated features will be
+grouped together based on \code{corr_thresh}.}
 }
 \value{
 Dataframe with performance metrics for when each feature (or group of

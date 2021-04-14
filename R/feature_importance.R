@@ -7,9 +7,9 @@
 #' @inheritParams run_ml
 #' @inheritParams calc_perf_metrics
 #' @param groups Vector of feature names to group together during permutation.
-#'   Each element should be a string with feature names separated by a pipe character (`|`).
-#'   If this is `NULL` (default), correlated features will be grouped together
-#'   based on `corr_thresh`.
+#'   Each element should be a string with feature names separated by a pipe
+#'   character (`|`). If this is `NULL` (default), correlated features will be
+#'   grouped together based on `corr_thresh`.
 #'
 #' @return Dataframe with performance metrics for when each feature (or group of
 #'   correlated features; `names`) is permuted (`perf_metric`), and differences
