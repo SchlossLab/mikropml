@@ -55,6 +55,9 @@ Function to preprocess your data for input into \code{\link[=run_ml]{run_ml()}}.
 
 See the \href{http://www.schlosslab.org/mikropml/articles/preprocess.html}{preprocessing vignette}
 for more details.
+
+Note that if any values in \code{outcome_colname} contain spaces, they will be
+converted to underscores for compatibility with \code{caret}.
 }
 
 \examples{
@@ -62,4 +65,6 @@ preprocess_data(mikropml::otu_small, "dx")
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
+
+Kelly Sovacool, \email{sovacool@umich.edu}
 }
