@@ -113,6 +113,7 @@
 <p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> takes an input dataset where the rows are the samples and the columns are the outcome variable and features. We preprocess the data as follows:</p>
 <ul>
 <li>Remove missing outcome values.</li>
+<li>Convert any spaces in outcome names to underscores (<code>_</code>).</li>
 <li>Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).</li>
 <li>Normalize continuous features using <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html">caret::preProcess()</a></code> based on the method provided.</li>
 <li>Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it’s own column).</li>

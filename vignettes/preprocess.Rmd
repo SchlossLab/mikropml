@@ -27,7 +27,8 @@ about data preprocessing!
 the columns are the outcome variable and features. We preprocess the data as
 follows:
 
-- Remove missing outcome values. 
+- Remove missing outcome values.
+- Convert any spaces in outcome names to underscores (`_`).
 - Leave binary features as-is (except that categorical variables are converted to 0 and 1, and binary variables with missing features are split into two rows - see below for more details).
 - Normalize continuous features using `caret::preProcess()` based on the method provided.
 - Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it's own column).

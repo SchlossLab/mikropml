@@ -624,3 +624,19 @@ test_that("remove_singleton_columns works", {
     )
   )
 })
+
+test_that("preprocess_data replaces spaces in outcome column values (class labels)", {
+  dat <- data.frame(
+    dx = c("outcome 1", "outcome 2", "outcome 1"),
+    a = 1:3, b = c(5, 7, 1)
+  )
+  dat_proc <- data.frame(
+    dx = c("outcome_1", "outcome_2", "outcome_1"),
+    a = c(-1, 0, 1),
+    b = c(0.218217890235992, 0.87287156094397, -1.09108945117996)
+  )
+  expect_equal(
+    preprocess_data(dat, "dx")$dat_transformed %>% as.data.frame(),
+    dat_proc
+  )
+})
