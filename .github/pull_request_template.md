@@ -6,5 +6,9 @@
 -
 
 ## Checklist
-- [ ] Update `NEWS.md` if this includes any user-facing changes. ~Strikethrough~ if not applicable.
+
+(~Strikethrough~ any points that are not applicable.)
+
+- [ ] Update roxygen comments & vignettes if there are any API changes.
+- [ ] Update `NEWS.md` if this includes any user-facing changes. 
 - [ ] The check workflow succeeds on your most recent commit.
