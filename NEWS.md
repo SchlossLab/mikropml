@@ -1,5 +1,6 @@
 # development version 0.1.0
 
+- mikropml now has a logo created by @NLesniak!
 - Made documentation improvements (#238, #231, @kelly-sovacool).
 - New option in `preprocess_data()`: `prefilter_threshold` (#240, @kelly-sovacool, @courtneyarmour).
     - Remove any features that appear in N=`prefilter_threshold` or fewer rows in the data.

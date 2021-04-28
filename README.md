@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mikropml
+# mikropml <a href='http://www.schlosslab.org/mikropml'><img src='man/figures/logo.png' align="right" height="120" /></a>
 
 > meek-ROPE em el
 
@@ -83,6 +83,13 @@ Please note that the mikropml project is released with a [Contributor
 Code of
 Conduct](http://www.schlosslab.org/mikropml/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
+
+## License
+
+The mikropml package is licensed under [the MIT license](license.md).
+Text and images included in this repository, including the mikropml
+logo, are licensed under the [CC BY 4.0
+license](https://creativecommons.org/licenses/by/4.0/).
 
 ## Why the name?
 
