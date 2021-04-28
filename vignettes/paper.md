@@ -57,6 +57,8 @@ vignette: >
 
 # Summary
 
+![](mikropml-logo.png){ width=120px }
+
 Machine learning (ML) for classification and prediction based on a set of
 features is used to make decisions in healthcare, economics, criminal justice
 and more. However, implementing an ML pipeline including preprocessing, model
