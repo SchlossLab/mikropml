@@ -87,7 +87,8 @@ contributing to this project, you agree to abide by its terms.
 ## License
 
 The mikropml package is licensed under [the MIT license](license.md).
-The mikropml logo is licensed under the [CC BY 4.0
+Text and images included in this repository, including the mikropml
+logo, are licensed under the [CC BY 4.0
 license](https://creativecommons.org/licenses/by/4.0/).
 
 ## Why the name?
