@@ -41,6 +41,7 @@ test_that("train_model works", {
   # NOTE: these tests pass when you run test(), but not when you run test_file()
   # Perhaps something weird is going on with random seeds.
   set.seed(2019)
+  # This fails when I run test() (bestTune is 2) -Zena
   expect_equal(
     train_model(
       stats::as.formula(paste("dx", "~ .")),
