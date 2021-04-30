@@ -52,8 +52,8 @@ test_that("train_model works", {
       "AUC",
       tg_rf,
       1000
-    )$bestTune,
-    data.frame(mtry = 1L)
+    )$bestTune$mtry,
+    2L
   )
 
   set.seed(2019)
