@@ -34,7 +34,7 @@ library(mikropml)
 head(otu_mini_bin)
 ```
 
-Before we run ML, we can preprocess the data. 
+Before we train and evaluate a ML model, we can preprocess the data. 
 You can learn more about this in the preprocessing vignette: `vignette("preprocess")`.
 
 ```{r}
@@ -52,7 +52,7 @@ As mentioned above, the minimal input is your dataset (`dataset`) and the machin
 When we `run_ml()`, by default we do a 100 times repeated, 5-fold cross-validation, 
 where we evaluate the hyperparameters in these 500 total iterations.
 
-Say we want to run L2 regularized logistic regression. We run ML with:
+Say we want to run L2 regularized logistic regression. We do this with:
 
 ```{r, warning = FALSE}
 results <- run_ml(dat,
@@ -62,7 +62,7 @@ results <- run_ml(dat,
                   seed = 2019)
 ```
 
-You'll probably get a warning when you run this because the dataset is very small. If you want to learn more about that, check out the introductory vignette about running ML: `vignette("introduction")`.
+You'll probably get a warning when you run this because the dataset is very small. If you want to learn more about that, check out the introductory vignette about training and evaluating a ML model: `vignette("introduction")`.
 
 By default, `run_ml()` selects hyperparameters depending on the dataset and method used.
 
@@ -116,9 +116,9 @@ This time, we cover a larger and different range of `lambda` settings in cross-v
 How do we know which `lambda` value is the best one? 
 To answer that, we need to run the ML pipeline on multiple data splits 
 and look at the mean cross-validation performance of each `lambda` across those modeling experiments. 
-We describe how to run ML with multiple data splits in `vignette("parallel")`.
+We describe how to run the pipeline with multiple data splits in `vignette("parallel")`.
 
-Here we run ML with the new `lambda` range we defined above. 
+Here we train the model with the new `lambda` range we defined above. 
 We run it 3 times each with a different seed, which will result in different
 splits of the data into training and testing sets.
 We can then use `plot_hp_performance` to see which `lambda` gives us the largest mean AUC value across modeling experiments. 
