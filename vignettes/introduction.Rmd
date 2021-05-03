@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you
 to run while implementing good practices for machine learning pipelines. All you
-need to run ML is one function: `run_ml()`. We've selected sensible default
+need to run ML pipeline is one function: `run_ml()`. We've selected sensible default
 arguments related to good practices [@topcuoglu_framework_2020;
 @tang_democratizing_2020], but we allow you to change those arguments to tailor
 `run_ml()` to the needs of your data.
@@ -122,7 +122,7 @@ You may also want to provide:
 - A seed so that the results will be reproducible, and so that you get the same results as those you see here (i.e have the same train/test split).
 
 Say we want to use logistic regression, then the method we will use is `glmnet`.
-To do so, run ML with:
+To do so, run ML pipeline with:
 
 ```{r, eval = FALSE}
 results <- run_ml(otu_mini_bin,
@@ -390,7 +390,7 @@ hyperparameters are, and how to tune hyperparameters, see `vignette("tuning")`.
 
 # Other models
 
-Here are examples of how to run the other models.
+Here are examples of how to train and evaluate other models.
 The output for all of them is very similar, so we won't go into those details.
 
 ## Random forest
