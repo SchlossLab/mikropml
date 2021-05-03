@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mikropml
+# mikropml <a href='http://www.schlosslab.org/mikropml'><img src='man/figures/logo.png' align="right" height="120" /></a>
 
 > meek-ROPE em el
 
@@ -14,7 +14,8 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md)
 [![CRAN](https://img.shields.io/cran/v/mikropml?color=blue&label=CRAN&logo=R)](https://CRAN.R-project.org/package=mikropml)
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
-<https://cranlogs.r-pkg.org/badges/grand-total/mikropml>
+![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/mikropml)
+
 <!-- badges: end -->
 
 An interface to build machine learning models for classification and
@@ -83,6 +84,13 @@ Please note that the mikropml project is released with a [Contributor
 Code of
 Conduct](http://www.schlosslab.org/mikropml/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
+
+## License
+
+The mikropml package is licensed under [the MIT license](license.md).
+Text and images included in this repository, including the mikropml
+logo, are licensed under the [CC BY 4.0
+license](https://creativecommons.org/licenses/by/4.0/).
 
 ## Why the name?
 
