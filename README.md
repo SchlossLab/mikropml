@@ -15,7 +15,6 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 [![CRAN](https://img.shields.io/cran/v/mikropml?color=blue&label=CRAN&logo=R)](https://CRAN.R-project.org/package=mikropml)
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/mikropml)
-
 <!-- badges: end -->
 
 An interface to build machine learning models for classification and
