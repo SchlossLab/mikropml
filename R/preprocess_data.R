@@ -48,10 +48,11 @@ preprocess_data <- function(dataset, outcome_colname,
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
-
-  if (isTRUE(check_packages_installed('progress'))) {
-    progbar <- progress::progress_bar$new(format = "preprocess_data() :bar :percent | elapsed: :elapsed | eta: :eta",
-                                          total = 9)
+  if (isTRUE(check_packages_installed("progress"))) {
+    progbar <- progress::progress_bar$new(
+      format = "preprocess_data() :bar :percent | elapsed: :elapsed | eta: :eta",
+      total = 9
+    )
     progbar$tick(0)
   } else {
     progbar <- NULL
@@ -116,7 +117,9 @@ preprocess_data <- function(dataset, outcome_colname,
     dplyr::as_tibble()
   pbtick(progbar)
 
-  if (!is.null(progbar)) {progbar$terminate()}
+  if (!is.null(progbar)) {
+    progbar$terminate()
+  }
   return(list(
     dat_transformed = dat_transformed,
     grp_feats = grp_feats,

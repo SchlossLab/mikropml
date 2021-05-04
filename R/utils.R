@@ -160,16 +160,18 @@ replace_spaces <- function(x, new_char = "_") {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' if (isTRUE(check_packages_installed('progress'))) {
+#' if (isTRUE(check_packages_installed("progress"))) {
 #'   progbar <- progress::progress_bar$new(format = "doing stuff :bar :percent | elapsed: :elapsed |eta: :eta", total = 10)
 #' } else {
-#'  progbar <- NULL
+#'   progbar <- NULL
 #' }
 #' for (i in 1:10) {
 #'   pbtick(progbar)
 #'   Sys.sleep(0.5)
 #' }
 pbtick <- function(progbar) {
-  if (!is.null(progbar)) { progbar$tick() }
+  if (!is.null(progbar)) {
+    progbar$tick()
+  }
   return()
 }
