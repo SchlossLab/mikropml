@@ -8,11 +8,13 @@
 #'   no normalization).
 #' @param remove_var Whether to remove variables with near-zero variance
 #'   (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
-#' @param collapse_corr_feats Whether to keep only one of perfectly correlated features.
+#' @param collapse_corr_feats Whether to keep only one of perfectly correlated
+#'   features.
 #' @param to_numeric Whether to change features to numeric where possible.
 #' @param prefilter_threshold Remove features which only have non-zero & non-NA
-#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
-#'   This step will also be skipped if `to_numeric` is set to `FALSE`.
+#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at
+#'   this step. This step will also be skipped if `to_numeric` is set to
+#'   `FALSE`.
 #' @inheritParams run_ml
 #' @inheritParams get_corr_feats
 #'
@@ -43,13 +45,20 @@ preprocess_data <- function(dataset, outcome_colname,
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
+
+  if (isTRUE(check_packages_installed('progress'))) {
+    progbar <- progress::progress_bar$new(format = "preprocessing data :bar :percent | elapsed: :elapsed |eta: :eta",
+                                          total = 9)
+    progbar$tick(0)
+  } else {
+    progbar <- NULL
+  }
+
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
   dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
-
   dataset <- rm_missing_outcome(dataset, outcome_colname)
-
   split_dat <- split_outcome_features(dataset, outcome_colname)
 
   features <- split_dat$features
@@ -60,10 +69,14 @@ preprocess_data <- function(dataset, outcome_colname,
     removed_feats <- feats$removed_feats
     features <- feats$dat
   }
+  pbtick(progbar)
 
   nv_feats <- process_novar_feats(features)
+  pbtick(progbar)
   split_feats <- process_cat_feats(nv_feats$var_feats)
+  pbtick(progbar)
   cont_feats <- process_cont_feats(split_feats$cont_feats, method)
+  pbtick(progbar)
 
   # combine all processed features
   processed_feats <- dplyr::bind_cols(
@@ -71,10 +84,13 @@ preprocess_data <- function(dataset, outcome_colname,
     split_feats$cat_feats,
     nv_feats$novar_feats
   )
+  pbtick(progbar)
+
   # remove features with (near-)zero variance
   feats <- get_caret_processed_df(processed_feats, remove_var)
   processed_feats <- feats$processed
   removed_feats <- c(removed_feats, cont_feats$removed_cont, feats$removed)
+  pbtick(progbar)
 
   # remove perfectly correlated features
   grp_feats <- NULL
@@ -84,16 +100,20 @@ preprocess_data <- function(dataset, outcome_colname,
       feats <- get_caret_processed_df(processed_feats, "zv")
       processed_feats <- feats$processed
       removed_feats <- c(removed_feats, feats$removed)
+      pbtick(progbar)
     }
     feats_and_grps <- collapse_correlated_features(processed_feats, group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
   }
+  pbtick(progbar)
 
   # combine outcome and features
   dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
     dplyr::as_tibble()
+  pbtick(progbar)
 
+  if (!is.null(progbar)) {progbar$terminate()}
   return(list(
     dat_transformed = dat_transformed,
     grp_feats = grp_feats,
