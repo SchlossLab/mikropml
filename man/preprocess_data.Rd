@@ -28,7 +28,8 @@ no normalization).}
 \item{remove_var}{Whether to remove variables with near-zero variance
 (\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL}).}
 
-\item{collapse_corr_feats}{Whether to keep only one of perfectly correlated features.}
+\item{collapse_corr_feats}{Whether to keep only one of perfectly correlated
+features.}
 
 \item{to_numeric}{Whether to change features to numeric where possible.}
 
@@ -36,8 +37,9 @@ no normalization).}
 together (e.g. c(0,1) and c(1,0)).}
 
 \item{prefilter_threshold}{Remove features which only have non-zero & non-NA
-values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
-This step will also be skipped if \code{to_numeric} is set to \code{FALSE}.}
+values N rows or fewer (default: 1). Set this to -1 to keep all columns at
+this step. This step will also be skipped if \code{to_numeric} is set to
+\code{FALSE}.}
 }
 \value{
 Named list including:
@@ -46,6 +48,9 @@ Named list including:
 \item \code{grp_feats}: If features were grouped together, a named list of the features corresponding to each group.
 \item \code{removed_feats}: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
 }
+
+If the \code{progress} package is installed, a progress bar with time elapsed
+and estimated time to completion will be displayed.
 }
 \description{
 Function to preprocess your data for input into \code{\link[=run_ml]{run_ml()}}.
