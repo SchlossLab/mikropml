@@ -151,3 +151,25 @@ mutate_all_types <- function(dat) {
 replace_spaces <- function(x, new_char = "_") {
   gsub(" ", new_char, x)
 }
+
+#' Call `progbar$tick()` if `progbar` is not `NULL`
+#'
+#' @param progbar a progress bar created with `progress::progress_bar$new()`
+#'
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' if (isTRUE(check_packages_installed('progress'))) {
+#'   progbar <- progress::progress_bar$new(format = "doing stuff :bar :percent | elapsed: :elapsed |eta: :eta", total = 10)
+#' } else {
+#'  progbar <- NULL
+#' }
+#' for (i in 1:10) {
+#'   pbtick(progbar)
+#'   Sys.sleep(0.5)
+#' }
+pbtick <- function(progbar) {
+  if (!is.null(progbar)) { progbar$tick() }
+  return()
+}
