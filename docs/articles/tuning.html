@@ -137,7 +137,7 @@
 <span class="co">#&gt; 4       78      255      197</span>
 <span class="co">#&gt; 5        1      537      533</span>
 <span class="co">#&gt; 6      251      155      122</span></code></pre></div>
-<p>Before we run ML, we can preprocess the data. You can learn more about this in the preprocessing vignette: <code><a href="../articles/preprocess.html">vignette("preprocess")</a></code>.</p>
+<p>Before we train and evaluate a ML model, we can preprocess the data. You can learn more about this in the preprocessing vignette: <code><a href="../articles/preprocess.html">vignette("preprocess")</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">otu_mini_bin</span>,
                            outcome_colname <span class="op">=</span> <span class="st">'dx'</span><span class="op">)</span>
@@ -150,7 +150,7 @@
 </h2>
 <p>As mentioned above, the minimal input is your dataset (<code>dataset</code>) and the machine learning model you want to use (<code>method</code>).</p>
 <p>When we <code><a href="../reference/run_ml.html">run_ml()</a></code>, by default we do a 100 times repeated, 5-fold cross-validation, where we evaluate the hyperparameters in these 500 total iterations.</p>
-<p>Say we want to run L2 regularized logistic regression. We run ML with:</p>
+<p>Say we want to run L2 regularized logistic regression. We do this with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">dat</span>,
                   <span class="st">'glmnet'</span>,
@@ -160,7 +160,7 @@
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
 <span class="co">#&gt; Loading required package: lattice</span>
 <span class="co">#&gt; Loading required package: ggplot2</span></code></pre></div>
-<p>You’ll probably get a warning when you run this because the dataset is very small. If you want to learn more about that, check out the introductory vignette about running ML: <code><a href="../articles/introduction.html">vignette("introduction")</a></code>.</p>
+<p>You’ll probably get a warning when you run this because the dataset is very small. If you want to learn more about that, check out the introductory vignette about training and evaluating a ML model: <code><a href="../articles/introduction.html">vignette("introduction")</a></code>.</p>
 <p>By default, <code><a href="../reference/run_ml.html">run_ml()</a></code> selects hyperparameters depending on the dataset and method used.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>
@@ -321,8 +321,8 @@
 <span class="co">#&gt; AUC was used to select the optimal model using the largest value.</span>
 <span class="co">#&gt; The final values used for the model were alpha = 1 and lambda = 0.02.</span></code></pre></div>
 <p>This time, we cover a larger and different range of <code>lambda</code> settings in cross-validation.</p>
-<p>How do we know which <code>lambda</code> value is the best one? To answer that, we need to run the ML pipeline on multiple data splits and look at the mean cross-validation performance of each <code>lambda</code> across those modeling experiments. We describe how to run ML with multiple data splits in <code><a href="../articles/parallel.html">vignette("parallel")</a></code>.</p>
-<p>Here we run ML with the new <code>lambda</code> range we defined above. We run it 3 times each with a different seed, which will result in different splits of the data into training and testing sets. We can then use <code>plot_hp_performance</code> to see which <code>lambda</code> gives us the largest mean AUC value across modeling experiments.</p>
+<p>How do we know which <code>lambda</code> value is the best one? To answer that, we need to run the ML pipeline on multiple data splits and look at the mean cross-validation performance of each <code>lambda</code> across those modeling experiments. We describe how to run the pipeline with multiple data splits in <code><a href="../articles/parallel.html">vignette("parallel")</a></code>.</p>
+<p>Here we train the model with the new <code>lambda</code> range we defined above. We run it 3 times each with a different seed, which will result in different splits of the data into training and testing sets. We can then use <code>plot_hp_performance</code> to see which <code>lambda</code> gives us the largest mean AUC value across modeling experiments.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">seed</span><span class="op">)</span> <span class="op">{</span>
    <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"glmnet"</span>, seed <span class="op">=</span> <span class="va">seed</span>, hyperparameters <span class="op">=</span> <span class="va">new_hp</span><span class="op">)</span>

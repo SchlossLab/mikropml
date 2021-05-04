@@ -116,7 +116,7 @@
 
     
     
-<p>The goal of <code>mikropml</code> is to make supervised machine learning (ML) easy for you to run while implementing good practices for machine learning pipelines. All you need to run ML is one function: <code><a href="../reference/run_ml.html">run_ml()</a></code>. We’ve selected sensible default arguments related to good practices <span class="citation">(Topçuoğlu et al. 2020; Tang et al. 2020)</span>, but we allow you to change those arguments to tailor <code><a href="../reference/run_ml.html">run_ml()</a></code> to the needs of your data.</p>
+<p>The goal of <code>mikropml</code> is to make supervised machine learning (ML) easy for you to run while implementing good practices for machine learning pipelines. All you need to run ML pipeline is one function: <code><a href="../reference/run_ml.html">run_ml()</a></code>. We’ve selected sensible default arguments related to good practices <span class="citation">(Topçuoğlu et al. 2020; Tang et al. 2020)</span>, but we allow you to change those arguments to tailor <code><a href="../reference/run_ml.html">run_ml()</a></code> to the needs of your data.</p>
 <p>This document takes you through all of the <code><a href="../reference/run_ml.html">run_ml()</a></code> inputs, both required and optional, as well as the outputs.</p>
 <p>In summary, you provide:</p>
 <ul>
@@ -195,7 +195,7 @@
 <li>The outcome column name. By default <code><a href="../reference/run_ml.html">run_ml()</a></code> will pick the first column, but it’s best practice to specify the column name explicitly.</li>
 <li>A seed so that the results will be reproducible, and so that you get the same results as those you see here (i.e have the same train/test split).</li>
 </ul>
-<p>Say we want to use logistic regression, then the method we will use is <code>glmnet</code>. To do so, run ML with:</p>
+<p>Say we want to use logistic regression, then the method we will use is <code>glmnet</code>. To do so, run ML pipeline with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,
                   <span class="st">'glmnet'</span>,
@@ -427,7 +427,7 @@
 <div id="other-models" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-models" class="anchor"></a>Other models</h1>
-<p>Here are examples of how to run the other models. The output for all of them is very similar, so we won’t go into those details.</p>
+<p>Here are examples of how to train and evaluate other models. The output for all of them is very similar, so we won’t go into those details.</p>
 <div id="random-forest" class="section level2">
 <h2 class="hasAnchor">
 <a href="#random-forest" class="anchor"></a>Random forest</h2>
