@@ -26,6 +26,9 @@
 #' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
 #' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
 #'
+#' If the `progress` package is installed, a progress bar with time elapsed
+#' and estimated time to completion will be displayed.
+#'
 #' @section More details:
 #'
 #' See the [preprocessing vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html)
@@ -47,7 +50,7 @@ preprocess_data <- function(dataset, outcome_colname,
                             prefilter_threshold = 1) {
 
   if (isTRUE(check_packages_installed('progress'))) {
-    progbar <- progress::progress_bar$new(format = "preprocessing data :bar :percent | elapsed: :elapsed |eta: :eta",
+    progbar <- progress::progress_bar$new(format = "preprocess_data() :bar :percent | elapsed: :elapsed | eta: :eta",
                                           total = 9)
     progbar$tick(0)
   } else {
