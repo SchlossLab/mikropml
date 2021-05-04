@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you
 to run while implementing good practices for machine learning pipelines. All you
-need to run ML pipeline is one function: `run_ml()`. We've selected sensible default
+need to run the ML pipeline is one function: `run_ml()`. We've selected sensible default
 arguments related to good practices [@topcuoglu_framework_2020;
 @tang_democratizing_2020], but we allow you to change those arguments to tailor
 `run_ml()` to the needs of your data.
