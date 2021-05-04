@@ -192,7 +192,8 @@ no normalization).</p></td>
     </tr>
     <tr>
       <th>collapse_corr_feats</th>
-      <td><p>Whether to keep only one of perfectly correlated features.</p></td>
+      <td><p>Whether to keep only one of perfectly correlated
+features.</p></td>
     </tr>
     <tr>
       <th>to_numeric</th>
@@ -206,8 +207,9 @@ together (e.g. c(0,1) and c(1,0)).</p></td>
     <tr>
       <th>prefilter_threshold</th>
       <td><p>Remove features which only have non-zero &amp; non-NA
-values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
-This step will also be skipped if <code>to_numeric</code> is set to <code>FALSE</code>.</p></td>
+values N rows or fewer (default: 1). Set this to -1 to keep all columns at
+this step. This step will also be skipped if <code>to_numeric</code> is set to
+<code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -219,6 +221,8 @@ This step will also be skipped if <code>to_numeric</code> is set to <code>FALSE<
 <li><p><code>removed_feats</code>: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).</p></li>
 </ul>
 
+<p>If the <code>progress</code> package is installed, a progress bar with time elapsed
+and estimated time to completion will be displayed.</p>
     <h2 class="hasAnchor" id="more-details"><a class="anchor" href="#more-details"></a>More details</h2>
 
     
