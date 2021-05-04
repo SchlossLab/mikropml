@@ -122,7 +122,7 @@ You may also want to provide:
 - A seed so that the results will be reproducible, and so that you get the same results as those you see here (i.e have the same train/test split).
 
 Say we want to use logistic regression, then the method we will use is `glmnet`.
-To do so, run ML pipeline with:
+To do so, run the ML pipeline with:
 
 ```{r, eval = FALSE}
 results <- run_ml(otu_mini_bin,
