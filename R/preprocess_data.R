@@ -117,7 +117,7 @@ preprocess_data <- function(dataset, outcome_colname,
   dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
     dplyr::as_tibble()
 
-  if (!is.null(progbar)) {progbar$terminate()}
+  pbend(progbar)
   return(list(
     dat_transformed = dat_transformed,
     grp_feats = grp_feats,

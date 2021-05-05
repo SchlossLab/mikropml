@@ -1,4 +1,4 @@
-#' Get feature importance using permutation method
+#' Get feature importance using the permutation method
 #'
 #' Calculates feature importance using a trained model and test data. Requires
 #' the `future.apply` package.
@@ -77,7 +77,11 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     class_probs
   )[[perf_metric_name]]
 
+  print(paste('feature groups: ', length(groups)))
+  progbar <- pbinit(total = length(groups), message = "calculating feature importance")
+
   imps <- future.apply::future_lapply(groups, function(feat) {
+    pbtick(progbar)
     return(find_permuted_perf_metric(
       test_data, trained_model, outcome_colname,
       perf_metric_function, perf_metric_name,
@@ -85,6 +89,15 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     ))
   }, future.seed = seed) %>%
     dplyr::bind_rows()
+  # imps <- lapply(groups, function(feat) {
+  #   pbtick(progbar)
+  #   return(find_permuted_perf_metric(
+  #     test_data, trained_model, outcome_colname,
+  #     perf_metric_function, perf_metric_name,
+  #     class_probs, feat, test_perf_value
+  #   ))
+  # }) %>%
+  #   dplyr::bind_rows()
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(

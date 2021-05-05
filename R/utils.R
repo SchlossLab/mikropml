@@ -152,7 +152,9 @@ replace_spaces <- function(x, new_char = "_") {
   gsub(" ", new_char, x)
 }
 
-#' Create a progress bar if the `progress` package is installed
+#' Create a progress bar if the `progress` package is installed.
+#'
+#' The progress bar persists after completion.
 #'
 #' @param total total ticks passed to `progress::progress_bar$new()`
 #'   (default: `10`).
@@ -165,8 +167,8 @@ replace_spaces <- function(x, new_char = "_") {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' progbar <- pbinit(message = "looping")
-#' for (i in 1:10) {
+#' progbar <- pbinit(total = 5, message = "looping")
+#' for (i in 1:5) {
 #'   pbtick(progbar)
 #'   Sys.sleep(0.5)
 #' }
@@ -176,7 +178,9 @@ pbinit <- function(total = 10, message = "") {
     pb <-
       progress::progress_bar$new(
         format = paste(message, ":bar :percent | elapsed: :elapsed | eta: :eta"),
-        total = total
+        total = total,
+        clear = FALSE,
+        show_after = 0
       )
     pb$tick(0)
   }
@@ -191,12 +195,34 @@ pbinit <- function(total = 10, message = "") {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' progbar <- pbinit(total = 10)
-#' for (i in 1:10) {
+#' progbar <- pbinit(total = 5)
+#' for (i in 1:5) {
 #'   pbtick(progbar)
 #'   Sys.sleep(0.5)
 #' }
 pbtick <- function(pb) {
   if (!is.null(pb)) { pb$tick() }
-  return()
+  invisible()
+}
+
+#' End the progress bar if it is not `NULL`.
+#'
+#' This is useful to jump to the end of the bar when a function has
+#' finished, but fewer than the estimated total number of ticks were used.
+#'
+#' @param pb a progress bar created with `progress::progress_bar$new()`
+#'
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' progbar <- pbinit(total = 10)
+#' for (i in 1:5) {
+#'   pbtick(progbar)
+#'   Sys.sleep(0.5)
+#' }
+#' pbend(progbar)
+pbend <- function(pb) {
+  if (!is.null(pb)) { pb$update(1) }
+  invisible()
 }
