@@ -49,6 +49,22 @@
 #'     "Otu00058|Otu00044", "Otu00059|Otu00046"
 #'   )
 #' )
+#'
+#' # the function can show a progress bar if you have the progressr package installed
+#' ## optionally, specify the progress bar format
+#' progressr::handlers(progressr::handler_progress(
+#'         format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
+#'         clear = FALSE,
+#'         show_after = 0))
+#' ## tell progressr to always report progress
+#' progressr::handlers(global = TRUE)
+#' ## run the function and watch the live progress udpates
+#' feat_imp <- get_feature_importance(results$trained_model,
+#'   results$trained_model$trainingData, results$test_data,
+#'   "dx",
+#'   multiClassSummary, "AUC",
+#'   class_probs = TRUE, method = "glmnet"
+#' )
 #' }
 #'
 #' @export
@@ -77,16 +93,31 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     class_probs
   )[[perf_metric_name]]
 
-  print(paste('feature groups: ', length(groups)))
-  progbar <- pbinit(total = length(groups), message = "calculating feature importance")
+  nperms <- 100
+  ngroups <- length(groups)
+  nsteps <- 100 * ngroups
+  print(paste('nsteps:', nsteps))
+  progbar <- NULL
+  if (isTRUE(check_packages_installed('progressr'))) {
+    progbar <- progressr::progressor(steps = nsteps,
+                                     message = 'Feature importance')
+  }
 
   imps <- future.apply::future_lapply(groups, function(feat) {
-    pbtick(progbar)
-    return(find_permuted_perf_metric(
-      test_data, trained_model, outcome_colname,
-      perf_metric_function, perf_metric_name,
-      class_probs, feat, test_perf_value
-    ))
+    return(
+      find_permuted_perf_metric(
+        test_data,
+        trained_model,
+        outcome_colname,
+        perf_metric_function,
+        perf_metric_name,
+        class_probs,
+        feat,
+        test_perf_value,
+        nperms = nperms,
+        progbar = progbar
+      )
+    )
   }, future.seed = seed) %>%
     dplyr::bind_rows()
   # imps <- lapply(groups, function(feat) {
@@ -117,6 +148,7 @@ get_feature_importance <- function(trained_model, train_data, test_data,
 #' @param test_perf_value value of the true performance metric on the held-out
 #'   test data.
 #' @param nperms number of permutations to perform (default: `100`).
+#' @param progbar optional progress bar (default: `NULL`)
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
 #'
@@ -131,7 +163,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       perf_metric_function, perf_metric_name,
                                       class_probs, feat,
                                       test_perf_value,
-                                      nperms = 100) {
+                                      nperms = 100, progbar = NULL) {
 
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
@@ -149,6 +181,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     # this strategy works for any number of features
     rows_shuffled <- sample(n_rows)
     permuted_test_data[, fs] <- permuted_test_data[rows_shuffled, fs]
+    pbtick(progbar)
     return(
       calc_perf_metrics(
         permuted_test_data,

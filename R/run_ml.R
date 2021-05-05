@@ -168,6 +168,7 @@ run_ml <-
       tune_grid,
       ntree
     )
+    message("Training complete.")
     if (!is.na(seed)) {
       set.seed(seed)
     }
