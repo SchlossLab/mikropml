@@ -8,12 +8,13 @@
 - New option in `get_feature_importance()`: `groups` (#246, @kelly-sovacool).
     - Provide custom groups of features to permute together during permutation importance.
     - `groups` is `NULL` by default; in this case, correlated features above `corr_thresh` are grouped together.
-- `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JohnnyTran).
+- `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JonnyTran).
+- Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/HenrikBengtsson/progressr) (#257, @kelly-sovacool, @JonnyTran).
 
 # mikropml 0.0.2
 
 - Fixed a test failure on Solaris.
-- Fixed multiple test failtures with R 3.6.2 due to `stringsAsFactors` behavior.
+- Fixed multiple test failures with R 3.6.2 due to `stringsAsFactors` behavior.
 - Made minor documentation improvements.
 - Moved `rpart` from Suggests to Imports for consistency with other packages used during model training.
 
