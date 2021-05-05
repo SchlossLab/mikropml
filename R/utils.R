@@ -152,24 +152,51 @@ replace_spaces <- function(x, new_char = "_") {
   gsub(" ", new_char, x)
 }
 
-#' Call `progbar$tick()` if `progbar` is not `NULL`
+#' Create a progress bar if the `progress` package is installed
 #'
-#' @param progbar a progress bar created with `progress::progress_bar$new()`
+#' @param total total ticks passed to `progress::progress_bar$new()`
+#'   (default: `10`).
+#' @param message an optional message pasted in front of the progress bar
+#'   (default: `""`).
+#'
+#' @return a new `progress::progress_bar`, or `NULL` if the `progress` package
+#'   is not installed
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' progbar <- pbinit(message = "looping")
+#' for (i in 1:10) {
+#'   pbtick(progbar)
+#'   Sys.sleep(0.5)
+#' }
+pbinit <- function(total = 10, message = "") {
+  pb <- NULL
+  if (isTRUE(check_packages_installed('progress'))) {
+    pb <-
+      progress::progress_bar$new(
+        format = paste(message, ":bar :percent | elapsed: :elapsed | eta: :eta"),
+        total = total
+      )
+    pb$tick(0)
+  }
+  return(pb)
+}
+
+#' Update progress if the progress bar is not `NULL`
+#'
+#' @param pb a progress bar created with `progress::progress_bar$new()`
 #'
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' if (isTRUE(check_packages_installed('progress'))) {
-#'   progbar <- progress::progress_bar$new(format = "doing stuff :bar :percent | elapsed: :elapsed |eta: :eta", total = 10)
-#' } else {
-#'  progbar <- NULL
-#' }
+#' progbar <- pbinit(total = 10)
 #' for (i in 1:10) {
 #'   pbtick(progbar)
 #'   Sys.sleep(0.5)
 #' }
-pbtick <- function(progbar) {
-  if (!is.null(progbar)) { progbar$tick() }
+pbtick <- function(pb) {
+  if (!is.null(pb)) { pb$tick() }
   return()
 }
