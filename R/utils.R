@@ -161,8 +161,8 @@ replace_spaces <- function(x, new_char = "_") {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' f <- function () {
-#'   pb <- progressr::progressor(steps = 5, message = 'looping')
+#' f <- function() {
+#'   pb <- progressr::progressor(steps = 5, message = "looping")
 #'   for (i in 1:5) {
 #'     pbtick(pb)
 #'     Sys.sleep(0.5)

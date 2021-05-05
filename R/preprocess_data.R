@@ -45,9 +45,10 @@
 #' # the function can show a progress bar if you have the progressr package installed
 #' ## optionally, specify the progress bar format
 #' progressr::handlers(progressr::handler_progress(
-#'         format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
-#'         clear = FALSE,
-#'         show_after = 0))
+#'   format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
+#'   clear = FALSE,
+#'   show_after = 0
+#' ))
 #' ## tell progressor to always report progress
 #' progressr::handlers(global = TRUE)
 #' ## run the function and watch the live progress udpates
@@ -57,9 +58,8 @@ preprocess_data <- function(dataset, outcome_colname,
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
-
   progbar <- NULL
-  if (isTRUE(check_packages_installed('progressr'))) {
+  if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 18, message = "preprocessing")
   }
 
