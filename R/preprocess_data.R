@@ -8,13 +8,11 @@
 #'   no normalization).
 #' @param remove_var Whether to remove variables with near-zero variance
 #'   (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
-#' @param collapse_corr_feats Whether to keep only one of perfectly correlated
-#'   features.
+#' @param collapse_corr_feats Whether to keep only one of perfectly correlated features.
 #' @param to_numeric Whether to change features to numeric where possible.
 #' @param prefilter_threshold Remove features which only have non-zero & non-NA
-#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at
-#'   this step. This step will also be skipped if `to_numeric` is set to
-#'   `FALSE`.
+#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
+#'   This step will also be skipped if `to_numeric` is set to `FALSE`.
 #' @inheritParams run_ml
 #' @inheritParams get_corr_feats
 #'
@@ -25,9 +23,6 @@
 #' - `dat_transformed`: Preprocessed data.
 #' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
 #' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
-#'
-#' If the `progress` package is installed, a progress bar with time elapsed
-#' and estimated time to completion will be displayed.
 #'
 #' @section More details:
 #'
@@ -48,20 +43,13 @@ preprocess_data <- function(dataset, outcome_colname,
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
-
-  progbar <- pbinit(total = 19, message = "preprocessing")
-  # progbar <-
-  #   progress::progress_bar$new(
-  #     format = ":current | elapsed: :elapsed | eta: :eta",
-  #     total = 18
-  #   )
-  # progbar$tick(0)
-
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
   dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
+
   dataset <- rm_missing_outcome(dataset, outcome_colname)
+
   split_dat <- split_outcome_features(dataset, outcome_colname)
 
   features <- split_dat$features
@@ -72,14 +60,10 @@ preprocess_data <- function(dataset, outcome_colname,
     removed_feats <- feats$removed_feats
     features <- feats$dat
   }
-  pbtick(progbar)
 
-  nv_feats <- process_novar_feats(features, progbar = progbar)
-  pbtick(progbar)
-  split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
-  pbtick(progbar)
+  nv_feats <- process_novar_feats(features)
+  split_feats <- process_cat_feats(nv_feats$var_feats)
   cont_feats <- process_cont_feats(split_feats$cont_feats, method)
-  pbtick(progbar)
 
   # combine all processed features
   processed_feats <- dplyr::bind_cols(
@@ -87,13 +71,10 @@ preprocess_data <- function(dataset, outcome_colname,
     split_feats$cat_feats,
     nv_feats$novar_feats
   )
-  pbtick(progbar)
-
   # remove features with (near-)zero variance
   feats <- get_caret_processed_df(processed_feats, remove_var)
   processed_feats <- feats$processed
   removed_feats <- c(removed_feats, cont_feats$removed_cont, feats$removed)
-  pbtick(progbar)
 
   # remove perfectly correlated features
   grp_feats <- NULL
@@ -103,21 +84,16 @@ preprocess_data <- function(dataset, outcome_colname,
       feats <- get_caret_processed_df(processed_feats, "zv")
       processed_feats <- feats$processed
       removed_feats <- c(removed_feats, feats$removed)
-      pbtick(progbar)
     }
-    feats_and_grps <- collapse_correlated_features(processed_feats,
-                                                   group_neg_corr,
-                                                   progbar = progbar)
+    feats_and_grps <- collapse_correlated_features(processed_feats, group_neg_corr)
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
   }
-  pbtick(progbar)
 
   # combine outcome and features
   dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
     dplyr::as_tibble()
 
-  if (!is.null(progbar)) {progbar$terminate()}
   return(list(
     dat_transformed = dat_transformed,
     grp_feats = grp_feats,
@@ -211,7 +187,6 @@ remove_singleton_columns <- function(dat, threshold = 1) {
 #' Process features with no variation
 #'
 #' @param features dataframe of features for machine learning
-#' @param progbar optional progress bar (default: `NULL`)
 #'
 #' @return list of two dataframes: features with variability (unprocessed) and without (processed)
 #' @noRd
@@ -219,7 +194,7 @@ remove_singleton_columns <- function(dat, threshold = 1) {
 #'
 #' @examples
 #' process_novar_feats(mikropml::otu_small[, 2:ncol(otu_small)])
-process_novar_feats <- function(features, progbar = NULL) {
+process_novar_feats <- function(features) {
   novar_feats <- NULL
   var_feats <- NULL
   if (!is.null(features)) {
@@ -231,7 +206,7 @@ process_novar_feats <- function(features, progbar = NULL) {
       length(unique(x[!is.na(x)])) == 1
     })
     novar_feats <- features %>% dplyr::select_if(novar_feats_bool)
-    pbtick(progbar)
+
     # change categorical features with no variation to zero
     sapply_fn <- select_apply(fun = "sapply")
     novar_feats <- sapply_fn(novar_feats, function(x) {
@@ -245,7 +220,7 @@ process_novar_feats <- function(features, progbar = NULL) {
     if (ncol(novar_feats) == 0) {
       novar_feats <- NULL
     }
-    pbtick(progbar)
+
     # get features with variation
     var_feats <- features %>%
       dplyr::select_if(!novar_feats_bool) %>%
@@ -261,7 +236,6 @@ process_novar_feats <- function(features, progbar = NULL) {
     novar_feats[] <- lapply_fn(novar_feats, function(x) {
       rep(unique(x[!is.na(x)]), nrow(novar_feats))
     })
-    pbtick(progbar)
     if (n_missing > 0) {
       message(
         paste0(
@@ -278,7 +252,7 @@ process_novar_feats <- function(features, progbar = NULL) {
 
 #' Process categorical features
 #'
-#' @inheritParams process_novar_feats
+#' @param features dataframe of features for machine learning
 #'
 #' @return list of two dataframes: categorical (processed) and continuous features (unprocessed)
 #' @noRd
@@ -286,7 +260,7 @@ process_novar_feats <- function(features, progbar = NULL) {
 #'
 #' @examples
 #' process_cat_feats(mikropml::otu_small[, 2:ncol(otu_small)])
-process_cat_feats <- function(features, progbar = NULL) {
+process_cat_feats <- function(features) {
   feature_design_cat_mat <- NULL
   cont_feats <- NULL
   if (!is.null(features)) {
@@ -322,12 +296,12 @@ process_cat_feats <- function(features, progbar = NULL) {
       # full rank for binary features with no missing data (i.e. one column for each binary feature with no missing data)
       feature_design_no_missing_bin <- NULL
       if (ncol(no_missing_bin_mat) > 0) {
-        feature_design_no_missing_bin <- get_caret_dummyvars_df(no_missing_bin_mat, full_rank = TRUE, progbar = progbar)
+        feature_design_no_missing_bin <- get_caret_dummyvars_df(no_missing_bin_mat, full_rank = TRUE)
       }
       # change categorical binary variables to 0 and 1 (not full rank, i.e. one column for each unique element in the column)
       feature_design_missing_nonbin <- NULL
       if (ncol(missing_nonbin_mat) > 0) {
-        feature_design_missing_nonbin <- get_caret_dummyvars_df(missing_nonbin_mat, full_rank = FALSE, progbar = progbar)
+        feature_design_missing_nonbin <- get_caret_dummyvars_df(missing_nonbin_mat, full_rank = FALSE)
       }
 
       # combine binary no missing and other categorical features
@@ -427,8 +401,9 @@ get_caret_processed_df <- function(features, method) {
 
 #' Get dummyvars dataframe (i.e. design matrix)
 #'
-#' @inheritParams process_novar_feats
+#' @param features dataframe of features for machine learning
 #' @param full_rank whether matrix should be full rank or not (see `[caret::dummyVars])
+#'
 #' @return design matrix
 #' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
@@ -442,9 +417,9 @@ get_caret_processed_df <- function(features, method) {
 #'   var4 = c(0, 1, 0)
 #' )
 #' get_caret_dummyvars_df(df, TRUE)
-get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) {
+get_caret_dummyvars_df <- function(features, full_rank = FALSE) {
   check_features(features, check_missing = FALSE)
-  if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
+  if (!is.null(process_novar_feats(features)$novar_feats)) {
     stop("Some variables have no variation. Please remove prior to running this function.")
   }
   feature_design <- caret::dummyVars(" ~ .", data = features, fullRank = full_rank)
@@ -455,7 +430,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 
 
 #' Collapse correlated features
-#' @inheritParams process_novar_feats
+#'
 #' @inheritParams get_corr_feats
 #'
 #' @return features where perfectly correlated ones are collapsed
@@ -464,7 +439,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #'
 #' @examples
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
-collapse_correlated_features <- function(features, group_neg_corr = TRUE, progbar = NULL) {
+collapse_correlated_features <- function(features, group_neg_corr = TRUE) {
   feats_nocorr <- features
   grp_feats <- NULL
   if (!is.null(features)) {
@@ -474,7 +449,7 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE, progba
         "Some features are charactors or factors. Please remove these before proceeding with `collapse_correlated_features`."
       )
     }
-    if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
+    if (!is.null(process_novar_feats(features)$novar_feats)) {
       stop(
         "Some features have no variation. Please remove these before proceeding with `collapse_correlated_features`."
       )
