@@ -2,7 +2,7 @@
 % Please edit documentation in R/feature_importance.R
 \name{get_feature_importance}
 \alias{get_feature_importance}
-\title{Get feature importance using permutation method}
+\title{Get feature importance using the permutation method}
 \usage{
 get_feature_importance(
   trained_model,
@@ -106,6 +106,22 @@ get_feature_importance(results$trained_model,
     "Otu00042|Otu00004", "Otu00043|Otu00027|Otu00049", "Otu00051|Otu00045",
     "Otu00058|Otu00044", "Otu00059|Otu00046"
   )
+)
+
+# the function can show a progress bar if you have the progressr package installed
+## optionally, specify the progress bar format
+progressr::handlers(progressr::handler_progress(
+        format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
+        clear = FALSE,
+        show_after = 0))
+## tell progressr to always report progress
+progressr::handlers(global = TRUE)
+## run the function and watch the live progress udpates
+feat_imp <- get_feature_importance(results$trained_model,
+  results$trained_model$trainingData, results$test_data,
+  "dx",
+  multiClassSummary, "AUC",
+  class_probs = TRUE, method = "glmnet"
 )
 }
 
