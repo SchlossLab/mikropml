@@ -78,6 +78,7 @@ Suggests:
     future.apply,
     ggplot2,
     knitr,
+    progress,
     progressr,
     purrr,
     rmarkdown,
