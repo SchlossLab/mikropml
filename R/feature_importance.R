@@ -1,4 +1,4 @@
-#' Get feature importance using permutation method
+#' Get feature importance using the permutation method
 #'
 #' Calculates feature importance using a trained model and test data. Requires
 #' the `future.apply` package.
@@ -6,6 +6,7 @@
 #' @param train_data Training data: dataframe of outcome and features.
 #' @inheritParams run_ml
 #' @inheritParams calc_perf_metrics
+#' @param nperms number of permutations to perform (default: `100`).
 #' @param groups Vector of feature names to group together during permutation.
 #'   Each element should be a string with feature names separated by a pipe
 #'   character (`|`). If this is `NULL` (default), correlated features will be
@@ -49,6 +50,23 @@
 #'     "Otu00058|Otu00044", "Otu00059|Otu00046"
 #'   )
 #' )
+#'
+#' # the function can show a progress bar if you have the progressr package installed
+#' ## optionally, specify the progress bar format
+#' progressr::handlers(progressr::handler_progress(
+#'   format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
+#'   clear = FALSE,
+#'   show_after = 0
+#' ))
+#' ## tell progressr to always report progress
+#' progressr::handlers(global = TRUE)
+#' ## run the function and watch the live progress udpates
+#' feat_imp <- get_feature_importance(results$trained_model,
+#'   results$trained_model$trainingData, results$test_data,
+#'   "dx",
+#'   multiClassSummary, "AUC",
+#'   class_probs = TRUE, method = "glmnet"
+#' )
 #' }
 #'
 #' @export
@@ -57,7 +75,8 @@
 get_feature_importance <- function(trained_model, train_data, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
-                                   seed = NA, corr_thresh = 1, groups = NULL) {
+                                   seed = NA, corr_thresh = 1, groups = NULL,
+                                   nperms = 100) {
   abort_packages_not_installed("future.apply")
 
   # get outcome and features
@@ -77,12 +96,30 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     class_probs
   )[[perf_metric_name]]
 
+  nsteps <- nperms * length(groups)
+  progbar <- NULL
+  if (isTRUE(check_packages_installed("progressr"))) {
+    progbar <- progressr::progressor(
+      steps = nsteps,
+      message = "Feature importance"
+    )
+  }
+
   imps <- future.apply::future_lapply(groups, function(feat) {
-    return(find_permuted_perf_metric(
-      test_data, trained_model, outcome_colname,
-      perf_metric_function, perf_metric_name,
-      class_probs, feat, test_perf_value
-    ))
+    return(
+      find_permuted_perf_metric(
+        test_data,
+        trained_model,
+        outcome_colname,
+        perf_metric_function,
+        perf_metric_name,
+        class_probs,
+        feat,
+        test_perf_value,
+        nperms = nperms,
+        progbar = progbar
+      )
+    )
   }, future.seed = seed) %>%
     dplyr::bind_rows()
 
@@ -103,7 +140,7 @@ get_feature_importance <- function(trained_model, train_data, test_data,
 #' @param feat feature or group of correlated features to permute.
 #' @param test_perf_value value of the true performance metric on the held-out
 #'   test data.
-#' @param nperms number of permutations to perform (default: `100`).
+#' @param progbar optional progress bar (default: `NULL`)
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
 #'
@@ -118,7 +155,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       perf_metric_function, perf_metric_name,
                                       class_probs, feat,
                                       test_perf_value,
-                                      nperms = 100) {
+                                      nperms = 100, progbar = NULL) {
 
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
@@ -136,6 +173,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     # this strategy works for any number of features
     rows_shuffled <- sample(n_rows)
     permuted_test_data[, fs] <- permuted_test_data[rows_shuffled, fs]
+    pbtick(progbar)
     return(
       calc_perf_metrics(
         permuted_test_data,

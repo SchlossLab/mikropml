@@ -158,7 +158,7 @@ run_ml <-
     )
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
-
+    message("Training the model...")
     trained_model_caret <- train_model(
       model_formula,
       train_data,
@@ -168,6 +168,7 @@ run_ml <-
       tune_grid,
       ntree
     )
+    message("Training complete.")
     if (!is.na(seed)) {
       set.seed(seed)
     }
@@ -184,6 +185,7 @@ run_ml <-
     )
     feature_importance_tbl <- "Skipped feature importance"
     if (find_feature_importance) {
+      message("Finding feature importance...")
       feature_importance_tbl <- get_feature_importance(
         trained_model_caret,
         train_data,
@@ -196,6 +198,7 @@ run_ml <-
         seed,
         corr_thresh
       )
+      message("Feature importance complete.")
     }
 
     return(
