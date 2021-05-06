@@ -74,7 +74,7 @@ test_that("replace_spaces works", {
 test_that("pbtick() updates the progress bar", {
   f <- function() {
     pb <- progressr::progressor(steps = 5)
-    pbtick(pb, message = 'progress!')
+    pbtick(pb, message = "progress!")
   }
   expect_condition(expect_invisible(f()))
 })
