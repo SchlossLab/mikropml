@@ -152,15 +152,16 @@ progress updates using the `progressr` package. The format is up to you, but we
 recommend using a progress bar like this:
 
 ```{r progress, eval = FALSE}
-# optionally, specify the progress bar format with the `progress` package
+# optionally, specify the progress bar format with the `progress` package.
 progressr::handlers(progressr::handler_progress(
     format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
     clear = FALSE,
     show_after = 0))
-# tell progressr to always report progress in any functions that use it
+# tell progressr to always report progress in any functions that use it.
+# set this to FALSE to turn it back off again.
 progressr::handlers(global = TRUE)
 
-# run your code and watch the live progress updates
+# run your code and watch the live progress updates.
 dat <- preprocess_data(otu_mini_bin, 'dx')$dat_transformed
 #> Using 'dx' as the outcome column.
 #> preprocessing ========================>-------  78% | elapsed:  1s | eta:  0s
@@ -172,6 +173,12 @@ results <- run_ml(dat, "glmnet", kfold = 2, cv_times = 2,
 #> Feature importance =========================== 100% | elapsed: 37s | eta:  0s
 ```
 
+Note that some future backends support "near-live" progress updates, meaning the
+progress may not be reported immediately when parallel processing with futures.
+Read more on that [in the `progressr`
+vignette](https://progressr.futureverse.org/articles/progressr-intro.html#near-live-versus-buffered-progress-updates-with-futures).
+For more on `progressr` and how to customize the format of progress updates, see
+the [`progressr` docs](https://progressr.futureverse.org/).
 
 ## Parallelizing with Snakemake
 
