@@ -152,7 +152,10 @@ replace_spaces <- function(x, new_char = "_") {
   gsub(" ", new_char, x)
 }
 
-#' Update progress if the progress bar is not `NULL`
+#' Update progress if the progress bar is not `NULL`.
+#'
+#' This allows for flexible code that only initializes a progress bar if the
+#' `progressr` package is installed.
 #'
 #' @param pb a progress bar created with `progressr`.
 #' @param message optional message to report (default: `NULL`).
@@ -162,7 +165,11 @@ replace_spaces <- function(x, new_char = "_") {
 #'
 #' @examples
 #' f <- function() {
-#'   pb <- progressr::progressor(steps = 5, message = "looping")
+#'   if (isTRUE(check_packages_installed("progressr"))) {
+#'     pb <- progressr::progressor(steps = 5, message = "looping")
+#'   } else {
+#'     pb <- NULL
+#'   }
 #'   for (i in 1:5) {
 #'     pbtick(pb)
 #'     Sys.sleep(0.5)

@@ -6,6 +6,7 @@
 #' @param train_data Training data: dataframe of outcome and features.
 #' @inheritParams run_ml
 #' @inheritParams calc_perf_metrics
+#' @param nperms number of permutations to perform (default: `100`).
 #' @param groups Vector of feature names to group together during permutation.
 #'   Each element should be a string with feature names separated by a pipe
 #'   character (`|`). If this is `NULL` (default), correlated features will be
@@ -94,10 +95,7 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     class_probs
   )[[perf_metric_name]]
 
-  nperms <- 100
-  ngroups <- length(groups)
-  nsteps <- 100 * ngroups
-  print(paste("nsteps:", nsteps))
+  nsteps <- nperms * length(groups)
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(
@@ -123,15 +121,6 @@ get_feature_importance <- function(trained_model, train_data, test_data,
     )
   }, future.seed = seed) %>%
     dplyr::bind_rows()
-  # imps <- lapply(groups, function(feat) {
-  #   pbtick(progbar)
-  #   return(find_permuted_perf_metric(
-  #     test_data, trained_model, outcome_colname,
-  #     perf_metric_function, perf_metric_name,
-  #     class_probs, feat, test_perf_value
-  #   ))
-  # }) %>%
-  #   dplyr::bind_rows()
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
@@ -150,7 +139,6 @@ get_feature_importance <- function(trained_model, train_data, test_data,
 #' @param feat feature or group of correlated features to permute.
 #' @param test_perf_value value of the true performance metric on the held-out
 #'   test data.
-#' @param nperms number of permutations to perform (default: `100`).
 #' @param progbar optional progress bar (default: `NULL`)
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
