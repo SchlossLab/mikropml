@@ -15,7 +15,8 @@ get_feature_importance(
   method,
   seed = NA,
   corr_thresh = 1,
-  groups = NULL
+  groups = NULL,
+  nperms = 100
 )
 }
 \arguments{
@@ -63,6 +64,8 @@ above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code
 Each element should be a string with feature names separated by a pipe
 character (\code{|}). If this is \code{NULL} (default), correlated features will be
 grouped together based on \code{corr_thresh}.}
+
+\item{nperms}{number of permutations to perform (default: \code{100}).}
 }
 \value{
 Dataframe with performance metrics for when each feature (or group of

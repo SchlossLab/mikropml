@@ -75,7 +75,8 @@
 get_feature_importance <- function(trained_model, train_data, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
-                                   seed = NA, corr_thresh = 1, groups = NULL) {
+                                   seed = NA, corr_thresh = 1, groups = NULL,
+                                   nperms = 100) {
   abort_packages_not_installed("future.apply")
 
   # get outcome and features
