@@ -9,6 +9,7 @@
     - Provide custom groups of features to permute together during permutation importance.
     - `groups` is `NULL` by default; in this case, correlated features above `corr_thresh` are grouped together.
 - `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JohnnyTran).
+- Clarify in the intro vignette that we do not support multi-label outcomes. (#254, @zenalapp)
 
 # mikropml 0.0.2
 
