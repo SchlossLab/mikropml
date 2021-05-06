@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get feature importance using permutation method — get_feature_importance • mikropml</title>
+<title>Get feature importance using the permutation method — get_feature_importance • mikropml</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Get feature importance using permutation method — get_feature_importance" />
+<meta property="og:title" content="Get feature importance using the permutation method — get_feature_importance" />
 <meta property="og:description" content="Calculates feature importance using a trained model and test data. Requires
 the future.apply package." />
 <meta property="og:image" content="http://www.schlosslab.org/mikropml/logo.png" />
@@ -148,7 +148,7 @@ the future.apply package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get feature importance using permutation method</h1>
+    <h1>Get feature importance using the permutation method</h1>
     <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/feature_importance.R'><code>R/feature_importance.R</code></a></small>
     <div class="hidden name"><code>get_feature_importance.Rd</code></div>
     </div>
@@ -169,7 +169,8 @@ the <code>future.apply</code> package.</p>
   <span class='va'>method</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>,
   corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nperms <span class='op'>=</span> <span class='fl'>100</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -241,6 +242,10 @@ Each element should be a string with feature names separated by a pipe
 character (<code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>). If this is <code>NULL</code> (default), correlated features will be
 grouped together based on <code>corr_thresh</code>.</p></td>
     </tr>
+    <tr>
+      <th>nperms</th>
+      <td><p>number of permutations to perform (default: <code>100</code>).</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -286,6 +291,23 @@ larger <code>perf_metric_diff</code> are more important. The performance metric 
     <span class='st'>"Otu00042|Otu00004"</span>, <span class='st'>"Otu00043|Otu00027|Otu00049"</span>, <span class='st'>"Otu00051|Otu00045"</span>,
     <span class='st'>"Otu00058|Otu00044"</span>, <span class='st'>"Otu00059|Otu00046"</span>
   <span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># the function can show a progress bar if you have the progressr package installed</span>
+<span class='co'>## optionally, specify the progress bar format</span>
+<span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>handlers</a></span><span class='op'>(</span><span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handler_progress.html'>handler_progress</a></span><span class='op'>(</span>
+  format <span class='op'>=</span> <span class='st'>":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,
+  clear <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show_after <span class='op'>=</span> <span class='fl'>0</span>
+<span class='op'>)</span><span class='op'>)</span>
+<span class='co'>## tell progressr to always report progress</span>
+<span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>handlers</a></span><span class='op'>(</span>global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='co'>## run the function and watch the live progress udpates</span>
+<span class='va'>feat_imp</span> <span class='op'>&lt;-</span> <span class='fu'>get_feature_importance</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>,
+  <span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span>, <span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,
+  <span class='st'>"dx"</span>,
+  <span class='va'>multiClassSummary</span>, <span class='st'>"AUC"</span>,
+  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"glmnet"</span>
 <span class='op'>)</span>
 <span class='op'>}</span>
 
