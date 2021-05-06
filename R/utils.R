@@ -151,3 +151,33 @@ mutate_all_types <- function(dat) {
 replace_spaces <- function(x, new_char = "_") {
   gsub(" ", new_char, x)
 }
+
+#' Update progress if the progress bar is not `NULL`
+#'
+#' @param pb a progress bar created with `progressr`.
+#' @param message optional message to report (default: `NULL`).
+#'
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' f <- function() {
+#'   pb <- progressr::progressor(steps = 5, message = "looping")
+#'   for (i in 1:5) {
+#'     pbtick(pb)
+#'     Sys.sleep(0.5)
+#'   }
+#' }
+#' progressr::with_progress(
+#'   f()
+#' )
+pbtick <- function(pb, message = NULL) {
+  if (!is.null(pb)) {
+    if (!is.null(message)) {
+      pb(message)
+    } else {
+      pb()
+    }
+  }
+  invisible()
+}

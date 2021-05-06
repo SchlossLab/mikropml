@@ -24,6 +24,9 @@
 #' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
 #' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
 #'
+#' If the `progressr` package is installed, a progress bar with time elapsed
+#' and estimated time to completion can be displayed.
+#'
 #' @section More details:
 #'
 #' See the [preprocessing vignette](http://www.schlosslab.org/mikropml/articles/preprocess.html)
@@ -38,14 +41,32 @@
 #'
 #' @examples
 #' preprocess_data(mikropml::otu_small, "dx")
+#'
+#' # the function can show a progress bar if you have the progressr package installed
+#' ## optionally, specify the progress bar format
+#' progressr::handlers(progressr::handler_progress(
+#'   format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
+#'   clear = FALSE,
+#'   show_after = 0
+#' ))
+#' ## tell progressor to always report progress
+#' progressr::handlers(global = TRUE)
+#' ## run the function and watch the live progress udpates
+#' dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
 preprocess_data <- function(dataset, outcome_colname,
                             method = c("center", "scale"),
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
+  progbar <- NULL
+  if (isTRUE(check_packages_installed("progressr"))) {
+    progbar <- progressr::progressor(steps = 18, message = "preprocessing")
+  }
+
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
+  pbtick(progbar)
   dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
 
   dataset <- rm_missing_outcome(dataset, outcome_colname)
