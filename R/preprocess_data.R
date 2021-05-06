@@ -63,7 +63,7 @@ preprocess_data <- function(dataset, outcome_colname,
 
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
-    progbar <- progressr::progressor(steps = 18, message = "preprocessing")
+    progbar <- progressr::progressor(steps = 20, message = "preprocessing")
   }
 
   check_dataset(dataset)
