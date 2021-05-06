@@ -169,7 +169,8 @@ the <code>future.apply</code> package.</p>
   <span class='va'>method</span>,
   seed <span class='op'>=</span> <span class='cn'>NA</span>,
   corr_thresh <span class='op'>=</span> <span class='fl'>1</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nperms <span class='op'>=</span> <span class='fl'>100</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -240,6 +241,10 @@ above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</cod
 Each element should be a string with feature names separated by a pipe
 character (<code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code>). If this is <code>NULL</code> (default), correlated features will be
 grouped together based on <code>corr_thresh</code>.</p></td>
+    </tr>
+    <tr>
+      <th>nperms</th>
+      <td><p>number of permutations to perform (default: <code>100</code>).</p></td>
     </tr>
     </table>
 
