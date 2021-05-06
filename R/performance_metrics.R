@@ -15,26 +15,25 @@
 #' get_outcome_type(c("a", "b", "b"))
 #' get_outcome_type(c("a", "b", "c"))
 get_outcome_type <- function(outcomes_vec) {
+  num_outcomes <- length(unique(outcomes_vec))
+  if (num_outcomes < 2) {
+    stop(
+      paste0(
+        "A continuous, binary, or multi-class outcome variable is required, but this dataset has ",
+        num_outcomes,
+        " outcome(s)."
+      )
+    )
+  }
   if (is.numeric(outcomes_vec)) {
     # regression
     otype <- "continuous"
+  } else if (num_outcomes == 2) {
+    # binary classification
+    otype <- "binary"
   } else {
-    num_outcomes <- length(unique(outcomes_vec))
-    if (num_outcomes < 2) {
-      stop(
-        paste0(
-          "A continuous, binary, or multi-class outcome variable is required, but this dataset has ",
-          num_outcomes,
-          " outcome(s)."
-        )
-      )
-    } else if (num_outcomes == 2) {
-      # binary classification
-      otype <- "binary"
-    } else {
-      # multi-class classification
-      otype <- "multiclass"
-    }
+    # multi-class classification
+    otype <- "multiclass"
   }
   return(otype)
 }
