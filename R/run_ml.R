@@ -185,6 +185,7 @@ run_ml <-
     )
     feature_importance_tbl <- "Skipped feature importance"
     if (find_feature_importance) {
+      message("Finding feature importance...")
       feature_importance_tbl <- get_feature_importance(
         trained_model_caret,
         train_data,
@@ -197,6 +198,7 @@ run_ml <-
         seed,
         corr_thresh
       )
+      message("Feature importance complete.")
     }
 
     return(
