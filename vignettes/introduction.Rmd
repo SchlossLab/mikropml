@@ -28,7 +28,7 @@ optional, as well as the outputs.
 
 In summary, you provide:
 
-- A dataset with an outcome column and feature columns (rows are samples)
+- A dataset with an outcome column and feature columns (rows are samples; unfortunately we do not support multi-label classification)
 - Model choice (i.e. method)
 
 And the function outputs:

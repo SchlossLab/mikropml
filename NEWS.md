@@ -1,7 +1,7 @@
 # development version 0.1.0
 
 - mikropml now has a logo created by @NLesniak!
-- Made documentation improvements (#238, #231, @kelly-sovacool).
+- Made documentation improvements (#238, #231 @kelly-sovacool; #256 @BTopcuoglu).
 - New option in `preprocess_data()`: `prefilter_threshold` (#240, @kelly-sovacool, @courtneyarmour).
     - Remove any features that appear in N=`prefilter_threshold` or fewer rows in the data.
     - Created function `remove_singleton_columns()` called by `preprocess_data()` to carry this out.
@@ -9,7 +9,8 @@
     - Provide custom groups of features to permute together during permutation importance.
     - `groups` is `NULL` by default; in this case, correlated features above `corr_thresh` are grouped together.
 - `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JonnyTran).
-- Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/HenrikBengtsson/progressr) (#257, @kelly-sovacool, @JonnyTran).
+- Clarify in the intro vignette that we do not support multi-label outcomes. (#254, @zenalapp)
+- Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/HenrikBengtsson/progressr) (#257, @kelly-sovacool, @JonnyTran, @FedericoComoglio).
 
 # mikropml 0.0.2
 
