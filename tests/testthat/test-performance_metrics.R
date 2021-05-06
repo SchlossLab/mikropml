@@ -4,8 +4,12 @@ test_that("get_outcome_type works", {
   expect_equal(get_outcome_type(c("a", "b", "b")), "binary")
   expect_equal(get_outcome_type(c("a", "b", "c")), "multiclass")
 })
-test_that('get_outcome_type errors for num_outcomes < 2', {
-  expect_error(get_outcome_type(c(1,1,1)),
+test_that('get_outcome_type errors when num_outcomes < 2', {
+  expect_error(get_outcome_type(c(1, 1)),
+               "A continuous, binary, or multi-class outcome variable is required, but this dataset has ")
+  expect_error(get_outcome_type(c('a', 'a', 'a')),
+               "A continuous, binary, or multi-class outcome variable is required, but this dataset has ")
+  expect_error(get_outcome_type(c()),
                "A continuous, binary, or multi-class outcome variable is required, but this dataset has ")
 })
 
