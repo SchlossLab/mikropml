@@ -291,9 +291,10 @@ larger <code>perf_metric_diff</code> are more important. The performance metric 
 <span class='co'># the function can show a progress bar if you have the progressr package installed</span>
 <span class='co'>## optionally, specify the progress bar format</span>
 <span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>handlers</a></span><span class='op'>(</span><span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handler_progress.html'>handler_progress</a></span><span class='op'>(</span>
-        format <span class='op'>=</span> <span class='st'>":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,
-        clear <span class='op'>=</span> <span class='cn'>FALSE</span>,
-        show_after <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+  format <span class='op'>=</span> <span class='st'>":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,
+  clear <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show_after <span class='op'>=</span> <span class='fl'>0</span>
+<span class='op'>)</span><span class='op'>)</span>
 <span class='co'>## tell progressr to always report progress</span>
 <span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>handlers</a></span><span class='op'>(</span>global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'>## run the function and watch the live progress udpates</span>
