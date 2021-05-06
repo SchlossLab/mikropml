@@ -316,7 +316,7 @@ one group in either the training set _or_ the test set.
 
 To find which features are contributing to predictive power, you can use
 `find_feature_importance = TRUE`. How we use permutation importance to determine
-feature importance is decribed in [@topcuoglu_framework_2020]. Briefly, it
+feature importance is described in [@topcuoglu_framework_2020]. Briefly, it
 permutes each of the features individually (or correlated ones together) and
 evaluates how much the performance metric decreases. The more performance
 decreases when the feature is randomly shuffled, the more important that feature
@@ -380,6 +380,9 @@ just an example).
 If you previously executed `run_ml()` without feature importance but now wish
 to find feature importance after the fact, see the example code in the
 `get_feature_importance()` documentation.
+
+`get_feature_importance()` can show a live progress bar, see
+`vignette("parallel")` for examples.
 
 # Tuning hyperparameters (using the `hyperparameter` argument)
 
