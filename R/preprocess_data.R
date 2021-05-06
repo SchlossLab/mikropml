@@ -60,7 +60,6 @@ preprocess_data <- function(dataset, outcome_colname,
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
-
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 20, message = "preprocessing")
@@ -116,8 +115,9 @@ preprocess_data <- function(dataset, outcome_colname,
       pbtick(progbar)
     }
     feats_and_grps <- collapse_correlated_features(processed_feats,
-                                                   group_neg_corr,
-                                                   progbar = progbar)
+      group_neg_corr,
+      progbar = progbar
+    )
     processed_feats <- feats_and_grps$features
     grp_feats <- feats_and_grps$grp_feats
   }
