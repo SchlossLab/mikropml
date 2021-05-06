@@ -193,8 +193,9 @@
 <p>Extract and combine the performance results for all seeds and methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">results_mtx</span><span class="op">[</span><span class="st">'performance'</span>,<span class="op">]</span>, 
-                   <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span> <span class="op">%&gt;%</span> 
-                       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span><span class="op">}</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+                   <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+                     <span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span>
+                   <span class="op">}</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">perf_df2</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
@@ -226,15 +227,16 @@
 <a href="#live-progress-updates" class="anchor"></a>Live progress updates</h2>
 <p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> support reporting live progress updates using the <code>progressr</code> package. The format is up to you, but we recommend using a progress bar like this:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># optionally, specify the progress bar format with the `progress` package</span>
+<code class="sourceCode R"><span class="co"># optionally, specify the progress bar format with the `progress` package.</span>
 <span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handlers.html">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handler_progress.html">handler_progress</a></span><span class="op">(</span>
     format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,
     clear <span class="op">=</span> <span class="cn">FALSE</span>,
     show_after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># tell progressr to always report progress in any functions that uses it</span>
+<span class="co"># tell progressr to always report progress in any functions that use it.</span>
+<span class="co"># set this to FALSE to turn it back off again.</span>
 <span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handlers.html">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="co"># run your code and watch the live progress updates</span>
+<span class="co"># run your code and watch the live progress updates.</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">'dx'</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
 <span class="co">#&gt; preprocessing ========================&gt;-------  78% | elapsed:  1s | eta:  0s</span>
@@ -244,6 +246,7 @@
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span>
 <span class="co">#&gt; Feature importance =========================== 100% | elapsed: 37s | eta:  0s</span></code></pre></div>
+<p>Note that some future backends support “near-live” progress updates, meaning the progress may not be reported immediately when parallel processing with futures. Read more on that <a href="https://progressr.futureverse.org/articles/progressr-intro.html#near-live-versus-buffered-progress-updates-with-futures">in the <code>progressr</code> vignette</a>. For more on <code>progressr</code> and how to customize the format of progress updates, see the <a href="https://progressr.futureverse.org/"><code>progressr</code> docs</a>.</p>
 </div>
 <div id="parallelizing-with-snakemake" class="section level2">
 <h2 class="hasAnchor">
