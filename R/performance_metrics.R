@@ -34,7 +34,6 @@ get_outcome_type <- function(outcomes_vec) {
   } else {
     # multi-class classification
     otype <- "multiclass"
-
   }
   return(otype)
 }
