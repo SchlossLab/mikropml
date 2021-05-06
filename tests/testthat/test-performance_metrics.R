@@ -5,12 +5,13 @@ test_that("get_outcome_type works", {
   expect_equal(get_outcome_type(c("a", "b", "c")), "multiclass")
 })
 test_that('get_outcome_type errors when num_outcomes < 2', {
+  error_msg <- "A continuous, binary, or multi-class outcome variable is required, but this dataset has "
   expect_error(get_outcome_type(c(1, 1)),
-               "A continuous, binary, or multi-class outcome variable is required, but this dataset has ")
+               error_msg)
   expect_error(get_outcome_type(c('a', 'a', 'a')),
-               "A continuous, binary, or multi-class outcome variable is required, but this dataset has ")
+               error_msg)
   expect_error(get_outcome_type(c()),
-               "A continuous, binary, or multi-class outcome variable is required, but this dataset has ")
+               error_msg)
 })
 
 test_that("get_perf_metric_fn works", {
