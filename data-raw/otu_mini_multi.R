@@ -4,6 +4,8 @@ usethis::use_data(otu_mini_multi, overwrite = TRUE)
 
 set.seed(2019)
 otu_mini_multi_group <- sample(LETTERS[1:10], nrow(otu_mini_multi), replace = TRUE)
+usethis::use_data(otu_mini_multi_group, overwrite = TRUE)
+
 otu_mini_multi_results_glmnet <- mikropml::run_ml(otu_mini_multi, # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
