@@ -6,12 +6,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parallel processing • mikropml</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -102,7 +96,7 @@
 
       
 
-      </header><script src="parallel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="parallel_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Parallel processing</h1>
@@ -157,7 +151,7 @@
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span></code></pre></div>
 <p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a different random split of the data into training and testing sets. Since we are using seeds, we must set <code>future.seed</code> to <code>TRUE</code> (see the <a href="https://cran.r-project.org/web/packages/future.apply/future.apply.pdf"><code>future.apply</code> documentation</a> and <a href="https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/">this blog post</a> for details on parallel-safe random seeds). This example uses only a few seeds for speed and simplicity, but for real data we recommend using many more seeds to get a better estimate of model performance.</p>
-<p>In these examples, we used functions from the <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel, but you can accomplish the same thing with parallel versions of the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> functions using the <code>furrr</code> package (e.g. <code>furrr::future_map_dfr()</code>).</p>
+<p>In these examples, we used functions from the <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel, but you can accomplish the same thing with parallel versions of the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> functions using the <code>furrr</code> package (e.g. <code><a href="https://rdrr.io/pkg/furrr/man/future_map.html">furrr::future_map_dfr()</a></code>).</p>
 <p>Extract the performance results and combine into one dataframe for all seeds:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/future.apply/man/future_lapply.html">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>, 
@@ -199,8 +193,9 @@
 <p>Extract and combine the performance results for all seeds and methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">results_mtx</span><span class="op">[</span><span class="st">'performance'</span>,<span class="op">]</span>, 
-                   <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span> <span class="op">%&gt;%</span> 
-                       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span><span class="op">}</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+                   <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+                     <span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span>
+                   <span class="op">}</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">perf_df2</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
@@ -226,6 +221,32 @@
 <p><img src="parallel_files/figure-html/customize_plot-1.png" width="700"></p>
 <p>You can also create your own plots however you like using the performance results.</p>
 </div>
+</div>
+<div id="live-progress-updates" class="section level2">
+<h2 class="hasAnchor">
+<a href="#live-progress-updates" class="anchor"></a>Live progress updates</h2>
+<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> support reporting live progress updates using the <code>progressr</code> package. The format is up to you, but we recommend using a progress bar like this:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># optionally, specify the progress bar format with the `progress` package.</span>
+<span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handlers.html">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handler_progress.html">handler_progress</a></span><span class="op">(</span>
+    format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,
+    clear <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># tell progressr to always report progress in any functions that use it.</span>
+<span class="co"># set this to FALSE to turn it back off again.</span>
+<span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/progressr/man/handlers.html">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="co"># run your code and watch the live progress updates.</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">'dx'</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span>
+<span class="co">#&gt; Using 'dx' as the outcome column.</span>
+<span class="co">#&gt; preprocessing ========================&gt;-------  78% | elapsed:  1s | eta:  0s</span>
+<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"glmnet"</span>, kfold <span class="op">=</span> <span class="fl">2</span>, cv_times <span class="op">=</span> <span class="fl">2</span>,
+                  find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Using 'dx' as the outcome column.</span>
+<span class="co">#&gt; Training the model...</span>
+<span class="co">#&gt; Training complete.</span>
+<span class="co">#&gt; Feature importance =========================== 100% | elapsed: 37s | eta:  0s</span></code></pre></div>
+<p>Note that some future backends support “near-live” progress updates, meaning the progress may not be reported immediately when parallel processing with futures. Read more on that <a href="https://progressr.futureverse.org/articles/progressr-intro.html#near-live-versus-buffered-progress-updates-with-futures">in the <code>progressr</code> vignette</a>. For more on <code>progressr</code> and how to customize the format of progress updates, see the <a href="https://progressr.futureverse.org/"><code>progressr</code> docs</a>.</p>
 </div>
 <div id="parallelizing-with-snakemake" class="section level2">
 <h2 class="hasAnchor">

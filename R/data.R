@@ -52,3 +52,6 @@
 
 #' Results from running the pipeline with glmnet on `otu_mini_multi` for multiclass outcomes
 "otu_mini_multi_results_glmnet"
+
+#' Groups for otu_mini_multi
+"otu_mini_multi_group"
