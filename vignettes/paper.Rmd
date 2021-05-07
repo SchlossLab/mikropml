@@ -226,6 +226,9 @@ the initial development of the pipeline, made documentation improvements, and
 provided general feedback.
 We also thank Nick Lesniak for designing the mikropml logo.
 
+We thank the US Research Software Sustainability Institute (NSF #1743188) for
+providing training to KLS at the Winter School in Research Software Engineering.
+
 # Funding
 
 Salary support for PDS came from NIH grant 1R01CA215574. KLS received support
