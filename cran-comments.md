@@ -1,19 +1,16 @@
 ## Changes
 
-This release fixes several problems found by CRAN's check server:
-
-- test failure on r-patched-solaris-x86.
-- check note about unused Imports on r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, and r-release-macos-x86_64.
-- multiple test failures with r-oldrel due to `stringsAsFactors` behavior.
+This release introduces several new functions, adds new features to existing
+functions, improves the documentation, and fixes bugs. See NEWS.md for details.
 
 ## Test environments
 
 - local macOS install, R 4.0.3
-- win-builder, R devel
-- rhub debian-clang-devel
-- macOS 10.15.7 (on github-actions), R 4.0.3, devel, and oldrel
-- ubuntu 18.04.5 (on github-actions), R devel
-- windows 10.0.17763 (on github-actions), R 4.0.3, devel, and oldrel
+- win-builder, R 4.0.5
+- rhub fedora-clang-devel & ubuntu-gcc-release
+- github-actions macOS-latest, R 4.0.5, devel, and oldrel
+- github-actions ubuntu-latest, R devel
+- github-actions windows-latest, R 4.0.5, devel, and oldrel
 
 ## R CMD check results
 
