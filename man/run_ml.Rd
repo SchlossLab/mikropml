@@ -89,7 +89,7 @@ Named list with results:
 \description{
 This function runs machine learning (ML), evaluates the best model,
 and optionally calculates feature importance using the framework
-outlined in Topçuoğlu \emph{et al.} 2020 (\href{https://doi.org/10.1128/mBio.00434-20}{doi:10.1128/mBio.00434-20}).
+outlined in Topçuoğlu \emph{et al.} 2020 (\doi{10.1128/mBio.00434-20}).
 Required inputs are a dataframe with an outcome variable and other columns
 as features, as well as the ML method.
 See \code{vignette('introduction')} for more details.

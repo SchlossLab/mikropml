@@ -38,6 +38,7 @@ cv_times = 2
 
 
 test_that("train_model works", {
+  skip_on_cran() # this functionality is already tested in test-run_ml.R
   set.seed(2019)
   expect_equal(
     train_model(
