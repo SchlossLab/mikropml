@@ -215,6 +215,10 @@ We also allow for parallelization of cross-validation and other steps using the
 We thank members of the Schloss Lab who participated in code clubs related to
 the initial development of the pipeline, made documentation improvements, and
 provided general feedback.
+We also thank Nick Lesniak for designing the mikropml logo.
+
+We thank the US Research Software Sustainability Institute (NSF #1743188) for
+providing training to KLS at the Winter School in Research Software Engineering.
 
 # Funding
 
