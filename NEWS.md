@@ -1,4 +1,4 @@
-# development version 0.1.0
+# mikropml 1.0.0
 
 - mikropml now has a logo created by @NLesniak!
 - Made documentation improvements (#238, #231 @kelly-sovacool; #256 @BTopcuoglu).
@@ -11,6 +11,7 @@
 - `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JonnyTran).
 - Clarify in the intro vignette that we do not support multi-label outcomes. (#254, @zenalapp)
 - Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/HenrikBengtsson/progressr) (#257, @kelly-sovacool, @JonnyTran, @FedericoComoglio).
+- The mikropml paper is soon to be published in [JOSS](https://github.com/openjournals/joss-reviews/issues/3073)!
 
 # mikropml 0.0.2
 
