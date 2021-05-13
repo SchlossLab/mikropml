@@ -1,7 +1,9 @@
-## Changes
+## Resubmission
 
-This release introduces several new functions, adds new features to existing
-functions, improves the documentation, and fixes bugs. See NEWS.md for details.
+In this resubmission, I have updated the README file:
+
+- Added the trailing slash to http://www.schlosslab.org/mikropml/.
+- Fixed the path to the License file.
 
 ## Test environments
 
