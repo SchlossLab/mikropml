@@ -114,6 +114,12 @@ The mikropml package is licensed under [the MIT license](LICENSE.md).
 Text and images included in this repository, including the mikropml logo, 
 are licensed under the [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/).
 
+## Citation
+
+```{r cite, echo = FALSE, comment = ''}
+citation(package = 'mikropml')
+```
+
 ## Why the name?
 
 The word "mikrop" (pronounced "meek-ROPE") is Turkish for "microbe". This
