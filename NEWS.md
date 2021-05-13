@@ -11,7 +11,7 @@
 - `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JonnyTran).
 - Clarify in the intro vignette that we do not support multi-label outcomes. (#254, @zenalapp)
 - Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/HenrikBengtsson/progressr) (#257, @kelly-sovacool, @JonnyTran, @FedericoComoglio).
-- The mikropml paper is soon to be published in [JOSS](https://github.com/openjournals/joss-reviews/issues/3073)!
+- The mikropml paper is soon to be published in [JOSS](https://joss.theoj.org/papers/72bf31a3f51f8fc273ef6b99bd04ede1)!
 
 # mikropml 0.0.2
 
