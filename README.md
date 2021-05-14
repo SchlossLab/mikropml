@@ -55,7 +55,7 @@ conda install -c conda-forge r-mikropml
 -   Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics,
     randomForest, rlang, rpart, stats, utils, xgboost
 -   Suggests: doFuture, foreach, future, future.apply, ggplot2, knitr,
-    purrr, rmarkdown, testthat, tidyr
+    progress, progressr, purrr, rmarkdown, testthat, tidyr
 
 ## Usage
 
@@ -87,7 +87,8 @@ contributing to this project, you agree to abide by its terms.
 
 ## License
 
-The mikropml package is licensed under [the MIT license](LICENSE.md).
+The mikropml package is licensed under [the MIT
+license](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md).
 Text and images included in this repository, including the mikropml
 logo, are licensed under the [CC BY 4.0
 license](https://creativecommons.org/licenses/by/4.0/).
