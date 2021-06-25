@@ -62,7 +62,8 @@ flatten_corr_mat <- function(cormat) {
 #'
 #' @param features data frame with each column as a feature for ML
 #' @param corr_thresh correlation threshold (default: 1)
-#'
+#' @param corr_method correlation method. options: spearman, pearson, kendall. (default: spearman)
+#' 
 #' @return vector of correlated features where each element is a group of
 #'   correlated features separated by pipes (|)
 #' @noRd
