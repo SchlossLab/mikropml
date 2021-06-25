@@ -2,6 +2,7 @@
 #' Identify correlated features
 #'
 #' @param features Features used for machine learning.
+#' @param corr_method correlation method. options: spearman, pearson, kendall. (default: spearman)
 #' @param group_neg_corr Whether to group negatively correlated features
 #'   together (e.g. c(0,1) and c(1,0)).
 #' @inheritParams run_ml
@@ -63,7 +64,7 @@ flatten_corr_mat <- function(cormat) {
 #' @param features data frame with each column as a feature for ML
 #' @param corr_thresh correlation threshold (default: 1)
 #' @param corr_method correlation method. options: spearman, pearson, kendall. (default: spearman)
-#' 
+#'
 #' @return vector of correlated features where each element is a group of
 #'   correlated features separated by pipes (|)
 #' @noRd
