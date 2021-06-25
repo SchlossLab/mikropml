@@ -20,9 +20,9 @@
 #' colnames(mat) <- 1:ncol(mat)
 #' get_corr_feats(mat, 0.4)
 #' @importFrom dplyr .data
-get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE) {
+get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE, corr_method = "spearman") {
   corr_feats <- features %>%
-    stats::cor(method = "spearman") %>%
+    stats::cor(method = corr_method) %>%
     flatten_corr_mat()
   if (group_neg_corr) {
     corr_feats <- corr_feats %>%
@@ -70,10 +70,11 @@ flatten_corr_mat <- function(cormat) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 group_correlated_features <- function(features, corr_thresh = 1,
-                                      group_neg_corr = TRUE) {
+                                      group_neg_corr = TRUE, corr_method="spearman") {
   corr <- get_corr_feats(features,
     corr_thresh = corr_thresh,
-    group_neg_corr = group_neg_corr
+    group_neg_corr = group_neg_corr,
+    corr_method = corr_method
   )
   corr <- dplyr::select_if(corr, !(names(corr) %in% c("corr")))
 
