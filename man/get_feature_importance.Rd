@@ -16,7 +16,8 @@ get_feature_importance(
   seed = NA,
   corr_thresh = 1,
   groups = NULL,
-  nperms = 100
+  nperms = 100,
+  corr_method = "spearman"
 )
 }
 \arguments{
@@ -66,6 +67,8 @@ character (\code{|}). If this is \code{NULL} (default), correlated features will
 grouped together based on \code{corr_thresh}.}
 
 \item{nperms}{number of permutations to perform (default: \code{100}).}
+
+\item{corr_method}{correlation method. options: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
 Dataframe with performance metrics for when each feature (or group of
