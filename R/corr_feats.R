@@ -71,7 +71,7 @@ flatten_corr_mat <- function(cormat) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 group_correlated_features <- function(features, corr_thresh = 1,
-                                      group_neg_corr = TRUE, corr_method="spearman") {
+                                      group_neg_corr = TRUE, corr_method = "spearman") {
   corr <- get_corr_feats(features,
     corr_thresh = corr_thresh,
     group_neg_corr = group_neg_corr,
