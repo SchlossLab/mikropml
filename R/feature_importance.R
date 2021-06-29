@@ -6,6 +6,7 @@
 #' @param train_data Training data: dataframe of outcome and features.
 #' @inheritParams run_ml
 #' @inheritParams calc_perf_metrics
+#' @inheritParams get_corr_feats
 #' @param nperms number of permutations to perform (default: `100`).
 #' @param groups Vector of feature names to group together during permutation.
 #'   Each element should be a string with feature names separated by a pipe
@@ -67,6 +68,15 @@
 #'   multiClassSummary, "AUC",
 #'   class_probs = TRUE, method = "glmnet"
 #' )
+#'
+#' # you can specify any correlation method supported by `stats::cor`:
+#' feat_imp <- get_feature_importance(results$trained_model,
+#'   results$trained_model$trainingData, results$test_data,
+#'   "dx",
+#'   multiClassSummary, "AUC",
+#'   class_probs = TRUE, method = "glmnet",
+#'   corr_method = "pearson"
+#' )
 #' }
 #'
 #' @export
@@ -76,7 +86,7 @@ get_feature_importance <- function(trained_model, train_data, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
                                    seed = NA, corr_thresh = 1, groups = NULL,
-                                   nperms = 100) {
+                                   nperms = 100, corr_method = "spearman") {
   abort_packages_not_installed("future.apply")
 
   # get outcome and features
@@ -85,7 +95,7 @@ get_feature_importance <- function(trained_model, train_data, test_data,
   features <- split_dat$features
 
   if (is.null(groups)) {
-    groups <- group_correlated_features(features, corr_thresh)
+    groups <- group_correlated_features(features, corr_thresh, corr_method = corr_method)
   }
 
   test_perf_value <- calc_perf_metrics(

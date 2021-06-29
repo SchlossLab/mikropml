@@ -4,7 +4,12 @@
 \alias{get_corr_feats}
 \title{Identify correlated features}
 \usage{
-get_corr_feats(features, corr_thresh = 1, group_neg_corr = TRUE)
+get_corr_feats(
+  features,
+  corr_thresh = 1,
+  group_neg_corr = TRUE,
+  corr_method = "spearman"
+)
 }
 \arguments{
 \item{features}{Features used for machine learning.}
@@ -14,6 +19,8 @@ above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code
 
 \item{group_neg_corr}{Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).}
+
+\item{corr_method}{correlation method. options: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
 Dataframe of correlated features where the columns are feature1,
