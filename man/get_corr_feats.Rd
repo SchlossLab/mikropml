@@ -20,7 +20,8 @@ above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code
 \item{group_neg_corr}{Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).}
 
-\item{corr_method}{correlation method. options: spearman, pearson, kendall. (default: spearman)}
+\item{corr_method}{correlation method. options or the same as those supported
+by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
 Dataframe of correlated features where the columns are feature1,
