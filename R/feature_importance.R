@@ -68,6 +68,15 @@
 #'   multiClassSummary, "AUC",
 #'   class_probs = TRUE, method = "glmnet"
 #' )
+#'
+#' # you can specify any correlation method supported by `stats::cor`:
+#' feat_imp <- get_feature_importance(results$trained_model,
+#'   results$trained_model$trainingData, results$test_data,
+#'   "dx",
+#'   multiClassSummary, "AUC",
+#'   class_probs = TRUE, method = "glmnet",
+#'   corr_method = "pearson"
+#' )
 #' }
 #'
 #' @export

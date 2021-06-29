@@ -2,7 +2,8 @@
 #' Identify correlated features
 #'
 #' @param features Features used for machine learning.
-#' @param corr_method correlation method. options: spearman, pearson, kendall. (default: spearman)
+#' @param corr_method correlation method. options or the same as those supported
+#'   by `stats::cor`: spearman, pearson, kendall. (default: spearman)
 #' @param group_neg_corr Whether to group negatively correlated features
 #'   together (e.g. c(0,1) and c(1,0)).
 #' @inheritParams run_ml
@@ -21,7 +22,8 @@
 #' colnames(mat) <- 1:ncol(mat)
 #' get_corr_feats(mat, 0.4)
 #' @importFrom dplyr .data
-get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE, corr_method = "spearman") {
+get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
+                           corr_method = "spearman") {
   corr_feats <- features %>%
     stats::cor(method = corr_method) %>%
     flatten_corr_mat()
