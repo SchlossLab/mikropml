@@ -16,7 +16,8 @@ get_feature_importance(
   seed = NA,
   corr_thresh = 1,
   groups = NULL,
-  nperms = 100
+  nperms = 100,
+  corr_method = "spearman"
 )
 }
 \arguments{
@@ -66,6 +67,9 @@ character (\code{|}). If this is \code{NULL} (default), correlated features will
 grouped together based on \code{corr_thresh}.}
 
 \item{nperms}{number of permutations to perform (default: \code{100}).}
+
+\item{corr_method}{correlation method. options or the same as those supported
+by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
 Dataframe with performance metrics for when each feature (or group of
@@ -126,6 +130,15 @@ feat_imp <- get_feature_importance(results$trained_model,
   "dx",
   multiClassSummary, "AUC",
   class_probs = TRUE, method = "glmnet"
+)
+
+# you can specify any correlation method supported by `stats::cor`:
+feat_imp <- get_feature_importance(results$trained_model,
+  results$trained_model$trainingData, results$test_data,
+  "dx",
+  multiClassSummary, "AUC",
+  class_probs = TRUE, method = "glmnet",
+  corr_method = "pearson"
 )
 }
 
