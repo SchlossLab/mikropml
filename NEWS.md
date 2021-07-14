@@ -2,6 +2,7 @@
 
 - New correlation method option for feature importance (#267, @courtneyarmour).
     - The default is still "spearman", and now you can use other methods supported by `stats::cor` with the `corr_method` parameter: `get_feature_importance(corr_method = "pearson")`
+- There are now [video tutorials](https://youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg) covering mikropml and other skills related to machine learning, created by @pschloss.
 
 # mikropml 1.0.0
 
