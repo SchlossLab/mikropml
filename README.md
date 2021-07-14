@@ -65,6 +65,11 @@ for a quick start tutorial. For a more in-depth discussion, read [all
 the vignettes](http://www.schlosslab.org/mikropml/articles/index.html)
 and/or take a look at the [reference
 documentation](http://www.schlosslab.org/mikropml/reference/index.html).
+
+You can watch the Riffomonas Project series of [video
+tutorials](https://youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg)
+covering mikropml and other skills related to machine learning.
+
 We also provide an [example Snakemake
 workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) for
 running `mikropml` on an HPC.
