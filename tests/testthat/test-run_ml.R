@@ -21,6 +21,7 @@ expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
   )
 }
 
+
 otu_mini_group <- c(
   "B", "F", "E", "D", "A", "F", "F", "D", "E", "B", "F", "F",
   "E", "A", "B", "A", "E", "A", "D", "A", "D", "A", "C", "A", "B",
@@ -166,3 +167,4 @@ test_that("run_ml works for multiclass outcome", {
     otu_mini_multi_results_glmnet
   )
 })
+

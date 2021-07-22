@@ -46,6 +46,7 @@
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
 #' @param ntree For random forest, how many trees to use (default: 1000).
 #'   Note that caret doesn't allow this parameter to be tuned.
+#' @param ... all remaining arguments are forwarded to [caret::train()].
 #'
 #' @return
 #'
@@ -71,7 +72,8 @@
 #' )
 #' run_ml(otu_small, "rf",
 #'   outcome_colname = "dx",
-#'   find_feature_importance = TRUE
+#'   find_feature_importance = TRUE,
+#'   ntree = 500
 #' )
 #' }
 run_ml <-
@@ -88,7 +90,8 @@ run_ml <-
            groups = NULL,
            corr_thresh = 1,
            ntree = 1000,
-           seed = NA) {
+           seed = NA,
+           ...) {
     check_all(
       dataset,
       method,
@@ -166,7 +169,8 @@ run_ml <-
       cv,
       perf_metric_name,
       tune_grid,
-      ntree
+      ntree,
+      ...
     )
     message("Training complete.")
     if (!is.na(seed)) {

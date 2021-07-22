@@ -80,3 +80,44 @@ test_that("train_model works", {
     0.01
   )
 })
+
+test_that("train_model forwards additional arguments to caret::train()", {
+  skip_on_cran()
+  # adapted from https://www.r-bloggers.com/2016/12/handling-class-imbalance-with-r-and-caret-an-introduction/
+  imbal_train_data <- caret::twoClassSim(5000,
+                                    intercept = -25,
+                                    linearVars = 20,
+                                    noiseVars = 10)
+  model_weights <- ifelse(imbal_train_data$Class == "Class1",
+                          (1/table(imbal_train_data$Class)[1]) * 0.5,
+                          (1/table(imbal_train_data$Class)[2]) * 0.5)
+  model <- train_model(stats::as.formula("Class ~ ."),
+              imbal_train_data,
+              'glmnet',
+              trainControl(method = "repeatedcv",
+                           number = 10,
+                           repeats = 5,
+                           summaryFunction = twoClassSummary,
+                           classProbs = TRUE),
+              'ROC',
+              tg_lr,
+              weights = model_weights
+              )
+
+})
+
+f <- function(tune_grid, ...) {
+  model <- caret::train(
+    stats::as.formula("Class ~ ."),
+    data = imbal_train_data,
+    method = 'glmnet',
+    trControl = trainControl(method = "repeatedcv",
+                             number = 10,
+                             repeats = 5,
+                             summaryFunction = twoClassSummary,
+                             classProbs = TRUE),
+    metric = 'ROC',
+    tuneGrid = tune_grid,
+    ...
+  )
+}
