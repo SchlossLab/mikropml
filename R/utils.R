@@ -149,7 +149,10 @@ mutate_all_types <- function(dat) {
 #' dat$dx <- replace_spaces(dat$dx)
 #' dat
 replace_spaces <- function(x, new_char = "_") {
-  gsub(" ", new_char, x)
+  if (is.character(x)) {
+    x <- gsub(" ", new_char, x)
+  }
+  return(x)
 }
 
 #' Update progress if the progress bar is not `NULL`.
