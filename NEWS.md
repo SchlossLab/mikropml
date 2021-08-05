@@ -2,6 +2,7 @@
 
 - New correlation method option for feature importance (#267, @courtneyarmour).
     - The default is still "spearman", and now you can use other methods supported by `stats::cor` with the `corr_method` parameter: `get_feature_importance(corr_method = "pearson")`
+- Fixed a bug where `preprocess_data()` converted the outcome column to a character vector (#273, @kelly-sovacool, @ecmaggioncalda).
 
 # mikropml 1.0.0
 
