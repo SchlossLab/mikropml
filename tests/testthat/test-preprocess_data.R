@@ -319,8 +319,10 @@ test_that("rm_missing_outcome works", {
 
 test_that('preprocess_data preserves numeric outcomes', {
   test_df_int <- data.frame(outcome = 1:4, var1 = 1:4)
-  expect_equal(preprocess_data(test_df_int, 'outcome')$dat_transformed$outcome,
-               test_df_int$outcome)
+  expect_warning(
+    expect_equal(preprocess_data(test_df_int, 'outcome')$dat_transformed$outcome,
+               test_df_int$outcome),
+    "Data is being considered numeric, but all outcome values are integers.")
   test_df_dbl <- data.frame(outcome = c(1.1, 2.2, 3.3, 4.4), var1 = 1:4)
   expect_equal(preprocess_data(test_df_dbl, 'outcome')$dat_transformed$outcome,
                test_df_dbl$outcome)
