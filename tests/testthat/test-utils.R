@@ -71,6 +71,13 @@ test_that("replace_spaces works", {
   )
 })
 
+test_that("replace_spaces() doesn't modify non-character vectors", {
+  x <- 1:3
+  expect_equal(replace_spaces(x), x)
+  y <- c(1.1, 2.2, 3.3)
+  expect_equal(replace_spaces(y), y)
+})
+
 test_that("pbtick() updates the progress bar", {
   f <- function() {
     pb <- progressr::progressor(steps = 5)
