@@ -13,12 +13,12 @@ running machine learning, and \code{run_ml()} to run machine learning.
 \section{Authors}{
 
 \itemize{
-\item Begüm D. Topçuoğlu (\href{http://orcid.org/0000-0003-3140-537X}{ORCID})
-\item Zena Lapp (\href{http://orcid.org/0000-0003-4674-2176}{ORCID})
-\item Kelly L. Sovacool (\href{http://orcid.org/0000-0003-3283-829X}{ORCID})
-\item Evan Snitkin (\href{http://orcid.org/0000-0001-8409-278X}{ORCID})
-\item Jenna Wiens (\href{http://orcid.org/0000-0002-1057-7722}{ORCID})
-\item Patrick D. Schloss (\href{http://orcid.org/0000-0002-6935-4275}{ORCID})
+\item Begüm D. Topçuoğlu (\href{https://orcid.org/0000-0003-3140-537X}{ORCID})
+\item Zena Lapp (\href{https://orcid.org/0000-0003-4674-2176}{ORCID})
+\item Kelly L. Sovacool (\href{https://orcid.org/0000-0003-3283-829X}{ORCID})
+\item Evan Snitkin (\href{https://orcid.org/0000-0001-8409-278X}{ORCID})
+\item Jenna Wiens (\href{https://orcid.org/0000-0002-1057-7722}{ORCID})
+\item Patrick D. Schloss (\href{https://orcid.org/0000-0002-6935-4275}{ORCID})
 }
 }
 
