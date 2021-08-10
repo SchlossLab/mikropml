@@ -15,6 +15,6 @@ otu_small
 \description{
 A dataset containing relatives abundances of 60 OTUs for 60 human stool samples.
 This is a subset of the data provided in \code{extdata/otu_large.csv}, which was
-used in \href{https://mbio.asm.org/content/11/3/e00434-20}{Topçuoğlu \emph{et al.} 2020}.
+used in \href{https://journals.asm.org/doi/10.1128/mbio.00434-20}{Topçuoğlu \emph{et al.} 2020}.
 }
 \keyword{datasets}
