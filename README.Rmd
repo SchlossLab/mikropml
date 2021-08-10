@@ -91,7 +91,7 @@ look at the [reference
 documentation](http://www.schlosslab.org/mikropml/reference/index.html). 
 
 You can watch the Riffomonas Project series of 
-[video tutorials](https://youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg) 
+[video tutorials](https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg) 
 covering mikropml and other skills related to machine learning.
 
 We also
