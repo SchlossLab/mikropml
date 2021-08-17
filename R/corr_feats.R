@@ -78,6 +78,7 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
                              corr_method = "spearman") {
   corr_mat <- features %>%
     stats::cor(method = corr_method)
+  corr_mat[is.na(corr_mat)] <- 0 # switch NAs to zero
   if (group_neg_corr) {
     in_thresh <- corr_mat >= corr_thresh | corr_mat <= -corr_thresh
   } else {
@@ -109,16 +110,16 @@ group_correlated_features <- function(features, corr_thresh = 1,
                                       corr_method = corr_method
                                       )
   dist_mat <- 1 - bin_corr_mat %>% stats::as.dist()
-  tree <- stats::hclust(dist_mat, method = 'single')
-  cluster_ids <- cutree(tree, h = 0)
-  num_clusters <- max(cluster_ids)
-  feat_groups <- character(num_clusters)
-  for (feat in names(cluster_ids)) {
+  # get single linkage clusters at height zero
+  cluster_ids <- cutree(stats::hclust(dist_mat, method = 'single'), h = 0)
+
+  feat_groups <- character(length = max(cluster_ids))
+  for (feat in names(cluster_ids)) { # assign each feature to its group/cluster
     cluster_id <- cluster_ids[[feat]]
     current_cluster <- feat_groups[cluster_id]
     if (nchar(current_cluster) > 0) {
       new_cluster <- paste(c(current_cluster, feat), collapse = '|')
-    } else {
+    } else { # no need for paste if the current cluster has nothing in it
       new_cluster <- feat
     }
     feat_groups[cluster_id] <- new_cluster
