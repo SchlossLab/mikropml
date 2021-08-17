@@ -112,7 +112,7 @@ group_correlated_features <- function(features, corr_thresh = 1,
   tree <- stats::hclust(dist_mat, method = 'single')
   cluster_ids <- cutree(tree, h = 0)
   num_clusters <- max(cluster_ids)
-  feat_groups <- character(3L)
+  feat_groups <- character(num_clusters)
   for (feat in names(cluster_ids)) {
     cluster_id <- cluster_ids[[feat]]
     current_cluster <- feat_groups[cluster_id]

@@ -64,26 +64,30 @@ test_that("get_corr_feats works", {
 
 test_that("group_correlated_features works", {
   expect_equal(
-    sort(group_correlated_features(data.frame(a = 1:3, b = 2:4, c = c(1, 0, 1)))),
-    c("b|a", "c")
+    group_correlated_features(data.frame(a = 1:3, b = 2:4, c = c(1, 0, 1))),
+    c("a|b", "c")
   )
   expect_equal(
-    sort(group_correlated_features(data.frame(a = 1:3, b = c(3, 1, 2)))),
+    group_correlated_features(data.frame(a = 1:3, b = c(3, 1, 2))),
     c("a", "b")
   )
   expect_equal(
-    sort(group_correlated_features(data.frame(
+    group_correlated_features(data.frame(
       a = c(1, 0, 0),
       b = c(3, 2, 4),
-      c = c(1, 3, 4)
-    ),
+      c = c(1, 3, 4)),
     corr_thresh = 0.9,
     corr_method = "pearson"
-    )),
-    c("b", "c|a")
+    ),
+    c("a|c", "b")
   )
 
-  corr <- dplyr::tibble(feature1 = c(character()), feature2 = character())
-  feature <- dplyr::tibble()
-  expect_equal(group_correlated_features(feature), list())
+  features <- dplyr::tibble(a = 1:3, b = 2:4, c = c(1,0,1),
+                          d = (5:7), e = c(5,1,4), f = c(-1,0,-1))
+  expect_equal(group_correlated_features(features),
+               c('a|b|d', 'c|f', 'e'))
+
+  expect_error(group_correlated_features(dplyr::tibble()),
+               "missing value where TRUE/FALSE needed")
+
 })
