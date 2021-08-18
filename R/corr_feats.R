@@ -94,8 +94,8 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #'
 #' @inheritParams run_ml
 #' @inheritParams get_corr_feats
-#' @return vector of where each element is a group of
-#'   correlated features separated by pipes (`|`)
+#' @return vector where each element is a group of correlated features
+#'   separated by pipes (`|`)
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @examples
@@ -114,7 +114,7 @@ group_correlated_features <- function(features, corr_thresh = 1,
   cluster_ids <- cutree(stats::hclust(dist_mat, method = 'single'), h = 0)
 
   feat_groups <- character(length = max(cluster_ids))
-  for (feat in names(cluster_ids)) { # assign each feature to its group/cluster
+  for (feat in sort(names(cluster_ids))) { # assign each feature to its group/cluster
     cluster_id <- cluster_ids[[feat]]
     current_cluster <- feat_groups[cluster_id]
     if (nchar(current_cluster) > 0) {
@@ -124,5 +124,5 @@ group_correlated_features <- function(features, corr_thresh = 1,
     }
     feat_groups[cluster_id] <- new_cluster
   }
-  return(feat_groups)
+  return(sort(feat_groups))
 }

@@ -91,3 +91,11 @@ test_that("group_correlated_features works", {
                "missing value where TRUE/FALSE needed")
 
 })
+test_that('groups are the same even when column order changes', {
+  feats1 <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
+                       d = (5:7), e = c(5,1,4), f = c(-1,0,-1))
+  feats2 <- data.frame(a = 1:3, d = (5:7), e = c(5,1,4),
+                       b = 2:4, c = c(1,0,1), f = c(-1,0,-1))
+  expect_equal(group_correlated_features(feats1),
+               group_correlated_features(feats2))
+})
