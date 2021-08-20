@@ -9,9 +9,9 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 
 <!-- badges: start -->
 
-[![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amaster)
-[![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/master/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikropml)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md)
+[![check](https://github.com/SchlossLab/mikropml/workflows/check/badge.svg)](https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amain)
+[![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/main/graph/badge.svg)](https://codecov.io/gh/SchlossLab/mikropml)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md)
 [![CRAN](https://img.shields.io/cran/v/mikropml?color=blue&label=CRAN&logo=R)](https://CRAN.R-project.org/package=mikropml)
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/mikropml)
@@ -93,7 +93,7 @@ contributing to this project, you agree to abide by its terms.
 ## License
 
 The mikropml package is licensed under [the MIT
-license](https://github.com/SchlossLab/mikropml/blob/master/LICENSE.md).
+license](https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md).
 Text and images included in this repository, including the mikropml
 logo, are licensed under the [CC BY 4.0
 license](https://creativecommons.org/licenses/by/4.0/).
@@ -103,17 +103,23 @@ license](https://creativecommons.org/licenses/by/4.0/).
 
     To cite mikRopML in publications, use:
 
-      Topçuoğlu et al. (2020). mikropml: User-Friendly R Package for
-      Supervised Machine Learning Pipelines.
-      http://www.schlosslab.org/mikropml/
+      Topçuoğlu et al., (2021). mikropml: User-Friendly R Package for
+      Supervised Machine Learning Pipelines. Journal of Open Source
+      Software, 6(61), 3073, https://doi.org/10.21105/joss.03073
 
     A BibTeX entry for LaTeX users is
 
-      @Manual{,
+      @Article{,
         title = {{mikropml}: User-Friendly R Package for Supervised Machine Learning Pipelines},
         author = {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},
-        year = {2020},
-        url = {http://www.schlosslab.org/mikropml/},
+        journal = {Journal of Open Source Software},
+        year = {2021},
+        month = {May},
+        volume = {6},
+        number = {61},
+        pages = {3073},
+        doi = {10.21105/joss.03073},
+        url = {https://joss.theoj.org/papers/10.21105/joss.03073},
       }
 
 ## Why the name?
