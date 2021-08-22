@@ -18,7 +18,7 @@ test_df <- data.frame(
 )
 
 test_that("preprocess_data works", {
-  expect_equal(
+  expect_equal( # TODO: fix this test
     expect_message(
       preprocess_data(test_df, "outcome",
         prefilter_threshold = -1
@@ -34,7 +34,7 @@ test_that("preprocess_data works", {
 "var2_a"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
     removed_feats = c("var5", "var6", "var11"))
   )
-  expect_equal(
+  expect_equal(  # TODO: fix this test
     expect_message(preprocess_data(test_df, "outcome",
       prefilter_threshold = -1,
       group_neg_corr = FALSE
@@ -93,7 +93,7 @@ test_that("preprocess_data works", {
       removed_feats = character(0)
     )
   )
-  expect_equal(
+  expect_equal(  # TODO: fix this test
     expect_message(preprocess_data(test_df[1:3, ], "outcome",
       method = NULL,
       prefilter_threshold = -1
@@ -109,7 +109,7 @@ test_that("preprocess_data works", {
   )
   expect_error(preprocess_data(test_df[1:3, c("outcome", "var5")], "outcome"),
                "All features have zero variance")
-  expect_equal(
+  expect_equal(  # TODO: fix this test
     expect_message(preprocess_data(test_df[1:3, ],
       "outcome",
       method = c("range"),
@@ -124,7 +124,7 @@ test_that("preprocess_data works", {
     ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
     removed_feats = c("var5", "var6", "var11"))
   )
-  expect_equal(
+  expect_equal(  # TODO: fix this test
     expect_message(preprocess_data(test_df[1:3, ],
       "outcome",
       remove_var = "zv",
@@ -139,7 +139,7 @@ test_that("preprocess_data works", {
 "var2_a"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
     removed_feats = c("var5", "var6", "var11"))
   )
-  expect_equal(
+  expect_equal(  # TODO: fix this test
     expect_message(
       preprocess_data(test_df[1:3, ], "outcome",
                       remove_var = NULL, prefilter_threshold = -1),
