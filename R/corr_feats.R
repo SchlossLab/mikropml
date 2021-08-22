@@ -1,3 +1,25 @@
+#' Group correlated features
+#'
+#' @inheritParams run_ml
+#' @inheritParams get_corr_feats
+#' @return vector where each element is a group of correlated features
+#'   separated by pipes (`|`)
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @examples
+#' features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
+#'                        d = (5:7), e = c(5,1,4), f = c(-1,0,-1))
+#' group_correlated_features(features)
+group_correlated_features <- function(features, corr_thresh = 1,
+                                      group_neg_corr = TRUE, corr_method = "spearman") {
+  bin_corr_mat <- get_binary_corr_mat(features,
+                                      corr_thresh = corr_thresh,
+                                      group_neg_corr = group_neg_corr,
+                                      corr_method = corr_method)
+  # get single linkage clusters at height zero
+  cluster_ids <- cluster_corr_mat(bin_corr_mat)
+  return(get_groups_from_clusters(cluster_ids))
+}
 
 #' Identify correlated features
 #'
@@ -67,7 +89,8 @@ flatten_corr_mat <- function(cormat) {
 #' @inheritParams get_corr_feats
 #'
 #' @return A binary matrix of correlated features
-#' @export
+#'
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -90,31 +113,54 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
   return(bin_mat)
 }
 
-#' Group correlated features
+#' Cluster a matrix of correlated features
 #'
-#' @inheritParams run_ml
-#' @inheritParams get_corr_feats
-#' @return vector where each element is a group of correlated features
-#'   separated by pipes (`|`)
+#' @param bin_corr_mat
+#' @param hclust_method
+#' @param cut_height
+#'
+#' @return a named vector from `stats::cutree()`. Each element is a cluster and
+#'   the name is a feature in that cluster.
+#'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
 #' @examples
-#' features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
-#'                        d = (5:7), e = c(5,1,4), f = c(-1,0,-1))
-#' group_correlated_features(features)
-group_correlated_features <- function(features, corr_thresh = 1,
-                                      group_neg_corr = TRUE, corr_method = "spearman") {
-  bin_corr_mat <- get_binary_corr_mat(features,
-                                      corr_thresh = corr_thresh,
-                                      group_neg_corr = group_neg_corr,
-                                      corr_method = corr_method
-                                      )
+#' corr_mat <- matrix(data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
+#'                    nrow = 4,
+#'                    dimnames = list(c("a", "b", "c", "d"),
+#'                                    c("a", "b", "c", "d"))
+#'                    )
+#' corr_mat
+#' cluster_corr_mat(corr_mat)
+cluster_corr_mat <- function(bin_corr_mat,
+                             hclust_method = 'single',
+                             cut_height = 0) {
   dist_mat <- 1 - bin_corr_mat %>% stats::as.dist()
-  # get single linkage clusters at height zero
-  cluster_ids <- stats::cutree(stats::hclust(dist_mat,
-                                             method = 'single'),
-                               h = 0)
+  return(stats::cutree(stats::hclust(dist_mat,
+                                     method = hclust_method),
+                       h = cut_height))
+}
 
+#' Assign features to groups
+#'
+#' @param cluster_ids named vector created by `cluster_corr_mat()`.
+#'   Each element is a cluster and the name is a feature in that cluster.
+#' @return a vector where each element is a group of correlated features
+#'   separated by pipes (`|`)
+#'
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' corr_mat <- matrix(data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
+#'                    nrow = 4,
+#'                    dimnames = list(c("a", "b", "c", "d"),
+#'                                    c("a", "b", "c", "d"))
+#'                    )
+#' corr_mat
+#' get_groups_from_clusters(cluster_corr_mat(corr_mat))
+get_groups_from_clusters <- function(cluster_ids) {
   feat_groups <- character(length = max(cluster_ids))
   for (feat in sort(names(cluster_ids))) { # assign each feature to its group/cluster
     cluster_id <- cluster_ids[[feat]]
