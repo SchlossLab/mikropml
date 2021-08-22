@@ -111,7 +111,9 @@ group_correlated_features <- function(features, corr_thresh = 1,
                                       )
   dist_mat <- 1 - bin_corr_mat %>% stats::as.dist()
   # get single linkage clusters at height zero
-  cluster_ids <- cutree(stats::hclust(dist_mat, method = 'single'), h = 0)
+  cluster_ids <- stats::cutree(stats::hclust(dist_mat,
+                                             method = 'single'),
+                               h = 0)
 
   feat_groups <- character(length = max(cluster_ids))
   for (feat in sort(names(cluster_ids))) { # assign each feature to its group/cluster
