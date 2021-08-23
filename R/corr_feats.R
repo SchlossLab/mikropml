@@ -21,68 +21,6 @@ group_correlated_features <- function(features, corr_thresh = 1,
   return(get_groups_from_clusters(cluster_ids))
 }
 
-#' Identify correlated features
-#'
-#' @param features a dataframe with each column as a feature for ML
-#' @param corr_method correlation method. options or the same as those supported
-#'   by `stats::cor`: spearman, pearson, kendall. (default: spearman)
-#' @param group_neg_corr Whether to group negatively correlated features
-#'   together (e.g. c(0,1) and c(1,0)).
-#' @inheritParams run_ml
-#'
-#' @return Dataframe of correlated features where the columns are feature1,
-#'   feature2, and the correlation between those two features
-#'   (anything exceeding corr_thresh).
-#' @export
-#' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-#' @examples
-#' set.seed(0)
-#' mat <- matrix(runif(100), nrow = 20)
-#' rownames(mat) <- 1:nrow(mat)
-#' colnames(mat) <- 1:ncol(mat)
-#' get_corr_feats(mat, 0.4)
-#' @importFrom dplyr .data
-get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
-                           corr_method = "spearman") {
-  corr_feats <- features %>%
-    stats::cor(method = corr_method) %>%
-    flatten_corr_mat()
-  if (group_neg_corr) {
-    corr_feats <- corr_feats %>%
-      dplyr::filter(.data$corr >= corr_thresh | .data$corr <= -corr_thresh)
-  } else {
-    corr_feats <- corr_feats %>%
-      dplyr::filter(.data$corr >= corr_thresh)
-  }
-  return(corr_feats)
-}
-
-#' Flatten correlation matrix to pairs
-#'
-#' @param cormat correlation matrix computed with stats::cor
-#'
-#' @return flattened correlation matrix (pairs of features their correlation)
-#' @noRd
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
-#'
-#' @examples
-#' set.seed(0)
-#' mat <- matrix(runif(100), nrow = 20)
-#' rownames(mat) <- 1:nrow(mat)
-#' colnames(mat) <- 1:ncol(mat)
-#' corr_mat <- stats::cor(mat, method = "spearman")
-#' flatten_corr_mat(corr_mat)
-flatten_corr_mat <- function(cormat) {
-  ut <- upper.tri(cormat)
-  return(data.frame(
-    feature1 = rownames(cormat)[row(cormat)[ut]],
-    feature2 = rownames(cormat)[col(cormat)[ut]],
-    corr = cormat[ut]
-  ))
-}
-
 #' Identify correlated features as a binary matrix
 #'
 #' @inheritParams run_ml
@@ -96,7 +34,7 @@ flatten_corr_mat <- function(cormat) {
 #' @examples
 #' features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
 #'                        d = (5:7), e = c(5,1,4))
-#' get_bin_corr_mat(features)
+#' get_binary_corr_mat(features)
 get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
                              corr_method = "spearman") {
   corr_mat <- features %>%
@@ -137,9 +75,12 @@ cluster_corr_mat <- function(bin_corr_mat,
                              hclust_method = 'single',
                              cut_height = 0) {
   dist_mat <- 1 - bin_corr_mat %>% stats::as.dist()
+  if (identical(dist_mat, numeric(0))) {
+    stop("The correlation matrix contains nothing. Hint: is the features data frame empty?")
+  }
   return(stats::cutree(stats::hclust(dist_mat,
                                      method = hclust_method),
-                       h = cut_height))
+                              h = cut_height))
 }
 
 #' Assign features to groups
@@ -173,4 +114,69 @@ get_groups_from_clusters <- function(cluster_ids) {
     feat_groups[cluster_id] <- new_cluster
   }
   return(sort(feat_groups))
+}
+
+
+#' Identify correlated features
+#'
+#' @param features a dataframe with each column as a feature for ML
+#' @param corr_method correlation method. options or the same as those supported
+#'   by `stats::cor`: spearman, pearson, kendall. (default: spearman)
+#' @param group_neg_corr Whether to group negatively correlated features
+#'   together (e.g. c(0,1) and c(1,0)).
+#' @inheritParams run_ml
+#'
+#' @return Dataframe of correlated features where the columns are feature1,
+#'   feature2, and the correlation between those two features
+#'   (anything exceeding corr_thresh).
+#' @export
+#' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' set.seed(0)
+#' mat <- matrix(runif(100), nrow = 20)
+#' rownames(mat) <- 1:nrow(mat)
+#' colnames(mat) <- 1:ncol(mat)
+#' get_corr_feats(mat, 0.4)
+#' @importFrom dplyr .data
+get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
+                           corr_method = "spearman") {
+  .Deprecated("get_binary_corr_mat")
+  corr_feats <- features %>%
+    stats::cor(method = corr_method) %>%
+    flatten_corr_mat()
+  if (group_neg_corr) {
+    corr_feats <- corr_feats %>%
+      dplyr::filter(.data$corr >= corr_thresh | .data$corr <= -corr_thresh)
+  } else {
+    corr_feats <- corr_feats %>%
+      dplyr::filter(.data$corr >= corr_thresh)
+  }
+  return(corr_feats)
+}
+
+#' Flatten correlation matrix to pairs
+#'
+#' @param cormat correlation matrix computed with stats::cor
+#'
+#' @return flattened correlation matrix (pairs of features their correlation)
+#' @noRd
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#'
+#' @examples
+#' set.seed(0)
+#' mat <- matrix(runif(100), nrow = 20)
+#' rownames(mat) <- 1:nrow(mat)
+#' colnames(mat) <- 1:ncol(mat)
+#' corr_mat <- stats::cor(mat, method = "spearman")
+#' flatten_corr_mat(corr_mat)
+flatten_corr_mat <- function(cormat) {
+  .Deprecated("get_binary_corr_mat")
+  ut <- upper.tri(cormat)
+  return(data.frame(
+    feature1 = rownames(cormat)[row(cormat)[ut]],
+    feature2 = rownames(cormat)[col(cormat)[ut]],
+    corr = cormat[ut]
+  ))
 }
