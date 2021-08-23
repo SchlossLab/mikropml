@@ -1,6 +1,7 @@
 # development version 
 
 - Fixed bugs related to grouping correlated features (#276, @kelly-sovacool).
+    - Also, `group_correlated_features()` is now a user-facing function.
 
 # mikropml 1.1.0
 
