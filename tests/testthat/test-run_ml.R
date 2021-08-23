@@ -58,7 +58,7 @@ test_that("run_ml works for logistic regression", {
 
 test_that("run_ml works for linear regression", {
   skip_on_cran()
-  expect_equal_ml_results( # TODO fix
+  expect_equal_ml_results(
     expect_message(expect_warning(run_ml(otu_mini_bin[, 2:11], # use built-in hyperparameters
       "glmnet",
       outcome_colname = "Otu00001",
