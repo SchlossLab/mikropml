@@ -62,6 +62,7 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Pat Schloss, \email{pschloss@@umich.edu}
 #'
 #' @examples
 #' corr_mat <- matrix(data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
