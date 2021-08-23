@@ -68,5 +68,5 @@ reference:
   - train_model
   - calc_perf_metrics
   - get_performance_tbl
-  - get_corr_feats
   - get_feature_importance
+  - group_correlated_features

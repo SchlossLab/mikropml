@@ -1,5 +1,7 @@
 # development version 
 
+- Fixed bugs related to grouping correlated features (#276, @kelly-sovacool).
+
 # mikropml 1.1.0
 
 - New correlation method option for feature importance (#267, @courtneyarmour).
