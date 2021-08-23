@@ -13,15 +13,18 @@
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @examples
-#' features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
-#'                        d = (5:7), e = c(5,1,4), f = c(-1,0,-1))
+#' features <- data.frame(
+#'   a = 1:3, b = 2:4, c = c(1, 0, 1),
+#'   d = (5:7), e = c(5, 1, 4), f = c(-1, 0, -1)
+#' )
 #' group_correlated_features(features)
 group_correlated_features <- function(features, corr_thresh = 1,
                                       group_neg_corr = TRUE, corr_method = "spearman") {
   bin_corr_mat <- get_binary_corr_mat(features,
-                                      corr_thresh = corr_thresh,
-                                      group_neg_corr = group_neg_corr,
-                                      corr_method = corr_method)
+    corr_thresh = corr_thresh,
+    group_neg_corr = group_neg_corr,
+    corr_method = corr_method
+  )
   # get single linkage clusters at height zero
   cluster_ids <- cluster_corr_mat(bin_corr_mat)
   return(get_groups_from_clusters(cluster_ids))
@@ -38,11 +41,13 @@ group_correlated_features <- function(features, corr_thresh = 1,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
-#'                        d = (5:7), e = c(5,1,4))
+#' features <- data.frame(
+#'   a = 1:3, b = 2:4, c = c(1, 0, 1),
+#'   d = (5:7), e = c(5, 1, 4)
+#' )
 #' get_binary_corr_mat(features)
 get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
-                             corr_method = "spearman") {
+                                corr_method = "spearman") {
   corr_mat <- features %>%
     stats::cor(method = corr_method)
   corr_mat[is.na(corr_mat)] <- 0 # switch NAs to zero
@@ -71,23 +76,28 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #' @author Pat Schloss, \email{pschloss@@umich.edu}
 #'
 #' @examples
-#' corr_mat <- matrix(data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
-#'                    nrow = 4,
-#'                    dimnames = list(c("a", "b", "c", "d"),
-#'                                    c("a", "b", "c", "d"))
-#'                    )
+#' corr_mat <- matrix(
+#'   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
+#'   nrow = 4,
+#'   dimnames = list(
+#'     c("a", "b", "c", "d"),
+#'     c("a", "b", "c", "d")
+#'   )
+#' )
 #' corr_mat
 #' cluster_corr_mat(corr_mat)
 cluster_corr_mat <- function(bin_corr_mat,
-                             hclust_method = 'single',
+                             hclust_method = "single",
                              cut_height = 0) {
   dist_mat <- 1 - bin_corr_mat %>% stats::as.dist()
   if (identical(dist_mat, numeric(0))) {
     stop("The correlation matrix contains nothing. Hint: is the features data frame empty?")
   }
   return(stats::cutree(stats::hclust(dist_mat,
-                                     method = hclust_method),
-                              h = cut_height))
+    method = hclust_method
+  ),
+  h = cut_height
+  ))
 }
 
 #' Assign features to groups
@@ -101,11 +111,14 @@ cluster_corr_mat <- function(bin_corr_mat,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' corr_mat <- matrix(data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
-#'                    nrow = 4,
-#'                    dimnames = list(c("a", "b", "c", "d"),
-#'                                    c("a", "b", "c", "d"))
-#'                    )
+#' corr_mat <- matrix(
+#'   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
+#'   nrow = 4,
+#'   dimnames = list(
+#'     c("a", "b", "c", "d"),
+#'     c("a", "b", "c", "d")
+#'   )
+#' )
 #' corr_mat
 #' get_groups_from_clusters(cluster_corr_mat(corr_mat))
 get_groups_from_clusters <- function(cluster_ids) {
@@ -114,7 +127,7 @@ get_groups_from_clusters <- function(cluster_ids) {
     cluster_id <- cluster_ids[[feat]]
     current_cluster <- feat_groups[cluster_id]
     if (nchar(current_cluster) > 0) {
-      new_cluster <- paste(c(current_cluster, feat), collapse = '|')
+      new_cluster <- paste(c(current_cluster, feat), collapse = "|")
     } else { # no need for paste if the current cluster has nothing in it
       new_cluster <- feat
     }
