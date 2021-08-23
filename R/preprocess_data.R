@@ -16,7 +16,7 @@
 #'   this step. This step will also be skipped if `to_numeric` is set to
 #'   `FALSE`.
 #' @inheritParams run_ml
-#' @inheritParams get_corr_feats
+#' @inheritParams group_correlated_features
 #'
 #'
 #' @return
@@ -465,7 +465,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 
 #' Collapse correlated features
 #' @inheritParams process_novar_feats
-#' @inheritParams get_corr_feats
+#' @inheritParams group_correlated_features
 #'
 #' @return features where perfectly correlated ones are collapsed
 #' @noRd

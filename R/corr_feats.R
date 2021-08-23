@@ -1,10 +1,16 @@
 #' Group correlated features
 #'
 #' @inheritParams run_ml
-#' @inheritParams get_corr_feats
+#' @param features a dataframe with each column as a feature for ML
+#' @param corr_method correlation method. options or the same as those supported
+#'   by `stats::cor`: spearman, pearson, kendall. (default: spearman)
+#' @param group_neg_corr Whether to group negatively correlated features
+#'   together (e.g. c(0,1) and c(1,0)).
+#'
 #' @return vector where each element is a group of correlated features
 #'   separated by pipes (`|`)
-#' @noRd
+#'
+#' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @examples
 #' features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
@@ -24,7 +30,7 @@ group_correlated_features <- function(features, corr_thresh = 1,
 #' Identify correlated features as a binary matrix
 #'
 #' @inheritParams run_ml
-#' @inheritParams get_corr_feats
+#' @inheritParams group_correlated_features
 #'
 #' @return A binary matrix of correlated features
 #'
@@ -130,16 +136,10 @@ get_groups_from_clusters <- function(cluster_ids) {
 #' @return Dataframe of correlated features where the columns are feature1,
 #'   feature2, and the correlation between those two features
 #'   (anything exceeding corr_thresh).
-#' @export
+#' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples
-#' set.seed(0)
-#' mat <- matrix(runif(100), nrow = 20)
-#' rownames(mat) <- 1:nrow(mat)
-#' colnames(mat) <- 1:ncol(mat)
-#' get_corr_feats(mat, 0.4)
 #' @importFrom dplyr .data
 get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
                            corr_method = "spearman") {
@@ -165,13 +165,6 @@ get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
 #' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
-#' @examples
-#' set.seed(0)
-#' mat <- matrix(runif(100), nrow = 20)
-#' rownames(mat) <- 1:nrow(mat)
-#' colnames(mat) <- 1:ncol(mat)
-#' corr_mat <- stats::cor(mat, method = "spearman")
-#' flatten_corr_mat(corr_mat)
 flatten_corr_mat <- function(cormat) {
   .Deprecated("get_binary_corr_mat")
   ut <- upper.tri(cormat)
