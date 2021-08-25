@@ -194,7 +194,7 @@ pbtick <- function(pb, message = NULL) {
 
 #' Call `sort()` with `method = 'radix'`
 #'
-#' THE FUCKING STUPID BASE SORT FUNCTION USES A DIFFERENT METHOD DEPENDING ON YOUR LOCALE.
+#' THE BASE SORT FUNCTION USES A DIFFERENT METHOD DEPENDING ON YOUR LOCALE.
 #' However, the order for the radix method is always stable.
 #'
 #' see https://stackoverflow.com/questions/42272119/r-cmd-check-fails-devtoolstest-works-fine
