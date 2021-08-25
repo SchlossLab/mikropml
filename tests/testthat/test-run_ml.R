@@ -72,7 +72,7 @@ test_that("run_ml works for linear regression", {
 
 test_that("run_ml works for random forest with grouping & feature importance", {
   skip_on_cran()
-  expect_equal_ml_results( # use built-in hyperparams function
+  expect_equal_ml_results(
     mikropml::run_ml(otu_mini_bin,
       "rf",
       outcome_colname = "dx",
@@ -155,14 +155,17 @@ test_that("run_ml errors if outcome_colname not in dataframe", {
 test_that("run_ml works for multiclass outcome", {
   skip_on_cran()
   expect_equal_ml_results(
-    expect_warning(expect_message(run_ml(otu_mini_multi, # use built-in hyperparameters
-      "glmnet",
-      outcome_colname = "dx",
-      find_feature_importance = TRUE,
-      seed = 2019,
-      cv_times = 2,
-      group = otu_mini_multi_group
-    ), "Using 'dx' as the outcome column"), "`caret::train\\(\\)` issued the following warning:"),
+    expect_warning(
+      expect_message(run_ml(otu_mini_multi, # use built-in hyperparameters
+        "glmnet",
+        outcome_colname = "dx",
+        find_feature_importance = TRUE,
+        seed = 2019,
+        cv_times = 2,
+        group = otu_mini_multi_group
+      ), "Using 'dx' as the outcome column"),
+      "`caret::train\\(\\)` issued the following warning:"
+    ),
     otu_mini_multi_results_glmnet
   )
 })
