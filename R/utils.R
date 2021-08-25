@@ -208,5 +208,5 @@ pbtick <- function(pb, message = NULL) {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 radix_sort <- function(...) {
-  return(sort(..., method = 'radix'))
+  return(sort(..., method = "radix"))
 }
