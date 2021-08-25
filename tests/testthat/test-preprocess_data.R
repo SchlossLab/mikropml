@@ -25,47 +25,29 @@ test_that("preprocess_data works", {
       ),
       "Removed "
     ),
-    list(
-      dat_transformed = structure(list(outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(
-        1,
-        0, 0
-      ), grp4 = c(0, 0, 1), var8 = c(
-        -0.707106781186547, 0.707106781186547,
-        0
-      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c("var1", "var12"), grp2 = c(
-        "var10_0",
-        "var2_b", "var3_yes", "var4_1", "var9_x"
-      ), grp3 = c(
-        "var10_1",
-        "var2_a"
-      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
-      removed_feats = c("var5", "var6", "var11")
-    )
+    list(dat_transformed = structure(list(outcome = c("normal", "normal",
+"cancer"), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(-1,
+0, 1), grp4 = c(0, 0, 1), var8 = c(-0.707106781186547, 0.707106781186547,
+0)), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame"
+)), grp_feats = list(grp1 = c("var10_0", "var2_b", "var3_yes",
+"var4_1", "var9_x"), grp2 = c("var10_1", "var2_a"), grp3 = c("var1",
+"var12"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+    removed_feats = c("var5", "var6", "var11"))
   )
   expect_equal(
     expect_message(preprocess_data(test_df, "outcome",
       prefilter_threshold = -1,
       group_neg_corr = FALSE
     )),
-    list(dat_transformed = structure(list(outcome = c(
-      "normal", "normal",
-      "cancer"
-    ), grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(
-      1,
-      0, 0
-    ), grp4 = c(0, 0, 1), var7_1 = c(1, 1, 0), var8 = c(
-      -0.707106781186547,
-      0.707106781186547, 0
-    )), row.names = c(NA, -3L), class = c(
-      "tbl_df",
-      "tbl", "data.frame"
-    )), grp_feats = list(grp1 = c("var1", "var12"), grp2 = c("var10_0", "var2_b", "var3_yes", "var4_1", "var9_x"), grp3 = c("var10_1", "var2_a"), grp4 = c("var2_c", "var9_y"), var7_1 = "var7_1", var8 = "var8"), removed_feats = c(
-      "var5",
-      "var6", "var11"
-    ))
+    list(dat_transformed = structure(list(outcome = c("normal", "normal",
+"cancer"), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(-1,
+0, 1), grp4 = c(0, 0, 1), var7_1 = c(1, 1, 0), var8 = c(-0.707106781186547,
+0.707106781186547, 0)), row.names = c(NA, -3L), class = c("tbl_df",
+"tbl", "data.frame")), grp_feats = list(grp1 = c("var10_0", "var2_b",
+"var3_yes", "var4_1", "var9_x"), grp2 = c("var10_1", "var2_a"
+), grp3 = c("var1", "var12"), grp4 = c("var2_c", "var9_y"), var7_1 = "var7_1",
+    var8 = "var8"), removed_feats = c("var5", "var6", "var11"
+))
   )
   expect_equal(
     preprocess_data(test_df[1:3, c("outcome", "var1")], "outcome"),
@@ -120,24 +102,14 @@ test_that("preprocess_data works", {
       method = NULL,
       prefilter_threshold = -1
     )),
-    list(
-      dat_transformed = structure(list(outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), grp1 = c(1, 2, 3), grp2 = c(0, 1, 0), grp3 = c(
-        1,
-        0, 0
-      ), grp4 = c(0, 0, 1), var8 = c(5, 6, 5.5)), row.names = c(
-        NA,
-        -3L
-      ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
-        grp1 = c("var1", "var12"), grp2 = c(
-          "var10_0", "var2_b",
-          "var3_yes", "var4_1", "var9_x"
-        ), grp3 = c("var10_1", "var2_a"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"
-      ),
-      removed_feats = c("var5", "var6", "var11")
-    )
+    list(dat_transformed = structure(list(outcome = c("normal", "normal",
+"cancer"), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(1,
+2, 3), grp4 = c(0, 0, 1), var8 = c(5, 6, 5.5)), row.names = c(NA,
+-3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
+    grp1 = c("var10_0", "var2_b", "var3_yes", "var4_1", "var9_x"
+    ), grp2 = c("var10_1", "var2_a"), grp3 = c("var1", "var12"
+    ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+    removed_feats = c("var5", "var6", "var11"))
   )
   expect_error(
     preprocess_data(test_df[1:3, c("outcome", "var5")], "outcome"),
@@ -149,24 +121,14 @@ test_that("preprocess_data works", {
       method = c("range"),
       prefilter_threshold = -1
     )),
-    list(
-      dat_transformed = structure(list(outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), grp1 = c(0, 0.5, 1), grp2 = c(0, 1, 0), grp3 = c(
-        1,
-        0, 0
-      ), grp4 = c(0, 0, 1), var8 = c(0, 1, 0.5)), row.names = c(
-        NA,
-        -3L
-      ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
-        grp1 = c("var1", "var12"), grp2 = c(
-          "var10_0", "var2_b",
-          "var3_yes", "var4_1", "var9_x"
-        ), grp3 = c("var10_1", "var2_a"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"
-      ),
-      removed_feats = c("var5", "var6", "var11")
-    )
+    list(dat_transformed = structure(list(outcome = c("normal", "normal",
+"cancer"), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(0,
+0.5, 1), grp4 = c(0, 0, 1), var8 = c(0, 1, 0.5)), row.names = c(NA,
+-3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
+    grp1 = c("var10_0", "var2_b", "var3_yes", "var4_1", "var9_x"
+    ), grp2 = c("var10_1", "var2_a"), grp3 = c("var1", "var12"
+    ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+    removed_feats = c("var5", "var6", "var11"))
   )
   expect_equal(
     expect_message(preprocess_data(test_df[1:3, ],
@@ -174,25 +136,14 @@ test_that("preprocess_data works", {
       remove_var = "zv",
       prefilter_threshold = -1
     )),
-    list(
-      dat_transformed = structure(list(outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(
-        1,
-        0, 0
-      ), grp4 = c(0, 0, 1), var8 = c(
-        -0.707106781186547, 0.707106781186547,
-        0
-      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c("var1", "var12"), grp2 = c(
-        "var10_0",
-        "var2_b", "var3_yes", "var4_1", "var9_x"
-      ), grp3 = c(
-        "var10_1",
-        "var2_a"
-      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
-      removed_feats = c("var5", "var6", "var11")
-    )
+    list(dat_transformed = structure(list(outcome = c("normal", "normal",
+"cancer"), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(-1,
+0, 1), grp4 = c(0, 0, 1), var8 = c(-0.707106781186547, 0.707106781186547,
+0)), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame"
+)), grp_feats = list(grp1 = c("var10_0", "var2_b", "var3_yes",
+"var4_1", "var9_x"), grp2 = c("var10_1", "var2_a"), grp3 = c("var1",
+"var12"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+    removed_feats = c("var5", "var6", "var11"))
   )
   expect_equal(
     expect_message(
@@ -201,25 +152,14 @@ test_that("preprocess_data works", {
       ),
       "Removing"
     ),
-    list(
-      dat_transformed = structure(list(outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(
-        1,
-        0, 0
-      ), grp4 = c(0, 0, 1), var8 = c(
-        -0.707106781186547, 0.707106781186547,
-        0
-      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c("var1", "var12"), grp2 = c(
-        "var10_0",
-        "var2_b", "var3_yes", "var4_1", "var9_x"
-      ), grp3 = c(
-        "var10_1",
-        "var2_a"
-      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
-      removed_feats = c("var5", "var6", "var11")
-    )
+    list(dat_transformed = structure(list(outcome = c("normal", "normal",
+"cancer"), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(-1,
+0, 1), grp4 = c(0, 0, 1), var8 = c(-0.707106781186547, 0.707106781186547,
+0)), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame"
+)), grp_feats = list(grp1 = c("var10_0", "var2_b", "var3_yes",
+"var4_1", "var9_x"), grp2 = c("var10_1", "var2_a"), grp3 = c("var1",
+"var12"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+    removed_feats = c("var5", "var6", "var11"))
   )
   expect_equal(
     expect_message(preprocess_data(test_df[1:3, ],

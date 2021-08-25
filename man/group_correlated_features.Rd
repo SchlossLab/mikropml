@@ -31,8 +31,10 @@ separated by pipes (\code{|})
 Group correlated features
 }
 \examples{
-features <- data.frame(a = 1:3, b = 2:4, c = c(1,0,1),
-                       d = (5:7), e = c(5,1,4), f = c(-1,0,-1))
+features <- data.frame(
+  a = 1:3, b = 2:4, c = c(1, 0, 1),
+  d = (5:7), e = c(5, 1, 4), f = c(-1, 0, -1)
+)
 group_correlated_features(features)
 }
 \author{

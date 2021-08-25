@@ -123,7 +123,7 @@ cluster_corr_mat <- function(bin_corr_mat,
 #' get_groups_from_clusters(cluster_corr_mat(corr_mat))
 get_groups_from_clusters <- function(cluster_ids) {
   feat_groups <- character(length = max(cluster_ids))
-  for (feat in sort(names(cluster_ids))) { # assign each feature to its group/cluster
+  for (feat in radix_sort(names(cluster_ids))) { # assign each feature to its group/cluster
     cluster_id <- cluster_ids[[feat]]
     current_cluster <- feat_groups[cluster_id]
     if (nchar(current_cluster) > 0) {
@@ -133,7 +133,7 @@ get_groups_from_clusters <- function(cluster_ids) {
     }
     feat_groups[cluster_id] <- new_cluster
   }
-  return(sort(feat_groups))
+  return(radix_sort(feat_groups))
 }
 
 
