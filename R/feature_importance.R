@@ -6,7 +6,7 @@
 #' @param train_data Training data: dataframe of outcome and features.
 #' @inheritParams run_ml
 #' @inheritParams calc_perf_metrics
-#' @inheritParams get_corr_feats
+#' @inheritParams group_correlated_features
 #' @param nperms number of permutations to perform (default: `100`).
 #' @param groups Vector of feature names to group together during permutation.
 #'   Each element should be a string with feature names separated by a pipe

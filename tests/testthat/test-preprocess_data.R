@@ -25,40 +25,49 @@ test_that("preprocess_data works", {
       ),
       "Removed "
     ),
-    list(dat_transformed = structure(list(
-      outcome = c(
+    list(
+      dat_transformed = structure(list(outcome = c(
         "normal", "normal",
         "cancer"
-      ), var8 = c(-0.707106781186547, 0.707106781186547, 0),
-      grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(0, 0, 1),
-      grp4 = c(1, 0, 0)
-    ), row.names = c(NA, -3L), class = c(
-      "tbl_df",
-      "tbl", "data.frame"
-    )), grp_feats = list(var8 = "var8", grp1 = c(
-      "var12",
-      "var1"
-    ), grp2 = c("var4_1", "var3_yes", "var2_b", "var9_x", "var10_0"), grp3 = c("var2_c", "var7_1", "var9_y"), grp4 = c(
-      "var10_1",
-      "var2_a"
-    )), removed_feats = c("var5", "var6", "var11"))
+      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+        -1,
+        0, 1
+      ), grp4 = c(0, 0, 1), var8 = c(
+        -0.707106781186547, 0.707106781186547,
+        0
+      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c(
+        "var10_0", "var2_b", "var3_yes",
+        "var4_1", "var9_x"
+      ), grp2 = c("var10_1", "var2_a"), grp3 = c(
+        "var1",
+        "var12"
+      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+      removed_feats = c("var5", "var6", "var11")
+    )
   )
   expect_equal(
     expect_message(preprocess_data(test_df, "outcome",
       prefilter_threshold = -1,
       group_neg_corr = FALSE
     )),
-    list(dat_transformed = structure(list(
-      outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), var8 = c(-0.707106781186547, 0.707106781186547, 0),
-      var7_1 = c(1, 1, 0), grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(0, 0, 1), grp4 = c(1, 0, 0)
-    ), row.names = c(
-      NA,
-      -3L
-    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
-      var8 = "var8", var7_1 = "var7_1", grp1 = c("var12", "var1"), grp2 = c("var4_1", "var3_yes", "var2_b", "var9_x", "var10_0"), grp3 = c("var9_y", "var2_c"), grp4 = c("var10_1", "var2_a")
+    list(dat_transformed = structure(list(outcome = c(
+      "normal", "normal",
+      "cancer"
+    ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+      -1,
+      0, 1
+    ), grp4 = c(0, 0, 1), var7_1 = c(1, 1, 0), var8 = c(
+      -0.707106781186547,
+      0.707106781186547, 0
+    )), row.names = c(NA, -3L), class = c(
+      "tbl_df",
+      "tbl", "data.frame"
+    )), grp_feats = list(
+      grp1 = c(
+        "var10_0", "var2_b",
+        "var3_yes", "var4_1", "var9_x"
+      ), grp2 = c("var10_1", "var2_a"), grp3 = c("var1", "var12"), grp4 = c("var2_c", "var9_y"), var7_1 = "var7_1",
+      var8 = "var8"
     ), removed_feats = c("var5", "var6", "var11"))
   )
   expect_equal(
@@ -66,7 +75,7 @@ test_that("preprocess_data works", {
     list(
       dat_transformed = dplyr::tibble(
         outcome = c("normal", "normal", "cancer"),
-        var1 = c(-1, 0, 1),
+        var1 = c(-1, 0, 1)
       ),
       grp_feats = NULL,
       removed_feats = character(0)
@@ -114,56 +123,47 @@ test_that("preprocess_data works", {
       method = NULL,
       prefilter_threshold = -1
     )),
-    list(dat_transformed = structure(list(outcome = c(
-      "normal", "normal",
-      "cancer"
-    ), var8 = c(5, 6, 5.5), grp1 = c(1, 2, 3), grp2 = c(
-      0,
-      1, 0
-    ), grp3 = c(0, 0, 1), grp4 = c(1, 0, 0)), row.names = c(
-      NA,
-      -3L
-    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
-      var8 = "var8", grp1 = c("var12", "var1"), grp2 = c(
-        "var4_1",
-        "var3_yes", "var2_b", "var9_x", "var10_0"
-      ), grp3 = c(
-        "var2_c",
-        "var7_1", "var9_y"
-      ), grp4 = c("var10_1", "var2_a")
-    ), removed_feats = c(
-      "var5",
-      "var6", "var11"
-    ))
+    list(
+      dat_transformed = structure(list(outcome = c(
+        "normal", "normal",
+        "cancer"
+      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+        1,
+        2, 3
+      ), grp4 = c(0, 0, 1), var8 = c(5, 6, 5.5)), row.names = c(
+        NA,
+        -3L
+      ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
+        grp1 = c("var10_0", "var2_b", "var3_yes", "var4_1", "var9_x"), grp2 = c("var10_1", "var2_a"), grp3 = c("var1", "var12"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"
+      ),
+      removed_feats = c("var5", "var6", "var11")
+    )
   )
-  expect_error(preprocess_data(test_df[1:3, c("outcome", "var5")], "outcome"))
+  expect_error(
+    preprocess_data(test_df[1:3, c("outcome", "var5")], "outcome"),
+    "All features have zero variance"
+  )
   expect_equal(
     expect_message(preprocess_data(test_df[1:3, ],
       "outcome",
       method = c("range"),
       prefilter_threshold = -1
     )),
-    list(dat_transformed = structure(list(outcome = c(
-      "normal", "normal",
-      "cancer"
-    ), var8 = c(0, 1, 0.5), grp1 = c(0, 0.5, 1), grp2 = c(
-      0,
-      1, 0
-    ), grp3 = c(0, 0, 1), grp4 = c(1, 0, 0)), row.names = c(
-      NA,
-      -3L
-    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
-      var8 = "var8", grp1 = c("var12", "var1"), grp2 = c(
-        "var4_1",
-        "var3_yes", "var2_b", "var9_x", "var10_0"
-      ), grp3 = c(
-        "var2_c",
-        "var7_1", "var9_y"
-      ), grp4 = c("var10_1", "var2_a")
-    ), removed_feats = c(
-      "var5",
-      "var6", "var11"
-    ))
+    list(
+      dat_transformed = structure(list(outcome = c(
+        "normal", "normal",
+        "cancer"
+      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+        0,
+        0.5, 1
+      ), grp4 = c(0, 0, 1), var8 = c(0, 1, 0.5)), row.names = c(
+        NA,
+        -3L
+      ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
+        grp1 = c("var10_0", "var2_b", "var3_yes", "var4_1", "var9_x"), grp2 = c("var10_1", "var2_a"), grp3 = c("var1", "var12"), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"
+      ),
+      removed_feats = c("var5", "var6", "var11")
+    )
   )
   expect_equal(
     expect_message(preprocess_data(test_df[1:3, ],
@@ -171,51 +171,53 @@ test_that("preprocess_data works", {
       remove_var = "zv",
       prefilter_threshold = -1
     )),
-    list(dat_transformed = structure(list(
-      outcome = c(
+    list(
+      dat_transformed = structure(list(outcome = c(
         "normal", "normal",
         "cancer"
-      ), var8 = c(-0.707106781186547, 0.707106781186547, 0),
-      grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(0, 0, 1),
-      grp4 = c(1, 0, 0)
-    ), row.names = c(NA, -3L), class = c(
-      "tbl_df",
-      "tbl", "data.frame"
-    )), grp_feats = list(var8 = "var8", grp1 = c(
-      "var12",
-      "var1"
-    ), grp2 = c("var4_1", "var3_yes", "var2_b", "var9_x", "var10_0"), grp3 = c("var2_c", "var7_1", "var9_y"), grp4 = c(
-      "var10_1",
-      "var2_a"
-    )), removed_feats = c("var5", "var6", "var11"))
+      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+        -1,
+        0, 1
+      ), grp4 = c(0, 0, 1), var8 = c(
+        -0.707106781186547, 0.707106781186547,
+        0
+      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c(
+        "var10_0", "var2_b", "var3_yes",
+        "var4_1", "var9_x"
+      ), grp2 = c("var10_1", "var2_a"), grp3 = c(
+        "var1",
+        "var12"
+      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+      removed_feats = c("var5", "var6", "var11")
+    )
   )
-  expect_equal(expect_message(
-    preprocess_data(test_df[1:3, ],
-      "outcome",
-      remove_var = NULL,
-      prefilter_threshold = -1
+  expect_equal(
+    expect_message(
+      preprocess_data(test_df[1:3, ], "outcome",
+        remove_var = NULL, prefilter_threshold = -1
+      ),
+      "Removing"
     ),
-    "Removing"
-  ), list(dat_transformed = structure(list(
-    outcome = c(
-      "normal", "normal",
-      "cancer"
-    ), var8 = c(-0.707106781186547, 0.707106781186547, 0),
-    grp1 = c(-1, 0, 1), grp2 = c(0, 1, 0), grp3 = c(0, 0, 1),
-    grp4 = c(1, 0, 0)
-  ), row.names = c(NA, -3L), class = c(
-    "tbl_df",
-    "tbl", "data.frame"
-  )), grp_feats = list(var8 = "var8", grp1 = c(
-    "var12",
-    "var1"
-  ), grp2 = c("var4_1", "var3_yes", "var2_b", "var9_x", "var10_0"), grp3 = c("var2_c", "var7_1", "var9_y"), grp4 = c(
-    "var10_1",
-    "var2_a"
-  )), removed_feats = c(
-    "var5",
-    "var6", "var11"
-  )))
+    list(
+      dat_transformed = structure(list(outcome = c(
+        "normal", "normal",
+        "cancer"
+      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+        -1,
+        0, 1
+      ), grp4 = c(0, 0, 1), var8 = c(
+        -0.707106781186547, 0.707106781186547,
+        0
+      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c(
+        "var10_0", "var2_b", "var3_yes",
+        "var4_1", "var9_x"
+      ), grp2 = c("var10_1", "var2_a"), grp3 = c(
+        "var1",
+        "var12"
+      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+      removed_feats = c("var5", "var6", "var11")
+    )
+  )
   expect_equal(
     expect_message(preprocess_data(test_df[1:3, ],
       "outcome",
@@ -261,26 +263,24 @@ test_that("preprocess_data works", {
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
-    ), var1 = c(-1, 0, 1), var8 = c(
+    ), var1 = c(-1, 0, 1), grp1 = c(0, 1, 0), grp2 = c(
+      1,
+      0, 0
+    ), grp3 = c(0, 0, 1), var8 = c(
       -0.707106781186547, 0.707106781186547,
       0
-    ), grp1 = c(0, 1, 0), grp2 = c(0, 0, 1), grp3 = c(1, 0, 0)), row.names = c(
-      NA,
-      -3L
-    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(
-      var1 = "var1", var8 = "var8", grp1 = c(
-        "var4_1", "var3_yes",
-        "var2_b", "var9_x", "var10_0", "var12_2"
-      ), grp2 = c(
-        "var2_c",
-        "var7_1", "var9_y", "var12_3"
-      ), grp3 = c(
-        "var10_1", "var2_a",
-        "var12_1"
-      )
-    ), removed_feats = c(
-      "var5",
-      "var6", "var11"
+    )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(var1 = "var1", grp1 = c(
+      "var10_0", "var12_2",
+      "var2_b", "var3_yes", "var4_1", "var9_x"
+    ), grp2 = c(
+      "var10_1",
+      "var12_1", "var2_a"
+    ), grp3 = c(
+      "var12_3", "var2_c", "var7_1",
+      "var9_y"
+    ), var8 = "var8"), removed_feats = c(
+      "var5", "var6",
+      "var11"
     ))
   )
 })
@@ -536,10 +536,10 @@ test_that("collapse_correlated_features works", {
         var1 = 1:3, var4 = c(0, 1, 0),
         grp1 = c(1, 1, 0)
       ), row.names = c(NA, -3L), class = "data.frame"),
-      grp_feats = list(var1 = "var1", var4 = "var4", grp1 = c(
-        "var8",
-        "var7"
-      ))
+      grp_feats = list(
+        var1 = "var1", var4 = "var4",
+        grp1 = c("var7", "var8")
+      )
     )
   )
   expect_equal(
@@ -551,13 +551,16 @@ test_that("collapse_correlated_features works", {
   )
   expect_equal(
     collapse_correlated_features(dplyr::as_tibble(test_df[1:3, c(2, 5, 9, 11)])),
-    list(features = structure(list(
-      var1 = 1:3, var4 = c(0, 1, 0),
-      var8 = c(5, 6, NA), var10 = c(1, 0, NA)
-    ), row.names = c(
-      NA,
-      -3L
-    ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = NULL)
+    list(
+      features = structure(list(
+        var1 = 1:3, var10 = c(1, 0, NA),
+        var4 = c(0, 1, 0), var8 = c(5, 6, NA)
+      ),
+      row.names = c(NA, -3L),
+      class = c("tbl_df", "tbl", "data.frame")
+      ),
+      grp_feats = NULL
+    )
   )
   expect_error(
     collapse_correlated_features(test_df[1:3, c(2, 5, 6, 7)]),

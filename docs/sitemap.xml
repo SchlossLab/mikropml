@@ -16,9 +16,6 @@
     <loc>http://www.schlosslab.org/mikropml/reference/get_caret_processed_df.html</loc>
   </url>
   <url>
-    <loc>http://www.schlosslab.org/mikropml/reference/get_corr_feats.html</loc>
-  </url>
-  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_feature_importance.html</loc>
   </url>
   <url>
@@ -44,6 +41,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_tuning_grid.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/group_correlated_features.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/mikropml.html</loc>

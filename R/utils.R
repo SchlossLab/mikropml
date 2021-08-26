@@ -191,3 +191,22 @@ pbtick <- function(pb, message = NULL) {
   }
   invisible()
 }
+
+#' Call `sort()` with `method = 'radix'`
+#'
+#' THE BASE SORT FUNCTION USES A DIFFERENT METHOD DEPENDING ON YOUR LOCALE.
+#' However, the order for the radix method is always stable.
+#'
+#' see https://stackoverflow.com/questions/42272119/r-cmd-check-fails-devtoolstest-works-fine
+#'
+#' `stringr::str_sort()` solves this problem with the `locale` parameter having
+#' a default value, but I don't want to add that as another dependency.
+#'
+#' @param ... All arguments forwarded to `sort()`.
+#' @return Whatever you passed in, now in a stable sorted order regardless of your locale.
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+radix_sort <- function(...) {
+  return(sort(..., method = "radix"))
+}
