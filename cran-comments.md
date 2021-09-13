@@ -2,7 +2,6 @@
 
 - local macOS install; R 4.0.3
 - win-builder; R release
-- rhub fedora-clang-devel & ubuntu-gcc-release
 - github-actions macOS-latest; R release, devel, and oldrel
 - github-actions ubuntu-latest; R devel
 - github-actions windows-latest; R release and oldrel
@@ -19,8 +18,7 @@
     Message: Bad Request
 ```
 
-I believe this is a spurious note. The URL works in my local browser, and this
-same URL has not generated a note in prior submissions to CRAN.
+I believe this is a spurious note as the URL works in my local browser.
 
 ## revdepcheck results
 
