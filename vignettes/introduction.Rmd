@@ -89,7 +89,7 @@ The methods we have tested (and their backend packages) are:
 - Logistic/multiclass/linear regression (`"glmnet"`)
 - Random forest (`"rf"`)
 - Decision tree (`"rpart2"`)
-- Support vector machine with a linear basis kernel (`"svmRadial"`)
+- Support vector machine with a radial basis kernel (`"svmRadial"`)
 - xgboost (`"xgbTree"`)
 
 For documentation on these methods, as well as many others, you can look at the

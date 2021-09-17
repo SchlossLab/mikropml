@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
 
       
 
-      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="introduction_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to mikropml</h1>
@@ -144,7 +144,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#install.packages("devtools")</span>
 <span class="co">#devtools::install_github("SchlossLab/mikropml")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.schlosslab.org/mikropml/">mikropml</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.schlosslab.org/mikropml/">mikropml</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>
 <span class="co">#&gt;       dx Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007</span>
 <span class="co">#&gt; 1 normal      350      268      213        1      208      230       70</span>
@@ -173,7 +173,7 @@
 <li>Logistic/multiclass/linear regression (<code>"glmnet"</code>)</li>
 <li>Random forest (<code>"rf"</code>)</li>
 <li>Decision tree (<code>"rpart2"</code>)</li>
-<li>Support vector machine with a linear basis kernel (<code>"svmRadial"</code>)</li>
+<li>Support vector machine with a radial basis kernel (<code>"svmRadial"</code>)</li>
 <li>xgboost (<code>"xgbTree"</code>)</li>
 </ul>
 <p>For documentation on these methods, as well as many others, you can look at the <a href="https://topepo.github.io/caret/available-models.html">available models</a> (or see <a href="https://topepo.github.io/caret/train-models-by-tag.html">here</a> for a list by tag). While we have not vetted the other models used by <code>caret</code>, our function is general enough that others might work. While we can’t promise that we can help with other models, feel free to <a href="https://github.com/SchlossLab/mikropml/issues">open an issue on GitHub</a> if you have questions about other models and we <em>might</em> be able to help.</p>
@@ -240,7 +240,7 @@
 <p><code>performance</code> is a dataframe of (mainly) performance metrics (1 column for cross-validation performance metric, several for test performance metrics, and 2 columns at the end with ML method and seed):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results</span><span class="op">$</span><span class="va">performance</span>
-<span class="co">#&gt; # A tibble: 1 x 17</span>
+<span class="co">#&gt; # A tibble: 1 × 17</span>
 <span class="co">#&gt;   cv_metric_AUC logLoss   AUC prAUC Accuracy Kappa    F1 Sensitivity Specificity</span>
 <span class="co">#&gt;           &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
 <span class="co">#&gt; 1         0.622   0.684 0.647 0.606    0.590 0.179   0.6         0.6       0.579</span>
@@ -281,13 +281,15 @@
                          training_frac <span class="op">=</span> <span class="fl">0.5</span>,
                          seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
+<span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Loading required package: lattice</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt; Warning in (function (w) : `caret::train()` issued the following warning:</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></code></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span>
+<span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>You might have noticed that this one ran faster — that’s because we reduced <code>kfold</code> and <code>cv_times</code>. This is okay for testing things out and may even be necessary for smaller datasets. But in general it may be better to have larger numbers for these parameters; we think the defaults are a good starting point <span class="citation">(Topçuoğlu et al. 2020)</span>.</p>
 </div>
 <div id="changing-the-performance-metric" class="section level2">
@@ -313,15 +315,17 @@
                      perf_metric_name <span class="op">=</span> <span class="st">'prAUC'</span>, 
                      seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
+<span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Warning in (function (w) : `caret::train()` issued the following warning:</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span></code></pre></div>
+<span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span>
+<span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>You’ll see that the cross-valdaton metric is prAUC, instead of the default AUC:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_pr</span><span class="op">$</span><span class="va">performance</span>
-<span class="co">#&gt; # A tibble: 1 x 17</span>
+<span class="co">#&gt; # A tibble: 1 × 17</span>
 <span class="co">#&gt;   cv_metric_prAUC logLoss   AUC prAUC Accuracy  Kappa    F1 Sensitivity</span>
 <span class="co">#&gt;             &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;</span>
 <span class="co">#&gt; 1           0.577   0.691 0.663 0.605    0.538 0.0539 0.690           1</span>
@@ -350,7 +354,7 @@
 <div id="finding-feature-importance" class="section level1">
 <h1 class="hasAnchor">
 <a href="#finding-feature-importance" class="anchor"></a>Finding feature importance</h1>
-<p>To find which features are contributing to predictive power, you can use <code>find_feature_importance = TRUE</code>. How we use permutation importance to determine feature importance is decribed in <span class="citation">(Topçuoğlu et al. 2020)</span>. Briefly, it permutes each of the features individually (or correlated ones together) and evaluates how much the performance metric decreases. The more performance decreases when the feature is randomly shuffled, the more important that feature is. The default is <code>FALSE</code> because it takes a while to run and is only useful if you want to know what features are important in predicting your outcome.</p>
+<p>To find which features are contributing to predictive power, you can use <code>find_feature_importance = TRUE</code>. How we use permutation importance to determine feature importance is described in <span class="citation">(Topçuoğlu et al. 2020)</span>. Briefly, it permutes each of the features individually (or correlated ones together) and evaluates how much the performance metric decreases. The more performance decreases when the feature is randomly shuffled, the more important that feature is. The default is <code>FALSE</code> because it takes a while to run and is only useful if you want to know what features are important in predicting your outcome.</p>
 <p>Let’s look at some feature importance results:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_imp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,
@@ -398,11 +402,15 @@
                            corr_thresh <span class="op">=</span> <span class="fl">0.2</span>,
                            seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
+<span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Warning in (function (w) : `caret::train()` issued the following warning:</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; This warning usually means that the model didn't converge in some cross-validation folds because it is predicting something close to a constant. As a result, certain performance metrics can't be calculated. This suggests that some of the hyperparameters chosen are doing very poorly.</span>
+<span class="co">#&gt; Training complete.</span>
+<span class="co">#&gt; Finding feature importance...</span>
+<span class="co">#&gt; Feature importance complete.</span>
 <span class="va">results_imp_corr</span><span class="op">$</span><span class="va">feature_importance</span>
 <span class="co">#&gt;   perf_metric perf_metric_diff</span>
 <span class="co">#&gt; 1   0.5992368       0.04813158</span>
@@ -418,6 +426,7 @@
 <span class="co">#&gt; 3 glmnet              AUC 2019</span></code></pre></div>
 <p>You can see which features were permuted together in the <code>names</code> column. Here all 3 features were permuted together (which doesn’t really make sense, but it’s just an example).</p>
 <p>If you previously executed <code><a href="../reference/run_ml.html">run_ml()</a></code> without feature importance but now wish to find feature importance after the fact, see the example code in the <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> documentation.</p>
+<p><code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> can show a live progress bar, see <code><a href="../articles/parallel.html">vignette("parallel")</a></code> for examples.</p>
 </div>
 <div id="tuning-hyperparameters-using-the-hyperparameter-argument" class="section level1">
 <h1 class="hasAnchor">
@@ -461,7 +470,7 @@
                       <span class="st">'svmRadial'</span>,
                       cv_times <span class="op">=</span> <span class="fl">5</span>,
                       seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></code></pre></div>
-<p>If you get a message “maximum number of iterations reached”, see <a href="https://github.com/topepo/caret/issues/425">this issue</a> in caret.</p>
+<p>If you get a message “maximum number of iterations reached,” see <a href="https://github.com/topepo/caret/issues/425">this issue</a> in caret.</p>
 </div>
 </div>
 <div id="other-data" class="section level1">
@@ -483,7 +492,7 @@
 <p>The performance metrics are slightly different, but the format of everything else is the same:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_multi</span><span class="op">$</span><span class="va">performance</span>
-<span class="co">#&gt; # A tibble: 1 x 17</span>
+<span class="co">#&gt; # A tibble: 1 × 17</span>
 <span class="co">#&gt;   cv_metric_logLoss logLoss   AUC prAUC Accuracy  Kappa Mean_F1 Mean_Sensitivity</span>
 <span class="co">#&gt;               &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;</span>
 <span class="co">#&gt; 1              1.07    1.11 0.506 0.353    0.382 0.0449 &lt;NA&gt;               0.360</span>
@@ -504,7 +513,7 @@
 <p>Again, the performance metrics are slightly different, but the format of the rest is the same:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_cont</span><span class="op">$</span><span class="va">performance</span>
-<span class="co">#&gt; # A tibble: 1 x 6</span>
+<span class="co">#&gt; # A tibble: 1 × 6</span>
 <span class="co">#&gt;   cv_metric_RMSE  RMSE Rsquared   MAE method  seed</span>
 <span class="co">#&gt;            &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1           622.  731.   0.0893  472. glmnet  2019</span></code></pre></div>
@@ -513,12 +522,12 @@
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-tang_democratizing_2020">
-<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-tang_democratizing_2020" class="csl-entry">
+Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.
 </div>
-<div id="ref-topcuoglu_framework_2020">
-<p>Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. “A Framework for Effective Application of Machine Learning to Microbiome-Based Classification Problems.” <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.</p>
+<div id="ref-topcuoglu_framework_2020" class="csl-entry">
+Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. <span>“A <span>Framework</span> for <span>Effective Application</span> of <span>Machine Learning</span> to <span>Microbiome</span>-<span>Based Classification Problems</span>.”</span> <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.
 </div>
 </div>
 </div>
