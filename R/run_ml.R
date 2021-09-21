@@ -26,6 +26,8 @@
 #'   predicting your outcome, but it is resource-intensive.
 #' @param kfold Fold number for k-fold cross-validation (default: `5`).
 #' @param cv_times Number of cross-validation partitions to create (default: `100`).
+#' @param cross_val a custom cross-validation scheme from `caret::trainControl` (default: `NULL` uses `kfold` cross validation repeated `cv_times`).
+#'   `kfold` and `cv_times` are ignored if the user provides a custom cross-validation scheme.
 #' @param training_frac Fraction of data for training set (default: `0.8`).
 #'   The remaining data will be used in the testing set.
 #' @param perf_metric_function Function to calculate the performance metric to
@@ -46,7 +48,6 @@
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
 #' @param ntree For random forest, how many trees to use (default: 1000).
 #'   Note that caret doesn't allow this parameter to be tuned.
-#'
 #' @return
 #'
 #' Named list with results:
@@ -111,7 +112,7 @@ run_ml <-
     if (find_feature_importance) {
       abort_packages_not_installed("future.apply")
     }
-    # can't have categorical features for feature importance beause have to find correlations
+    # can't have categorical features for feature importance because have to find correlations
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     if (find_feature_importance) {
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
@@ -147,15 +148,18 @@ run_ml <-
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
 
-    cv <- define_cv(train_data,
-      outcome_colname,
-      hyperparameters,
-      perf_metric_function,
-      class_probs,
-      kfold = kfold,
-      cv_times = cv_times,
-      groups = train_groups
-    )
+    if (is.null(cross_val)) {
+      cross_val <- define_cv(
+        train_data,
+        outcome_colname,
+        hyperparameters,
+        perf_metric_function,
+        class_probs,
+        kfold = kfold,
+        cv_times = cv_times,
+        groups = train_groups
+      )
+    }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
     message("Training the model...")

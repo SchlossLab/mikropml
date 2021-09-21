@@ -1,5 +1,7 @@
 # development version 
 
+- New parameter `cross_val` added to `run_ml()` allows users to define their own custom cross-validation scheme.
+
 # mikropml 1.1.1
 
 - Fixed bugs related to grouping correlated features (#276, @kelly-sovacool).
