@@ -167,7 +167,7 @@ run_ml <-
       model_formula,
       train_data,
       method,
-      cv,
+      cross_val,
       perf_metric_name,
       tune_grid,
       ntree
