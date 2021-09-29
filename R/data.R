@@ -47,10 +47,17 @@
 #' Results from running the pipline with rpart2 on `otu_mini_bin`
 "otu_mini_bin_results_rpart2"
 
-#' Results from running the pipeline with glmnet on `otu_mini_bin` with `Otu00001` as the outcome
+#' Results from running the pipeline with glmnet on `otu_mini_bin` with `Otu00001`
+#' as the outcome
 "otu_mini_cont_results_glmnet"
 
-#' Results from running the pipeline with glmnet on `otu_mini_multi` for multiclass outcomes
+#' Results from running the pipeline with glmnet on `otu_mini_bin` with `Otu00001`
+#' as the outcome column,
+#' using a custom train control scheme that does not perform cross-validation
+"otu_mini_cont_results_nocv"
+
+#' Results from running the pipeline with glmnet on `otu_mini_multi` for
+#' multiclass outcomes
 "otu_mini_multi_results_glmnet"
 
 #' Groups for otu_mini_multi
