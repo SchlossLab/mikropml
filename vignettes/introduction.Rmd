@@ -182,13 +182,13 @@ However, it is crucial to evaluate your model performance using multiple
 metrics. Below you can find more information about other performance metrics and
 how to use them in our package.
 
-`cv_metric_AUC` is the AUC for the cross-valdation folds for the training data.
+`cv_metric_AUC` is the AUC for the cross-validation folds for the training data.
 This gives us a sense of how well the model performs on the training data.
 
 Most of the other columns are performance metrics for the test data — the data
 that wasn't used to build the model. Here, you can see that the AUC for the test
 data is not much above 0.5, suggesting that this model does not predict much
-better than chance, and that the model is overfit because the cross-valdation
+better than chance, and that the model is overfit because the cross-validation
 AUC (`cv_metric_AUC`, measured during training) is much higher than the testing
 AUC. This isn't too surprising since we're using so few features with this
 example dataset, so don't be discouraged. The default option also provides a
@@ -215,8 +215,8 @@ if you think something else would be better for your data.
 
 ## Changing `kfold`, `cv_times`, and `training_frac`
 
-- `kfold`: The number of folds to run for cross-valdaton (default: 5).
-- `cv_times`: The number of times to run repeated cross-valdaton (default: 100).
+- `kfold`: The number of folds to run for cross-validation (default: 5).
+- `cv_times`: The number of times to run repeated cross-validation (default: 100).
 - `training_frac`: The fraction of data for the training set (default: 0.8). The rest of the data is used for testing.
 
 Here's an example where we change some of the default parameters:
@@ -276,7 +276,7 @@ results_pr <- run_ml(otu_mini_bin,
                      seed = 2019)
 ```
 
-You'll see that the cross-valdaton metric is prAUC, instead of the default AUC:
+You'll see that the cross-validation metric is prAUC, instead of the default AUC:
 
 ```{r}
 results_pr$performance
