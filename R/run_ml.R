@@ -24,8 +24,14 @@
 #' @param find_feature_importance Run permutation importance (default: `FALSE`).
 #'   `TRUE` is recommended if you would like to identify features important for
 #'   predicting your outcome, but it is resource-intensive.
+#' @param calculate_performance Whether to calculate performance metrics (default: `TRUE`).
+#'   You might choose to skip this if you do not perform cross-validation during model training.
 #' @param kfold Fold number for k-fold cross-validation (default: `5`).
 #' @param cv_times Number of cross-validation partitions to create (default: `100`).
+#' @param cross_val a custom cross-validation scheme from `caret::trainControl()`
+#'   (default: `NULL`, uses `kfold` cross validation repeated `cv_times`).
+#'   `kfold` and `cv_times` are ignored if the user provides a custom cross-validation scheme.
+#'   See the `caret::trainControl()` docs for information on how to use it.
 #' @param training_frac Fraction of data for training set (default: `0.8`).
 #'   The remaining data will be used in the testing set.
 #' @param perf_metric_function Function to calculate the performance metric to
@@ -46,7 +52,6 @@
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
 #' @param ntree For random forest, how many trees to use (default: 1000).
 #'   Note that caret doesn't allow this parameter to be tuned.
-#'
 #' @return
 #'
 #' Named list with results:
@@ -66,12 +71,26 @@
 #'
 #' @examples
 #' \dontrun{
+#'
+#' # regression
 #' run_ml(otu_small, "glmnet",
 #'   seed = 2019
 #' )
+#'
+#' # random forest
 #' run_ml(otu_small, "rf",
 #'   outcome_colname = "dx",
 #'   find_feature_importance = TRUE
+#' )
+#'
+#' # custom cross validation & hyperparameters
+#' run_ml(otu_mini_bin[, 2:11],
+#'   "glmnet",
+#'   outcome_colname = "Otu00001",
+#'   seed = 2019,
+#'   hyperparameters = list(lambda = c(1e-04), alpha = 0),
+#'   cross_val = caret::trainControl(method = "none"),
+#'   calculate_performance = FALSE
 #' )
 #' }
 run_ml <-
@@ -80,8 +99,10 @@ run_ml <-
            outcome_colname = NULL,
            hyperparameters = NULL,
            find_feature_importance = FALSE,
+           calculate_performance = TRUE,
            kfold = 5,
            cv_times = 100,
+           cross_val = NULL,
            training_frac = 0.8,
            perf_metric_function = NULL,
            perf_metric_name = NULL,
@@ -111,7 +132,7 @@ run_ml <-
     if (find_feature_importance) {
       abort_packages_not_installed("future.apply")
     }
-    # can't have categorical features for feature importance beause have to find correlations
+    # can't have categorical features for feature importance because have to find correlations
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     if (find_feature_importance) {
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
@@ -147,15 +168,18 @@ run_ml <-
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
 
-    cv <- define_cv(train_data,
-      outcome_colname,
-      hyperparameters,
-      perf_metric_function,
-      class_probs,
-      kfold = kfold,
-      cv_times = cv_times,
-      groups = train_groups
-    )
+    if (is.null(cross_val)) {
+      cross_val <- define_cv(
+        train_data,
+        outcome_colname,
+        hyperparameters,
+        perf_metric_function,
+        class_probs,
+        kfold = kfold,
+        cv_times = cv_times,
+        groups = train_groups
+      )
+    }
 
     model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
     message("Training the model...")
@@ -163,7 +187,7 @@ run_ml <-
       model_formula,
       train_data,
       method,
-      cv,
+      cross_val,
       perf_metric_name,
       tune_grid,
       ntree
@@ -173,17 +197,21 @@ run_ml <-
       set.seed(seed)
     }
 
-    performance_tbl <- get_performance_tbl(
-      trained_model_caret,
-      test_data,
-      outcome_colname,
-      perf_metric_function,
-      perf_metric_name,
-      class_probs,
-      method,
-      seed
-    )
-    feature_importance_tbl <- "Skipped feature importance"
+    if (calculate_performance) {
+      performance_tbl <- get_performance_tbl(
+        trained_model_caret,
+        test_data,
+        outcome_colname,
+        perf_metric_function,
+        perf_metric_name,
+        class_probs,
+        method,
+        seed
+      )
+    } else {
+      performance_tbl <- "Skipped calculating performance"
+    }
+
     if (find_feature_importance) {
       message("Finding feature importance...")
       feature_importance_tbl <- get_feature_importance(
@@ -199,6 +227,8 @@ run_ml <-
         corr_thresh
       )
       message("Feature importance complete.")
+    } else {
+      feature_importance_tbl <- "Skipped feature importance"
     }
 
     return(

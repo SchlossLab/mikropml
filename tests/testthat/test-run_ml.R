@@ -131,6 +131,21 @@ test_that("run_ml works for rpart2", {
   )
 })
 
+test_that("run_ml uses a custom cross-validation scheme", {
+  skip_on_cran()
+  expect_equal_ml_results(
+    expect_message(expect_warning(run_ml(otu_mini_bin[, 2:11],
+      "glmnet",
+      outcome_colname = "Otu00001",
+      seed = 2019,
+      hyperparameters = list(lambda = c(1e-04), alpha = 0),
+      cross_val = caret::trainControl(method = "none"),
+      calculate_performance = FALSE
+    ), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")),
+    otu_mini_cont_results_nocv
+  )
+})
+
 test_that("run_ml errors for unsupported method", {
   expect_error(expect_warning(
     run_ml(
