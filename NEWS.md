@@ -1,7 +1,8 @@
 # development version 
 
-- New parameter `cross_val` added to `run_ml()` allows users to define their own custom cross-validation scheme.
-
+- New parameter `cross_val` added to `run_ml()` allows users to define their own custom cross-validation scheme (#278, @kelly-sovacool).
+    - Also added a new parameter `calculate_performance`, which controls whether performance metrics are calculated (default: `TRUE`). Users may wish to skip performance calculations when training models with no cross-validation.
+        
 # mikropml 1.1.1
 
 - Fixed bugs related to grouping correlated features (#276, @kelly-sovacool).
