@@ -10,8 +10,10 @@ run_ml(
   outcome_colname = NULL,
   hyperparameters = NULL,
   find_feature_importance = FALSE,
+  calculate_performance = TRUE,
   kfold = 5,
   cv_times = 100,
+  cross_val = NULL,
   training_frac = 0.8,
   perf_metric_function = NULL,
   perf_metric_name = NULL,
@@ -44,9 +46,15 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \code{TRUE} is recommended if you would like to identify features important for
 predicting your outcome, but it is resource-intensive.}
 
+\item{calculate_performance}{Whether to calculate performance metrics (default: \code{TRUE}).
+You might choose to skip this if you do not perform cross-validation during model training.}
+
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
 \item{cv_times}{Number of cross-validation partitions to create (default: \code{100}).}
+
+\item{cross_val}{a custom cross-validation scheme from \code{caret::trainControl} (default: \code{NULL} uses \code{kfold} cross validation repeated \code{cv_times}).
+\code{kfold} and \code{cv_times} are ignored if the user provides a custom cross-validation scheme.}
 
 \item{training_frac}{Fraction of data for training set (default: \code{0.8}).
 The remaining data will be used in the testing set.}
@@ -102,12 +110,26 @@ For more details, please see \href{http://www.schlosslab.org/mikropml/articles/}
 
 \examples{
 \dontrun{
+
+# regression
 run_ml(otu_small, "glmnet",
   seed = 2019
 )
+
+# random forest
 run_ml(otu_small, "rf",
   outcome_colname = "dx",
   find_feature_importance = TRUE
+)
+
+# custom cross validation & hyperparameters
+run_ml(otu_mini_bin[, 2:11],
+   "glmnet",
+   outcome_colname = "Otu00001",
+   seed = 2019,
+   hyperparameters = list(lambda = c(1e-04), alpha = 0),
+   cross_val = caret::trainControl(method = 'none'),
+   calculate_performance = FALSE
 )
 }
 }
