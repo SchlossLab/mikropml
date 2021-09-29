@@ -139,7 +139,7 @@ test_that("run_ml uses a custom cross-validation scheme", {
       outcome_colname = "Otu00001",
       seed = 2019,
       hyperparameters = list(lambda = c(1e-04), alpha = 0),
-      cross_val = caret::trainControl(method = 'none'),
+      cross_val = caret::trainControl(method = "none"),
       calculate_performance = FALSE
     ), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")),
     otu_mini_cont_results_nocv

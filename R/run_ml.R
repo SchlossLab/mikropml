@@ -85,12 +85,12 @@
 #'
 #' # custom cross validation & hyperparameters
 #' run_ml(otu_mini_bin[, 2:11],
-#'    "glmnet",
-#'    outcome_colname = "Otu00001",
-#'    seed = 2019,
-#'    hyperparameters = list(lambda = c(1e-04), alpha = 0),
-#'    cross_val = caret::trainControl(method = 'none'),
-#'    calculate_performance = FALSE
+#'   "glmnet",
+#'   outcome_colname = "Otu00001",
+#'   seed = 2019,
+#'   hyperparameters = list(lambda = c(1e-04), alpha = 0),
+#'   cross_val = caret::trainControl(method = "none"),
+#'   calculate_performance = FALSE
 #' )
 #' }
 run_ml <-
