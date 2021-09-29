@@ -28,8 +28,10 @@
 #'   You might choose to skip this if you do not perform cross-validation during model training.
 #' @param kfold Fold number for k-fold cross-validation (default: `5`).
 #' @param cv_times Number of cross-validation partitions to create (default: `100`).
-#' @param cross_val a custom cross-validation scheme from `caret::trainControl` (default: `NULL` uses `kfold` cross validation repeated `cv_times`).
+#' @param cross_val a custom cross-validation scheme from `caret::trainControl()`
+#'   (default: `NULL`, uses `kfold` cross validation repeated `cv_times`).
 #'   `kfold` and `cv_times` are ignored if the user provides a custom cross-validation scheme.
+#'   See the `caret::trainControl()` docs for information on how to use it.
 #' @param training_frac Fraction of data for training set (default: `0.8`).
 #'   The remaining data will be used in the testing set.
 #' @param perf_metric_function Function to calculate the performance metric to
