@@ -115,7 +115,19 @@ test_that("check_training_frac works", {
     "`training_frac` must be a numeric between 0 and 1."
   )
 })
+test_that("check_training_indices works", {
+  dat <- data.frame(a=1:10, b=2:11)
+  expect_message(check_training_indices(c(1,3,5), dat),
+    "Using the custom training set indices provided by"
+  )
+  expect_warning(check_training_indices(c(2.8, 1), dat),
+               "The training indices vector contains non-integer numbers.")
+  expect_error(check_training_indices(c(1,12312,1), dat),
+               'The training indices vector contains a value that is too large')
+  expect_error(check_training_indices(c(-1,2,3), dat),
+               'The training indices vector contains a value less than 1.')
 
+})
 test_that("check_seed works", {
   expect_true(is.null(check_seed(NA)))
   expect_true(is.null(check_seed(10)))

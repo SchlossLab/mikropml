@@ -210,3 +210,24 @@ pbtick <- function(pb, message = NULL) {
 radix_sort <- function(...) {
   return(sort(..., method = "radix"))
 }
+
+#' Check whether a numeric vector contains whole numbers.
+#'
+#' Because `is.integer` checks for the class, _not_ whether the number is an
+#' integer in the mathematical sense.
+#' This code was copy-pasted from the `is.integer` docs.
+#'
+#' @param x numeric vector
+#' @param tol tolerance (default: `.Machine$double.eps^0.5`)
+#'
+#' @return logical vector
+#' @noRd
+#'
+#' @examples
+#' is_whole_number(c(1,2,3))
+#' is.integer(c(1,2,3))
+#' is_whole_number(c(1.0,2.0,3.0))
+#' is_whole_number(1.2)
+is_whole_number <- function(x, tol = .Machine$double.eps^0.5)  {
+  abs(x - round(x)) < tol
+}

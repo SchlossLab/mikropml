@@ -10,7 +10,6 @@ check_all <- function(dataset, method, permute, kfold, training_frac, perf_metri
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
-  check_training_frac(training_frac)
   check_perf_metric_function(perf_metric_function)
   check_perf_metric_name(perf_metric_name)
   check_groups(dataset, group, kfold)
@@ -122,6 +121,40 @@ check_training_frac <- function(frac) {
       "    You provided: ", frac
     ))
   }
+}
+
+#' Check the validity of the training indices
+#'
+#' @param training_inds vector of integers corresponding to samples for the training set
+#' @param dataset data frame containing the entire dataset
+#'
+#' @return
+#' @export
+#'
+#' @examples
+check_training_indices <- function(training_inds, dataset) {
+  effective_train_frac <- length(training_inds) / nrow(dataset)
+  message(
+    paste0(
+      "Using the custom training set indices provided by `training_frac`.
+      The fraction of data in the training set will be ",
+      effective_train_frac
+    )
+  )
+  check_training_frac(effective_train_frac)
+  if (!all(is_whole_number(training_inds))) {
+    warning(
+      "The training indices vector contains non-integer numbers."
+    )
+  }
+  if (min(training_inds) < 1) {
+    stop('The training indices vector contains a value less than 1.')
+  }
+  if (max(training_inds) > nrow(dataset)) {
+    stop('The training indices vector contains a value that is too large for the
+         number of rows in the dataset.')
+  }
+
 }
 
 #' check that the seed is either NA or a number
