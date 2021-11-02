@@ -38,7 +38,7 @@ regression = \code{defaultSummary}.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
 train and test sets, and for cross-validation.
-length matches the number of rows in the dataset (default: \code{NULL}).}
+Length matches the number of rows in the dataset (default: \code{NULL}).}
 }
 \value{
 Caret object for trainControl that controls cross-validation
