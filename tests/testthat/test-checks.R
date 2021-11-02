@@ -116,8 +116,8 @@ test_that("check_training_frac works", {
   )
 })
 test_that("check_training_indices works", {
-  dat <- data.frame(a=1:10, b=2:11)
-  expect_message(check_training_indices(c(1,3,5), dat),
+  dat <- data.frame(a=1:3, b=2:4)
+  expect_message(check_training_indices(c(1,2), dat),
     "Using the custom training set indices provided by"
   )
   expect_warning(check_training_indices(c(2.8, 1), dat),
@@ -126,7 +126,8 @@ test_that("check_training_indices works", {
                'The training indices vector contains a value that is too large')
   expect_error(check_training_indices(c(-1,2,3), dat),
                'The training indices vector contains a value less than 1.')
-
+  expect_error(check_training_indices(c(1:5), dat),
+               "The training indices vector contains too many values for the size of the dataset.")
 })
 test_that("check_seed works", {
   expect_true(is.null(check_seed(NA)))
