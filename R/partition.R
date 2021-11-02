@@ -83,6 +83,11 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
       frac_in_train <- length(train_set) / length(indices)
     }
   } else {
+    names_unrecognized <- names(group_partitions[!names(group_partitions) %in% c("train", "test")])
+    if (length(names_unrecognized) > 0) {
+      stop(paste("Unrecognized name(s) in `group_partitions`:",
+                  names_unrecognized))
+    }
     in_train_only <- setdiff(group_partitions$train, group_partitions$test)
     in_test_only <- setdiff(group_partitions$test, group_partitions$train)
     in_both <- intersect(group_partitions$test, group_partitions$train)
@@ -103,6 +108,8 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
     }
   }
   frac_in_train <- length(train_set) / length(indices)
-  message(paste0("Fraction of data in the training set: ", frac_in_train, "."))
+  message(paste0("Fraction of data in the training set: ",
+                 round(frac_in_train, 3),
+                 "."))
   return(train_set)
 }
