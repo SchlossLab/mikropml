@@ -60,7 +60,7 @@
 #'   `training_frac` as possible.
 #' @param corr_thresh For feature importance, group correlations
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
-#' @param ntree For random forest, how many trees to use (default: 1000).
+#' @param ntree For random forest, how many trees to use (default: `1000`).
 #'   Note that caret doesn't allow this parameter to be tuned.
 #' @return
 #'
