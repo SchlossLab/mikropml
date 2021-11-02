@@ -128,7 +128,6 @@ check_training_frac <- function(frac) {
 #' @param training_inds vector of integers corresponding to samples for the training set
 #' @param dataset data frame containing the entire dataset
 #'
-#' @return
 #' @export
 #'
 #' @examples
