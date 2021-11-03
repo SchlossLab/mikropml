@@ -154,15 +154,24 @@ run_ml <-
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
 
     if (length(training_frac) == 1) {
-      check_training_frac(training_frac)
       training_inds <- get_partition_indices(outcomes_vec,
         training_frac = training_frac,
-        groups = groups
+        groups = groups,
+        group_partitions = group_partitions
       )
     } else {
       training_inds <- training_frac
-      check_training_indices(training_inds, dataset)
+      training_frac <- length(training_inds) / nrow(dataset)
+      message(
+        paste0(
+          "Using the custom training set indices provided by `training_frac`.
+      The fraction of data in the training set will be ",
+          round(training_frac, 2)
+        )
+      )
     }
+    check_training_frac(training_frac)
+    check_training_indices(training_inds, dataset)
 
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
