@@ -77,17 +77,18 @@ test_that("create_grouped_data_partition() works with custom group partitions", 
   )
 
   set.seed(2019)
-  sample_groups <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace=TRUE)
-  group_part <- list(train = c('A', 'B'), test = c('C', 'D'))
+  sample_groups <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace = TRUE)
+  group_part <- list(train = c("A", "B"), test = c("C", "D"))
   train_ind <- create_grouped_data_partition(sample_groups,
     group_partitions = group_part,
     training_frac = 0.8
   )
   check_custom_grouped_partition(sample_groups, train_ind, group_part)
 
-  group_part <- list(train = c('A', 'B'),
-                     test = c("A", "B", "C", "D", "E", "F", "G", "H")
-                     )
+  group_part <- list(
+    train = c("A", "B"),
+    test = c("A", "B", "C", "D", "E", "F", "G", "H")
+  )
   train_ind <- create_grouped_data_partition(sample_groups,
     group_partitions = group_part,
     training_frac = 0.2
