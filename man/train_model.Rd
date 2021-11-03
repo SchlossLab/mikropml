@@ -2,7 +2,7 @@
 % Please edit documentation in R/train_model.R
 \name{train_model}
 \alias{train_model}
-\title{Train model}
+\title{Train model using \code{\link[caret:train]{caret::train()}}.}
 \usage{
 train_model(
   model_formula,
@@ -15,9 +15,9 @@ train_model(
 )
 }
 \arguments{
-\item{model_formula}{Model formula.}
+\item{model_formula}{Model formula, typically created with \code{stats::as.formula()}.}
 
-\item{train_data}{Training data.}
+\item{train_data}{Training data. Expected to be a subset of the full dataset.}
 
 \item{method}{ML method.
 Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
@@ -29,7 +29,7 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \item xgbTree: xgboost
 }}
 
-\item{cv}{Cross-validation caret scheme.}
+\item{cv}{Cross-validation caret scheme from \code{define_cv()}.}
 
 \item{perf_metric_name}{The column name from the output of the function
 provided to perf_metric_function that is to be used as the performance metric.
@@ -37,9 +37,9 @@ Defaults: binary classification = \code{"ROC"},
 multi-class classification = \code{"logLoss"},
 regression = \code{"RMSE"}.}
 
-\item{tune_grid}{Tuning grid.}
+\item{tune_grid}{Tuning grid from \code{get_tuning_grid()}.}
 
-\item{ntree}{For random forest, how many trees to use (default: 1000).
+\item{ntree}{For random forest, how many trees to use (default: \code{1000}).
 Note that caret doesn't allow this parameter to be tuned.}
 }
 \value{
@@ -48,8 +48,30 @@ Trained model from \code{\link[caret:train]{caret::train()}}.
 \description{
 Train model using \code{\link[caret:train]{caret::train()}}.
 }
-\details{
-TODO: Add example.
+\examples{
+\dontrun{
+training_data <- otu_mini_bin_results_glmnet$trained_model$trainingData \%>\%
+                 dplyr::rename(dx = .outcome)
+method <- "rf"
+hyperparameters <- get_hyperparams_list(otu_mini_bin, method)
+cross_val <- define_cv(training_data,
+                       "dx",
+                       hyperparameters,
+                       perf_metric_function = caret::multiClassSummary,
+                       class_probs = TRUE,
+                       cv_times = 2
+                       )
+tune_grid <- get_tuning_grid(hyperparameters, method)
+
+rf_model <- train_model(stats::as.formula(paste("dx", "~ .")),
+                        training_data,
+                        method,
+                        cross_val,
+                        "AUC",
+                        tune_grid,
+                        1000)
+rf_model$results \%>\% dplyr::select(mtry, AUC, prAUC)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
