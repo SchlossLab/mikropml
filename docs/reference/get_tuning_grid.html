@@ -168,7 +168,7 @@
     <tr>
       <th>method</th>
       <td><p>ML method.
-Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code>.</p><ul>
+Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul>
 <li><p>glmnet: linear, logistic, or multiclass regression</p></li>
 <li><p>rf: random forest</p></li>
 <li><p>rpart2: decision tree</p></li>
@@ -187,16 +187,17 @@ Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"glmnet"</span>
-<span class='va'>hparams_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='va'>ml_method</span><span class='op'>)</span>
-<span class='fu'>get_tuning_grid</span><span class='op'>(</span><span class='va'>hparams_list</span>, <span class='va'>ml_method</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   lambda alpha
-#&gt; 1  1e-04     0
-#&gt; 2  1e-03     0
-#&gt; 3  1e-02     0
-#&gt; 4  1e-01     0
-#&gt; 5  1e+00     0
-#&gt; 6  1e+01     0</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>ml_method</span> <span class='op'>&lt;-</span> <span class='st'>"glmnet"</span></span>
+<span class='r-in'><span class='va'>hparams_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='va'>ml_method</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>get_tuning_grid</span><span class='op'>(</span><span class='va'>hparams_list</span>, <span class='va'>ml_method</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   lambda alpha</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1e-04     0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  1e-03     0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  1e-02     0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  1e-01     0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1e+00     0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  1e+01     0</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
