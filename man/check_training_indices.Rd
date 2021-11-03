@@ -11,13 +11,12 @@ check_training_indices(training_inds, dataset)
 
 \item{dataset}{data frame containing the entire dataset}
 }
-\value{
-
-}
 \description{
 Check the validity of the training indices
 }
 \examples{
-training_indices <- otu_small \%>\% nrow() \%>\% sample(., size = 160)
+training_indices <- otu_small \%>\%
+  nrow() \%>\%
+  sample(., size = 160)
 check_training_indices(training_indices, otu_small)
 }

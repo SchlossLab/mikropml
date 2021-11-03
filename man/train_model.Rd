@@ -51,25 +51,27 @@ Train model using \code{\link[caret:train]{caret::train()}}.
 \examples{
 \dontrun{
 training_data <- otu_mini_bin_results_glmnet$trained_model$trainingData \%>\%
-                 dplyr::rename(dx = .outcome)
+  dplyr::rename(dx = .outcome)
 method <- "rf"
 hyperparameters <- get_hyperparams_list(otu_mini_bin, method)
 cross_val <- define_cv(training_data,
-                       "dx",
-                       hyperparameters,
-                       perf_metric_function = caret::multiClassSummary,
-                       class_probs = TRUE,
-                       cv_times = 2
-                       )
+  "dx",
+  hyperparameters,
+  perf_metric_function = caret::multiClassSummary,
+  class_probs = TRUE,
+  cv_times = 2
+)
 tune_grid <- get_tuning_grid(hyperparameters, method)
 
-rf_model <- train_model(stats::as.formula(paste("dx", "~ .")),
-                        training_data,
-                        method,
-                        cross_val,
-                        "AUC",
-                        tune_grid,
-                        1000)
+rf_model <- train_model(
+  stats::as.formula(paste("dx", "~ .")),
+  training_data,
+  method,
+  cross_val,
+  "AUC",
+  tune_grid,
+  1000
+)
 rf_model$results \%>\% dplyr::select(mtry, AUC, prAUC)
 }
 }
