@@ -1,5 +1,5 @@
 
-group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
+sample_groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 
 test_that("get_partition_indices() works", {
   set.seed(0)
@@ -10,7 +10,7 @@ test_that("get_partition_indices() works", {
   expect_equal(
     get_partition_indices(outcomes,
       training_frac = 0.8,
-      groups = group
+      groups = sample_groups
     ),
     c(1L, 3L, 5L, 6L, 7L, 8L, 9L)
   )
@@ -22,17 +22,75 @@ test_that("get_partition_indices() works", {
     ),
     c(1L, 2L, 3L, 5L, 7L)
   )
-  expect_error(
-    get_partition_indices(outcomes, training_frac = 0),
-    "`training_frac` must be a numeric between 0 and 1."
-  )
 })
 
-test_that("create_grouped_data_partition() works", {
+check_simple_grouped_partition <- function(groups, train_indices) {
+  expect_false(any(groups[train_indices] %in% groups[-train_indices]))
+  expect_false(any(groups[-train_indices] %in% groups[train_indices]))
+  expect_true(length(train_indices) / length(groups) <= 0.8)
+}
+
+test_that("create_grouped_data_partition() works with entire groups in train/test splits", {
   set.seed(0)
-  train_ind <- create_grouped_data_partition(group, 0.8)
+  train_ind <- create_grouped_data_partition(sample_groups, training_frac = 0.8)
   expect_equal(train_ind, c(1L, 3L, 5L, 6L, 7L, 8L, 9L))
-  expect_false(any(group[train_ind] %in% group[-train_ind]))
-  expect_false(any(group[-train_ind] %in% group[train_ind]))
-  expect_true(length(train_ind) / length(group) <= 0.8)
+  check_simple_grouped_partition(sample_groups, train_ind)
+})
+check_custom_grouped_partition <- function(groups, train_indices, group_partitions) {
+  unique_groups <- unique(groups)
+  in_train_only <-
+    setdiff(group_partitions$train, group_partitions$test)
+  in_test_only <-
+    setdiff(group_partitions$test, group_partitions$train)
+  in_both <-
+    intersect(group_partitions$test, group_partitions$train)
+  in_neither <-
+    setdiff(
+      unique_groups,
+      union(group_partitions$test, group_partitions$train)
+    )
+
+  train_groups <- groups[train_indices]
+  test_groups <- groups[-train_indices]
+  expect_false(any(test_groups %in% in_train_only))
+  expect_false(any(train_groups %in% in_test_only))
+}
+test_that("create_grouped_data_partition() works with custom group partitions", {
+  set.seed(20211102)
+  sample_groups <- rep.int(c("A", "B", "C", "D"), 3)
+  group_part <- list(train = c("A"), test = c("A", "B", "C"))
+  train_ind <- create_grouped_data_partition(sample_groups,
+    group_partitions = group_part,
+    training_frac = 0.33
+  )
+  expect_equal(train_ind, c(1L, 5L, 12L, 8L))
+  check_custom_grouped_partition(sample_groups, train_ind, group_part)
+
+  expect_error(
+    create_grouped_data_partition(sample_groups,
+      group_partitions = c(group_part,
+        unknown = c("C")
+      ),
+      training_frac = 0.33
+    ),
+    "Unrecognized name\\(s\\) in `group_partitions`: unknown"
+  )
+
+  set.seed(2019)
+  sample_groups <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace=TRUE)
+  group_part <- list(train = c('A', 'B'), test = c('C', 'D'))
+  train_ind <- create_grouped_data_partition(sample_groups,
+    group_partitions = group_part,
+    training_frac = 0.8
+  )
+  check_custom_grouped_partition(sample_groups, train_ind, group_part)
+
+  group_part <- list(train = c('A', 'B'),
+                     test = c("A", "B", "C", "D", "E", "F", "G", "H")
+                     )
+  train_ind <- create_grouped_data_partition(sample_groups,
+    group_partitions = group_part,
+    training_frac = 0.2
+  )
+  check_custom_grouped_partition(sample_groups, train_ind, group_part)
 })

@@ -203,16 +203,16 @@ regression = <code>defaultSummary</code>.</p></td>
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, kfold <span class='op'>=</span> <span class='fl'>2</span>, cv_times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'>calc_perf_metrics</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,
-  <span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>,
-  <span class='st'>"dx"</span>,
-  <span class='va'>multiClassSummary</span>,
-  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, kfold <span class='op'>=</span> <span class='fl'>2</span>, cv_times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>calc_perf_metrics</span><span class='op'>(</span><span class='va'>results</span><span class='op'>$</span><span class='va'>test_data</span>,</span>
+<span class='r-in'>  <span class='va'>results</span><span class='op'>$</span><span class='va'>trained_model</span>,</span>
+<span class='r-in'>  <span class='st'>"dx"</span>,</span>
+<span class='r-in'>  <span class='va'>multiClassSummary</span>,</span>
+<span class='r-in'>  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

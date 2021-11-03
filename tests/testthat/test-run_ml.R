@@ -171,16 +171,76 @@ test_that("run_ml works for multiclass outcome", {
   skip_on_cran()
   expect_equal_ml_results(
     expect_warning(
-      expect_message(run_ml(otu_mini_multi, # use built-in hyperparameters
+      expect_message(run_ml(otu_mini_multi,
         "glmnet",
         outcome_colname = "dx",
         find_feature_importance = TRUE,
         seed = 2019,
         cv_times = 2,
-        group = otu_mini_multi_group
+        groups = otu_mini_multi_group
       ), "Using 'dx' as the outcome column"),
       "`caret::train\\(\\)` issued the following warning:"
     ),
     otu_mini_multi_results_glmnet
+  )
+})
+
+test_that('run_ml uses custom training indices when provided', {
+  set.seed(2019)
+  n_obs <- otu_mini_bin %>% nrow()
+  training_size <- 0.8 * n_obs
+  training_rows <- sample(n_obs, training_size)
+  expect_warning(
+    results_custom_train <- run_ml(otu_mini_bin,
+                                 'glmnet',
+                                 kfold = 2,
+                                 cv_times = 5,
+                                 training_frac = training_rows,
+                                 seed = 2019
+                                 )
+    )
+  expect_true(dplyr::all_equal(results_custom_train$test_data,
+                               otu_mini_bin[-training_rows, ])
+              )
+})
+
+test_that('run_ml uses custom group partitions', {
+  set.seed(2019)
+  grps <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace=TRUE)
+  group_part <- list(train = c('A', 'B'), test = c('C', 'D'))
+  expect_warning(
+    expect_message(
+    results_grp_part <- run_ml(otu_mini_bin,
+                        'glmnet',
+                        cv_times = 2,
+                        training_frac = 0.8,
+                        groups = grps,
+                        group_partitions = group_part,
+                        seed = 2019),
+    "Groups in the training set: A B E F G H"
+    )
+  )
+  set.seed(2019)
+  train_ind <- create_grouped_data_partition(grps,
+                                             group_partitions = group_part,
+                                             training_frac = 0.8)
+  expect_true(dplyr::all_equal(results_grp_part$test_data,
+                               otu_mini_bin[-train_ind, ]))
+})
+
+test_that('run_ml catches bad training_frac values', {
+  expect_error(
+    run_ml(otu_mini_bin,
+        "glmnet",
+        outcome_colname = "dx",
+        training_frac = 0),
+    "`training_frac` must be a numeric between 0 and 1."
+  )
+  expect_error(
+    run_ml(otu_mini_bin,
+        "glmnet",
+        outcome_colname = "dx",
+        training_frac = 1),
+    "`training_frac` must be a numeric between 0 and 1."
   )
 })

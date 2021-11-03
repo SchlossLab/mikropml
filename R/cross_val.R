@@ -125,5 +125,5 @@ create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   if (any(sapply_fn(out, length) == 0)) {
     stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the groupsing functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
   }
-  out
+  return(out)
 }
