@@ -224,10 +224,10 @@ radix_sort <- function(...) {
 #' @noRd
 #'
 #' @examples
-#' is_whole_number(c(1,2,3))
-#' is.integer(c(1,2,3))
-#' is_whole_number(c(1.0,2.0,3.0))
+#' is_whole_number(c(1, 2, 3))
+#' is.integer(c(1, 2, 3))
+#' is_whole_number(c(1.0, 2.0, 3.0))
 #' is_whole_number(1.2)
-is_whole_number <- function(x, tol = .Machine$double.eps^0.5)  {
+is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }

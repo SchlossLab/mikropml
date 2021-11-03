@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get hyperparameter performance metrics — get_hp_performance • mikropml</title>
+<title>Check the validity of the training indices — check_training_indices • mikropml</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get hyperparameter performance metrics — get_hp_performance" />
-<meta property="og:description" content="Get hyperparameter performance metrics" />
+<meta property="og:title" content="Check the validity of the training indices — check_training_indices" />
+<meta property="og:description" content="Check the validity of the training indices" />
 <meta property="og:image" content="http://www.schlosslab.org/mikropml/logo.png" />
 
 
@@ -147,56 +147,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get hyperparameter performance metrics</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
-    <div class="hidden name"><code>get_hp_performance.Rd</code></div>
+    <h1>Check the validity of the training indices</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/checks.R'><code>R/checks.R</code></a></small>
+    <div class="hidden name"><code>check_training_indices.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get hyperparameter performance metrics</p>
+    <p>Check the validity of the training indices</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_hp_performance</span><span class='op'>(</span><span class='va'>trained_model</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_training_indices</span><span class='op'>(</span><span class='va'>training_inds</span>, <span class='va'>dataset</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>trained_model</th>
-      <td><p>trained model (e.g. from <code><a href='run_ml.html'>run_ml()</a></code>)</p></td>
+      <th>training_inds</th>
+      <td><p>vector of integers corresponding to samples for the training set</p></td>
+    </tr>
+    <tr>
+      <th>dataset</th>
+      <td><p>data frame containing the entire dataset</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Named list:</p><ul>
-<li><p><code>dat</code>: Dataframe of performance metric for each group of hyperparameters.</p></li>
-<li><p><code>params</code>: Hyperparameters tuned.</p></li>
-<li><p><code>metric</code>: Performance metric used.</p></li>
-</ul>
+    
 
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
-<p>Kelly Sovacool <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>get_hp_performance</span><span class='op'>(</span><span class='va'>otu_mini_bin_results_glmnet</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $dat</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   alpha lambda       AUC</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     0  1e-04 0.6082552</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     0  1e-03 0.6082552</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     0  1e-02 0.6086458</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     0  1e-01 0.6166789</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     0  1e+00 0.6221737</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 6     0  1e+01 0.6187408</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $params</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "lambda"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $metric</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "AUC"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+    <pre class="examples"><span class='r-in'><span class='va'>training_indices</span> <span class='op'>&lt;-</span> <span class='va'>otu_small</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>.</span>, size <span class='op'>=</span> <span class='fl'>160</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>check_training_indices</span><span class='op'>(</span><span class='va'>training_indices</span>, <span class='va'>otu_small</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Using the custom training set indices provided by `training_frac`.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>       The fraction of data in the training set will be 0.8</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
