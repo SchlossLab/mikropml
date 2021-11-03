@@ -163,16 +163,6 @@ check_training_indices <- function(training_inds, dataset) {
   if (length(stop_msg) > 0) {
     stop(stop_msg)
   }
-
-  effective_train_frac <- length(training_inds) / nrow(dataset)
-  message(
-    paste0(
-      "Using the custom training set indices provided by `training_frac`.
-      The fraction of data in the training set will be ",
-      round(effective_train_frac, 2)
-    )
-  )
-  check_training_frac(effective_train_frac)
 }
 
 #' check that the seed is either NA or a number
