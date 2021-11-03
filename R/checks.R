@@ -131,7 +131,9 @@ check_training_frac <- function(frac) {
 #' @export
 #'
 #' @examples
-#' training_indices <- otu_small %>% nrow() %>% sample(., size = 160)
+#' training_indices <- otu_small %>%
+#'   nrow() %>%
+#'   sample(., size = 160)
 #' check_training_indices(training_indices, otu_small)
 check_training_indices <- function(training_inds, dataset) {
   if (!all(is_whole_number(training_inds))) {
@@ -142,18 +144,21 @@ check_training_indices <- function(training_inds, dataset) {
   stop_msg <- character(0)
   if (min(training_inds) < 1) {
     stop_msg <- paste0(stop_msg,
-                       "The training indices vector contains a value less than 1.",
-                       sep = "\n")
+      "The training indices vector contains a value less than 1.",
+      sep = "\n"
+    )
   }
   if (max(training_inds) > nrow(dataset)) {
     stop_msg <- paste0(stop_msg,
-                       'The training indices vector contains a value that is too large for the number of rows in the dataset.',
-                       sep = "\n")
+      "The training indices vector contains a value that is too large for the number of rows in the dataset.",
+      sep = "\n"
+    )
   }
   if (length(training_inds) > nrow(dataset)) {
     stop_msg <- paste0(stop_msg,
-                       "The training indices vector contains too many values for the size of the dataset.",
-                       sep = "\n")
+      "The training indices vector contains too many values for the size of the dataset.",
+      sep = "\n"
+    )
   }
   if (length(stop_msg) > 0) {
     stop(stop_msg)
@@ -168,7 +173,6 @@ check_training_indices <- function(training_inds, dataset) {
     )
   )
   check_training_frac(effective_train_frac)
-
 }
 
 #' check that the seed is either NA or a number

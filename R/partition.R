@@ -23,19 +23,21 @@ get_partition_indices <- function(outcomes,
                                   training_frac = 0.8,
                                   groups = NULL,
                                   group_partitions = NULL) {
-    check_training_frac(training_frac)
-    if (is.null(groups)) {
-      training_inds <- caret::createDataPartition(outcomes,
-                                                  p = training_frac,
-                                                  list = FALSE) %>% .[, 1]
-    } else {
-      training_inds <-
-        create_grouped_data_partition(groups,
-                                      group_partitions = group_partitions,
-                                      training_frac = training_frac)
-    }
-    return(training_inds)
+  check_training_frac(training_frac)
+  if (is.null(groups)) {
+    training_inds <- caret::createDataPartition(outcomes,
+      p = training_frac,
+      list = FALSE
+    ) %>% .[, 1]
+  } else {
+    training_inds <-
+      create_grouped_data_partition(groups,
+        group_partitions = group_partitions,
+        training_frac = training_frac
+      )
   }
+  return(training_inds)
+}
 
 
 # split by groups (e.g. facility)
@@ -85,8 +87,10 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
   } else {
     names_unrecognized <- names(group_partitions[!names(group_partitions) %in% c("train", "test")])
     if (length(names_unrecognized) > 0) {
-      stop(paste("Unrecognized name(s) in `group_partitions`:",
-                  names_unrecognized))
+      stop(paste(
+        "Unrecognized name(s) in `group_partitions`:",
+        names_unrecognized
+      ))
     }
     in_train_only <- setdiff(group_partitions$train, group_partitions$test)
     in_test_only <- setdiff(group_partitions$test, group_partitions$train)
@@ -100,7 +104,7 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
     # sample from remaining samples to reach target training fraction
     remaining <- indices[-c(train_set, test_set)]
     if (length(remaining) > 0) {
-      num_needed = round(training_frac * length(indices) - length(train_set))
+      num_needed <- round(training_frac * length(indices) - length(train_set))
       if (num_needed > 0) {
         more_train_samples <- indices[sample(remaining, size = num_needed)]
         train_set <- c(train_set, more_train_samples)
@@ -108,8 +112,10 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
     }
   }
   frac_in_train <- length(train_set) / length(indices)
-  message(paste0("Fraction of data in the training set: ",
-                 round(frac_in_train, 3),
-                 "."))
+  message(paste0(
+    "Fraction of data in the training set: ",
+    round(frac_in_train, 3),
+    "."
+  ))
   return(train_set)
 }

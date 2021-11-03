@@ -49,8 +49,10 @@ check_custom_grouped_partition <- function(groups, train_indices, group_partitio
   in_both <-
     intersect(group_partitions$test, group_partitions$train)
   in_neither <-
-    setdiff(unique_groups,
-            union(group_partitions$test, group_partitions$train))
+    setdiff(
+      unique_groups,
+      union(group_partitions$test, group_partitions$train)
+    )
 
   train_groups <- groups[train_indices]
   test_groups <- groups[-train_indices]
@@ -62,15 +64,19 @@ test_that("create_grouped_data_partition() works with entire groups in train/tes
   sample_groups <- rep.int(c("A", "B", "C", "D"), 3)
   group_part <- list(train = c("A"), test = c("A", "B", "C"))
   train_ind <- create_grouped_data_partition(sample_groups,
-                                             group_partitions = group_part,
-                                             training_frac = 0.33)
+    group_partitions = group_part,
+    training_frac = 0.33
+  )
   expect_equal(train_ind, c(1L, 5L, 12L, 8L))
   check_custom_grouped_partition(sample_groups, train_ind, group_part)
 
-  expect_error(create_grouped_data_partition(sample_groups,
-                                             group_partitions = c(group_part,
-                                                                  unknown=c("C")
-                                                                  ),
-                                             training_frac = 0.33),
-               "Unrecognized name\\(s\\) in `group_partitions`: unknown")
+  expect_error(
+    create_grouped_data_partition(sample_groups,
+      group_partitions = c(group_part,
+        unknown = c("C")
+      ),
+      training_frac = 0.33
+    ),
+    "Unrecognized name\\(s\\) in `group_partitions`: unknown"
+  )
 })
