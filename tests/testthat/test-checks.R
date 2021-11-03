@@ -117,10 +117,6 @@ test_that("check_training_frac works", {
 })
 test_that("check_training_indices works", {
   dat <- data.frame(a = 1:3, b = 2:4)
-  expect_message(
-    check_training_indices(c(1, 2), dat),
-    "Using the custom training set indices provided by"
-  )
   expect_warning(
     check_training_indices(c(2.8, 1), dat),
     "The training indices vector contains non-integer numbers."
