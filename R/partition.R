@@ -23,7 +23,6 @@ get_partition_indices <- function(outcomes,
                                   training_frac = 0.8,
                                   groups = NULL,
                                   group_partitions = NULL) {
-  check_training_frac(training_frac)
   if (is.null(groups)) {
     training_inds <- caret::createDataPartition(outcomes,
       p = training_frac,
@@ -105,17 +104,25 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
     remaining <- indices[-c(train_set, test_set)]
     if (length(remaining) > 0) {
       num_needed <- round(training_frac * length(indices) - length(train_set))
+      if (num_needed > length(remaining)) {
+        num_needed <- length(remaining)
+      }
       if (num_needed > 0) {
         more_train_samples <- indices[sample(remaining, size = num_needed)]
         train_set <- c(train_set, more_train_samples)
       }
     }
   }
+
   frac_in_train <- length(train_set) / length(indices)
-  message(paste0(
-    "Fraction of data in the training set: ",
+  message(paste(
+    "Fraction of data in the training set:",
     round(frac_in_train, 3),
-    "."
+    "\n\tGroups in the training set:",
+    paste(groups[train_set] %>% sort() %>% unique(), collapse = " "),
+    "\n\tGroups in the testing set:",
+    paste(groups[-train_set] %>% sort() %>% unique(), collapse = " ")
   ))
+
   return(train_set)
 }
