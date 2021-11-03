@@ -97,3 +97,10 @@ test_that("radix_sort() order is stable regardless of locale", {
 
   invisible(Sys.setlocale("LC_COLLATE", locale))
 })
+
+test_that("is_whole_number() checks for integer numbers regardless of class", {
+  expect_true(all(is_whole_number(c(1,2,3))))
+  expect_false(is.integer(1))
+  expect_true(all(is_whole_number(c(1.0,2.0,3.0))))
+  expect_false(is_whole_number(1.2))
+})

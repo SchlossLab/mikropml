@@ -1,23 +1,41 @@
-#' Train model
-#'
 #' Train model using [caret::train()].
 #'
-#' TODO: Add example.
-#'
-#' @param model_formula Model formula.
-#' @param train_data Training data.
-#' @param cv Cross-validation caret scheme.
-#' @param tune_grid Tuning grid.
+#' @param model_formula Model formula, typically created with `stats::as.formula()`.
+#' @param train_data Training data. Expected to be a subset of the full dataset.
+#' @param cv Cross-validation caret scheme from `define_cv()`.
+#' @param tune_grid Tuning grid from `get_tuning_grid()`.
 #'
 #' @inheritParams run_ml
 #'
 #' @return Trained model from [caret::train()].
 #'
 #' @export
-#'
-#'
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
+#' @examples
+#' \dontrun{
+#' training_data <- otu_mini_bin_results_glmnet$trained_model$trainingData %>%
+#'                  dplyr::rename(dx = .outcome)
+#' method <- "rf"
+#' hyperparameters <- get_hyperparams_list(otu_mini_bin, method)
+#' cross_val <- define_cv(training_data,
+#'                        "dx",
+#'                        hyperparameters,
+#'                        perf_metric_function = caret::multiClassSummary,
+#'                        class_probs = TRUE,
+#'                        cv_times = 2
+#'                        )
+#' tune_grid <- get_tuning_grid(hyperparameters, method)
+#'
+#' rf_model <- train_model(stats::as.formula(paste("dx", "~ .")),
+#'                         training_data,
+#'                         method,
+#'                         cross_val,
+#'                         "AUC",
+#'                         tune_grid,
+#'                         1000)
+#' rf_model$results %>% dplyr::select(mtry, AUC, prAUC)
+#' }
 train_model <- function(model_formula,
                         train_data,
                         method,

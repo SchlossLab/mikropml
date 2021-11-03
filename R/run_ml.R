@@ -34,6 +34,8 @@
 #'   See the `caret::trainControl()` docs for information on how to use it.
 #' @param training_frac Fraction of data for training set (default: `0.8`).
 #'   The remaining data will be used in the testing set.
+#'   Alternatively, if you supply a vector of integers, these will be used as
+#'   the indices for the training set.
 #' @param perf_metric_function Function to calculate the performance metric to
 #'   be used for cross-validation and test performance. Some functions are
 #'   provided by caret (see [caret::defaultSummary()]).
@@ -47,10 +49,18 @@
 #'             regression = `"RMSE"`.
 #' @param groups Vector of groups to keep together when splitting the data into
 #'  train and test sets, and for cross-validation.
-#'  length matches the number of rows in the dataset (default: `NULL`).
+#'  Length matches the number of rows in the dataset (default: `NULL`).
+#' @param group_partitions Specify how to assign `groups` to the training and
+#'   testing partitions (default: `NULL`). If `groups` specifies that some
+#'   samples belong to group `"A"` and some belong to group `"B"`, then setting
+#'   `group_partitions = list(train = c("A", "B"), test = c("B"))` will result
+#'   in all samples from group `"A"` being placed in the training set, some
+#'   samples from `"B"` also in the training set, and the remaining samples from
+#'   `"B"` in the testing set. The partition sizes will be as close to
+#'   `training_frac` as possible.
 #' @param corr_thresh For feature importance, group correlations
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
-#' @param ntree For random forest, how many trees to use (default: 1000).
+#' @param ntree For random forest, how many trees to use (default: `1000`).
 #'   Note that caret doesn't allow this parameter to be tuned.
 #' @return
 #'
@@ -107,6 +117,7 @@ run_ml <-
            perf_metric_function = NULL,
            perf_metric_name = NULL,
            groups = NULL,
+           group_partitions = NULL,
            corr_thresh = 1,
            ntree = 1000,
            seed = NA) {
@@ -141,10 +152,18 @@ run_ml <-
     dataset <- randomize_feature_order(dataset, outcome_colname)
 
     outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
-    training_inds <- get_partition_indices(outcomes_vec,
-      training_frac = training_frac,
-      groups = groups
-    )
+
+    if (length(training_frac) == 1) {
+      check_training_frac(training_frac)
+      training_inds <- get_partition_indices(outcomes_vec,
+        training_frac = training_frac,
+        groups = groups
+      )
+    } else {
+      training_inds <- training_frac
+      check_training_indices(training_inds, dataset)
+    }
+
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
     # train_groups & test_groups will be NULL if groups is NULL

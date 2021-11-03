@@ -27,9 +27,10 @@
 define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL) {
   if (is.null(groups)) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
-      dplyr::pull(outcome_colname)),
-    kfold,
-    times = cv_times
+                                                dplyr::pull(outcome_colname)
+                                              ),
+                                       kfold,
+                                       times = cv_times
     )
   } else {
     cvIndex <- create_grouped_k_multifolds(groups,
@@ -125,5 +126,5 @@ create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   if (any(sapply_fn(out, length) == 0)) {
     stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the groupsing functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
   }
-  out
+  return(out)
 }
