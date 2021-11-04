@@ -114,6 +114,10 @@ test_that("check_training_frac works", {
     check_training_frac(0),
     "`training_frac` must be a numeric between 0 and 1."
   )
+  expect_warning(
+    check_training_frac(0.499),
+    '`training_frac` is less than 0.5. The training set will be smaller than the testing set.'
+  )
 })
 test_that("check_training_indices works", {
   dat <- data.frame(a = 1:3, b = 2:4)
