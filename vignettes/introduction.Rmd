@@ -366,18 +366,18 @@ from C & D will be used for testing, and the remaining groups will be randomly
 assigned to one or the other to satisfy the `training_frac` as closely as
 possible.
 
-In another scenario, maybe you want only groups A and B to be used for training,
-but you also want to allow other observations from A and Bto be used for
-testing:
+In another scenario, maybe you want only groups A through F to be used for
+training, but you also want to allow other observations not selected for
+training from A through F to be used for testing:
 
 ```{r only_group_A_train, warning = FALSE}
 results_grp_trainA <- run_ml(otu_mini_bin, 
                       'glmnet', 
                       cv_times = 2, 
                       kfold = 2,
-                      training_frac = 0.8, 
+                      training_frac = 0.5, 
                       groups = grps, 
-                      group_partitions = list(train = c("A", "B"),
+                      group_partitions = list(train = c("A", "B", "C", "D", "E", "F"),
                                               test = c("A", "B", "C", "D", "E", "F", "G", "H")
                                               ),
                       seed = 2019)

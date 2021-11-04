@@ -398,22 +398,22 @@
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>In the above case, all observations from A &amp; B will be used for training, all from C &amp; D will be used for testing, and the remaining groups will be randomly assigned to one or the other to satisfy the <code>training_frac</code> as closely as possible.</p>
-<p>In another scenario, maybe you want only groups A and B to be used for training, but you also want to allow other observations from A and Bto be used for testing:</p>
+<p>In another scenario, maybe you want only groups A through F to be used for training, but you also want to allow other observations not selected for training from A through F to be used for testing:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_grp_trainA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, 
                       <span class="st">'glmnet'</span>, 
                       cv_times <span class="op">=</span> <span class="fl">2</span>, 
                       kfold <span class="op">=</span> <span class="fl">2</span>,
-                      training_frac <span class="op">=</span> <span class="fl">0.8</span>, 
+                      training_frac <span class="op">=</span> <span class="fl">0.5</span>, 
                       groups <span class="op">=</span> <span class="va">grps</span>, 
-                      group_partitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,
+                      group_partitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span><span class="op">)</span>,
                                               test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span>
                                               <span class="op">)</span>,
                       seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
-<span class="co">#&gt; Fraction of data in the training set: 0.24 </span>
-<span class="co">#&gt;  Groups in the training set: A B </span>
-<span class="co">#&gt;  Groups in the testing set: C D E F G H</span>
+<span class="co">#&gt; Fraction of data in the training set: 0.5 </span>
+<span class="co">#&gt;  Groups in the training set: A B C D E F </span>
+<span class="co">#&gt;  Groups in the testing set: A B C D E F G H</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>If you need even more control than this, take a look at <a href="#custom-training-indices">setting custom training indices</a> and/or providing your own train control scheme with the <code>cross_val</code> parameter in <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
