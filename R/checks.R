@@ -156,7 +156,7 @@ check_training_indices <- function(training_inds, dataset) {
       sep = "\n"
     )
   }
-  if (length(training_inds) > nrow(dataset)) {
+  if (length(training_inds) >= nrow(dataset)) {
     stop_msg <- paste0(stop_msg,
       "The training indices vector contains too many values for the size of the dataset.",
       sep = "\n"
