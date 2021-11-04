@@ -5,15 +5,17 @@
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
+check_all <- function(dataset, method, permute, kfold, training_frac,
+                      perf_metric_function, perf_metric_name, groups,
+                      group_partitions, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
-  check_training_frac(training_frac)
   check_perf_metric_function(perf_metric_function)
   check_perf_metric_name(perf_metric_name)
-  check_groups(dataset, group, kfold)
+  check_groups(dataset, groups, kfold)
+  check_group_partitions(dataset, groups, group_partitions)
   check_corr_thresh(corr_thresh)
   check_ntree(ntree)
   check_seed(seed)
@@ -121,6 +123,51 @@ check_training_frac <- function(frac) {
       "`training_frac` must be a numeric between 0 and 1.\n",
       "    You provided: ", frac
     ))
+  } else if (frac < 0.5) {
+    warning("`training_frac` is less than 0.5. The training set will be smaller than the testing set.")
+  }
+}
+
+#' Check the validity of the training indices
+#'
+#' @param training_inds vector of integers corresponding to samples for the training set
+#' @param dataset data frame containing the entire dataset
+#'
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' training_indices <- otu_small %>%
+#'   nrow() %>%
+#'   sample(., size = 160)
+#' check_training_indices(training_indices, otu_small)
+check_training_indices <- function(training_inds, dataset) {
+  if (!all(is_whole_number(training_inds))) {
+    warning(
+      "The training indices vector contains non-integer numbers."
+    )
+  }
+  stop_msg <- character(0)
+  if (min(training_inds) < 1) {
+    stop_msg <- paste0(stop_msg,
+      "The training indices vector contains a value less than 1.",
+      sep = "\n"
+    )
+  }
+  if (max(training_inds) > nrow(dataset)) {
+    stop_msg <- paste0(stop_msg,
+      "The training indices vector contains a value that is too large for the number of rows in the dataset.",
+      sep = "\n"
+    )
+  }
+  if (length(training_inds) >= nrow(dataset)) {
+    stop_msg <- paste0(stop_msg,
+      "The training indices vector contains too many values for the size of the dataset.",
+      sep = "\n"
+    )
+  }
+  if (length(stop_msg) > 0) {
+    stop(stop_msg)
   }
 }
 
@@ -351,6 +398,44 @@ check_groups <- function(dataset, groups, kfold) {
       stop(paste0("The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ", ngrp, ". `kfold`: ", kfold, "."))
     }
   }
+}
+
+#' Check the validity of the group_partitions list
+#'
+#' @inheritParams check_groups
+#' @inheritParams run_ml
+#'
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' check_group_partitions(otu_mini_bin,
+#'                        sample(LETTERS[1:8],
+#'                               size = nrow(otu_mini_bin),
+#'                               replace = TRUE),
+#'                        list(train = c("A", "B"), test = c("C", "D"))
+#'                        )
+check_group_partitions <- function(dataset, groups, group_partitions) {
+  if (is.null(group_partitions)){
+    return()
+  }
+  names_unrecognized <-
+    names(group_partitions[!names(group_partitions) %in% c("train", "test")])
+  if (length(names_unrecognized) > 0) {
+    stop(paste(
+      "Unrecognized name(s) in `group_partitions`:",
+      paste(names_unrecognized, collapse = ' ')
+    ))
+  }
+  groups_unrecognized <- setdiff(group_partitions %>% unlist(),
+                                 groups %>% unique()) %>% sort()
+  if (length(groups_unrecognized) > 0) {
+    stop(paste(
+      "`group_partitions` contains group names not in groups vector:",
+      paste(group_unrecognized, collapse = ' ')
+    ))
+  }
+
 }
 
 #' check that corr_thresh is either NULL or a number between 0 and 1
