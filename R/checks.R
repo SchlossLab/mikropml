@@ -121,7 +121,7 @@ check_training_frac <- function(frac) {
       "    You provided: ", frac
     ))
   } else if (frac < 0.5) {
-    warning('`training_frac` is less than 0.5. The training set will be smaller than the testing set.')
+    warning("`training_frac` is less than 0.5. The training set will be smaller than the testing set.")
   }
 }
 

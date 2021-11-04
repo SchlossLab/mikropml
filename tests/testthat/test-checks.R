@@ -116,7 +116,7 @@ test_that("check_training_frac works", {
   )
   expect_warning(
     check_training_frac(0.499),
-    '`training_frac` is less than 0.5. The training set will be smaller than the testing set.'
+    "`training_frac` is less than 0.5. The training set will be smaller than the testing set."
   )
 })
 test_that("check_training_indices works", {
