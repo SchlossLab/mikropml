@@ -235,6 +235,29 @@ This is okay for testing things out and may even be necessary for smaller datase
 But in general it may be better to have larger numbers for these parameters; 
 we think the defaults are a good starting point [@topcuoglu_framework_2020].
 
+### Custom training indices
+
+When `training_frac` is a fraction between 0 and 1, a random sample of
+observations in the dataset are chosen for the training partition to satisfy the
+`training_frac`. However, in some cases you might wish to control exactly which
+observations are in the training partition. You can instead assign
+`training_frac` a vector of indices that correspond to which rows of the dataset
+should go in the training fraction of the train/test split.
+
+```{r custom_train_indices, warning=FALSE}
+n_obs <- otu_mini_bin %>% nrow()
+training_size <- 0.8 * n_obs
+training_rows <- sample(n_obs, training_size)
+results_custom_train <- run_ml(otu_mini_bin,
+                               'glmnet',
+                               kfold = 2,
+                               cv_times = 5,
+                               training_frac = training_rows,
+                               seed = 2019
+                               )
+```
+
+
 ## Changing the performance metric
 
 There are two arguments that allow you to change what performance metric to use
@@ -291,17 +314,17 @@ important to split up the data based on a grouping instead of just randomly.
 This allows you to control for similarities within groups that you don't want to
 skew your predictions (i.e. batch effects). For example, with biological data
 you may have samples collected from multiple hospitals, and you might like to
-keep observations from the same hospital in the same split.
+keep observations from the same hospital in the same partition.
 
 Here's an example where we split the data into train/test sets based on a group:
 
-```{r, eval = FALSE}
+```{r custom_groups, warning=FALSE}
 # make random groups
 set.seed(2019)
-grps <- sample(LETTERS[1:8], nrow(otu_mini_bin),replace=TRUE)
+grps <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace=TRUE)
 results_grp <- run_ml(otu_mini_bin, 
                       'glmnet', 
-                      cv_times = 5, 
+                      cv_times = 2, 
                       training_frac = 0.8, 
                       groups = grps, 
                       seed = 2019)
@@ -311,6 +334,58 @@ The one difference here is `run_ml()` will report how much of the data is in the
 training set if you run the above code chunk. This is because it won't be
 exactly what you specify with `training_frac`, since you have to include all of
 one group in either the training set _or_ the test set.
+
+### Controling how groups are assigned to partitions
+
+When you use the `groups` parameter as above, by default `run_ml()` will assume
+that you want all of the observations from each group to be placed in the same
+train/test partition. This makes sense when you want to use groups to control
+for batch effects. However, in some cases you might prefer to control exactly
+which groups end up in which partition, and you might even be okay with some
+observations from the same group being assigned to different partitions.
+
+For example, say you want groups A and B to be used for training, C and D for
+testing, and you don't have a preference for what happens to the other groups. You
+can give the `group_partitions` parameter a named list to specify which groups
+should go in the train partition and which should go in the test partition.
+
+```{r group_partitions, warning=FALSE}
+results_grp_part <- run_ml(otu_mini_bin, 
+                      'glmnet', 
+                      cv_times = 2, 
+                      training_frac = 0.8, 
+                      groups = grps, 
+                      group_partitions = list(train = c('A', 'B'),
+                                              test = c('C', 'D')
+                                              ),
+                      seed = 2019)
+```
+
+In the above case, all observations from A & B will be used for training, all
+from C & D will be used for testing, and the remaining groups will be randomly
+assigned to one or the other to satisfy the `training_frac` as closely as
+possible.
+
+In another scenario, maybe you want only groups A and B to be used for training,
+but you also want to allow other observations from A and Bto be used for
+testing:
+
+```{r only_group_A_train, warning = FALSE}
+results_grp_trainA <- run_ml(otu_mini_bin, 
+                      'glmnet', 
+                      cv_times = 2, 
+                      kfold = 2,
+                      training_frac = 0.8, 
+                      groups = grps, 
+                      group_partitions = list(train = c("A", "B"),
+                                              test = c("A", "B", "C", "D", "E", "F", "G", "H")
+                                              ),
+                      seed = 2019)
+```
+
+If you need even more control than this, take a look at 
+[setting custom training indices](#custom-training-indices) and/or providing
+your own train control scheme with the `cross_val` parameter in `run_ml()`.
 
 # Finding feature importance
 

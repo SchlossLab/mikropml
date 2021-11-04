@@ -40,19 +40,20 @@ cv_times = 2
 test_that("train_model works", {
   skip_on_cran() # this functionality is already tested in test-run_ml.R
   set.seed(2019)
-  expect_equal(
-    train_model(
-      stats::as.formula(paste("dx", "~ .")),
-      otu_mini_bin_results_glmnet$trained_model$trainingData %>%
-        dplyr::rename(dx = .outcome),
-      "rf",
-      cv,
-      "AUC",
-      tg_rf,
-      1000
-    )$bestTune$mtry,
-    2L
+  rf_model <- train_model(
+    stats::as.formula(paste("dx", "~ .")),
+    otu_mini_bin_results_glmnet$trained_model$trainingData %>%
+      dplyr::rename(dx = .outcome),
+    "rf",
+    cv,
+    "AUC",
+    tg_rf,
+    1000
   )
+  auc <- rf_model$results %>%
+    dplyr::filter(mtry == rf_model$bestTune$mtry) %>%
+    dplyr::pull(AUC)
+  expect_true(dplyr::near(auc, 0.68, tol = 10^-2))
 
   set.seed(2019)
   expect_equal(

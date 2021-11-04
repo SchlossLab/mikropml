@@ -10,7 +10,6 @@ check_all <- function(dataset, method, permute, kfold, training_frac, perf_metri
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
-  check_training_frac(training_frac)
   check_perf_metric_function(perf_metric_function)
   check_perf_metric_name(perf_metric_name)
   check_groups(dataset, group, kfold)
@@ -121,6 +120,50 @@ check_training_frac <- function(frac) {
       "`training_frac` must be a numeric between 0 and 1.\n",
       "    You provided: ", frac
     ))
+  } else if (frac < 0.5) {
+    warning('`training_frac` is less than 0.5. The training set will be smaller than the testing set.')
+  }
+}
+
+#' Check the validity of the training indices
+#'
+#' @param training_inds vector of integers corresponding to samples for the training set
+#' @param dataset data frame containing the entire dataset
+#'
+#' @export
+#'
+#' @examples
+#' training_indices <- otu_small %>%
+#'   nrow() %>%
+#'   sample(., size = 160)
+#' check_training_indices(training_indices, otu_small)
+check_training_indices <- function(training_inds, dataset) {
+  if (!all(is_whole_number(training_inds))) {
+    warning(
+      "The training indices vector contains non-integer numbers."
+    )
+  }
+  stop_msg <- character(0)
+  if (min(training_inds) < 1) {
+    stop_msg <- paste0(stop_msg,
+      "The training indices vector contains a value less than 1.",
+      sep = "\n"
+    )
+  }
+  if (max(training_inds) > nrow(dataset)) {
+    stop_msg <- paste0(stop_msg,
+      "The training indices vector contains a value that is too large for the number of rows in the dataset.",
+      sep = "\n"
+    )
+  }
+  if (length(training_inds) >= nrow(dataset)) {
+    stop_msg <- paste0(stop_msg,
+      "The training indices vector contains too many values for the size of the dataset.",
+      sep = "\n"
+    )
+  }
+  if (length(stop_msg) > 0) {
+    stop(stop_msg)
   }
 }
 
