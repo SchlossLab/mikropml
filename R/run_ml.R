@@ -130,6 +130,7 @@ run_ml <-
       perf_metric_function,
       perf_metric_name,
       groups,
+      group_partitions,
       corr_thresh,
       ntree,
       seed

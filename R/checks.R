@@ -5,14 +5,17 @@
 #'
 #' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-check_all <- function(dataset, method, permute, kfold, training_frac, perf_metric_function, perf_metric_name, group, corr_thresh, ntree, seed) {
+check_all <- function(dataset, method, permute, kfold, training_frac,
+                      perf_metric_function, perf_metric_name, groups,
+                      group_partitions, corr_thresh, ntree, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
   check_perf_metric_function(perf_metric_function)
   check_perf_metric_name(perf_metric_name)
-  check_groups(dataset, group, kfold)
+  check_groups(dataset, groups, kfold)
+  check_group_partitions(dataset, groups, group_partitions)
   check_corr_thresh(corr_thresh)
   check_ntree(ntree)
   check_seed(seed)
@@ -130,7 +133,8 @@ check_training_frac <- function(frac) {
 #' @param training_inds vector of integers corresponding to samples for the training set
 #' @param dataset data frame containing the entire dataset
 #'
-#' @export
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
 #' training_indices <- otu_small %>%
@@ -394,6 +398,44 @@ check_groups <- function(dataset, groups, kfold) {
       stop(paste0("The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ", ngrp, ". `kfold`: ", kfold, "."))
     }
   }
+}
+
+#' Check the validity of the group_partitions list
+#'
+#' @inheritParams check_groups
+#' @inheritParams run_ml
+#'
+#' @noRd
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' check_group_partitions(otu_mini_bin,
+#'                        sample(LETTERS[1:8],
+#'                               size = nrow(otu_mini_bin),
+#'                               replace = TRUE),
+#'                        list(train = c("A", "B"), test = c("C", "D"))
+#'                        )
+check_group_partitions <- function(dataset, groups, group_partitions) {
+  if (is.null(group_partitions)){
+    return()
+  }
+  names_unrecognized <-
+    names(group_partitions[!names(group_partitions) %in% c("train", "test")])
+  if (length(names_unrecognized) > 0) {
+    stop(paste(
+      "Unrecognized name(s) in `group_partitions`:",
+      paste(names_unrecognized, collapse = ' ')
+    ))
+  }
+  groups_unrecognized <- setdiff(group_partitions %>% unlist(),
+                                 groups %>% unique()) %>% sort()
+  if (length(groups_unrecognized) > 0) {
+    stop(paste(
+      "`group_partitions` contains group names not in groups vector:",
+      paste(group_unrecognized, collapse = ' ')
+    ))
+  }
+
 }
 
 #' check that corr_thresh is either NULL or a number between 0 and 1

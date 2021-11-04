@@ -66,16 +66,6 @@ test_that("create_grouped_data_partition() works with custom group partitions", 
   expect_equal(train_ind, c(1L, 5L, 12L, 8L))
   check_custom_grouped_partition(sample_groups, train_ind, group_part)
 
-  expect_error(
-    create_grouped_data_partition(sample_groups,
-      group_partitions = c(group_part,
-        unknown = c("C")
-      ),
-      training_frac = 0.33
-    ),
-    "Unrecognized name\\(s\\) in `group_partitions`: unknown"
-  )
-
   set.seed(2019)
   sample_groups <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace = TRUE)
   group_part <- list(train = c("A", "B"), test = c("C", "D"))
