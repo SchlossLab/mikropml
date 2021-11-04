@@ -409,14 +409,16 @@ check_groups <- function(dataset, groups, kfold) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' check_group_partitions(otu_mini_bin,
-#'                        sample(LETTERS[1:8],
-#'                               size = nrow(otu_mini_bin),
-#'                               replace = TRUE),
-#'                        list(train = c("A", "B"), test = c("C", "D"))
-#'                        )
+#' check_group_partitions(
+#'   otu_mini_bin,
+#'   sample(LETTERS[1:8],
+#'     size = nrow(otu_mini_bin),
+#'     replace = TRUE
+#'   ),
+#'   list(train = c("A", "B"), test = c("C", "D"))
+#' )
 check_group_partitions <- function(dataset, groups, group_partitions) {
-  if (is.null(group_partitions)){
+  if (is.null(group_partitions)) {
     return()
   }
   names_unrecognized <-
@@ -424,18 +426,19 @@ check_group_partitions <- function(dataset, groups, group_partitions) {
   if (length(names_unrecognized) > 0) {
     stop(paste(
       "Unrecognized name(s) in `group_partitions`:",
-      paste(names_unrecognized, collapse = ' ')
+      paste(names_unrecognized, collapse = " ")
     ))
   }
-  groups_unrecognized <- setdiff(group_partitions %>% unlist(),
-                                 groups %>% unique()) %>% sort()
+  groups_unrecognized <- setdiff(
+    group_partitions %>% unlist(),
+    groups %>% unique()
+  ) %>% sort()
   if (length(groups_unrecognized) > 0) {
     stop(paste(
       "`group_partitions` contains group names not in groups vector:",
-      paste(group_unrecognized, collapse = ' ')
+      paste(group_unrecognized, collapse = " ")
     ))
   }
-
 }
 
 #' check that corr_thresh is either NULL or a number between 0 and 1

@@ -148,9 +148,11 @@ test_that("check_seed works", {
 })
 
 test_that("check_all works", {
-  expect_null(check_all(otu_small, "glmnet", TRUE, as.integer(5), 0.8,
-                        NULL, NULL, NULL,
-                        NULL, NULL, NULL, NA))
+  expect_null(check_all(
+    otu_small, "glmnet", TRUE, as.integer(5), 0.8,
+    NULL, NULL, NULL,
+    NULL, NULL, NULL, NA
+  ))
 })
 
 test_that("check_packages_installed works", {
@@ -182,7 +184,7 @@ test_that("check_groups works", {
   expect_error(check_groups(mikropml::otu_mini_bin, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
 })
 
-test_that('check_group_partitions works', {
+test_that("check_group_partitions works", {
   set.seed(20211104)
   sample_groups <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace = TRUE)
   group_part <- list(train = c("A", "B"), test = c("C", "D"))
@@ -193,8 +195,10 @@ test_that('check_group_partitions works', {
     "Unrecognized name\\(s\\) in `group_partitions`: what"
   )
   expect_error(
-    check_group_partitions(otu_mini_bin, sample_groups, list(train = c("X")),
-                           "`group_partitions` contains group names not in groups vector")
+    check_group_partitions(
+      otu_mini_bin, sample_groups, list(train = c("X")),
+      "`group_partitions` contains group names not in groups vector"
+    )
   )
 })
 
