@@ -4,14 +4,33 @@
 \alias{get_partition_indices}
 \title{Select indices to partition the data into training & testing sets.}
 \usage{
-get_partition_indices(outcomes, training_frac = 0.8, groups = NULL)
+get_partition_indices(
+  outcomes,
+  training_frac = 0.8,
+  groups = NULL,
+  group_partitions = NULL
+)
 }
 \arguments{
 \item{outcomes}{vector of outcomes}
 
-\item{training_frac}{max fraction of data for the training set(default: 0.8)}
+\item{training_frac}{Fraction of data for training set (default: \code{0.8}).
+The remaining data will be used in the testing set.
+Alternatively, if you supply a vector of integers, these will be used as
+the indices for the training set.}
 
-\item{groups}{vector of groups. length must match the number of rows in the dataset. (default: NULL)}
+\item{groups}{Vector of groups to keep together when splitting the data into
+train and test sets, and for cross-validation.
+Length matches the number of rows in the dataset (default: \code{NULL}).}
+
+\item{group_partitions}{Specify how to assign \code{groups} to the training and
+testing partitions (default: \code{NULL}). If \code{groups} specifies that some
+samples belong to group \code{"A"} and some belong to group \code{"B"}, then setting
+\code{group_partitions = list(train = c("A", "B"), test = c("B"))} will result
+in all samples from group \code{"A"} being placed in the training set, some
+samples from \code{"B"} also in the training set, and the remaining samples from
+\code{"B"} in the testing set. The partition sizes will be as close to
+\code{training_frac} as possible.}
 }
 \value{
 Vector of row indices for the training set.

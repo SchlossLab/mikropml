@@ -18,6 +18,7 @@ run_ml(
   perf_metric_function = NULL,
   perf_metric_name = NULL,
   groups = NULL,
+  group_partitions = NULL,
   corr_thresh = 1,
   ntree = 1000,
   seed = NA
@@ -53,11 +54,15 @@ You might choose to skip this if you do not perform cross-validation during mode
 
 \item{cv_times}{Number of cross-validation partitions to create (default: \code{100}).}
 
-\item{cross_val}{a custom cross-validation scheme from \code{caret::trainControl} (default: \code{NULL} uses \code{kfold} cross validation repeated \code{cv_times}).
-\code{kfold} and \code{cv_times} are ignored if the user provides a custom cross-validation scheme.}
+\item{cross_val}{a custom cross-validation scheme from \code{caret::trainControl()}
+(default: \code{NULL}, uses \code{kfold} cross validation repeated \code{cv_times}).
+\code{kfold} and \code{cv_times} are ignored if the user provides a custom cross-validation scheme.
+See the \code{caret::trainControl()} docs for information on how to use it.}
 
 \item{training_frac}{Fraction of data for training set (default: \code{0.8}).
-The remaining data will be used in the testing set.}
+The remaining data will be used in the testing set.
+Alternatively, if you supply a vector of integers, these will be used as
+the indices for the training set.}
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
@@ -74,12 +79,21 @@ regression = \code{"RMSE"}.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
 train and test sets, and for cross-validation.
-length matches the number of rows in the dataset (default: \code{NULL}).}
+Length matches the number of rows in the dataset (default: \code{NULL}).}
+
+\item{group_partitions}{Specify how to assign \code{groups} to the training and
+testing partitions (default: \code{NULL}). If \code{groups} specifies that some
+samples belong to group \code{"A"} and some belong to group \code{"B"}, then setting
+\code{group_partitions = list(train = c("A", "B"), test = c("B"))} will result
+in all samples from group \code{"A"} being placed in the training set, some
+samples from \code{"B"} also in the training set, and the remaining samples from
+\code{"B"} in the testing set. The partition sizes will be as close to
+\code{training_frac} as possible.}
 
 \item{corr_thresh}{For feature importance, group correlations
 above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
-\item{ntree}{For random forest, how many trees to use (default: 1000).
+\item{ntree}{For random forest, how many trees to use (default: \code{1000}).
 Note that caret doesn't allow this parameter to be tuned.}
 
 \item{seed}{Random seed (default: \code{NA}).
@@ -124,12 +138,12 @@ run_ml(otu_small, "rf",
 
 # custom cross validation & hyperparameters
 run_ml(otu_mini_bin[, 2:11],
-   "glmnet",
-   outcome_colname = "Otu00001",
-   seed = 2019,
-   hyperparameters = list(lambda = c(1e-04), alpha = 0),
-   cross_val = caret::trainControl(method = 'none'),
-   calculate_performance = FALSE
+  "glmnet",
+  outcome_colname = "Otu00001",
+  seed = 2019,
+  hyperparameters = list(lambda = c(1e-04), alpha = 0),
+  cross_val = caret::trainControl(method = "none"),
+  calculate_performance = FALSE
 )
 }
 }

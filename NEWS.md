@@ -2,7 +2,11 @@
 
 - New parameter `cross_val` added to `run_ml()` allows users to define their own custom cross-validation scheme (#278, @kelly-sovacool).
     - Also added a new parameter `calculate_performance`, which controls whether performance metrics are calculated (default: `TRUE`). Users may wish to skip performance calculations when training models with no cross-validation.
-        
+- New parameter `group_partitions` added to `run_ml()` allows users to control which groups should go to which partition of the train/test split (#281, @kelly-sovacool).
+- Modified the `training_frac` parameter in `run_ml()` (#281, @kelly-sovacool).
+    - By default, `training_frac` is a fraction between 0 and 1 that specifies how much of the dataset should be used in the training fraction of the train/test split.
+    - Users can instead give `training_frac` a vector of indices that correspond to which rows of the dataset should go in the training fraction of the train/test split. This gives users direct control over exactly which observations are in the training fraction if desired.
+
 # mikropml 1.1.1
 
 - Fixed bugs related to grouping correlated features (#276, @kelly-sovacool).
