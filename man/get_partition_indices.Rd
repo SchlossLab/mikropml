@@ -14,10 +14,11 @@ get_partition_indices(
 \arguments{
 \item{outcomes}{vector of outcomes}
 
-\item{training_frac}{Fraction of data for training set (default: \code{0.8}).
-The remaining data will be used in the testing set.
-Alternatively, if you supply a vector of integers, these will be used as
-the indices for the training set.}
+\item{training_frac}{Fraction of data for training set (default: \code{0.8}). Rows
+from the dataset will be randomly selected for the training set, and all
+remaining rows will be used in the testing set. Alternatively, if you
+provide a vector of integers, these will be used as the row indices for the
+training set. All remaining rows will be used in the testing set.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
 train and test sets, and for cross-validation.
