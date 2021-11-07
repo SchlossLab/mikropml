@@ -102,7 +102,7 @@
 
       
 
-      </header><script src="preprocess_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data</h1>
@@ -176,7 +176,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
 <span class="co">#&gt; character(0)</span></code></pre></div>
-<p>The output is a list: <code>dat_transformed</code> which has the transformed data, <code>grp_feats</code> which is a list of grouped features, and <code>removed_feats</code> which is a list of featuures that were removed. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code>, or <code><a href="https://rdrr.io/r/base/c.html">c(0,1,0)</a></code> and <code><a href="https://rdrr.io/r/base/c.html">c(1,0,1)</a></code> - see below for more details).</p>
+<p>The output is a list: <code>dat_transformed</code> which has the transformed data, <code>grp_feats</code> which is a list of grouped features, and <code>removed_feats</code> which is a list of featuures that were removed. Here, <code>grp_feats</code> is <code>NULL</code> because there are no perfectly correlated features (e.g. <code>c(0,1,0)</code> and <code>c(0,1,0)</code>, or <code>c(0,1,0)</code> and <code>c(1,0,1)</code> - see below for more details).</p>
 <p>The first column (<code>var1</code>) in <code>dat_transformed</code> is a character and is changed to <code>var1_yes</code> that has zeros (no) and ones (yes). The values in the second column (<code>var2</code>) stay the same because it’s already binary, but the name changes to <code>var2_1</code>. The third column (<code>var3</code>) is a factor and is also changed to binary where b is 1 and a is 0, as denoted by the new column name <code>var3_b</code>.</p>
 </div>
 <div id="categorical-data" class="section level2">
@@ -363,7 +363,7 @@
 <div id="data-with-near-zero-variance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-with-near-zero-variance" class="anchor"></a>Data with near-zero variance</h2>
-<p>What if we have variables that are all zero, or all “no?” Those ones won’t contribute any information, so we remove them:</p>
+<p>What if we have variables that are all zero, or all “no”? Those ones won’t contribute any information, so we remove them:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># raw dataset with non-variable features</span>
 <span class="va">nonvar_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -681,9 +681,9 @@
 <h2 class="hasAnchor">
 <a href="#next-step-train-and-evaluate-your-model" class="anchor"></a>Next step: train and evaluate your model!</h2>
 <p>After you preprocess your data (either using <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> or by preprocessing the data on your own), you’re ready to train and evaluate machine learning models! Please see <code><a href="../reference/run_ml.html">run_ml()</a></code> information about training models.</p>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-tang_democratizing_2020" class="csl-entry">
-Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.
+<div id="refs" class="references">
+<div id="ref-tang_democratizing_2020">
+<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
 </div>
 </div>
 </div>
