@@ -1,4 +1,4 @@
-# development version 
+# development version 1.2.0
 
 - New parameter `cross_val` added to `run_ml()` allows users to define their own custom cross-validation scheme (#278, @kelly-sovacool).
     - Also added a new parameter `calculate_performance`, which controls whether performance metrics are calculated (default: `TRUE`). Users may wish to skip performance calculations when training models with no cross-validation.
