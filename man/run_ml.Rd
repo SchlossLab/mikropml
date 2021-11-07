@@ -59,10 +59,11 @@ You might choose to skip this if you do not perform cross-validation during mode
 \code{kfold} and \code{cv_times} are ignored if the user provides a custom cross-validation scheme.
 See the \code{caret::trainControl()} docs for information on how to use it.}
 
-\item{training_frac}{Fraction of data for training set (default: \code{0.8}).
-The remaining data will be used in the testing set.
-Alternatively, if you supply a vector of integers, these will be used as
-the indices for the training set.}
+\item{training_frac}{Fraction of data for training set (default: \code{0.8}). Rows
+from the dataset will be randomly selected for the training set, and all
+remaining rows will be used in the testing set. Alternatively, if you
+provide a vector of integers, these will be used as the row indices for the
+training set. All remaining rows will be used in the testing set.}
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
@@ -130,7 +131,7 @@ run_ml(otu_small, "glmnet",
   seed = 2019
 )
 
-# random forest
+# random forest w/ feature importance
 run_ml(otu_small, "rf",
   outcome_colname = "dx",
   find_feature_importance = TRUE

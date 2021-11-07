@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -172,10 +172,11 @@
     </tr>
     <tr>
       <th>training_frac</th>
-      <td><p>Fraction of data for training set (default: <code>0.8</code>).
-The remaining data will be used in the testing set.
-Alternatively, if you supply a vector of integers, these will be used as
-the indices for the training set.</p></td>
+      <td><p>Fraction of data for training set (default: <code>0.8</code>). Rows
+from the dataset will be randomly selected for the training set, and all
+remaining rows will be used in the testing set. Alternatively, if you
+provide a vector of integers, these will be used as the row indices for the
+training set. All remaining rows will be used in the testing set.</p></td>
     </tr>
     <tr>
       <th>groups</th>
@@ -210,10 +211,10 @@ partitions to be reproducible (recommended).</p>
     <p>Kelly Sovacool, sovacool@umich.edu</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>$</span><span class='va'>dx</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span></span>
-<span class='r-in'><span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span></span>
-</pre>
+    <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>$</span><span class='va'>dx</span><span class='op'>)</span>
+<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span>
+<span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

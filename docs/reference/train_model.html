@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train model — train_model • mikropml</title>
+<title>Train model using caret::train(). — train_model • mikropml</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Train model — train_model" />
+<meta property="og:title" content="Train model using caret::train(). — train_model" />
 <meta property="og:description" content="Train model using caret::train()." />
 <meta property="og:image" content="http://www.schlosslab.org/mikropml/logo.png" />
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train model</h1>
+    <h1>Train model using <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>.</h1>
     <small class="dont-index">Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/R/train_model.R'><code>R/train_model.R</code></a></small>
     <div class="hidden name"><code>train_model.Rd</code></div>
     </div>
@@ -171,11 +171,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model_formula</th>
-      <td><p>Model formula.</p></td>
+      <td><p>Model formula, typically created with <code><a href='https://rdrr.io/r/stats/formula.html'>stats::as.formula()</a></code>.</p></td>
     </tr>
     <tr>
       <th>train_data</th>
-      <td><p>Training data.</p></td>
+      <td><p>Training data. Expected to be a subset of the full dataset.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -190,7 +190,7 @@ Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2
     </tr>
     <tr>
       <th>cv</th>
-      <td><p>Cross-validation caret scheme.</p></td>
+      <td><p>Cross-validation caret scheme from <code><a href='define_cv.html'>define_cv()</a></code>.</p></td>
     </tr>
     <tr>
       <th>perf_metric_name</th>
@@ -202,11 +202,11 @@ regression = <code>"RMSE"</code>.</p></td>
     </tr>
     <tr>
       <th>tune_grid</th>
-      <td><p>Tuning grid.</p></td>
+      <td><p>Tuning grid from <code><a href='get_tuning_grid.html'>get_tuning_grid()</a></code>.</p></td>
     </tr>
     <tr>
       <th>ntree</th>
-      <td><p>For random forest, how many trees to use (default: 1000).
+      <td><p>For random forest, how many trees to use (default: <code>1000</code>).
 Note that caret doesn't allow this parameter to be tuned.</p></td>
     </tr>
     </table>
@@ -214,13 +214,37 @@ Note that caret doesn't allow this parameter to be tuned.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Trained model from <code><a href='https://rdrr.io/pkg/caret/man/train.html'>caret::train()</a></code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>TODO: Add example.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>training_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin_results_glmnet</span><span class='op'>$</span><span class='va'>trained_model</span><span class='op'>$</span><span class='va'>trainingData</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>.outcome</span><span class='op'>)</span>
+<span class='va'>method</span> <span class='op'>&lt;-</span> <span class='st'>"rf"</span>
+<span class='va'>hyperparameters</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_hyperparams_list.html'>get_hyperparams_list</a></span><span class='op'>(</span><span class='va'>otu_mini_bin</span>, <span class='va'>method</span><span class='op'>)</span>
+<span class='va'>cross_val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_cv.html'>define_cv</a></span><span class='op'>(</span><span class='va'>training_data</span>,
+  <span class='st'>"dx"</span>,
+  <span class='va'>hyperparameters</span>,
+  perf_metric_function <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/caret/man/postResample.html'>multiClassSummary</a></span>,
+  class_probs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cv_times <span class='op'>=</span> <span class='fl'>2</span>
+<span class='op'>)</span>
+<span class='va'>tune_grid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_tuning_grid.html'>get_tuning_grid</a></span><span class='op'>(</span><span class='va'>hyperparameters</span>, <span class='va'>method</span><span class='op'>)</span>
+
+<span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>train_model</span><span class='op'>(</span>
+  <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"dx"</span>, <span class='st'>"~ ."</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='va'>training_data</span>,
+  <span class='va'>method</span>,
+  <span class='va'>cross_val</span>,
+  <span class='st'>"AUC"</span>,
+  <span class='va'>tune_grid</span>,
+  <span class='fl'>1000</span>
+<span class='op'>)</span>
+<span class='va'>rf_model</span><span class='op'>$</span><span class='va'>results</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>mtry</span>, <span class='va'>AUC</span>, <span class='va'>prAUC</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

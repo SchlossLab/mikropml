@@ -52,9 +52,11 @@
 #'   show_after = 0
 #' ))
 #' ## tell progressor to always report progress
+#' \dontrun{
 #' progressr::handlers(global = TRUE)
 #' ## run the function and watch the live progress udpates
 #' dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
+#' }
 preprocess_data <- function(dataset, outcome_colname,
                             method = c("center", "scale"),
                             remove_var = "nzv", collapse_corr_feats = TRUE,
