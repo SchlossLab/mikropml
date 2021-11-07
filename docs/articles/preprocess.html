@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
 
       
 
-      </header><script src="preprocess_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="preprocess_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing data</h1>
@@ -132,7 +132,7 @@
 <div id="its-running-so-slow" class="section level1">
 <h1 class="hasAnchor">
 <a href="#its-running-so-slow" class="anchor"></a>It’s running so slow!</h1>
-<p>Since I assume a lot of you won’t read this entire vignette, I’m going to say this at the beginning. If the <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> function is running super slow, you should consider parallelizing it so it goes faster! You can learn more about how to do that in <code><a href="../articles/parallel.html">vignette("parallel")</a></code>.</p>
+<p>Since I assume a lot of you won’t read this entire vignette, I’m going to say this at the beginning. If the <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> function is running super slow, you should consider parallelizing it so it goes faster! <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> also can report live progress updates. See <code><a href="../articles/parallel.html">vignette("parallel")</a></code> for details.</p>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
@@ -140,7 +140,7 @@
 <p>We’re going to start off simple and get more complicated, but if you want the whole shebang at once, just scroll to the bottom.</p>
 <p>First, we have to load <code>mikropml</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.schlosslab.org/mikropml/">mikropml</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.schlosslab.org/mikropml/">mikropml</a></span><span class="op">)</span></code></pre></div>
 <div id="binary-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#binary-data" class="anchor"></a>Binary data</h2>
@@ -164,7 +164,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">bin_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt; # A tibble: 3 × 4</span>
 <span class="co">#&gt;   outcome var1_yes var2_1 var3_b</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      0      0</span>
@@ -199,7 +199,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cat_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt; # A tibble: 3 × 4</span>
 <span class="co">#&gt;   outcome var1_a var1_b var1_c</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal       1      0      0</span>
@@ -233,7 +233,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt; # A tibble: 3 × 2</span>
 <span class="co">#&gt;   outcome  var1</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal     -1</span>
@@ -271,7 +271,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">cont_char_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, to_numeric <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt; # A tibble: 3 × 4</span>
 <span class="co">#&gt;   outcome var1_1 var1_2 var1_3</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal       1      0      0</span>
@@ -307,16 +307,16 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt; # A tibble: 3 × 2</span>
 <span class="co">#&gt;   outcome  grp1</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal      1</span>
-<span class="co">#&gt; 2 normal      0</span>
-<span class="co">#&gt; 3 cancer      1</span>
+<span class="co">#&gt; 1 normal      0</span>
+<span class="co">#&gt; 2 normal      1</span>
+<span class="co">#&gt; 3 cancer      0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
 <span class="co">#&gt; $grp_feats$grp1</span>
-<span class="co">#&gt; [1] "var3_1"   "var1_yes"</span>
+<span class="co">#&gt; [1] "var1_yes" "var3_1"  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
@@ -328,7 +328,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, group_neg_corr <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_yes var3_1</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      1</span>
@@ -346,7 +346,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">corr_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_yes var3_1</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      1</span>
@@ -363,7 +363,7 @@
 <div id="data-with-near-zero-variance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-with-near-zero-variance" class="anchor"></a>Data with near-zero variance</h2>
-<p>What if we have variables that are all zero, or all “no”? Those ones won’t contribute any information, so we remove them:</p>
+<p>What if we have variables that are all zero, or all “no?” Those ones won’t contribute any information, so we remove them:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># raw dataset with non-variable features</span>
 <span class="va">nonvar_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -385,7 +385,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_yes var2_1</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      0</span>
@@ -403,7 +403,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="st">'zv'</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_yes var2_1</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      0</span>
@@ -421,7 +421,7 @@
 <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">nonvar_df</span>, outcome_colname <span class="op">=</span> <span class="st">"outcome"</span>, remove_var <span class="op">=</span> <span class="cn">NULL</span>, collapse_corr_feats <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 5</span>
+<span class="co">#&gt; # A tibble: 3 × 5</span>
 <span class="co">#&gt;   outcome var1_yes var2_1  var3  var5</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      0     0    12</span>
@@ -468,7 +468,7 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; Removed 1/4 (25%) of samples because of missing outcome value (NA).</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_yes var2_1</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0      0</span>
@@ -502,7 +502,7 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt; # A tibble: 3 × 2</span>
 <span class="co">#&gt;   outcome var1_yes</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0</span>
@@ -521,7 +521,7 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; There are 1 missing value(s) in features with no variation. Missing values were replaced with the non-varying value.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_yes  var2</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal         0     1</span>
@@ -555,7 +555,7 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; 2 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   outcome var1_no var1_yes</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal        1        0</span>
@@ -592,7 +592,7 @@
 <span class="co">#&gt; Using 'outcome' as the outcome column.</span>
 <span class="co">#&gt; 2 missing continuous value(s) were imputed using the median value of the feature.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt; # A tibble: 4 × 3</span>
 <span class="co">#&gt;   outcome  var1  var2</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 normal      1     1</span>
@@ -642,28 +642,28 @@
 <span class="co">#&gt; 2 categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns.</span>
 <span class="co">#&gt; 1 missing continuous value(s) were imputed using the median value of the feature.</span>
 <span class="co">#&gt; $dat_transformed</span>
-<span class="co">#&gt; # A tibble: 3 x 6</span>
-<span class="co">#&gt;   outcome   var8 var2_a  grp1  grp2  grp3</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 normal  -0.707      1    -1     0     0</span>
-<span class="co">#&gt; 2 normal   0.707      0     0     1     0</span>
-<span class="co">#&gt; 3 cancer   0          0     1     0     1</span>
+<span class="co">#&gt; # A tibble: 3 × 6</span>
+<span class="co">#&gt;   outcome  grp1 var2_a  grp2  grp3   var8</span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 normal     -1      1     0     0 -0.707</span>
+<span class="co">#&gt; 2 normal      0      0     1     0  0.707</span>
+<span class="co">#&gt; 3 cancer      1      0     0     1  0    </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats</span>
-<span class="co">#&gt; $grp_feats$var8</span>
-<span class="co">#&gt; [1] "var8"</span>
+<span class="co">#&gt; $grp_feats$grp1</span>
+<span class="co">#&gt; [1] "var1"  "var12"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$var2_a</span>
 <span class="co">#&gt; [1] "var2_a"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $grp_feats$grp1</span>
-<span class="co">#&gt; [1] "var12" "var1" </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp2</span>
 <span class="co">#&gt; [1] "var2_b"   "var3_yes" "var9_x"  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $grp_feats$grp3</span>
 <span class="co">#&gt; [1] "var2_c" "var7_1" "var9_y"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $grp_feats$var8</span>
+<span class="co">#&gt; [1] "var8"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $removed_feats</span>
@@ -681,9 +681,9 @@
 <h2 class="hasAnchor">
 <a href="#next-step-train-and-evaluate-your-model" class="anchor"></a>Next step: train and evaluate your model!</h2>
 <p>After you preprocess your data (either using <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> or by preprocessing the data on your own), you’re ready to train and evaluate machine learning models! Please see <code><a href="../reference/run_ml.html">run_ml()</a></code> information about training models.</p>
-<div id="refs" class="references">
-<div id="ref-tang_democratizing_2020">
-<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-tang_democratizing_2020" class="csl-entry">
+Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.
 </div>
 </div>
 </div>

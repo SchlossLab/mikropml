@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -150,13 +150,67 @@
       <small>Source: <a href='https://github.com/SchlossLab/mikropml/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="mikropml-111" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.1">
+<a href="#mikropml-111" class="anchor"></a>mikropml 1.1.1<small> 2021-09-14 </small>
+</h1>
+<ul>
+<li>Fixed bugs related to grouping correlated features (<a href='https://github.com/SchlossLab/mikropml/issues/276'>#276</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>).
+<ul>
+<li>Also, <code><a href="../reference/group_correlated_features.html">group_correlated_features()</a></code> is now a user-facing function.</li>
+</ul>
+</li>
+</ul>
+</div>
+    <div id="mikropml-110" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.0">
+<a href="#mikropml-110" class="anchor"></a>mikropml 1.1.0<small> 2021-08-10 </small>
+</h1>
+<ul>
+<li>New correlation method option for feature importance (<a href='https://github.com/SchlossLab/mikropml/issues/267'>#267</a>, <a href='https://github.com/courtneyarmour'>@courtneyarmour</a>).
+<ul>
+<li>The default is still “spearman”, and now you can use other methods supported by <code><a href="https://rdrr.io/r/stats/cor.html">stats::cor</a></code> with the <code>corr_method</code> parameter: <code><a href="../reference/get_feature_importance.html">get_feature_importance(corr_method = "pearson")</a></code>
+</li>
+</ul>
+</li>
+<li>There are now <a href="https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg">video tutorials</a> covering mikropml and other skills related to machine learning, created by <a href='https://github.com/pschloss'>@pschloss</a> (<a href='https://github.com/SchlossLab/mikropml/issues/270'>#270</a>).</li>
+<li>Fixed a bug where <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> converted the outcome column to a character vector (<a href='https://github.com/SchlossLab/mikropml/issues/273'>#273</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>, <a href='https://github.com/ecmaggioncalda'>@ecmaggioncalda</a>).</li>
+</ul>
+</div>
+    <div id="mikropml-100" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.0">
+<a href="#mikropml-100" class="anchor"></a>mikropml 1.0.0<small> 2021-05-13 </small>
+</h1>
+<ul>
+<li>mikropml now has a logo created by <a href='https://github.com/NLesniak'>@NLesniak</a>!</li>
+<li>Made documentation improvements (<a href='https://github.com/SchlossLab/mikropml/issues/238'>#238</a>, <a href='https://github.com/SchlossLab/mikropml/issues/231'>#231</a> <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>; <a href='https://github.com/SchlossLab/mikropml/issues/256'>#256</a> <a href='https://github.com/BTopcuoglu'>@BTopcuoglu</a>).</li>
+<li>New option in <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>: <code>prefilter_threshold</code> (<a href='https://github.com/SchlossLab/mikropml/issues/240'>#240</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>, <a href='https://github.com/courtneyarmour'>@courtneyarmour</a>).
+<ul>
+<li>Remove any features that appear in N=<code>prefilter_threshold</code> or fewer rows in the data.</li>
+<li>Created function <code><a href="../reference/remove_singleton_columns.html">remove_singleton_columns()</a></code> called by <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> to carry this out.</li>
+</ul>
+</li>
+<li>New option in <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code>: <code>groups</code> (<a href='https://github.com/SchlossLab/mikropml/issues/246'>#246</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>).
+<ul>
+<li>Provide custom groups of features to permute together during permutation importance.</li>
+<li>
+<code>groups</code> is <code>NULL</code> by default; in this case, correlated features above <code>corr_thresh</code> are grouped together.</li>
+</ul>
+</li>
+<li>
+<code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> now replaces spaces in the outcome column with underscores (<a href='https://github.com/SchlossLab/mikropml/issues/247'>#247</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>, <a href='https://github.com/JonnyTran'>@JonnyTran</a>).</li>
+<li>Clarify in the intro vignette that we do not support multi-label outcomes. (<a href='https://github.com/SchlossLab/mikropml/issues/254'>#254</a>, <a href='https://github.com/zenalapp'>@zenalapp</a>)</li>
+<li>Optional progress bar for <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> using <a href="https://github.com/HenrikBengtsson/progressr">the progressr package</a> (<a href='https://github.com/SchlossLab/mikropml/issues/257'>#257</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>, <a href='https://github.com/JonnyTran'>@JonnyTran</a>, <a href='https://github.com/FedericoComoglio'>@FedericoComoglio</a>).</li>
+<li>The mikropml paper is soon to be published in <a href="https://joss.theoj.org/papers/10.21105/joss.03073">JOSS</a>!</li>
+</ul>
+</div>
     <div id="mikropml-002" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.2">
 <a href="#mikropml-002" class="anchor"></a>mikropml 0.0.2<small> 2020-12-03 </small>
 </h1>
 <ul>
 <li>Fixed a test failure on Solaris.</li>
-<li>Fixed multiple test failtures with R 3.6.2 due to <code>stringsAsFactors</code> behavior.</li>
+<li>Fixed multiple test failures with R 3.6.2 due to <code>stringsAsFactors</code> behavior.</li>
 <li>Made minor documentation improvements.</li>
 <li>Moved <code>rpart</code> from Suggests to Imports for consistency with other packages used during model training.</li>
 </ul>

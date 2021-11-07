@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -275,10 +275,12 @@ converted to underscores for compatibility with <code>caret</code>.</p>
   show_after <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span><span class='op'>)</span>
 <span class='co'>## tell progressor to always report progress</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://progressr.futureverse.org/reference/handlers.html'>handlers</a></span><span class='op'>(</span>global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'>## run the function and watch the live progress udpates</span>
 <span class='va'>dat_preproc</span> <span class='op'>&lt;-</span> <span class='fu'>preprocess_data</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_small.html'>otu_small</a></span>, <span class='st'>"dx"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Using 'dx' as the outcome column.</span></div></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
