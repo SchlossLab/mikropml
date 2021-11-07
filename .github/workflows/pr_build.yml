@@ -54,7 +54,7 @@ jobs:
           branch: ${{ github.head_ref }}
       - name: Docs
         run: |
-          Rscript -e "devtools::build_site()"
+          Rscript -e "pkgdown::build_reference(); devtools::build_site()"
           git add docs
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
