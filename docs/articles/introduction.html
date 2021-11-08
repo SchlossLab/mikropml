@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
 
       
 
-      </header><script src="introduction_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to mikropml</h1>
@@ -294,9 +294,9 @@
 <div id="custom-training-indices" class="section level3">
 <h3 class="hasAnchor">
 <a href="#custom-training-indices" class="anchor"></a>Custom training indices</h3>
-<p>When <code>training_frac</code> is a fraction between 0 and 1, a random sample of observations in the dataset are chosen for the training partition to satisfy the <code>training_frac</code>. However, in some cases you might wish to control exactly which observations are in the training partition. You can instead assign <code>training_frac</code> a vector of indices that correspond to which rows of the dataset should go in the training fraction of the train/test split.</p>
+<p>When <code>training_frac</code> is a fraction between 0 and 1, a random sample of observations in the dataset are chosen for the training set to satisfy the <code>training_frac</code>. However, in some cases you might wish to control exactly which observations are in the training set. You can instead assign <code>training_frac</code> a vector of indices that correspond to which rows of the dataset should go in the training set (all remaining sequences will go in the testing set).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">training_size</span> <span class="op">&lt;-</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="va">n_obs</span>
 <span class="va">training_rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="va">training_size</span><span class="op">)</span>
 <span class="va">results_custom_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,
@@ -357,8 +357,8 @@
 <div id="using-groups" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-groups" class="anchor"></a>Using groups</h2>
-<p>The optional <code>groups</code> is a vector of groups to keep together when splitting the data into train and test sets and for cross-validation. This can be a little finicky depending on how many samples and groups you have, but sometimes it’s important to split up the data based on a grouping instead of just randomly. This allows you to control for similarities within groups that you don’t want to skew your predictions (i.e. batch effects). For example, with biological data you may have samples collected from multiple hospitals, and you might like to keep observations from the same hospital in the same partition.</p>
-<p>Here’s an example where we split the data into train/test sets based on a group:</p>
+<p>The optional <code>groups</code> is a vector of groups to keep together when splitting the data into train and test sets and for cross-validation. Sometimes it’s important to split up the data based on a grouping instead of just randomly. This allows you to control for similarities within groups that you don’t want to skew your predictions (i.e. batch effects). For example, with biological data you may have samples collected from multiple hospitals, and you might like to keep observations from the same hospital in the same partition.</p>
+<p>Here’s an example where we split the data into train/test sets based on groups:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># make random groups</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span>
@@ -375,12 +375,12 @@
 <span class="co">#&gt;  Groups in the testing set: C E</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
-<p>The one difference here is <code><a href="../reference/run_ml.html">run_ml()</a></code> will report how much of the data is in the training set if you run the above code chunk. This is because it won’t be exactly what you specify with <code>training_frac</code>, since you have to include all of one group in either the training set <em>or</em> the test set.</p>
+<p>The one difference here is <code><a href="../reference/run_ml.html">run_ml()</a></code> will report how much of the data is in the training set if you run the above code chunk. This can be a little finicky depending on how many samples and groups you have. This is because it won’t be exactly what you specify with <code>training_frac</code>, since you have to include all of one group in either the training set <em>or</em> the test set.</p>
 <div id="controling-how-groups-are-assigned-to-partitions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#controling-how-groups-are-assigned-to-partitions" class="anchor"></a>Controling how groups are assigned to partitions</h3>
-<p>When you use the <code>groups</code> parameter as above, by default <code><a href="../reference/run_ml.html">run_ml()</a></code> will assume that you want all of the observations from each group to be placed in the same train/test partition. This makes sense when you want to use groups to control for batch effects. However, in some cases you might prefer to control exactly which groups end up in which partition, and you might even be okay with some observations from the same group being assigned to different partitions.</p>
-<p>For example, say you want groups A and B to be used for training, C and D for testing, and you don’t have a preference for what happens to the other groups. You can give the <code>group_partitions</code> parameter a named list to specify which groups should go in the train partition and which should go in the test partition.</p>
+<p>When you use the <code>groups</code> parameter as above, by default <code><a href="../reference/run_ml.html">run_ml()</a></code> will assume that you want all of the observations from each group to be placed in the same partition of the train/test split. This makes sense when you want to use groups to control for batch effects. However, in some cases you might prefer to control exactly which groups end up in which partition, and you might even be okay with some observations from the same group being assigned to different partitions.</p>
+<p>For example, say you want groups A and B to be used for training, C and D for testing, and you don’t have a preference for what happens to the other groups. You can give the <code>group_partitions</code> parameter a named list to specify which groups should go in the training set and which should go in the testing set.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_grp_part</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, 
                       <span class="st">'glmnet'</span>, 
@@ -416,7 +416,7 @@
 <span class="co">#&gt;  Groups in the testing set: A B C D E F G H</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
-<p>If you need even more control than this, take a look at <a href="#custom-training-indices">setting custom training indices</a> and/or providing your own train control scheme with the <code>cross_val</code> parameter in <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
+<p>If you need even more control than this, take a look at <a href="#custom-training-indices">setting custom training indices</a>. You might also prefer to provide your own train control scheme with the <code>cross_val</code> parameter in <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
 </div>
 </div>
 </div>
@@ -539,7 +539,7 @@
                       <span class="st">'svmRadial'</span>,
                       cv_times <span class="op">=</span> <span class="fl">5</span>,
                       seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></code></pre></div>
-<p>If you get a message “maximum number of iterations reached,” see <a href="https://github.com/topepo/caret/issues/425">this issue</a> in caret.</p>
+<p>If you get a message “maximum number of iterations reached”, see <a href="https://github.com/topepo/caret/issues/425">this issue</a> in caret.</p>
 </div>
 </div>
 <div id="other-data" class="section level1">
@@ -550,7 +550,7 @@
 <a href="#multiclass-data" class="anchor"></a>Multiclass data</h2>
 <p>We provide <code>otu_mini_multi</code> with a multiclass outcome (three or more outcomes):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">otu_mini_multi</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="st">'dx'</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">otu_mini_multi</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="st">'dx'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "adenoma"   "carcinoma" "normal"</span></code></pre></div>
 <p>Here’s an example of running multiclass data:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -591,12 +591,12 @@
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-tang_democratizing_2020" class="csl-entry">
-Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.
+<div id="refs" class="references">
+<div id="ref-tang_democratizing_2020">
+<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
 </div>
-<div id="ref-topcuoglu_framework_2020" class="csl-entry">
-Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. <span>“A <span>Framework</span> for <span>Effective Application</span> of <span>Machine Learning</span> to <span>Microbiome</span>-<span>Based Classification Problems</span>.”</span> <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.
+<div id="ref-topcuoglu_framework_2020">
+<p>Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. “A Framework for Effective Application of Machine Learning to Microbiome-Based Classification Problems.” <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.</p>
 </div>
 </div>
 </div>

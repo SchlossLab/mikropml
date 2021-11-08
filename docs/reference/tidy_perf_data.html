@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -176,20 +176,20 @@
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># call `run_ml()` multiple times with different seeds</span>
-<span class='va'>results_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>104</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-<span class='co'># extract and combine the performance results</span>
-<span class='va'>perf_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>results_lst</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>result</span><span class='op'>[[</span><span class='st'>"performance"</span><span class='op'>]</span><span class='op'>]</span>
-<span class='op'>}</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='co'># make it pretty!</span>
-<span class='fu'>tidy_perf_data</span><span class='op'>(</span><span class='va'>perf_df</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># call `run_ml()` multiple times with different seeds</span></span>
+<span class='r-in'><span class='va'>results_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>104</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>seed</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='run_ml.html'>run_ml</a></span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># extract and combine the performance results</span></span>
+<span class='r-in'><span class='va'>perf_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>results_lst</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>result</span><span class='op'>[[</span><span class='st'>"performance"</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># make it pretty!</span></span>
+<span class='r-in'><span class='fu'>tidy_perf_data</span><span class='op'>(</span><span class='va'>perf_df</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

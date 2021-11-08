@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.9000</span>
       </span>
     </div>
 
@@ -182,7 +182,7 @@
     <tr>
       <th>method</th>
       <td><p>Methods to preprocess the data, described in
-<code><a href='https://rdrr.io/pkg/caret/man/preProcess.html'>caret::preProcess()</a></code> (default: <code><a href='https://rdrr.io/r/base/c.html'>c("center","scale")</a></code>, use <code>NULL</code> for
+<code><a href='https://rdrr.io/pkg/caret/man/preProcess.html'>caret::preProcess()</a></code> (default: <code>c("center","scale")</code>, use <code>NULL</code> for
 no normalization).</p></td>
     </tr>
     <tr>
@@ -192,7 +192,8 @@ no normalization).</p></td>
     </tr>
     <tr>
       <th>collapse_corr_feats</th>
-      <td><p>Whether to keep only one of perfectly correlated features.</p></td>
+      <td><p>Whether to keep only one of perfectly correlated
+features.</p></td>
     </tr>
     <tr>
       <th>to_numeric</th>
@@ -206,8 +207,9 @@ together (e.g. c(0,1) and c(1,0)).</p></td>
     <tr>
       <th>prefilter_threshold</th>
       <td><p>Remove features which only have non-zero &amp; non-NA
-values N rows or fewer (default: 1). Set this to -1 to keep all columns at this step.
-This step will also be skipped if <code>to_numeric</code> is set to <code>FALSE</code>.</p></td>
+values N rows or fewer (default: 1). Set this to -1 to keep all columns at
+this step. This step will also be skipped if <code>to_numeric</code> is set to
+<code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -219,6 +221,8 @@ This step will also be skipped if <code>to_numeric</code> is set to <code>FALSE<
 <li><p><code>removed_feats</code>: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).</p></li>
 </ul>
 
+<p>If the <code>progressr</code> package is installed, a progress bar with time elapsed
+and estimated time to completion can be displayed.</p>
     <h2 class="hasAnchor" id="more-details"><a class="anchor" href="#more-details"></a>More details</h2>
 
     
@@ -234,42 +238,51 @@ converted to underscores for compatibility with <code>caret</code>.</p>
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>preprocess_data</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_small.html'>otu_small</a></span>, <span class='st'>"dx"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Using 'dx' as the outcome column.</span></div><div class='output co'>#&gt; $dat_transformed
-#&gt; <span style='color: #949494;'># A tibble: 200 x 61</span><span>
-#&gt;    dx    Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007 Otu00008
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> norm…   -</span><span style='color: #BB0000;'>0.420</span><span>   -</span><span style='color: #BB0000;'>0.219</span><span>   -</span><span style='color: #BB0000;'>0.174</span><span>  -</span><span style='color: #BB0000;'>0.591</span><span>   -</span><span style='color: #BB0000;'>0.048</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>  -</span><span style='color: #BB0000;'>0.167</span><span>    -</span><span style='color: #BB0000;'>0.569</span><span> -</span><span style='color: #BB0000;'>0.062</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> norm…   -</span><span style='color: #BB0000;'>0.105</span><span>    1.75    -</span><span style='color: #BB0000;'>0.718</span><span>   0.038</span><span style='text-decoration: underline;'>1</span><span>   1.54    -</span><span style='color: #BB0000;'>0.573</span><span>    -</span><span style='color: #BB0000;'>0.643</span><span> -</span><span style='color: #BB0000;'>0.132</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> norm…   -</span><span style='color: #BB0000;'>0.708</span><span>    0.696    1.43    0.604   -</span><span style='color: #BB0000;'>0.265</span><span>   -</span><span style='color: #BB0000;'>0.036</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span>   -</span><span style='color: #BB0000;'>0.612</span><span> -</span><span style='color: #BB0000;'>0.207</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> norm…   -</span><span style='color: #BB0000;'>0.494</span><span>   -</span><span style='color: #BB0000;'>0.665</span><span>    2.02   -</span><span style='color: #BB0000;'>0.593</span><span>   -</span><span style='color: #BB0000;'>0.676</span><span>   -</span><span style='color: #BB0000;'>0.586</span><span>    -</span><span style='color: #BB0000;'>0.552</span><span> -</span><span style='color: #BB0000;'>0.470</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> norm…    1.11    -</span><span style='color: #BB0000;'>0.395</span><span>   -</span><span style='color: #BB0000;'>0.754</span><span>  -</span><span style='color: #BB0000;'>0.586</span><span>   -</span><span style='color: #BB0000;'>0.754</span><span>    2.73      0.191 -</span><span style='color: #BB0000;'>0.676</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> norm…   -</span><span style='color: #BB0000;'>0.685</span><span>    0.614   -</span><span style='color: #BB0000;'>0.174</span><span>  -</span><span style='color: #BB0000;'>0.584</span><span>    0.376    0.804    -</span><span style='color: #BB0000;'>0.337</span><span> -</span><span style='color: #BB0000;'>0.006</span><span style='color: #BB0000;text-decoration: underline;'>08</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> canc…   -</span><span style='color: #BB0000;'>0.770</span><span>   -</span><span style='color: #BB0000;'>0.496</span><span>   -</span><span style='color: #BB0000;'>0.318</span><span>   0.159   -</span><span style='color: #BB0000;'>0.658</span><span>    2.20     -</span><span style='color: #BB0000;'>0.717</span><span>  0.063</span><span style='text-decoration: underline;'>6</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> norm…   -</span><span style='color: #BB0000;'>0.424</span><span>   -</span><span style='color: #BB0000;'>0.478</span><span>   -</span><span style='color: #BB0000;'>0.397</span><span>  -</span><span style='color: #BB0000;'>0.556</span><span>   -</span><span style='color: #BB0000;'>0.391</span><span>   -</span><span style='color: #BB0000;'>0.062</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>    0.376 -</span><span style='color: #BB0000;'>0.022</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> norm…   -</span><span style='color: #BB0000;'>0.556</span><span>    1.14     1.62   -</span><span style='color: #BB0000;'>0.352</span><span>   -</span><span style='color: #BB0000;'>0.275</span><span>   -</span><span style='color: #BB0000;'>0.465</span><span>    -</span><span style='color: #BB0000;'>0.804</span><span>  0.294  
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> canc…    1.46    -</span><span style='color: #BB0000;'>0.451</span><span>   -</span><span style='color: #BB0000;'>0.694</span><span>  -</span><span style='color: #BB0000;'>0.056</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span>  -</span><span style='color: #BB0000;'>0.706</span><span>    0.689    -</span><span style='color: #BB0000;'>0.370</span><span>  1.59   
-#&gt; </span><span style='color: #949494;'># … with 190 more rows, and 52 more variables: Otu00009 &lt;dbl&gt;, Otu00010 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00011 &lt;dbl&gt;, Otu00012 &lt;dbl&gt;, Otu00013 &lt;dbl&gt;, Otu00014 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00015 &lt;dbl&gt;, Otu00016 &lt;dbl&gt;, Otu00017 &lt;dbl&gt;, Otu00018 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00019 &lt;dbl&gt;, Otu00020 &lt;dbl&gt;, Otu00021 &lt;dbl&gt;, Otu00022 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00023 &lt;dbl&gt;, Otu00024 &lt;dbl&gt;, Otu00025 &lt;dbl&gt;, Otu00026 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00027 &lt;dbl&gt;, Otu00028 &lt;dbl&gt;, Otu00029 &lt;dbl&gt;, Otu00030 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00031 &lt;dbl&gt;, Otu00032 &lt;dbl&gt;, Otu00033 &lt;dbl&gt;, Otu00034 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00035 &lt;dbl&gt;, Otu00036 &lt;dbl&gt;, Otu00037 &lt;dbl&gt;, Otu00038 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00039 &lt;dbl&gt;, Otu00040 &lt;dbl&gt;, Otu00041 &lt;dbl&gt;, Otu00042 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00043 &lt;dbl&gt;, Otu00044 &lt;dbl&gt;, Otu00045 &lt;dbl&gt;, Otu00046 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00047 &lt;dbl&gt;, Otu00048 &lt;dbl&gt;, Otu00049 &lt;dbl&gt;, Otu00050 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00051 &lt;dbl&gt;, Otu00052 &lt;dbl&gt;, Otu00053 &lt;dbl&gt;, Otu00054 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00055 &lt;dbl&gt;, Otu00056 &lt;dbl&gt;, Otu00057 &lt;dbl&gt;, Otu00058 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Otu00059 &lt;dbl&gt;, Otu00060 &lt;dbl&gt;</span><span>
-#&gt; 
-#&gt; $grp_feats
-#&gt; NULL
-#&gt; 
-#&gt; $removed_feats
-#&gt; character(0)
-#&gt; </div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>preprocess_data</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_small.html'>otu_small</a></span>, <span class='st'>"dx"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Using 'dx' as the outcome column.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $dat_transformed</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 200 × 61</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    dx    Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007 Otu00008</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> norm…   -<span style='color: #BB0000;'>0.420</span>   -<span style='color: #BB0000;'>0.219</span>   -<span style='color: #BB0000;'>0.174</span>  -<span style='color: #BB0000;'>0.591</span>   -<span style='color: #BB0000;'>0.048</span><span style='color: #BB0000; text-decoration: underline;'>8</span>  -<span style='color: #BB0000;'>0.167</span>    -<span style='color: #BB0000;'>0.569</span> -<span style='color: #BB0000;'>0.062</span><span style='color: #BB0000; text-decoration: underline;'>4</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> norm…   -<span style='color: #BB0000;'>0.105</span>    1.75    -<span style='color: #BB0000;'>0.718</span>   0.038<span style='text-decoration: underline;'>1</span>   1.54    -<span style='color: #BB0000;'>0.573</span>    -<span style='color: #BB0000;'>0.643</span> -<span style='color: #BB0000;'>0.132</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> norm…   -<span style='color: #BB0000;'>0.708</span>    0.696    1.43    0.604   -<span style='color: #BB0000;'>0.265</span>   -<span style='color: #BB0000;'>0.036</span><span style='color: #BB0000; text-decoration: underline;'>4</span>   -<span style='color: #BB0000;'>0.612</span> -<span style='color: #BB0000;'>0.207</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> norm…   -<span style='color: #BB0000;'>0.494</span>   -<span style='color: #BB0000;'>0.665</span>    2.02   -<span style='color: #BB0000;'>0.593</span>   -<span style='color: #BB0000;'>0.676</span>   -<span style='color: #BB0000;'>0.586</span>    -<span style='color: #BB0000;'>0.552</span> -<span style='color: #BB0000;'>0.470</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> norm…    1.11    -<span style='color: #BB0000;'>0.395</span>   -<span style='color: #BB0000;'>0.754</span>  -<span style='color: #BB0000;'>0.586</span>   -<span style='color: #BB0000;'>0.754</span>    2.73      0.191 -<span style='color: #BB0000;'>0.676</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> norm…   -<span style='color: #BB0000;'>0.685</span>    0.614   -<span style='color: #BB0000;'>0.174</span>  -<span style='color: #BB0000;'>0.584</span>    0.376    0.804    -<span style='color: #BB0000;'>0.337</span> -<span style='color: #BB0000;'>0.006</span><span style='color: #BB0000; text-decoration: underline;'>08</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> canc…   -<span style='color: #BB0000;'>0.770</span>   -<span style='color: #BB0000;'>0.496</span>   -<span style='color: #BB0000;'>0.318</span>   0.159   -<span style='color: #BB0000;'>0.658</span>    2.20     -<span style='color: #BB0000;'>0.717</span>  0.063<span style='text-decoration: underline;'>6</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> norm…   -<span style='color: #BB0000;'>0.424</span>   -<span style='color: #BB0000;'>0.478</span>   -<span style='color: #BB0000;'>0.397</span>  -<span style='color: #BB0000;'>0.556</span>   -<span style='color: #BB0000;'>0.391</span>   -<span style='color: #BB0000;'>0.062</span><span style='color: #BB0000; text-decoration: underline;'>0</span>    0.376 -<span style='color: #BB0000;'>0.022</span><span style='color: #BB0000; text-decoration: underline;'>2</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> norm…   -<span style='color: #BB0000;'>0.556</span>    1.14     1.62   -<span style='color: #BB0000;'>0.352</span>   -<span style='color: #BB0000;'>0.275</span>   -<span style='color: #BB0000;'>0.465</span>    -<span style='color: #BB0000;'>0.804</span>  0.294  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> canc…    1.46    -<span style='color: #BB0000;'>0.451</span>   -<span style='color: #BB0000;'>0.694</span>  -<span style='color: #BB0000;'>0.056</span><span style='color: #BB0000; text-decoration: underline;'>7</span>  -<span style='color: #BB0000;'>0.706</span>    0.689    -<span style='color: #BB0000;'>0.370</span>  1.59   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 190 more rows, and 52 more variables: Otu00009 &lt;dbl&gt;, Otu00010 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Otu00011 &lt;dbl&gt;, Otu00012 &lt;dbl&gt;, Otu00013 &lt;dbl&gt;, Otu00014 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Otu00015 &lt;dbl&gt;, Otu00016 &lt;dbl&gt;, Otu00017 &lt;dbl&gt;, Otu00018 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Otu00019 &lt;dbl&gt;, Otu00020 &lt;dbl&gt;, Otu00021 &lt;dbl&gt;, Otu00022 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Otu00023 &lt;dbl&gt;, Otu00024 &lt;dbl&gt;, Otu00025 &lt;dbl&gt;, Otu00026 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Otu00027 &lt;dbl&gt;, Otu00028 &lt;dbl&gt;, Otu00029 &lt;dbl&gt;, Otu00030 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Otu00031 &lt;dbl&gt;, Otu00032 &lt;dbl&gt;, Otu00033 &lt;dbl&gt;, Otu00034 &lt;dbl&gt;, …</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $grp_feats</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $removed_feats</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> character(0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># the function can show a progress bar if you have the progressr package installed</span></span>
+<span class='r-in'><span class='co'>## optionally, specify the progress bar format</span></span>
+<span class='r-in'><span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://progressr.futureverse.org/reference/handlers.html'>handlers</a></span><span class='op'>(</span><span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://progressr.futureverse.org/reference/handler_progress.html'>handler_progress</a></span><span class='op'>(</span></span>
+<span class='r-in'>  format <span class='op'>=</span> <span class='st'>":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
+<span class='r-in'>  clear <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>  show_after <span class='op'>=</span> <span class='fl'>0</span></span>
+<span class='r-in'><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## tell progressor to always report progress</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>progressr</span><span class='fu'>::</span><span class='fu'><a href='https://progressr.futureverse.org/reference/handlers.html'>handlers</a></span><span class='op'>(</span>global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## run the function and watch the live progress udpates</span></span>
+<span class='r-in'><span class='va'>dat_preproc</span> <span class='op'>&lt;-</span> <span class='fu'>preprocess_data</span><span class='op'>(</span><span class='fu'>mikropml</span><span class='fu'>::</span><span class='va'><a href='otu_small.html'>otu_small</a></span>, <span class='st'>"dx"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
