@@ -175,129 +175,132 @@
     <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"continuous"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
-#&gt; {
-#&gt;     if (is.character(data$obs)) 
-#&gt;         data$obs &lt;- factor(data$obs, levels = lev)
-#&gt;     postResample(data[, "pred"], data[, "obs"])
-#&gt; }
-#&gt; &lt;bytecode: 0x7f9a0059d798&gt;
-#&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"binary"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
-#&gt; {
-#&gt;     if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) 
-#&gt;         stop("levels of observed and predicted data do not match")
-#&gt;     has_class_probs &lt;- all(lev %in% colnames(data))
-#&gt;     if (has_class_probs) {
-#&gt;         lloss &lt;- mnLogLoss(data = data, lev = lev, model = model)
-#&gt;         requireNamespaceQuietStop("pROC")
-#&gt;         requireNamespaceQuietStop("MLmetrics")
-#&gt;         prob_stats &lt;- lapply(levels(data[, "pred"]), function(x) {
-#&gt;             obs &lt;- ifelse(data[, "obs"] == x, 1, 0)
-#&gt;             prob &lt;- data[, x]
-#&gt;             roc_auc &lt;- try(pROC::roc(obs, data[, x], direction = "&lt;", 
-#&gt;                 quiet = TRUE), silent = TRUE)
-#&gt;             roc_auc &lt;- if (inherits(roc_auc, "try-error")) 
-#&gt;                 NA
-#&gt;             else roc_auc$auc
-#&gt;             pr_auc &lt;- try(MLmetrics::PRAUC(y_pred = data[, x], 
-#&gt;                 y_true = obs), silent = TRUE)
-#&gt;             if (inherits(pr_auc, "try-error")) 
-#&gt;                 pr_auc &lt;- NA
-#&gt;             res &lt;- c(ROC = roc_auc, AUC = pr_auc)
-#&gt;             return(res)
-#&gt;         })
-#&gt;         prob_stats &lt;- do.call("rbind", prob_stats)
-#&gt;         prob_stats &lt;- colMeans(prob_stats, na.rm = TRUE)
-#&gt;     }
-#&gt;     CM &lt;- confusionMatrix(data[, "pred"], data[, "obs"], mode = "everything")
-#&gt;     if (length(levels(data[, "pred"])) == 2) {
-#&gt;         class_stats &lt;- CM$byClass
-#&gt;     }
-#&gt;     else {
-#&gt;         class_stats &lt;- colMeans(CM$byClass)
-#&gt;         names(class_stats) &lt;- paste("Mean", names(class_stats))
-#&gt;     }
-#&gt;     overall_stats &lt;- if (has_class_probs) 
-#&gt;         c(CM$overall, logLoss = as.numeric(lloss), AUC = unname(prob_stats["ROC"]), 
-#&gt;             prAUC = unname(prob_stats["AUC"]))
-#&gt;     else CM$overall
-#&gt;     stats &lt;- c(overall_stats, class_stats)
-#&gt;     stats &lt;- stats[!names(stats) %in% c("AccuracyNull", "AccuracyLower", 
-#&gt;         "AccuracyUpper", "AccuracyPValue", "McnemarPValue", "Mean Prevalence", 
-#&gt;         "Mean Detection Prevalence")]
-#&gt;     names(stats) &lt;- gsub("[[:blank:]]+", "_", names(stats))
-#&gt;     stat_list &lt;- c("Accuracy", "Kappa", "Mean_F1", "Mean_Sensitivity", 
-#&gt;         "Mean_Specificity", "Mean_Pos_Pred_Value", "Mean_Neg_Pred_Value", 
-#&gt;         "Mean_Precision", "Mean_Recall", "Mean_Detection_Rate", 
-#&gt;         "Mean_Balanced_Accuracy")
-#&gt;     if (has_class_probs) 
-#&gt;         stat_list &lt;- c("logLoss", "AUC", "prAUC", stat_list)
-#&gt;     if (length(levels(data[, "pred"])) == 2) 
-#&gt;         stat_list &lt;- gsub("^Mean_", "", stat_list)
-#&gt;     stats &lt;- stats[c(stat_list)]
-#&gt;     return(stats)
-#&gt; }
-#&gt; &lt;bytecode: 0x7f9a1b1798e0&gt;
-#&gt; &lt;environment: namespace:caret&gt;</div><div class='input'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"multiclass"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; function (data, lev = NULL, model = NULL) 
-#&gt; {
-#&gt;     if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) 
-#&gt;         stop("levels of observed and predicted data do not match")
-#&gt;     has_class_probs &lt;- all(lev %in% colnames(data))
-#&gt;     if (has_class_probs) {
-#&gt;         lloss &lt;- mnLogLoss(data = data, lev = lev, model = model)
-#&gt;         requireNamespaceQuietStop("pROC")
-#&gt;         requireNamespaceQuietStop("MLmetrics")
-#&gt;         prob_stats &lt;- lapply(levels(data[, "pred"]), function(x) {
-#&gt;             obs &lt;- ifelse(data[, "obs"] == x, 1, 0)
-#&gt;             prob &lt;- data[, x]
-#&gt;             roc_auc &lt;- try(pROC::roc(obs, data[, x], direction = "&lt;", 
-#&gt;                 quiet = TRUE), silent = TRUE)
-#&gt;             roc_auc &lt;- if (inherits(roc_auc, "try-error")) 
-#&gt;                 NA
-#&gt;             else roc_auc$auc
-#&gt;             pr_auc &lt;- try(MLmetrics::PRAUC(y_pred = data[, x], 
-#&gt;                 y_true = obs), silent = TRUE)
-#&gt;             if (inherits(pr_auc, "try-error")) 
-#&gt;                 pr_auc &lt;- NA
-#&gt;             res &lt;- c(ROC = roc_auc, AUC = pr_auc)
-#&gt;             return(res)
-#&gt;         })
-#&gt;         prob_stats &lt;- do.call("rbind", prob_stats)
-#&gt;         prob_stats &lt;- colMeans(prob_stats, na.rm = TRUE)
-#&gt;     }
-#&gt;     CM &lt;- confusionMatrix(data[, "pred"], data[, "obs"], mode = "everything")
-#&gt;     if (length(levels(data[, "pred"])) == 2) {
-#&gt;         class_stats &lt;- CM$byClass
-#&gt;     }
-#&gt;     else {
-#&gt;         class_stats &lt;- colMeans(CM$byClass)
-#&gt;         names(class_stats) &lt;- paste("Mean", names(class_stats))
-#&gt;     }
-#&gt;     overall_stats &lt;- if (has_class_probs) 
-#&gt;         c(CM$overall, logLoss = as.numeric(lloss), AUC = unname(prob_stats["ROC"]), 
-#&gt;             prAUC = unname(prob_stats["AUC"]))
-#&gt;     else CM$overall
-#&gt;     stats &lt;- c(overall_stats, class_stats)
-#&gt;     stats &lt;- stats[!names(stats) %in% c("AccuracyNull", "AccuracyLower", 
-#&gt;         "AccuracyUpper", "AccuracyPValue", "McnemarPValue", "Mean Prevalence", 
-#&gt;         "Mean Detection Prevalence")]
-#&gt;     names(stats) &lt;- gsub("[[:blank:]]+", "_", names(stats))
-#&gt;     stat_list &lt;- c("Accuracy", "Kappa", "Mean_F1", "Mean_Sensitivity", 
-#&gt;         "Mean_Specificity", "Mean_Pos_Pred_Value", "Mean_Neg_Pred_Value", 
-#&gt;         "Mean_Precision", "Mean_Recall", "Mean_Detection_Rate", 
-#&gt;         "Mean_Balanced_Accuracy")
-#&gt;     if (has_class_probs) 
-#&gt;         stat_list &lt;- c("logLoss", "AUC", "prAUC", stat_list)
-#&gt;     if (length(levels(data[, "pred"])) == 2) 
-#&gt;         stat_list &lt;- gsub("^Mean_", "", stat_list)
-#&gt;     stats &lt;- stats[c(stat_list)]
-#&gt;     return(stats)
-#&gt; }
-#&gt; &lt;bytecode: 0x7f9a1b1798e0&gt;
-#&gt; &lt;environment: namespace:caret&gt;</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"continuous"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (data, lev = NULL, model = NULL) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (is.character(data$obs)) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         data$obs &lt;- factor(data$obs, levels = lev)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     postResample(data[, "pred"], data[, "obs"])</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7f7fd5f03f18&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:caret&gt;</span>
+<span class='r-in'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"binary"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (data, lev = NULL, model = NULL) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         stop("levels of observed and predicted data do not match")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     has_class_probs &lt;- all(lev %in% colnames(data))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (has_class_probs) {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         lloss &lt;- mnLogLoss(data = data, lev = lev, model = model)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         requireNamespaceQuietStop("pROC")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         requireNamespaceQuietStop("MLmetrics")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         prob_stats &lt;- lapply(levels(data[, "pred"]), function(x) {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             obs &lt;- ifelse(data[, "obs"] == x, 1, 0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             prob &lt;- data[, x]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             roc_auc &lt;- try(pROC::roc(obs, data[, x], direction = "&lt;", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 quiet = TRUE), silent = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             roc_auc &lt;- if (inherits(roc_auc, "try-error")) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             else roc_auc$auc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             pr_auc &lt;- try(MLmetrics::PRAUC(y_pred = data[, x], </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 y_true = obs), silent = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             if (inherits(pr_auc, "try-error")) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 pr_auc &lt;- NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             res &lt;- c(ROC = roc_auc, AUC = pr_auc)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             return(res)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         })</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         prob_stats &lt;- do.call("rbind", prob_stats)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         prob_stats &lt;- colMeans(prob_stats, na.rm = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     CM &lt;- confusionMatrix(data[, "pred"], data[, "obs"], mode = "everything")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (length(levels(data[, "pred"])) == 2) {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         class_stats &lt;- CM$byClass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         class_stats &lt;- colMeans(CM$byClass)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         names(class_stats) &lt;- paste("Mean", names(class_stats))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     overall_stats &lt;- if (has_class_probs) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         c(CM$overall, logLoss = as.numeric(lloss), AUC = unname(prob_stats["ROC"]), </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             prAUC = unname(prob_stats["AUC"]))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     else CM$overall</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stats &lt;- c(overall_stats, class_stats)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stats &lt;- stats[!names(stats) %in% c("AccuracyNull", "AccuracyLower", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "AccuracyUpper", "AccuracyPValue", "McnemarPValue", "Mean Prevalence", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean Detection Prevalence")]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     names(stats) &lt;- gsub("[[:blank:]]+", "_", names(stats))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stat_list &lt;- c("Accuracy", "Kappa", "Mean_F1", "Mean_Sensitivity", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean_Specificity", "Mean_Pos_Pred_Value", "Mean_Neg_Pred_Value", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean_Precision", "Mean_Recall", "Mean_Detection_Rate", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean_Balanced_Accuracy")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (has_class_probs) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         stat_list &lt;- c("logLoss", "AUC", "prAUC", stat_list)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (length(levels(data[, "pred"])) == 2) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         stat_list &lt;- gsub("^Mean_", "", stat_list)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stats &lt;- stats[c(stat_list)]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     return(stats)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7f7ff34db520&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:caret&gt;</span>
+<span class='r-in'><span class='fu'>get_perf_metric_fn</span><span class='op'>(</span><span class='st'>"multiclass"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (data, lev = NULL, model = NULL) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         stop("levels of observed and predicted data do not match")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     has_class_probs &lt;- all(lev %in% colnames(data))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (has_class_probs) {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         lloss &lt;- mnLogLoss(data = data, lev = lev, model = model)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         requireNamespaceQuietStop("pROC")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         requireNamespaceQuietStop("MLmetrics")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         prob_stats &lt;- lapply(levels(data[, "pred"]), function(x) {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             obs &lt;- ifelse(data[, "obs"] == x, 1, 0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             prob &lt;- data[, x]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             roc_auc &lt;- try(pROC::roc(obs, data[, x], direction = "&lt;", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 quiet = TRUE), silent = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             roc_auc &lt;- if (inherits(roc_auc, "try-error")) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             else roc_auc$auc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             pr_auc &lt;- try(MLmetrics::PRAUC(y_pred = data[, x], </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 y_true = obs), silent = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             if (inherits(pr_auc, "try-error")) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 pr_auc &lt;- NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             res &lt;- c(ROC = roc_auc, AUC = pr_auc)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             return(res)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         })</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         prob_stats &lt;- do.call("rbind", prob_stats)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         prob_stats &lt;- colMeans(prob_stats, na.rm = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     CM &lt;- confusionMatrix(data[, "pred"], data[, "obs"], mode = "everything")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (length(levels(data[, "pred"])) == 2) {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         class_stats &lt;- CM$byClass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     else {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         class_stats &lt;- colMeans(CM$byClass)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         names(class_stats) &lt;- paste("Mean", names(class_stats))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     overall_stats &lt;- if (has_class_probs) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         c(CM$overall, logLoss = as.numeric(lloss), AUC = unname(prob_stats["ROC"]), </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             prAUC = unname(prob_stats["AUC"]))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     else CM$overall</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stats &lt;- c(overall_stats, class_stats)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stats &lt;- stats[!names(stats) %in% c("AccuracyNull", "AccuracyLower", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "AccuracyUpper", "AccuracyPValue", "McnemarPValue", "Mean Prevalence", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean Detection Prevalence")]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     names(stats) &lt;- gsub("[[:blank:]]+", "_", names(stats))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stat_list &lt;- c("Accuracy", "Kappa", "Mean_F1", "Mean_Sensitivity", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean_Specificity", "Mean_Pos_Pred_Value", "Mean_Neg_Pred_Value", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean_Precision", "Mean_Recall", "Mean_Detection_Rate", </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         "Mean_Balanced_Accuracy")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (has_class_probs) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         stat_list &lt;- c("logLoss", "AUC", "prAUC", stat_list)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (length(levels(data[, "pred"])) == 2) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         stat_list &lt;- gsub("^Mean_", "", stat_list)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     stats &lt;- stats[c(stat_list)]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     return(stats)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7f7ff34db520&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:caret&gt;</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
