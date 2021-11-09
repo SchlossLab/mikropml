@@ -32,10 +32,11 @@
 #'   (default: `NULL`, uses `kfold` cross validation repeated `cv_times`).
 #'   `kfold` and `cv_times` are ignored if the user provides a custom cross-validation scheme.
 #'   See the `caret::trainControl()` docs for information on how to use it.
-#' @param training_frac Fraction of data for training set (default: `0.8`).
-#'   The remaining data will be used in the testing set.
-#'   Alternatively, if you supply a vector of integers, these will be used as
-#'   the indices for the training set.
+#' @param training_frac Fraction of data for training set (default: `0.8`). Rows
+#'   from the dataset will be randomly selected for the training set, and all
+#'   remaining rows will be used in the testing set. Alternatively, if you
+#'   provide a vector of integers, these will be used as the row indices for the
+#'   training set. All remaining rows will be used in the testing set.
 #' @param perf_metric_function Function to calculate the performance metric to
 #'   be used for cross-validation and test performance. Some functions are
 #'   provided by caret (see [caret::defaultSummary()]).
@@ -87,7 +88,7 @@
 #'   seed = 2019
 #' )
 #'
-#' # random forest
+#' # random forest w/ feature importance
 #' run_ml(otu_small, "rf",
 #'   outcome_colname = "dx",
 #'   find_feature_importance = TRUE

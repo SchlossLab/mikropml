@@ -76,9 +76,11 @@ progressr::handlers(progressr::handler_progress(
   show_after = 0
 ))
 ## tell progressor to always report progress
+\dontrun{
 progressr::handlers(global = TRUE)
 ## run the function and watch the live progress udpates
 dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}
