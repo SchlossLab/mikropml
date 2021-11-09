@@ -436,7 +436,7 @@ check_group_partitions <- function(dataset, groups, group_partitions) {
   if (length(groups_unrecognized) > 0) {
     stop(paste(
       "`group_partitions` contains group names not in groups vector:",
-      paste(group_unrecognized, collapse = " ")
+      paste(groups_unrecognized, collapse = " ")
     ))
   }
 }

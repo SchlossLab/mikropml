@@ -43,12 +43,14 @@ reference:
   - otu_small
   - otu_mini_bin
   - otu_mini_multi
+  - otu_mini_multi_group
 - subtitle: ML results
   contents:
   - contains("results")
 - subtitle: misc
   contents:
   - otu_mini_cv
+  - replace_spaces
 - title: Pipeline customization
   desc: >
     These are functions called by preprocess_data() or run_ml().

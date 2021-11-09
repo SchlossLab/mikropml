@@ -196,9 +196,9 @@ test_that("check_group_partitions works", {
   )
   expect_error(
     check_group_partitions(
-      otu_mini_bin, sample_groups, list(train = c("X")),
-      "`group_partitions` contains group names not in groups vector"
-    )
+      otu_mini_bin, sample_groups, list(train = c("X"))
+    ),
+    "`group_partitions` contains group names not in groups vector"
   )
 })
 
