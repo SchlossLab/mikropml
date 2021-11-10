@@ -123,7 +123,6 @@ progressr::handlers(progressr::handler_progress(
   clear = FALSE,
   show_after = 0
 ))
-\dontrun{
 ## tell progressr to always report progress
 progressr::handlers(global = TRUE)
 ## run the function and watch the live progress udpates
@@ -133,7 +132,7 @@ feat_imp <- get_feature_importance(results$trained_model,
   multiClassSummary, "AUC",
   class_probs = TRUE, method = "glmnet"
 )
-}
+
 # you can specify any correlation method supported by `stats::cor`:
 feat_imp <- get_feature_importance(results$trained_model,
   results$trained_model$trainingData, results$test_data,
