@@ -24,18 +24,23 @@
 #'   class_probs = TRUE,
 #'   kfold = 5
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL) {
-  if (is.null(groups)) {
+define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL, group_partitions = NULL) {
+  keep_groups_in_cv_partitions <- !is.null(groups) & (is.null(group_partitions) | (length(group_partitions[['train']]) >= kfold))
+  if (!keep_groups_in_cv_partitions) {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
       dplyr::pull(outcome_colname)),
     kfold,
     times = cv_times
     )
+    if (!is.null(groups)) {
+      message('Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`')
+    }
   } else {
     cvIndex <- create_grouped_k_multifolds(groups,
       kfold = kfold,
       cv_times = cv_times
     )
+    message('Groups will be kept together in CV partitions')
   }
 
   seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))
@@ -102,7 +107,7 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' folds <- create_grouped_k_multifolds(groups, kfold = 2, cv_times = 2)
 create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
-  # we're not doign anything with survival in caret (i.e. copied from caret, but not useful for us)
+  # we're not doing anything with survival in caret (i.e. copied from caret, but not useful for us)
   # if (class(groups)[1] == "Surv") {
   #   groups <- groups[, "time"]
   # }
