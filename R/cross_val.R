@@ -25,13 +25,12 @@
 #'   kfold = 5
 #' )
 define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL, group_partitions = NULL) {
-
   if (keep_groups_in_cv_partitions(groups, group_partitions, kfold)) {
     cvIndex <- create_grouped_k_multifolds(groups,
       kfold = kfold,
       cv_times = cv_times
     )
-    message('Groups will be kept together in CV partitions')
+    message("Groups will be kept together in CV partitions")
   } else {
     cvIndex <- caret::createMultiFolds(factor(train_data %>%
       dplyr::pull(outcome_colname)),
@@ -39,7 +38,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
     times = cv_times
     )
     if (!is.null(groups)) {
-      message('Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`')
+      message("Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`")
     }
   }
 
@@ -98,7 +97,7 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
-  return(!is.null(groups) & ((is.null(group_partitions) & length(unique(groups)) >= kfold) | (length(group_partitions[['train']]) >= kfold)))
+  return(!is.null(groups) & ((is.null(group_partitions) & length(unique(groups)) >= kfold) | (length(group_partitions[["train"]]) >= kfold)))
 }
 
 #' Splitting into folds for cross-validation when using groups
