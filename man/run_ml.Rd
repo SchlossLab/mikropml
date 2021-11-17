@@ -79,7 +79,8 @@ multi-class classification = \code{"logLoss"},
 regression = \code{"RMSE"}.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
-train and test sets, and for cross-validation.
+train and test sets. If the number of groups in the training set is larger
+than \code{kfold}, the groups will also be kept together for cross-validation.
 Length matches the number of rows in the dataset (default: \code{NULL}).}
 
 \item{group_partitions}{Specify how to assign \code{groups} to the training and
@@ -89,7 +90,9 @@ samples belong to group \code{"A"} and some belong to group \code{"B"}, then set
 in all samples from group \code{"A"} being placed in the training set, some
 samples from \code{"B"} also in the training set, and the remaining samples from
 \code{"B"} in the testing set. The partition sizes will be as close to
-\code{training_frac} as possible.}
+\code{training_frac} as possible. If the number of groups in the training set is
+larger than \code{kfold}, the groups will also be kept together for
+cross-validation.}
 
 \item{corr_thresh}{For feature importance, group correlations
 above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
