@@ -49,8 +49,9 @@
 #'             multi-class classification = `"logLoss"`,
 #'             regression = `"RMSE"`.
 #' @param groups Vector of groups to keep together when splitting the data into
-#'  train and test sets, and for cross-validation.
-#'  Length matches the number of rows in the dataset (default: `NULL`).
+#'   train and test sets. If the number of groups in the training set is larger
+#'   than `kfold`, the groups will also be kept together for cross-validation.
+#'   Length matches the number of rows in the dataset (default: `NULL`).
 #' @param group_partitions Specify how to assign `groups` to the training and
 #'   testing partitions (default: `NULL`). If `groups` specifies that some
 #'   samples belong to group `"A"` and some belong to group `"B"`, then setting
@@ -58,14 +59,15 @@
 #'   in all samples from group `"A"` being placed in the training set, some
 #'   samples from `"B"` also in the training set, and the remaining samples from
 #'   `"B"` in the testing set. The partition sizes will be as close to
-#'   `training_frac` as possible.
+#'   `training_frac` as possible. If the number of groups in the training set is
+#'   larger than `kfold`, the groups will also be kept together for
+#'   cross-validation.
 #' @param corr_thresh For feature importance, group correlations
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
 #' @param ntree For random forest, how many trees to use (default: `1000`).
 #'   Note that caret doesn't allow this parameter to be tuned.
-#' @return
+#' @return Named list with results:
 #'
-#' Named list with results:
 #' - `trained_model`: Output of [caret::train()], including the best model.
 #' - `test_data`: Part of the data that was used for testing.
 #' - `performance`: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data. This contains only one row, so you can easily combine performance dataframes from multiple calls to `run_ml()` (see `vignette("parallel")`).
@@ -207,7 +209,8 @@ run_ml <-
         class_probs,
         kfold = kfold,
         cv_times = cv_times,
-        groups = train_groups
+        groups = train_groups,
+        group_partitions = group_partitions
       )
     }
 

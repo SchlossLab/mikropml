@@ -19,18 +19,47 @@ cv_group <- c(
   "A", "D", "C", "E", "E", "A"
 )
 
-test_that("define_cv works for 2-fold cv on otu_mini training data with groups", {
+test_that("define_cv works on otu_mini training data with groups", {
   set.seed(2019)
   expect_equal(
+    expect_message(
+      define_cv(otu_mini_bin_results_rf$trained_model$trainingData,
+        ".outcome",
+        hparams_list,
+        perf_metric_function,
+        class_probs = class_probs,
+        cv_times = 2,
+        groups = cv_group
+      ),
+      "Groups will be kept together in CV partitions"
+    ),
+    otu_mini_cv
+  )
+  expect_message(
     define_cv(otu_mini_bin_results_rf$trained_model$trainingData,
-      "dx",
+      ".outcome",
       hparams_list,
       perf_metric_function,
       class_probs = class_probs,
       cv_times = 2,
-      group = cv_group
+      groups = sample(c("A", "B"), size = 160, replace = TRUE)
     ),
-    otu_mini_cv
+    "Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`"
+  )
+
+  expect_message(
+    define_cv(
+      otu_mini_bin_results_rf$trained_model$trainingData,
+      ".outcome",
+      hparams_list,
+      perf_metric_function,
+      class_probs = class_probs,
+      kfold = 5,
+      cv_times = 2,
+      groups = cv_group,
+      group_partitions = list(train = c("A", "B", "C", "D"), test = c("E"))
+    ),
+    "Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`"
   )
 })
 
@@ -54,7 +83,7 @@ test_that("get_seeds_trainControl works", {
   )
 })
 
-test_that("create_grouped_k_multifolds works", {
+test_that("create_grouped_k_multifolds keeps groups together in CV partitions", {
   set.seed(0)
   group <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
   folds <- create_grouped_k_multifolds(group, kfold = 2, cv_times = 2)
@@ -72,5 +101,27 @@ test_that("create_grouped_k_multifolds works", {
   expect_false(any(fold_grps$Fold1.Rep2 %in% fold_grps$Fold2.Rep2))
 
   set.seed(5)
-  expect_error(create_grouped_k_multifolds(group, kfold = 2, cv_times = 2), "Could not split the data into train and validate folds")
+  expect_error(
+    create_grouped_k_multifolds(group, kfold = 2, cv_times = 2),
+    "Could not split the data into train and validate folds"
+  )
+})
+
+test_that("keep_groups_in_cv_partitions works", {
+  expect_true(keep_groups_in_cv_partitions(
+    groups = cv_group,
+    group_partitions = NULL,
+    kfold = 2
+  ))
+  expect_false(keep_groups_in_cv_partitions(
+    groups = sample(c("A", "B"), size = 160, replace = TRUE),
+    group_partitions = NULL,
+    kfold = 5
+  ))
+  expect_false(keep_groups_in_cv_partitions(
+    groups = cv_group,
+    group_partitions = list(train = c("A", "B", "C", "D"), test = c("E")),
+    kfold = 5
+  ))
+  expect_false(keep_groups_in_cv_partitions(NULL, NULL, 1))
 })

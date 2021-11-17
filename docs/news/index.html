@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.9000</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@
 
     <div id="mikropml-120" class="section level1">
 <h1 class="page-header" data-toc-text="1.2.0">
-<a href="#mikropml-120" class="anchor"></a>mikropml 1.2.0<small> Unreleased </small>
+<a href="#mikropml-120" class="anchor"></a>mikropml 1.2.0<small> 2021-11-10 </small>
 </h1>
 <ul>
 <li>New parameter <code>cross_val</code> added to <code><a href="../reference/run_ml.html">run_ml()</a></code> allows users to define their own custom cross-validation scheme (<a href='https://github.com/SchlossLab/mikropml/issues/278'>#278</a>, <a href='https://github.com/kelly-sovacool'>@kelly-sovacool</a>).
@@ -188,7 +188,7 @@
 <ul>
 <li>New correlation method option for feature importance (<a href='https://github.com/SchlossLab/mikropml/issues/267'>#267</a>, <a href='https://github.com/courtneyarmour'>@courtneyarmour</a>).
 <ul>
-<li>The default is still “spearman”, and now you can use other methods supported by <code><a href="https://rdrr.io/r/stats/cor.html">stats::cor</a></code> with the <code>corr_method</code> parameter: <code><a href="../reference/get_feature_importance.html">get_feature_importance(corr_method = "pearson")</a></code>
+<li>The default is still “spearman”, and now you can use other methods supported by <code><a href="https://rdrr.io/r/stats/cor.html">stats::cor</a></code> with the <code>corr_method</code> parameter: <code>get_feature_importance(corr_method = "pearson")</code>
 </li>
 </ul>
 </li>

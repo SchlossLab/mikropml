@@ -12,7 +12,8 @@ define_cv(
   class_probs,
   kfold = 5,
   cv_times = 100,
-  groups = NULL
+  groups = NULL,
+  group_partitions = NULL
 )
 }
 \arguments{
@@ -37,8 +38,20 @@ regression = \code{defaultSummary}.}
 \item{cv_times}{Number of cross-validation partitions to create (default: \code{100}).}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
-train and test sets, and for cross-validation.
+train and test sets. If the number of groups in the training set is larger
+than \code{kfold}, the groups will also be kept together for cross-validation.
 Length matches the number of rows in the dataset (default: \code{NULL}).}
+
+\item{group_partitions}{Specify how to assign \code{groups} to the training and
+testing partitions (default: \code{NULL}). If \code{groups} specifies that some
+samples belong to group \code{"A"} and some belong to group \code{"B"}, then setting
+\code{group_partitions = list(train = c("A", "B"), test = c("B"))} will result
+in all samples from group \code{"A"} being placed in the training set, some
+samples from \code{"B"} also in the training set, and the remaining samples from
+\code{"B"} in the testing set. The partition sizes will be as close to
+\code{training_frac} as possible. If the number of groups in the training set is
+larger than \code{kfold}, the groups will also be kept together for
+cross-validation.}
 }
 \value{
 Caret object for trainControl that controls cross-validation

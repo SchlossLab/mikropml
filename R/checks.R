@@ -393,10 +393,6 @@ check_groups <- function(dataset, groups, kfold) {
     if (ngrp < 2) {
       stop(paste0("The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"))
     }
-    # check that kfold is not greater than the number of groups minus 1 (assuming 1 in the test set)
-    if (kfold > (ngrp - 1)) {
-      stop(paste0("The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ", ngrp, ". `kfold`: ", kfold, "."))
-    }
   }
 }
 

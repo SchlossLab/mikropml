@@ -181,7 +181,6 @@ test_that("check_groups works", {
   expect_error(check_groups(mikropml::otu_mini_bin, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
   expect_error(check_groups(mikropml::otu_mini_bin, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
   expect_error(check_groups(mikropml::otu_mini_bin, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
-  expect_error(check_groups(mikropml::otu_mini_bin, c(rep(1, 199), 2), 5), "The number of folds for cross-validation, `k-fold`, must be less than the number of groups. Number of groups: ")
 })
 
 test_that("check_group_partitions works", {
