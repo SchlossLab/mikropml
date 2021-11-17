@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.9000</span>
       </span>
     </div>
 
@@ -181,7 +181,8 @@ training set. All remaining rows will be used in the testing set.</p></td>
     <tr>
       <th>groups</th>
       <td><p>Vector of groups to keep together when splitting the data into
-train and test sets, and for cross-validation.
+train and test sets. If the number of groups in the training set is larger
+than <code>kfold</code>, the groups will also be kept together for cross-validation.
 Length matches the number of rows in the dataset (default: <code>NULL</code>).</p></td>
     </tr>
     <tr>
@@ -193,7 +194,9 @@ samples belong to group <code>"A"</code> and some belong to group <code>"B"</cod
 in all samples from group <code>"A"</code> being placed in the training set, some
 samples from <code>"B"</code> also in the training set, and the remaining samples from
 <code>"B"</code> in the testing set. The partition sizes will be as close to
-<code>training_frac</code> as possible.</p></td>
+<code>training_frac</code> as possible. If the number of groups in the training set is
+larger than <code>kfold</code>, the groups will also be kept together for
+cross-validation.</p></td>
     </tr>
     </table>
 
@@ -211,10 +214,10 @@ partitions to be reproducible (recommended).</p>
     <p>Kelly Sovacool, sovacool@umich.edu</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>$</span><span class='va'>dx</span><span class='op'>)</span>
-<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span>
-<span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>training_inds</span> <span class='op'>&lt;-</span> <span class='fu'>get_partition_indices</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>$</span><span class='va'>dx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='va'>training_inds</span>, <span class='op'>]</span></span>
+<span class='r-in'><span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>otu_mini_bin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>training_inds</span>, <span class='op'>]</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

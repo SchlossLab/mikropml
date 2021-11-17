@@ -86,7 +86,7 @@ See vignette('introduction') for more details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.9000</span>
       </span>
     </div>
 
@@ -198,7 +198,7 @@ See <code><a href='../articles/introduction.html'>vignette('introduction')</a></
     <tr>
       <th>method</th>
       <td><p>ML method.
-Options: <code><a href='https://rdrr.io/r/base/c.html'>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</a></code>.</p><ul>
+Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul>
 <li><p>glmnet: linear, logistic, or multiclass regression</p></li>
 <li><p>rf: random forest</p></li>
 <li><p>rpart2: decision tree</p></li>
@@ -270,7 +270,8 @@ regression = <code>"RMSE"</code>.</p></td>
     <tr>
       <th>groups</th>
       <td><p>Vector of groups to keep together when splitting the data into
-train and test sets, and for cross-validation.
+train and test sets. If the number of groups in the training set is larger
+than <code>kfold</code>, the groups will also be kept together for cross-validation.
 Length matches the number of rows in the dataset (default: <code>NULL</code>).</p></td>
     </tr>
     <tr>
@@ -282,7 +283,9 @@ samples belong to group <code>"A"</code> and some belong to group <code>"B"</cod
 in all samples from group <code>"A"</code> being placed in the training set, some
 samples from <code>"B"</code> also in the training set, and the remaining samples from
 <code>"B"</code> in the testing set. The partition sizes will be as close to
-<code>training_frac</code> as possible.</p></td>
+<code>training_frac</code> as possible. If the number of groups in the training set is
+larger than <code>kfold</code>, the groups will also be kept together for
+cross-validation.</p></td>
     </tr>
     <tr>
       <th>corr_thresh</th>
@@ -323,30 +326,30 @@ Your results will only be reproducible if you set a seed.</p></td>
 <p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='co'># regression</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>,
-  seed <span class='op'>=</span> <span class='fl'>2019</span>
-<span class='op'>)</span>
-
-<span class='co'># random forest w/ feature importance</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"rf"</span>,
-  outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,
-  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># custom cross validation &amp; hyperparameters</span>
-<span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>[</span>, <span class='fl'>2</span><span class='op'>:</span><span class='fl'>11</span><span class='op'>]</span>,
-  <span class='st'>"glmnet"</span>,
-  outcome_colname <span class='op'>=</span> <span class='st'>"Otu00001"</span>,
-  seed <span class='op'>=</span> <span class='fl'>2019</span>,
-  hyperparameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lambda <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1e-04</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>,
-  cross_val <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>,
-  calculate_performance <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># regression</span></span>
+<span class='r-in'><span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"glmnet"</span>,</span>
+<span class='r-in'>  seed <span class='op'>=</span> <span class='fl'>2019</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># random forest w/ feature importance</span></span>
+<span class='r-in'><span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_small</span>, <span class='st'>"rf"</span>,</span>
+<span class='r-in'>  outcome_colname <span class='op'>=</span> <span class='st'>"dx"</span>,</span>
+<span class='r-in'>  find_feature_importance <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># custom cross validation &amp; hyperparameters</span></span>
+<span class='r-in'><span class='fu'>run_ml</span><span class='op'>(</span><span class='va'>otu_mini_bin</span><span class='op'>[</span>, <span class='fl'>2</span><span class='op'>:</span><span class='fl'>11</span><span class='op'>]</span>,</span>
+<span class='r-in'>  <span class='st'>"glmnet"</span>,</span>
+<span class='r-in'>  outcome_colname <span class='op'>=</span> <span class='st'>"Otu00001"</span>,</span>
+<span class='r-in'>  seed <span class='op'>=</span> <span class='fl'>2019</span>,</span>
+<span class='r-in'>  hyperparameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lambda <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1e-04</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>,</span>
+<span class='r-in'>  cross_val <span class='op'>=</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/caret/man/trainControl.html'>trainControl</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  calculate_performance <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
