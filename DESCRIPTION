@@ -1,73 +1,65 @@
 Package: mikropml
 Title: User-Friendly R Package for Supervised Machine Learning Pipelines
 Version: 1.2.0.9000
-Authors@R: c(
-    person(given = "Begüm",
-           family = "Topçuoğlu",
-           role = c("aut"),
-           email = "topcuoglu.begum@gmail.com",
-           comment = c(ORCID = "0000-0003-3140-537X")
-           ),
-    person(given = "Zena",
-           family = "Lapp",
-           role = c("aut"),
-           email = "zenalapp@umich.edu",
-           comment = c(ORCID = "0000-0003-4674-2176")
-           ),
-    person(given = "Kelly",
-           family = "Sovacool",
-           role = c("aut", "cre"),
-           email = "sovacool@umich.edu",
-           comment = c(ORCID = "0000-0003-3283-829X")
-           ),
-    person(given = "Evan",
-           family = "Snitkin",
-           role = c('aut'),
-           comment = c(ORCID = "0000-0001-8409-278X")
-           ),
-    person(given = "Jenna",
-           family = "Wiens",
-           role = c('aut'),
-           comment = c(ORCID = "0000-0002-1057-7722")
-           ),
-    person(given = "Patrick",
-           family = "Schloss",
-           role = c('aut'),
-           email = 'pschloss@umich.edu',
-           comment = c(ORCID = "0000-0002-6935-4275")
-           ),
-    person(given = "Nick",
-           family = "Lesniak",
-           role = c("ctb"),
-           email = "nlesniak@umich.edu",
-           comment = c(ORCID = "0000-0001-9359-5194")
-           ),
-    person(given = "Courtney",
-           family = "Armour",
-           role = c("ctb"),
-           email = "armourc@umich.edu",
-           comment = c(ORCID = "0000-0002-5250-1224")
-           ),
-    person(given = "Sarah",
-           family = "Lucas",
-           role = c("ctb"),
-           email = "salucas@umich.edu",
-           comment = c(ORCID = "0000-0003-1676-5801")))
 Date: 2021-11-10
-URL: https://www.schlosslab.org/mikropml/, https://github.com/SchlossLab/mikropml
-BugReports: https://github.com/SchlossLab/mikropml/issues
-Description: An interface to build machine learning models for classification 
-    and regression problems. 'mikropml' implements the ML pipeline described
-    by Topçuoğlu et al. (2020) <doi:10.1128/mBio.00434-20> with reasonable 
-    default options for data preprocessing, hyperparameter tuning, 
-    cross-validation, testing, model evaluation, and interpretation steps. 
-    See the website <https://www.schlosslab.org/mikropml/> for more information, 
+Authors@R: 
+    c(person(given = "Begüm",
+             family = "Topçuoğlu",
+             role = "aut",
+             email = "topcuoglu.begum@gmail.com",
+             comment = c(ORCID = "0000-0003-3140-537X")),
+      person(given = "Zena",
+             family = "Lapp",
+             role = "aut",
+             email = "zenalapp@umich.edu",
+             comment = c(ORCID = "0000-0003-4674-2176")),
+      person(given = "Kelly",
+             family = "Sovacool",
+             role = c("aut", "cre"),
+             email = "sovacool@umich.edu",
+             comment = c(ORCID = "0000-0003-3283-829X")),
+      person(given = "Evan",
+             family = "Snitkin",
+             role = "aut",
+             comment = c(ORCID = "0000-0001-8409-278X")),
+      person(given = "Jenna",
+             family = "Wiens",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-1057-7722")),
+      person(given = "Patrick",
+             family = "Schloss",
+             role = "aut",
+             email = "pschloss@umich.edu",
+             comment = c(ORCID = "0000-0002-6935-4275")),
+      person(given = "Nick",
+             family = "Lesniak",
+             role = "ctb",
+             email = "nlesniak@umich.edu",
+             comment = c(ORCID = "0000-0001-9359-5194")),
+      person(given = "Courtney",
+             family = "Armour",
+             role = "ctb",
+             email = "armourc@umich.edu",
+             comment = c(ORCID = "0000-0002-5250-1224")),
+      person(given = "Sarah",
+             family = "Lucas",
+             role = "ctb",
+             email = "salucas@umich.edu",
+             comment = c(ORCID = "0000-0003-1676-5801")))
+Description: An interface to build machine learning models for
+    classification and regression problems. 'mikropml' implements the ML
+    pipeline described by Topçuoğlu et al. (2020)
+    <doi:10.1128/mBio.00434-20> with reasonable default options for data
+    preprocessing, hyperparameter tuning, cross-validation, testing, model
+    evaluation, and interpretation steps.  See the website
+    <https://www.schlosslab.org/mikropml/> for more information,
     documentation, and examples.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+URL: https://www.schlosslab.org/mikropml/,
+    https://github.com/SchlossLab/mikropml
+BugReports: https://github.com/SchlossLab/mikropml/issues
+Depends:
+    R (>= 2.10)
 Imports:
     caret,
     dplyr,
@@ -94,6 +86,9 @@ Suggests:
     rmarkdown,
     testthat,
     tidyr
-VignetteBuilder: knitr
-Depends:
-    R (>= 2.10)
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
