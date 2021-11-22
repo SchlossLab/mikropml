@@ -1,10 +1,9 @@
 ## Test environments
 
-- local macOS install; R 4.1.1
-- win-builder; R release
-- github-actions macOS-latest; R release
-- github-actions ubuntu-latest; R devel, devel, and oldrel
-- github-actions windows-latest; R release
+* GitHub Actions (ubuntu-16.04): devel, release, oldrel
+* GitHub Actions (windows): release
+* GitHub Actions (macOS): release
+* win-builder: devel
 
 ## R CMD check results
 
