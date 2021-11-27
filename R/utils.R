@@ -241,5 +241,5 @@ is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 calc_pvalue <- function(vctr, test_stat) {
-  return(length(Filter(function(x) {x > test_stat}, vctr)) / length(vctr))
+  return(sum(vctr > test_stat) / length(vctr))
 }
