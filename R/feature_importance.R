@@ -14,11 +14,13 @@
 #'   grouped together based on `corr_thresh`.
 #'
 #' @return Dataframe with performance metrics for when each feature (or group of
-#'   correlated features; `names`) is permuted (`perf_metric`), and differences
+#'   correlated features; `names`) is permuted (`perf_metric`), differences
 #'   between test performance metric and permuted performance metric
-#'   (`perf_metric_diff`; test minus permuted performance). Features with a
-#'   larger `perf_metric_diff` are more important. The performance metric name
-#'   (`perf_metric_name`) and seed (`seed`) are also returned.
+#'   (`perf_metric_diff`; test minus permuted performance), and the p-value
+#'   (`pvalue`: the probability of obtaining `perf_metric` under the null
+#'   hypothesis). Features with a larger `perf_metric_diff` are more important.
+#'   The performance metric name (`perf_metric_name`) and seed (`seed`) are also
+#'   returned.
 #'
 #' @examples
 #' \dontrun{
@@ -195,9 +197,10 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
       )[[perf_metric_name]]
     )
   })
-  mean_perm_perf <- sum(perm_perfs) / nperms
+  mean_perm_perf <- mean(perm_perfs)
   return(c(
     perf_metric = mean_perm_perf,
-    perf_metric_diff = test_perf_value - mean_perm_perf
+    perf_metric_diff = test_perf_value - mean_perm_perf,
+    pvalue = calc_pvalue(perm_perfs, test_perf_value)
   ))
 }
