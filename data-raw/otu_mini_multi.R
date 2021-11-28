@@ -12,6 +12,6 @@ otu_mini_multi_results_glmnet <- mikropml::run_ml(otu_mini_multi, # use built-in
   find_feature_importance = TRUE,
   seed = 2019,
   cv_times = 2,
-  group = otu_mini_multi_group
+  groups = otu_mini_multi_group
 )
 usethis::use_data(otu_mini_multi_results_glmnet, overwrite = TRUE)
