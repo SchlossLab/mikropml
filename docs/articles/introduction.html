@@ -438,17 +438,17 @@
 <p>Now, we can check out the feature importances:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span>
-<span class="co">#&gt;    perf_metric perf_metric_diff    names method perf_metric_name seed</span>
-<span class="co">#&gt; 1    0.5542375        0.0082625 Otu00001     rf              AUC 2019</span>
-<span class="co">#&gt; 2    0.5731750       -0.0106750 Otu00002     rf              AUC 2019</span>
-<span class="co">#&gt; 3    0.5548750        0.0076250 Otu00003     rf              AUC 2019</span>
-<span class="co">#&gt; 4    0.6414750       -0.0789750 Otu00004     rf              AUC 2019</span>
-<span class="co">#&gt; 5    0.5049625        0.0575375 Otu00005     rf              AUC 2019</span>
-<span class="co">#&gt; 6    0.5444500        0.0180500 Otu00006     rf              AUC 2019</span>
-<span class="co">#&gt; 7    0.5417125        0.0207875 Otu00007     rf              AUC 2019</span>
-<span class="co">#&gt; 8    0.5257750        0.0367250 Otu00008     rf              AUC 2019</span>
-<span class="co">#&gt; 9    0.5395750        0.0229250 Otu00009     rf              AUC 2019</span>
-<span class="co">#&gt; 10   0.4977625        0.0647375 Otu00010     rf              AUC 2019</span></code></pre></div>
+<span class="co">#&gt;    perf_metric perf_metric_diff pvalue    names method perf_metric_name seed</span>
+<span class="co">#&gt; 1    0.5542375        0.0082625   0.37 Otu00001     rf              AUC 2019</span>
+<span class="co">#&gt; 2    0.5731750       -0.0106750   0.57 Otu00002     rf              AUC 2019</span>
+<span class="co">#&gt; 3    0.5548750        0.0076250   0.38 Otu00003     rf              AUC 2019</span>
+<span class="co">#&gt; 4    0.6414750       -0.0789750   0.99 Otu00004     rf              AUC 2019</span>
+<span class="co">#&gt; 5    0.5049625        0.0575375   0.05 Otu00005     rf              AUC 2019</span>
+<span class="co">#&gt; 6    0.5444500        0.0180500   0.18 Otu00006     rf              AUC 2019</span>
+<span class="co">#&gt; 7    0.5417125        0.0207875   0.21 Otu00007     rf              AUC 2019</span>
+<span class="co">#&gt; 8    0.5257750        0.0367250   0.05 Otu00008     rf              AUC 2019</span>
+<span class="co">#&gt; 9    0.5395750        0.0229250   0.02 Otu00009     rf              AUC 2019</span>
+<span class="co">#&gt; 10   0.4977625        0.0647375   0.05 Otu00010     rf              AUC 2019</span></code></pre></div>
 <p>There are several columns:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -484,10 +484,10 @@
 <span class="co">#&gt; Finding feature importance...</span>
 <span class="co">#&gt; Feature importance complete.</span>
 <span class="va">results_imp_corr</span><span class="op">$</span><span class="va">feature_importance</span>
-<span class="co">#&gt;   perf_metric perf_metric_diff</span>
-<span class="co">#&gt; 1   0.5502105       0.09715789</span>
-<span class="co">#&gt; 2   0.6369474       0.01042105</span>
-<span class="co">#&gt; 3   0.5951316       0.05223684</span>
+<span class="co">#&gt;   perf_metric perf_metric_diff pvalue</span>
+<span class="co">#&gt; 1   0.5502105       0.09715789   0.08</span>
+<span class="co">#&gt; 2   0.6369474       0.01042105   0.40</span>
+<span class="co">#&gt; 3   0.5951316       0.05223684   0.08</span>
 <span class="co">#&gt;                                                                     names</span>
 <span class="co">#&gt; 1 Otu00001|Otu00002|Otu00003|Otu00005|Otu00006|Otu00007|Otu00009|Otu00010</span>
 <span class="co">#&gt; 2                                                                Otu00004</span>
