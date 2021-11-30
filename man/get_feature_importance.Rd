@@ -72,16 +72,30 @@ grouped together based on \code{corr_thresh}.}
 by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
-Dataframe with performance metrics for when each feature (or group of
-correlated features; \code{names}) is permuted (\code{perf_metric}), and differences
-between test performance metric and permuted performance metric
-(\code{perf_metric_diff}; test minus permuted performance). Features with a
-larger \code{perf_metric_diff} are more important. The performance metric name
-(\code{perf_metric_name}) and seed (\code{seed}) are also returned.
+Data frame with performance metrics for when each feature (or group
+of correlated features; \code{names}) is permuted (\code{perf_metric}), differences
+between the actual test performance metric on and the permuted performance
+metric (\code{perf_metric_diff}; test minus permuted performance), and the
+p-value (\code{pvalue}: the probability of obtaining the actual performance
+value under the null hypothesis). Features with a larger \code{perf_metric_diff}
+are more important. The performance metric name (\code{perf_metric_name}) and
+seed (\code{seed}) are also returned.
 }
 \description{
 Calculates feature importance using a trained model and test data. Requires
 the \code{future.apply} package.
+}
+\details{
+For permutation tests, the p-value is the number of permutation statistics
+that are greater than the test statistic, divided by the number of
+permutations. In our case, the permutation statistic is the model performance
+(e.g. AUROC) after randomizing the order of observations for one feature, and
+the test statistic is the actual performance on the test data. By default we
+perform 100 permutations per feature; increasing this will increase the
+precision of estimating the null distribution, but also increases runtime.
+The p-value represents the probability of obtaining the actual performance in
+the event that the null hypothesis is true, where the null hypothesis is that
+the feature is not important for model performance.
 }
 \examples{
 \dontrun{
@@ -148,4 +162,6 @@ feat_imp <- get_feature_importance(results$trained_model,
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}
 
 Zena Lapp, \email{zenalapp@umich.edu}
+
+Kelly Sovacool, \email{sovacool@umich.edu}
 }

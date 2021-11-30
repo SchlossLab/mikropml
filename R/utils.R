@@ -231,3 +231,17 @@ radix_sort <- function(...) {
 is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
+
+#' Calculate the p-value for a permutation test
+#'
+#' @param vctr vector of statistics
+#' @param test_stat the test statistic
+#'
+#' @return the number of observations in `vctr` that are greater than
+#'   `test_stat` divided by the number of observations in `vctr`
+#'
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+calc_pvalue <- function(vctr, test_stat) {
+  return(sum(vctr > test_stat) / length(vctr))
+}
