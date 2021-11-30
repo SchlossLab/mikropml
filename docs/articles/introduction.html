@@ -102,7 +102,7 @@
 
       
 
-      </header><script src="introduction_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to mikropml</h1>
@@ -296,7 +296,7 @@
 <a href="#custom-training-indices" class="anchor"></a>Custom training indices</h3>
 <p>When <code>training_frac</code> is a fraction between 0 and 1, a random sample of observations in the dataset are chosen for the training set to satisfy the <code>training_frac</code>. However, in some cases you might wish to control exactly which observations are in the training set. You can instead assign <code>training_frac</code> a vector of indices that correspond to which rows of the dataset should go in the training set (all remaining sequences will go in the testing set).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">training_size</span> <span class="op">&lt;-</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="va">n_obs</span>
 <span class="va">training_rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="va">training_size</span><span class="op">)</span>
 <span class="va">results_custom_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,
@@ -373,6 +373,7 @@
 <span class="co">#&gt; Fraction of data in the training set: 0.795 </span>
 <span class="co">#&gt;  Groups in the training set: A B D F G H </span>
 <span class="co">#&gt;  Groups in the testing set: C E</span>
+<span class="co">#&gt; Groups will be kept together in CV partitions</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>The one difference here is <code><a href="../reference/run_ml.html">run_ml()</a></code> will report how much of the data is in the training set if you run the above code chunk. This can be a little finicky depending on how many samples and groups you have. This is because it won’t be exactly what you specify with <code>training_frac</code>, since you have to include all of one group in either the training set <em>or</em> the test set.</p>
@@ -395,6 +396,7 @@
 <span class="co">#&gt; Fraction of data in the training set: 0.785 </span>
 <span class="co">#&gt;  Groups in the training set: A B E F G H </span>
 <span class="co">#&gt;  Groups in the testing set: C D</span>
+<span class="co">#&gt; Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>In the above case, all observations from A &amp; B will be used for training, all from C &amp; D will be used for testing, and the remaining groups will be randomly assigned to one or the other to satisfy the <code>training_frac</code> as closely as possible.</p>
@@ -414,6 +416,7 @@
 <span class="co">#&gt; Fraction of data in the training set: 0.5 </span>
 <span class="co">#&gt;  Groups in the training set: A B C D E F </span>
 <span class="co">#&gt;  Groups in the testing set: A B C D E F G H</span>
+<span class="co">#&gt; Groups will be kept together in CV partitions</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>If you need even more control than this, take a look at <a href="#custom-training-indices">setting custom training indices</a>. You might also prefer to provide your own train control scheme with the <code>cross_val</code> parameter in <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
@@ -435,17 +438,17 @@
 <p>Now, we can check out the feature importances:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span>
-<span class="co">#&gt;    perf_metric perf_metric_diff    names method perf_metric_name seed</span>
-<span class="co">#&gt; 1    0.5542375        0.0082625 Otu00001     rf              AUC 2019</span>
-<span class="co">#&gt; 2    0.5731750       -0.0106750 Otu00002     rf              AUC 2019</span>
-<span class="co">#&gt; 3    0.5548750        0.0076250 Otu00003     rf              AUC 2019</span>
-<span class="co">#&gt; 4    0.6414750       -0.0789750 Otu00004     rf              AUC 2019</span>
-<span class="co">#&gt; 5    0.5049625        0.0575375 Otu00005     rf              AUC 2019</span>
-<span class="co">#&gt; 6    0.5444500        0.0180500 Otu00006     rf              AUC 2019</span>
-<span class="co">#&gt; 7    0.5417125        0.0207875 Otu00007     rf              AUC 2019</span>
-<span class="co">#&gt; 8    0.5257750        0.0367250 Otu00008     rf              AUC 2019</span>
-<span class="co">#&gt; 9    0.5395750        0.0229250 Otu00009     rf              AUC 2019</span>
-<span class="co">#&gt; 10   0.4977625        0.0647375 Otu00010     rf              AUC 2019</span></code></pre></div>
+<span class="co">#&gt;    perf_metric perf_metric_diff pvalue    names method perf_metric_name seed</span>
+<span class="co">#&gt; 1    0.5542375        0.0082625   0.37 Otu00001     rf              AUC 2019</span>
+<span class="co">#&gt; 2    0.5731750       -0.0106750   0.57 Otu00002     rf              AUC 2019</span>
+<span class="co">#&gt; 3    0.5548750        0.0076250   0.38 Otu00003     rf              AUC 2019</span>
+<span class="co">#&gt; 4    0.6414750       -0.0789750   0.99 Otu00004     rf              AUC 2019</span>
+<span class="co">#&gt; 5    0.5049625        0.0575375   0.05 Otu00005     rf              AUC 2019</span>
+<span class="co">#&gt; 6    0.5444500        0.0180500   0.18 Otu00006     rf              AUC 2019</span>
+<span class="co">#&gt; 7    0.5417125        0.0207875   0.21 Otu00007     rf              AUC 2019</span>
+<span class="co">#&gt; 8    0.5257750        0.0367250   0.05 Otu00008     rf              AUC 2019</span>
+<span class="co">#&gt; 9    0.5395750        0.0229250   0.02 Otu00009     rf              AUC 2019</span>
+<span class="co">#&gt; 10   0.4977625        0.0647375   0.05 Otu00010     rf              AUC 2019</span></code></pre></div>
 <p>There are several columns:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -483,10 +486,10 @@
 <span class="co">#&gt; Finding feature importance...</span>
 <span class="co">#&gt; Feature importance complete.</span>
 <span class="va">results_imp_corr</span><span class="op">$</span><span class="va">feature_importance</span>
-<span class="co">#&gt;   perf_metric perf_metric_diff</span>
-<span class="co">#&gt; 1   0.5502105       0.09715789</span>
-<span class="co">#&gt; 2   0.6369474       0.01042105</span>
-<span class="co">#&gt; 3   0.5951316       0.05223684</span>
+<span class="co">#&gt;   perf_metric perf_metric_diff pvalue</span>
+<span class="co">#&gt; 1   0.5502105       0.09715789   0.08</span>
+<span class="co">#&gt; 2   0.6369474       0.01042105   0.40</span>
+<span class="co">#&gt; 3   0.5951316       0.05223684   0.08</span>
 <span class="co">#&gt;                                                                     names</span>
 <span class="co">#&gt; 1 Otu00001|Otu00002|Otu00003|Otu00005|Otu00006|Otu00007|Otu00009|Otu00010</span>
 <span class="co">#&gt; 2                                                                Otu00004</span>
@@ -541,7 +544,7 @@
                       <span class="st">'svmRadial'</span>,
                       cv_times <span class="op">=</span> <span class="fl">5</span>,
                       seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></code></pre></div>
-<p>If you get a message “maximum number of iterations reached,” see <a href="https://github.com/topepo/caret/issues/425">this issue</a> in caret.</p>
+<p>If you get a message “maximum number of iterations reached”, see <a href="https://github.com/topepo/caret/issues/425">this issue</a> in caret.</p>
 </div>
 </div>
 <div id="other-data" class="section level1">
@@ -552,7 +555,7 @@
 <a href="#multiclass-data" class="anchor"></a>Multiclass data</h2>
 <p>We provide <code>otu_mini_multi</code> with a multiclass outcome (three or more outcomes):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">otu_mini_multi</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="st">'dx'</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">otu_mini_multi</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="st">'dx'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "adenoma"   "carcinoma" "normal"</span></code></pre></div>
 <p>Here’s an example of running multiclass data:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -593,12 +596,12 @@
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-tang_democratizing_2020" class="csl-entry">
-Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.
+<div id="refs" class="references">
+<div id="ref-tang_democratizing_2020">
+<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
 </div>
-<div id="ref-topcuoglu_framework_2020" class="csl-entry">
-Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. <span>“A <span>Framework</span> for <span>Effective Application</span> of <span>Machine Learning</span> to <span>Microbiome</span>-<span>Based Classification Problems</span>.”</span> <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.
+<div id="ref-topcuoglu_framework_2020">
+<p>Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. “A Framework for Effective Application of Machine Learning to Microbiome-Based Classification Problems.” <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20">https://doi.org/10.1128/mBio.00434-20</a>.</p>
 </div>
 </div>
 </div>

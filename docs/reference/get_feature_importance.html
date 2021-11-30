@@ -256,16 +256,31 @@ by <code><a href='https://rdrr.io/r/stats/cor.html'>stats::cor</a></code>: spear
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe with performance metrics for when each feature (or group of
-correlated features; <code>names</code>) is permuted (<code>perf_metric</code>), and differences
-between test performance metric and permuted performance metric
-(<code>perf_metric_diff</code>; test minus permuted performance). Features with a
-larger <code>perf_metric_diff</code> are more important. The performance metric name
-(<code>perf_metric_name</code>) and seed (<code>seed</code>) are also returned.</p>
+    <p>Data frame with performance metrics for when each feature (or group
+of correlated features; <code>names</code>) is permuted (<code>perf_metric</code>), differences
+between the actual test performance metric on and the permuted performance
+metric (<code>perf_metric_diff</code>; test minus permuted performance), and the
+p-value (<code>pvalue</code>: the probability of obtaining the actual performance
+value under the null hypothesis). Features with a larger <code>perf_metric_diff</code>
+are more important. The performance metric name (<code>perf_metric_name</code>) and
+seed (<code>seed</code>) are also returned.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For permutation tests, the p-value is the number of permutation statistics
+that are greater than the test statistic, divided by the number of
+permutations. In our case, the permutation statistic is the model performance
+(e.g. AUROC) after randomizing the order of observations for one feature, and
+the test statistic is the actual performance on the test data. By default we
+perform 100 permutations per feature; increasing this will increase the
+precision of estimating the null distribution, but also increases runtime.
+The p-value represents the probability of obtaining the actual performance in
+the event that the null hypothesis is true, where the null hypothesis is that
+the feature is not important for model performance.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Begüm Topçuoğlu, <a href='mailto:topcuoglu.begum@gmail.com'>topcuoglu.begum@gmail.com</a></p>
 <p>Zena Lapp, <a href='mailto:zenalapp@umich.edu'>zenalapp@umich.edu</a></p>
+<p>Kelly Sovacool, <a href='mailto:sovacool@umich.edu'>sovacool@umich.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
