@@ -104,3 +104,9 @@ test_that("is_whole_number() checks for integer numbers regardless of class", {
   expect_true(all(is_whole_number(c(1.0, 2.0, 3.0))))
   expect_false(is_whole_number(1.2))
 })
+
+test_that("calc_pvalue() works", {
+  expect_equal(calc_pvalue(1:20, 10), 0.5)
+  expect_equal(calc_pvalue(1, 1), 0)
+  expect_equal(calc_pvalue(1:3, 0), 1)
+})
