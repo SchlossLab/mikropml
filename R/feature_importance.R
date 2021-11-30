@@ -13,14 +13,26 @@
 #'   character (`|`). If this is `NULL` (default), correlated features will be
 #'   grouped together based on `corr_thresh`.
 #'
-#' @return Dataframe with performance metrics for when each feature (or group of
-#'   correlated features; `names`) is permuted (`perf_metric`), differences
-#'   between test performance metric and permuted performance metric
-#'   (`perf_metric_diff`; test minus permuted performance), and the p-value
-#'   (`pvalue`: the probability of obtaining `perf_metric` under the null
-#'   hypothesis). Features with a larger `perf_metric_diff` are more important.
-#'   The performance metric name (`perf_metric_name`) and seed (`seed`) are also
-#'   returned.
+#' @return Data frame with performance metrics for when each feature (or group
+#'   of correlated features; `names`) is permuted (`perf_metric`), differences
+#'   between the actual test performance metric on and the permuted performance
+#'   metric (`perf_metric_diff`; test minus permuted performance), and the
+#'   p-value (`pvalue`: the probability of obtaining the actual performance
+#'   value under the null hypothesis). Features with a larger `perf_metric_diff`
+#'   are more important. The performance metric name (`perf_metric_name`) and
+#'   seed (`seed`) are also returned.
+#'
+#' @details
+#' For permutation tests, the p-value is the number of permutation statistics
+#' that are greater than the test statistic, divided by the number of
+#' permutations. In our case, the permutation statistic is the model performance
+#' (e.g. AUROC) after randomizing the order of observations for one feature, and
+#' the test statistic is the actual performance on the test data. By default we
+#' perform 100 permutations per feature; increasing this will increase the
+#' precision of estimating the null distribution, but also increases runtime.
+#' The p-value represents the probability of obtaining the actual performance in
+#' the event that the null hypothesis is true, where the null hypothesis is that
+#' the feature is not important for model performance.
 #'
 #' @examples
 #' \dontrun{
@@ -85,6 +97,7 @@
 #' @export
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 get_feature_importance <- function(trained_model, train_data, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
