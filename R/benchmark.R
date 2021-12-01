@@ -1,9 +1,10 @@
 # TODO: delete this file before merging into main
 #' @noRd
 benchmark_perm_functions <- function() {
-  trained_model <- otu_mini_bin_results_glmnet$trained_model
+  otu_small_results_glmnet <- run_ml(otu_small, 'glmnet', 'dx', kfold = 2, cv_times = 2)
+  trained_model <- otu_small_results_glmnet$trained_model
   train_data <- trained_model$trainingData %>% dplyr::rename(dx = .outcome)
-  test_data <- otu_mini_bin_results_glmnet$test_data
+  test_data <- otu_small_results_glmnet$test_data
   outcome_colname <- 'dx'
   perf_metric_function <- caret::multiClassSummary
   perf_metric_name <- 'AUC'
