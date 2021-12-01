@@ -92,7 +92,8 @@ get_perf_metric_name <- function(outcome_type) {
   return(perf_metric_name)
 }
 
-#' Get performance metrics for test data
+
+#' Get all performance metrics for test data
 #'
 #' @param test_data Held out test data: dataframe of outcome and features.
 #' @param trained_model Trained model from [caret::train()].
@@ -131,7 +132,6 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
   }
   return(perf_met)
 }
-
 
 #' Get model performance metrics as a one-row tibble
 #'

@@ -13,7 +13,7 @@
 #'   character (`|`). If this is `NULL` (default), correlated features will be
 #'   grouped together based on `corr_thresh`.
 #'
-#' @return Data frame with performance metrics for when each feature (or group
+#' @return A tibble with performance metrics for when each feature (or group
 #'   of correlated features; `names`) is permuted (`perf_metric`), differences
 #'   between the actual test performance metric on and the permuted performance
 #'   metric (`perf_metric_diff`; test minus permuted performance), and the
@@ -201,6 +201,9 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     permuted_test_data[, fs] <- permuted_test_data[rows_shuffled, fs]
     pbtick(progbar)
     return(
+      # TODO: It's wasteful to call caret::defaultSummary/MultiClassSummary,
+      # which calculate several performance values, and then pull out only one
+      # of them. Let's refactor this to just calculate the one we need.
       calc_perf_metrics(
         permuted_test_data,
         trained_model,
@@ -216,4 +219,157 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
     perf_metric_diff = test_perf_value - mean_perm_perf,
     pvalue = calc_pvalue(perm_perfs, test_perf_value)
   ))
+}
+
+#' let's try re-writing for improved speed
+get_feature_importance2 <- function(trained_model, train_data, test_data,
+                                   outcome_colname, perf_metric_function,
+                                   perf_metric_name, class_probs, method,
+                                   seed = NA, corr_thresh = 1, groups = NULL,
+                                   nperms = 100, corr_method = "spearman") {
+  abort_packages_not_installed("furrr", 'data.table')
+
+  # get dataframe with only features, no outcome column
+  features <- split_outcome_features(test_data, outcome_colname)$features
+
+  if (is.null(groups)) {
+    groups <- group_correlated_features(features, corr_thresh,
+                                        corr_method = corr_method)
+  }
+
+  test_perf_value <- calc_perf_metrics(
+    test_data,
+    trained_model,
+    outcome_colname,
+    perf_metric_function,
+    class_probs
+  )[[perf_metric_name]]
+
+  progbar <- NULL
+  if (isTRUE(check_packages_installed("progressr"))) {
+    progbar <- progressr::progressor(
+      steps = nperms * length(groups) + length(features),
+      message = "Feature importance"
+    )
+  }
+  param_grid <- expand.grid(groups=groups,
+                           perms=seq.int(nperms))
+  perms_df <- furrr::future_map2_dfr(param_grid$groups %>% as.character(),
+                              param_grid$perms,
+                              calc_perm_perf,
+                              test_data,
+                              trained_model,
+                              outcome_colname,
+                              perf_metric_function,
+                              perf_metric_name,
+                              class_probs,
+                              progbar,
+                              .options = furrr::furrr_options(seed = TRUE,
+                                                              scheduling = 10)
+  )
+  perm_stats <- get_permuted_stats(perms_df, test_perf_value,
+                                   method, perf_metric_name, seed)
+  return(
+    perm_stats
+  )
+}
+
+#' Calculate performance for one permutation of one feature
+#'
+#' @param feat_group group of correlated features as a character
+#' @param perm permutation number
+#' @inheritParams get_feature_importance
+#' @inheritParams pbtick
+#'
+#' @return
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#'
+calc_perm_perf <- function(feat_group, perm,
+                           test_data, trained_model, outcome_colname,
+                           perf_metric_function, perf_metric_name,
+                           class_probs, progbar = NULL) {
+    # permute grouped features together
+    fs <- strsplit(feat_group, "\\|")[[1]]
+    # get the new performance metric and performance metric differences
+    n_rows <- nrow(test_data)
+    # this strategy works for any number of features
+    rows_shuffled <- sample(n_rows)
+    permuted_test_data <- test_data
+    permuted_test_data[, fs] <- permuted_test_data[rows_shuffled, fs]
+    pbtick(progbar)
+    # TODO: It's wasteful to call caret::defaultSummary/MultiClassSummary in
+    # `calc_perf_metrics()` because they calculate several performance values,
+    # but we only need one of them. Let's refactor this to just calculate the
+    # one we need.
+    perm_perf_metric <- calc_perf_metrics(
+      permuted_test_data,
+      trained_model,
+      outcome_colname,
+      perf_metric_function,
+      class_probs
+    )[[perf_metric_name]]
+    return(list(perm = perm,
+                perf_metric = perm_perf_metric,
+                feat_group = feat_group)
+           )
+}
+
+#' Calculate summarized statistics from permutation tests
+#'
+#' The `data.table` package is required.
+#'
+#' @param perms_df data frame of all permuted performance values, created with
+#'   furrr::future_map2_dfr() and calc_perm_perf()
+#'
+#' @inheritParams get_feature_importance
+#' @inheritParams calc_perm_perf
+#' @inheritParams pbtick
+#'
+#' @return A tibble with performance metrics for when each feature (or group
+#'   of correlated features; `names`) is permuted (`perf_metric`), differences
+#'   between the actual test performance metric on and the permuted performance
+#'   metric (`perf_metric_diff`; test minus permuted performance), and the
+#'   p-value (`pvalue`: the probability of obtaining the actual performance
+#'   value under the null hypothesis). Features with a larger `perf_metric_diff`
+#'   are more important. The performance metric name (`perf_metric_name`) and
+#'   seed (`seed`) are also returned.
+#'
+#' @import data.table
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#'
+get_permuted_stats <- function(perms_df, test_perf_value, method, perf_metric_name, seed) {
+  abort_packages_not_installed('data.table')
+  dt <- as.data.table(perms_df) %>%  # group_by & summarize
+    .[, .(
+      perf_metric = mean(perf_metric),
+      perf_metric_diff = test_perf_value - mean(perf_metric),
+      pvalue = calc_pvalue(perf_metric, test_perf_value)
+    ),
+    by = "feat_group"]
+  # mutate
+  dt[, ':='(method = method,
+            perf_metric_name = perf_metric_name,
+            seed = seed)]
+  # rename(names = feat_group)
+  setnames(dt, "feat_group", "names")
+  # enforce column order so we don't accidentally break the API
+  setcolorder(
+    dt,
+    c(
+      "perf_metric",
+      "perf_metric_diff",
+      "pvalue",
+      "names",
+      "method",
+      "perf_metric_name",
+      "seed"
+    )
+  )
+  return(dplyr::as_tibble(dt))
 }

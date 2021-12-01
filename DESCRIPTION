@@ -74,6 +74,7 @@ Imports:
     utils,
     xgboost
 Suggests:
+    data.table,
     doFuture,
     foreach,
     future,

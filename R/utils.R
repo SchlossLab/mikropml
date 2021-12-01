@@ -163,7 +163,7 @@ replace_spaces <- function(x, new_char = "_") {
 #' @param pb a progress bar created with `progressr`.
 #' @param message optional message to report (default: `NULL`).
 #'
-#' @noRd
+#' @export
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
