@@ -98,7 +98,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_feature_importance <- function(trained_model, train_data, test_data,
+get_feature_importance_OLD <- function(trained_model, train_data, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
                                    seed = NA, corr_thresh = 1, groups = NULL,
@@ -222,7 +222,7 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
 }
 
 #' let's try re-writing for improved speed
-get_feature_importance2 <- function(trained_model, train_data, test_data,
+get_feature_importance <- function(trained_model, train_data, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
                                    seed = NA, corr_thresh = 1, groups = NULL,
