@@ -194,3 +194,9 @@ test_that("custom grouped features works", {
     )), row.names = c(NA, -8L), class = "data.frame")
   )
 })
+
+test_that("calc_pvalue() works", {
+  expect_equal(calc_pvalue(1:20, 10), 0.5)
+  expect_equal(calc_pvalue(1, 1), 0)
+  expect_equal(calc_pvalue(1:3, 0), 1)
+})
