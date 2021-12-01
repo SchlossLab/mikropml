@@ -11,7 +11,7 @@ benchmark_perm_functions <- function() {
   class_probs <- TRUE
   method <- 'glmnet'
   get_feat_imp1 <- function() {
-      get_feature_importance(
+      get_feature_importance_OLD(
           trained_model,
           train_data,
           test_data,
@@ -23,7 +23,7 @@ benchmark_perm_functions <- function() {
       )
   }
   get_feat_imp2 <- function() {
-      get_feature_importance2(
+      get_feature_importance(
           trained_model,
           train_data,
           test_data,

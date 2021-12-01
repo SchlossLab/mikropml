@@ -258,14 +258,15 @@ get_feature_importance <- function(trained_model, train_data, test_data,
   perms_df <- furrr::future_map2_dfr(param_grid$groups %>% as.character(),
                               param_grid$perms,
                               calc_perm_perf,
-                              test_dt,
+                              test_data,
                               trained_model,
                               outcome_colname,
                               perf_metric_function,
                               perf_metric_name,
                               class_probs,
                               progbar,
-                              .options = furrr::furrr_options(seed = TRUE)
+                              .options = furrr::furrr_options(seed = TRUE,
+                                                              chunk_size = nperms)
   )
   perm_stats <- get_permuted_stats(perms_df, test_perf_value,
                                    method, perf_metric_name, seed)
@@ -291,6 +292,8 @@ calc_perm_perf <- function(feat_group, perm,
                            test_data, trained_model, outcome_colname,
                            perf_metric_function, perf_metric_name,
                            class_probs, progbar = NULL) {
+    # subsetting with tibbles isn't quite the same as with data.frames.
+    test_data <- as.data.frame(test_data)
     # permute grouped features together
     feats <- strsplit(feat_group, "\\|")[[1]]
     # shuffle 'em
