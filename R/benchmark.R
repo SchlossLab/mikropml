@@ -73,3 +73,22 @@ benchmark_summaries <- function() {
     }
     microbenchmark::microbenchmark(dplyr_sum(), datatable_sum(), times = 10L)
 }
+
+benchmark_shuffling <- function() {
+    test_df <- otu_small
+    group_feats <- c('Otu00001', 'Otu00002')
+    shuffle_df <- function(test_data, group_feats) {
+        rows_shuffled <- sample(nrow(test_data))
+        test_data[, group_feats] <- test_data[rows_shuffled, group_feats]
+        return(test_data)
+    }
+    test_dt <- as.data.table(test_dt, feats)
+    shuffle_dt <- function(test_dt) {
+        rows_shuffled <- sample(nrow(test_dt))
+        for (feat in feats) {
+            test_dt[, (feat) := test_dt[rows_shuffled, feat, with = FALSE]]
+        }
+        return(test_dt)
+    }
+    microbenchmark::microbenchmark(shuffle_df(test_df), shuffle_dt(test_dt), times = 10L)
+}

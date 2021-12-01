@@ -248,27 +248,28 @@ get_feature_importance2 <- function(trained_model, train_data, test_data,
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(
-      steps = nperms * length(groups) + length(features),
+      steps = nperms * length(groups) + 1,
       message = "Feature importance"
     )
   }
+
   param_grid <- expand.grid(groups=groups,
                            perms=seq.int(nperms))
   perms_df <- furrr::future_map2_dfr(param_grid$groups %>% as.character(),
                               param_grid$perms,
                               calc_perm_perf,
-                              test_data,
+                              test_dt,
                               trained_model,
                               outcome_colname,
                               perf_metric_function,
                               perf_metric_name,
                               class_probs,
                               progbar,
-                              .options = furrr::furrr_options(seed = TRUE,
-                                                              scheduling = 2)
+                              .options = furrr::furrr_options(seed = TRUE)
   )
   perm_stats <- get_permuted_stats(perms_df, test_perf_value,
                                    method, perf_metric_name, seed)
+  pbtick(progbar)
   return(
     perm_stats
   )
@@ -278,34 +279,31 @@ get_feature_importance2 <- function(trained_model, train_data, test_data,
 #'
 #' @param feat_group group of correlated features as a character
 #' @param perm permutation number
+#' @param test_data the test data frame
 #' @inheritParams get_feature_importance
 #' @inheritParams pbtick
 #'
 #' @return
-#' @export
+#'
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#'
 calc_perm_perf <- function(feat_group, perm,
                            test_data, trained_model, outcome_colname,
                            perf_metric_function, perf_metric_name,
                            class_probs, progbar = NULL) {
     # permute grouped features together
-    fs <- strsplit(feat_group, "\\|")[[1]]
-    # get the new performance metric and performance metric differences
-    n_rows <- nrow(test_data)
-    # this strategy works for any number of features
-    rows_shuffled <- sample(n_rows)
-    permuted_test_data <- test_data
-    permuted_test_data[, fs] <- permuted_test_data[rows_shuffled, fs]
+    feats <- strsplit(feat_group, "\\|")[[1]]
+    # shuffle 'em
+    rows_shuffled <- sample(nrow(test_data))
+    test_data[, feats] <- test_data[rows_shuffled, feats]
     pbtick(progbar)
     # TODO: It's wasteful to call caret::defaultSummary/MultiClassSummary in
     # `calc_perf_metrics()` because they calculate several performance values,
-    # but we only need one of them. Let's refactor this to just calculate the
-    # one we need.
+    # but we only need one of them. We do want it for reporting the final
+    # performance metrics in `run_ml()`, but we should have another function
+    # that only calculates the one we need for this use-case.
     perm_perf_metric <- calc_perf_metrics(
-      permuted_test_data,
+      test_data,
       trained_model,
       outcome_colname,
       perf_metric_function,
@@ -337,12 +335,9 @@ calc_perm_perf <- function(feat_group, perm,
 #'   are more important. The performance metric name (`perf_metric_name`) and
 #'   seed (`seed`) are also returned.
 #'
-#' @importFrom data.table as.data.table := setnames setcolorder
-#' @export
+#' @importFrom data.table as.data.table setnames setcolorder
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#'
 get_permuted_stats <- function(perms_df, test_perf_value, method, perf_metric_name, seed) {
   abort_packages_not_installed('data.table')
   dt <- as.data.table(perms_df) %>%  # group_by & summarize
@@ -385,5 +380,7 @@ get_permuted_stats <- function(perms_df, test_perf_value, method, perf_metric_na
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 calc_pvalue <- function(vctr, test_stat) {
+  # Note: `sum()` and `length()` are already super optimized in base R.
+  # Re-writing this in C++ confers zero performance benefits (I tried). - KLS
   return(sum(vctr > test_stat) / length(vctr))
 }
