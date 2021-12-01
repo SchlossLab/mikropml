@@ -141,6 +141,7 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #'
 #'
 #' @return A one-row tibble with columns `cv_auroc`, column for each of the performance metrics for the test data `method`, and `seed`.
+#' @importFrom dplyr .data
 #' @export
 #'
 #' @examples

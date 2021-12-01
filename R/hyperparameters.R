@@ -26,6 +26,8 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' @param ml_method machine learning method
 #'
 #' @return named list of lists of hyperparameters
+#'
+#' @importFrom dplyr .data
 #' @noRd
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}

@@ -144,6 +144,7 @@ preprocess_data <- function(dataset, outcome_colname,
 #' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
+#' @importFrom rlang !!
 #' @examples
 #' rm_missing_outcome(mikropml::otu_mini_bin, "dx")
 #'

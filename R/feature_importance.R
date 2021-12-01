@@ -265,7 +265,7 @@ get_feature_importance2 <- function(trained_model, train_data, test_data,
                               class_probs,
                               progbar,
                               .options = furrr::furrr_options(seed = TRUE,
-                                                              scheduling = 10)
+                                                              scheduling = 2)
   )
   perm_stats <- get_permuted_stats(perms_df, test_perf_value,
                                    method, perf_metric_name, seed)
@@ -337,7 +337,7 @@ calc_perm_perf <- function(feat_group, perm,
 #'   are more important. The performance metric name (`perf_metric_name`) and
 #'   seed (`seed`) are also returned.
 #'
-#' @import data.table
+#' @importFrom data.table as.data.table := setnames setcolorder
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
@@ -353,9 +353,9 @@ get_permuted_stats <- function(perms_df, test_perf_value, method, perf_metric_na
     ),
     by = "feat_group"]
   # mutate
-  dt[, ':='(method = method,
-            perf_metric_name = perf_metric_name,
-            seed = seed)]
+  dt[, c('method', 'perf_metric_name', 'seed') := list(method,
+                                                       perf_metric_name,
+                                                       seed)]
   # rename(names = feat_group)
   setnames(dt, "feat_group", "names")
   # enforce column order so we don't accidentally break the API
@@ -372,4 +372,18 @@ get_permuted_stats <- function(perms_df, test_perf_value, method, perf_metric_na
     )
   )
   return(dplyr::as_tibble(dt))
+}
+
+#' Calculate the p-value for a permutation test
+#'
+#' @param vctr vector of statistics
+#' @param test_stat the test statistic
+#'
+#' @return the number of observations in `vctr` that are greater than
+#'   `test_stat` divided by the number of observations in `vctr`
+#'
+#' @noRd
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+calc_pvalue <- function(vctr, test_stat) {
+  return(sum(vctr > test_stat) / length(vctr))
 }

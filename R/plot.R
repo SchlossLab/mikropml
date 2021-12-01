@@ -171,7 +171,9 @@ combine_hp_performance <- function(trained_model_lst) {
   ))
 }
 
-#' Plot hyperparameter performance metrics
+#' Plot hyperparameter performance metrics.
+#'
+#' Requires `ggplot2`.
 #'
 #' @param dat dataframe of hyperparameters and performance metric (e.g. from `get_hp_performance()` or `combine_hp_performance()`)
 #' @param param_col hyperparameter to be plotted. must be a column in `dat`.
@@ -179,6 +181,7 @@ combine_hp_performance <- function(trained_model_lst) {
 #'
 #' @return ggplot of hyperparameter performance.
 #'
+#' @importFrom rlang := !! .data
 #' @export
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}

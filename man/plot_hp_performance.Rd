@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_hp_performance}
 \alias{plot_hp_performance}
-\title{Plot hyperparameter performance metrics}
+\title{Plot hyperparameter performance metrics.}
 \usage{
 plot_hp_performance(dat, param_col, metric_col)
 }
@@ -17,7 +17,7 @@ plot_hp_performance(dat, param_col, metric_col)
 ggplot of hyperparameter performance.
 }
 \description{
-Plot hyperparameter performance metrics
+Requires \code{ggplot2}.
 }
 \examples{
 # plot for a single `run_ml()` call
