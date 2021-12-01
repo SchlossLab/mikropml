@@ -297,6 +297,8 @@ calc_perm_perf <- function(feat_group, perm,
     # permute grouped features together
     feats <- strsplit(feat_group, "\\|")[[1]]
     # shuffle 'em
+    # I tried re-writing these next two lines in C++, but it was only faster on
+    # extremely small datasets and was much slower on a medium-sized dataset.
     rows_shuffled <- sample(nrow(test_data))
     test_data[, feats] <- test_data[rows_shuffled, feats]
     pbtick(progbar)

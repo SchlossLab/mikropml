@@ -39,6 +39,12 @@ benchmark_perm_functions <- function() {
       get_feat_imp2(),
       times = 3L
   )
+# LOL the new version is actually slower
+# > bench_results
+# Unit: seconds
+#             expr       min       lq     mean   median       uq      max neval
+#  get_feat_imp1()  98.99149 106.1609 116.1637 113.3303 124.7498 136.1692     3
+#  get_feat_imp2() 146.27570 155.4214 159.8915 164.5671 166.6995 168.8318     3
 }
 
 #' @noRd
