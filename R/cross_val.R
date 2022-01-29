@@ -93,7 +93,7 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' @inheritParams define_cv
 #'
 #' @return `TRUE` if possible, `FALSE` otherwise
-#' @export
+#' @noRd
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
