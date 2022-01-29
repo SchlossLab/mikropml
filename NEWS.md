@@ -1,8 +1,8 @@
-# development version 1.3.0
+# mikropml 1.2.1
 
 - Allow `kfold >= length(groups)` (#285, @kelly-sovacool).
     - When using the groups parameter, groups are kept together in cross-validation partitions when `kfold` <= the number of groups in the training set. Previously, an error was thrown if this condition was not met. Now, if there are not enough groups in the training set for groups to be kept together during CV, groups are allowed to be split up across CV partitions. 
-- Report p-values for permutation feature importance (#288, @kelly-sovacool)
+- Report p-values for permutation feature importance (#288, @kelly-sovacool).
 
 # mikropml 1.2.0
 
