@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -61,12 +57,14 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li class="divider">
-    <li class="dropdown-header">Paper</li>
+    </li>
+<li class="dropdown-header">Paper</li>
     <li>
       <a href="../articles/paper.html">mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Vignettes</li>
+    </li>
+<li class="dropdown-header">Vignettes</li>
     <li>
       <a href="../articles/introduction.html">Introduction to mikropml</a>
     </li>
@@ -87,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/SchlossLab/mikropml/">
+  <a href="https://github.com/SchlossLab/mikropml/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -106,10 +104,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Hyperparameter tuning</h1>
-                        <h4 class="author">Begüm D. Topçuoğlu</h4>
+                        <h4 data-toc-skip class="author">Begüm D. Topçuoğlu</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/master/vignettes/tuning.Rmd"><code>vignettes/tuning.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/HEAD/vignettes/tuning.Rmd" class="external-link"><code>vignettes/tuning.Rmd</code></a></small>
       <div class="hidden name"><code>tuning.Rmd</code></div>
 
     </div>
@@ -121,8 +119,10 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#install.packages("devtools")</span>
 <span class="co">#devtools::install_github("SchlossLab/mikropml")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.schlosslab.org/mikropml/">mikropml</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.schlosslab.org/mikropml/" class="external-link">mikropml</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning in register(): Can't find generic `scale_type` in package ggplot2 to</span>
+<span class="co">#&gt; register S3 method.</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>
 <span class="co">#&gt;       dx Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007</span>
 <span class="co">#&gt; 1 normal      350      268      213        1      208      230       70</span>
 <span class="co">#&gt; 2 normal      568     1320       13      293      671      103       48</span>
@@ -144,9 +144,8 @@
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">preproc</span><span class="op">$</span><span class="va">dat_transformed</span></code></pre></div>
 <p>We’ll use <code>dat</code> for the following examples.</p>
-<div id="the-simplest-way-to-run_ml" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-simplest-way-to-run_ml" class="anchor"></a>The simplest way to <code>run_ml()</code>
+<div class="section level2">
+<h2 id="the-simplest-way-to-run_ml">The simplest way to <code>run_ml()</code><a class="anchor" aria-label="anchor" href="#the-simplest-way-to-run_ml"></a>
 </h2>
 <p>As mentioned above, the minimal input is your dataset (<code>dataset</code>) and the machine learning model you want to use (<code>method</code>).</p>
 <p>When we <code><a href="../reference/run_ml.html">run_ml()</a></code>, by default we do a 100 times repeated, 5-fold cross-validation, where we evaluate the hyperparameters in these 500 total iterations.</p>
@@ -242,14 +241,14 @@
 <span class="co">#&gt; 5       0.07597766  0.09957685 0.13381009       0.06453637          0.07773039</span>
 <span class="co">#&gt; 6       0.02292294  0.31899811 0.08010494       0.03803159          0.03184136</span></code></pre></div>
 </div>
-<div id="customizing-hyperparameters" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customizing-hyperparameters" class="anchor"></a>Customizing hyperparameters</h2>
+<div class="section level2">
+<h2 id="customizing-hyperparameters">Customizing hyperparameters<a class="anchor" aria-label="anchor" href="#customizing-hyperparameters"></a>
+</h2>
 <p>In this example, we want to change the <code>lambda</code> values to provide a better range to test in the cross-validation step. We don’t want to use the defaults but provide our own named list with new values.</p>
 <p>For example:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">new_hp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">1</span>, 
-               lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.00001</span>, <span class="fl">0.0001</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.015</span>, <span class="fl">0.02</span>, <span class="fl">0.025</span>, <span class="fl">0.03</span>, <span class="fl">0.04</span>, <span class="fl">0.05</span>, <span class="fl">0.06</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">new_hp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">1</span>, 
+               lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.00001</span>, <span class="fl">0.0001</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.015</span>, <span class="fl">0.02</span>, <span class="fl">0.025</span>, <span class="fl">0.03</span>, <span class="fl">0.04</span>, <span class="fl">0.05</span>, <span class="fl">0.06</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">new_hp</span>
 <span class="co">#&gt; $alpha</span>
 <span class="co">#&gt; [1] 1</span>
@@ -328,7 +327,7 @@
 <p>How do we know which <code>lambda</code> value is the best one? To answer that, we need to run the ML pipeline on multiple data splits and look at the mean cross-validation performance of each <code>lambda</code> across those modeling experiments. We describe how to run the pipeline with multiple data splits in <code><a href="../articles/parallel.html">vignette("parallel")</a></code>.</p>
 <p>Here we train the model with the new <code>lambda</code> range we defined above. We run it 3 times each with a different seed, which will result in different splits of the data into training and testing sets. We can then use <code>plot_hp_performance</code> to see which <code>lambda</code> gives us the largest mean AUC value across modeling experiments.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">seed</span><span class="op">)</span> <span class="op">{</span>
+<code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">seed</span><span class="op">)</span> <span class="op">{</span>
    <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"glmnet"</span>, seed <span class="op">=</span> <span class="va">seed</span>, hyperparameters <span class="op">=</span> <span class="va">new_hp</span><span class="op">)</span>
  <span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
@@ -340,15 +339,15 @@
 <span class="co">#&gt; Using 'dx' as the outcome column.</span>
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Training complete.</span>
-<span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">results</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">trained_model</span><span class="op">)</span>
+<span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">results</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">trained_model</span><span class="op">)</span>
 <span class="va">hp_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combine_hp_performance.html">combine_hp_performance</a></span><span class="op">(</span><span class="va">models</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot_hp_performance.html">plot_hp_performance</a></span><span class="op">(</span><span class="va">hp_metrics</span><span class="op">$</span><span class="va">dat</span>, <span class="va">lambda</span>, <span class="va">AUC</span><span class="op">)</span></code></pre></div>
 <p><img src="tuning_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>As you can see, we get a mean maxima at <code>0.03</code> which is the best <code>lambda</code> value for this dataset when we run 3 data splits. The fact that we are seeing this maxima in the middle of our range and not at the edges, shows that we are providing a large enough range to exhaust our <code>lambda</code> search as we build the model. We recommend the user to use this plot to make sure the best hyperparameter is not on the edges of the provided list. For a better understanding of the global maxima, it would be better to run more data splits by using more seeds. We picked 3 seeds to keep the runtime down for this vignette, but for real-world data we recommend using many more seeds.</p>
 </div>
-<div id="hyperparameter-options" class="section level2">
-<h2 class="hasAnchor">
-<a href="#hyperparameter-options" class="anchor"></a>Hyperparameter options</h2>
+<div class="section level2">
+<h2 id="hyperparameter-options">Hyperparameter options<a class="anchor" aria-label="anchor" href="#hyperparameter-options"></a>
+</h2>
 <p>You can see which default hyperparameters would be used for your dataset with <code><a href="../reference/get_hyperparams_list.html">get_hyperparams_list()</a></code>. Here are a few examples with built-in datasets we provide:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_hyperparams_list.html">get_hyperparams_list</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">'glmnet'</span><span class="op">)</span>
@@ -364,77 +363,77 @@
 <span class="co">#&gt; $mtry</span>
 <span class="co">#&gt; [1]  4  8 16</span></code></pre></div>
 <p>Here are the hyperparameters that are tuned for each of the modeling methods. The output for all of them is very similar, so we won’t go into those details.</p>
-<div id="regression" class="section level3">
-<h3 class="hasAnchor">
-<a href="#regression" class="anchor"></a>Regression</h3>
+<div class="section level3">
+<h3 id="regression">Regression<a class="anchor" aria-label="anchor" href="#regression"></a>
+</h3>
 <p>As mentioned above, <code>glmnet</code> uses the <code>alpha</code> parameter and <code>lambda</code> hyperparameter. <code>alpha</code> of <code>0</code> is for L2 regularization (ridge). <code>alpha</code> of <code>1</code> is for L1 regularization (lasso). <code>alpha</code> in between is elastic net. You can also tune <code>alpha</code> like you would any other hyperparameter.</p>
-<p>Please refer to original <code>glmnet</code> documentation for more information: <a href="https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html" class="uri">https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html</a></p>
+<p>Please refer to original <code>glmnet</code> documentation for more information: <a href="https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html" class="external-link uri">https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html</a></p>
 <p>The default hyperparameters chosen by <code><a href="../reference/run_ml.html">run_ml()</a></code> are fixed for <code>glmnet</code>.</p>
-<pre><code>#&gt; $lambda
-#&gt; [1] 1e-04 1e-03 1e-02 1e-01 1e+00 1e+01
-#&gt; 
-#&gt; $alpha
-#&gt; [1] 0</code></pre>
+<pre><code><span class="co">#&gt; $lambda</span>
+<span class="co">#&gt; [1] 1e-04 1e-03 1e-02 1e-01 1e+00 1e+01</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $alpha</span>
+<span class="co">#&gt; [1] 0</span></code></pre>
 </div>
-<div id="random-forest" class="section level3">
-<h3 class="hasAnchor">
-<a href="#random-forest" class="anchor"></a>Random forest</h3>
-<p>When we run <code>rf</code> we are using the the <code>randomForest</code> package implementation. We are tuning the <code>mtry</code> hyperparameter. This is the number of features that are randomly collected to be sampled at each tree node. This number needs to be less than the number of features in the dataset. Please refer to the original documentation for more information: <a href="https://cran.r-project.org/web/packages/randomForest/randomForest.pdf" class="uri">https://cran.r-project.org/web/packages/randomForest/randomForest.pdf</a></p>
+<div class="section level3">
+<h3 id="random-forest">Random forest<a class="anchor" aria-label="anchor" href="#random-forest"></a>
+</h3>
+<p>When we run <code>rf</code> we are using the the <code>randomForest</code> package implementation. We are tuning the <code>mtry</code> hyperparameter. This is the number of features that are randomly collected to be sampled at each tree node. This number needs to be less than the number of features in the dataset. Please refer to the original documentation for more information: <a href="https://cran.r-project.org/web/packages/randomForest/randomForest.pdf" class="external-link uri">https://cran.r-project.org/web/packages/randomForest/randomForest.pdf</a></p>
 <p>By default, we take the square root of number of features in the dataset and we provide a range that is <code>[sqrt_features / 2, sqrt_features, sqrt_features * 2]</code>.</p>
 <p>For example if the number of features is 1000:</p>
-<pre><code>#&gt; $mtry
-#&gt; [1] 16 32 64</code></pre>
+<pre><code><span class="co">#&gt; $mtry</span>
+<span class="co">#&gt; [1] 16 32 64</span></code></pre>
 <p>Similar to <code>glmnet</code> method, we can provide our own <code>mtry</code> range.</p>
 </div>
-<div id="decision-tree" class="section level3">
-<h3 class="hasAnchor">
-<a href="#decision-tree" class="anchor"></a>Decision tree</h3>
-<p>When we run <code>rpart2</code>, we are running the <code>rpart</code> package implementation of decision tree. We are tuning the <code>maxdepth</code> hyperparameter. This is the maximum depth of any node of the final tree. Please refer to the original documentation for more information on maxdepth: <a href="https://cran.r-project.org/web/packages/rpart/rpart.pdf" class="uri">https://cran.r-project.org/web/packages/rpart/rpart.pdf</a></p>
+<div class="section level3">
+<h3 id="decision-tree">Decision tree<a class="anchor" aria-label="anchor" href="#decision-tree"></a>
+</h3>
+<p>When we run <code>rpart2</code>, we are running the <code>rpart</code> package implementation of decision tree. We are tuning the <code>maxdepth</code> hyperparameter. This is the maximum depth of any node of the final tree. Please refer to the original documentation for more information on maxdepth: <a href="https://cran.r-project.org/web/packages/rpart/rpart.pdf" class="external-link uri">https://cran.r-project.org/web/packages/rpart/rpart.pdf</a></p>
 <p>By default, we provide a range that is less than the number of features in the dataset.</p>
 <p>For example if we have 1000 features:</p>
-<pre><code>#&gt; $maxdepth
-#&gt; [1]  1  2  4  8 16 30</code></pre>
+<pre><code><span class="co">#&gt; $maxdepth</span>
+<span class="co">#&gt; [1]  1  2  4  8 16 30</span></code></pre>
 <p>or 10 features:</p>
-<pre><code>#&gt; $maxdepth
-#&gt; [1] 1 2 4 8</code></pre>
+<pre><code><span class="co">#&gt; $maxdepth</span>
+<span class="co">#&gt; [1] 1 2 4 8</span></code></pre>
 </div>
-<div id="svm-with-radial-basis-kernel" class="section level3">
-<h3 class="hasAnchor">
-<a href="#svm-with-radial-basis-kernel" class="anchor"></a>SVM with radial basis kernel</h3>
-<p>When we run the <code>svmRadial</code> method, we are tuning the <code>C</code> and <code>sigma</code> hyperparameters. <code>sigma</code> defines how far the influence of a single training example reaches and <code>C</code> behaves as a regularization parameter. Please refer to this great <code>sklearn</code> resource for more information on these hyperparameters: <a href="https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html" class="uri">https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html</a></p>
+<div class="section level3">
+<h3 id="svm-with-radial-basis-kernel">SVM with radial basis kernel<a class="anchor" aria-label="anchor" href="#svm-with-radial-basis-kernel"></a>
+</h3>
+<p>When we run the <code>svmRadial</code> method, we are tuning the <code>C</code> and <code>sigma</code> hyperparameters. <code>sigma</code> defines how far the influence of a single training example reaches and <code>C</code> behaves as a regularization parameter. Please refer to this great <code>sklearn</code> resource for more information on these hyperparameters: <a href="https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html" class="external-link uri">https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html</a></p>
 <p>By default, we provide 2 separate range of values for the two hyperparameters.</p>
-<pre><code>#&gt; $C
-#&gt; [1] 1e-03 1e-02 1e-01 1e+00 1e+01 1e+02
-#&gt; 
-#&gt; $sigma
-#&gt; [1] 1e-06 1e-05 1e-04 1e-03 1e-02 1e-01</code></pre>
+<pre><code><span class="co">#&gt; $C</span>
+<span class="co">#&gt; [1] 1e-03 1e-02 1e-01 1e+00 1e+01 1e+02</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $sigma</span>
+<span class="co">#&gt; [1] 1e-06 1e-05 1e-04 1e-03 1e-02 1e-01</span></code></pre>
 </div>
-<div id="xgboost" class="section level3">
-<h3 class="hasAnchor">
-<a href="#xgboost" class="anchor"></a>XGBoost</h3>
+<div class="section level3">
+<h3 id="xgboost">XGBoost<a class="anchor" aria-label="anchor" href="#xgboost"></a>
+</h3>
 <p>When we run the <code>xgbTree</code> method, we are tuning the <code>nrounds</code>, <code>gamma</code>, <code>eta</code> <code>max_depth</code>, <code>colsample_bytree</code>, <code>min_child_weight</code> and <code>subsample</code> hyperparameters.</p>
-<p>You can read more about these hyperparameters here: <a href="https://xgboost.readthedocs.io/en/latest/parameter.html" class="uri">https://xgboost.readthedocs.io/en/latest/parameter.html</a></p>
+<p>You can read more about these hyperparameters here: <a href="https://xgboost.readthedocs.io/en/latest/parameter.html" class="external-link uri">https://xgboost.readthedocs.io/en/latest/parameter.html</a></p>
 <p>By default, we set the <code>nrounds</code>, <code>gamma</code>, <code>colsample_bytree</code> and <code>min_child_weight</code> to fixed values and we provide a range of values for <code>eta</code>, <code>max_depth</code> and <code>subsample</code>. All of these can be changed and optimized by the user by supplying a custom named list of hyperparameters to <code><a href="../reference/run_ml.html">run_ml()</a></code>.</p>
-<pre><code>#&gt; $nrounds
-#&gt; [1] 100
-#&gt; 
-#&gt; $gamma
-#&gt; [1] 0
-#&gt; 
-#&gt; $eta
-#&gt; [1] 0.001 0.010 0.100 1.000
-#&gt; 
-#&gt; $max_depth
-#&gt; [1]  1  2  4  8 16 30
-#&gt; 
-#&gt; $colsample_bytree
-#&gt; [1] 0.8
-#&gt; 
-#&gt; $min_child_weight
-#&gt; [1] 1
-#&gt; 
-#&gt; $subsample
-#&gt; [1] 0.4 0.5 0.6 0.7</code></pre>
+<pre><code><span class="co">#&gt; $nrounds</span>
+<span class="co">#&gt; [1] 100</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $gamma</span>
+<span class="co">#&gt; [1] 0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $eta</span>
+<span class="co">#&gt; [1] 0.001 0.010 0.100 1.000</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $max_depth</span>
+<span class="co">#&gt; [1]  1  2  4  8 16 30</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $colsample_bytree</span>
+<span class="co">#&gt; [1] 0.8</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $min_child_weight</span>
+<span class="co">#&gt; [1] 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $subsample</span>
+<span class="co">#&gt; [1] 0.4 0.5 0.6 0.7</span></code></pre>
 </div>
 </div>
   </div>
@@ -450,11 +449,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/BTopcuoglu">Begüm Topçuoğlu</a>, <a href="https://github.com/zenalapp">Zena Lapp</a>, <a href="https://github.com/kelly-sovacool">Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href="https://github.com/pschloss">Patrick Schloss</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://github.com/BTopcuoglu" class="external-link">Begüm Topçuoğlu</a>, <a href="https://github.com/zenalapp" class="external-link">Zena Lapp</a>, <a href="https://github.com/kelly-sovacool" class="external-link">Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href="https://github.com/pschloss" class="external-link">Patrick Schloss</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -462,6 +463,8 @@
 
   
 
+
+  
 
   </body>
 </html>

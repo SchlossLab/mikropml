@@ -17,7 +17,7 @@
     Message: Bad Request
 ```
 
-I believe this is a spurious note as the URL works in my local browser.
+This is a spurious note as the URL works in my local browser.
 
 ## revdepcheck results
 

@@ -33,6 +33,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -45,18 +47,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -68,12 +64,14 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li class="divider">
-    <li class="dropdown-header">Paper</li>
+    </li>
+<li class="dropdown-header">Paper</li>
     <li>
       <a href="articles/paper.html">mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Vignettes</li>
+    </li>
+<li class="dropdown-header">Vignettes</li>
     <li>
       <a href="articles/introduction.html">Introduction to mikropml</a>
     </li>
@@ -94,7 +92,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/SchlossLab/mikropml/">
+  <a href="https://github.com/SchlossLab/mikropml/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -111,64 +109,64 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="mikropml-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#mikropml-" class="anchor"></a>mikropml <a href="http://www.schlosslab.org/mikropml/"><img src="reference/figures/logo.png" align="right" height="120"></a>
+<div class="section level1">
+<div class="page-header"><h1 id="mikropml-">mikropml <a href="http://www.schlosslab.org/mikropml/"><img src="reference/figures/logo.png" align="right" height="120"></a>
+<a class="anchor" aria-label="anchor" href="#mikropml-"></a>
 </h1></div>
 <blockquote>
 <p>meek-ROPE em el</p>
 </blockquote>
 <p>User-Friendly R Package for Supervised Machine Learning Pipelines</p>
 <!-- badges: start -->
-<p><a href="https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amain"><img src="https://github.com/SchlossLab/mikropml/workflows/check/badge.svg" alt="check"></a> <a href="https://app.codecov.io/gh/SchlossLab/mikropml"><img src="https://codecov.io/gh/SchlossLab/mikropml/branch/main/graph/badge.svg" alt="codecov"></a> <a href="https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a> <a href="https://CRAN.R-project.org/package=mikropml"><img src="https://img.shields.io/cran/v/mikropml?color=blue&amp;label=CRAN&amp;logo=R" alt="CRAN"></a> <a href="https://anaconda.org/conda-forge/r-mikropml"><img src="https://img.shields.io/conda/vn/conda-forge/r-mikropml" alt="Conda"></a> <img src="https://cranlogs.r-pkg.org/badges/grand-total/mikropml" alt="Downloads"><a href="https://doi.org/10.21105/joss.03073"><img src="https://joss.theoj.org/papers/10.21105/joss.03073/status.svg" alt="DOI"></a> <!-- badges: end --></p>
-<p>An interface to build machine learning models for classification and regression problems. <code>mikropml</code> implements the ML pipeline described by <a href="https://doi.org/doi:10.1128/mBio.00434-20">Topçuoğlu <em>et al.</em> (2020)</a> with reasonable default options for data preprocessing, hyperparameter tuning, cross-validation, testing, model evaluation, and interpretation steps. See the <a href="http://www.schlosslab.org/mikropml/">website</a> for more information, documentation, and examples.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the latest release from <a href="https://cran.r-project.org/package=mikropml">CRAN</a>:</p>
+
+<p>An interface to build machine learning models for classification and regression problems. <code>mikropml</code> implements the ML pipeline described by <a href="https://doi.org/doi:10.1128/mBio.00434-20" class="external-link">Topçuoğlu <em>et al.</em> (2020)</a> with reasonable default options for data preprocessing, hyperparameter tuning, cross-validation, testing, model evaluation, and interpretation steps. See the <a href="http://www.schlosslab.org/mikropml/">website</a> for more information, documentation, and examples.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the latest release from <a href="https://cran.r-project.org/package=mikropml" class="external-link">CRAN</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span><span class="op">)</span></code></pre></div>
-<p>or the development version from <a href="https://github.com/SchlossLab/mikRopML">GitHub</a>:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span><span class="op">)</span></code></pre></div>
+<p>or the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></code></pre></div>
-<p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html">conda</a>:</p>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></code></pre></div>
+<p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html" class="external-link">conda</a>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">conda</span> install -c conda-forge r-mikropml</span></code></pre></div>
-<div id="dependencies" class="section level3">
-<h3 class="hasAnchor">
-<a href="#dependencies" class="anchor"></a>Dependencies</h3>
+<div class="section level3">
+<h3 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
+</h3>
 <ul>
 <li>Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics, randomForest, rlang, rpart, stats, utils, xgboost</li>
 <li>Suggests: doFuture, foreach, future, future.apply, ggplot2, knitr, progress, progressr, purrr, rmarkdown, testthat, tidyr</li>
 </ul>
 </div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>Check out the <a href="http://www.schlosslab.org/mikropml/articles/introduction.html">introductory vignette</a> for a quick start tutorial. For a more in-depth discussion, read <a href="http://www.schlosslab.org/mikropml/articles/index.html">all the vignettes</a> and/or take a look at the <a href="http://www.schlosslab.org/mikropml/reference/index.html">reference documentation</a>.</p>
-<p>You can watch the Riffomonas Project series of <a href="https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg">video tutorials</a> covering mikropml and other skills related to machine learning.</p>
-<p>We also provide an <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow">example Snakemake workflow</a> for running <code>mikropml</code> on an HPC.</p>
+<p>You can watch the Riffomonas Project series of <a href="https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg" class="external-link">video tutorials</a> covering mikropml and other skills related to machine learning.</p>
+<p>We also provide an <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link">example Snakemake workflow</a> for running <code>mikropml</code> on an HPC.</p>
 </div>
-<div id="help--contributing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#help--contributing" class="anchor"></a>Help &amp; Contributing</h2>
-<p>If you come across a bug, <a href="https://github.com/SchlossLab/mikropml/issues">open an issue</a> and include a <a href="https://www.tidyverse.org/help/">minimal reproducible example</a>.</p>
+<div class="section level2">
+<h2 id="help--contributing">Help &amp; Contributing<a class="anchor" aria-label="anchor" href="#help--contributing"></a>
+</h2>
+<p>If you come across a bug, <a href="https://github.com/SchlossLab/mikropml/issues" class="external-link">open an issue</a> and include a <a href="https://www.tidyverse.org/help/" class="external-link">minimal reproducible example</a>.</p>
 <p>If you’d like to contribute, see our guidelines <a href="http://www.schlosslab.org/mikropml/CONTRIBUTING.html">here</a>.</p>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
 <p>Please note that the mikropml project is released with a <a href="http://www.schlosslab.org/mikropml/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
-<div id="license" class="section level2">
-<h2 class="hasAnchor">
-<a href="#license" class="anchor"></a>License</h2>
-<p>The mikropml package is licensed under <a href="https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md">the MIT license</a>. Text and images included in this repository, including the mikropml logo, are licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0 license</a>.</p>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>The mikropml package is licensed under <a href="https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md" class="external-link">the MIT license</a>. Text and images included in this repository, including the mikropml logo, are licensed under the <a href="https://creativecommons.org/licenses/by/4.0/" class="external-link">CC BY 4.0 license</a>.</p>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
 <pre><code>
 To cite mikRopML in publications, use:
 
@@ -191,60 +189,73 @@ A BibTeX entry for LaTeX users is
     url = {https://joss.theoj.org/papers/10.21105/joss.03073},
   }</code></pre>
 </div>
-<div id="why-the-name" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why-the-name" class="anchor"></a>Why the name?</h2>
-<p>The word “mikrop” (pronounced “meek-ROPE”) is Turkish for “microbe”. This package was originally implemented as a machine learning pipeline for microbiome-based classification problems (see <a href="https://doi.org/10.1128/mBio.00434-20">Topçuoğlu <em>et al.</em> 2020</a>). We realized that these methods are applicable in many other fields too, but stuck with the name because we like it!</p>
+<div class="section level2">
+<h2 id="why-the-name">Why the name?<a class="anchor" aria-label="anchor" href="#why-the-name"></a>
+</h2>
+<p>The word “mikrop” (pronounced “meek-ROPE”) is Turkish for “microbe”. This package was originally implemented as a machine learning pipeline for microbiome-based classification problems (see <a href="https://doi.org/10.1128/mBio.00434-20" class="external-link">Topçuoğlu <em>et al.</em> 2020</a>). We realized that these methods are applicable in many other fields too, but stuck with the name because we like it!</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=mikropml">https://​cloud.r-project.org/​package=mikropml</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/SchlossLab/mikropml/">https://​github.com/​SchlossLab/​mikropml/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/SchlossLab/mikropml/issues">https://​github.com/​SchlossLab/​mikropml/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=mikropml" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/SchlossLab/mikropml/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/SchlossLab/mikropml/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing mikropml</a></li>
+<li><a href="authors.html#citation">Citing mikropml</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://github.com/BTopcuoglu">Begüm Topçuoğlu</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3140-537X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/BTopcuoglu" class="external-link">Begüm Topçuoğlu</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3140-537X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
-<a href="https://github.com/zenalapp">Zena Lapp</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4674-2176" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/zenalapp" class="external-link">Zena Lapp</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4674-2176" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
-<a href="https://github.com/kelly-sovacool">Kelly Sovacool</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3283-829X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Evan Snitkin <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8409-278X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Jenna Wiens <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1057-7722" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/kelly-sovacool" class="external-link">Kelly Sovacool</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3283-829X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Evan Snitkin <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8409-278X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Jenna Wiens <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1057-7722" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
-<a href="https://github.com/pschloss">Patrick Schloss</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6935-4275" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<a href="https://github.com/pschloss" class="external-link">Patrick Schloss</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6935-4275" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/SchlossLab/mikropml/actions?query=workflow%3Acheck+branch%3Amain" class="external-link"><img src="https://github.com/SchlossLab/mikropml/workflows/check/badge.svg" alt="check"></a></li>
+<li><a href="https://app.codecov.io/gh/SchlossLab/mikropml" class="external-link"><img src="https://codecov.io/gh/SchlossLab/mikropml/branch/main/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a></li>
+<li><a href="https://CRAN.R-project.org/package=mikropml" class="external-link"><img src="https://img.shields.io/cran/v/mikropml?color=blue&amp;label=CRAN&amp;logo=R" alt="CRAN"></a></li>
+<li><a href="https://anaconda.org/conda-forge/r-mikropml" class="external-link"><img src="https://img.shields.io/conda/vn/conda-forge/r-mikropml" alt="Conda"></a></li>
+<li><a href="https://doi.org/10.21105/joss.03073" class="external-link"><img src="https://joss.theoj.org/papers/10.21105/joss.03073/status.svg" alt="DOI"></a></li>
 </ul>
 </div>
 
@@ -253,11 +264,13 @@ A BibTeX entry for LaTeX users is
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/BTopcuoglu">Begüm Topçuoğlu</a>, <a href="https://github.com/zenalapp">Zena Lapp</a>, <a href="https://github.com/kelly-sovacool">Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href="https://github.com/pschloss">Patrick Schloss</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://github.com/BTopcuoglu" class="external-link">Begüm Topçuoğlu</a>, <a href="https://github.com/zenalapp" class="external-link">Zena Lapp</a>, <a href="https://github.com/kelly-sovacool" class="external-link">Kelly Sovacool</a>, Evan Snitkin, Jenna Wiens, <a href="https://github.com/pschloss" class="external-link">Patrick Schloss</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -265,6 +278,8 @@ A BibTeX entry for LaTeX users is
 
   
 
+
+  
 
   </body>
 </html>
