@@ -1,9 +1,12 @@
+This re-submission fixes a test failure on the no long doubles platform.
+
 ## Test environments
 
 * GitHub Actions (ubuntu-16.04): devel, release, oldrel
 * GitHub Actions (windows): release
 * GitHub Actions (macOS): release
 * win-builder: devel
+* rhub: debian-gcc-devel-nold
 
 ## R CMD check results
 
