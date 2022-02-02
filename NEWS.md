@@ -1,5 +1,7 @@
-# development version
+# mikropml 1.2.2
 
+This minor patch fixes a test failure on platforms with no long doubles.
+The actual package code remains unchanged.
 
 # mikropml 1.2.1
 

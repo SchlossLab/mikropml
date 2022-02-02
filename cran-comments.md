@@ -1,4 +1,4 @@
-This re-submission fixes a test failure on the no long doubles platform.
+This patch fixes a test failure on the no long doubles platform.
 
 ## Test environments
 
