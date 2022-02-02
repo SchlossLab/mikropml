@@ -103,7 +103,7 @@ row.names = c(NA, -10L), class = "data.frame"
 
 test_that("feature importances are correct", {
   set.seed(2019)
-  #eps <- if (capabilities("long.double")) sqrt(.Machine$double.eps) else 0.1 # https://blog.r-hub.io/2019/05/21/nold/
+  # eps <- if (capabilities("long.double")) sqrt(.Machine$double.eps) else 0.1 # https://blog.r-hub.io/2019/05/21/nold/
   expect_equal(
     get_feature_importance(
       otu_mini_bin_results_glmnet$trained_model,
