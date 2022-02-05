@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2</span>
       </span>
     </div>
 
@@ -74,7 +74,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2.1" id="mikropml-121">mikropml 1.2.1<a class="anchor" aria-label="anchor" href="#mikropml-121"></a></h2>
+<h2 class="page-header" data-toc-text="1.2.2" id="mikropml-122">mikropml 1.2.2<a class="anchor" aria-label="anchor" href="#mikropml-122"></a></h2>
+<p>This minor patch fixes a test failure on platforms with no long doubles. The actual package code remains unchanged.</p>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2.1" id="mikropml-121">mikropml 1.2.1<small>2022-01-30</small><a class="anchor" aria-label="anchor" href="#mikropml-121"></a></h2>
 <ul><li>Allow <code>kfold &gt;= length(groups)</code> (<a href="https://github.com/SchlossLab/mikropml/issues/285" class="external-link">#285</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
 <ul><li>When using the groups parameter, groups are kept together in cross-validation partitions when <code>kfold</code> &lt;= the number of groups in the training set. Previously, an error was thrown if this condition was not met. Now, if there are not enough groups in the training set for groups to be kept together during CV, groups are allowed to be split up across CV partitions.</li>
 </ul></li>
