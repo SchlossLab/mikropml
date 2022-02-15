@@ -32,8 +32,7 @@ test_that("define_cv works on otu_mini training data with groups", {
       ),
       "Groups will be kept together in CV partitions"
     )
-  expect_equal(cv, otu_mini_cv
-  )
+  expect_equal(cv, otu_mini_cv)
   expect_equal(cv$method, 'repeatedcv')
   expect_equal(cv$number, 5)
   expect_equal(cv$repeats, 2)
