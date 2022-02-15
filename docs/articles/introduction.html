@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2.9000</span>
       </span>
     </div>
 
@@ -214,9 +214,9 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "method"       "modelInfo"    "modelType"    "results"      "pred"        </span>
 <span class="co">#&gt;  [6] "bestTune"     "call"         "dots"         "metric"       "control"     </span>
-<span class="co">#&gt; [11] "finalModel"   "preProcess"   "trainingData" "resample"     "resampledCM" </span>
-<span class="co">#&gt; [16] "perfNames"    "maximize"     "yLimits"      "times"        "levels"      </span>
-<span class="co">#&gt; [21] "terms"        "coefnames"    "xlevels"</span></code></pre></div>
+<span class="co">#&gt; [11] "finalModel"   "preProcess"   "trainingData" "ptype"        "resample"    </span>
+<span class="co">#&gt; [16] "resampledCM"  "perfNames"    "maximize"     "yLimits"      "times"       </span>
+<span class="co">#&gt; [21] "levels"       "terms"        "coefnames"    "xlevels"</span></code></pre></div>
 <p><code>test_data</code> is the partition of the dataset that was used for testing. In machine learning, it’s always important to have a held-out test dataset that is not used in the training stage. In this pipeline we do that using <code><a href="../reference/run_ml.html">run_ml()</a></code> where we split your data into training and testing sets. The training data are used to build the model (e.g. tune hyperparameters, learn the data) and the test data are used to evaluate how well the model performs.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">test_data</span><span class="op">)</span>
