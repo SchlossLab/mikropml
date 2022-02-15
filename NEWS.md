@@ -1,5 +1,7 @@
 # development version
 
+- Fix bug where `cv_times` had no effect on repeats for cross-validation (#291, @kelly-sovacool).
+
 # mikropml 1.2.2
 
 This minor patch fixes a test failure on platforms with no long doubles.
