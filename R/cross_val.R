@@ -47,6 +47,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
   cv <- caret::trainControl(
     method = "repeatedcv",
     number = kfold,
+    repeats = cv_times,
     index = cvIndex,
     returnResamp = "final",
     classProbs = class_probs,
