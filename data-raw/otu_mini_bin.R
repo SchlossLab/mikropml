@@ -63,7 +63,7 @@ otu_mini_cv <- define_cv(otu_mini_bin_results_glmnet$trained_model$trainingData,
   perf_metric_function = caret::multiClassSummary,
   class_probs = TRUE,
   cv_times = 2,
-  group = cv_group
+  groups = cv_group
 )
 usethis::use_data(otu_mini_cv, overwrite = TRUE)
 
@@ -87,7 +87,7 @@ otu_mini_bin_results_svmRadial <- mikropml::run_ml(otu_mini_bin,
 )
 usethis::use_data(otu_mini_bin_results_svmRadial, overwrite = TRUE)
 
-otu_mini_bin_results_xgbTree <- mikropml::run_ml(otu_mini,
+otu_mini_bin_results_xgbTree <- mikropml::run_ml(otu_mini_bin,
   "xgbTree",
   outcome_colname = "dx",
   find_feature_importance = FALSE,
