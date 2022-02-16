@@ -21,20 +21,22 @@ cv_group <- c(
 
 test_that("define_cv works on otu_mini training data with groups", {
   set.seed(2019)
-  expect_equal(
-    expect_message(
-      define_cv(otu_mini_bin_results_rf$trained_model$trainingData,
-        ".outcome",
-        hparams_list,
-        perf_metric_function,
-        class_probs = class_probs,
-        cv_times = 2,
-        groups = cv_group
-      ),
-      "Groups will be kept together in CV partitions"
+  expect_message(
+    cv <- define_cv(otu_mini_bin_results_rf$trained_model$trainingData,
+      ".outcome",
+      hparams_list,
+      perf_metric_function,
+      class_probs = class_probs,
+      cv_times = 2,
+      groups = cv_group
     ),
-    otu_mini_cv
+    "Groups will be kept together in CV partitions"
   )
+  expect_equal(cv, otu_mini_cv)
+  expect_equal(cv$method, "repeatedcv")
+  expect_equal(cv$number, 5)
+  expect_equal(cv$repeats, 2)
+
   expect_message(
     define_cv(otu_mini_bin_results_rf$trained_model$trainingData,
       ".outcome",
