@@ -251,3 +251,8 @@ test_that("run_ml catches bad training_frac values", {
     "`training_frac` must be a numeric between 0 and 1."
   )
 })
+
+test_that("models use repeatedcv", {
+  expect_equal(otu_mini_bin_results_glmnet$trained_model$control$method, "repeatedcv")
+  expect_equal(otu_mini_bin_results_glmnet$trained_model$control$repeats, 2)
+})

@@ -1,6 +1,7 @@
 # development version
 
 - mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package (#292). 
+- Fix bug where `cv_times` had no effect on repeats for cross-validation (#291, @kelly-sovacool).
 
 # mikropml 1.2.2
 
