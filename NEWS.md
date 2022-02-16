@@ -1,6 +1,6 @@
 # development version
 
-- mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package.
+- mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package (#292). 
 
 # mikropml 1.2.2
 
