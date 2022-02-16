@@ -1,5 +1,7 @@
 # development version
 
+- mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package.
+
 # mikropml 1.2.2
 
 This minor patch fixes a test failure on platforms with no long doubles.
