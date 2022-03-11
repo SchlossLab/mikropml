@@ -171,6 +171,9 @@ precision of estimating the null distribution, but also increases runtime.
 The p-value represents the probability of obtaining the actual performance in
 the event that the null hypothesis is true, where the null hypothesis is that
 the feature is not important for model performance.</p>
+<p>We strongly recommend providing multiple cores to speed up computation time.
+See <a href="http://www.schlosslab.org/mikropml/articles/parallel.html">our vignette on parallel processing</a>
+for more details.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -182,21 +185,35 @@ the feature is not important for model performance.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="co"># If you called `run_ml()` with `feature_importance = FALSE` (the default),</span></span>
+<span class="r-in"><span class="co"># you can use `get_feature_importance()` later as long as you have the</span></span>
+<span class="r-in"><span class="co"># trained model and test data.</span></span>
 <span class="r-in"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"glmnet"</span>, kfold <span class="op">=</span> <span class="fl">2</span>, cv_times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"dx"</span></span>
-<span class="r-in"><span class="fu">get_feature_importance</span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>,</span>
-<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>, <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
+<span class="r-in"><span class="va">feat_imp</span> <span class="op">&lt;-</span> <span class="fu">get_feature_importance</span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
 <span class="r-in">  <span class="st">"dx"</span>,</span>
-<span class="r-in">  <span class="va">multiClassSummary</span>, <span class="st">"AUC"</span>,</span>
-<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>, method <span class="op">=</span> <span class="st">"glmnet"</span></span>
+<span class="r-in">  <span class="va">multiClassSummary</span>,</span>
+<span class="r-in">  <span class="st">"AUC"</span>,</span>
+<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  method <span class="op">=</span> <span class="st">"glmnet"</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># optionally, you can group features together with a custom grouping</span></span>
-<span class="r-in"><span class="fu">get_feature_importance</span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>,</span>
-<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>, <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
+<span class="r-in"><span class="co"># We strongly recommend providing multiple cores to speed up computation time.</span></span>
+<span class="r-in"><span class="co"># Do this before calling `get_feature_importance()`.</span></span>
+<span class="r-in"><span class="fu">doFuture</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/doFuture/man/registerDoFuture.html" class="external-link">registerDoFuture</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multicore.html" class="external-link">multicore</a></span>, workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Optionally, you can group features together with a custom grouping</span></span>
+<span class="r-in"><span class="va">feat_imp</span> <span class="op">&lt;-</span> <span class="fu">get_feature_importance</span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
 <span class="r-in">  <span class="st">"dx"</span>,</span>
-<span class="r-in">  <span class="va">multiClassSummary</span>, <span class="st">"AUC"</span>,</span>
-<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>, method <span class="op">=</span> <span class="st">"glmnet"</span>,</span>
+<span class="r-in">  <span class="va">multiClassSummary</span>,</span>
+<span class="r-in">  <span class="st">"AUC"</span>,</span>
+<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  method <span class="op">=</span> <span class="st">"glmnet"</span>,</span>
 <span class="r-in">  groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="st">"Otu00007"</span>, <span class="st">"Otu00008"</span>, <span class="st">"Otu00009"</span>, <span class="st">"Otu00011"</span>, <span class="st">"Otu00012"</span>,</span>
 <span class="r-in">    <span class="st">"Otu00015"</span>, <span class="st">"Otu00016"</span>, <span class="st">"Otu00018"</span>, <span class="st">"Otu00019"</span>, <span class="st">"Otu00020"</span>, <span class="st">"Otu00022"</span>,</span>
@@ -212,9 +229,8 @@ the feature is not important for model performance.</p>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># the function can show a progress bar if you have the progressr package installed</span></span>
-<span class="r-in"><span class="co">## optionally, specify the progress bar format</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span class="co"># the function can show a progress bar if you have the `progressr` package installed.</span></span>
+<span class="r-in"><span class="co">## optionally, specify the progress bar format:</span></span>
 <span class="r-in"><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handler_progress.html" class="external-link">handler_progress</a></span><span class="op">(</span></span>
 <span class="r-in">  format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
 <span class="r-in">  clear <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -224,18 +240,24 @@ the feature is not important for model performance.</p>
 <span class="r-in"><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="co">## run the function and watch the live progress udpates</span></span>
 <span class="r-in"><span class="va">feat_imp</span> <span class="op">&lt;-</span> <span class="fu">get_feature_importance</span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>,</span>
-<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>, <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
 <span class="r-in">  <span class="st">"dx"</span>,</span>
-<span class="r-in">  <span class="va">multiClassSummary</span>, <span class="st">"AUC"</span>,</span>
-<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>, method <span class="op">=</span> <span class="st">"glmnet"</span></span>
+<span class="r-in">  <span class="va">multiClassSummary</span>,</span>
+<span class="r-in">  <span class="st">"AUC"</span>,</span>
+<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  method <span class="op">=</span> <span class="st">"glmnet"</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># you can specify any correlation method supported by `stats::cor`:</span></span>
+<span class="r-in"><span class="co"># You can specify any correlation method supported by `stats::cor`:</span></span>
 <span class="r-in"><span class="va">feat_imp</span> <span class="op">&lt;-</span> <span class="fu">get_feature_importance</span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">trained_model</span>,</span>
-<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>, <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">trained_model</span><span class="op">$</span><span class="va">trainingData</span>,</span>
+<span class="r-in">  <span class="va">results</span><span class="op">$</span><span class="va">test_data</span>,</span>
 <span class="r-in">  <span class="st">"dx"</span>,</span>
-<span class="r-in">  <span class="va">multiClassSummary</span>, <span class="st">"AUC"</span>,</span>
-<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>, method <span class="op">=</span> <span class="st">"glmnet"</span>,</span>
+<span class="r-in">  <span class="va">multiClassSummary</span>,</span>
+<span class="r-in">  <span class="st">"AUC"</span>,</span>
+<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  method <span class="op">=</span> <span class="st">"glmnet"</span>,</span>
 <span class="r-in">  corr_method <span class="op">=</span> <span class="st">"pearson"</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
