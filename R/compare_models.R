@@ -1,4 +1,4 @@
-#' Get Difference
+# Get Difference
 
 # calculate the difference in the mean of the metric for the two groups
 # sub_data: subset of the performance data for just two groups
@@ -14,8 +14,7 @@ get_difference <- function(sub_data,group_name,metric){
   abs(diff(means))
 }
 
-#' Shuffle Group
-
+# Shuffle Group
 # shuffle the groups across the data
 # sub_data: subset of the performance data for just two groups
 # group_name: column name to shuffle
@@ -33,8 +32,7 @@ shuffle_group <- function(sub_data,group_name){
   return(data_shuffled)
 }
 
-#' Permute P-Value
-
+# Permute P-Value
 # data: the concatenated performance (from what output?)
 # metric: metric to compare, either AUC or cv_metric_AUC
 # group_name: column with group variables to compare
@@ -98,14 +96,16 @@ compare_models <- function(merged_data,metric,group_name,nperm=10000){
 
 }
 
+#### TESTS ####
 df <- tibble(samp=c("a","a","b","b"),val=c(.2,0.3,0.8,0.9))
 get_difference(df,"samp","val")
 shuffle_group(df,"samp")
 permute_p_value(df,"val","samp","a","b",nperm=10)
 compare_models(df,"val","samp",nperm=10)
 
-#### TESTS ####
-
+####
 testthat::expect_equal(get_difference(tibble(AUC=c(0.5,0.8),
                                        type=c("a","b")),
                                       "type","AUC"),0.3)
+
+
