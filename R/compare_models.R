@@ -188,4 +188,3 @@ compare_models <- function(merged_data, metric, group_name, nperm = 10000) {
 
   return(as.data.frame(p_table))
 }
-
