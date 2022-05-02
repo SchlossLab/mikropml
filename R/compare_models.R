@@ -189,9 +189,3 @@ compare_models <- function(merged_data, metric, group_name, nperm = 10000) {
   return(as.data.frame(p_table))
 }
 
-#### TESTS ####
-# df <- tibble(samp=c("a","a","b","b"),val=c(.2,0.3,0.8,0.9))
-# get_difference(df,"samp","val")
-# shuffle_group(df,"samp")
-# permute_p_value(df,"val","samp","a","b",nperm=10)
-# compare_models(df,"val","samp",nperm=10)
