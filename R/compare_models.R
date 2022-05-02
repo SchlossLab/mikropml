@@ -167,12 +167,12 @@ compare_models <- function(merged_data,metric,group_name,nperm=10000){
     dplyr::filter(x < y) %>% 
     dplyr::mutate(group1 = groups[x],
                   group2 = groups[y])  %>% 
-    select(-x, -y) %>% 
-    group_by(group1,group2) %>% 
-    summarize(p_value = permute_p_value(merged_data,metric,group_name,group1,group2,nperm),
+    dplyr::select(-x, -y) %>% 
+    dplyr::group_by(group1,group2) %>% 
+    dplyr::summarize(p_value = permute_p_value(merged_data,metric,group_name,group1,group2,nperm),
               .groups = "drop")
   
-  return(p_table)
+  return(as.data.frame(p_table))
 
 }
 
