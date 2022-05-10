@@ -27,10 +27,10 @@ library(dplyr)
 
 ## Speed up single runs
 
-By default, `preprocess_data()` and `run_ml()` use only one process in series.
+By default, `preprocess_data()`, `run_ml()`, and `compare_models()` use only one process in series.
 If you'd like to parallelize various steps of the pipeline to make them run
 faster, install `foreach`, `future`, `future.apply`, and `doFuture`. Then,
-register a future plan prior to calling `preprocess_data()` and `run_ml()`:
+register a future plan prior to calling these functions:
 
 ```{r register, eval = FALSE}
 doFuture::registerDoFuture()
