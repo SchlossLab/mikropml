@@ -29,10 +29,11 @@ reference:
   - mikropml
   - preprocess_data
   - run_ml
-- title: Plotting helpers
+- title: Plotting & evalutation helpers
   desc: >
-    Visualize performance to help you tune hyperparameters and choose model methods.
+    Visualize & evalutate performance to help you tune hyperparameters and choose model methods.
   contents:
+  - compare_models
   - starts_with('plot')
   - tidy_perf_data
   - get_hp_performance
