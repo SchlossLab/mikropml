@@ -34,7 +34,7 @@ test_that("shuffle_group works", {
   )
   expect_error(
     shuffle_group(df, "group"),
-    "The group_name does not exist in the data."
+    "The col_name `group` does not exist in the data frame."
   )
 })
 
