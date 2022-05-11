@@ -13,7 +13,7 @@ test_that("get_difference works", {
       data.frame(AUC = c(0.5, 0.8), type = c("a", "b")),
       "type", "type"
     ),
-    "The specified metric is not numeric, please check that you specified the right column."
+    "The metric `type` is not numeric, please check that you specified the right column."
   )
 })
 
@@ -55,19 +55,19 @@ test_that("permute_p_value works", {
   )
   expect_error(
     permute_p_value(df, "auc", "model", "rf", "glmnet", nperm = 10),
-    "The metric does not exist in the data."
+    "The metric `auc` does not exist in the data."
   )
   expect_error(
     permute_p_value(df, "AUC", "group", "rf", "glmnet", nperm = 10),
-    "The group_name does not exist in the data."
+    "The group_name `group` does not exist in the data."
   )
   expect_error(
     permute_p_value(df, "AUC", "model", "RF", "glmnet", nperm = 10),
-    "group_1 does not exist in the data."
+    "group_1 `RF` does not exist in the data."
   )
   expect_error(
     permute_p_value(df, "AUC", "model", "rf", "logreg", nperm = 10),
-    "group_2 does not exist in the data."
+    "group_2 `logreg` does not exist in the data."
   )
 })
 
