@@ -1,8 +1,8 @@
-
 #' Average metric difference
-#' calculate the difference in the mean of the metric for the two groups
 #'
-#' @param sub_data subset of the merged performance data for just two groups
+#' Calculate the difference in the mean of the metric for two groups
+#'
+#' @param sub_data subset of the merged performance data frame for two groups
 #' @param group_name name of column with group variable
 #' @param metric metric to compare
 #'
@@ -20,23 +20,22 @@
 #'
 get_difference <- function(sub_data, group_name, metric) {
   if (!is.numeric(sub_data %>% dplyr::pull(metric))) {
-    stop("The specified metric is not numeric, please check that you specified the right column.")
+    stop(paste0("The metric `", metric,
+                "` is not numeric, please check that you specified the right column."))
   }
-  # get the mean metric value for each group
   means <- sub_data %>%
     dplyr::group_by(.data[[group_name]]) %>%
     dplyr::summarise(meanVal = mean(.data[[metric]]), .groups = "drop") %>%
     dplyr::pull(meanVal)
-  # find the difference in the mean between the two groups
   abs(diff(means))
 }
 
-#' Shuffle the values in the groups column
+#' Shuffle the rows in a column
 #'
-#' @param sub_data subset of the performance data for just two groups
-#' @param group_name column name to shuffle
+#' @param dat a data frame containing `col_name`
+#' @param col_name column name to shuffle
 #'
-#' @return `sub_data` with the `group_name` column values shuffled
+#' @return `dat` with the rows of `col_name` shuffled
 #' @export
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
@@ -47,19 +46,16 @@ get_difference <- function(sub_data, group_name, metric) {
 #'   AUC = c(.2, 0.3, 0.8, 0.9)
 #' )
 #' shuffle_group(df, "condition")
-shuffle_group <- function(sub_data, group_name) {
-  if (!(group_name %in% colnames(sub_data))) {
-    stop("The group_name does not exist in the data.")
+shuffle_group <- function(dat, col_name) {
+  if (!(col_name %in% colnames(dat))) {
+    stop(paste0("The col_name `", col_name, "` does not exist in the data frame."))
   }
-  # get the group labels
-  group_vals <- sub_data %>%
-    dplyr::pull({{ group_name }})
-  # shuffle the group labels
+  group_vals <- dat %>%
+    dplyr::pull({{ col_name }})
   group_vals_shuffled <- base::sample(group_vals)
 
-  # assign shuffled groups to group column
-  data_shuffled <- sub_data %>%
-    dplyr::mutate(!!group_name := group_vals_shuffled)
+  data_shuffled <- dat %>%
+    dplyr::mutate(!!col_name := group_vals_shuffled)
 
   return(data_shuffled)
 }
@@ -77,28 +73,26 @@ shuffle_group <- function(sub_data, group_name) {
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' df <- dplyr::tibble(
 #'   model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
 #'   AUC = c(.2, 0.3, 0.8, 0.9, 0.85, 0.95)
 #' )
 #' set.seed(123)
 #' permute_p_value(df, "AUC", "model", "rf", "glmnet", nperm = 100)
-#' }
 permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, nperm = 10000) {
   # check that the metric and group exist in data
   if (!(metric %in% colnames(merged_data))) {
-    stop("The metric does not exist in the data.")
+    stop(paste0("The metric `", metric, "` does not exist in the data."))
   }
   if (!(group_name %in% colnames(merged_data))) {
-    stop("The group_name does not exist in the data.")
+    stop(paste0("The group_name `", group_name, "` does not exist in the data."))
   }
   # check that group_1 and group_2 exist in the data
   if (!(group_1 %in% (merged_data %>% dplyr::pull(group_name)))) {
-    stop("group_1 does not exist in the data.")
+    stop(paste0("group_1 `", group_1, "` does not exist in the data."))
   }
   if (!(group_2 %in% (merged_data %>% dplyr::pull(group_name)))) {
-    stop("group_2 does not exist in the data.")
+    stop(paste0("group_2 `", group_2, "` does not exist in the data."))
   }
 
   # subset results to select metric and group columns and
@@ -114,7 +108,12 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
   # shuffled difference: quantify the absolute value of the difference
   # in metric between the two groups after shuffling group labels
   rep_fn <- select_apply("replicate")
-  metric_null <- rep_fn(nperm, get_difference(shuffle_group(sub_data, group_name), group_name, metric))
+  metric_null <- rep_fn(nperm,
+                        get_difference(shuffle_group(sub_data, group_name),
+                                       group_name,
+                                       metric
+                                       )
+                        )
 
   # n: number of shuffled calculations
   n <- length(metric_null)
