@@ -12,14 +12,12 @@
 #' @author Courtney Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
-#' df <- tibble(
-#'   condition = c("a", "a", "b", "b", "c", "c"),
-#'   AUC = c(.2, 0.3, 0.8, 0.9, 0.85, 0.95)
+#' df <- dplyr::tibble(
+#'   condition = c("a", "a", "b", "b"),
+#'   AUC = c(.2, 0.3, 0.8, 0.9)
 #' )
-#' sub_df <- df %>% filter(condition %in% c("a", "b"))
-#' get_difference(sub_df, "condition", "AUC")
-#' }
+#' get_difference(df, "condition", "AUC")
+#'
 get_difference <- function(sub_data, group_name, metric) {
   if (!is.numeric(sub_data %>% dplyr::pull(metric))) {
     stop("The specified metric is not numeric, please check that you specified the right column.")
@@ -43,15 +41,12 @@ get_difference <- function(sub_data, group_name, metric) {
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' set.seed(123)
-#' df <- tibble(
-#'   condition = c("a", "a", "b", "b", "c", "c"),
-#'   AUC = c(.2, 0.3, 0.8, 0.9, 0.85, 0.95)
+#' df <- dplyr::tibble(
+#'   condition = c("a", "a", "b", "b"),
+#'   AUC = c(.2, 0.3, 0.8, 0.9)
 #' )
-#' sub_df <- df %>% filter(condition %in% c("a", "b"))
-#' shuffle_group(sub_df, "condition")
-#' }
+#' shuffle_group(df, "condition")
 shuffle_group <- function(sub_data, group_name) {
   if (!(group_name %in% colnames(sub_data))) {
     stop("The group_name does not exist in the data.")
@@ -83,7 +78,7 @@ shuffle_group <- function(sub_data, group_name) {
 #'
 #' @examples
 #' \dontrun{
-#' df <- tibble(
+#' df <- dplyr::tibble(
 #'   model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
 #'   AUC = c(.2, 0.3, 0.8, 0.9, 0.85, 0.95)
 #' )
@@ -146,14 +141,12 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
-#' df <- tibble(
+#' df <- dplyr::tibble(
 #'   model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
 #'   AUC = c(.2, 0.3, 0.8, 0.9, 0.85, 0.95)
 #' )
 #' set.seed(123)
-#' compare_models(df, "AUC", "model", nperm = 100)
-#' }
+#' compare_models(df, "AUC", "model", nperm = 10)
 compare_models <- function(merged_data, metric, group_name, nperm = 10000) {
   # check that the metric and group exist in data
   if (!(metric %in% colnames(merged_data))) {
