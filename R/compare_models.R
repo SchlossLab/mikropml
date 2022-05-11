@@ -20,8 +20,10 @@
 #'
 get_difference <- function(sub_data, group_name, metric) {
   if (!is.numeric(sub_data %>% dplyr::pull(metric))) {
-    stop(paste0("The metric `", metric,
-                "` is not numeric, please check that you specified the right column."))
+    stop(paste0(
+      "The metric `", metric,
+      "` is not numeric, please check that you specified the right column."
+    ))
   }
   means <- sub_data %>%
     dplyr::group_by(.data[[group_name]]) %>%
@@ -108,12 +110,14 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
   # shuffled difference: quantify the absolute value of the difference
   # in metric between the two groups after shuffling group labels
   rep_fn <- select_apply("replicate")
-  metric_null <- rep_fn(nperm,
-                        get_difference(shuffle_group(sub_data, group_name),
-                                       group_name,
-                                       metric
-                                       )
-                        )
+  metric_null <- rep_fn(
+    nperm,
+    get_difference(
+      shuffle_group(sub_data, group_name),
+      group_name,
+      metric
+    )
+  )
 
   # n: number of shuffled calculations
   n <- length(metric_null)
