@@ -50,11 +50,11 @@ test_that("permute_p_value works", {
   class = "data.frame"
   )
   expect_equal(
-    permute_p_value(df, "AUC", "model", "rf", "glmnet", nperm = 10),
+    permute_p_value(df, "AUC", "model", "rf", "glmnet", nperm = 99),
     1
   )
   expect_error(
-    permute_p_value(df, "auc", "model", "rf", "glmnet", nperm = 10),
+    permute_p_value(df, "auc", "model", "rf", "glmnet", nperm = 99),
     "The metric `auc` does not exist in the data."
   )
   expect_error(

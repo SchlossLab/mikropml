@@ -119,13 +119,7 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
     )
   )
 
-  # n: number of shuffled calculations
-  n <- length(metric_null)
-  # r: replications at least as extreme as observed effect
-  r <- sum(abs(metric_null) >= metric_obs)
-
-  # compute Monte Carlo p-value with correction (Davison & Hinkley, 1997)
-  p_value <- (r + 1) / (n + 1)
+  p_value <- calc_pvalue(metric_null, metric_obs)
   return(p_value)
 }
 
