@@ -54,12 +54,10 @@ test_that("find_permuted_perf_metric works", {
       "AUC", TRUE, "Otu00009",
       0.6473684
     ),
-    c(
-      perf_metric = 0.639315789473684,
-      perf_metric_diff = 0.00805261052631601,
-      pvalue = 0.18
-    ),
-    tol = 10e-5
+    c(perf_metric = 0.639315789473684,
+      perf_metric_diff = 0.00805261052631578,
+      pvalue = 0.188118811881188),
+    tol = 10e-4
   )
 })
 
@@ -76,8 +74,8 @@ feat_imp <- structure(list(
     0.00768421052631585, 0.00984210526315787
   ),
   pvalue = c(
-    0.17, 0.06,
-    0.09, 0.28, 0.37, 0.28, 0.24, 0.09, 0.12, 0.41
+    0.238, 0.099,
+    0.188, 0.376, 0.386, 0.356, 0.287, 0.118, 0.218, 0.436
   ),
   names = structure(1:10, .Label = c(
     "Otu00001",
@@ -140,7 +138,8 @@ test_that("feature importances are correct when tibbles used", {
       seed = 2019,
       corr_thresh = 1
     ),
-    feat_imp
+    feat_imp,
+    tolerance = 10e-3
   )
 })
 
@@ -178,8 +177,8 @@ test_that("custom grouped features works", {
       0.0049473684210527, 0.0505263157894738, 0.00707894736842107,
       0.0175000000000001
     ), pvalue = c(
-      0.17, 0.24, 0.27, 0.3, 0.26,
-      0.08, 0.11, 0.3
+      0.238, 0.257, 0.337, 0.366, 0.337,
+      0.089, 0.208, 0.337
     ), names = structure(1:8, .Label = c(
       "Otu00001",
       "Otu00002|Otu00003|Otu00005", "Otu00004", "Otu00006", "Otu00007",
@@ -193,6 +192,7 @@ test_that("custom grouped features works", {
     ), seed = c(
       2019, 2019, 2019, 2019, 2019, 2019, 2019,
       2019
-    )), row.names = c(NA, -8L), class = "data.frame")
+    )), row.names = c(NA, -8L), class = "data.frame"),
+    tolerance = 10e-3
   )
 })

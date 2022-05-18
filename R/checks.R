@@ -274,7 +274,7 @@ check_outcome_value <- function(dataset, outcome_colname) {
     stop(
       paste0(
         "A binary or multi-class outcome variable is required, but this dataset has ",
-        num_outcomes,  " outcome(s): ", paste(outcomes, collapse = ", ")
+        num_outcomes, " outcome(s): ", paste(outcomes, collapse = ", ")
       )
     )
   }
