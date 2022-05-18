@@ -54,9 +54,11 @@ test_that("find_permuted_perf_metric works", {
       "AUC", TRUE, "Otu00009",
       0.6473684
     ),
-    c(perf_metric = 0.639315789473684,
+    c(
+      perf_metric = 0.639315789473684,
       perf_metric_diff = 0.00805261052631578,
-      pvalue = 0.188118811881188),
+      pvalue = 0.188118811881188
+    ),
     tol = 10e-4
   )
 })

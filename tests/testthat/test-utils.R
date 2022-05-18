@@ -107,7 +107,7 @@ test_that("is_whole_number() checks for integer numbers regardless of class", {
 
 test_that("calc_pvalue() works", {
   set.seed(123)
-  expect_equal(round(calc_pvalue(1:20, 10),digits = 3), 0.571)
-  expect_equal(calc_pvalue(c(1,1,1),2), 0.25)
+  expect_equal(round(calc_pvalue(1:20, 10), digits = 3), 0.571)
+  expect_equal(calc_pvalue(c(1, 1, 1), 2), 0.25)
   expect_equal(calc_pvalue(1:3, 0), 1)
 })

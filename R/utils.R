@@ -233,8 +233,8 @@ is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
 }
 
 #' Calculate the p-value for a permutation test
-#' 
-#' compute Monte Carlo p-value with correction 
+#'
+#' compute Monte Carlo p-value with correction
 #' based on formula from Page 158 of 'Bootstrap methods and their application'
 #' By Davison & Hinkley 1997
 #'
@@ -247,5 +247,5 @@ is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
 #' @noRd
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 calc_pvalue <- function(vctr, test_stat) {
-  return( (sum(vctr >= test_stat) + 1)  / (length(vctr) + 1) )
+  return((sum(vctr >= test_stat) + 1) / (length(vctr) + 1))
 }
