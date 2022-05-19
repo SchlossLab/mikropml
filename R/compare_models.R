@@ -134,7 +134,7 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
 #' @param group_name column with group variables to compare
 #' @param nperm number of permutations, default=10000
 #'
-#' @return a table of p-values for all pairs of group varible
+#' @return a table of p-values for all pairs of group variable
 #' @export
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
