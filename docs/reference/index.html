@@ -89,15 +89,10 @@
         </td>
         <td><p>Run the machine learning pipeline</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="plotting-evalutation-helpers">Plotting &amp; evalutation helpers <a href="#plotting-evalutation-helpers" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p><p>Visualize &amp; evalutate performance to help you tune hyperparameters and choose model methods.</p>
+          <h2 id="plotting-helpers">Plotting helpers <a href="#plotting-helpers" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>Visualize results to help you tune hyperparameters and choose model methods.</p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="compare_models.html">compare_models()</a></code> </p>
-        </td>
-        <td><p>Perform permutation tests to compare the performance metric
-across all pairs of a group variable.</p></td>
-      </tr><tr><td>
           <p><code><a href="plot_hp_performance.html">plot_hp_performance()</a></code> </p>
         </td>
         <td><p>Plot hyperparameter performance metrics</p></td>
@@ -117,6 +112,27 @@ across all pairs of a group variable.</p></td>
           <p><code><a href="combine_hp_performance.html">combine_hp_performance()</a></code> </p>
         </td>
         <td><p>Combine hyperparameter performance metrics for multiple train/test splits</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="model-evaluation">Model evaluation <a href="#model-evaluation" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>Evaluate and interpret models.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="get_feature_importance.html">get_feature_importance()</a></code> </p>
+        </td>
+        <td><p>Get feature importance using the permutation method</p></td>
+      </tr><tr><td>
+          <p><code><a href="get_performance_tbl.html">get_performance_tbl()</a></code> </p>
+        </td>
+        <td><p>Get model performance metrics as a one-row tibble</p></td>
+      </tr><tr><td>
+          <p><code><a href="compare_models.html">compare_models()</a></code> </p>
+        </td>
+        <td><p>Perform permutation tests to compare the performance metric
+across all pairs of a group variable.</p></td>
+      </tr><tr><td>
+          <p><code><a href="permute_p_value.html">permute_p_value()</a></code> </p>
+        </td>
+        <td><p>Calculated a permuted p-value comparing two models</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="package-data">Package Data <a href="#package-data" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -148,23 +164,23 @@ across all pairs of a group variable.</p></td>
       </tr></tbody><tbody><tr><td>
           <p><code><a href="otu_mini_bin_results_glmnet.html">otu_mini_bin_results_glmnet</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with L2 logistic regression on <code>otu_mini_bin</code> with feature importance and grouping</p></td>
+        <td><p>Results from running the pipeline with L2 logistic regression on <code>otu_mini_bin</code> with feature importance and grouping</p></td>
       </tr><tr><td>
           <p><code><a href="otu_mini_bin_results_rf.html">otu_mini_bin_results_rf</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with random forest on <code>otu_mini_bin</code></p></td>
+        <td><p>Results from running the pipeline with random forest on <code>otu_mini_bin</code></p></td>
       </tr><tr><td>
           <p><code><a href="otu_mini_bin_results_rpart2.html">otu_mini_bin_results_rpart2</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with rpart2 on <code>otu_mini_bin</code></p></td>
+        <td><p>Results from running the pipeline with rpart2 on <code>otu_mini_bin</code></p></td>
       </tr><tr><td>
           <p><code><a href="otu_mini_bin_results_svmRadial.html">otu_mini_bin_results_svmRadial</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with svmRadial on <code>otu_mini_bin</code></p></td>
+        <td><p>Results from running the pipeline with svmRadial on <code>otu_mini_bin</code></p></td>
       </tr><tr><td>
           <p><code><a href="otu_mini_bin_results_xgbTree.html">otu_mini_bin_results_xgbTree</a></code> </p>
         </td>
-        <td><p>Results from running the pipline with xbgTree on <code>otu_mini_bin</code></p></td>
+        <td><p>Results from running the pipeline with xbgTree on <code>otu_mini_bin</code></p></td>
       </tr><tr><td>
           <p><code><a href="otu_mini_cont_results_glmnet.html">otu_mini_cont_results_glmnet</a></code> </p>
         </td>
@@ -195,7 +211,7 @@ multiclass outcomes</p></td>
         <td><p>Replace spaces in all elements of a character vector with underscores</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="pipeline-customization">Pipeline customization <a href="#pipeline-customization" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p><p>These are functions called by preprocess_data() or run_ml(). We make them available in case you would like to customize various steps of the pipeline beyond the arguments provided by the main functions.</p>
+          <p class="section-desc"></p><p>Customize various steps of the pipeline beyond the arguments provided by run_ml() and preprocess_data().</p>
         </th>
       </tr></tbody><tbody><tr><td>
           <p><code><a href="remove_singleton_columns.html">remove_singleton_columns()</a></code> </p>
@@ -245,14 +261,6 @@ multiclass outcomes</p></td>
           <p><code><a href="calc_perf_metrics.html">calc_perf_metrics()</a></code> </p>
         </td>
         <td><p>Get performance metrics for test data</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_performance_tbl.html">get_performance_tbl()</a></code> </p>
-        </td>
-        <td><p>Get model performance metrics as a one-row tibble</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_feature_importance.html">get_feature_importance()</a></code> </p>
-        </td>
-        <td><p>Get feature importance using the permutation method</p></td>
       </tr><tr><td>
           <p><code><a href="group_correlated_features.html">group_correlated_features()</a></code> </p>
         </td>

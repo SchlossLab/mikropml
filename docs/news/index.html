@@ -86,34 +86,24 @@
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2.1" id="mikropml-121">mikropml 1.2.1<small>2022-01-30</small><a class="anchor" aria-label="anchor" href="#mikropml-121"></a></h2>
-<ul><li>Allow <code>kfold &gt;= length(groups)</code> (<a href="https://github.com/SchlossLab/mikropml/issues/285" class="external-link">#285</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
-<ul><li>When using the groups parameter, groups are kept together in cross-validation partitions when <code>kfold</code> &lt;= the number of groups in the training set. Previously, an error was thrown if this condition was not met. Now, if there are not enough groups in the training set for groups to be kept together during CV, groups are allowed to be split up across CV partitions.</li>
-</ul></li>
+<ul><li>Allow <code>kfold &gt;= length(groups)</code> (<a href="https://github.com/SchlossLab/mikropml/issues/285" class="external-link">#285</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).<ul><li>When using the groups parameter, groups are kept together in cross-validation partitions when <code>kfold</code> &lt;= the number of groups in the training set. Previously, an error was thrown if this condition was not met. Now, if there are not enough groups in the training set for groups to be kept together during CV, groups are allowed to be split up across CV partitions.</li></ul></li>
 <li>Report p-values for permutation feature importance (<a href="https://github.com/SchlossLab/mikropml/issues/288" class="external-link">#288</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2.0" id="mikropml-120">mikropml 1.2.0<small>2021-11-10</small><a class="anchor" aria-label="anchor" href="#mikropml-120"></a></h2>
-<ul><li>New parameter <code>cross_val</code> added to <code><a href="../reference/run_ml.html">run_ml()</a></code> allows users to define their own custom cross-validation scheme (<a href="https://github.com/SchlossLab/mikropml/issues/278" class="external-link">#278</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
-<ul><li>Also added a new parameter <code>calculate_performance</code>, which controls whether performance metrics are calculated (default: <code>TRUE</code>). Users may wish to skip performance calculations when training models with no cross-validation.</li>
-</ul></li>
+<ul><li>New parameter <code>cross_val</code> added to <code><a href="../reference/run_ml.html">run_ml()</a></code> allows users to define their own custom cross-validation scheme (<a href="https://github.com/SchlossLab/mikropml/issues/278" class="external-link">#278</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).<ul><li>Also added a new parameter <code>calculate_performance</code>, which controls whether performance metrics are calculated (default: <code>TRUE</code>). Users may wish to skip performance calculations when training models with no cross-validation.</li></ul></li>
 <li>New parameter <code>group_partitions</code> added to <code><a href="../reference/run_ml.html">run_ml()</a></code> allows users to control which groups should go to which partition of the train/test split (<a href="https://github.com/SchlossLab/mikropml/issues/281" class="external-link">#281</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
-<li>Modified the <code>training_frac</code> parameter in <code><a href="../reference/run_ml.html">run_ml()</a></code> (<a href="https://github.com/SchlossLab/mikropml/issues/281" class="external-link">#281</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
-<ul><li>By default, <code>training_frac</code> is a fraction between 0 and 1 that specifies how much of the dataset should be used in the training fraction of the train/test split.</li>
+<li>Modified the <code>training_frac</code> parameter in <code><a href="../reference/run_ml.html">run_ml()</a></code> (<a href="https://github.com/SchlossLab/mikropml/issues/281" class="external-link">#281</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).<ul><li>By default, <code>training_frac</code> is a fraction between 0 and 1 that specifies how much of the dataset should be used in the training fraction of the train/test split.</li>
 <li>Users can instead give <code>training_frac</code> a vector of indices that correspond to which rows of the dataset should go in the training fraction of the train/test split. This gives users direct control over exactly which observations are in the training fraction if desired.</li>
 </ul></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.1" id="mikropml-111">mikropml 1.1.1<small>2021-09-14</small><a class="anchor" aria-label="anchor" href="#mikropml-111"></a></h2>
-<ul><li>Fixed bugs related to grouping correlated features (<a href="https://github.com/SchlossLab/mikropml/issues/276" class="external-link">#276</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
-<ul><li>Also, <code><a href="../reference/group_correlated_features.html">group_correlated_features()</a></code> is now a user-facing function.</li>
-</ul></li>
-</ul></div>
+<ul><li>Fixed bugs related to grouping correlated features (<a href="https://github.com/SchlossLab/mikropml/issues/276" class="external-link">#276</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).<ul><li>Also, <code><a href="../reference/group_correlated_features.html">group_correlated_features()</a></code> is now a user-facing function.</li></ul></li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.0" id="mikropml-110">mikropml 1.1.0<small>2021-08-10</small><a class="anchor" aria-label="anchor" href="#mikropml-110"></a></h2>
-<ul><li>New correlation method option for feature importance (<a href="https://github.com/SchlossLab/mikropml/issues/267" class="external-link">#267</a>, <a href="https://github.com/courtneyarmour" class="external-link">@courtneyarmour</a>).
-<ul><li>The default is still “spearman”, and now you can use other methods supported by <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cor</a></code> with the <code>corr_method</code> parameter: <code>get_feature_importance(corr_method = "pearson")</code>
-</li>
-</ul></li>
+<ul><li>New correlation method option for feature importance (<a href="https://github.com/SchlossLab/mikropml/issues/267" class="external-link">#267</a>, <a href="https://github.com/courtneyarmour" class="external-link">@courtneyarmour</a>).<ul><li>The default is still “spearman”, and now you can use other methods supported by <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cor</a></code> with the <code>corr_method</code> parameter: <code>get_feature_importance(corr_method = "pearson")</code>
+</li></ul></li>
 <li>There are now <a href="https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg" class="external-link">video tutorials</a> covering mikropml and other skills related to machine learning, created by <a href="https://github.com/pschloss" class="external-link">@pschloss</a> (<a href="https://github.com/SchlossLab/mikropml/issues/270" class="external-link">#270</a>).</li>
 <li>Fixed a bug where <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> converted the outcome column to a character vector (<a href="https://github.com/SchlossLab/mikropml/issues/273" class="external-link">#273</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>, <a href="https://github.com/ecmaggioncalda" class="external-link">@ecmaggioncalda</a>).</li>
 </ul></div>
@@ -121,12 +111,10 @@
 <h2 class="page-header" data-toc-text="1.0.0" id="mikropml-100">mikropml 1.0.0<small>2021-05-13</small><a class="anchor" aria-label="anchor" href="#mikropml-100"></a></h2>
 <ul><li>mikropml now has a logo created by <a href="https://github.com/NLesniak" class="external-link">@NLesniak</a>!</li>
 <li>Made documentation improvements (<a href="https://github.com/SchlossLab/mikropml/issues/238" class="external-link">#238</a>, <a href="https://github.com/SchlossLab/mikropml/issues/231" class="external-link">#231</a> <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>; <a href="https://github.com/SchlossLab/mikropml/issues/256" class="external-link">#256</a> <a href="https://github.com/BTopcuoglu" class="external-link">@BTopcuoglu</a>).</li>
-<li>New option in <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>: <code>prefilter_threshold</code> (<a href="https://github.com/SchlossLab/mikropml/issues/240" class="external-link">#240</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>, <a href="https://github.com/courtneyarmour" class="external-link">@courtneyarmour</a>).
-<ul><li>Remove any features that appear in N=<code>prefilter_threshold</code> or fewer rows in the data.</li>
+<li>New option in <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>: <code>prefilter_threshold</code> (<a href="https://github.com/SchlossLab/mikropml/issues/240" class="external-link">#240</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>, <a href="https://github.com/courtneyarmour" class="external-link">@courtneyarmour</a>).<ul><li>Remove any features that appear in N=<code>prefilter_threshold</code> or fewer rows in the data.</li>
 <li>Created function <code><a href="../reference/remove_singleton_columns.html">remove_singleton_columns()</a></code> called by <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> to carry this out.</li>
 </ul></li>
-<li>New option in <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code>: <code>groups</code> (<a href="https://github.com/SchlossLab/mikropml/issues/246" class="external-link">#246</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
-<ul><li>Provide custom groups of features to permute together during permutation importance.</li>
+<li>New option in <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code>: <code>groups</code> (<a href="https://github.com/SchlossLab/mikropml/issues/246" class="external-link">#246</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).<ul><li>Provide custom groups of features to permute together during permutation importance.</li>
 <li>
 <code>groups</code> is <code>NULL</code> by default; in this case, correlated features above <code>corr_thresh</code> are grouped together.</li>
 </ul></li>
@@ -147,14 +135,12 @@
 <h2 class="page-header" data-toc-text="0.0.1" id="mikropml-001">mikropml 0.0.1<small>2020-11-23</small><a class="anchor" aria-label="anchor" href="#mikropml-001"></a></h2>
 <p>This is the first release version of mikropml! 🎉</p>
 <ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>Major new functions:
-<ul><li><code><a href="../reference/run_ml.html">run_ml()</a></code></li>
+<li>Major new functions:<ul><li><code><a href="../reference/run_ml.html">run_ml()</a></code></li>
 <li><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code></li>
 <li><code><a href="../reference/plot_model_performance.html">plot_model_performance()</a></code></li>
 <li><code><a href="../reference/plot_hp_performance.html">plot_hp_performance()</a></code></li>
 </ul></li>
-<li>Support for ML methods in <code><a href="../reference/run_ml.html">run_ml()</a></code>:
-<ul><li>
+<li>Support for ML methods in <code><a href="../reference/run_ml.html">run_ml()</a></code>:<ul><li>
 <code>glmnet</code>: logistic and linear regression</li>
 <li>
 <code>rf</code>: random forest</li>
@@ -165,8 +151,7 @@
 <li>
 <code>xgbTree</code>: gradient-boosted trees</li>
 </ul></li>
-<li>New vignettes:
-<ul><li><a href="http://www.schlosslab.org/mikropml/articles/introduction.html">Introduction</a></li>
+<li>New vignettes:<ul><li><a href="http://www.schlosslab.org/mikropml/articles/introduction.html">Introduction</a></li>
 <li><a href="http://www.schlosslab.org/mikropml/articles/preprocess.html">Preprocess data</a></li>
 <li><a href="http://www.schlosslab.org/mikropml/articles/tuning.html">Hyperparameter tuning</a></li>
 <li><a href="http://www.schlosslab.org/mikropml/articles/parallel.html">Parallel processing</a></li>
