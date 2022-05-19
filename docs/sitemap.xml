@@ -79,6 +79,9 @@
     <loc>http://www.schlosslab.org/mikropml/reference/combine_hp_performance.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/compare_models.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/createGroupedDataPartition.html</loc>
   </url>
   <url>
@@ -107,6 +110,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_corr_feats.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/get_difference.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/get_feature_importance.html</loc>
@@ -235,6 +241,9 @@
     <loc>http://www.schlosslab.org/mikropml/reference/otu_small.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/permute_p_value.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/plot_hp_performance.html</loc>
   </url>
   <url>
@@ -281,6 +290,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/setup_parallel.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/shuffle_group.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/split_outcome_features.html</loc>

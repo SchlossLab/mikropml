@@ -1,5 +1,3 @@
-#' Average metric difference
-#'
 #' Calculate the difference in the mean of the metric for two groups
 #'
 #' @param sub_data subset of the merged performance data frame for two groups
@@ -8,7 +6,7 @@
 #'
 #' @return numeric difference in the average metric between the two groups
 #'
-#' @export
+#' @noRd
 #' @author Courtney Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
@@ -38,7 +36,7 @@ get_difference <- function(sub_data, group_name, metric) {
 #' @param col_name column name to shuffle
 #'
 #' @return `dat` with the rows of `col_name` shuffled
-#' @export
+#' @noRd
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
@@ -61,7 +59,6 @@ shuffle_group <- function(dat, col_name) {
 
   return(data_shuffled)
 }
-
 
 #' Calculated a permuted p-value comparing two models
 #'
@@ -124,16 +121,17 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
 }
 
 
-#' Compute all pairs of comparisons
-#' calculate permuted p-value across all pairs of group variable.
-#' wrapper for `permute_p_value`
+#' Perform permutation tests to compare the performance metric
+#' across all pairs of a group variable.
+#'
+#' A wrapper for `permute_p_value()`.
 #'
 #' @param merged_data the concatenated performance data from `run_ml`
 #' @param metric metric to compare, must be numeric
 #' @param group_name column with group variables to compare
 #' @param nperm number of permutations, default=10000
 #'
-#' @return a table of p-values for all pairs of group varible
+#' @return a table of p-values for all pairs of group variable
 #' @export
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'

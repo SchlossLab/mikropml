@@ -81,7 +81,7 @@ preprocess_data(dataset = bin_df, outcome_colname = "outcome")
 
 The output is a list: `dat_transformed` which has the transformed data, 
 `grp_feats` which is a list of grouped features, and `removed_feats` which is a 
-list of featuures that were removed. Here, `grp_feats` is `NULL` because there 
+list of features that were removed. Here, `grp_feats` is `NULL` because there 
 are no perfectly correlated features (e.g. `c(0,1,0)` and `c(0,1,0)`, or 
 `c(0,1,0)` and `c(1,0,1)` - see below for more details). 
 
