@@ -124,16 +124,17 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
 }
 
 
-#' Compute all pairs of comparisons
-#' calculate permuted p-value across all pairs of group variable.
-#' wrapper for `permute_p_value`
+#' Perform permutation tests to compare the performance metric
+#' across all pairs of a group variable.
+#'
+#' A wrapper for `permute_p_value()`.
 #'
 #' @param merged_data the concatenated performance data from `run_ml`
 #' @param metric metric to compare, must be numeric
 #' @param group_name column with group variables to compare
 #' @param nperm number of permutations, default=10000
 #'
-#' @return a table of p-values for all pairs of group varible
+#' @return a table of p-values for all pairs of group variable
 #' @export
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'

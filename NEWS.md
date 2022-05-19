@@ -1,4 +1,4 @@
-# development version
+# mikropml 1.3.0
 
 - mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package (#292). 
 - New function `compare_models()` compares the performance of two models with a permutation test (#295, @courtneyarmour).

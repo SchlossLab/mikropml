@@ -72,7 +72,7 @@ Machine learning (ML) for classification and prediction based on a set of
 features is used to make decisions in healthcare, economics, criminal justice
 and more. However, implementing an ML pipeline including preprocessing, model
 selection, and evaluation can be time-consuming, confusing, and difficult. Here,
-we present [`mikropml`](http://www.schlosslab.org/mikropml/) (prononced
+we present [`mikropml`](http://www.schlosslab.org/mikropml/) (pronounced
 "meek-ROPE em el"), an easy-to-use R package that implements ML pipelines using
 regression, support vector machines, decision trees, random forest, or
 gradient-boosted trees. The package is available on
