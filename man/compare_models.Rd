@@ -17,7 +17,7 @@ compare_models(merged_data, metric, group_name, nperm = 10000)
 \item{nperm}{number of permutations, default=10000}
 }
 \value{
-a table of p-values for all pairs of group varible
+a table of p-values for all pairs of group variable
 }
 \description{
 A wrapper for \code{permute_p_value()}.
