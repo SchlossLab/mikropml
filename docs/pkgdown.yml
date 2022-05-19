@@ -1,4 +1,4 @@
-pandoc: 2.7.3
+pandoc: 2.17.1.1
 pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
@@ -7,7 +7,7 @@ articles:
   parallel: parallel.html
   preprocess: preprocess.html
   tuning: tuning.html
-last_built: 2022-05-18T17:33Z
+last_built: 2022-05-19T16:08Z
 urls:
   reference: http://www.schlosslab.org/mikropml/reference
   article: http://www.schlosslab.org/mikropml/articles

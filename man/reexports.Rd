@@ -19,6 +19,6 @@ below to see their documentation.
 
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
 
-  \item{rlang}{\code{\link[rlang:nse-force]{!!}}, \code{\link[rlang:tidyeval-data]{.data}}, \code{\link[rlang:nse-force]{:=}}}
+  \item{rlang}{\code{\link[rlang:injection-operator]{!!}}, \code{\link[rlang:dot-data]{.data}}, \code{\link[rlang:dyn-dots]{:=}}}
 }}
 
