@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
@@ -128,7 +128,7 @@
 <div class="section level2">
 <h2 id="speed-up-single-runs">Speed up single runs<a class="anchor" aria-label="anchor" href="#speed-up-single-runs"></a>
 </h2>
-<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>, <code><a href="../reference/run_ml.html">run_ml()</a></code>, and <code>compare_models()</code> use only one process in series. If you’d like to parallelize various steps of the pipeline to make them run faster, install <code>foreach</code>, <code>future</code>, <code>future.apply</code>, and <code>doFuture</code>. Then, register a future plan prior to calling these functions:</p>
+<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>, <code><a href="../reference/run_ml.html">run_ml()</a></code>, and <code><a href="../reference/compare_models.html">compare_models()</a></code> use only one process in series. If you’d like to parallelize various steps of the pipeline to make them run faster, install <code>foreach</code>, <code>future</code>, <code>future.apply</code>, and <code>doFuture</code>. Then, register a future plan prior to calling these functions:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">doFuture</span><span class="fu">::</span><span class="fu"><a href="https://doFuture.futureverse.org/reference/registerDoFuture.html" class="external-link">registerDoFuture</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multicore.html" class="external-link">multicore</a></span>, workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
@@ -142,6 +142,11 @@
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt; Loading required package: lattice</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'caret'</span>
+<span class="co">#&gt; The following object is masked from 'package:mikropml':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     compare_models</span>
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 </div>
 <div class="section level2">

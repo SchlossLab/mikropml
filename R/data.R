@@ -32,19 +32,19 @@
 #' Cross validation on `train_data_mini` with grouped features.
 "otu_mini_cv"
 
-#' Results from running the pipline with L2 logistic regression on `otu_mini_bin` with feature importance and grouping
+#' Results from running the pipeline with L2 logistic regression on `otu_mini_bin` with feature importance and grouping
 "otu_mini_bin_results_glmnet"
 
-#' Results from running the pipline with random forest on `otu_mini_bin`
+#' Results from running the pipeline with random forest on `otu_mini_bin`
 "otu_mini_bin_results_rf"
 
-#' Results from running the pipline with svmRadial on `otu_mini_bin`
+#' Results from running the pipeline with svmRadial on `otu_mini_bin`
 "otu_mini_bin_results_svmRadial"
 
-#' Results from running the pipline with xbgTree on `otu_mini_bin`
+#' Results from running the pipeline with xbgTree on `otu_mini_bin`
 "otu_mini_bin_results_xgbTree"
 
-#' Results from running the pipline with rpart2 on `otu_mini_bin`
+#' Results from running the pipeline with rpart2 on `otu_mini_bin`
 "otu_mini_bin_results_rpart2"
 
 #' Results from running the pipeline with glmnet on `otu_mini_bin` with `Otu00001`
