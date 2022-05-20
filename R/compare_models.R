@@ -17,6 +17,7 @@
 #' get_difference(df, "condition", "AUC")
 #'
 get_difference <- function(sub_data, group_name, metric) {
+  meanVal <- NULL # suppresses R CMD check Note "no visible binding for global variable"
   if (!is.numeric(sub_data %>% dplyr::pull(metric))) {
     stop(paste0(
       "The metric `", metric,
@@ -143,6 +144,7 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
 #' set.seed(123)
 #' compare_models(df, "AUC", "model", nperm = 10)
 compare_models <- function(merged_data, metric, group_name, nperm = 10000) {
+  x <- y <- group1 <- group2 <- NULL # suppresses R CMD check Note "no visible binding for global variable"
   # check that the metric and group exist in data
   if (!(metric %in% colnames(merged_data))) {
     stop("The metric does not exist in the data.")
