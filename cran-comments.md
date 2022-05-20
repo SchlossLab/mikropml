@@ -1,3 +1,4 @@
+This is a resubmission that fixes a check note about undefined global variables.
 
 ## Test environments
 
@@ -12,14 +13,40 @@
 0 errors | 0 warnings | 1 note
 
 ```
+Found the following (possibly) invalid URLs:
   URL: https://anaconda.org/conda-forge/r-mikropml
     From: inst/doc/paper.html
           README.md
     Status: 400
     Message: Bad Request
+  URL: https://doi.org/10.1128/mBio.00434-20
+    From: inst/doc/introduction.html
+          inst/doc/paper.html
+          README.md
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1128/mBio.01680-20
+    From: inst/doc/paper.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/doi:10.1128/mBio.00434-20
+    From: README.md
+    Status: 503
+    Message: Service Unavailable
+  URL: https://journals.asm.org/doi/10.1128/mbio.00434-20
+    From: man/otu_small.Rd
+    Status: 503
+    Message: Service Unavailable
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.1128/mBio.00434-20
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
 ```
 
-This is a spurious note as the URL works in my local browser.
+This is a spurious note as these URLs work in my local browser, 
+and the DOI is correct.
 
 ## revdepcheck results
 
