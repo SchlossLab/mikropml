@@ -335,7 +335,7 @@ depending on how many samples and groups you have. This is because it won't be
 exactly what you specify with `training_frac`, since you have to include all of
 one group in either the training set _or_ the test set.
 
-### Controling how groups are assigned to partitions
+### Controlling how groups are assigned to partitions
 
 When you use the `groups` parameter as above, by default `run_ml()` will assume
 that you want all of the observations from each group to be placed in the same
@@ -426,7 +426,7 @@ There are several columns:
 1. `pvalue`: the probability of obtaining the actual performance value under the null hypothesis.
 1. `names`: The feature that was permuted.
 1. `method`: The ML method used.
-1. `perf_metric_name`: The peformance metric used.
+1. `perf_metric_name`: The performance metric used.
 1. `seed`: The seed (if set).
 
 As you can see here, the differences are negligible (close to zero), which makes

@@ -29,15 +29,22 @@ reference:
   - mikropml
   - preprocess_data
   - run_ml
-- title: Plotting & evalutation helpers
+- title: Plotting helpers
   desc: >
-    Visualize & evalutate performance to help you tune hyperparameters and choose model methods.
+    Visualize results to help you tune hyperparameters and choose model methods.
   contents:
-  - compare_models
   - starts_with('plot')
   - tidy_perf_data
   - get_hp_performance
   - combine_hp_performance
+- title: Model evaluation
+  desc: >
+    Evaluate and interpret models.
+  contents:
+  - get_feature_importance
+  - get_performance_tbl
+  - compare_models
+  - permute_p_value
 - title: Package Data
 - subtitle: datasets
   contents:
@@ -54,9 +61,8 @@ reference:
   - replace_spaces
 - title: Pipeline customization
   desc: >
-    These are functions called by preprocess_data() or run_ml().
-    We make them available in case you would like to customize various steps
-    of the pipeline beyond the arguments provided by the main functions.
+    Customize various steps of the pipeline beyond the arguments provided by
+    run_ml() and preprocess_data().
   contents:
   - remove_singleton_columns
   - get_caret_processed_df
@@ -70,6 +76,4 @@ reference:
   - get_perf_metric_fn
   - train_model
   - calc_perf_metrics
-  - get_performance_tbl
-  - get_feature_importance
   - group_correlated_features
