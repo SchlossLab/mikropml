@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mikropml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
@@ -280,6 +280,11 @@
 <span class="co">#&gt; Training the model...</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt; Loading required package: lattice</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'caret'</span>
+<span class="co">#&gt; The following object is masked from 'package:mikropml':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     compare_models</span>
 <span class="co">#&gt; Warning in (function (w) : `caret::train()` issued the following warning:</span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; simpleWarning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, : There were missing values in resampled performance measures.</span>
@@ -374,7 +379,7 @@
 <span class="co">#&gt; Training complete.</span></code></pre></div>
 <p>The one difference here is <code><a href="../reference/run_ml.html">run_ml()</a></code> will report how much of the data is in the training set if you run the above code chunk. This can be a little finicky depending on how many samples and groups you have. This is because it won’t be exactly what you specify with <code>training_frac</code>, since you have to include all of one group in either the training set <em>or</em> the test set.</p>
 <div class="section level4">
-<h4 id="controling-how-groups-are-assigned-to-partitions">Controling how groups are assigned to partitions<a class="anchor" aria-label="anchor" href="#controling-how-groups-are-assigned-to-partitions"></a>
+<h4 id="controlling-how-groups-are-assigned-to-partitions">Controlling how groups are assigned to partitions<a class="anchor" aria-label="anchor" href="#controlling-how-groups-are-assigned-to-partitions"></a>
 </h4>
 <p>When you use the <code>groups</code> parameter as above, by default <code><a href="../reference/run_ml.html">run_ml()</a></code> will assume that you want all of the observations from each group to be placed in the same partition of the train/test split. This makes sense when you want to use groups to control for batch effects. However, in some cases you might prefer to control exactly which groups end up in which partition, and you might even be okay with some observations from the same group being assigned to different partitions.</p>
 <p>For example, say you want groups A and B to be used for training, C and D for testing, and you don’t have a preference for what happens to the other groups. You can give the <code>group_partitions</code> parameter a named list to specify which groups should go in the training set and which should go in the testing set.</p>
@@ -469,7 +474,7 @@
 <li>
 <code>method</code>: The ML method used.</li>
 <li>
-<code>perf_metric_name</code>: The peformance metric used.</li>
+<code>perf_metric_name</code>: The performance metric used.</li>
 <li>
 <code>seed</code>: The seed (if set).</li>
 </ol>
