@@ -123,8 +123,17 @@ are licensed under the [CC BY 4.0 license](https://creativecommons.org/licenses/
 
 ## Citation
 
-```{r cite, echo = FALSE, comment = ''}
-citation(package = 'mikropml')
+To cite mikropml in publications, use:
+
+> ```{r cite_text, echo = FALSE, results = 'asis'}
+> cat(format(citation('mikropml'), style = 'html'))
+> ```
+
+
+A BibTeX entry for LaTeX users is:
+
+```{r cite_bibtex, echo = FALSE, comment = '', results = 'asis'}
+cat("```\n", format(citation('mikropml'), style = 'bibtex'), "\n```")
 ```
 
 ## Why the name?
