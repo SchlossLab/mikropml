@@ -14,9 +14,10 @@ get_all_but_model <- function(ml_results) {
 
 expect_equal_ml_results <- function(result1, result2, tolerance = 1e-5) {
   return(
-    eval(bquote(expect_equal(get_all_but_model(result1),
-      get_all_but_model(result2),
-      tolerance = tol
+    eval(bquote(
+        expect_equal(get_all_but_model(result1),
+                     get_all_but_model(result2),
+                     tolerance = tolerance
     )))
   )
 }
@@ -41,33 +42,37 @@ otu_mini_group <- c(
 )
 
 test_that("run_ml works for logistic regression", {
-  expect_equal_ml_results(
-    expect_warning(
-      run_ml(otu_mini_bin, # use built-in hyperparameters
-        "glmnet",
-        outcome_colname = "dx",
-        find_feature_importance = FALSE,
-        seed = 2019,
-        cv_times = 2
-      ),
-      "`caret::train\\(\\)` issued the following warning:"
-    ),
-    otu_mini_bin_results_glmnet
-  )
+    expect_equal_ml_results(
+        run_ml(
+            otu_mini_bin,
+            # use built-in hyperparameters
+            "glmnet",
+            outcome_colname = "dx",
+            find_feature_importance = FALSE,
+            seed = 2019,
+            cv_times = 2
+        ),
+        otu_mini_bin_results_glmnet
+    ) %>%
+        expect_warning("`caret::train\\(\\)` issued the following warning:") %>%
+        suppressMessages()
 })
 
 test_that("run_ml works for linear regression", {
   skip_on_cran()
   expect_equal_ml_results(
-    expect_message(expect_warning(run_ml(otu_mini_bin[, 2:11], # use built-in hyperparameters
+      run_ml(otu_mini_bin[, 2:11], # use built-in hyperparameters
       "glmnet",
       outcome_colname = "Otu00001",
       find_feature_importance = TRUE,
       seed = 2019,
       cv_times = 2
-    ), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")),
+    ),
     otu_mini_cont_results_glmnet
-  )
+  ) %>%
+      expect_warning("Data is being considered numeric") %>%
+      suppressWarnings() %>%
+        suppressMessages()
 })
 
 test_that("run_ml works for random forest with grouping & feature importance", {
@@ -83,21 +88,25 @@ test_that("run_ml works for random forest with grouping & feature importance", {
     ),
     otu_mini_bin_results_rf,
     tolerance = 1e-3
-  )
+  ) %>%
+      suppressWarnings() %>%
+      suppressMessages()
 })
 
 test_that("run_ml works for svmRadial", {
   skip_on_cran()
   expect_equal_ml_results(
-    expect_warning(mikropml::run_ml(otu_mini_bin,
+    mikropml::run_ml(otu_mini_bin,
       "svmRadial",
       outcome_colname = "dx",
       find_feature_importance = FALSE,
       seed = 2019,
       cv_times = 2
-    )),
+    ),
     otu_mini_bin_results_svmRadial
-  )
+  ) %>%
+      expect_warning() %>%
+      suppressMessages()
 })
 
 test_that("run_ml works for xgbTree", {
@@ -114,7 +123,9 @@ test_that("run_ml works for xgbTree", {
     ),
     otu_mini_bin_results_xgbTree,
     tolerance = 1e-3
-  )
+  )  %>%
+      suppressWarnings() %>%
+      suppressMessages()
 })
 
 test_that("run_ml works for rpart2", {
@@ -128,32 +139,36 @@ test_that("run_ml works for rpart2", {
       cv_times = 2
     ),
     otu_mini_bin_results_rpart2
-  )
+  ) %>%
+      suppressMessages()
 })
 
 test_that("run_ml uses a custom cross-validation scheme", {
   skip_on_cran()
   expect_equal_ml_results(
-    expect_message(expect_warning(run_ml(otu_mini_bin[, 2:11],
+    run_ml(otu_mini_bin[, 2:11],
       "glmnet",
       outcome_colname = "Otu00001",
       seed = 2019,
       hyperparameters = list(lambda = c(1e-04), alpha = 0),
       cross_val = caret::trainControl(method = "none"),
       calculate_performance = FALSE
-    ), "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")),
+    ),
     otu_mini_cont_results_nocv
-  )
+  ) %>%
+      expect_warning("Data is being considered numeric") %>%
+      suppressWarnings() %>%
+      suppressMessages()
 })
 
 test_that("run_ml errors for unsupported method", {
-  expect_error(expect_warning(
     run_ml(
       otu_small,
       "not_a_method"
-    ),
-    "Method 'not_a_method' is not officially supported by mikropml."
-  ), "method 'not_a_method' is not supported.")
+    ) %>%
+        expect_warning("Method 'not_a_method' is not officially supported by mikropml") %>%
+        expect_error("method 'not_a_method' is not supported.") %>%
+      suppressMessages()
 })
 
 test_that("run_ml errors if outcome_colname not in dataframe", {
@@ -164,25 +179,25 @@ test_that("run_ml errors if outcome_colname not in dataframe", {
       outcome_colname = "not_a_colname"
     ),
     "Outcome 'not_a_colname' not in column names of data."
-  )
+  ) %>%
+        suppressMessages()
 })
 
 test_that("run_ml works for multiclass outcome", {
   skip_on_cran()
   expect_equal_ml_results(
-    expect_warning(
-      expect_message(run_ml(otu_mini_multi,
+      run_ml(otu_mini_multi,
         "glmnet",
         outcome_colname = "dx",
         find_feature_importance = TRUE,
         seed = 2019,
         cv_times = 2,
         groups = otu_mini_multi_group
-      ), "Using 'dx' as the outcome column"),
-      "`caret::train\\(\\)` issued the following warning:"
-    ),
+      ),
     otu_mini_multi_results_glmnet
-  )
+  ) %>% expect_message("Using 'dx' as the outcome column") %>%
+      expect_warning("`caret::train\\(\\)` issued the following warning:") %>%
+      suppressMessages()
 })
 
 test_that("run_ml uses custom training indices when provided", {
@@ -198,7 +213,7 @@ test_that("run_ml uses custom training indices when provided", {
       training_frac = training_rows,
       seed = 2019
     )
-  )
+  ) %>% suppressMessages()
   expect_true(dplyr::all_equal(
     results_custom_train$test_data,
     otu_mini_bin[-training_rows, ]
