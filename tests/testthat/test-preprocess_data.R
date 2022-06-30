@@ -18,13 +18,11 @@ test_df <- data.frame(
 )
 
 test_that("preprocess_data works", {
-  expect_equal(
-    expect_message(
+  expect_message(expect_equal(
+
       preprocess_data(test_df, "outcome",
         prefilter_threshold = -1
       ),
-      "Removed "
-    ),
     list(
       dat_transformed = structure(list(outcome = c(
         "normal", "normal",
@@ -44,12 +42,14 @@ test_that("preprocess_data works", {
       ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
       removed_feats = c("var5", "var6", "var11")
     )
-  )
-  expect_equal(
-    expect_message(preprocess_data(test_df, "outcome",
+  ),
+      "Removed "
+    )
+  expect_message(expect_equal(
+    preprocess_data(test_df, "outcome",
       prefilter_threshold = -1,
       group_neg_corr = FALSE
-    )),
+    ),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -69,7 +69,7 @@ test_that("preprocess_data works", {
       ), grp2 = c("var10_1", "var2_a"), grp3 = c("var1", "var12"), grp4 = c("var2_c", "var9_y"), var7_1 = "var7_1",
       var8 = "var8"
     ), removed_feats = c("var5", "var6", "var11"))
-  )
+  ))
   expect_equal(
     preprocess_data(test_df[1:3, c("outcome", "var1")], "outcome"),
     list(
@@ -118,11 +118,11 @@ test_that("preprocess_data works", {
       removed_feats = character(0)
     )
   )
-  expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ], "outcome",
+  expect_message(expect_equal(
+    preprocess_data(test_df[1:3, ], "outcome",
       method = NULL,
       prefilter_threshold = -1
-    )),
+    ),
     list(
       dat_transformed = structure(list(outcome = c(
         "normal", "normal",
@@ -138,17 +138,17 @@ test_that("preprocess_data works", {
       ),
       removed_feats = c("var5", "var6", "var11")
     )
-  )
+  ))
   expect_error(
     preprocess_data(test_df[1:3, c("outcome", "var5")], "outcome"),
     "All features have zero variance"
   )
-  expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ],
+  expect_message(expect_equal(
+    preprocess_data(test_df[1:3, ],
       "outcome",
       method = c("range"),
       prefilter_threshold = -1
-    )),
+    ),
     list(
       dat_transformed = structure(list(outcome = c(
         "normal", "normal",
@@ -164,39 +164,12 @@ test_that("preprocess_data works", {
       ),
       removed_feats = c("var5", "var6", "var11")
     )
-  )
-  expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ],
+  ))
+  expect_message(expect_equal(
+    preprocess_data(test_df[1:3, ],
       "outcome",
       remove_var = "zv",
       prefilter_threshold = -1
-    )),
-    list(
-      dat_transformed = structure(list(outcome = c(
-        "normal", "normal",
-        "cancer"
-      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
-        -1,
-        0, 1
-      ), grp4 = c(0, 0, 1), var8 = c(
-        -0.707106781186547, 0.707106781186547,
-        0
-      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c(
-        "var10_0", "var2_b", "var3_yes",
-        "var4_1", "var9_x"
-      ), grp2 = c("var10_1", "var2_a"), grp3 = c(
-        "var1",
-        "var12"
-      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
-      removed_feats = c("var5", "var6", "var11")
-    )
-  )
-  expect_equal(
-    expect_message(
-      preprocess_data(test_df[1:3, ], "outcome",
-        remove_var = NULL, prefilter_threshold = -1
-      ),
-      "Removing"
     ),
     list(
       dat_transformed = structure(list(outcome = c(
@@ -217,14 +190,41 @@ test_that("preprocess_data works", {
       ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
       removed_feats = c("var5", "var6", "var11")
     )
-  )
-  expect_equal(
-    expect_message(preprocess_data(test_df[1:3, ],
+  ))
+  expect_message(expect_equal(
+
+      preprocess_data(test_df[1:3, ], "outcome",
+        remove_var = NULL, prefilter_threshold = -1
+      ),
+    list(
+      dat_transformed = structure(list(outcome = c(
+        "normal", "normal",
+        "cancer"
+      ), grp1 = c(0, 1, 0), grp2 = c(1, 0, 0), grp3 = c(
+        -1,
+        0, 1
+      ), grp4 = c(0, 0, 1), var8 = c(
+        -0.707106781186547, 0.707106781186547,
+        0
+      )), row.names = c(NA, -3L), class = c("tbl_df", "tbl", "data.frame")), grp_feats = list(grp1 = c(
+        "var10_0", "var2_b", "var3_yes",
+        "var4_1", "var9_x"
+      ), grp2 = c("var10_1", "var2_a"), grp3 = c(
+        "var1",
+        "var12"
+      ), grp4 = c("var2_c", "var7_1", "var9_y"), var8 = "var8"),
+      removed_feats = c("var5", "var6", "var11")
+    )
+  ),
+      "Removing"
+    )
+  expect_message(expect_equal(
+    preprocess_data(test_df[1:3, ],
       "outcome",
       remove_var = NULL,
       collapse_corr_feats = FALSE,
       prefilter_threshold = -1
-    )),
+    ),
     list(
       dat_transformed = structure(list(outcome = c(
         "normal", "normal",
@@ -250,16 +250,16 @@ test_that("preprocess_data works", {
       ), class = c("tbl_df", "tbl", "data.frame")), grp_feats = NULL,
       removed_feats = character(0)
     )
-  )
-  expect_error(expect_message(preprocess_data(test_df[1:3, ],
+  ))
+  expect_error(preprocess_data(test_df[1:3, ],
     "outcome",
     method = c("asdf")
-  )))
-  expect_equal(
-    expect_message(preprocess_data(test_df,
+  ))
+  expect_message(expect_equal(
+    preprocess_data(test_df,
       "outcome",
       to_numeric = FALSE
-    )),
+    ),
     list(dat_transformed = structure(list(outcome = c(
       "normal", "normal",
       "cancer"
@@ -282,15 +282,13 @@ test_that("preprocess_data works", {
       "var5", "var6",
       "var11"
     ))
-  )
+  ))
 })
 
 test_that("rm_missing_outcome works", {
-  expect_equal(
-    expect_message(
+  expect_message(expect_equal(
+
       rm_missing_outcome(test_df[, 1:8], "outcome"),
-      "Removed"
-    ),
     structure(list(
       outcome = c("normal", "normal", "cancer"), var1 = 1:3,
       var2 = c("a", "b", "c"), var3 = c("no", "yes", "no"), var4 = c(
@@ -301,7 +299,9 @@ test_that("rm_missing_outcome works", {
         1, 0
       )
     ), class = "data.frame", row.names = c(NA, -3L))
-  )
+  ),
+      "Removed"
+    )
   expect_equal(
     rm_missing_outcome(test_df[1:3, 1:8], "outcome"),
     structure(list(
@@ -363,8 +363,8 @@ test_that("change_to_num works", {
 })
 
 test_that("process_novar_feats works", {
-  expect_equal(
-    expect_message(process_novar_feats(test_df[1:3, 2:ncol(test_df)])),
+  expect_message(expect_equal(
+    process_novar_feats(test_df[1:3, 2:ncol(test_df)]),
     list(novar_feats = structure(list(var5 = c(0, 0, 0), var6 = c(
       0,
       0, 0
@@ -384,7 +384,7 @@ test_that("process_novar_feats works", {
       NA,
       -3L
     ), class = c("tbl_df", "tbl", "data.frame")))
-  )
+  ))
   expect_equal(
     process_novar_feats(test_df[1:3, 2:5]),
     list(
@@ -415,8 +415,8 @@ test_that("process_cat_feats works", {
       -3L
     ), class = c("tbl_df", "tbl", "data.frame")))
   )
-  expect_equal(
-    expect_message(process_cat_feats(test_df[1:3, c(2:5, 8:11)])),
+  expect_message(expect_equal(
+    process_cat_feats(test_df[1:3, c(2:5, 8:11)]),
     list(cat_feats = structure(list(var3_yes = c(0, 1, 0), var4_1 = c(
       0,
       1, 0
@@ -435,7 +435,7 @@ test_that("process_cat_feats works", {
       "tbl_df",
       "tbl", "data.frame"
     )))
-  )
+  ))
 
   expect_error(process_cat_feats(NA))
 })
@@ -448,8 +448,8 @@ test_that("process_cont_feats works", {
       -3L
     ), class = c("tbl_df", "tbl", "data.frame")), removed_cont = character(0))
   )
-  expect_equal(
-    expect_message(process_cont_feats(test_df[1:3, c(2, 9)], method = c("center", "scale"))),
+  expect_message(expect_equal(
+    process_cont_feats(test_df[1:3, c(2, 9)], method = c("center", "scale")),
     list(transformed_cont = structure(list(var1 = c(-1, 0, 1), var8 = c(
       -0.707106781186547,
       0.707106781186547, 0
@@ -457,7 +457,7 @@ test_that("process_cont_feats works", {
       "tbl_df",
       "tbl", "data.frame"
     )), removed_cont = character(0))
-  )
+  ))
   expect_equal(process_cont_feats(NULL), list(transformed_cont = NULL, removed_cont = NULL))
   expect_error(process_cont_feats(NA), "Argument `features` must be a `data.frame` or `tibble`")
 })
