@@ -12,7 +12,7 @@ get_all_but_model <- function(ml_results) {
   return(ml_results[names(ml_results) != "trained_model"])
 }
 
-expect_equal_ml_results <- function(result1, result2, tol = 1e-5) {
+expect_equal_ml_results <- function(result1, result2, tolerance = 1e-5) {
   return(
     eval(bquote(expect_equal(get_all_but_model(result1),
       get_all_but_model(result2),
@@ -82,7 +82,7 @@ test_that("run_ml works for random forest with grouping & feature importance", {
       groups = otu_mini_group
     ),
     otu_mini_bin_results_rf,
-    tol = 1e-3
+    tolerance = 1e-3
   )
 })
 
@@ -113,7 +113,7 @@ test_that("run_ml works for xgbTree", {
       cv_times = 2
     ),
     otu_mini_bin_results_xgbTree,
-    tol = 1e-3
+    tolerance = 1e-3
   )
 })
 
