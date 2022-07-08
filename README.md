@@ -80,6 +80,9 @@ If you come across a bug, [open an
 issue](https://github.com/SchlossLab/mikropml/issues) and include a
 [minimal reproducible example](https://www.tidyverse.org/help/).
 
+If you have questions, create a new post in
+[Discussions](https://github.com/SchlossLab/mikropml/discussions).
+
 If you’d like to contribute, see our guidelines
 [here](http://www.schlosslab.org/mikropml/CONTRIBUTING.html).
 
