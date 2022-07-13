@@ -101,25 +101,22 @@
 <a class="anchor" aria-label="anchor" href="#mikropml-"></a>
 </h1>
 </div>
-<blockquote>
-<p>meek-ROPE em el</p>
-</blockquote>
+<blockquote><p>meek-ROPE em el</p></blockquote>
 <p>User-Friendly R Package for Supervised Machine Learning Pipelines</p>
 <!-- badges: start -->
-
 <p>An interface to build machine learning models for classification and regression problems. <code>mikropml</code> implements the ML pipeline described by <a href="https://doi.org/doi:10.1128/mBio.00434-20" class="external-link">Topçuoğlu <em>et al.</em> (2020)</a> with reasonable default options for data preprocessing, hyperparameter tuning, cross-validation, testing, model evaluation, and interpretation steps. See the <a href="http://www.schlosslab.org/mikropml/">website</a> for more information, documentation, and examples.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the latest release from <a href="https://cran.r-project.org/package=mikropml" class="external-link">CRAN</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span><span class="op">)</span></span></code></pre></div>
 <p>or the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
 <p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html" class="external-link">conda</a>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">conda</span> install -c conda-forge r-mikropml</span></code></pre></div>
 <div class="section level3">
 <h3 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h3>
@@ -140,6 +137,7 @@
 <h2 id="help--contributing">Help &amp; Contributing<a class="anchor" aria-label="anchor" href="#help--contributing"></a>
 </h2>
 <p>If you come across a bug, <a href="https://github.com/SchlossLab/mikropml/issues" class="external-link">open an issue</a> and include a <a href="https://www.tidyverse.org/help/" class="external-link">minimal reproducible example</a>.</p>
+<p>If you have questions, create a new post in <a href="https://github.com/SchlossLab/mikropml/discussions" class="external-link">Discussions</a>.</p>
 <p>If you’d like to contribute, see our guidelines <a href="http://www.schlosslab.org/mikropml/CONTRIBUTING.html">here</a>.</p>
 </div>
 <div class="section level2">
@@ -157,23 +155,22 @@
 </h2>
 <p>To cite mikropml in publications, use:</p>
 <blockquote>
-<p>
-Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines.” <em>Journal of Open Source Software</em>, <b>6</b>(61), 3073. <a href="https://doi.org/10.21105/joss.03073" class="external-link">doi:10.21105/joss.03073</a>, <a href="https://joss.theoj.org/papers/10.21105/joss.03073" class="external-link">https://joss.theoj.org/papers/10.21105/joss.03073</a>.
-</p>
+<p></p>
+<p>Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines.” <em>Journal of Open Source Software</em>, <b>6</b>(61), 3073. <a href="https://doi.org/10.21105/joss.03073" class="external-link">doi:10.21105/joss.03073</a>, <a href="https://joss.theoj.org/papers/10.21105/joss.03073" class="external-link">https://joss.theoj.org/papers/10.21105/joss.03073</a>.</p>
 </blockquote>
 <p>A BibTeX entry for LaTeX users is:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a> <span class="sc">@</span>Article{,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  title <span class="ot">=</span> {{mikropml}<span class="sc">:</span> User<span class="sc">-</span>Friendly R Package <span class="cf">for</span> Supervised Machine Learning Pipelines},</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  author <span class="ot">=</span> {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  journal <span class="ot">=</span> {Journal of Open Source Software},</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">=</span> {May},</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  volume <span class="ot">=</span> {<span class="dv">6</span>},</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">=</span> {<span class="dv">61</span>},</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  pages <span class="ot">=</span> {<span class="dv">3073</span>},</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>joss.theoj.org<span class="sc">/</span>papers<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>} </span></code></pre></div>
+<pre><code> @Article{,
+  title = {{mikropml}: User-Friendly R Package for Supervised Machine Learning Pipelines},
+  author = {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},
+  journal = {Journal of Open Source Software},
+  year = {2021},
+  month = {May},
+  volume = {6},
+  number = {61},
+  pages = {3073},
+  doi = {10.21105/joss.03073},
+  url = {https://joss.theoj.org/papers/10.21105/joss.03073},
+} </code></pre>
 </div>
 <div class="section level2">
 <h2 id="why-the-name">Why the name?<a class="anchor" aria-label="anchor" href="#why-the-name"></a>
@@ -203,6 +200,7 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+<li><a href="SUPPORT.html">Getting help</a></li>
 </ul>
 </div>
 
@@ -246,9 +244,7 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 <h2 data-toc-skip></h2>
 <ul class="list-unstyled">
 <li>
-<strong>Impact metrics</strong><script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script><script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script><span class="__dimensions_badge_embed__" data-doi="10.21105/joss.03073" data-style="small_circle"></span><div class="altmetric-embed" data-badge-type="donut" data-doi="10.21105/joss.03073" data-condensed="true" data-badge-popover="right">
-
-</div>
+<strong>Impact metrics</strong><script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script><script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script><span class="__dimensions_badge_embed__" data-doi="10.21105/joss.03073" data-style="small_circle"></span><div class="altmetric-embed" data-badge-type="donut" data-doi="10.21105/joss.03073" data-condensed="true" data-badge-popover="right"></div>
 </li>
 </ul>
 </div>
@@ -264,7 +260,7 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>
