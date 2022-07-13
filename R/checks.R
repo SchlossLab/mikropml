@@ -468,7 +468,6 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @param perf_metric_function performance metric function
 #'
-#' @return
 #' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'

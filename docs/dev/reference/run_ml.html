@@ -82,31 +82,33 @@ See <code><a href="../articles/introduction.html">vignette('introduction')</a></
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">run_ml</span><span class="op">(</span>
-  <span class="va">dataset</span>,
-  <span class="va">method</span>,
-  outcome_colname <span class="op">=</span> <span class="cn">NULL</span>,
-  hyperparameters <span class="op">=</span> <span class="cn">NULL</span>,
-  find_feature_importance <span class="op">=</span> <span class="cn">FALSE</span>,
-  calculate_performance <span class="op">=</span> <span class="cn">TRUE</span>,
-  kfold <span class="op">=</span> <span class="fl">5</span>,
-  cv_times <span class="op">=</span> <span class="fl">100</span>,
-  cross_val <span class="op">=</span> <span class="cn">NULL</span>,
-  training_frac <span class="op">=</span> <span class="fl">0.8</span>,
-  perf_metric_function <span class="op">=</span> <span class="cn">NULL</span>,
-  perf_metric_name <span class="op">=</span> <span class="cn">NULL</span>,
-  groups <span class="op">=</span> <span class="cn">NULL</span>,
-  group_partitions <span class="op">=</span> <span class="cn">NULL</span>,
-  corr_thresh <span class="op">=</span> <span class="fl">1</span>,
-  ntree <span class="op">=</span> <span class="fl">1000</span>,
-  seed <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_ml</span><span class="op">(</span></span>
+<span>  <span class="va">dataset</span>,</span>
+<span>  <span class="va">method</span>,</span>
+<span>  outcome_colname <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  hyperparameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  find_feature_importance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  calculate_performance <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  kfold <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  cross_val <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  perf_metric_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  perf_metric_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group_partitions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  corr_thresh <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  ntree <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>dataset</dt>
 <dd><p>Dataframe with an outcome variable and other columns as features.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>ML method.
 Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul><li><p>glmnet: linear, logistic, or multiclass regression</p></li>
@@ -115,34 +117,52 @@ Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><u
 <li><p>svmRadial: support vector machine</p></li>
 <li><p>xgbTree: xgboost</p></li>
 </ul></dd>
+
+
 <dt>outcome_colname</dt>
 <dd><p>Column name as a string of the outcome variable
 (default <code>NULL</code>; the first column will be chosen automatically).</p></dd>
+
+
 <dt>hyperparameters</dt>
 <dd><p>Dataframe of hyperparameters
 (default <code>NULL</code>; sensible defaults will be chosen automatically).</p></dd>
+
+
 <dt>find_feature_importance</dt>
 <dd><p>Run permutation importance (default: <code>FALSE</code>).
 <code>TRUE</code> is recommended if you would like to identify features important for
 predicting your outcome, but it is resource-intensive.</p></dd>
+
+
 <dt>calculate_performance</dt>
 <dd><p>Whether to calculate performance metrics (default: <code>TRUE</code>).
 You might choose to skip this if you do not perform cross-validation during model training.</p></dd>
+
+
 <dt>kfold</dt>
 <dd><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></dd>
+
+
 <dt>cv_times</dt>
 <dd><p>Number of cross-validation partitions to create (default: <code>100</code>).</p></dd>
+
+
 <dt>cross_val</dt>
 <dd><p>a custom cross-validation scheme from <code><a href="https://rdrr.io/pkg/caret/man/trainControl.html" class="external-link">caret::trainControl()</a></code>
 (default: <code>NULL</code>, uses <code>kfold</code> cross validation repeated <code>cv_times</code>).
 <code>kfold</code> and <code>cv_times</code> are ignored if the user provides a custom cross-validation scheme.
 See the <code><a href="https://rdrr.io/pkg/caret/man/trainControl.html" class="external-link">caret::trainControl()</a></code> docs for information on how to use it.</p></dd>
+
+
 <dt>training_frac</dt>
 <dd><p>Fraction of data for training set (default: <code>0.8</code>). Rows
 from the dataset will be randomly selected for the training set, and all
 remaining rows will be used in the testing set. Alternatively, if you
 provide a vector of integers, these will be used as the row indices for the
 training set. All remaining rows will be used in the testing set.</p></dd>
+
+
 <dt>perf_metric_function</dt>
 <dd><p>Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
@@ -150,17 +170,23 @@ provided by caret (see <code><a href="https://rdrr.io/pkg/caret/man/postResample
 Defaults: binary classification = <code>twoClassSummary</code>,
 multi-class classification = <code>multiClassSummary</code>,
 regression = <code>defaultSummary</code>.</p></dd>
+
+
 <dt>perf_metric_name</dt>
 <dd><p>The column name from the output of the function
 provided to perf_metric_function that is to be used as the performance metric.
 Defaults: binary classification = <code>"ROC"</code>,
 multi-class classification = <code>"logLoss"</code>,
 regression = <code>"RMSE"</code>.</p></dd>
+
+
 <dt>groups</dt>
 <dd><p>Vector of groups to keep together when splitting the data into
 train and test sets. If the number of groups in the training set is larger
 than <code>kfold</code>, the groups will also be kept together for cross-validation.
 Length matches the number of rows in the dataset (default: <code>NULL</code>).</p></dd>
+
+
 <dt>group_partitions</dt>
 <dd><p>Specify how to assign <code>groups</code> to the training and
 testing partitions (default: <code>NULL</code>). If <code>groups</code> specifies that some
@@ -172,19 +198,28 @@ samples from <code>"B"</code> also in the training set, and the remaining sample
 <code>training_frac</code> as possible. If the number of groups in the training set is
 larger than <code>kfold</code>, the groups will also be kept together for
 cross-validation.</p></dd>
+
+
 <dt>corr_thresh</dt>
 <dd><p>For feature importance, group correlations
 above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</code>; default: <code>1</code>).</p></dd>
+
+
 <dt>ntree</dt>
 <dd><p>For random forest, how many trees to use (default: <code>1000</code>).
 Note that caret doesn't allow this parameter to be tuned.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>Random seed (default: <code>NA</code>).
 Your results will only be reproducible if you set a seed.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Named list with results:</p><ul><li><p><code>trained_model</code>: Output of <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, including the best model.</p></li>
+    
+
+<p>Named list with results:</p><ul><li><p><code>trained_model</code>: Output of <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, including the best model.</p></li>
 <li><p><code>test_data</code>: Part of the data that was used for testing.</p></li>
 <li><p><code>performance</code>: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data. This contains only one row, so you can easily combine performance dataframes from multiple calls to <code>run_ml()</code> (see <code><a href="../articles/parallel.html">vignette("parallel")</a></code>).</p></li>
 <li><p><code>feature_importance</code>: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome.</p></li>
@@ -205,29 +240,29 @@ Your results will only be reproducible if you set a seed.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># regression</span></span>
-<span class="r-in"><span class="fu">run_ml</span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"glmnet"</span>,</span>
-<span class="r-in">  seed <span class="op">=</span> <span class="fl">2019</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># random forest w/ feature importance</span></span>
-<span class="r-in"><span class="fu">run_ml</span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"rf"</span>,</span>
-<span class="r-in">  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span>
-<span class="r-in">  find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># custom cross validation &amp; hyperparameters</span></span>
-<span class="r-in"><span class="fu">run_ml</span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>,</span>
-<span class="r-in">  <span class="st">"glmnet"</span>,</span>
-<span class="r-in">  outcome_colname <span class="op">=</span> <span class="st">"Otu00001"</span>,</span>
-<span class="r-in">  seed <span class="op">=</span> <span class="fl">2019</span>,</span>
-<span class="r-in">  hyperparameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-04</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
-<span class="r-in">  cross_val <span class="op">=</span> <span class="fu">caret</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/caret/man/trainControl.html" class="external-link">trainControl</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>,</span>
-<span class="r-in">  calculate_performance <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># regression</span></span></span>
+<span class="r-in"><span><span class="fu">run_ml</span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"glmnet"</span>,</span></span>
+<span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">2019</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># random forest w/ feature importance</span></span></span>
+<span class="r-in"><span><span class="fu">run_ml</span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"rf"</span>,</span></span>
+<span class="r-in"><span>  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span></span>
+<span class="r-in"><span>  find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># custom cross validation &amp; hyperparameters</span></span></span>
+<span class="r-in"><span><span class="fu">run_ml</span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"glmnet"</span>,</span></span>
+<span class="r-in"><span>  outcome_colname <span class="op">=</span> <span class="st">"Otu00001"</span>,</span></span>
+<span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">2019</span>,</span></span>
+<span class="r-in"><span>  hyperparameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-04</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  cross_val <span class="op">=</span> <span class="fu">caret</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/caret/man/trainControl.html" class="external-link">trainControl</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  calculate_performance <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -239,7 +274,7 @@ Your results will only be reproducible if you set a seed.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
