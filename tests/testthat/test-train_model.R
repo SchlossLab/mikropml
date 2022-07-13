@@ -69,15 +69,16 @@ test_that("train_model works", {
 
   set.seed(2019)
   expect_equal(
-    expect_warning(
       train_model(
-        stats::as.formula(paste("dx", "~ .")),
-        otu_mini_bin_results_glmnet$trained_model$trainingData %>%
-          dplyr::rename(dx = .outcome),
-        "glmnet", cv, "AUC", tg_lr, NULL
+          stats::as.formula(paste("dx", "~ .")),
+          otu_mini_bin_results_glmnet$trained_model$trainingData %>%
+              dplyr::rename(dx = .outcome),
+          "glmnet",
+          cv,
+          "AUC",
+          tg_lr,
+          NULL
       )$bestTune$lambda,
-      "`caret::train\\(\\)` issued the following warning:"
-    ),
-    0.01
-  )
+      0.01
+  ) %>% expect_warning("`caret::train\\(\\)` issued the following warning:")
 })

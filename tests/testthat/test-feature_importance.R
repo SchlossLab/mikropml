@@ -26,7 +26,7 @@ test_that("find_permuted_perf_metric works", {
       perf_metric_diff = -2.1052632526164e-08,
       pvalue = 1
     ),
-    tol = 10e-5
+    tolerance = 10e-5
   )
   set.seed(2019)
   expect_equal(
@@ -42,7 +42,7 @@ test_that("find_permuted_perf_metric works", {
       perf_metric_diff = -2.1052632526164e-08,
       pvalue = 1
     ),
-    tol = 10e-5
+    tolerance = 10e-5
   )
   set.seed(2019)
   expect_equal(
@@ -59,7 +59,7 @@ test_that("find_permuted_perf_metric works", {
       perf_metric_diff = 0.00805261052631578,
       pvalue = 0.188118811881188
     ),
-    tol = 10e-4
+    tolerance = 10e-4
   )
 })
 
