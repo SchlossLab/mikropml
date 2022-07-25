@@ -64,49 +64,66 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">preprocess_data</span><span class="op">(</span>
-  <span class="va">dataset</span>,
-  <span class="va">outcome_colname</span>,
-  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"scale"</span><span class="op">)</span>,
-  remove_var <span class="op">=</span> <span class="st">"nzv"</span>,
-  collapse_corr_feats <span class="op">=</span> <span class="cn">TRUE</span>,
-  to_numeric <span class="op">=</span> <span class="cn">TRUE</span>,
-  group_neg_corr <span class="op">=</span> <span class="cn">TRUE</span>,
-  prefilter_threshold <span class="op">=</span> <span class="fl">1</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">preprocess_data</span><span class="op">(</span></span>
+<span>  <span class="va">dataset</span>,</span>
+<span>  <span class="va">outcome_colname</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"scale"</span><span class="op">)</span>,</span>
+<span>  remove_var <span class="op">=</span> <span class="st">"nzv"</span>,</span>
+<span>  collapse_corr_feats <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  to_numeric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  group_neg_corr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  prefilter_threshold <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>dataset</dt>
 <dd><p>Dataframe with an outcome variable and other columns as features.</p></dd>
+
+
 <dt>outcome_colname</dt>
 <dd><p>Column name as a string of the outcome variable
 (default <code>NULL</code>; the first column will be chosen automatically).</p></dd>
+
+
 <dt>method</dt>
 <dd><p>Methods to preprocess the data, described in
 <code><a href="https://rdrr.io/pkg/caret/man/preProcess.html" class="external-link">caret::preProcess()</a></code> (default: <code>c("center","scale")</code>, use <code>NULL</code> for
 no normalization).</p></dd>
+
+
 <dt>remove_var</dt>
 <dd><p>Whether to remove variables with near-zero variance
 (<code>'nzv'</code>; default), zero variance (<code>'zv'</code>), or none (<code>NULL</code>).</p></dd>
+
+
 <dt>collapse_corr_feats</dt>
 <dd><p>Whether to keep only one of perfectly correlated
 features.</p></dd>
+
+
 <dt>to_numeric</dt>
 <dd><p>Whether to change features to numeric where possible.</p></dd>
+
+
 <dt>group_neg_corr</dt>
 <dd><p>Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).</p></dd>
+
+
 <dt>prefilter_threshold</dt>
 <dd><p>Remove features which only have non-zero &amp; non-NA
 values N rows or fewer (default: 1). Set this to -1 to keep all columns at
 this step. This step will also be skipped if <code>to_numeric</code> is set to
 <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Named list including:</p><ul><li><p><code>dat_transformed</code>: Preprocessed data.</p></li>
+    
+
+<p>Named list including:</p><ul><li><p><code>dat_transformed</code>: Preprocessed data.</p></li>
 <li><p><code>grp_feats</code>: If features were grouped together, a named list of the features corresponding to each group.</p></li>
 <li><p><code>removed_feats</code>: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).</p></li>
 </ul><p>If the <code>progressr</code> package is installed, a progress bar with time elapsed
@@ -130,7 +147,7 @@ converted to underscores for compatibility with <code>caret</code>.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">preprocess_data</span><span class="op">(</span><span class="fu">mikropml</span><span class="fu">::</span><span class="va"><a href="otu_small.html">otu_small</a></span>, <span class="st">"dx"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">preprocess_data</span><span class="op">(</span><span class="fu">mikropml</span><span class="fu">::</span><span class="va"><a href="otu_small.html">otu_small</a></span>, <span class="st">"dx"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using 'dx' as the outcome column.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $dat_transformed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 200 × 61</span></span>
@@ -160,20 +177,20 @@ converted to underscores for compatibility with <code>caret</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $removed_feats</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the function can show a progress bar if you have the progressr package installed</span></span>
-<span class="r-in"><span class="co">## optionally, specify the progress bar format</span></span>
-<span class="r-in"><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handler_progress.html" class="external-link">handler_progress</a></span><span class="op">(</span></span>
-<span class="r-in">  format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
-<span class="r-in">  clear <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  show_after <span class="op">=</span> <span class="fl">0</span></span>
-<span class="r-in"><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## tell progressor to always report progress</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## run the function and watch the live progress udpates</span></span>
-<span class="r-in"><span class="va">dat_preproc</span> <span class="op">&lt;-</span> <span class="fu">preprocess_data</span><span class="op">(</span><span class="fu">mikropml</span><span class="fu">::</span><span class="va"><a href="otu_small.html">otu_small</a></span>, <span class="st">"dx"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the function can show a progress bar if you have the progressr package installed</span></span></span>
+<span class="r-in"><span><span class="co">## optionally, specify the progress bar format</span></span></span>
+<span class="r-in"><span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handler_progress.html" class="external-link">handler_progress</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span></span>
+<span class="r-in"><span>  clear <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  show_after <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## tell progressor to always report progress</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## run the function and watch the live progress udpates</span></span></span>
+<span class="r-in"><span><span class="va">dat_preproc</span> <span class="op">&lt;-</span> <span class="fu">preprocess_data</span><span class="op">(</span><span class="fu">mikropml</span><span class="fu">::</span><span class="va"><a href="otu_small.html">otu_small</a></span>, <span class="st">"dx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -185,7 +202,7 @@ converted to underscores for compatibility with <code>caret</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

@@ -64,28 +64,34 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">define_cv</span><span class="op">(</span>
-  <span class="va">train_data</span>,
-  <span class="va">outcome_colname</span>,
-  <span class="va">hyperparams_list</span>,
-  <span class="va">perf_metric_function</span>,
-  <span class="va">class_probs</span>,
-  kfold <span class="op">=</span> <span class="fl">5</span>,
-  cv_times <span class="op">=</span> <span class="fl">100</span>,
-  groups <span class="op">=</span> <span class="cn">NULL</span>,
-  group_partitions <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">define_cv</span><span class="op">(</span></span>
+<span>  <span class="va">train_data</span>,</span>
+<span>  <span class="va">outcome_colname</span>,</span>
+<span>  <span class="va">hyperparams_list</span>,</span>
+<span>  <span class="va">perf_metric_function</span>,</span>
+<span>  <span class="va">class_probs</span>,</span>
+<span>  kfold <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group_partitions <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>train_data</dt>
 <dd><p>Dataframe for training model.</p></dd>
+
+
 <dt>outcome_colname</dt>
 <dd><p>Column name as a string of the outcome variable
 (default <code>NULL</code>; the first column will be chosen automatically).</p></dd>
+
+
 <dt>hyperparams_list</dt>
 <dd><p>Named list of lists of hyperparameters.</p></dd>
+
+
 <dt>perf_metric_function</dt>
 <dd><p>Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
@@ -93,17 +99,27 @@ provided by caret (see <code><a href="https://rdrr.io/pkg/caret/man/postResample
 Defaults: binary classification = <code>twoClassSummary</code>,
 multi-class classification = <code>multiClassSummary</code>,
 regression = <code>defaultSummary</code>.</p></dd>
+
+
 <dt>class_probs</dt>
 <dd><p>Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).</p></dd>
+
+
 <dt>kfold</dt>
 <dd><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></dd>
+
+
 <dt>cv_times</dt>
 <dd><p>Number of cross-validation partitions to create (default: <code>100</code>).</p></dd>
+
+
 <dt>groups</dt>
 <dd><p>Vector of groups to keep together when splitting the data into
 train and test sets. If the number of groups in the training set is larger
 than <code>kfold</code>, the groups will also be kept together for cross-validation.
 Length matches the number of rows in the dataset (default: <code>NULL</code>).</p></dd>
+
+
 <dt>group_partitions</dt>
 <dd><p>Specify how to assign <code>groups</code> to the training and
 testing partitions (default: <code>NULL</code>). If <code>groups</code> specifies that some
@@ -115,10 +131,13 @@ samples from <code>"B"</code> also in the training set, and the remaining sample
 <code>training_frac</code> as possible. If the number of groups in the training set is
 larger than <code>kfold</code>, the groups will also be kept together for
 cross-validation.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Caret object for trainControl that controls cross-validation</p>
+    
+
+<p>Caret object for trainControl that controls cross-validation</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -128,19 +147,19 @@ cross-validation.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">training_inds</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_partition_indices.html">get_partition_indices</a></span><span class="op">(</span><span class="va">otu_small</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="st">"dx"</span><span class="op">)</span>,</span>
-<span class="r-in">  training_frac <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span class="r-in">  groups <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">otu_small</span><span class="op">[</span><span class="va">training_inds</span>, <span class="op">]</span></span>
-<span class="r-in"><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">otu_small</span><span class="op">[</span><span class="op">-</span><span class="va">training_inds</span>, <span class="op">]</span></span>
-<span class="r-in"><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu">define_cv</span><span class="op">(</span><span class="va">train_data</span>,</span>
-<span class="r-in">  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span>
-<span class="r-in">  hyperparams_list <span class="op">=</span> <span class="fu"><a href="get_hyperparams_list.html">get_hyperparams_list</a></span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"glmnet"</span><span class="op">)</span>,</span>
-<span class="r-in">  perf_metric_function <span class="op">=</span> <span class="fu">caret</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/caret/man/postResample.html" class="external-link">multiClassSummary</a></span>,</span>
-<span class="r-in">  class_probs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  kfold <span class="op">=</span> <span class="fl">5</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">training_inds</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_partition_indices.html">get_partition_indices</a></span><span class="op">(</span><span class="va">otu_small</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="st">"dx"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  training_frac <span class="op">=</span> <span class="fl">0.8</span>,</span></span>
+<span class="r-in"><span>  groups <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">otu_small</span><span class="op">[</span><span class="va">training_inds</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">otu_small</span><span class="op">[</span><span class="op">-</span><span class="va">training_inds</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu">define_cv</span><span class="op">(</span><span class="va">train_data</span>,</span></span>
+<span class="r-in"><span>  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span></span>
+<span class="r-in"><span>  hyperparams_list <span class="op">=</span> <span class="fu"><a href="get_hyperparams_list.html">get_hyperparams_list</a></span><span class="op">(</span><span class="va">otu_small</span>, <span class="st">"glmnet"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  perf_metric_function <span class="op">=</span> <span class="fu">caret</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/caret/man/postResample.html" class="external-link">multiClassSummary</a></span>,</span></span>
+<span class="r-in"><span>  class_probs <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  kfold <span class="op">=</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -152,7 +171,7 @@ cross-validation.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
