@@ -44,11 +44,12 @@ devtools::install_github("SchlossLab/mikropml")
 ```
 
 or install from a terminal using
-[conda](https://docs.conda.io/projects/conda/en/latest/index.html):
+[conda](https://docs.conda.io/projects/conda/en/latest/index.html) or
+[mamba](https://mamba.readthedocs.io/en/latest/):
 <img src='https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg' align='right'/>
 
 ``` bash
-conda install -c conda-forge r-mikropml
+mamba install -c conda-forge r-mikropml
 ```
 
 ### Dependencies
