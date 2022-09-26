@@ -29,7 +29,7 @@ information, documentation, and examples.
 
 You can install the latest release from
 [CRAN](https://cran.r-project.org/package=mikropml):
-![CRAN-downloads](https://cranlogs.r-pkg.org/badges/grand-total/mikropml)
+<img src='https://cranlogs.r-pkg.org/badges/grand-total/mikropml' align='right'/>
 
 ``` r
 install.packages('mikropml')
@@ -45,7 +45,7 @@ devtools::install_github("SchlossLab/mikropml")
 
 or install from a terminal using
 [conda](https://docs.conda.io/projects/conda/en/latest/index.html):
-![conda-downloads](https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg)
+<img src='https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg' align='right'/>
 
 ``` bash
 conda install -c conda-forge r-mikropml
