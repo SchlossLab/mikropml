@@ -70,10 +70,12 @@ test_that("tidy_perf_data works", {
 })
 
 test_that("plot_model_performance creates a boxplot from tidied data", {
-    p <- perf_df_untidy %>% plot_model_performance()
-    expect_equal(p$data, perf_df_untidy %>% tidy_perf_data())
-    expect_equal(p$layers[[1]]$geom %>% class() %>% as.vector(),
-                 c("GeomBoxplot", "Geom", "ggproto", "gg"))
+  p <- perf_df_untidy %>% plot_model_performance()
+  expect_equal(p$data, perf_df_untidy %>% tidy_perf_data())
+  expect_equal(
+    p$layers[[1]]$geom %>% class() %>% as.vector(),
+    c("GeomBoxplot", "Geom", "ggproto", "gg")
+  )
 })
 
 test_that("get_hp_performance works", {
