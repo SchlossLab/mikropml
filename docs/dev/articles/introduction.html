@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to mikropml">
 <meta property="og:description" content="mikropml">
@@ -219,12 +219,12 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">performance</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;   cv_metric_AUC logLoss   AUC prAUC Accuracy Kappa    F1 Sensitivity Specificity</span></span>
-<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.622   0.684 0.647 0.606    0.590 0.179   0.6         0.6       0.579</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 8 more variables: Pos_Pred_Value &lt;dbl&gt;, Neg_Pred_Value &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Precision &lt;dbl&gt;, Recall &lt;dbl&gt;, Detection_Rate &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Balanced_Accuracy &lt;dbl&gt;, method &lt;chr&gt;, seed &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   cv_metric_AUC logLoss   AUC prAUC Accuracy Kappa    F1 Sensi…¹ Speci…² Pos_P…³</span></span>
+<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.622   0.684 0.647 0.606    0.590 0.179   0.6     0.6   0.579     0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 7 more variables: Neg_Pred_Value &lt;dbl&gt;, Precision &lt;dbl&gt;, Recall &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Detection_Rate &lt;dbl&gt;, Balanced_Accuracy &lt;dbl&gt;, method &lt;chr&gt;, seed &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   and abbreviated variable names ¹​Sensitivity, ²​Specificity, ³​Pos_Pred_Value</span></span></span></code></pre></div>
 <p>When using logistic regression for binary classification, area under the receiver-operator characteristic curve (AUC) is a useful metric to evaluate model performance. Because of that, it’s the default that we use for <code>mikropml</code>. However, it is crucial to evaluate your model performance using multiple metrics. Below you can find more information about other performance metrics and how to use them in our package.</p>
 <p><code>cv_metric_AUC</code> is the AUC for the cross-validation folds for the training data. This gives us a sense of how well the model performs on the training data.</p>
 <p>Most of the other columns are performance metrics for the test data — the data that wasn’t used to build the model. Here, you can see that the AUC for the test data is not much above 0.5, suggesting that this model does not predict much better than chance, and that the model is overfit because the cross-validation AUC (<code>cv_metric_AUC</code>, measured during training) is much higher than the testing AUC. This isn’t too surprising since we’re using so few features with this example dataset, so don’t be discouraged. The default option also provides a number of other performance metrics that you might be interested in, including area under the precision-recall curve (prAUC).</p>
@@ -329,12 +329,13 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_pr</span><span class="op">$</span><span class="va">performance</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;   cv_metric_prAUC logLoss   AUC prAUC Accuracy  Kappa    F1 Sensitivity</span></span>
-<span><span class="co">#&gt;             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           0.577   0.691 0.663 0.605    0.538 0.053<span style="text-decoration: underline;">9</span> 0.690           1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 9 more variables: Specificity &lt;dbl&gt;, Pos_Pred_Value &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Neg_Pred_Value &lt;dbl&gt;, Precision &lt;dbl&gt;, Recall &lt;dbl&gt;, Detection_Rate &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Balanced_Accuracy &lt;dbl&gt;, method &lt;chr&gt;, seed &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   cv_metric_p…¹ logLoss   AUC prAUC Accur…²  Kappa    F1 Sensi…³ Speci…⁴ Pos_P…⁵</span></span>
+<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.577   0.691 0.663 0.605   0.538 0.053<span style="text-decoration: underline;">9</span> 0.690       1  0.052<span style="text-decoration: underline;">6</span>   0.526</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 7 more variables: Neg_Pred_Value &lt;dbl&gt;, Precision &lt;dbl&gt;, Recall &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Detection_Rate &lt;dbl&gt;, Balanced_Accuracy &lt;dbl&gt;, method &lt;chr&gt;, seed &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   and abbreviated variable names ¹​cv_metric_prAUC, ²​Accuracy, ³​Sensitivity,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​Specificity, ⁵​Pos_Pred_Value</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="using-groups">Using groups<a class="anchor" aria-label="anchor" href="#using-groups"></a>
@@ -560,13 +561,14 @@
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_multi</span><span class="op">$</span><span class="va">performance</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;   cv_metric_logLoss logLoss   AUC prAUC Accuracy  Kappa Mean_F1 Mean_Sensitivity</span></span>
-<span><span class="co">#&gt;               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>              1.07    1.11 0.506 0.353    0.382 0.044<span style="text-decoration: underline;">9</span> <span style="color: #BB0000;">NA</span>                 0.360</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 9 more variables: Mean_Specificity &lt;dbl&gt;, Mean_Pos_Pred_Value &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Mean_Neg_Pred_Value &lt;dbl&gt;, Mean_Precision &lt;chr&gt;, Mean_Recall &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Mean_Detection_Rate &lt;dbl&gt;, Mean_Balanced_Accuracy &lt;dbl&gt;, method &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   seed &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   cv_metric…¹ logLoss   AUC prAUC Accur…²  Kappa Mean_F1 Mean_…³ Mean_…⁴ Mean_…⁵</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1.07    1.11 0.506 0.353   0.382 0.044<span style="text-decoration: underline;">9</span> <span style="color: #BB0000;">NA</span>        0.360   0.682 NaN    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 7 more variables: Mean_Neg_Pred_Value &lt;dbl&gt;, Mean_Precision &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Mean_Recall &lt;dbl&gt;, Mean_Detection_Rate &lt;dbl&gt;, Mean_Balanced_Accuracy &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   method &lt;chr&gt;, seed &lt;dbl&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​cv_metric_logLoss, ²​Accuracy, ³​Mean_Sensitivity, ⁴​Mean_Specificity,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁵​Mean_Pos_Pred_Value</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="continuous-data">Continuous data<a class="anchor" aria-label="anchor" href="#continuous-data"></a>
@@ -611,7 +613,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
