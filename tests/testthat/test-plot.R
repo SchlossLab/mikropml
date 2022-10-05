@@ -69,6 +69,15 @@ test_that("tidy_perf_data works", {
   expect_equal(tidy_perf_data(perf_df_untidy), perf_df_tidy)
 })
 
+test_that("plot_model_performance creates a boxplot from tidied data", {
+  p <- perf_df_untidy %>% plot_model_performance()
+  expect_equal(p$data, perf_df_untidy %>% tidy_perf_data())
+  expect_equal(
+    p$layers[[1]]$geom %>% class() %>% as.vector(),
+    c("GeomBoxplot", "Geom", "ggproto", "gg")
+  )
+})
+
 test_that("get_hp_performance works", {
   expect_equal(
     get_hp_performance(otu_mini_bin_results_glmnet$trained_model),
