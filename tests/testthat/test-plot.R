@@ -48,7 +48,7 @@ perf_df_untidy <- structure(list(cv_metric_AUC = c(
   103, 104
 )), row.names = c(NA, -5L), class = c("tbl_df", "tbl", "data.frame"))
 
-perf_df_tidy <- structure(list(
+perf_df_tidy <- dplyr::tibble(
   method = c(
     "glmnet", "glmnet", "glmnet", "glmnet",
     "glmnet", "glmnet", "glmnet", "glmnet", "glmnet", "glmnet"
@@ -63,7 +63,7 @@ perf_df_tidy <- structure(list(
     0.638769209558824, 0.573684210526316, 0.657143321078431,
     0.586842105263158
   )
-), row.names = c(NA, -10L), class = c("tbl_df", "tbl", "data.frame"))
+)
 
 test_that("tidy_perf_data works", {
   expect_equal(tidy_perf_data(perf_df_untidy), perf_df_tidy)
@@ -71,6 +71,7 @@ test_that("tidy_perf_data works", {
 
 test_that("plot_model_performance creates a boxplot from tidied data", {
   p <- perf_df_untidy %>% plot_model_performance()
+  expect_invisible(print(p))
   expect_equal(p$data, perf_df_untidy %>% tidy_perf_data())
   expect_equal(
     p$layers[[1]]$geom %>% class() %>% as.vector(),
