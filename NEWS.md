@@ -1,5 +1,7 @@
 # development version
 
+- Improved tests (#298, #300, #303 #kelly-sovacool)
+
 # mikropml 1.3.0
 
 - mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package (#292). 
