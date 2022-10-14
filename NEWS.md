@@ -1,5 +1,7 @@
 # development version
 
+- Extra arguments given to `run_ml()` are now forwarded to `caret::train()` (#304, @kelly-sovacool).
+    - Users can now pass any model-specific arguments (e.g. `weights`) to `caret::train()`, allowing greater flexibility.
 - Improved tests (#298, #300, #303 #kelly-sovacool)
 
 # mikropml 1.3.0
