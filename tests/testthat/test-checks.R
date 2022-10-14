@@ -251,11 +251,11 @@ test_that("check_remove_var works", {
 })
 
 test_that("check_ntree works", {
-  expect_null(check_ntree(NULL))
-  expect_null(check_ntree(1000))
-  expect_error(check_ntree("asdf"), "`ntree` must be of length 1 and class numeric. You provided: ")
-  expect_error(check_ntree(-10), "`ntree` must be greater than zero. You provided: ")
-  expect_error(check_ntree(c(0, 1)), "`ntree` must be of length 1 and class numeric. You provided: ")
+  expect_null(check_ntree(NULL)) %>% expect_warning("'check_ntree' is deprecated.")
+  expect_null(check_ntree(1000))  %>% expect_warning("'check_ntree' is deprecated.")
+  expect_error(check_ntree("asdf"), "`ntree` must be of length 1 and class numeric. You provided: ")  %>% expect_warning("'check_ntree' is deprecated.")
+  expect_error(check_ntree(-10), "`ntree` must be greater than zero. You provided: ") %>% expect_warning("'check_ntree' is deprecated.")
+  expect_error(check_ntree(c(0, 1)), "`ntree` must be of length 1 and class numeric. You provided: ") %>% expect_warning("'check_ntree' is deprecated.")
 })
 
 test_that("abort_packages_not_installed works", {
