@@ -43,31 +43,17 @@ train_model <- function(features_dat,
                         cv,
                         perf_metric_name,
                         tune_grid,
-                        ntree = NULL,
-                        case_weights = NULL) {
+                        ...) {
     withCallingHandlers({
-        if (method == 'rf') {
-            trained_model_caret <- caret::train(
-                features_dat,
-                outcomes_vctr,
-                weights = case_weights,
-                method = method,
-                metric = perf_metric_name,
-                trControl = cv,
-                tuneGrid = tune_grid,
-                ntree = ntree
-            )
-        } else {
-            trained_model_caret <- caret::train(
-                features_dat,
-                outcomes_vctr,
-                weights = case_weights,
-                method = method,
-                metric = perf_metric_name,
-                trControl = cv,
-                tuneGrid = tune_grid,
-            )
-        }
+        trained_model_caret <- caret::train(
+            features_dat,
+            outcomes_vctr,
+            method = method,
+            metric = perf_metric_name,
+            trControl = cv,
+            tuneGrid = tune_grid,
+            ...
+        )
     },
     warning = function(w) {
         if (conditionMessage(w) == "There were missing values in resampled performance measures.") {

@@ -60,7 +60,8 @@ test_that("train_model works", {
     ),
     perf_metric_name = "AUC",
     tune_grid = tg_rf,
-    ntree = 1000
+    ntree = 1000,
+    weights = NULL
   )
   auc <- rf_model$results %>%
     dplyr::filter(mtry == rf_model$bestTune$mtry) %>%
@@ -75,9 +76,7 @@ test_that("train_model works", {
       method = "rpart2",
       cv = cv,
       perf_metric_name = "AUC",
-      tune_grid = tg_rpart2,
-      ntree = NULL,
-      case_weights = NULL
+      tune_grid = tg_rpart2
     )$bestTune$maxdepth,
     2
   )
@@ -97,7 +96,6 @@ test_that("train_model works", {
   ) %>% expect_warning("`caret::train\\(\\)` issued the following warning:")
 })
 
-
 test_that("case weights work", {
     case_weights_dat <- train_dat %>%
         dplyr::count(dx) %>%
@@ -115,7 +113,7 @@ test_that("case weights work", {
             perf_metric_name = "AUC",
             tune_grid = tg_lr,
             ntree = NULL,
-            case_weights = case_weights_vctr
+            weights = case_weights_vctr
             ),
     "`caret::train\\(\\)` issued the following warning:")
     model_weights <- lr_model_weighted$pred %>%
