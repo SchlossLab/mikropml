@@ -3,8 +3,7 @@
 #' @param model_formula Model formula, typically created with `stats::as.formula()`.
 #' @param train_data Training data. Expected to be a subset of the full dataset.
 #' @param cv Cross-validation caret scheme from `define_cv()`.
-#' @param tune_grid Tuning grid from `get_tuning_grid()`.
-#'
+#' @param tune_grid Tuning grid from `get_tuning_grid()`.#'
 #' @inheritParams run_ml
 #'
 #' @return Trained model from [caret::train()].
@@ -38,48 +37,51 @@
 #' )
 #' rf_model$results %>% dplyr::select(mtry, AUC, prAUC)
 #' }
-train_model <- function(model_formula,
-                        train_data,
+train_model <- function(features_dat,
+                        outcomes_vctr,
                         method,
                         cv,
                         perf_metric_name,
                         tune_grid,
-                        ntree) {
-  withCallingHandlers(
-    {
-      if (method == "rf") {
-        trained_model_caret <- caret::train(
-          model_formula,
-          data = train_data,
-          method = method,
-          trControl = cv,
-          metric = perf_metric_name,
-          tuneGrid = tune_grid,
-          ntree = ntree
-        )
-      } else {
-        trained_model_caret <- caret::train(
-          model_formula,
-          data = train_data,
-          method = method,
-          trControl = cv,
-          metric = perf_metric_name,
-          tuneGrid = tune_grid
-        )
-      }
+                        ntree = NULL,
+                        case_weights = NULL) {
+    withCallingHandlers({
+        if (method == 'rf') {
+            trained_model_caret <- caret::train(
+                features_dat,
+                outcomes_vctr,
+                weights = case_weights,
+                method = method,
+                metric = perf_metric_name,
+                trControl = cv,
+                tuneGrid = tune_grid,
+                ntree = ntree
+            )
+        } else {
+            trained_model_caret <- caret::train(
+                features_dat,
+                outcomes_vctr,
+                weights = case_weights,
+                method = method,
+                metric = perf_metric_name,
+                trControl = cv,
+                tuneGrid = tune_grid,
+            )
+        }
     },
     warning = function(w) {
-      if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
-        warning(
-          "`caret::train()` issued the following warning:\n \n", w, "\n",
-          "This warning usually means that the model didn't converge in some cross-validation folds ",
-          "because it is predicting something close to a constant. ",
-          "As a result, certain performance metrics can't be calculated. ",
-          "This suggests that some of the hyperparameters chosen are doing very poorly."
-        )
-        invokeRestart("muffleWarning")
-      }
-    }
-  )
-  return(trained_model_caret)
+        if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
+            warning(
+                "`caret::train()` issued the following warning:\n \n",
+                w,
+                "\n",
+                "This warning usually means that the model didn't converge in some cross-validation folds ",
+                "because it is predicting something close to a constant. ",
+                "As a result, certain performance metrics can't be calculated. ",
+                "This suggests that some of the hyperparameters chosen are doing very poorly."
+            )
+            invokeRestart("muffleWarning")
+        }
+    })
+    return(trained_model_caret)
 }
