@@ -64,11 +64,9 @@
 #'   cross-validation.
 #' @param corr_thresh For feature importance, group correlations
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
-#' @param ntree For random forest, how many trees to use (default: `1000`).
-#'   Note that caret doesn't allow this parameter to be tuned.
 #' @param ... All additional arguments are passed on to `caret::train()`, such as
-#'   case weights via the `weights` argument. See the `caret::train()` docs for
-#'   more details.
+#'   case weights via the `weights` argument or `ntree` for `rf` models.
+#'   See the `caret::train()` docs for more details.
 #'
 #'
 #' @return Named list with results:
@@ -128,7 +126,6 @@ run_ml <-
            groups = NULL,
            group_partitions = NULL,
            corr_thresh = 1,
-           ntree = 1000,
            seed = NA,
            ...) {
     check_all(
@@ -142,7 +139,6 @@ run_ml <-
       groups,
       group_partitions,
       corr_thresh,
-      ntree,
       seed
     )
     if (!is.na(seed)) {
@@ -162,7 +158,7 @@ run_ml <-
 
     dataset <- randomize_feature_order(dataset, outcome_colname)
 
-    outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname) %>% as.factor()
+    outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
 
     if (length(training_frac) == 1) {
       training_inds <- get_partition_indices(outcomes_vctr,
@@ -221,8 +217,11 @@ run_ml <-
       )
     }
 
-    features_train <- train_data %>% dplyr::select(-dx)
-    outcomes_train <- train_data %>% dplyr::pull(dx) %>% as.factor()
+    features_train <- train_data %>% dplyr::select(-outcome_colname)
+    outcomes_train <- train_data %>% dplyr::pull(outcome_colname)
+    if (is.character(outcomes_train)) {
+        outcomes_train <- outcomes_train %>% as.factor()
+    }
     message("Training the model...")
     trained_model_caret <- train_model(
       features_train,
@@ -231,7 +230,6 @@ run_ml <-
       cv = cross_val,
       perf_metric_name = perf_metric_name,
       tune_grid = tune_grid,
-      ntree = ntree,
       ...
     )
     message("Training complete.")
