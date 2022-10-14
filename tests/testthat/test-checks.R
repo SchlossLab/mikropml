@@ -163,7 +163,7 @@ test_that("check_all works", {
   expect_null(check_all(
     otu_small, "glmnet", TRUE, as.integer(5), 0.8,
     NULL, NULL, NULL,
-    NULL, NULL, NULL, NA
+    NULL, NULL, NA
   ))
 })
 
