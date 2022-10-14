@@ -28,9 +28,6 @@ tg_lr <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "glmnet"), "g
 
 train_dat <- otu_mini_bin_results_glmnet$trained_model$trainingData %>%
     dplyr::rename(dx = .outcome)
-split_dat <- split_outcome_features(train_dat, "dx")
-outcomes_vctr <- split_dat$outcome %>% dplyr::pull("dx") %>% as.factor()
-features_dat <- split_dat$features
 
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 cv <- define_cv(
@@ -47,8 +44,8 @@ test_that("train_model works", {
   skip_on_cran() # this functionality is already tested in test-run_ml.R
   set.seed(2019)
   rf_model <- train_model(
-    features_dat,
-    outcomes_vctr,
+    train_dat,
+    "dx",
     method = "rf",
     cv = define_cv(
         train_dat,
@@ -66,26 +63,13 @@ test_that("train_model works", {
   auc <- rf_model$results %>%
     dplyr::filter(mtry == rf_model$bestTune$mtry) %>%
     dplyr::pull(AUC)
-  expect_true(dplyr::near(auc, 0.68, tol = 10^-2))
+  expect_true(dplyr::near(auc, 0.671, tol = 10^-3))
 
   set.seed(2019)
   expect_equal(
     train_model(
-      features_dat,
-      outcomes_vctr,
-      method = "rpart2",
-      cv = cv,
-      perf_metric_name = "AUC",
-      tune_grid = tg_rpart2
-    )$bestTune$maxdepth,
-    2
-  )
-
-  set.seed(2019)
-  expect_equal(
-    train_model(
-      features_dat,
-      outcomes_vctr,
+      train_dat,
+      "dx",
       method = "glmnet",
       cv = cv,
       perf_metric_name = "AUC",
@@ -106,8 +90,8 @@ test_that("case weights work", {
         dplyr::pull(p)
     expect_warning(
         lr_model_weighted <- train_model(
-            features_dat,
-            outcomes_vctr,
+            train_dat,
+            "dx",
             method = "glmnet",
             cv = cv,
             perf_metric_name = "AUC",
@@ -119,8 +103,7 @@ test_that("case weights work", {
     model_weights <- lr_model_weighted$pred %>%
         dplyr::select(obs, weights) %>%
         dplyr::distinct() %>%
-        dplyr::rename(dx = obs, p = weights) %>%
-        dplyr::mutate(dx = as.character(dx))
+        dplyr::rename(dx = obs, p = weights)
 
     expect_true(dplyr::all_equal(model_weights,
                                  case_weights_dat))
