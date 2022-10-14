@@ -5,20 +5,16 @@
 \title{Train model using \code{\link[caret:train]{caret::train()}}.}
 \usage{
 train_model(
-  model_formula,
-  train_data,
+  features_dat,
+  outcomes_vctr,
   method,
   cv,
   perf_metric_name,
   tune_grid,
-  ntree
+  ...
 )
 }
 \arguments{
-\item{model_formula}{Model formula, typically created with \code{stats::as.formula()}.}
-
-\item{train_data}{Training data. Expected to be a subset of the full dataset.}
-
 \item{method}{ML method.
 Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
@@ -37,10 +33,15 @@ Defaults: binary classification = \code{"ROC"},
 multi-class classification = \code{"logLoss"},
 regression = \code{"RMSE"}.}
 
-\item{tune_grid}{Tuning grid from \code{get_tuning_grid()}.}
+\item{tune_grid}{Tuning grid from \code{get_tuning_grid()}.#'}
 
-\item{ntree}{For random forest, how many trees to use (default: \code{1000}).
-Note that caret doesn't allow this parameter to be tuned.}
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
+case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
+See the \code{caret::train()} docs for more details.}
+
+\item{model_formula}{Model formula, typically created with \code{stats::as.formula()}.}
+
+\item{train_data}{Training data. Expected to be a subset of the full dataset.}
 }
 \value{
 Trained model from \code{\link[caret:train]{caret::train()}}.
