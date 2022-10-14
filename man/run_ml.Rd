@@ -20,8 +20,8 @@ run_ml(
   groups = NULL,
   group_partitions = NULL,
   corr_thresh = 1,
-  ntree = 1000,
-  seed = NA
+  seed = NA,
+  ...
 )
 }
 \arguments{
@@ -97,11 +97,12 @@ cross-validation.}
 \item{corr_thresh}{For feature importance, group correlations
 above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
-\item{ntree}{For random forest, how many trees to use (default: \code{1000}).
-Note that caret doesn't allow this parameter to be tuned.}
-
 \item{seed}{Random seed (default: \code{NA}).
 Your results will only be reproducible if you set a seed.}
+
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
+case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
+See the \code{caret::train()} docs for more details.}
 }
 \value{
 Named list with results:

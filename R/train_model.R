@@ -1,10 +1,8 @@
 #' Train model using [caret::train()].
 #'
-#' @param model_formula Model formula, typically created with `stats::as.formula()`.
 #' @param train_data Training data. Expected to be a subset of the full dataset.
 #' @param cv Cross-validation caret scheme from `define_cv()`.
-#' @param tune_grid Tuning grid from `get_tuning_grid()`.
-#'
+#' @param tune_grid Tuning grid from `get_tuning_grid()`.#'
 #' @inheritParams run_ml
 #'
 #' @return Trained model from [caret::train()].
@@ -38,48 +36,56 @@
 #' )
 #' rf_model$results %>% dplyr::select(mtry, AUC, prAUC)
 #' }
-train_model <- function(model_formula,
-                        train_data,
+train_model <- function(train_data,
+                        outcome_colname,
                         method,
                         cv,
                         perf_metric_name,
                         tune_grid,
-                        ntree) {
-  withCallingHandlers(
-    {
-      if (method == "rf") {
-        trained_model_caret <- caret::train(
-          model_formula,
-          data = train_data,
-          method = method,
-          trControl = cv,
-          metric = perf_metric_name,
-          tuneGrid = tune_grid,
-          ntree = ntree
-        )
-      } else {
-        trained_model_caret <- caret::train(
-          model_formula,
-          data = train_data,
-          method = method,
-          trControl = cv,
-          metric = perf_metric_name,
-          tuneGrid = tune_grid
-        )
-      }
+                        ...) {
+    withCallingHandlers({
+        if (startsWith(method, 'svm')) {
+            # https://github.com/topepo/caret/issues/809#issuecomment-875038420
+            model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
+            trained_model_caret <- caret::train(
+                form = model_formula,
+                data = train_data,
+                method = method,
+                metric = perf_metric_name,
+                trControl = cv,
+                tuneGrid = tune_grid,
+                ...)
+        } else {
+            features_train <- train_data %>% dplyr::select(-outcome_colname)
+            outcomes_train <-
+                train_data %>% dplyr::pull(outcome_colname)
+            if (is.character(outcomes_train)) {
+                outcomes_train <- outcomes_train %>% as.factor()
+            }
+            trained_model_caret <- caret::train(
+                x = features_train,
+                y = outcomes_train,
+                method = method,
+                metric = perf_metric_name,
+                trControl = cv,
+                tuneGrid = tune_grid,
+                ...
+            )
+        }
     },
     warning = function(w) {
-      if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
-        warning(
-          "`caret::train()` issued the following warning:\n \n", w, "\n",
-          "This warning usually means that the model didn't converge in some cross-validation folds ",
-          "because it is predicting something close to a constant. ",
-          "As a result, certain performance metrics can't be calculated. ",
-          "This suggests that some of the hyperparameters chosen are doing very poorly."
-        )
-        invokeRestart("muffleWarning")
-      }
-    }
-  )
-  return(trained_model_caret)
+        if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
+            warning(
+                "`caret::train()` issued the following warning:\n \n",
+                w,
+                "\n",
+                "This warning usually means that the model didn't converge in some cross-validation folds ",
+                "because it is predicting something close to a constant. ",
+                "As a result, certain performance metrics can't be calculated. ",
+                "This suggests that some of the hyperparameters chosen are doing very poorly."
+            )
+            invokeRestart("muffleWarning")
+        }
+    })
+    return(trained_model_caret)
 }
