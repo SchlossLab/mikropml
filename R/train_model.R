@@ -1,6 +1,5 @@
 #' Train model using [caret::train()].
 #'
-#' @param model_formula Model formula, typically created with `stats::as.formula()`.
 #' @param train_data Training data. Expected to be a subset of the full dataset.
 #' @param cv Cross-validation caret scheme from `define_cv()`.
 #' @param tune_grid Tuning grid from `get_tuning_grid()`.#'
@@ -37,23 +36,42 @@
 #' )
 #' rf_model$results %>% dplyr::select(mtry, AUC, prAUC)
 #' }
-train_model <- function(features_dat,
-                        outcomes_vctr,
+train_model <- function(train_data,
+                        outcome_colname,
                         method,
                         cv,
                         perf_metric_name,
                         tune_grid,
                         ...) {
     withCallingHandlers({
-        trained_model_caret <- caret::train(
-            features_dat,
-            outcomes_vctr,
-            method = method,
-            metric = perf_metric_name,
-            trControl = cv,
-            tuneGrid = tune_grid,
-            ...
-        )
+        if (startsWith(method, 'svm')) {
+            # https://github.com/topepo/caret/issues/809#issuecomment-875038420
+            model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
+            trained_model_caret <- caret::train(
+                form = model_formula,
+                data = train_data,
+                method = method,
+                metric = perf_metric_name,
+                trControl = cv,
+                tuneGrid = tune_grid,
+                ...)
+        } else {
+            features_train <- train_data %>% dplyr::select(-outcome_colname)
+            outcomes_train <-
+                train_data %>% dplyr::pull(outcome_colname)
+            if (is.character(outcomes_train)) {
+                outcomes_train <- outcomes_train %>% as.factor()
+            }
+            trained_model_caret <- caret::train(
+                x = features_train,
+                y = outcomes_train,
+                method = method,
+                metric = perf_metric_name,
+                trControl = cv,
+                tuneGrid = tune_grid,
+                ...
+            )
+        }
     },
     warning = function(w) {
         if (conditionMessage(w) == "There were missing values in resampled performance measures.") {

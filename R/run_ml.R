@@ -217,15 +217,11 @@ run_ml <-
       )
     }
 
-    features_train <- train_data %>% dplyr::select(-outcome_colname)
-    outcomes_train <- train_data %>% dplyr::pull(outcome_colname)
-    if (is.character(outcomes_train)) {
-        outcomes_train <- outcomes_train %>% as.factor()
-    }
+
     message("Training the model...")
     trained_model_caret <- train_model(
-      features_train,
-      outcomes_train,
+      train_data = train_data,
+      outcome_colname = outcome_colname,
       method = method,
       cv = cross_val,
       perf_metric_name = perf_metric_name,
