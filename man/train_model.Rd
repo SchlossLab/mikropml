@@ -5,8 +5,8 @@
 \title{Train model using \code{\link[caret:train]{caret::train()}}.}
 \usage{
 train_model(
-  features_dat,
-  outcomes_vctr,
+  train_data,
+  outcome_colname,
   method,
   cv,
   perf_metric_name,
@@ -15,6 +15,11 @@ train_model(
 )
 }
 \arguments{
+\item{train_data}{Training data. Expected to be a subset of the full dataset.}
+
+\item{outcome_colname}{Column name as a string of the outcome variable
+(default \code{NULL}; the first column will be chosen automatically).}
+
 \item{method}{ML method.
 Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
@@ -38,10 +43,6 @@ regression = \code{"RMSE"}.}
 \item{...}{All additional arguments are passed on to \code{caret::train()}, such as
 case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
 See the \code{caret::train()} docs for more details.}
-
-\item{model_formula}{Model formula, typically created with \code{stats::as.formula()}.}
-
-\item{train_data}{Training data. Expected to be a subset of the full dataset.}
 }
 \value{
 Trained model from \code{\link[caret:train]{caret::train()}}.
