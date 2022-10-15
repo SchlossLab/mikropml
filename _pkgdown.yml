@@ -31,13 +31,13 @@ home:
     structure: [links, license, community, citation, authors, dev, custom]
     components:
       custom:
-        title:
+        title: Impact metrics
         text: >
-          **Impact metrics**
-
+          &nbsp;<br>
           <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
           <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
           <span class="__dimensions_badge_embed__" data-doi="10.21105/joss.03073" data-style="small_circle"></span>
+          &nbsp;<br>
           <div data-badge-type="donut" data-doi="10.21105/joss.03073" data-condensed="true" data-badge-popover="right"  class="altmetric-embed"></div>
 
 reference:
