@@ -1,5 +1,7 @@
-## code to prepare `otu_mini` dataset
 set.seed(2019)
+library(dplyr)
+
+## code to prepare `otu_mini` dataset
 otu_mini_bin <- otu_small[, 1:11]
 usethis::use_data(otu_mini_bin, overwrite = TRUE)
 

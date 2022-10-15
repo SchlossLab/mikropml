@@ -65,24 +65,25 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">train_model</span><span class="op">(</span></span>
-<span>  <span class="va">model_formula</span>,</span>
 <span>  <span class="va">train_data</span>,</span>
+<span>  <span class="va">outcome_colname</span>,</span>
 <span>  <span class="va">method</span>,</span>
 <span>  <span class="va">cv</span>,</span>
 <span>  <span class="va">perf_metric_name</span>,</span>
 <span>  <span class="va">tune_grid</span>,</span>
-<span>  <span class="va">ntree</span></span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>model_formula</dt>
-<dd><p>Model formula, typically created with <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">stats::as.formula()</a></code>.</p></dd>
-
-
-<dt>train_data</dt>
+    <dl><dt>train_data</dt>
 <dd><p>Training data. Expected to be a subset of the full dataset.</p></dd>
+
+
+<dt>outcome_colname</dt>
+<dd><p>Column name as a string of the outcome variable
+(default <code>NULL</code>; the first column will be chosen automatically).</p></dd>
 
 
 <dt>method</dt>
@@ -108,12 +109,13 @@ regression = <code>"RMSE"</code>.</p></dd>
 
 
 <dt>tune_grid</dt>
-<dd><p>Tuning grid from <code><a href="get_tuning_grid.html">get_tuning_grid()</a></code>.</p></dd>
+<dd><p>Tuning grid from <code><a href="get_tuning_grid.html">get_tuning_grid()</a></code>.#'</p></dd>
 
 
-<dt>ntree</dt>
-<dd><p>For random forest, how many trees to use (default: <code>1000</code>).
-Note that caret doesn't allow this parameter to be tuned.</p></dd>
+<dt>...</dt>
+<dd><p>All additional arguments are passed on to <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, such as
+case weights via the <code>weights</code> argument or <code>ntree</code> for <code>rf</code> models.
+See the <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code> docs for more details.</p></dd>
 
 </dl></div>
     <div class="section level2">

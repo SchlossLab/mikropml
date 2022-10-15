@@ -64,14 +64,18 @@
 #'   cross-validation.
 #' @param corr_thresh For feature importance, group correlations
 #'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
-#' @param ntree For random forest, how many trees to use (default: `1000`).
-#'   Note that caret doesn't allow this parameter to be tuned.
+#' @param ... All additional arguments are passed on to `caret::train()`, such as
+#'   case weights via the `weights` argument or `ntree` for `rf` models.
+#'   See the `caret::train()` docs for more details.
+#'
+#'
 #' @return Named list with results:
 #'
 #' - `trained_model`: Output of [caret::train()], including the best model.
 #' - `test_data`: Part of the data that was used for testing.
 #' - `performance`: Dataframe of performance metrics. The first column is the cross-validation performance metric, and the last two columns are the ML method used and the seed (if one was set), respectively. All other columns are performance metrics calculated on the test data. This contains only one row, so you can easily combine performance dataframes from multiple calls to `run_ml()` (see `vignette("parallel")`).
 #' - `feature_importance`: If feature importances were calculated, a dataframe where each row is a feature or correlated group. The columns are the performance metric of the permuted data, the difference between the true performance metric and the performance metric of the permuted data (true - permuted), the feature name, the ML method, the performance metric name, and the seed (if provided). For AUC and RMSE, the higher perf_metric_diff is, the more important that feature is for predicting the outcome. For log loss, the lower perf_metric_diff is, the more important that feature is for predicting the outcome.
+#'
 #'
 #' @section More details:
 #'
@@ -122,8 +126,8 @@ run_ml <-
            groups = NULL,
            group_partitions = NULL,
            corr_thresh = 1,
-           ntree = 1000,
-           seed = NA) {
+           seed = NA,
+           ...) {
     check_all(
       dataset,
       method,
@@ -135,7 +139,6 @@ run_ml <-
       groups,
       group_partitions,
       corr_thresh,
-      ntree,
       seed
     )
     if (!is.na(seed)) {
@@ -155,10 +158,10 @@ run_ml <-
 
     dataset <- randomize_feature_order(dataset, outcome_colname)
 
-    outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
+    outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
 
     if (length(training_frac) == 1) {
-      training_inds <- get_partition_indices(outcomes_vec,
+      training_inds <- get_partition_indices(outcomes_vctr,
         training_frac = training_frac,
         groups = groups,
         group_partitions = group_partitions
@@ -189,7 +192,7 @@ run_ml <-
     tune_grid <- get_tuning_grid(hyperparameters, method)
 
 
-    outcome_type <- get_outcome_type(outcomes_vec)
+    outcome_type <- get_outcome_type(outcomes_vctr)
     class_probs <- outcome_type != "continuous"
 
     if (is.null(perf_metric_function)) {
@@ -214,16 +217,16 @@ run_ml <-
       )
     }
 
-    model_formula <- stats::as.formula(paste(outcome_colname, "~ ."))
+
     message("Training the model...")
     trained_model_caret <- train_model(
-      model_formula,
-      train_data,
-      method,
-      cross_val,
-      perf_metric_name,
-      tune_grid,
-      ntree
+      train_data = train_data,
+      outcome_colname = outcome_colname,
+      method = method,
+      cv = cross_val,
+      perf_metric_name = perf_metric_name,
+      tune_grid = tune_grid,
+      ...
     )
     message("Training complete.")
     if (!is.na(seed)) {
