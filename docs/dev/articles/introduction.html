@@ -197,7 +197,7 @@
 <span><span class="co">#&gt;  [6] "bestTune"     "call"         "dots"         "metric"       "control"     </span></span>
 <span><span class="co">#&gt; [11] "finalModel"   "preProcess"   "trainingData" "ptype"        "resample"    </span></span>
 <span><span class="co">#&gt; [16] "resampledCM"  "perfNames"    "maximize"     "yLimits"      "times"       </span></span>
-<span><span class="co">#&gt; [21] "levels"       "terms"        "coefnames"    "xlevels"</span></span></code></pre></div>
+<span><span class="co">#&gt; [21] "levels"</span></span></code></pre></div>
 <p><code>test_data</code> is the partition of the dataset that was used for testing. In machine learning, it’s always important to have a held-out test dataset that is not used in the training stage. In this pipeline we do that using <code><a href="../reference/run_ml.html">run_ml()</a></code> where we split your data into training and testing sets. The training data are used to build the model (e.g. tune hyperparameters, learn the data) and the test data are used to evaluate how well the model performs.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">test_data</span><span class="op">)</span></span>
@@ -422,16 +422,16 @@
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span></span>
 <span><span class="co">#&gt;    perf_metric perf_metric_diff     pvalue    names method perf_metric_name</span></span>
-<span><span class="co">#&gt; 1    0.5542375        0.0082625 0.40594059 Otu00001     rf              AUC</span></span>
-<span><span class="co">#&gt; 2    0.5731750       -0.0106750 0.62376238 Otu00002     rf              AUC</span></span>
-<span><span class="co">#&gt; 3    0.5548750        0.0076250 0.43564356 Otu00003     rf              AUC</span></span>
-<span><span class="co">#&gt; 4    0.6414750       -0.0789750 0.99009901 Otu00004     rf              AUC</span></span>
-<span><span class="co">#&gt; 5    0.5049625        0.0575375 0.05940594 Otu00005     rf              AUC</span></span>
-<span><span class="co">#&gt; 6    0.5444500        0.0180500 0.19801980 Otu00006     rf              AUC</span></span>
-<span><span class="co">#&gt; 7    0.5417125        0.0207875 0.23762376 Otu00007     rf              AUC</span></span>
-<span><span class="co">#&gt; 8    0.5257750        0.0367250 0.08910891 Otu00008     rf              AUC</span></span>
-<span><span class="co">#&gt; 9    0.5395750        0.0229250 0.05940594 Otu00009     rf              AUC</span></span>
-<span><span class="co">#&gt; 10   0.4977625        0.0647375 0.05940594 Otu00010     rf              AUC</span></span>
+<span><span class="co">#&gt; 1    0.5459125        0.0003375 0.51485149 Otu00001     rf              AUC</span></span>
+<span><span class="co">#&gt; 2    0.5682625       -0.0220125 0.73267327 Otu00002     rf              AUC</span></span>
+<span><span class="co">#&gt; 3    0.5482875       -0.0020375 0.56435644 Otu00003     rf              AUC</span></span>
+<span><span class="co">#&gt; 4    0.6314375       -0.0851875 1.00000000 Otu00004     rf              AUC</span></span>
+<span><span class="co">#&gt; 5    0.4991750        0.0470750 0.08910891 Otu00005     rf              AUC</span></span>
+<span><span class="co">#&gt; 6    0.5364875        0.0097625 0.28712871 Otu00006     rf              AUC</span></span>
+<span><span class="co">#&gt; 7    0.5382875        0.0079625 0.39603960 Otu00007     rf              AUC</span></span>
+<span><span class="co">#&gt; 8    0.5160500        0.0302000 0.09900990 Otu00008     rf              AUC</span></span>
+<span><span class="co">#&gt; 9    0.5293375        0.0169125 0.17821782 Otu00009     rf              AUC</span></span>
+<span><span class="co">#&gt; 10   0.4976500        0.0486000 0.12871287 Otu00010     rf              AUC</span></span>
 <span><span class="co">#&gt;    seed</span></span>
 <span><span class="co">#&gt; 1  2019</span></span>
 <span><span class="co">#&gt; 2  2019</span></span>
