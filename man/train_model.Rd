@@ -66,13 +66,13 @@ cross_val <- define_cv(training_data,
 tune_grid <- get_tuning_grid(hyperparameters, method)
 
 rf_model <- train_model(
-  stats::as.formula(paste("dx", "~ .")),
   training_data,
+  "dx",
   method,
   cross_val,
   "AUC",
   tune_grid,
-  1000
+  ntree = 1000
 )
 rf_model$results \%>\% dplyr::select(mtry, AUC, prAUC)
 }
