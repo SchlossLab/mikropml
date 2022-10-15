@@ -98,8 +98,8 @@ See <code><a href="../articles/introduction.html">vignette('introduction')</a></
 <span>  groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  group_partitions <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  corr_thresh <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  ntree <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  seed <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  seed <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -205,14 +205,15 @@ cross-validation.</p></dd>
 above or equal to <code>corr_thresh</code> (range <code>0</code> to <code>1</code>; default: <code>1</code>).</p></dd>
 
 
-<dt>ntree</dt>
-<dd><p>For random forest, how many trees to use (default: <code>1000</code>).
-Note that caret doesn't allow this parameter to be tuned.</p></dd>
-
-
 <dt>seed</dt>
 <dd><p>Random seed (default: <code>NA</code>).
 Your results will only be reproducible if you set a seed.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>All additional arguments are passed on to <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, such as
+case weights via the <code>weights</code> argument or <code>ntree</code> for <code>rf</code> models.
+See the <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code> docs for more details.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -7,7 +7,7 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 check_all <- function(dataset, method, permute, kfold, training_frac,
                       perf_metric_function, perf_metric_name, groups,
-                      group_partitions, corr_thresh, ntree, seed) {
+                      group_partitions, corr_thresh, seed) {
   check_method(method)
   check_dataset(dataset)
   check_permute(permute)
@@ -17,7 +17,6 @@ check_all <- function(dataset, method, permute, kfold, training_frac,
   check_groups(dataset, groups, kfold)
   check_group_partitions(dataset, groups, group_partitions)
   check_corr_thresh(corr_thresh)
-  check_ntree(ntree)
   check_seed(seed)
 }
 
@@ -536,6 +535,7 @@ check_remove_var <- function(remove_var) {
 #' @examples
 #' check_ntree(NULL)
 check_ntree <- function(ntree) {
+  .Deprecated("The `ntree` parameter is no longer checked.")
   if (!is.null(ntree)) {
     if (!is.numeric(ntree) | length(ntree) > 1) {
       stop(paste0("`ntree` must be of length 1 and class numeric. You provided: ", class(ntree)))

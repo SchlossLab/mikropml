@@ -63,8 +63,8 @@ randomize_feature_order <- function(dataset, outcome_colname) {
     sample()
   dataset <- dplyr::select(
     dataset,
-    dplyr::one_of(outcome_colname),
-    dplyr::one_of(features_reordered)
+    dplyr::all_of(outcome_colname),
+    dplyr::all_of(features_reordered)
   )
   return(dataset)
 }
@@ -83,7 +83,7 @@ split_outcome_features <- function(dataset, outcome_colname) {
   check_dataset(dataset)
   check_outcome_column(dataset, outcome_colname, show_message = FALSE)
   # split outcome and features
-  outcome <- dataset %>% dplyr::select(outcome_colname)
+  outcome <- dataset %>% dplyr::select(dplyr::all_of(outcome_colname))
   features <- dataset %>% dplyr::select(!dplyr::matches(outcome_colname))
   return(list(outcome = outcome, features = features))
 }

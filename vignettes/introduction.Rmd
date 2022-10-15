@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 
 The goal of `mikropml` is to make supervised machine learning (ML) easy for you
 to run while implementing good practices for machine learning pipelines. All you
-need to run the ML pipeline is one function: `run_ml()`. We've selected sensible default
-arguments related to good practices [@topcuoglu_framework_2020;
+need to run the ML pipeline is one function: `run_ml()`. We've selected sensible
+default arguments related to good practices [@topcuoglu_framework_2020;
 @tang_democratizing_2020], but we allow you to change those arguments to tailor
 `run_ml()` to the needs of your data.
 
@@ -97,8 +97,8 @@ For documentation on these methods, as well as many others, you can look at the
 [here](https://topepo.github.io/caret/train-models-by-tag.html) for a list by
 tag). While we have not vetted the other models used by `caret`, our function is
 general enough that others might work. While we can't promise that we can help
-with other models, feel free to [open an issue on
-GitHub](https://github.com/SchlossLab/mikropml/issues) if you have questions
+with other models, feel free to [start a new discussion on
+GitHub]https://github.com/SchlossLab/mikropml/discussions) if you have questions
 about other models and we _might_ be able to help.
 
 We will first focus on `glmnet`, which is our default implementation of
@@ -243,6 +243,7 @@ observations in the dataset are chosen for the training set to satisfy the
 observations are in the training set. You can instead assign `training_frac` a
 vector of indices that correspond to which rows of the dataset should go in the
 training set (all remaining sequences will go in the testing set).
+Here's an example with ~80% of the data in the training set:
 
 ```{r custom_train_indices, warning=FALSE}
 n_obs <- otu_mini_bin %>% nrow()
@@ -388,6 +389,49 @@ If you need even more control than this, take a look at
 You might also prefer to  provide your own train control scheme with the
 `cross_val` parameter in `run_ml()`.
 
+## More arguments
+
+Some ML methods take optional arguments, such as `ntree` for
+`randomForest`-based models or 
+[case weights](https://topepo.github.io/caret/train-models-by-tag.html#Accepts_Case_Weights).
+Any additional arguments you give to `run_ml()` are forwarded along to
+`caret::train()` so you can leverage those options.
+
+### Case weights
+
+If you want to use case weights, you will also need to use custom indices
+for the training data (i.e. perform the partition before `run_ml(`) as 
+[above](#custom-training-indices)). Here's one way to do this with the weights
+calculated from the proportion of each class in the data set, with ~70% of the 
+data in the training set:
+
+```{r calc-case-weights, message = FALSE}
+library(dplyr)
+case_weights_dat <- otu_mini_bin %>%
+    count(dx) %>%
+    mutate(p = n / sum(n)) %>%
+    select(dx, p) %>% 
+    right_join(otu_mini_bin, by = 'dx') %>%
+    select(-starts_with("Otu")) %>% 
+    mutate(in_train = sample(c(TRUE, FALSE), size = nrow(otu_mini_bin), 
+                             replace = TRUE, prob = c(0.70, 0.30)),
+           row_num = row_number()) %>% 
+    filter(in_train)
+head(case_weights_dat)
+nrow(case_weights_dat) / nrow(otu_mini_bin)
+```
+
+```{r weighted-results, eval = FALSE}
+results_weighted <- run_ml(otu_mini_bin,
+                  'glmnet',
+                  outcome_colname = 'dx',
+                  seed = 2019,
+                  training_frac = case_weights_dat %>% pull(row_num),
+                  weights = case_weights_dat %>% pull(p))
+```
+
+See the caret docs for [a list of models that accept case weights](https://topepo.github.io/caret/train-models-by-tag.html#Accepts_Case_Weights).
+
 # Finding feature importance
 
 To find which features are contributing to predictive power, you can use
@@ -482,9 +526,9 @@ results_rf <- run_ml(otu_mini_bin,
                      seed = 2019)
 ```
 
-You can also change the number of trees to use for random forest 
-(`ntree`; default: 1000). 
-This can't be tuned using `rf` package implementation of random forest. 
+The `rf` engine takes an optional argument `ntree`: the number of trees to use 
+for random forest.
+This can't be tuned using the `rf` package implementation of random forest. 
 Please refer to `caret` documentation if you are interested in 
 other packages with random forest implementations.
 
@@ -492,7 +536,7 @@ other packages with random forest implementations.
 results_rf_nt <- run_ml(otu_mini_bin,
                         'rf',
                         cv_times = 5,
-                        ntree = 10,
+                        ntree = 1000,
                         seed = 2019)
 ```
 

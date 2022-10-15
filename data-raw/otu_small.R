@@ -66,21 +66,12 @@ class = "col_spec"
 
 set.seed(2019)
 
-trained_model_sm1 <- caret::train(
-  stats::as.formula(paste(outcome_colname, "~ .")),
-  data = train_data_sm,
-  method = "glmnet",
-  trControl = otu_sm_cv5,
-  metric = "ROC",
-  tuneGrid = get_tuning_grid(hparams_list, "glmnet"),
-)
-
-## code to prepare `otu_sm_results1`
-otu_sm_results1 <- mikropml::run_ml(otu_small,
-  "glmnet",
-  outcome_colname = outcome_colname,
+otu_large_bin_svmRadial <- mikropml::run_ml(
+  otu_small,
+  "svmRadial",
+  outcome_colname = "dx",
   find_feature_importance = FALSE,
-  kfold = 2,
+  kfold = 5,
   cv_times = 2,
   seed = 2019
 )
