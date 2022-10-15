@@ -9,8 +9,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
-#NOT_CRAN <- TRUE
+NOT_CRAN <- !identical(tolower(Sys.getenv("NOT_CRAN")), "false")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
