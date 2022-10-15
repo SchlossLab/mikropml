@@ -1,7 +1,7 @@
-This is a resubmission that fixes a check note about undefined global variables.
 
 ## Test environments
 
+* local macOS install: R 4.2.1
 * GitHub Actions (ubuntu-16.04): devel, release, oldrel
 * GitHub Actions (windows): release
 * GitHub Actions (macOS): release
@@ -45,8 +45,8 @@ Found the following (possibly) invalid DOIs:
     Message: 503
 ```
 
-This is a spurious note as these URLs work in my local browser, 
-and the DOI is correct.
+This is a spurious note as these URLs work in my local browser, and the DOIs are
+correct.
 
 ## revdepcheck results
 
