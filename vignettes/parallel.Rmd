@@ -52,6 +52,10 @@ otu_data_preproc <- preprocess_data(otu_mini_bin, 'dx')$dat_transformed
 result1 <- run_ml(otu_data_preproc, 'glmnet')
 ```
 
+There's a also a parallel version of the `rf` engine called `parRF` which trains
+the trees in the forest in parallel. See the [caret docs](https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest) 
+for more information.
+
 ## Call `run_ml()` multiple times in parallel in R
 
 You can use functions from the `future.apply` package to call `run_ml()`
