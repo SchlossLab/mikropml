@@ -67,11 +67,11 @@ class = "col_spec"
 set.seed(2019)
 
 otu_large_bin_svmRadial <- mikropml::run_ml(
-    otu_small,
-    'svmRadial',
-    outcome_colname = 'dx',
-    find_feature_importance = FALSE,
-    kfold = 5,
-    cv_times = 2,
-    seed = 2019
+  otu_small,
+  "svmRadial",
+  outcome_colname = "dx",
+  find_feature_importance = FALSE,
+  kfold = 5,
+  cv_times = 2,
+  seed = 2019
 )

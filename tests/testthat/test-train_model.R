@@ -27,17 +27,17 @@ tg_rf <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "rf"), "rf")
 tg_lr <- get_tuning_grid(get_hyperparams_from_df(test_hyperparams, "glmnet"), "glmnet")
 
 train_dat <- otu_mini_bin_results_glmnet$trained_model$trainingData %>%
-    dplyr::rename(dx = .outcome)
+  dplyr::rename(dx = .outcome)
 
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 cv <- define_cv(
-        train_dat,
-        "dx",
-        hparams_list,
-        perf_metric_function = caret::multiClassSummary,
-        class_probs = TRUE,
-        cv_times = 2
-    )
+  train_dat,
+  "dx",
+  hparams_list,
+  perf_metric_function = caret::multiClassSummary,
+  class_probs = TRUE,
+  cv_times = 2
+)
 
 
 test_that("train_model works", {
@@ -48,12 +48,12 @@ test_that("train_model works", {
     "dx",
     method = "rf",
     cv = define_cv(
-        train_dat,
-        "dx",
-        get_hyperparams_list(train_dat, "rf"),
-        perf_metric_function = caret::multiClassSummary,
-        class_probs = TRUE,
-        cv_times = 2
+      train_dat,
+      "dx",
+      get_hyperparams_list(train_dat, "rf"),
+      perf_metric_function = caret::multiClassSummary,
+      class_probs = TRUE,
+      cv_times = 2
     ),
     perf_metric_name = "AUC",
     tune_grid = tg_rf,
@@ -81,31 +81,34 @@ test_that("train_model works", {
 })
 
 test_that("case weights work", {
-    case_weights_dat <- train_dat %>%
-        dplyr::count(dx) %>%
-        dplyr::mutate(p = n / sum(n)) %>%
-        dplyr::select(dx, p)
-    case_weights_vctr <- train_dat %>%
-        dplyr::inner_join(case_weights_dat, by = 'dx') %>%
-        dplyr::pull(p)
-    expect_warning(
-        lr_model_weighted <- train_model(
-            train_dat,
-            "dx",
-            method = "glmnet",
-            cv = cv,
-            perf_metric_name = "AUC",
-            tune_grid = tg_lr,
-            ntree = NULL,
-            weights = case_weights_vctr
-            ),
-    "`caret::train\\(\\)` issued the following warning:")
-    model_weights <- lr_model_weighted$pred %>%
-        dplyr::select(obs, weights) %>%
-        dplyr::distinct() %>%
-        dplyr::rename(dx = obs, p = weights)
+  case_weights_dat <- train_dat %>%
+    dplyr::count(dx) %>%
+    dplyr::mutate(p = n / sum(n)) %>%
+    dplyr::select(dx, p)
+  case_weights_vctr <- train_dat %>%
+    dplyr::inner_join(case_weights_dat, by = "dx") %>%
+    dplyr::pull(p)
+  expect_warning(
+    lr_model_weighted <- train_model(
+      train_dat,
+      "dx",
+      method = "glmnet",
+      cv = cv,
+      perf_metric_name = "AUC",
+      tune_grid = tg_lr,
+      ntree = NULL,
+      weights = case_weights_vctr
+    ),
+    "`caret::train\\(\\)` issued the following warning:"
+  )
+  model_weights <- lr_model_weighted$pred %>%
+    dplyr::select(obs, weights) %>%
+    dplyr::distinct() %>%
+    dplyr::rename(dx = obs, p = weights)
 
-    expect_true(dplyr::all_equal(model_weights,
-                                 case_weights_dat))
-    expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
+  expect_true(dplyr::all_equal(
+    model_weights,
+    case_weights_dat
+  ))
+  expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })

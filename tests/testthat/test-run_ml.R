@@ -277,37 +277,37 @@ test_that("models use repeatedcv", {
 })
 
 test_that("models use case weights when provided", {
-    skip_on_cran()
-    set.seed(20221014)
-    case_weights_dat <- otu_mini_bin %>%
-        count(dx) %>%
-        mutate(p = n / sum(n)) %>%
-        select(dx, p)
-    train_weights <- otu_mini_bin %>%
-        inner_join(case_weights_dat, by = 'dx') %>%
-        mutate(
-            in_train = sample(
-                c(TRUE, FALSE),
-                size = nrow(otu_mini_bin),
-                replace = TRUE,
-                prob = c(0.8, 0.2)
-            ),
-            row_num = row_number()
-        ) %>%
-        filter(in_train) %>%
-        select(p, row_num)
-    expect_warning(
-        results_custom_train <- run_ml(
-            otu_mini_bin,
-            "glmnet",
-            kfold = 2,
-            cv_times = 5,
-            training_frac = train_weights %>% pull(row_num),
-            seed = 20221014,
-            weights = train_weights %>% pull(p)
-        ),
-        "simpleWarning in nominalTrainWorkflow"
-    )
-    expect_true("weights" %in% colnames(results_custom_train$trained_model$pred))
-    expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
+  skip_on_cran()
+  set.seed(20221014)
+  case_weights_dat <- otu_mini_bin %>%
+    count(dx) %>%
+    mutate(p = n / sum(n)) %>%
+    select(dx, p)
+  train_weights <- otu_mini_bin %>%
+    inner_join(case_weights_dat, by = "dx") %>%
+    mutate(
+      in_train = sample(
+        c(TRUE, FALSE),
+        size = nrow(otu_mini_bin),
+        replace = TRUE,
+        prob = c(0.8, 0.2)
+      ),
+      row_num = row_number()
+    ) %>%
+    filter(in_train) %>%
+    select(p, row_num)
+  expect_warning(
+    results_custom_train <- run_ml(
+      otu_mini_bin,
+      "glmnet",
+      kfold = 2,
+      cv_times = 5,
+      training_frac = train_weights %>% pull(row_num),
+      seed = 20221014,
+      weights = train_weights %>% pull(p)
+    ),
+    "simpleWarning in nominalTrainWorkflow"
+  )
+  expect_true("weights" %in% colnames(results_custom_train$trained_model$pred))
+  expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })

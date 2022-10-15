@@ -106,4 +106,3 @@ otu_mini_bin_results_rpart2 <- mikropml::run_ml(otu_mini_bin,
   cv_times = 2
 )
 usethis::use_data(otu_mini_bin_results_rpart2, overwrite = TRUE)
-
