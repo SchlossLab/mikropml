@@ -57,23 +57,24 @@ test_that("get_corr_feats works", {
   ) %>%
     expect_warning("deprecated") %>%
     expect_warning("deprecated")
-  expect_equal(get_corr_feats(data.frame(
-    a = c(1, 1, 0, 0),
-    b = c(1, 1, 0, 0),
-    c = c(0, 0, 1, 1)
-  )),
-  structure(list(
-    feature1 = c("a", "a", "b"), feature2 = c(
-      "b",
-      "c", "c"
-    ),
-    corr = c(1, -1, -1)
-  ), class = "data.frame", row.names = c(
-    NA,
-    -3L
-  )),
-  tolerance = tol,
-  ignore_attr = TRUE
+  expect_equal(
+    get_corr_feats(data.frame(
+      a = c(1, 1, 0, 0),
+      b = c(1, 1, 0, 0),
+      c = c(0, 0, 1, 1)
+    )),
+    structure(list(
+      feature1 = c("a", "a", "b"), feature2 = c(
+        "b",
+        "c", "c"
+      ),
+      corr = c(1, -1, -1)
+    ), class = "data.frame", row.names = c(
+      NA,
+      -3L
+    )),
+    tolerance = tol,
+    ignore_attr = TRUE
   ) %>%
     expect_warning("deprecated") %>%
     expect_warning("deprecated")
@@ -104,13 +105,14 @@ test_that("group_correlated_features works", {
     c("a", "b")
   )
   expect_equal(
-    group_correlated_features(data.frame(
-      a = c(1, 0, 0),
-      b = c(3, 2, 4),
-      c = c(1, 3, 4)
-    ),
-    corr_thresh = 0.9,
-    corr_method = "pearson"
+    group_correlated_features(
+      data.frame(
+        a = c(1, 0, 0),
+        b = c(3, 2, 4),
+        c = c(1, 3, 4)
+      ),
+      corr_thresh = 0.9,
+      corr_method = "pearson"
     ),
     c("a|c", "b")
   )
@@ -148,18 +150,19 @@ test_that("correlation clustering helper functions work", {
     a = 1:3, b = 2:4, c = c(1, 0, 1),
     d = (5:7), e = c(5, 1, 4)
   )
-  corr_mat <- matrix(c(
-    1, 1, 0, 1, 0,
-    1, 1, 0, 1, 0,
-    0, 0, 1, 0, 0,
-    1, 1, 0, 1, 0,
-    0, 0, 0, 0, 1
-  ),
-  nrow = 5, ncol = 5,
-  dimnames = list(
-    c("a", "b", "c", "d", "e"),
-    c("a", "b", "c", "d", "e")
-  )
+  corr_mat <- matrix(
+    c(
+      1, 1, 0, 1, 0,
+      1, 1, 0, 1, 0,
+      0, 0, 1, 0, 0,
+      1, 1, 0, 1, 0,
+      0, 0, 0, 0, 1
+    ),
+    nrow = 5, ncol = 5,
+    dimnames = list(
+      c("a", "b", "c", "d", "e"),
+      c("a", "b", "c", "d", "e")
+    )
   )
   expect_equal(
     get_binary_corr_mat(features),
