@@ -137,6 +137,10 @@ test_that("get_hyperparams_list works for all models", {
     )
   )
 })
+test_that('parRF and rf use same default hyperparameters', {
+    expect_equal(get_hyperparams_list(otu_mini_bin, 'rf'),
+                 get_hyperparams_list(otu_mini_bin, 'parRF'))
+})
 test_that("get_hyperparams_list throws error for unsupported method", {
   expect_error(
     get_hyperparams_list(otu_mini_bin, "not_a_method"),

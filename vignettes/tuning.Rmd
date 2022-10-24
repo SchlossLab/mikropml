@@ -177,7 +177,7 @@ mikropml:::set_hparams_glmnet()
 
 ### Random forest
 
-When we run `rf` we are using the the `randomForest` package implementation.
+When we run `rf` or `parRF`, we are using the the `randomForest` package implementation.
 We are tuning the `mtry` hyperparameter. 
 This is the number of features that are randomly collected to be sampled at each tree node. 
 This number needs to be less than the number of features in the dataset.
@@ -193,7 +193,7 @@ For example if the number of features is 1000:
 mikropml:::set_hparams_rf(1000)
 ```
 
-Similar to `glmnet` method, we can provide our own `mtry` range.
+Similar to the `glmnet` method, we can provide our own `mtry` range.
 
 ### Decision tree
 
@@ -246,4 +246,24 @@ named list of hyperparameters to `run_ml()`.
 
 ```{r, echo = FALSE}
 mikropml:::set_hparams_xgbTree(1000)
+```
+
+## Other ML methods
+
+While the above ML methods are those that we have tested and set default
+hyperparameters for, in theory you may be able use other methods supported by
+caret with `run_ml()`. Take a look at the [available models in
+caret](https://topepo.github.io/caret/available-models.html) (or see
+[here](https://topepo.github.io/caret/train-models-by-tag.html) for a list by
+tag). You will need to give `run_ml()` your own custom hyperparameters just like
+in the examples above:
+
+```{r rfRules, eval = FALSE}
+run_ml(otu_mini_bin,
+       'regLogistic',
+       hyperparameters = list(
+           cost = 10 ^ seq(-4, 1, 1),
+           epsilon = c(0.01),
+           loss = c("L2_primal")
+       ))
 ```

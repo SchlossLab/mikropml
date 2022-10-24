@@ -1,5 +1,8 @@
 # mikropml development version
 
+- You can now use `parRF`, a parallel implementation of the `rf` method, with
+  the same default hyperparameters as `rf` set automatically.
+
 # mikropml 1.4.0
 
 - Extra arguments given to `run_ml()` are now forwarded to `caret::train()` (#304, @kelly-sovacool).

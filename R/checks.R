@@ -7,8 +7,8 @@
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 check_all <- function(dataset, method, permute, kfold, training_frac,
                       perf_metric_function, perf_metric_name, groups,
-                      group_partitions, corr_thresh, seed) {
-  check_method(method)
+                      group_partitions, corr_thresh, seed, hyperparameters) {
+  check_method(method, hyperparameters)
   check_dataset(dataset)
   check_permute(permute)
   check_kfold(kfold, dataset)
@@ -54,14 +54,17 @@ check_dataset <- function(dataset) {
 #'
 #' @examples
 #' check_method("rf")
-check_method <- function(method) {
+check_method <- function(method, hyperparameters) {
   methods <- c("glmnet", "svmRadial", "rpart2", "rf", "xgbTree")
-  if (!(method %in% methods)) {
-    warning(paste0(
+  if (!(method %in% methods) & is.null(hyperparameters)) {
+    stop(paste0(
       "Method '",
       method,
-      "' is not officially supported by mikropml. However, this method might work in our pipeline. You can use the caret documentation to see what hyperparameters are required. Supported methods are:\n    ",
-      paste(methods, collapse = ", ")
+      "' is not officially supported by mikropml. ",
+      "This ML method may work in our pipeline, ",
+      "but you will have to give your own hyperparameters to `run_ml()`. ",
+      "See our vignette on tuning hyperparameters for more information: ",
+      "http://www.schlosslab.org/mikropml/articles/tuning.html"
     ))
   }
 }
