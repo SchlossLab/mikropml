@@ -169,9 +169,7 @@ test_that("run_ml errors for unsupported method", {
     otu_small,
     "not_a_method"
   ) %>%
-    expect_warning("Method 'not_a_method' is not officially supported by mikropml") %>%
-    expect_error("method 'not_a_method' is not supported.") %>%
-    suppressMessages()
+    expect_error("Method 'not_a_method' is not officially supported by mikropml")
 })
 
 test_that("run_ml errors if outcome_colname not in dataframe", {
