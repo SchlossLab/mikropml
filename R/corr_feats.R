@@ -93,10 +93,11 @@ cluster_corr_mat <- function(bin_corr_mat,
   if (identical(dist_mat, numeric(0))) {
     stop("The correlation matrix contains nothing. Hint: is the features data frame empty?")
   }
-  return(stats::cutree(stats::hclust(dist_mat,
-    method = hclust_method
-  ),
-  h = cut_height
+  return(stats::cutree(
+    stats::hclust(dist_mat,
+      method = hclust_method
+    ),
+    h = cut_height
   ))
 }
 

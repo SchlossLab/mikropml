@@ -28,8 +28,8 @@ and all of the other columns are the features.
 We package `otu_mini_bin` as a small example dataset with `mikropml`.
 
 ```{r}
-#install.packages("devtools")
-#devtools::install_github("SchlossLab/mikropml")
+# install.packages("devtools")
+# devtools::install_github("SchlossLab/mikropml")
 library(mikropml)
 head(otu_mini_bin)
 ```
@@ -38,8 +38,10 @@ Before we train and evaluate a ML model, we can preprocess the data.
 You can learn more about this in the preprocessing vignette: `vignette("preprocess")`.
 
 ```{r}
-preproc <- preprocess_data(dataset = otu_mini_bin,
-                           outcome_colname = 'dx')
+preproc <- preprocess_data(
+  dataset = otu_mini_bin,
+  outcome_colname = "dx"
+)
 dat <- preproc$dat_transformed
 ```
 
@@ -56,10 +58,11 @@ Say we want to run L2 regularized logistic regression. We do this with:
 
 ```{r, warning = FALSE}
 results <- run_ml(dat,
-                  'glmnet',
-                  outcome_colname = 'dx',
-                  cv_times = 100, 
-                  seed = 2019)
+  "glmnet",
+  outcome_colname = "dx",
+  cv_times = 100,
+  seed = 2019
+)
 ```
 
 You'll probably get a warning when you run this because the dataset is very small. If you want to learn more about that, check out the introductory vignette about training and evaluating a ML model: `vignette("introduction")`.
@@ -93,8 +96,10 @@ We don't want to use the defaults but provide our own named list with new values
 For example:
 
 ```{r}
-new_hp <- list(alpha = 1, 
-               lambda = c(0.00001, 0.0001, 0.001, 0.01, 0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06, 0.1))
+new_hp <- list(
+  alpha = 1,
+  lambda = c(0.00001, 0.0001, 0.001, 0.01, 0.015, 0.02, 0.025, 0.03, 0.04, 0.05, 0.06, 0.1)
+)
 new_hp
 ```
 
@@ -102,12 +107,12 @@ Now let's run L2 logistic regression with the new `lambda` values:
 
 ```{r, warning = FALSE}
 results <- run_ml(dat,
-                  'glmnet',
-                  outcome_colname = 'dx',
-                  cv_times = 100,
-                  hyperparameters = new_hp,
-                  seed = 2019
-                  )
+  "glmnet",
+  outcome_colname = "dx",
+  cv_times = 100,
+  hyperparameters = new_hp,
+  seed = 2019
+)
 results$trained_model
 ```
 
@@ -126,8 +131,8 @@ We can then use `plot_hp_performance` to see which `lambda` gives us the largest
 
 ```{r, warning = FALSE}
 results <- lapply(seq(100, 102), function(seed) {
-   run_ml(dat, "glmnet", seed = seed, hyperparameters = new_hp)
- })
+  run_ml(dat, "glmnet", seed = seed, hyperparameters = new_hp)
+})
 models <- lapply(results, function(x) x$trained_model)
 hp_metrics <- combine_hp_performance(models)
 plot_hp_performance(hp_metrics$dat, lambda, AUC)
@@ -151,9 +156,9 @@ You can see which default hyperparameters would be used for your dataset with `g
 Here are a few examples with built-in datasets we provide:
 
 ```{r}
-get_hyperparams_list(otu_mini_bin, 'glmnet')
-get_hyperparams_list(otu_mini_bin, 'rf')
-get_hyperparams_list(otu_small, 'rf')
+get_hyperparams_list(otu_mini_bin, "glmnet")
+get_hyperparams_list(otu_mini_bin, "rf")
+get_hyperparams_list(otu_small, "rf")
 ```
 
 Here are the hyperparameters that are tuned for each of the modeling methods.
@@ -260,10 +265,11 @@ in the examples above:
 
 ```{r rfRules, eval = FALSE}
 run_ml(otu_mini_bin,
-       'regLogistic',
-       hyperparameters = list(
-           cost = 10 ^ seq(-4, 1, 1),
-           epsilon = c(0.01),
-           loss = c("L2_primal")
-       ))
+  "regLogistic",
+  hyperparameters = list(
+    cost = 10^seq(-4, 1, 1),
+    epsilon = c(0.01),
+    loss = c("L2_primal")
+  )
+)
 ```
