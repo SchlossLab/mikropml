@@ -47,8 +47,8 @@ After registering a future plan, you can call `preprocess_data()` and `run_ml()`
 as usual, and they will run certain tasks in parallel.
 
 ```{r run_single}
-otu_data_preproc <- preprocess_data(otu_mini_bin, 'dx')$dat_transformed
-result1 <- run_ml(otu_data_preproc, 'glmnet')
+otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")$dat_transformed
+result1 <- run_ml(otu_data_preproc, "glmnet")
 ```
 
 There's a also a parallel version of the `rf` engine called `parRF` which trains
@@ -65,8 +65,8 @@ multiple seeds using `future_lapply()`:
 ```{r multi_seeds}
 # NOTE: use more seeds for real-world data
 results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
-  run_ml(otu_data_preproc, 'glmnet', seed = seed)
-  }, future.seed = TRUE)
+  run_ml(otu_data_preproc, "glmnet", seed = seed)
+}, future.seed = TRUE)
 ```
 
 Each call to `run_ml()` with a different seed uses a different random split of
@@ -87,12 +87,13 @@ versions of the `purrr::map()` functions using the `furrr` package (e.g.
 Extract the performance results and combine into one dataframe for all seeds:
 
 ```{r bind_multi_seeds}
-perf_df <- future.apply::future_lapply(results_multi, 
-                                       function(result) {
-                                         result[['performance']] %>% 
-                                           select(cv_metric_AUC, AUC, method)
-                                         },
-                                       future.seed = TRUE) %>% 
+perf_df <- future.apply::future_lapply(results_multi,
+  function(result) {
+    result[["performance"]] %>%
+      select(cv_metric_AUC, AUC, method)
+  },
+  future.seed = TRUE
+) %>%
   dplyr::bind_rows()
 perf_df
 ```
@@ -105,25 +106,29 @@ way:
 
 ```{r multi_methods_seeds}
 # NOTE: use more seeds for real-world data
-param_grid <- expand.grid(seeds = seq(100, 102),
-                          methods = c('glmnet', 'rf'))
+param_grid <- expand.grid(
+  seeds = seq(100, 102),
+  methods = c("glmnet", "rf")
+)
 results_mtx <- future.apply::future_mapply(
-    function(seed, method) {
-      run_ml(otu_data_preproc, method, seed = seed)
-      },
-    param_grid$seeds,
-    param_grid$methods %>% as.character(),
-    future.seed = TRUE
-  )
+  function(seed, method) {
+    run_ml(otu_data_preproc, method, seed = seed)
+  },
+  param_grid$seeds,
+  param_grid$methods %>% as.character(),
+  future.seed = TRUE
+)
 ```
 
 Extract and combine the performance results for all seeds and methods:
 
 ```{r bind_multi_methods}
-perf_df2 <- lapply(results_mtx['performance',], 
-                   function(x) {
-                     x %>% select(cv_metric_AUC, AUC, method)
-                   }) %>% 
+perf_df2 <- lapply(
+  results_mtx["performance", ],
+  function(x) {
+    x %>% select(cv_metric_AUC, AUC, method)
+  }
+) %>%
   dplyr::bind_rows()
 perf_df2
 ```
@@ -140,9 +145,9 @@ You can add layers to customize the plot:
 
 ```{r customize_plot}
 perf_boxplot +
-   theme_classic() +
-   scale_color_brewer(palette = "Dark2") +
-   coord_flip()
+  theme_classic() +
+  scale_color_brewer(palette = "Dark2") +
+  coord_flip()
 ```
 
 You can also create your own plots however you like using the performance
@@ -157,19 +162,22 @@ recommend using a progress bar like this:
 ```{r progress, eval = FALSE}
 # optionally, specify the progress bar format with the `progress` package.
 progressr::handlers(progressr::handler_progress(
-    format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
-    clear = FALSE,
-    show_after = 0))
+  format = ":message :bar :percent | elapsed: :elapsed | eta: :eta",
+  clear = FALSE,
+  show_after = 0
+))
 # tell progressr to always report progress in any functions that use it.
 # set this to FALSE to turn it back off again.
 progressr::handlers(global = TRUE)
 
 # run your code and watch the live progress updates.
-dat <- preprocess_data(otu_mini_bin, 'dx')$dat_transformed
+dat <- preprocess_data(otu_mini_bin, "dx")$dat_transformed
 #> Using 'dx' as the outcome column.
 #> preprocessing ========================>-------  78% | elapsed:  1s | eta:  0s
-results <- run_ml(dat, "glmnet", kfold = 2, cv_times = 2,
-                  find_feature_importance = TRUE)
+results <- run_ml(dat, "glmnet",
+  kfold = 2, cv_times = 2,
+  find_feature_importance = TRUE
+)
 #> Using 'dx' as the outcome column.
 #> Training the model...
 #> Training complete.

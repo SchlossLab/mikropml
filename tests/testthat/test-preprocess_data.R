@@ -562,12 +562,13 @@ test_that("collapse_correlated_features works", {
   expect_equal(
     collapse_correlated_features(dplyr::as_tibble(test_df[1:3, c(2, 5, 9, 11)])),
     list(
-      features = structure(list(
-        var1 = 1:3, var10 = c(1, 0, NA),
-        var4 = c(0, 1, 0), var8 = c(5, 6, NA)
-      ),
-      row.names = c(NA, -3L),
-      class = c("tbl_df", "tbl", "data.frame")
+      features = structure(
+        list(
+          var1 = 1:3, var10 = c(1, 0, NA),
+          var4 = c(0, 1, 0), var8 = c(5, 6, NA)
+        ),
+        row.names = c(NA, -3L),
+        class = c("tbl_df", "tbl", "data.frame")
       ),
       grp_feats = NULL
     )
@@ -607,12 +608,13 @@ test_that("remove_singleton_columns works", {
     )
   ) %>% suppressMessages()
   expect_equal(
-    remove_singleton_columns(data.frame(
-      a = 1:3,
-      b = c(0, 1, NA),
-      c = 4:6
-    ),
-    threshold = 0
+    remove_singleton_columns(
+      data.frame(
+        a = 1:3,
+        b = c(0, 1, NA),
+        c = 4:6
+      ),
+      threshold = 0
     ),
     list(
       dat = data.frame(
