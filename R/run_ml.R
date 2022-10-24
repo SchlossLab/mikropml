@@ -139,7 +139,8 @@ run_ml <-
       groups,
       group_partitions,
       corr_thresh,
-      seed
+      seed,
+      hyperparameters
     )
     if (!is.na(seed)) {
       set.seed(seed)
