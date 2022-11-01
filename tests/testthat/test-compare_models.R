@@ -20,13 +20,14 @@ test_that("get_difference works", {
 # shuffle_group
 test_that("shuffle_group works", {
   set.seed(2022)
-  df <- structure(list(
-    condition = c("a", "a", "b", "b"),
-    AUC = c(0.2, 0.3, 0.8, 0.9)
-  ),
-  .Names = c("condition", "AUC"),
-  row.names = c(NA, -4L),
-  class = "data.frame"
+  df <- structure(
+    list(
+      condition = c("a", "a", "b", "b"),
+      AUC = c(0.2, 0.3, 0.8, 0.9)
+    ),
+    .Names = c("condition", "AUC"),
+    row.names = c(NA, -4L),
+    class = "data.frame"
   )
   expect_equal(
     shuffle_group(df, "condition"),
@@ -41,13 +42,14 @@ test_that("shuffle_group works", {
 # permute_p_value
 test_that("permute_p_value works", {
   set.seed(2022)
-  df <- structure(list(
-    model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
-    AUC = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
-  ),
-  .Names = c("model", "AUC"),
-  row.names = c(NA, -6L),
-  class = "data.frame"
+  df <- structure(
+    list(
+      model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
+      AUC = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
+    ),
+    .Names = c("model", "AUC"),
+    row.names = c(NA, -6L),
+    class = "data.frame"
   )
   expect_equal(
     permute_p_value(df, "AUC", "model", "rf", "glmnet", nperm = 99),
@@ -74,24 +76,26 @@ test_that("permute_p_value works", {
 # compare_models
 test_that("compare_models works", {
   set.seed(2022)
-  df <- structure(list(
-    model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
-    AUC = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
-  ),
-  .Names = c("model", "AUC"),
-  row.names = c(NA, -6L),
-  class = "data.frame"
+  df <- structure(
+    list(
+      model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
+      AUC = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
+    ),
+    .Names = c("model", "AUC"),
+    row.names = c(NA, -6L),
+    class = "data.frame"
   )
   expect_equal(
     compare_models(df, "AUC", "model", 10),
-    structure(list(
-      group1 = c("glmnet", "rf", "rf"),
-      group2 = c("svmRadial", "glmnet", "svmRadial"),
-      p_value = c(1, 1, 1)
-    ),
-    .Names = c("group1", "group2", "p_value"),
-    row.names = c(NA, -3L),
-    class = "data.frame"
+    structure(
+      list(
+        group1 = c("glmnet", "rf", "rf"),
+        group2 = c("svmRadial", "glmnet", "svmRadial"),
+        p_value = c(1, 1, 1)
+      ),
+      .Names = c("group1", "group2", "p_value"),
+      row.names = c(NA, -3L),
+      class = "data.frame"
     )
   )
   expect_error(

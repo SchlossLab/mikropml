@@ -205,7 +205,6 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       class_probs, feat,
                                       test_perf_value,
                                       nperms = 100, progbar = NULL) {
-
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
   # but for now this is a temporary fix.

@@ -32,10 +32,11 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
     )
     message("Groups will be kept together in CV partitions")
   } else {
-    cvIndex <- caret::createMultiFolds(factor(train_data %>%
-      dplyr::pull(outcome_colname)),
-    kfold,
-    times = cv_times
+    cvIndex <- caret::createMultiFolds(
+      factor(train_data %>%
+        dplyr::pull(outcome_colname)),
+      kfold,
+      times = cv_times
     )
     if (!is.null(groups)) {
       message("Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`")

@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.4.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,8 @@
 
 
 
-<script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Introduction to mikropml</h1>
                         <h4 data-toc-skip class="author">Zena Lapp</h4>
@@ -121,8 +122,8 @@
 </h3>
 <p>The input data to <code><a href="../reference/run_ml.html">run_ml()</a></code> is a dataframe where each row is a sample or observation. One column (assumed to be the first) is the outcome of interest, and all of the other columns are the features. We package <code>otu_mini_bin</code> as a small example dataset with <code>mikropml</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#install.packages("devtools")</span></span>
-<span><span class="co">#devtools::install_github("SchlossLab/mikropml")</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="co"># devtools::install_github("SchlossLab/mikropml")</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.schlosslab.org/mikropml/" class="external-link">mikropml</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       dx Otu00001 Otu00002 Otu00003 Otu00004 Otu00005 Otu00006 Otu00007</span></span>
@@ -176,9 +177,10 @@
 <p>Say we want to use logistic regression, then the method we will use is <code>glmnet</code>. To do so, run the ML pipeline with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                  <span class="st">'glmnet'</span>,</span>
-<span>                  outcome_colname <span class="op">=</span> <span class="st">'dx'</span>,</span>
-<span>                  seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>You’ll notice a few things:</p>
 <ol style="list-style-type: decimal">
 <li>It takes a little while to run. This is because of some of the parameters we use.</li>
@@ -252,11 +254,12 @@
 <p>Here’s an example where we change some of the default parameters:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                         <span class="st">'glmnet'</span>,</span>
-<span>                         kfold <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                         cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                         training_frac <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>                         seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  kfold <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Loading required package: ggplot2</span></span>
@@ -282,12 +285,12 @@
 <span><span class="va">training_size</span> <span class="op">&lt;-</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="va">n_obs</span></span>
 <span><span class="va">training_rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="va">training_size</span><span class="op">)</span></span>
 <span><span class="va">results_custom_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                               <span class="st">'glmnet'</span>,</span>
-<span>                               kfold <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                               cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                               training_frac <span class="op">=</span> <span class="va">training_rows</span>,</span>
-<span>                               seed <span class="op">=</span> <span class="fl">2019</span></span>
-<span>                               <span class="op">)</span></span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  kfold <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="va">training_rows</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Using the custom training set indices provided by `training_frac`.</span></span>
 <span><span class="co">#&gt;       The fraction of data in the training set will be 0.8</span></span>
@@ -312,11 +315,12 @@
 <pre><code><span><span class="co">#&gt; [1] "RMSE"     "Rsquared" "MAE"</span></span></code></pre>
 <p>Here’s an example using prAUC instead of AUC:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results_pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, </span>
-<span>                     <span class="st">'glmnet'</span>, </span>
-<span>                     cv_times <span class="op">=</span> <span class="fl">5</span>, </span>
-<span>                     perf_metric_name <span class="op">=</span> <span class="st">'prAUC'</span>, </span>
-<span>                     seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results_pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  perf_metric_name <span class="op">=</span> <span class="st">"prAUC"</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Warning in (function (w) : `caret::train()` issued the following warning:</span></span>
@@ -345,13 +349,14 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># make random groups</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span></span>
-<span><span class="va">grps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">results_grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, </span>
-<span>                      <span class="st">'glmnet'</span>, </span>
-<span>                      cv_times <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>                      training_frac <span class="op">=</span> <span class="fl">0.8</span>, </span>
-<span>                      groups <span class="op">=</span> <span class="va">grps</span>, </span>
-<span>                      seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
+<span><span class="va">grps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">results_grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  groups <span class="op">=</span> <span class="va">grps</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Fraction of data in the training set: 0.795 </span></span>
 <span><span class="co">#&gt;  Groups in the training set: A B D F G H </span></span>
@@ -366,15 +371,17 @@
 <p>When you use the <code>groups</code> parameter as above, by default <code><a href="../reference/run_ml.html">run_ml()</a></code> will assume that you want all of the observations from each group to be placed in the same partition of the train/test split. This makes sense when you want to use groups to control for batch effects. However, in some cases you might prefer to control exactly which groups end up in which partition, and you might even be okay with some observations from the same group being assigned to different partitions.</p>
 <p>For example, say you want groups A and B to be used for training, C and D for testing, and you don’t have a preference for what happens to the other groups. You can give the <code>group_partitions</code> parameter a named list to specify which groups should go in the training set and which should go in the testing set.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results_grp_part</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, </span>
-<span>                      <span class="st">'glmnet'</span>, </span>
-<span>                      cv_times <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>                      training_frac <span class="op">=</span> <span class="fl">0.8</span>, </span>
-<span>                      groups <span class="op">=</span> <span class="va">grps</span>, </span>
-<span>                      group_partitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span><span class="op">)</span>,</span>
-<span>                                              test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'C'</span>, <span class="st">'D'</span><span class="op">)</span></span>
-<span>                                              <span class="op">)</span>,</span>
-<span>                      seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results_grp_part</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  groups <span class="op">=</span> <span class="va">grps</span>,</span>
+<span>  group_partitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>    test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Fraction of data in the training set: 0.785 </span></span>
 <span><span class="co">#&gt;  Groups in the training set: A B E F G H </span></span>
@@ -385,16 +392,18 @@
 <p>In the above case, all observations from A &amp; B will be used for training, all from C &amp; D will be used for testing, and the remaining groups will be randomly assigned to one or the other to satisfy the <code>training_frac</code> as closely as possible.</p>
 <p>In another scenario, maybe you want only groups A through F to be used for training, but you also want to allow other observations not selected for training from A through F to be used for testing:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results_grp_trainA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, </span>
-<span>                      <span class="st">'glmnet'</span>, </span>
-<span>                      cv_times <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>                      kfold <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                      training_frac <span class="op">=</span> <span class="fl">0.5</span>, </span>
-<span>                      groups <span class="op">=</span> <span class="va">grps</span>, </span>
-<span>                      group_partitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span><span class="op">)</span>,</span>
-<span>                                              test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span></span>
-<span>                                              <span class="op">)</span>,</span>
-<span>                      seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results_grp_trainA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  kfold <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  groups <span class="op">=</span> <span class="va">grps</span>,</span>
+<span>  group_partitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span><span class="op">)</span>,</span>
+<span>    test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Fraction of data in the training set: 0.5 </span></span>
 <span><span class="co">#&gt;  Groups in the training set: A B C D E F </span></span>
@@ -416,15 +425,19 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">case_weights_dat</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dx</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">dx</span>, <span class="va">p</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, by <span class="op">=</span> <span class="st">'dx'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Otu"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>in_train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>, </span>
-<span>                             replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.70</span>, <span class="fl">0.30</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>           row_num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">in_train</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dx</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">dx</span>, <span class="va">p</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, by <span class="op">=</span> <span class="st">"dx"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Otu"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    in_train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>      size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>,</span>
+<span>      replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.70</span>, <span class="fl">0.30</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    row_num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">in_train</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">case_weights_dat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       dx    p in_train row_num</span></span>
 <span><span class="co">#&gt; 1 cancer 0.49     TRUE       3</span></span>
@@ -437,11 +450,12 @@
 <span><span class="co">#&gt; [1] 0.75</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_weighted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                  <span class="st">'glmnet'</span>,</span>
-<span>                  outcome_colname <span class="op">=</span> <span class="st">'dx'</span>,</span>
-<span>                  seed <span class="op">=</span> <span class="fl">2019</span>,</span>
-<span>                  training_frac <span class="op">=</span> <span class="va">case_weights_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">row_num</span><span class="op">)</span>,</span>
-<span>                  weights <span class="op">=</span> <span class="va">case_weights_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="va">case_weights_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">row_num</span><span class="op">)</span>,</span>
+<span>  weights <span class="op">=</span> <span class="va">case_weights_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>See the caret docs for <a href="https://topepo.github.io/caret/train-models-by-tag.html#Accepts_Case_Weights" class="external-link">a list of models that accept case weights</a>.</p>
 </div>
 </div>
@@ -504,11 +518,12 @@
 <p>You can also choose to permute correlated features together using <code>corr_thresh</code> (default: 1). Any features that are above the correlation threshold are permuted together; i.e. perfectly correlated features are permuted together when using the default value.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_imp_corr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                           <span class="st">'glmnet'</span>,</span>
-<span>                           cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                           find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                           corr_thresh <span class="op">=</span> <span class="fl">0.2</span>,</span>
-<span>                           seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  corr_thresh <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Warning in (function (w) : `caret::train()` issued the following warning:</span></span>
@@ -550,34 +565,38 @@
 </h3>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                     <span class="st">'rf'</span>,</span>
-<span>                     cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                     seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"rf"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The <code>rf</code> engine takes an optional argument <code>ntree</code>: the number of trees to use for random forest. This can’t be tuned using the <code>rf</code> package implementation of random forest. Please refer to <code>caret</code> documentation if you are interested in other packages with random forest implementations.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_rf_nt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                        <span class="st">'rf'</span>,</span>
-<span>                        cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                        ntree <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>                        seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"rf"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  ntree <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="decision-tree">Decision tree<a class="anchor" aria-label="anchor" href="#decision-tree"></a>
 </h3>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                     <span class="st">'rpart2'</span>,</span>
-<span>                     cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                     seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"rpart2"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="svm">SVM<a class="anchor" aria-label="anchor" href="#svm"></a>
 </h3>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
-<span>                      <span class="st">'svmRadial'</span>,</span>
-<span>                      cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                      seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"svmRadial"</span>,</span>
+<span>  cv_times <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>If you get a message “maximum number of iterations reached”, see <a href="https://github.com/topepo/caret/issues/425" class="external-link">this issue</a> in caret.</p>
 </div>
 </div>
@@ -589,13 +608,15 @@
 </h3>
 <p>We provide <code>otu_mini_multi</code> with a multiclass outcome (three or more outcomes):</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">otu_mini_multi</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="st">'dx'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">otu_mini_multi</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="st">"dx"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "adenoma"   "carcinoma" "normal"</span></span></code></pre></div>
 <p>Here’s an example of running multiclass data:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_multi</span>,</span>
-<span>                        outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span>
-<span>                        seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span>  outcome_colname <span class="op">=</span> <span class="st">"dx"</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The performance metrics are slightly different, but the format of everything else is the same:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -616,9 +637,10 @@
 <p>And here’s an example for running continuous data, where the outcome column is numerical:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>,</span>
-<span>                       <span class="st">'glmnet'</span>,</span>
-<span>                       outcome_colname <span class="op">=</span> <span class="st">'Otu00001'</span>,</span>
-<span>                       seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="st">"glmnet"</span>,</span>
+<span>  outcome_colname <span class="op">=</span> <span class="st">"Otu00001"</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2019</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Again, the performance metrics are slightly different, but the format of the rest is the same:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_cont</span><span class="op">$</span><span class="va">performance</span></span>
@@ -629,14 +651,14 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-tang_democratizing_2020">
-<p>Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. “Democratizing EHR Analyses with FIDDLE: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.” <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139" class="external-link">https://doi.org/10.1093/jamia/ocaa139</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-tang_democratizing_2020" class="csl-entry">
+Tang, Shengpu, Parmida Davarmanesh, Yanmeng Song, Danai Koutra, Michael W. Sjoding, and Jenna Wiens. 2020. <span>“Democratizing <span>EHR</span> Analyses with <span>FIDDLE</span>: A Flexible Data-Driven Preprocessing Pipeline for Structured Clinical Data.”</span> <em>J Am Med Inform Assoc</em>, October. <a href="https://doi.org/10.1093/jamia/ocaa139" class="external-link">https://doi.org/10.1093/jamia/ocaa139</a>.
 </div>
-<div id="ref-topcuoglu_framework_2020">
-<p>Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. “A Framework for Effective Application of Machine Learning to Microbiome-Based Classification Problems.” <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20" class="external-link">https://doi.org/10.1128/mBio.00434-20</a>.</p>
+<div id="ref-topcuoglu_framework_2020" class="csl-entry">
+Topçuoğlu, Begüm D., Nicholas A. Lesniak, Mack T. Ruffin, Jenna Wiens, and Patrick D. Schloss. 2020. <span>“A <span>Framework</span> for <span>Effective Application</span> of <span>Machine Learning</span> to <span>Microbiome</span>-<span>Based Classification Problems</span>.”</span> <em>mBio</em> 11 (3). <a href="https://doi.org/10.1128/mBio.00434-20" class="external-link">https://doi.org/10.1128/mBio.00434-20</a>.
 </div>
 </div>
 </div>

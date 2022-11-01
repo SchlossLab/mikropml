@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.4.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,8 @@
 
 
 
-<script src="parallel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Parallel processing</h1>
                         <h4 data-toc-skip class="author">Kelly L. Sovacool</h4>
@@ -116,9 +117,9 @@
 <p>Above, we used the <code>multicore</code> plan to split the work across 2 cores. See the <a href="https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html" class="external-link"><code>future</code> documentation</a> for more about picking the best plan for your use case. Notably, <code>multicore</code> does not work inside RStudio or on Windows; you will need to use <code>multisession</code> instead in those cases.</p>
 <p>After registering a future plan, you can call <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/run_ml.html">run_ml()</a></code> as usual, and they will run certain tasks in parallel.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">otu_data_preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">'dx'</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span></span>
+<code class="sourceCode R"><span><span class="va">otu_data_preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">"dx"</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
-<span><span class="va">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">'glmnet'</span><span class="op">)</span></span>
+<span><span class="va">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">"glmnet"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Loading required package: ggplot2</span></span>
@@ -138,8 +139,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
 <span><span class="va">results_multi</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">seed</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">'glmnet'</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
-<span>  <span class="op">}</span>, future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">"glmnet"</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
+<span><span class="op">}</span>, future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
@@ -153,12 +154,13 @@
 <p>In these examples, we used functions from the <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel, but you can accomplish the same thing with parallel versions of the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> functions using the <code>furrr</code> package (e.g. <code>furrr::future_map_dfr()</code>).</p>
 <p>Extract the performance results and combine into one dataframe for all seeds:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>, </span>
-<span>                                       <span class="kw">function</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">{</span></span>
-<span>                                         <span class="va">result</span><span class="op">[[</span><span class="st">'performance'</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>                                           <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span></span>
-<span>                                         <span class="op">}</span>,</span>
-<span>                                       future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">result</span><span class="op">[[</span><span class="st">"performance"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  future.seed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">perf_df</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -173,16 +175,18 @@
 <p>You may also wish to compare performance for different ML methods. <code><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply()</a></code> can iterate over multiple lists or vectors, and <code>future_mapply()</code> works the same way:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
-<span><span class="va">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>seeds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>,</span>
-<span>                          methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'glmnet'</span>, <span class="st">'rf'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
+<span>  seeds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>,</span>
+<span>  methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"glmnet"</span>, <span class="st">"rf"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">results_mtx</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_mapply.html" class="external-link">future_mapply</a></span><span class="op">(</span></span>
-<span>    <span class="kw">function</span><span class="op">(</span><span class="va">seed</span>, <span class="va">method</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="va">method</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
-<span>      <span class="op">}</span>,</span>
-<span>    <span class="va">param_grid</span><span class="op">$</span><span class="va">seeds</span>,</span>
-<span>    <span class="va">param_grid</span><span class="op">$</span><span class="va">methods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    future.seed <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">seed</span>, <span class="va">method</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="va">method</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  <span class="va">param_grid</span><span class="op">$</span><span class="va">seeds</span>,</span>
+<span>  <span class="va">param_grid</span><span class="op">$</span><span class="va">methods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  future.seed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
@@ -203,10 +207,12 @@
 <span><span class="co">#&gt; Training complete.</span></span></code></pre></div>
 <p>Extract and combine the performance results for all seeds and methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">results_mtx</span><span class="op">[</span><span class="st">'performance'</span>,<span class="op">]</span>, </span>
-<span>                   <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>                     <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span></span>
-<span>                   <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="va">results_mtx</span><span class="op">[</span><span class="st">"performance"</span>, <span class="op">]</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">perf_df2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
@@ -226,9 +232,9 @@
 <p><code><a href="../reference/plot_model_performance.html">plot_model_performance()</a></code> returns a ggplot2 object. You can add layers to customize the plot:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">perf_boxplot</span> <span class="op">+</span></span>
-<span>   <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="parallel_files/figure-html/customize_plot-1.png" width="700"></p>
 <p>You can also create your own plots however you like using the performance results.</p>
 </div>
@@ -240,19 +246,22 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># optionally, specify the progress bar format with the `progress` package.</span></span>
 <span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handler_progress.html" class="external-link">handler_progress</a></span><span class="op">(</span></span>
-<span>    format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
-<span>    clear <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    show_after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span>  format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
+<span>  clear <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_after <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># tell progressr to always report progress in any functions that use it.</span></span>
 <span><span class="co"># set this to FALSE to turn it back off again.</span></span>
 <span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># run your code and watch the live progress updates.</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">'dx'</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">"dx"</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; preprocessing ========================&gt;-------  78% | elapsed:  1s | eta:  0s</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"glmnet"</span>, kfold <span class="op">=</span> <span class="fl">2</span>, cv_times <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                  find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"glmnet"</span>,</span>
+<span>  kfold <span class="op">=</span> <span class="fl">2</span>, cv_times <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
@@ -262,7 +271,9 @@
 <div class="section level2">
 <h2 id="parallelizing-with-snakemake">Parallelizing with Snakemake<a class="anchor" aria-label="anchor" href="#parallelizing-with-snakemake"></a>
 </h2>
-<p>When parallelizing multiple calls to <code><a href="../reference/run_ml.html">run_ml()</a></code> in R as in the examples above, all of the results objects are held in memory. This isn’t a big deal for a small dataset run with only a few seeds. However, for large datasets run in parallel with, say, 100 seeds (recommended), you may run into problems trying to store all of those objects in memory at once. One solution is to write the results files of each <code><a href="../reference/run_ml.html">run_ml()</a></code> call, then concatenate them at the end. We show one way to accomplish this with Snakemake in <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link">an example Snakemake workflow here</a>.</p>
+<p>When parallelizing multiple calls to <code><a href="../reference/run_ml.html">run_ml()</a></code> in R as in the examples above, all of the results objects are held in memory. This isn’t a big deal for a small dataset run with only a few seeds. However, for large datasets run in parallel with, say, 100 seeds (recommended), you may run into problems trying to store all of those objects in memory at once.</p>
+<p>Using a workflow manager such as Snakemake or Nextflow is highly recommend to maximize the scalability and reproducibility of computational analyses. We created <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link">a template Snakemake workflow here</a> which you can use as a starting point for your ML project.</p>
+<p><a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link"><img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/dag.png" alt="snakemake-dag"></a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

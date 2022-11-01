@@ -67,7 +67,7 @@ bin_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = c("no", "yes", "no"),
   var2 = c(0, 1, 1),
-  var3 = factor(c("a","a","b"))
+  var3 = factor(c("a", "a", "b"))
 )
 bin_df
 ```
@@ -99,8 +99,8 @@ On to non-binary categorical data:
 # raw categorical dataset
 cat_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
-  var1 = c('a','b','c')
-  )
+  var1 = c("a", "b", "c")
+)
 cat_df
 ```
 
@@ -120,8 +120,8 @@ Now, looking at continuous variables:
 # raw continuous dataset
 cont_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
-  var1 = c(1,2,3)
-  )
+  var1 = c(1, 2, 3)
+)
 cont_df
 ```
 
@@ -153,8 +153,8 @@ variables as characters, they will be converted to numeric:
 # raw continuous dataset as characters
 cont_char_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
-  var1 = c("1","2","3")
-  )
+  var1 = c("1", "2", "3")
+)
 cont_char_df
 ```
 
@@ -188,7 +188,7 @@ corr_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = c("no", "yes", "no"),
   var2 = c(0, 1, 0),
-  var3 = c(1,0,1)
+  var3 = c(1, 0, 1)
 )
 corr_df
 ```
@@ -233,9 +233,9 @@ nonvar_df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = c("no", "yes", "no"),
   var2 = c(0, 1, 1),
-  var3 = c("no","no","no"),
-  var4 = c(0,0,0),
-  var5 = c(12,12,12)
+  var3 = c("no", "no", "no"),
+  var4 = c(0, 0, 0),
+  var5 = c(12, 12, 12)
 )
 nonvar_df
 ```
@@ -257,7 +257,7 @@ variance. If you want to remove only features with zero variance, you can use
 
 ```{r}
 # remove features with zero variance
-preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = 'zv')
+preprocess_data(dataset = nonvar_df, outcome_colname = "outcome", remove_var = "zv")
 ```
 
 If you want to include all features, you can use the argument `remove_zv=NULL`.
@@ -292,9 +292,9 @@ to inputting the data to `preprocess_data()`.
 ```{r}
 # raw dataset with missing outcome value
 miss_oc_df <- data.frame(
-  outcome = c("normal", "normal", "cancer",NA),
-  var1 = c("no", "yes", "no","no"),
-  var2 = c(0, 1, 1,1)
+  outcome = c("normal", "normal", "cancer", NA),
+  var1 = c("no", "yes", "no", "no"),
+  var2 = c(0, 1, 1, 1)
 )
 miss_oc_df
 ```
@@ -355,9 +355,9 @@ zero for both of them.
 ```{r}
 # raw dataset with missing value in continuous feature
 miss_cont_df <- data.frame(
-  outcome = c("normal", "normal", "cancer","normal"),
-  var1 = c(1,2,2,NA),
-  var2 = c(1,2,3,NA)
+  outcome = c("normal", "normal", "cancer", "normal"),
+  var1 = c(1, 2, 2, NA),
+  var2 = c(1, 2, 3, NA)
 )
 miss_cont_df
 ```
