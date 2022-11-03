@@ -87,7 +87,8 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Parallel processing</h1>
-                        <h4 data-toc-skip class="author">Kelly L. Sovacool</h4>
+                        <h4 data-toc-skip class="author">Kelly L.
+Sovacool</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/HEAD/vignettes/parallel.Rmd" class="external-link"><code>vignettes/parallel.Rmd</code></a></small>
@@ -110,12 +111,24 @@
 <div class="section level2">
 <h2 id="speed-up-single-runs">Speed up single runs<a class="anchor" aria-label="anchor" href="#speed-up-single-runs"></a>
 </h2>
-<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>, <code><a href="../reference/run_ml.html">run_ml()</a></code>, and <code><a href="../reference/compare_models.html">compare_models()</a></code> use only one process in series. If you’d like to parallelize various steps of the pipeline to make them run faster, install <code>foreach</code>, <code>future</code>, <code>future.apply</code>, and <code>doFuture</code>. Then, register a future plan prior to calling these functions:</p>
+<p>By default, <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code>, <code><a href="../reference/run_ml.html">run_ml()</a></code>,
+and <code><a href="../reference/compare_models.html">compare_models()</a></code> use only one process in series. If
+you’d like to parallelize various steps of the pipeline to make them run
+faster, install <code>foreach</code>, <code>future</code>,
+<code>future.apply</code>, and <code>doFuture</code>. Then, register a
+future plan prior to calling these functions:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">doFuture</span><span class="fu">::</span><span class="fu"><a href="https://doFuture.futureverse.org/reference/registerDoFuture.html" class="external-link">registerDoFuture</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multicore.html" class="external-link">multicore</a></span>, workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p>Above, we used the <code>multicore</code> plan to split the work across 2 cores. See the <a href="https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html" class="external-link"><code>future</code> documentation</a> for more about picking the best plan for your use case. Notably, <code>multicore</code> does not work inside RStudio or on Windows; you will need to use <code>multisession</code> instead in those cases.</p>
-<p>After registering a future plan, you can call <code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/run_ml.html">run_ml()</a></code> as usual, and they will run certain tasks in parallel.</p>
+<p>Above, we used the <code>multicore</code> plan to split the work
+across 2 cores. See the <a href="https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html" class="external-link"><code>future</code>
+documentation</a> for more about picking the best plan for your use
+case. Notably, <code>multicore</code> does not work inside RStudio or on
+Windows; you will need to use <code>multisession</code> instead in those
+cases.</p>
+<p>After registering a future plan, you can call
+<code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/run_ml.html">run_ml()</a></code> as usual, and
+they will run certain tasks in parallel.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">otu_data_preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">"dx"</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
@@ -130,12 +143,19 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span></code></pre></div>
-<p>There’s a also a parallel version of the <code>rf</code> engine called <code>parRF</code> which trains the trees in the forest in parallel. See the <a href="https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest" class="external-link">caret docs</a> for more information.</p>
+<p>There’s a also a parallel version of the <code>rf</code> engine
+called <code>parRF</code> which trains the trees in the forest in
+parallel. See the <a href="https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest" class="external-link">caret
+docs</a> for more information.</p>
 </div>
 <div class="section level2">
 <h2 id="call-run_ml-multiple-times-in-parallel-in-r">Call <code>run_ml()</code> multiple times in parallel in R<a class="anchor" aria-label="anchor" href="#call-run_ml-multiple-times-in-parallel-in-r"></a>
 </h2>
-<p>You can use functions from the <code>future.apply</code> package to call <code><a href="../reference/run_ml.html">run_ml()</a></code> multiple times in parallel with different parameters. You will first need to run <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code> as above if you haven’t already. Then, call <code><a href="../reference/run_ml.html">run_ml()</a></code> with multiple seeds using <code>future_lapply()</code>:</p>
+<p>You can use functions from the <code>future.apply</code> package to
+call <code><a href="../reference/run_ml.html">run_ml()</a></code> multiple times in parallel with different
+parameters. You will first need to run <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code> as
+above if you haven’t already. Then, call <code><a href="../reference/run_ml.html">run_ml()</a></code> with
+multiple seeds using <code>future_lapply()</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
 <span><span class="va">results_multi</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">seed</span><span class="op">)</span> <span class="op">{</span></span>
@@ -150,9 +170,22 @@
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span></code></pre></div>
-<p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a different random split of the data into training and testing sets. Since we are using seeds, we must set <code>future.seed</code> to <code>TRUE</code> (see the <a href="https://cran.r-project.org/web/packages/future.apply/future.apply.pdf" class="external-link"><code>future.apply</code> documentation</a> and <a href="https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/" class="external-link">this blog post</a> for details on parallel-safe random seeds). This example uses only a few seeds for speed and simplicity, but for real data we recommend using many more seeds to get a better estimate of model performance.</p>
-<p>In these examples, we used functions from the <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel, but you can accomplish the same thing with parallel versions of the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> functions using the <code>furrr</code> package (e.g. <code>furrr::future_map_dfr()</code>).</p>
-<p>Extract the performance results and combine into one dataframe for all seeds:</p>
+<p>Each call to <code><a href="../reference/run_ml.html">run_ml()</a></code> with a different seed uses a
+different random split of the data into training and testing sets. Since
+we are using seeds, we must set <code>future.seed</code> to
+<code>TRUE</code> (see the <a href="https://cran.r-project.org/web/packages/future.apply/future.apply.pdf" class="external-link"><code>future.apply</code>
+documentation</a> and <a href="https://www.r-bloggers.com/2020/09/future-1-19-1-making-sure-proper-random-numbers-are-produced-in-parallel-processing/" class="external-link">this
+blog post</a> for details on parallel-safe random seeds). This example
+uses only a few seeds for speed and simplicity, but for real data we
+recommend using many more seeds to get a better estimate of model
+performance.</p>
+<p>In these examples, we used functions from the
+<code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel,
+but you can accomplish the same thing with parallel versions of the
+<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> functions using the <code>furrr</code> package
+(e.g. <code><a href="https://furrr.futureverse.org/reference/future_map.html" class="external-link">furrr::future_map_dfr()</a></code>).</p>
+<p>Extract the performance results and combine into one dataframe for
+all seeds:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>,</span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">{</span></span>
@@ -172,7 +205,9 @@
 <div class="section level3">
 <h3 id="multiple-ml-methods">Multiple ML methods<a class="anchor" aria-label="anchor" href="#multiple-ml-methods"></a>
 </h3>
-<p>You may also wish to compare performance for different ML methods. <code><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply()</a></code> can iterate over multiple lists or vectors, and <code>future_mapply()</code> works the same way:</p>
+<p>You may also wish to compare performance for different ML methods.
+<code><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply()</a></code> can iterate over multiple lists or vectors, and
+<code>future_mapply()</code> works the same way:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
 <span><span class="va">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
@@ -181,7 +216,7 @@
 <span><span class="op">)</span></span>
 <span><span class="va">results_mtx</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_mapply.html" class="external-link">future_mapply</a></span><span class="op">(</span></span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">seed</span>, <span class="va">method</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="va">method</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="va">method</span>, seed <span class="op">=</span> <span class="va">seed</span>, find_feature_importance <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>,</span>
 <span>  <span class="va">param_grid</span><span class="op">$</span><span class="va">seeds</span>,</span>
 <span>  <span class="va">param_grid</span><span class="op">$</span><span class="va">methods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -190,60 +225,99 @@
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
+<span><span class="co">#&gt; Finding feature importance...</span></span>
+<span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
+<span><span class="co">#&gt; Finding feature importance...</span></span>
+<span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
+<span><span class="co">#&gt; Finding feature importance...</span></span>
+<span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
+<span><span class="co">#&gt; Finding feature importance...</span></span>
+<span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
+<span><span class="co">#&gt; Finding feature importance...</span></span>
+<span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
-<span><span class="co">#&gt; Training complete.</span></span></code></pre></div>
-<p>Extract and combine the performance results for all seeds and methods:</p>
+<span><span class="co">#&gt; Training complete.</span></span>
+<span><span class="co">#&gt; Finding feature importance...</span></span>
+<span><span class="co">#&gt; Feature importance complete.</span></span></code></pre></div>
+<p>Extract and combine the results for all seeds and methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
 <span>  <span class="va">results_mtx</span><span class="op">[</span><span class="st">"performance"</span>, <span class="op">]</span>,</span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">perf_df2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
-<span><span class="co">#&gt;   cv_metric_AUC   AUC method</span></span>
-<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.630 0.634 glmnet</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         0.591 0.608 glmnet</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         0.671 0.471 glmnet</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         0.664 0.687 rf    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         0.650 0.692 rf    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         0.701 0.601 rf</span></span></code></pre></div>
-<p>Visualize the performance results (<code>ggplot2</code> is required):</p>
+<span><span class="va">feat_df</span> <span class="op">&lt;-</span> <span class="va">results_mtx</span><span class="op">[</span><span class="st">"feature_importance"</span>, <span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="visualize-the-results">Visualize the results<a class="anchor" aria-label="anchor" href="#visualize-the-results"></a>
+</h3>
+<p><code>ggplot2</code> is required to use our plotting functions below.
+You can also create your own plots however you like using the
+results.</p>
+<div class="section level4">
+<h4 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
+</h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">perf_boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_model_performance.html">plot_model_performance</a></span><span class="op">(</span><span class="va">perf_df2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">perf_boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_model_performance.html">plot_model_performance</a></span><span class="op">(</span><span class="va">perf_df</span><span class="op">)</span></span>
 <span><span class="va">perf_boxplot</span></span></code></pre></div>
 <p><img src="parallel_files/figure-html/plot_perf-1.png" width="700"></p>
-<p><code><a href="../reference/plot_model_performance.html">plot_model_performance()</a></code> returns a ggplot2 object. You can add layers to customize the plot:</p>
+<p><code><a href="../reference/plot_model_performance.html">plot_model_performance()</a></code> returns a ggplot2 object. You
+can add layers to customize the plot:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">perf_boxplot</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="parallel_files/figure-html/customize_plot-1.png" width="700"></p>
-<p>You can also create your own plots however you like using the performance results.</p>
+<p><img src="parallel_files/figure-html/customize_perf_plot-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="feature-importance">feature importance<a class="anchor" aria-label="anchor" href="#feature-importance"></a>
+</h4>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top_feats</span> <span class="op">&lt;-</span> <span class="va">feat_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">method</span>, <span class="va">names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>median_diff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">perf_metric_diff</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_min</a></span><span class="op">(</span>order_by <span class="op">=</span> <span class="va">median_diff</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `summarise()` has grouped output by 'method'. You can override using the</span></span>
+<span><span class="co">#&gt; `.groups` argument.</span></span>
+<span></span>
+<span><span class="va">feat_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">top_feats</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'method'</span>,<span class="st">'names'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">names</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">top_feats</span><span class="op">$</span><span class="va">names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">perf_metric_diff</span>, y <span class="op">=</span> <span class="va">features</span>, color <span class="op">=</span> <span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">method</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="parallel_files/figure-html/feat_imp_plot-1.png" width="700"></p>
+<p>The features that resulted in the largest <strong>decrease</strong>
+in performance when permuted are the most importance features.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="live-progress-updates">Live progress updates<a class="anchor" aria-label="anchor" href="#live-progress-updates"></a>
 </h2>
-<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> support reporting live progress updates using the <code>progressr</code> package. The format is up to you, but we recommend using a progress bar like this:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p><code><a href="../reference/preprocess_data.html">preprocess_data()</a></code> and
+<code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> support reporting live progress
+updates using the <code>progressr</code> package. The format is up to
+you, but we recommend using a progress bar like this:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># optionally, specify the progress bar format with the `progress` package.</span></span>
 <span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handler_progress.html" class="external-link">handler_progress</a></span><span class="op">(</span></span>
 <span>  format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
@@ -266,13 +340,28 @@
 <span><span class="co">#&gt; Training the model...</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Feature importance =========================== 100% | elapsed: 37s | eta:  0s</span></span></code></pre></div>
-<p>Note that some future backends support “near-live” progress updates, meaning the progress may not be reported immediately when parallel processing with futures. Read more on that <a href="https://progressr.futureverse.org/articles/progressr-intro.html#near-live-versus-buffered-progress-updates-with-futures" class="external-link">in the <code>progressr</code> vignette</a>. For more on <code>progressr</code> and how to customize the format of progress updates, see the <a href="https://progressr.futureverse.org/" class="external-link"><code>progressr</code> docs</a>.</p>
+<p>Note that some future backends support “near-live” progress updates,
+meaning the progress may not be reported immediately when parallel
+processing with futures. Read more on that <a href="https://progressr.futureverse.org/articles/progressr-intro.html#near-live-versus-buffered-progress-updates-with-futures" class="external-link">in
+the <code>progressr</code> vignette</a>. For more on
+<code>progressr</code> and how to customize the format of progress
+updates, see the <a href="https://progressr.futureverse.org/" class="external-link"><code>progressr</code>
+docs</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="parallelizing-with-snakemake">Parallelizing with Snakemake<a class="anchor" aria-label="anchor" href="#parallelizing-with-snakemake"></a>
 </h2>
-<p>When parallelizing multiple calls to <code><a href="../reference/run_ml.html">run_ml()</a></code> in R as in the examples above, all of the results objects are held in memory. This isn’t a big deal for a small dataset run with only a few seeds. However, for large datasets run in parallel with, say, 100 seeds (recommended), you may run into problems trying to store all of those objects in memory at once.</p>
-<p>Using a workflow manager such as Snakemake or Nextflow is highly recommend to maximize the scalability and reproducibility of computational analyses. We created <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link">a template Snakemake workflow here</a> which you can use as a starting point for your ML project.</p>
+<p>When parallelizing multiple calls to <code><a href="../reference/run_ml.html">run_ml()</a></code> in R as in
+the examples above, all of the results objects are held in memory. This
+isn’t a big deal for a small dataset run with only a few seeds. However,
+for large datasets run in parallel with, say, 100 seeds (recommended),
+you may run into problems trying to store all of those objects in memory
+at once.</p>
+<p>Using a workflow manager such as Snakemake or Nextflow is highly
+recommend to maximize the scalability and reproducibility of
+computational analyses. We created <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link">a
+template Snakemake workflow here</a> which you can use as a starting
+point for your ML project.</p>
 <p><a href="https://github.com/SchlossLab/mikropml-snakemake-workflow" class="external-link"><img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/dag.png" alt="snakemake-dag"></a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

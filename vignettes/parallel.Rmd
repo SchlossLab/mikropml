@@ -112,7 +112,7 @@ param_grid <- expand.grid(
 )
 results_mtx <- future.apply::future_mapply(
   function(seed, method) {
-    run_ml(otu_data_preproc, method, seed = seed)
+    run_ml(otu_data_preproc, method, seed = seed, find_feature_importance = TRUE)
   },
   param_grid$seeds,
   param_grid$methods %>% as.character(),
@@ -120,38 +120,63 @@ results_mtx <- future.apply::future_mapply(
 )
 ```
 
-Extract and combine the performance results for all seeds and methods:
+Extract and combine the results for all seeds and methods:
 
 ```{r bind_multi_methods}
-perf_df2 <- lapply(
+perf_df <- lapply(
   results_mtx["performance", ],
   function(x) {
     x %>% select(cv_metric_AUC, AUC, method)
   }
 ) %>%
   dplyr::bind_rows()
-perf_df2
+feat_df <- results_mtx["feature_importance", ] %>%
+  dplyr::bind_rows()
 ```
 
-Visualize the performance results (`ggplot2` is required):
+### Visualize the results
+
+`ggplot2` is required to use our plotting functions below. 
+You can also create your own plots however you like using the results.
+
+#### Performance
 
 ```{r plot_perf}
-perf_boxplot <- plot_model_performance(perf_df2)
+perf_boxplot <- plot_model_performance(perf_df)
 perf_boxplot
 ```
 
 `plot_model_performance()` returns a ggplot2 object. 
 You can add layers to customize the plot:
 
-```{r customize_plot}
+```{r customize_perf_plot}
 perf_boxplot +
   theme_classic() +
   scale_color_brewer(palette = "Dark2") +
   coord_flip()
 ```
 
-You can also create your own plots however you like using the performance
-results.
+#### feature importance
+
+```{r feat_imp_plot}
+top_feats <- feat_df %>% 
+    group_by(method, names) %>% 
+    summarize(median_diff = median(perf_metric_diff)) %>% 
+    slice_min(order_by = median_diff, n = 5)
+
+feat_df %>% 
+    right_join(top_feats, by = c('method','names')) %>% 
+    mutate(features = factor(names, levels = rev(unique(top_feats$names)))) %>% 
+    ggplot(aes(x = perf_metric_diff, y = features, color = method)) +
+    geom_boxplot() +
+    facet_wrap(~method) +
+    theme_bw()
+    
+```
+
+The features that resulted in the largest **decrease** in performance when
+permuted are the most importance features.
+
 
 ## Live progress updates
 
