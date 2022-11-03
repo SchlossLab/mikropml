@@ -159,19 +159,18 @@ perf_boxplot +
 #### feature importance
 
 ```{r feat_imp_plot}
-top_feats <- feat_df %>% 
-    group_by(method, names) %>% 
-    summarize(median_diff = median(perf_metric_diff)) %>% 
-    slice_min(order_by = median_diff, n = 5)
+top_feats <- feat_df %>%
+  group_by(method, names) %>%
+  summarize(median_diff = median(perf_metric_diff)) %>%
+  slice_min(order_by = median_diff, n = 5)
 
-feat_df %>% 
-    right_join(top_feats, by = c('method','names')) %>% 
-    mutate(features = factor(names, levels = rev(unique(top_feats$names)))) %>% 
-    ggplot(aes(x = perf_metric_diff, y = features, color = method)) +
-    geom_boxplot() +
-    facet_wrap(~method) +
-    theme_bw()
-    
+feat_df %>%
+  right_join(top_feats, by = c("method", "names")) %>%
+  mutate(features = factor(names, levels = rev(unique(top_feats$names)))) %>%
+  ggplot(aes(x = perf_metric_diff, y = features, color = method)) +
+  geom_boxplot() +
+  facet_wrap(~method) +
+  theme_bw()
 ```
 
 The features that resulted in the largest **decrease** in performance when
