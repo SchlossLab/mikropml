@@ -253,7 +253,6 @@ run_ml <-
       message("Finding feature importance...")
       feature_importance_tbl <- get_feature_importance(
         trained_model_caret,
-        train_data,
         test_data,
         outcome_colname,
         perf_metric_function,

@@ -1,7 +1,8 @@
 # mikropml development version
 
+- Created an example showing how to plot feature importances in the `parallel` vignette (#310, @kelly-sovacool).
 - You can now use `parRF`, a parallel implementation of the `rf` method, with
-  the same default hyperparameters as `rf` set automatically.
+  the same default hyperparameters as `rf` set automatically (#306, @kelly-sovacool).
 
 # mikropml 1.4.0
 

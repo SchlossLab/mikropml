@@ -69,7 +69,6 @@ the <code>future.apply</code> package.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_feature_importance</span><span class="op">(</span></span>
 <span>  <span class="va">trained_model</span>,</span>
-<span>  <span class="va">train_data</span>,</span>
 <span>  <span class="va">test_data</span>,</span>
 <span>  <span class="va">outcome_colname</span>,</span>
 <span>  <span class="va">perf_metric_function</span>,</span>
@@ -88,10 +87,6 @@ the <code>future.apply</code> package.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>trained_model</dt>
 <dd><p>Trained model from <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>.</p></dd>
-
-
-<dt>train_data</dt>
-<dd><p>Training data: dataframe of outcome and features.</p></dd>
 
 
 <dt>test_data</dt>

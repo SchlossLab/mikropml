@@ -108,8 +108,6 @@ test_that("feature importances are correct", {
   expect_equal(
     get_feature_importance(
       otu_mini_bin_results_glmnet$trained_model,
-      otu_mini_bin_results_glmnet$trained_model$trainingData %>%
-        dplyr::rename(dx = .outcome),
       otu_mini_bin_results_glmnet$test_data,
       "dx",
       caret::multiClassSummary,
@@ -129,8 +127,6 @@ test_that("feature importances are correct when tibbles used", {
   expect_equal(
     get_feature_importance(
       otu_mini_bin_results_glmnet$trained_model,
-      otu_mini_bin_results_glmnet$trained_model$trainingData %>%
-        dplyr::rename(dx = .outcome),
       otu_mini_bin_results_glmnet$test_data %>%
         dplyr::as_tibble(),
       "dx",
@@ -158,8 +154,6 @@ test_that("custom grouped features works", {
   expect_equal(
     get_feature_importance(
       otu_mini_bin_results_glmnet$trained_model,
-      otu_mini_bin_results_glmnet$trained_model$trainingData %>%
-        dplyr::rename(dx = .outcome),
       otu_mini_bin_results_glmnet$test_data %>%
         dplyr::as_tibble(),
       "dx",
