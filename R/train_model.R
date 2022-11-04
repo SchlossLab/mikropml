@@ -59,7 +59,7 @@ train_model <- function(train_data,
         )
       } else {
         features_train <- train_data %>%
-            dplyr::select(-dplyr::all_of(outcome_colname))
+          dplyr::select(-dplyr::all_of(outcome_colname))
         outcomes_train <-
           train_data %>% dplyr::pull(outcome_colname)
         if (is.character(outcomes_train)) {
