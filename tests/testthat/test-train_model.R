@@ -102,7 +102,7 @@ test_that("case weights work", {
     "`caret::train\\(\\)` issued the following warning:"
   )
   model_weights <- lr_model_weighted$pred %>%
-    dplyr::select(all_of(obs, weights)) %>%
+    dplyr::select(obs, weights) %>%
     dplyr::distinct() %>%
     dplyr::rename(dx = obs, p = weights)
 
