@@ -182,7 +182,7 @@ top_n <- 5
 top_feats <- feat_df %>%
   group_by(method, names) %>%
   summarize(median_diff = median(perf_metric_diff)) %>%
-  filter(median_diff > 0) %>% 
+  filter(median_diff > 0) %>%
   slice_max(order_by = median_diff, n = top_n)
 
 feat_df %>%
