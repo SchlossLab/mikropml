@@ -19,6 +19,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+In this tutorial, we show how you can speed up pre-processing, model training,
+and feature importance steps for individual runs, as well as how to train
+multiple models in parallel within R.
+However, we highly recommend using a workflow manager such as Snakemake rather
+than parallelizing within a single R session.
+Jump to the section [Parallelizing with Snakemake](#parallelizing-with-snakemake)
+below if you're interested in skipping right to our best recommendation.
+
 ```{r setup}
 library(mikropml)
 library(dplyr)
@@ -156,26 +164,37 @@ perf_boxplot +
   coord_flip()
 ```
 
-#### feature importance
+#### Feature importance
+
+The `perf_metric_diff` from the feature importance data frame contains the 
+differences between the performance on the actual test data and the performance 
+on the permuted test data (i.e. **test** minus **permuted**).
+If a feature is important for model performance, we expect `perf_metric_diff` to
+be positive.
+In other words, the features that resulted in the largest **decrease** in
+performance when permuted are the most important features.
+
+You can select the top n most important features for your models and plot them
+like so:
 
 ```{r feat_imp_plot}
+top_n <- 5
 top_feats <- feat_df %>%
   group_by(method, names) %>%
   summarize(median_diff = median(perf_metric_diff)) %>%
-  slice_min(order_by = median_diff, n = 5)
+  filter(median_diff > 0) %>% 
+  slice_max(order_by = median_diff, n = top_n)
 
 feat_df %>%
   right_join(top_feats, by = c("method", "names")) %>%
   mutate(features = factor(names, levels = rev(unique(top_feats$names)))) %>%
   ggplot(aes(x = perf_metric_diff, y = features, color = method)) +
   geom_boxplot() +
-  facet_wrap(~method) +
   theme_bw()
 ```
 
-The features that resulted in the largest **decrease** in performance when
-permuted are the most importance features.
-
+See the docs for `get_feature_importance()` for more details on how these values
+are computed.
 
 ## Live progress updates
 
