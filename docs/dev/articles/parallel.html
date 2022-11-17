@@ -190,7 +190,7 @@ performance.</p>
 <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel,
 but you can accomplish the same thing with parallel versions of the
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> functions using the <code>furrr</code> package
-(e.g. <code><a href="https://furrr.futureverse.org/reference/future_map.html" class="external-link">furrr::future_map_dfr()</a></code>).</p>
+(e.g. <code>furrr::future_map_dfr()</code>).</p>
 <p>Extract the performance results and combine into one dataframe for
 all seeds:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -311,7 +311,7 @@ plot them like so:</p>
 <span><span class="va">top_feats</span> <span class="op">&lt;-</span> <span class="va">feat_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">method</span>, <span class="va">names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>median_diff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">perf_metric_diff</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">median_diff</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">median_diff</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_max</a></span><span class="op">(</span>order_by <span class="op">=</span> <span class="va">median_diff</span>, n <span class="op">=</span> <span class="va">top_n</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'method'. You can override using the</span></span>
 <span><span class="co">#&gt; `.groups` argument.</span></span>
