@@ -72,9 +72,15 @@ You can watch the Riffomonas Project series of [video
 tutorials](https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg)
 covering mikropml and other skills related to machine learning.
 
-We also provide an [example Snakemake
+We also provide a [Snakemake
 workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) for
-running `mikropml` on an HPC.
+running `mikropml` locally or on an HPC. We highly recommend running
+`mikropml` with Snakemake or another workflow management system for
+reproducibility and scalability of ML analyses.
+
+<a href="https://github.com/SchlossLab/mikropml-snakemake-workflow">
+<img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/mikropml-snakemake-workflow.png" 
+height="120" align="center" /> </a>
 
 ## Help & Contributing
 
