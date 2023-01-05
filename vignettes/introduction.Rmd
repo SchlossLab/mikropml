@@ -418,15 +418,17 @@ data in the training set:
 set.seed(20221016)
 library(dplyr)
 train_set_indices <- get_partition_indices(otu_mini_bin %>% pull(dx),
-                                           training_frac = 0.70)
+  training_frac = 0.70
+)
 case_weights_dat <- otu_mini_bin %>%
   count(dx) %>%
   mutate(p = n / sum(n)) %>%
   select(dx, p) %>%
   right_join(otu_mini_bin, by = "dx") %>%
   select(-starts_with("Otu")) %>%
-  mutate(row_num = row_number(),
-         in_train = row_num %in% train_set_indices
+  mutate(
+    row_num = row_number(),
+    in_train = row_num %in% train_set_indices
   ) %>%
   filter(in_train)
 head(case_weights_dat)
