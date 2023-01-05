@@ -140,8 +140,13 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #' @inheritParams get_feature_importance
 #'
 #'
-#' @return A one-row tibble with columns `cv_auroc`, column for each of the performance metrics for the test data `method`, and `seed`.
+#' @return A one-row tibble with a column for the cross-validation performance,
+#'  columns for each of the performance metrics for the test data,
+#'  plus the `method`, and `seed`.
+#'
 #' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' \dontrun{
@@ -155,8 +160,6 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #' )
 #' }
 #'
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 get_performance_tbl <- function(trained_model,
                                 test_data,
                                 outcome_colname,
@@ -201,4 +204,151 @@ get_performance_tbl <- function(trained_model,
       .data$cv_metric
     ) %>%
     change_to_num())
+}
+
+#' Get sensitivty and specificity for a model.
+#'
+#' This function assumes a binary outcome.
+#'
+#' @param model
+#' @param test_dat
+#' @param outcome_colname
+#' @param pos_outcome
+#'
+#' @return
+#' @export
+#' @author Courtney Armour
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' get_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
+#'                    otu_mini_bin_results_glmnet$test_data,
+#'                    'dx', 'cancer'
+#' )
+get_model_sensspec <- function(model, test_dat, outcome_colname, pos_outcome) {
+    # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
+    probs <- predict(model,
+                     newdata = test_dat,
+                     type = "prob"
+    ) %>%
+        dplyr::mutate(actual = test_dat %>%
+                          dplyr::pull(outcome_colname)
+                      )
+
+    total <- probs %>%
+        count(actual) %>%
+        pivot_wider(names_from = "actual", values_from = "n") %>%
+        as.list()
+
+    neg_outcome <- names(total) %>%
+        # assumes binary outcome
+        Filter(function(x) { x != pos_outcome}, .)
+
+    sensspec <- probs %>%
+        arrange(desc(pos_outcome)) %>%
+        mutate(is_pos = actual == pos_outcome) %>%
+        mutate(
+            tp = cumsum(is_pos),
+            fp = cumsum(!is_pos),
+            sensitivity = tp / total[[pos_outcome]],
+            fpr = fp / total[[neg_outcome]]
+        ) %>%
+        mutate(
+            specificity = 1 - fpr,
+            precision = tp / (tp + fp)
+        ) %>%
+        select(-is_pos)
+    return(sensspec)
+}
+
+# TODO: use tidy eval to make one function each for calc_mean_[roc/prc] and plot_[auroc/auprc]
+calc_mean_perf <- function(sensspec_dat,
+                           group_var = specificity,
+                           sum_var = sensitivity)) {
+    # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
+    sensspec_dat %>%
+        mutate(specificity = round(specificity, 2)) %>%
+        group_by(specificity) %>%
+        summarise(
+            mean_sensitivity = mean(sensitivity),
+            sd_sensitivity = sd(sensitivity)
+        ) %>%
+        mutate(
+            upper = mean_sensitivity + sd_sensitivity,
+            lower = mean_sensitivity - sd_sensitivity
+        ) %>%
+        mutate(
+            upper = case_when(
+                upper > 1 ~ 1,
+                TRUE ~ upper
+            ),
+            lower = case_when(
+                upper < 0 ~ 0,
+                TRUE ~ lower
+            )
+        )
+}
+
+
+calc_mean_roc <- function(sensspec_dat) {
+    sensspec_dat %>%
+        mutate(specificity = round(specificity, 2)) %>%
+        group_by(specificity) %>%
+        summarise(
+            mean_sensitivity = mean(sensitivity),
+            sd_sensitivity = sd(sensitivity)
+        ) %>%
+        mutate(
+            upper = mean_sensitivity + sd_sensitivity,
+            lower = mean_sensitivity - sd_sensitivity
+        ) %>%
+        mutate(
+            upper = case_when(
+                upper > 1 ~ 1,
+                TRUE ~ upper
+            ),
+            lower = case_when(
+                upper < 0 ~ 0,
+                TRUE ~ lower
+            )
+        )
+}
+
+calc_mean_prc <- function(sensspec_dat) {
+    sensspec_dat %>%
+        rename(recall = sensitivity) %>%
+        mutate(recall = round(recall, 2)) %>%
+        group_by(recall) %>%
+        summarise(
+            mean_precision = mean(precision),
+            sd_precision = sd(precision)
+        ) %>%
+        mutate(
+            upper = mean_precision + sd_precision,
+            lower = mean_precision - sd_precision
+        ) %>%
+        mutate(
+            upper = case_when(
+                upper > 1 ~ 1,
+                TRUE ~ upper
+            ),
+            lower = case_when(
+                upper < 0 ~ 0,
+                TRUE ~ lower
+            )
+        )
+}
+
+calc_baseline_precision <- function(metadat, outcome_colname, pos_outcome) {
+    outcome_tally <- metadat %>%
+        group_by(!!rlang::sym(outcome_colname)) %>%
+        tally()
+    npos <- outcome_tally %>%
+        filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
+        pull(n)
+    ntot <- outcome_tally %>%
+        pull(n) %>%
+        sum()
+    baseline_prec <- npos / ntot
+    return(baseline_prec)
 }

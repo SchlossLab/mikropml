@@ -224,3 +224,52 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
       width = .001
     ))
 }
+
+
+# sensitivity vs specificity
+plot_roc <- function(roc_dat) {
+    # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L219-L237
+    blues <- RColorBrewer::brewer.pal(name = "Blues", n = 9)
+    roc_dat %>%
+        ggplot(aes(
+            x = specificity, y = mean_sensitivity,
+            ymin = lower_sens, ymax = upper_sens
+        )) +
+        geom_ribbon(fill = blues[3]) +
+        geom_line(color = blues[9]) +
+        coord_equal() +
+        geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
+        scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        scale_x_reverse(expand = c(0, 0), limits = c(1.01, -0.01)) +
+        labs(x = "Specificity", y = "Sensitivity") +
+        theme_bw() +
+        theme(
+            plot.margin = unit(x = c(2, 8, 0, 0), units = "pt"),
+            legend.title = element_blank()
+        )
+}
+
+
+# precision vs recall
+plot_prc <- function(prc_dat, baseline_precision) {
+
+    greens <- RColorBrewer::brewer.pal(name = "Greens", n = 9)
+    prc_dat %>%
+        ggplot(aes(
+            x = recall, y = mean_precision,
+            ymin = lower, ymax = upper
+        )) +
+        geom_ribbon(fill = greens[3]) +
+        geom_line(color = greens[9]) +
+        coord_equal() +
+        geom_hline(yintercept = baseline_precision, linetype = "dashed", color = "grey50") +
+        scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        scale_x_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        labs(x = "Recall", y = "Precision") +
+        theme_bw() +
+        theme(
+            plot.margin = unit(x = c(2, 5, 0, 0), units = "pt"),
+            legend.position = "none"
+        )
+}
+
