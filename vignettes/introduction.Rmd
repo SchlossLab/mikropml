@@ -241,11 +241,12 @@ we think the defaults are a good starting point [@topcuoglu_framework_2020].
 
 When `training_frac` is a fraction between 0 and 1, a random sample of
 observations in the dataset are chosen for the training set to satisfy the
-`training_frac`. However, in some cases you might wish to control exactly which
-observations are in the training set. You can instead assign `training_frac` a
-vector of indices that correspond to which rows of the dataset should go in the
-training set (all remaining sequences will go in the testing set).
-Here's an example with ~80% of the data in the training set:
+`training_frac` using `get_partition_indices()`. However, in some cases you
+might wish to control exactly which observations are in the training set. You
+can instead assign `training_frac` a vector of indices that correspond to which
+rows of the dataset should go in the training set (all remaining sequences will
+go in the testing set). Here's an example with ~80% of the data in the training
+set:
 
 ```{r custom_train_indices, warning=FALSE}
 n_obs <- otu_mini_bin %>% nrow()
@@ -414,22 +415,22 @@ calculated from the proportion of each class in the data set, with ~70% of the
 data in the training set:
 
 ```{r calc-case-weights, message = FALSE}
+set.seed(20221016)
 library(dplyr)
+train_set_indices <- get_partition_indices(otu_mini_bin %>% pull(dx),
+                                           training_frac = 0.70)
 case_weights_dat <- otu_mini_bin %>%
   count(dx) %>%
   mutate(p = n / sum(n)) %>%
   select(dx, p) %>%
   right_join(otu_mini_bin, by = "dx") %>%
   select(-starts_with("Otu")) %>%
-  mutate(
-    in_train = sample(c(TRUE, FALSE),
-      size = nrow(otu_mini_bin),
-      replace = TRUE, prob = c(0.70, 0.30)
-    ),
-    row_num = row_number()
+  mutate(row_num = row_number(),
+         in_train = row_num %in% train_set_indices
   ) %>%
   filter(in_train)
 head(case_weights_dat)
+tail(case_weights_dat)
 nrow(case_weights_dat) / nrow(otu_mini_bin)
 ```
 
