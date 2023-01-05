@@ -63,6 +63,7 @@ get_hyperparams_list <- function(dataset, method) {
   hparams_functions <- list(
     glmnet = rlang::quo(set_hparams_glmnet()),
     rf = rlang::quo(set_hparams_rf(n_features)),
+    parRF = rlang::quo(set_hparams_rf(n_features)),
     rpart2 = rlang::quo(set_hparams_rpart2(n_samples)),
     svmRadial = rlang::quo(set_hparams_svmRadial()),
     xgbTree = rlang::quo(set_hparams_xgbTree(n_samples))

@@ -3,7 +3,6 @@
 #' Calculates feature importance using a trained model and test data. Requires
 #' the `future.apply` package.
 #'
-#' @param train_data Training data: dataframe of outcome and features.
 #' @inheritParams run_ml
 #' @inheritParams calc_perf_metrics
 #' @inheritParams group_correlated_features
@@ -121,7 +120,7 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_feature_importance <- function(trained_model, train_data, test_data,
+get_feature_importance <- function(trained_model, test_data,
                                    outcome_colname, perf_metric_function,
                                    perf_metric_name, class_probs, method,
                                    seed = NA, corr_thresh = 1, groups = NULL,
@@ -129,7 +128,7 @@ get_feature_importance <- function(trained_model, train_data, test_data,
   abort_packages_not_installed("future.apply")
 
   # get outcome and features
-  split_dat <- split_outcome_features(train_data, outcome_colname)
+  split_dat <- split_outcome_features(test_data, outcome_colname)
   outcome <- split_dat$outcome
   features <- split_dat$features
 
@@ -205,7 +204,6 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       class_probs, feat,
                                       test_perf_value,
                                       nperms = 100, progbar = NULL) {
-
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
   # but for now this is a temporary fix.

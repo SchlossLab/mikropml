@@ -53,8 +53,8 @@ and all of the other columns are the features. We package `otu_mini_bin` as a
 small example dataset with `mikropml`.
 
 ```{r}
-#install.packages("devtools")
-#devtools::install_github("SchlossLab/mikropml")
+# install.packages("devtools")
+# devtools::install_github("SchlossLab/mikropml")
 library(mikropml)
 head(otu_mini_bin)
 ```
@@ -126,9 +126,10 @@ To do so, run the ML pipeline with:
 
 ```{r, eval = FALSE}
 results <- run_ml(otu_mini_bin,
-                  'glmnet',
-                  outcome_colname = 'dx',
-                  seed = 2019)
+  "glmnet",
+  outcome_colname = "dx",
+  seed = 2019
+)
 ```
 ```{r, echo = FALSE}
 # reduce vignette runtime by using precomputed results
@@ -223,11 +224,12 @@ Here's an example where we change some of the default parameters:
 
 ```{r}
 results_custom <- run_ml(otu_mini_bin,
-                         'glmnet',
-                         kfold = 2,
-                         cv_times = 5,
-                         training_frac = 0.5,
-                         seed = 2019)
+  "glmnet",
+  kfold = 2,
+  cv_times = 5,
+  training_frac = 0.5,
+  seed = 2019
+)
 ```
 
 You might have noticed that this one ran faster — that's because we reduced `kfold` and `cv_times`.
@@ -251,12 +253,12 @@ n_obs <- otu_mini_bin %>% nrow()
 training_size <- 0.8 * n_obs
 training_rows <- sample(n_obs, training_size)
 results_custom_train <- run_ml(otu_mini_bin,
-                               'glmnet',
-                               kfold = 2,
-                               cv_times = 5,
-                               training_frac = training_rows,
-                               seed = 2019
-                               )
+  "glmnet",
+  kfold = 2,
+  cv_times = 5,
+  training_frac = training_rows,
+  seed = 2019
+)
 ```
 
 
@@ -294,11 +296,12 @@ c("RMSE", "Rsquared", "MAE")
 Here's an example using prAUC instead of AUC:
 
 ```{r}
-results_pr <- run_ml(otu_mini_bin, 
-                     'glmnet', 
-                     cv_times = 5, 
-                     perf_metric_name = 'prAUC', 
-                     seed = 2019)
+results_pr <- run_ml(otu_mini_bin,
+  "glmnet",
+  cv_times = 5,
+  perf_metric_name = "prAUC",
+  seed = 2019
+)
 ```
 
 You'll see that the cross-validation metric is prAUC, instead of the default AUC:
@@ -322,13 +325,14 @@ Here's an example where we split the data into train/test sets based on groups:
 ```{r custom_groups, warning=FALSE}
 # make random groups
 set.seed(2019)
-grps <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace=TRUE)
-results_grp <- run_ml(otu_mini_bin, 
-                      'glmnet', 
-                      cv_times = 2, 
-                      training_frac = 0.8, 
-                      groups = grps, 
-                      seed = 2019)
+grps <- sample(LETTERS[1:8], nrow(otu_mini_bin), replace = TRUE)
+results_grp <- run_ml(otu_mini_bin,
+  "glmnet",
+  cv_times = 2,
+  training_frac = 0.8,
+  groups = grps,
+  seed = 2019
+)
 ```
 
 The one difference here is `run_ml()` will report how much of the data is in the
@@ -352,15 +356,17 @@ You can give the `group_partitions` parameter a named list to specify which
 groups should go in the training set and which should go in the testing set.
 
 ```{r group_partitions, warning=FALSE}
-results_grp_part <- run_ml(otu_mini_bin, 
-                      'glmnet', 
-                      cv_times = 2, 
-                      training_frac = 0.8, 
-                      groups = grps, 
-                      group_partitions = list(train = c('A', 'B'),
-                                              test = c('C', 'D')
-                                              ),
-                      seed = 2019)
+results_grp_part <- run_ml(otu_mini_bin,
+  "glmnet",
+  cv_times = 2,
+  training_frac = 0.8,
+  groups = grps,
+  group_partitions = list(
+    train = c("A", "B"),
+    test = c("C", "D")
+  ),
+  seed = 2019
+)
 ```
 
 In the above case, all observations from A & B will be used for training, all
@@ -373,16 +379,18 @@ training, but you also want to allow other observations not selected for
 training from A through F to be used for testing:
 
 ```{r only_group_A_train, warning = FALSE}
-results_grp_trainA <- run_ml(otu_mini_bin, 
-                      'glmnet', 
-                      cv_times = 2, 
-                      kfold = 2,
-                      training_frac = 0.5, 
-                      groups = grps, 
-                      group_partitions = list(train = c("A", "B", "C", "D", "E", "F"),
-                                              test = c("A", "B", "C", "D", "E", "F", "G", "H")
-                                              ),
-                      seed = 2019)
+results_grp_trainA <- run_ml(otu_mini_bin,
+  "glmnet",
+  cv_times = 2,
+  kfold = 2,
+  training_frac = 0.5,
+  groups = grps,
+  group_partitions = list(
+    train = c("A", "B", "C", "D", "E", "F"),
+    test = c("A", "B", "C", "D", "E", "F", "G", "H")
+  ),
+  seed = 2019
+)
 ```
 
 If you need even more control than this, take a look at 
@@ -412,14 +420,15 @@ library(dplyr)
 train_set_indices <- get_partition_indices(otu_mini_bin %>% pull(dx),
                                            training_frac = 0.70)
 case_weights_dat <- otu_mini_bin %>%
-    count(dx) %>%
-    mutate(p = n / sum(n)) %>%
-    select(dx, p) %>% 
-    right_join(otu_mini_bin, by = 'dx') %>%
-    select(-starts_with("Otu")) %>% 
-    mutate(row_num = row_number(),
-           in_train = row_num %in% train_set_indices) %>% 
-    filter(in_train)
+  count(dx) %>%
+  mutate(p = n / sum(n)) %>%
+  select(dx, p) %>%
+  right_join(otu_mini_bin, by = "dx") %>%
+  select(-starts_with("Otu")) %>%
+  mutate(row_num = row_number(),
+         in_train = row_num %in% train_set_indices
+  ) %>%
+  filter(in_train)
 head(case_weights_dat)
 tail(case_weights_dat)
 nrow(case_weights_dat) / nrow(otu_mini_bin)
@@ -427,11 +436,12 @@ nrow(case_weights_dat) / nrow(otu_mini_bin)
 
 ```{r weighted-results, eval = FALSE}
 results_weighted <- run_ml(otu_mini_bin,
-                  'glmnet',
-                  outcome_colname = 'dx',
-                  seed = 2019,
-                  training_frac = case_weights_dat %>% pull(row_num),
-                  weights = case_weights_dat %>% pull(p))
+  "glmnet",
+  outcome_colname = "dx",
+  seed = 2019,
+  training_frac = case_weights_dat %>% pull(row_num),
+  weights = case_weights_dat %>% pull(p)
+)
 ```
 
 See the caret docs for [a list of models that accept case weights](https://topepo.github.io/caret/train-models-by-tag.html#Accepts_Case_Weights).
@@ -490,11 +500,12 @@ the default value.
 
 ```{r}
 results_imp_corr <- run_ml(otu_mini_bin,
-                           'glmnet',
-                           cv_times = 5,
-                           find_feature_importance = TRUE,
-                           corr_thresh = 0.2,
-                           seed = 2019)
+  "glmnet",
+  cv_times = 5,
+  find_feature_importance = TRUE,
+  corr_thresh = 0.2,
+  seed = 2019
+)
 results_imp_corr$feature_importance
 ```
 
@@ -525,9 +536,10 @@ The output for all of them is very similar, so we won't go into those details.
 
 ```{r, eval = FALSE}
 results_rf <- run_ml(otu_mini_bin,
-                     'rf',
-                     cv_times = 5,
-                     seed = 2019)
+  "rf",
+  cv_times = 5,
+  seed = 2019
+)
 ```
 
 The `rf` engine takes an optional argument `ntree`: the number of trees to use 
@@ -538,28 +550,31 @@ other packages with random forest implementations.
 
 ```{r, eval = FALSE}
 results_rf_nt <- run_ml(otu_mini_bin,
-                        'rf',
-                        cv_times = 5,
-                        ntree = 1000,
-                        seed = 2019)
+  "rf",
+  cv_times = 5,
+  ntree = 1000,
+  seed = 2019
+)
 ```
 
 ## Decision tree
 
 ```{r, eval = FALSE}
 results_dt <- run_ml(otu_mini_bin,
-                     'rpart2',
-                     cv_times = 5,
-                     seed = 2019)
+  "rpart2",
+  cv_times = 5,
+  seed = 2019
+)
 ```
 
 ## SVM
 
 ```{r, eval = FALSE}
 results_svm <- run_ml(otu_mini_bin,
-                      'svmRadial',
-                      cv_times = 5,
-                      seed = 2019)
+  "svmRadial",
+  cv_times = 5,
+  seed = 2019
+)
 ```
 
 If you get a message "maximum number of iterations reached", see [this issue](https://github.com/topepo/caret/issues/425) in caret.
@@ -571,7 +586,9 @@ If you get a message "maximum number of iterations reached", see [this issue](ht
 We provide `otu_mini_multi` with a multiclass outcome (three or more outcomes): 
 
 ```{r}
-otu_mini_multi %>% dplyr::pull('dx') %>% unique()
+otu_mini_multi %>%
+  dplyr::pull("dx") %>%
+  unique()
 ```
 
 
@@ -579,8 +596,8 @@ Here's an example of running multiclass data:
 
 ```{r, eval = FALSE}
 results_multi <- run_ml(otu_mini_multi,
-                        outcome_colname = "dx",
-                        seed = 2019
+  outcome_colname = "dx",
+  seed = 2019
 )
 ```
 ```{r, echo = FALSE}
@@ -601,9 +618,10 @@ where the outcome column is numerical:
 
 ```{r, eval = FALSE}
 results_cont <- run_ml(otu_mini_bin[, 2:11],
-                       'glmnet',
-                       outcome_colname = 'Otu00001',
-                       seed = 2019)
+  "glmnet",
+  outcome_colname = "Otu00001",
+  seed = 2019
+)
 ```
 ```{r, echo = FALSE}
 results_cont <- otu_mini_cont_results_glmnet

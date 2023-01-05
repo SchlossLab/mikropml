@@ -1,49 +1,51 @@
-default_hyperparams <- structure(list(
-  param = c(
-    "lambda", "lambda", "lambda", "lambda", "lambda",
-    "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", "lambda",
-    "lambda", "alpha", "sigma", "sigma", "sigma", "sigma", "sigma",
-    "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
-    "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",
-    "maxdepth", "nrounds", "gamma", "eta", "eta", "eta", "eta", "max_depth",
-    "colsample_bytree", "min_child_weight", "subsample", "subsample",
-    "subsample", "subsample", "mtry", "mtry"
+default_hyperparams <- structure(
+  list(
+    param = c(
+      "lambda", "lambda", "lambda", "lambda", "lambda",
+      "lambda", "lambda", "lambda", "lambda", "lambda", "lambda", "lambda",
+      "lambda", "alpha", "sigma", "sigma", "sigma", "sigma", "sigma",
+      "sigma", "sigma", "sigma", "C", "C", "C", "C", "C", "C", "C",
+      "C", "C", "maxdepth", "maxdepth", "maxdepth", "maxdepth", "maxdepth",
+      "maxdepth", "nrounds", "gamma", "eta", "eta", "eta", "eta", "max_depth",
+      "colsample_bytree", "min_child_weight", "subsample", "subsample",
+      "subsample", "subsample", "mtry", "mtry"
+    ),
+    value = c(
+      "1e-6",
+      "1e-5", "1e-4", "1e-3", "0.0025", "0.005", "0.01", "0.05", "0.1",
+      "0.25", "0.5", "1", "10", "0", "0.00000001",
+      "0.0000001", "0.000001", "0.00001", "0.0001", "0.001", "0.01",
+      "0.1", "0.0000001", "0.000001", "0.00001", "0.0001", "0.001",
+      "0.01", "0.1", "1", "10", "1", "2", "3", "4", "5", "6", "500",
+      "0", "0.001", "0.01", "0.1", "1", "8", "0.8", "1", "0.4", "0.5",
+      "0.6", "0.7", "500", "1000"
+    ),
+    method = c(
+      "glmnet", "glmnet",
+      "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
+      "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
+      "glmnet", "glmnet", "svmRadial", "svmRadial",
+      "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+      "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+      "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
+      "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "xgbTree",
+      "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
+      "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "rf", "rf"
+    )
   ),
-  value = c(
-    "1e-6",
-    "1e-5", "1e-4", "1e-3", "0.0025", "0.005", "0.01", "0.05", "0.1",
-    "0.25", "0.5", "1", "10", "0", "0.00000001",
-    "0.0000001", "0.000001", "0.00001", "0.0001", "0.001", "0.01",
-    "0.1", "0.0000001", "0.000001", "0.00001", "0.0001", "0.001",
-    "0.01", "0.1", "1", "10", "1", "2", "3", "4", "5", "6", "500",
-    "0", "0.001", "0.01", "0.1", "1", "8", "0.8", "1", "0.4", "0.5",
-    "0.6", "0.7", "500", "1000"
-  ),
-  method = c(
-    "glmnet", "glmnet",
-    "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
-    "glmnet", "glmnet", "glmnet", "glmnet", "glmnet",
-    "glmnet", "glmnet", "svmRadial", "svmRadial",
-    "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-    "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-    "svmRadial", "svmRadial", "svmRadial", "svmRadial", "svmRadial",
-    "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "rpart2", "xgbTree",
-    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree",
-    "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "xgbTree", "rf", "rf"
+  class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"),
+  row.names = c(NA, -52L),
+  spec = structure(
+    list(
+      cols = list(
+        param = structure(list(), class = c("collector_character", "collector")),
+        val = structure(list(), class = c("collector_character", "collector")),
+        method = structure(list(), class = c("collector_character", "collector"))
+      ),
+      default = structure(list(), class = c("collector_guess", "collector")), skip = 1
+    ),
+    class = "col_spec"
   )
-),
-class = c("spec_tbl_df", "tbl_df", "tbl", "data.frame"),
-row.names = c(NA, -52L),
-spec = structure(list(
-  cols = list(
-    param = structure(list(), class = c("collector_character", "collector")),
-    val = structure(list(), class = c("collector_character", "collector")),
-    method = structure(list(), class = c("collector_character", "collector"))
-  ),
-  default = structure(list(), class = c("collector_guess", "collector")), skip = 1
-),
-class = "col_spec"
-)
 )
 
 # tune grid tests for each method
@@ -135,6 +137,12 @@ test_that("get_hyperparams_list works for all models", {
       max_depth = c(1, 2, 4, 8, 16, 30), colsample_bytree = 0.8,
       min_child_weight = 1, subsample = c(0.4, 0.5, 0.6, 0.7)
     )
+  )
+})
+test_that("parRF and rf use same default hyperparameters", {
+  expect_equal(
+    get_hyperparams_list(otu_mini_bin, "rf"),
+    get_hyperparams_list(otu_mini_bin, "parRF")
   )
 })
 test_that("get_hyperparams_list throws error for unsupported method", {

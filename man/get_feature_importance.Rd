@@ -6,7 +6,6 @@
 \usage{
 get_feature_importance(
   trained_model,
-  train_data,
   test_data,
   outcome_colname,
   perf_metric_function,
@@ -22,8 +21,6 @@ get_feature_importance(
 }
 \arguments{
 \item{trained_model}{Trained model from \code{\link[caret:train]{caret::train()}}.}
-
-\item{train_data}{Training data: dataframe of outcome and features.}
 
 \item{test_data}{Held out test data: dataframe of outcome and features.}
 
