@@ -61,18 +61,36 @@ test_that("get_performance_tbl works", {
     ),
     otu_mini_bin_results_glmnet$performance
   )
-  expect_warning(get_performance_tbl(
-    otu_mini_bin_results_glmnet$trained_model,
-    otu_mini_bin_results_glmnet$test_data,
-    "dx",
-    caret::multiClassSummary,
-    "not_a_perf_metric",
-    TRUE,
-    "glmnet",
-    seed = 2019
-  ), "The performance metric provided does not match the metric used to train the data.")
+  expect_warning(
+      get_performance_tbl(
+          otu_mini_bin_results_glmnet$trained_model,
+          otu_mini_bin_results_glmnet$test_data,
+          "dx",
+          caret::multiClassSummary,
+          "not_a_perf_metric",
+          TRUE,
+          "glmnet",
+          seed = 2019
+      ),
+      "The performance metric provided does not match the metric used to train the data."
+  )
 })
 
 test_that("sensspec calculations work", {
+    expect_equal(
+        get_model_sensspec(
+            otu_mini_bin_results_glmnet$trained_model,
+            otu_mini_bin_results_glmnet$test_data,
+            'dx',
+            'cancer'
+        ),
+        readRDS(
+            testthat::test_path('fixtures', 'otu_mini_bin_results_glmnet_sensspec.Rds')
+        )
+    )
     sensspec_dat <- readRDS(test_path('fixtures', 'sensspec_dat.Rds'))
+    expect_equal(calc_mean_roc(sensspec_dat),
+                 readRDS(testthat::test_path('fixtures', 'sensspec_roc.Rds')))
+    expect_equal(calc_mean_prc(sensspec_dat),
+                 readRDS(testthat::test_path('fixtures', 'sensspec_prc.Rds')))
 })
