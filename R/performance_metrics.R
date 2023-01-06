@@ -258,17 +258,16 @@ NULL
 #' @export
 get_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
-    probs <- predict(model,
-                     newdata = test_dat,
-                     type = "prob"
+    probs <- stats::predict(trained_model,
+                            newdata = test_data,
+                            type = "prob"
     ) %>%
-        dplyr::mutate(actual = test_dat %>%
-                          dplyr::pull(outcome_colname)
-                      )
+        dplyr::mutate(actual = test_data %>%
+                          dplyr::pull(outcome_colname))
 
     total <- probs %>%
-        count(actual) %>%
-        pivot_wider(names_from = "actual", values_from = "n") %>%
+        dplyr::count(actual) %>%
+        tidyr::pivot_wider(names_from = "actual", values_from = "n") %>%
         as.list()
 
     neg_outcome <- names(total) %>%
@@ -276,19 +275,19 @@ get_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_ou
         Filter(function(x) { x != pos_outcome}, .)
 
     sensspec <- probs %>%
-        arrange(desc(pos_outcome)) %>%
-        mutate(is_pos = actual == pos_outcome) %>%
-        mutate(
+        dplyr::arrange(desc(pos_outcome)) %>%
+        dplyr::mutate(is_pos = actual == pos_outcome) %>%
+        dplyr::mutate(
             tp = cumsum(is_pos),
             fp = cumsum(!is_pos),
             sensitivity = tp / total[[pos_outcome]],
             fpr = fp / total[[neg_outcome]]
         ) %>%
-        mutate(
+        dplyr::mutate(
             specificity = 1 - fpr,
             precision = tp / (tp + fp)
         ) %>%
-        select(-is_pos)
+        dplyr::select(-is_pos)
     return(sensspec)
 }
 
@@ -308,11 +307,11 @@ calc_mean_perf <- function(sensspec_dat,
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
 
     sensspec_dat %>%
-        mutate({{ group_var }} := round({{ group_var }}, 2)) %>%
-        group_by({{ group_var }}) %>%
-        summarise(
+        dplyr::mutate({{ group_var }} := round({{ group_var }}, 2)) %>%
+        dplyr::group_by({{ group_var }}) %>%
+        dplyr::summarise(
             mean = mean({{ sum_var }}),
-            sd = sd({{ sum_var }})
+            sd = stats::sd({{ sum_var }})
         ) %>%
         mutate(
             upper = mean + sd,
@@ -326,8 +325,8 @@ calc_mean_perf <- function(sensspec_dat,
                 TRUE ~ lower
             )
         ) %>%
-        rename("mean_{{ sum_var }}" := mean,
-               "sd_{{ sum_var }}" := sd)
+        dplyr::rename("mean_{{ sum_var }}" := mean,
+                      "sd_{{ sum_var }}" := sd)
 }
 
 #' @describeIn sensspec Calculate mean sensitivity over specificity
@@ -345,7 +344,7 @@ calc_mean_roc <- function(sensspec_dat) {
 #' @export
 calc_mean_prc <- function(sensspec_dat) {
     return(calc_mean_perf(sensspec_dat %>%
-                              rename(recall = sensitivity),
+                              dplyr::rename(recall = sensitivity),
                           group_var = recall,
                           sum_var = precision
                           )
