@@ -52,7 +52,9 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 Your results will only be reproducible if you set a seed.}
 }
 \value{
-A one-row tibble with columns \code{cv_auroc}, column for each of the performance metrics for the test data \code{method}, and \code{seed}.
+A one-row tibble with a column for the cross-validation performance,
+columns for each of the performance metrics for the test data,
+plus the \code{method}, and \code{seed}.
 }
 \description{
 Get model performance metrics as a one-row tibble

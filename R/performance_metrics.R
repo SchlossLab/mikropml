@@ -206,26 +206,57 @@ get_performance_tbl <- function(trained_model,
     change_to_num())
 }
 
-#' Get sensitivty and specificity for a model.
+#' @name sensspec
+#' @title Calculate and summarize sensitivity, specificity, and precision.
+#' @description These functions assume a binary outcome
 #'
-#' This function assumes a binary outcome.
+#' @return data frame with summarized performance
 #'
-#' @param model
-#' @param test_dat
-#' @param outcome_colname
-#' @param pos_outcome
-#'
-#' @return
-#' @export
 #' @author Courtney Armour
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' get_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
+#' \dontrun{
+#' # get cumulative performance for a single model
+#' sensspec_1 <- get_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
 #'                    otu_mini_bin_results_glmnet$test_data,
 #'                    'dx', 'cancer'
 #' )
-get_model_sensspec <- function(model, test_dat, outcome_colname, pos_outcome) {
+#' head(pred_1)
+#'
+#' # get performance for multiple models
+#' get_sensspec_seed <- function(seed) {
+#'   ml_result <- run_ml(otu_mini_bin, 'glmnet', seed = seed)
+#'   sensspec <- get_model_sensspec(ml_result$trained_model,
+#'                                  ml_result$test_data,
+#'                                  'dx', 'cancer') %>%
+#'                                  mutate(seed = seed)
+#'   return(sensspec)
+#' }
+#' sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
+#'
+#' # calculate mean sensitivity over specificity
+#' roc_dat <- calc_mean_roc(sensspec_dat)
+#' head(roc_dat)
+#'
+#' # calculate mean precision over recall
+#' prc_dat <- calc_mean_prc(sensspec_dat)
+#' head(prc_dat)
+#'
+#' # plot ROC & PRC
+#' # TODO
+#' }
+NULL
+
+#' @describeIn sensspec Get sensitivty, specificity, and precision for a model.
+#'
+#' @inheritParams calc_perf_metrics
+#' @inheritParams run_ml
+#' @param pos_outcome the positive outcome from `outcome_colname`,
+#'   e.g. "cancer" for the `otu_mini_bin` dataset.
+#'
+#' @export
+get_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
     probs <- predict(model,
                      newdata = test_dat,
@@ -261,93 +292,88 @@ get_model_sensspec <- function(model, test_dat, outcome_colname, pos_outcome) {
     return(sensspec)
 }
 
-# TODO: use tidy eval to make one function each for calc_mean_[roc/prc] and plot_[auroc/auprc]
+#' Generic function to calculate mean performance curves for multiple models
+#'
+#' @param sensspec_dat data frame by concatenating results of `get_model_sensspec()` for multiple models.
+#' @param group_var variable to group by (e.g. specificity or recall).
+#' @param sum_var variable to summarize (e.g. sensitivity or precision).
+#'
+#' @return data frame with mean & sd `sum_var` summarized over `group_var`
+#'
+#' @author Courtney Armour
+#' @author Kelly Sovacool
 calc_mean_perf <- function(sensspec_dat,
                            group_var = specificity,
-                           sum_var = sensitivity)) {
+                           sum_var = sensitivity) {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
+
     sensspec_dat %>%
-        mutate(specificity = round(specificity, 2)) %>%
-        group_by(specificity) %>%
+        mutate({{ group_var }} := round({{ group_var }}, 2)) %>%
+        group_by({{ group_var }}) %>%
         summarise(
-            mean_sensitivity = mean(sensitivity),
-            sd_sensitivity = sd(sensitivity)
+            mean = mean({{ sum_var }}),
+            sd = sd({{ sum_var }})
         ) %>%
         mutate(
-            upper = mean_sensitivity + sd_sensitivity,
-            lower = mean_sensitivity - sd_sensitivity
-        ) %>%
-        mutate(
+            upper = mean + sd,
+            lower = mean - sd,
             upper = case_when(
                 upper > 1 ~ 1,
                 TRUE ~ upper
             ),
             lower = case_when(
-                upper < 0 ~ 0,
+                lower < 0 ~ 0,
                 TRUE ~ lower
             )
-        )
+        ) %>%
+        rename("mean_{{ sum_var }}" := mean,
+               "sd_{{ sum_var }}" := sd)
 }
 
-
+#' @describeIn sensspec Calculate mean sensitivity over specificity
+#' @inheritParams calc_mean_perf
+#' @export
 calc_mean_roc <- function(sensspec_dat) {
-    sensspec_dat %>%
-        mutate(specificity = round(specificity, 2)) %>%
-        group_by(specificity) %>%
-        summarise(
-            mean_sensitivity = mean(sensitivity),
-            sd_sensitivity = sd(sensitivity)
-        ) %>%
-        mutate(
-            upper = mean_sensitivity + sd_sensitivity,
-            lower = mean_sensitivity - sd_sensitivity
-        ) %>%
-        mutate(
-            upper = case_when(
-                upper > 1 ~ 1,
-                TRUE ~ upper
-            ),
-            lower = case_when(
-                upper < 0 ~ 0,
-                TRUE ~ lower
-            )
-        )
+    return(calc_mean_perf(sensspec_dat,
+                          group_var = specificity,
+                          sum_var = sensitivity)
+           )
 }
 
+#' @describeIn sensspec Calculate mean precision over recall
+#' @inheritParams calc_mean_perf
+#' @export
 calc_mean_prc <- function(sensspec_dat) {
-    sensspec_dat %>%
-        rename(recall = sensitivity) %>%
-        mutate(recall = round(recall, 2)) %>%
-        group_by(recall) %>%
-        summarise(
-            mean_precision = mean(precision),
-            sd_precision = sd(precision)
-        ) %>%
-        mutate(
-            upper = mean_precision + sd_precision,
-            lower = mean_precision - sd_precision
-        ) %>%
-        mutate(
-            upper = case_when(
-                upper > 1 ~ 1,
-                TRUE ~ upper
-            ),
-            lower = case_when(
-                upper < 0 ~ 0,
-                TRUE ~ lower
-            )
-        )
+    return(calc_mean_perf(sensspec_dat %>%
+                              rename(recall = sensitivity),
+                          group_var = recall,
+                          sum_var = precision
+                          )
+           )
 }
 
-calc_baseline_precision <- function(metadat, outcome_colname, pos_outcome) {
-    outcome_tally <- metadat %>%
-        group_by(!!rlang::sym(outcome_colname)) %>%
-        tally()
+#' Calculate the fraction of positives, i.e. baseline precision
+#'
+#' @inheritParams get_outcome_type
+#' @inheritParams run_ml
+#' @inheritParams get_model_sensspec
+#'
+#' @return the baseline precision based on the fraction of positives
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#'
+#' calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+#'
+calc_baseline_precision <- function(dataset, outcome_colname, pos_outcome) {
+    outcome_tally <- dataset %>%
+        dplyr::count(!!rlang::sym(outcome_colname))
     npos <- outcome_tally %>%
-        filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
-        pull(n)
+        dplyr::filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
+        dplyr::pull(n)
     ntot <- outcome_tally %>%
-        pull(n) %>%
+        dplyr::pull(n) %>%
         sum()
     baseline_prec <- npos / ntot
     return(baseline_prec)
