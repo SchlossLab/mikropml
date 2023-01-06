@@ -11,9 +11,8 @@ get_sensspec_seed <- function(colnum) {
                                    'dx', 'cancer')
     return(sensspec)
 }
-sensspec_dat <- furrr::future_map_dfr(seq(1, dim(results_mtx)[2]),
-                                      get_sensspec_seed,
-                                      .options = furrr::furrr_options(seed = TRUE))
+sensspec_dat <- purrr::map_dfr(seq(1, dim(results_mtx)[2]),
+                               get_sensspec_seed)
 saveRDS(sensspec_dat, testthat::test_path('fixtures', 'sensspec_dat.Rds'))
 saveRDS(calc_mean_prc(sensspec_dat), testthat::test_path('fixtures', 'sensspec_prc.Rds'))
 saveRDS(calc_mean_roc(sensspec_dat), testthat::test_path('fixtures', 'sensspec_roc.Rds'))
