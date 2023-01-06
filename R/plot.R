@@ -227,16 +227,16 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
 
 
 # sensitivity vs specificity
-plot_roc <- function(roc_dat) {
+plot_roc <- function(roc_dat, ribbon_fill = "#C6DBEF", line_color = "#08306B") {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L219-L237
-    blues <- RColorBrewer::brewer.pal(name = "Blues", n = 9)
+
     roc_dat %>%
         ggplot(aes(
             x = specificity, y = mean_sensitivity,
-            ymin = lower_sens, ymax = upper_sens
+            ymin = lower, ymax = upper
         )) +
-        geom_ribbon(fill = blues[3]) +
-        geom_line(color = blues[9]) +
+        geom_ribbon(fill = ribbon_fill) +
+        geom_line(color = line_color) +
         coord_equal() +
         geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
         scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
@@ -251,18 +251,19 @@ plot_roc <- function(roc_dat) {
 
 
 # precision vs recall
-plot_prc <- function(prc_dat, baseline_precision) {
+plot_prc <- function(prc_dat,
+                     baseline_precision = NULL,
+                     ribbon_fill = "#C7E9C0",
+                     line_color = "#00441B") {
 
-    greens <- RColorBrewer::brewer.pal(name = "Greens", n = 9)
-    prc_dat %>%
+    prc_plot <- prc_dat %>%
         ggplot(aes(
             x = recall, y = mean_precision,
             ymin = lower, ymax = upper
         )) +
-        geom_ribbon(fill = greens[3]) +
-        geom_line(color = greens[9]) +
-        coord_equal() +
-        geom_hline(yintercept = baseline_precision, linetype = "dashed", color = "grey50") +
+        geom_ribbon(fill = ribbon_fill) +
+        geom_line(color = line_color) +
+        coord_equal()  +
         scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
         scale_x_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
         labs(x = "Recall", y = "Precision") +
@@ -271,5 +272,10 @@ plot_prc <- function(prc_dat, baseline_precision) {
             plot.margin = unit(x = c(2, 5, 0, 0), units = "pt"),
             legend.position = "none"
         )
+    if (!is.null(baseline_precision)) {
+        prc_plot <- prc_plot +
+            geom_hline(yintercept = baseline_precision, linetype = "dashed", color = "grey50")
+    }
+    return(prc_plot)
 }
 

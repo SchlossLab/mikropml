@@ -131,20 +131,6 @@ results_mtx <- future.apply::future_mapply(
 results_mtx <- readRDS(testthat::test_path('fixtures', 'results_mtx.Rds'))
 ```
 
-Extract and combine the results for all seeds and methods:
-
-```{r bind_multi_methods}
-perf_df <- lapply(
-  results_mtx["performance", ],
-  function(x) {
-    x %>% select(cv_metric_AUC, AUC, method)
-  }
-) %>%
-  dplyr::bind_rows()
-feat_df <- results_mtx["feature_importance", ] %>%
-  dplyr::bind_rows()
-```
-
 ### Visualize the results
 
 `ggplot2` is required to use our plotting functions below. 
@@ -153,6 +139,14 @@ You can also create your own plots however you like using the results.
 #### Performance
 
 ```{r plot_perf}
+perf_df <- lapply(
+  results_mtx["performance", ],
+  function(x) {
+    x %>% select(cv_metric_AUC, AUC, method)
+  }
+) %>%
+  dplyr::bind_rows()
+
 perf_boxplot <- plot_model_performance(perf_df)
 perf_boxplot
 ```
@@ -194,7 +188,7 @@ sensspec_dat %>%
 
 sensspec_dat %>% 
     calc_mean_prc() %>% 
-    plot_prc()
+    plot_prc(baseline_precision = calc_baseline_precision(otu_data_preproc, 'dx', 'cancer'))
 ```
 
 
@@ -212,6 +206,9 @@ You can select the top n most important features for your models and plot them
 like so:
 
 ```{r feat_imp_plot}
+feat_df <- results_mtx["feature_importance", ] %>%
+  dplyr::bind_rows()
+
 top_n <- 5
 top_feats <- feat_df %>%
   group_by(method, names) %>%
