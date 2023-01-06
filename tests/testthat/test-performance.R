@@ -72,3 +72,7 @@ test_that("get_performance_tbl works", {
     seed = 2019
   ), "The performance metric provided does not match the metric used to train the data.")
 })
+
+test_that("sensspec calculations work", {
+    sensspec_dat <- readRDS(test_path('fixtures', 'sensspec_dat.Rds'))
+})
