@@ -112,20 +112,23 @@ You may also wish to compare performance for different ML methods. `mapply()`
 can iterate over multiple lists or vectors, and `future_mapply()` works the same
 way:
 
-```{r multi_methods_seeds}
+```{r multi_methods_seeds, eval = FALSE}
 # NOTE: use more seeds for real-world data
 param_grid <- expand.grid(
-  seeds = seq(100, 102),
-  methods = c("glmnet", "rf")
+    seeds = seq(100, 110),
+    methods = c("glmnet", "rf")
 )
 results_mtx <- future.apply::future_mapply(
-  function(seed, method) {
-    run_ml(otu_data_preproc, method, seed = seed, find_feature_importance = TRUE)
-  },
-  param_grid$seeds,
-  param_grid$methods %>% as.character(),
-  future.seed = TRUE
+    function(seed, method) {
+        run_ml(otu_data_preproc, method, seed = seed, find_feature_importance = TRUE)
+    },
+    param_grid$seeds,
+    param_grid$methods %>% as.character(),
+    future.seed = TRUE
 )
+```
+```{r results_mtx, echo = FALSE}
+results_mtx <- readRDS(testthat::test_path('fixtures', 'results_mtx.Rds'))
 ```
 
 Extract and combine the results for all seeds and methods:
@@ -163,6 +166,37 @@ perf_boxplot +
   scale_color_brewer(palette = "Dark2") +
   coord_flip()
 ```
+
+
+Get sensitivity, specificity, and precision for all models.
+
+
+```{r predict}
+get_sensspec_seed <- function(colnum) {
+    result <- results_mtx[, colnum]
+    trained_model <- result$trained_model
+    test_data <- result$test_data
+    sensspec <- get_model_sensspec(trained_model,
+                                   test_data,
+                                   'dx', 'cancer')
+    return(sensspec)
+}
+sensspec_dat <- purrr::map_dfr(seq(1, dim(results_mtx)[2]),
+                               get_sensspec_seed)
+```
+
+Plot ROC and PRC 
+
+```{r plot_roc_prc}
+sensspec_dat %>% 
+    calc_mean_roc() %>% 
+    plot_roc()
+
+sensspec_dat %>% 
+    calc_mean_prc() %>% 
+    plot_prc()
+```
+
 
 #### Feature importance
 
