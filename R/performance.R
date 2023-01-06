@@ -248,6 +248,7 @@ get_performance_tbl <- function(trained_model,
 #' }
 NULL
 
+# TODO fix flipped roc/prc curves
 #' @describeIn sensspec Get sensitivty, specificity, and precision for a model.
 #'
 #' @inheritParams calc_perf_metrics
@@ -275,7 +276,7 @@ get_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_ou
         Filter(function(x) { x != pos_outcome}, .)
 
     sensspec <- probs %>%
-        dplyr::arrange(desc(pos_outcome)) %>%
+        dplyr::arrange(desc(!!rlang::sym(pos_outcome))) %>%
         dplyr::mutate(is_pos = actual == pos_outcome) %>%
         dplyr::mutate(
             tp = cumsum(is_pos),
