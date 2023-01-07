@@ -6,9 +6,12 @@ get_sensspec_seed <- function(colnum) {
     result <- results_mtx[, colnum]
     trained_model <- result$trained_model
     test_data <- result$test_data
-    sensspec <- get_model_sensspec(trained_model,
+    seed <- result$performance$seed
+    method <- result$trained_model$method
+    sensspec <- calc_model_sensspec(trained_model,
                                    test_data,
-                                   'dx', 'cancer')
+                                   'dx', 'cancer') %>%
+        mutate(seed = seed, method = method)
     return(sensspec)
 }
 sensspec_dat <- purrr::map_dfr(seq(1, dim(results_mtx)[2]),
@@ -18,7 +21,7 @@ saveRDS(calc_mean_prc(sensspec_dat), testthat::test_path('fixtures', 'sensspec_p
 saveRDS(calc_mean_roc(sensspec_dat), testthat::test_path('fixtures', 'sensspec_roc.Rds'))
 
 saveRDS(
-    get_model_sensspec(
+    calc_model_sensspec(
         otu_mini_bin_results_glmnet$trained_model,
         otu_mini_bin_results_glmnet$test_data,
         'dx',
