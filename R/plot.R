@@ -226,52 +226,63 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
 }
 
 
-# sensitivity vs specificity
-plot_roc <- function(roc_dat, ribbon_fill = "#C6DBEF", line_color = "#08306B") {
-    # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L219-L237
-
-    roc_dat %>%
-        ggplot(aes(
-            x = specificity, y = mean_sensitivity,
-            ymin = lower, ymax = upper
-        )) +
-        geom_ribbon(fill = ribbon_fill) +
-        geom_line(color = line_color) +
-        coord_equal() +
-        geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
-        scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
-        scale_x_reverse(expand = c(0, 0), limits = c(1.01, -0.01)) +
-        labs(x = "Specificity", y = "Sensitivity") +
-        theme_bw() +
-        theme(
-            plot.margin = unit(x = c(2, 8, 0, 0), units = "pt"),
-            legend.title = element_blank()
-        )
+#' Get plot layers shared by `plot_mean_roc` and `plot_mean_prc`
+#'
+#' @param ribbon_fill ribbon fill color (default: "#D9D9D9")
+#' @param line_color  line color (default: "#000000")
+#'
+#' @return list of ggproto objects to add to a ggplot
+#'
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+shared_ggprotos <- function(ribbon_fill = "#D9D9D9",
+                            line_color = "#000000") {
+        return(list(
+            geom_ribbon(fill = ribbon_fill),
+            geom_line(color = line_color),
+            coord_equal(),
+            scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)),
+            theme_bw(),
+            theme(legend.title = element_blank())
+        ))
 }
 
+#' @describeIn plot_curves Plot mean sensitivity over specificity
+#'
+#' @inheritParams shared_ggprotos
+#' @param dat sensitivity, specificity, and precision data calculated by `calc_mean_roc()`
+#'
+#' @export
+plot_mean_roc <- function(dat,
+                          ribbon_fill = "#C6DBEF", line_color = "#08306B") {
 
-# precision vs recall
-plot_prc <- function(prc_dat,
-                     baseline_precision = NULL,
-                     ribbon_fill = "#C7E9C0",
-                     line_color = "#00441B") {
-
-    prc_plot <- prc_dat %>%
-        ggplot(aes(
-            x = recall, y = mean_precision,
-            ymin = lower, ymax = upper
+    dat %>%
+        ggplot(aes(x = specificity, y = mean_sensitivity,
+                   ymin = lower, ymax = upper
         )) +
-        geom_ribbon(fill = ribbon_fill) +
-        geom_line(color = line_color) +
-        coord_equal()  +
-        scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        shared_ggprotos(ribbon_fill = ribbon_fill, line_color = line_color) +
+        geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
+        scale_x_reverse(expand = c(0, 0), limits = c(1.01, -0.01)) +
+        labs(x = "Specificity", y = "Mean Sensitivity")
+}
+
+#' @describeIn plot_curves Plot mean precision over recall
+#'
+#' @inheritParams shared_ggprotos
+#' @inheritParams plot_mean_roc
+#' @param baseline_precision baseline precision from `calc_baseline_precision()`
+#'
+#' @export
+plot_mean_prc <- function(dat, baseline_precision = NULL,
+                          ribbon_fill = "#C7E9C0", line_color = "#00441B") {
+
+    prc_plot <- dat %>%
+        ggplot(aes(x = recall, y = mean_precision,
+                   ymin = lower, ymax = upper
+        )) +
+        shared_ggprotos(ribbon_fill = ribbon_fill, line_color = line_color) +
         scale_x_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
-        labs(x = "Recall", y = "Precision") +
-        theme_bw() +
-        theme(
-            plot.margin = unit(x = c(2, 5, 0, 0), units = "pt"),
-            legend.position = "none"
-        )
+        labs(x = "Recall", y = "Mean Precision")
     if (!is.null(baseline_precision)) {
         prc_plot <- prc_plot +
             geom_hline(yintercept = baseline_precision, linetype = "dashed", color = "grey50")
@@ -279,3 +290,26 @@ plot_prc <- function(prc_dat,
     return(prc_plot)
 }
 
+#' @name plot_curves
+#' @title Plot ROC and PRC curves
+#'
+#' @author Courtney Armour
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' # get performance for multiple models
+#' get_sensspec_seed <- function(seed) {
+#'   ml_result <- run_ml(otu_mini_bin, 'glmnet', seed = seed)
+#'   sensspec <- calc_model_sensspec(ml_result$trained_model,
+#'                                  ml_result$test_data,
+#'                                  'dx', 'cancer') %>%
+#'                                  mutate(seed = seed)
+#'   return(sensspec)
+#' }
+#' sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
+#'
+#' # plot ROC & PRC
+#' calc_mean_roc(sensspec_dat) %>% plot_mean_roc()
+#' calc_mean_prc(sensspec_dat) %>%
+#'   plot_mean_prc(baseline_precision = calc_baseline_precision(otu_mini_bin, 'dx', 'cancer'))
+NULL
