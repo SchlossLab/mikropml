@@ -247,7 +247,7 @@ get_performance_tbl <- function(trained_model,
 #' roc_dat %>% plot_mean_roc()
 #' baseline_prec <- calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
 #' prc_dat %>%
-#'   plot_mean_prc(baseline_precisision = baseline_prec)
+#'   plot_mean_prc(baseline_precision = baseline_prec)
 #'
 NULL
 
