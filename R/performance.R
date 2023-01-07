@@ -216,13 +216,13 @@ get_performance_tbl <- function(trained_model,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#'
+#' library(dplyr)
 #' # get cumulative performance for a single model
 #' sensspec_1 <- calc_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
 #'                    otu_mini_bin_results_glmnet$test_data,
 #'                    'dx', 'cancer'
 #' )
-#' head(pred_1)
+#' head(sensspec_1)
 #'
 #' # get performance for multiple models
 #' get_sensspec_seed <- function(seed) {
@@ -245,7 +245,9 @@ get_performance_tbl <- function(trained_model,
 #'
 #' # plot ROC & PRC
 #' roc_dat %>% plot_mean_roc()
-#' prc_dat %>% plot_mean_prc(baseline_precisision = calc_baseline_precision(otu_mini_bin, 'dx', 'cancer'))
+#' baseline_prec <- calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+#' prc_dat %>%
+#'   plot_mean_prc(baseline_precisision = baseline_prec)
 #'
 NULL
 
@@ -259,6 +261,8 @@ NULL
 #' @export
 calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
+
+    actual <- is_pos <- tp <- fp <- fpr <- NULL
     probs <- stats::predict(trained_model,
                             newdata = test_data,
                             type = "prob"
@@ -276,7 +280,7 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_o
         Filter(function(x) { x != pos_outcome}, .)
 
     sensspec <- probs %>%
-        dplyr::arrange(desc(!!rlang::sym(pos_outcome))) %>%
+        dplyr::arrange(dplyr::desc(!!rlang::sym(pos_outcome))) %>%
         dplyr::mutate(is_pos = actual == pos_outcome) %>%
         dplyr::mutate(
             tp = cumsum(is_pos),
@@ -306,7 +310,7 @@ calc_mean_perf <- function(sensspec_dat,
                            group_var = specificity,
                            sum_var = sensitivity) {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
-
+    specificity <- sensitivity <- sd <- NULL
     sensspec_dat %>%
         dplyr::mutate({{ group_var }} := round({{ group_var }}, 2)) %>%
         dplyr::group_by({{ group_var }}) %>%
@@ -314,14 +318,14 @@ calc_mean_perf <- function(sensspec_dat,
             mean = mean({{ sum_var }}),
             sd = stats::sd({{ sum_var }})
         ) %>%
-        mutate(
+        dplyr::mutate(
             upper = mean + sd,
             lower = mean - sd,
-            upper = case_when(
+            upper = dplyr::case_when(
                 upper > 1 ~ 1,
                 TRUE ~ upper
             ),
-            lower = case_when(
+            lower = dplyr::case_when(
                 lower < 0 ~ 0,
                 TRUE ~ lower
             )
@@ -334,6 +338,7 @@ calc_mean_perf <- function(sensspec_dat,
 #' @inheritParams calc_mean_perf
 #' @export
 calc_mean_roc <- function(sensspec_dat) {
+    specificity <- sensitivity <- NULL
     return(calc_mean_perf(sensspec_dat,
                           group_var = specificity,
                           sum_var = sensitivity)
@@ -344,6 +349,7 @@ calc_mean_roc <- function(sensspec_dat) {
 #' @inheritParams calc_mean_perf
 #' @export
 calc_mean_prc <- function(sensspec_dat) {
+    sensitivity <- recall <- precision <- NULL
     return(calc_mean_perf(sensspec_dat %>%
                               dplyr::rename(recall = sensitivity),
                           group_var = recall,
