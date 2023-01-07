@@ -207,7 +207,7 @@ get_performance_tbl <- function(trained_model,
 }
 
 #' @name sensspec
-#' @title Calculate and summarize sensitivity, specificity, and precision.
+#' @title Calculate and summarize performance for ROC and PRC plots.
 #' @description These functions assume a binary outcome
 #'
 #' @return data frame with summarized performance
@@ -216,9 +216,9 @@ get_performance_tbl <- function(trained_model,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
+#'
 #' # get cumulative performance for a single model
-#' sensspec_1 <- get_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
+#' sensspec_1 <- calc_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
 #'                    otu_mini_bin_results_glmnet$test_data,
 #'                    'dx', 'cancer'
 #' )
@@ -227,7 +227,7 @@ get_performance_tbl <- function(trained_model,
 #' # get performance for multiple models
 #' get_sensspec_seed <- function(seed) {
 #'   ml_result <- run_ml(otu_mini_bin, 'glmnet', seed = seed)
-#'   sensspec <- get_model_sensspec(ml_result$trained_model,
+#'   sensspec <- calc_model_sensspec(ml_result$trained_model,
 #'                                  ml_result$test_data,
 #'                                  'dx', 'cancer') %>%
 #'                                  mutate(seed = seed)
@@ -244,12 +244,12 @@ get_performance_tbl <- function(trained_model,
 #' head(prc_dat)
 #'
 #' # plot ROC & PRC
-#' # TODO
-#' }
+#' roc_dat %>% plot_mean_roc()
+#' prc_dat %>% plot_mean_prc(baseline_precisision = calc_baseline_precision(otu_mini_bin, 'dx', 'cancer'))
+#'
 NULL
 
-# TODO fix flipped roc/prc curves
-#' @describeIn sensspec Get sensitivty, specificity, and precision for a model.
+#' @describeIn sensspec Get sensitivity, specificity, and precision for a model.
 #'
 #' @inheritParams calc_perf_metrics
 #' @inheritParams run_ml
@@ -257,7 +257,7 @@ NULL
 #'   e.g. "cancer" for the `otu_mini_bin` dataset.
 #'
 #' @export
-get_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
+calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
     # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
     probs <- stats::predict(trained_model,
                             newdata = test_data,
@@ -294,11 +294,11 @@ get_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_ou
 
 #' Generic function to calculate mean performance curves for multiple models
 #'
-#' @param sensspec_dat data frame by concatenating results of `get_model_sensspec()` for multiple models.
+#' @param sensspec_dat data frame by concatenating results of `calc_model_sensspec()` for multiple models.
 #' @param group_var variable to group by (e.g. specificity or recall).
 #' @param sum_var variable to summarize (e.g. sensitivity or precision).
 #'
-#' @return data frame with mean & sd `sum_var` summarized over `group_var`
+#' @return data frame with mean & standard deviation of `sum_var` summarized over `group_var`
 #'
 #' @author Courtney Armour
 #' @author Kelly Sovacool
@@ -330,7 +330,7 @@ calc_mean_perf <- function(sensspec_dat,
                       "sd_{{ sum_var }}" := sd)
 }
 
-#' @describeIn sensspec Calculate mean sensitivity over specificity
+#' @describeIn sensspec Calculate mean sensitivity over specificity for multiple models
 #' @inheritParams calc_mean_perf
 #' @export
 calc_mean_roc <- function(sensspec_dat) {
@@ -340,7 +340,7 @@ calc_mean_roc <- function(sensspec_dat) {
            )
 }
 
-#' @describeIn sensspec Calculate mean precision over recall
+#' @describeIn sensspec Calculate mean precision over recall for multiple models
 #' @inheritParams calc_mean_perf
 #' @export
 calc_mean_prc <- function(sensspec_dat) {
@@ -356,7 +356,7 @@ calc_mean_prc <- function(sensspec_dat) {
 #'
 #' @inheritParams get_outcome_type
 #' @inheritParams run_ml
-#' @inheritParams get_model_sensspec
+#' @inheritParams calc_model_sensspec
 #'
 #' @return the baseline precision based on the fraction of positives
 #' @export
@@ -366,15 +366,13 @@ calc_mean_prc <- function(sensspec_dat) {
 #'
 #' calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
 #'
+#' data.frame(y = c('a','b','a','b')) %>% calc_baseline_precision('y', 'a')
+#'
 calc_baseline_precision <- function(dataset, outcome_colname, pos_outcome) {
-    outcome_tally <- dataset %>%
-        dplyr::count(!!rlang::sym(outcome_colname))
-    npos <- outcome_tally %>%
+    npos <- dataset %>%
         dplyr::filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
-        dplyr::pull(n)
-    ntot <- outcome_tally %>%
-        dplyr::pull(n) %>%
-        sum()
+        nrow()
+    ntot <- dataset %>% nrow
     baseline_prec <- npos / ntot
     return(baseline_prec)
 }
