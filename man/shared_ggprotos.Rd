@@ -20,3 +20,4 @@ Get plot layers shared by \code{plot_mean_roc} and \code{plot_mean_prc}
 \author{
 Kelly Sovacool \email{sovacool@umich.edu}
 }
+\keyword{internal}

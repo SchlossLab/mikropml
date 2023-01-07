@@ -233,6 +233,7 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
 #'
 #' @return list of ggproto objects to add to a ggplot
 #'
+#' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 shared_ggprotos <- function(ribbon_fill = "#D9D9D9",

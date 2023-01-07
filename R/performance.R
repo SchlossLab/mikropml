@@ -303,6 +303,7 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_o
 #' @param sum_var variable to summarize (e.g. sensitivity or precision).
 #'
 #' @return data frame with mean & standard deviation of `sum_var` summarized over `group_var`
+#' @keywords internal
 #'
 #' @author Courtney Armour
 #' @author Kelly Sovacool
