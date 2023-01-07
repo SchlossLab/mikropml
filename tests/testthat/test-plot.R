@@ -115,27 +115,39 @@ test_that("combine_hp_performance works", {
   )
 })
 
-test_that('plot_mean_roc uses geom ribbon, line, and abline', {
-    sensspec_roc <- readRDS(testthat::test_path('fixtures', 'sensspec_roc.Rds'))
-    p_roc <- sensspec_roc %>% plot_mean_roc()
-    expect_equal(p_roc$data, sensspec_roc)
-    expect_equal(sapply(p_roc$layers,
-                        function(x) {return(x$geom %>% class() %>% as.vector())}
-                        ) %>%
-                     unlist(),
-                 c("GeomRibbon", "Geom", "ggproto", "gg", "GeomLine", "GeomPath",
-                   "Geom", "ggproto", "gg", "GeomAbline", "Geom", "ggproto", "gg"
-                 ))
+test_that("plot_mean_roc uses geom ribbon, line, and abline", {
+  sensspec_roc <- readRDS(testthat::test_path("fixtures", "sensspec_roc.Rds"))
+  p_roc <- sensspec_roc %>% plot_mean_roc()
+  expect_equal(p_roc$data, sensspec_roc)
+  expect_equal(
+    sapply(
+      p_roc$layers,
+      function(x) {
+        return(x$geom %>% class() %>% as.vector())
+      }
+    ) %>%
+      unlist(),
+    c(
+      "GeomRibbon", "Geom", "ggproto", "gg", "GeomLine", "GeomPath",
+      "Geom", "ggproto", "gg", "GeomAbline", "Geom", "ggproto", "gg"
+    )
+  )
 })
 test_that("plot_mean_prc uses geom ribbon, line, and hline", {
-    sensspec_prc <- readRDS(testthat::test_path('fixtures', 'sensspec_prc.Rds'))
-    p_prc <- sensspec_prc %>% plot_mean_prc(baseline_precision = 0.49)
-    expect_equal(p_prc$data, sensspec_prc)
-    expect_equal(sapply(p_prc$layers,
-                        function(x) {return(x$geom %>% class() %>% as.vector())}
-                        ) %>%
-                     unlist(),
-                 c("GeomRibbon", "Geom", "ggproto", "gg", "GeomLine", "GeomPath",
-                   "Geom", "ggproto", "gg", "GeomHline", "Geom", "ggproto", "gg"
-                 ))
+  sensspec_prc <- readRDS(testthat::test_path("fixtures", "sensspec_prc.Rds"))
+  p_prc <- sensspec_prc %>% plot_mean_prc(baseline_precision = 0.49)
+  expect_equal(p_prc$data, sensspec_prc)
+  expect_equal(
+    sapply(
+      p_prc$layers,
+      function(x) {
+        return(x$geom %>% class() %>% as.vector())
+      }
+    ) %>%
+      unlist(),
+    c(
+      "GeomRibbon", "Geom", "ggproto", "gg", "GeomLine", "GeomPath",
+      "Geom", "ggproto", "gg", "GeomHline", "Geom", "ggproto", "gg"
+    )
+  )
 })

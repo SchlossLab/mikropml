@@ -218,19 +218,22 @@ get_performance_tbl <- function(trained_model,
 #' @examples
 #' library(dplyr)
 #' # get cumulative performance for a single model
-#' sensspec_1 <- calc_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
-#'                    otu_mini_bin_results_glmnet$test_data,
-#'                    'dx', 'cancer'
+#' sensspec_1 <- calc_model_sensspec(
+#'   otu_mini_bin_results_glmnet$trained_model,
+#'   otu_mini_bin_results_glmnet$test_data,
+#'   "dx", "cancer"
 #' )
 #' head(sensspec_1)
 #'
 #' # get performance for multiple models
 #' get_sensspec_seed <- function(seed) {
-#'   ml_result <- run_ml(otu_mini_bin, 'glmnet', seed = seed)
-#'   sensspec <- calc_model_sensspec(ml_result$trained_model,
-#'                                  ml_result$test_data,
-#'                                  'dx', 'cancer') %>%
-#'                                  mutate(seed = seed)
+#'   ml_result <- run_ml(otu_mini_bin, "glmnet", seed = seed)
+#'   sensspec <- calc_model_sensspec(
+#'     ml_result$trained_model,
+#'     ml_result$test_data,
+#'     "dx", "cancer"
+#'   ) %>%
+#'     mutate(seed = seed)
 #'   return(sensspec)
 #' }
 #' sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
@@ -245,7 +248,7 @@ get_performance_tbl <- function(trained_model,
 #'
 #' # plot ROC & PRC
 #' roc_dat %>% plot_mean_roc()
-#' baseline_prec <- calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+#' baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 #' prc_dat %>%
 #'   plot_mean_prc(baseline_precision = baseline_prec)
 #'
@@ -260,40 +263,42 @@ NULL
 #'
 #' @export
 calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
-    # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
+  # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
 
-    actual <- is_pos <- tp <- fp <- fpr <- NULL
-    probs <- stats::predict(trained_model,
-                            newdata = test_data,
-                            type = "prob"
+  actual <- is_pos <- tp <- fp <- fpr <- NULL
+  probs <- stats::predict(trained_model,
+    newdata = test_data,
+    type = "prob"
+  ) %>%
+    dplyr::mutate(actual = test_data %>%
+      dplyr::pull(outcome_colname))
+
+  total <- probs %>%
+    dplyr::count(actual) %>%
+    tidyr::pivot_wider(names_from = "actual", values_from = "n") %>%
+    as.list()
+
+  neg_outcome <- names(total) %>%
+    # assumes binary outcome
+    Filter(function(x) {
+      x != pos_outcome
+    }, .)
+
+  sensspec <- probs %>%
+    dplyr::arrange(dplyr::desc(!!rlang::sym(pos_outcome))) %>%
+    dplyr::mutate(is_pos = actual == pos_outcome) %>%
+    dplyr::mutate(
+      tp = cumsum(is_pos),
+      fp = cumsum(!is_pos),
+      sensitivity = tp / total[[pos_outcome]],
+      fpr = fp / total[[neg_outcome]]
     ) %>%
-        dplyr::mutate(actual = test_data %>%
-                          dplyr::pull(outcome_colname))
-
-    total <- probs %>%
-        dplyr::count(actual) %>%
-        tidyr::pivot_wider(names_from = "actual", values_from = "n") %>%
-        as.list()
-
-    neg_outcome <- names(total) %>%
-        # assumes binary outcome
-        Filter(function(x) { x != pos_outcome}, .)
-
-    sensspec <- probs %>%
-        dplyr::arrange(dplyr::desc(!!rlang::sym(pos_outcome))) %>%
-        dplyr::mutate(is_pos = actual == pos_outcome) %>%
-        dplyr::mutate(
-            tp = cumsum(is_pos),
-            fp = cumsum(!is_pos),
-            sensitivity = tp / total[[pos_outcome]],
-            fpr = fp / total[[neg_outcome]]
-        ) %>%
-        dplyr::mutate(
-            specificity = 1 - fpr,
-            precision = tp / (tp + fp)
-        ) %>%
-        dplyr::select(-is_pos)
-    return(sensspec)
+    dplyr::mutate(
+      specificity = 1 - fpr,
+      precision = tp / (tp + fp)
+    ) %>%
+    dplyr::select(-is_pos)
+  return(sensspec)
 }
 
 #' Generic function to calculate mean performance curves for multiple models
@@ -310,53 +315,55 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_o
 calc_mean_perf <- function(sensspec_dat,
                            group_var = specificity,
                            sum_var = sensitivity) {
-    # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
-    specificity <- sensitivity <- sd <- NULL
-    sensspec_dat %>%
-        dplyr::mutate({{ group_var }} := round({{ group_var }}, 2)) %>%
-        dplyr::group_by({{ group_var }}) %>%
-        dplyr::summarise(
-            mean = mean({{ sum_var }}),
-            sd = stats::sd({{ sum_var }})
-        ) %>%
-        dplyr::mutate(
-            upper = mean + sd,
-            lower = mean - sd,
-            upper = dplyr::case_when(
-                upper > 1 ~ 1,
-                TRUE ~ upper
-            ),
-            lower = dplyr::case_when(
-                lower < 0 ~ 0,
-                TRUE ~ lower
-            )
-        ) %>%
-        dplyr::rename("mean_{{ sum_var }}" := mean,
-                      "sd_{{ sum_var }}" := sd)
+  # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
+  specificity <- sensitivity <- sd <- NULL
+  sensspec_dat %>%
+    dplyr::mutate({{ group_var }} := round({{ group_var }}, 2)) %>%
+    dplyr::group_by({{ group_var }}) %>%
+    dplyr::summarise(
+      mean = mean({{ sum_var }}),
+      sd = stats::sd({{ sum_var }})
+    ) %>%
+    dplyr::mutate(
+      upper = mean + sd,
+      lower = mean - sd,
+      upper = dplyr::case_when(
+        upper > 1 ~ 1,
+        TRUE ~ upper
+      ),
+      lower = dplyr::case_when(
+        lower < 0 ~ 0,
+        TRUE ~ lower
+      )
+    ) %>%
+    dplyr::rename(
+      "mean_{{ sum_var }}" := mean,
+      "sd_{{ sum_var }}" := sd
+    )
 }
 
 #' @describeIn sensspec Calculate mean sensitivity over specificity for multiple models
 #' @inheritParams calc_mean_perf
 #' @export
 calc_mean_roc <- function(sensspec_dat) {
-    specificity <- sensitivity <- NULL
-    return(calc_mean_perf(sensspec_dat,
-                          group_var = specificity,
-                          sum_var = sensitivity)
-           )
+  specificity <- sensitivity <- NULL
+  return(calc_mean_perf(sensspec_dat,
+    group_var = specificity,
+    sum_var = sensitivity
+  ))
 }
 
 #' @describeIn sensspec Calculate mean precision over recall for multiple models
 #' @inheritParams calc_mean_perf
 #' @export
 calc_mean_prc <- function(sensspec_dat) {
-    sensitivity <- recall <- precision <- NULL
-    return(calc_mean_perf(sensspec_dat %>%
-                              dplyr::rename(recall = sensitivity),
-                          group_var = recall,
-                          sum_var = precision
-                          )
-           )
+  sensitivity <- recall <- precision <- NULL
+  return(calc_mean_perf(
+    sensspec_dat %>%
+      dplyr::rename(recall = sensitivity),
+    group_var = recall,
+    sum_var = precision
+  ))
 }
 
 #' Calculate the fraction of positives, i.e. baseline precision
@@ -371,15 +378,15 @@ calc_mean_prc <- function(sensspec_dat) {
 #'
 #' @examples
 #'
-#' calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+#' calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 #'
-#' data.frame(y = c('a','b','a','b')) %>% calc_baseline_precision('y', 'a')
+#' data.frame(y = c("a", "b", "a", "b")) %>% calc_baseline_precision("y", "a")
 #'
 calc_baseline_precision <- function(dataset, outcome_colname, pos_outcome) {
-    npos <- dataset %>%
-        dplyr::filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
-        nrow()
-    ntot <- dataset %>% nrow
-    baseline_prec <- npos / ntot
-    return(baseline_prec)
+  npos <- dataset %>%
+    dplyr::filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
+    nrow()
+  ntot <- dataset %>% nrow()
+  baseline_prec <- npos / ntot
+  return(baseline_prec)
 }
