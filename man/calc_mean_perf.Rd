@@ -7,14 +7,14 @@
 calc_mean_perf(sensspec_dat, group_var = specificity, sum_var = sensitivity)
 }
 \arguments{
-\item{sensspec_dat}{data frame by concatenating results of \code{get_model_sensspec()} for multiple models.}
+\item{sensspec_dat}{data frame by concatenating results of \code{calc_model_sensspec()} for multiple models.}
 
 \item{group_var}{variable to group by (e.g. specificity or recall).}
 
 \item{sum_var}{variable to summarize (e.g. sensitivity or precision).}
 }
 \value{
-data frame with mean & sd \code{sum_var} summarized over \code{group_var}
+data frame with mean & standard deviation of \code{sum_var} summarized over \code{group_var}
 }
 \description{
 Generic function to calculate mean performance curves for multiple models
