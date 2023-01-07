@@ -138,6 +138,8 @@ You can also create your own plots however you like using the results.
 
 #### Performance
 
+##### Mean AUC
+
 ```{r plot_perf}
 perf_df <- lapply(
   results_mtx["performance", ],
@@ -162,33 +164,70 @@ perf_boxplot +
 ```
 
 
-Get sensitivity, specificity, and precision for all models.
+##### ROC and PRC curves
 
+First calculate the sensitivity, specificity, and precision for all models.
 
 ```{r predict}
 get_sensspec_seed <- function(colnum) {
     result <- results_mtx[, colnum]
     trained_model <- result$trained_model
     test_data <- result$test_data
-    sensspec <- get_model_sensspec(trained_model,
+    seed <- result$performance$seed
+    method <- result$trained_model$method
+    sensspec <- calc_model_sensspec(trained_model,
                                    test_data,
-                                   'dx', 'cancer')
+                                   'dx', 'cancer') %>% 
+        mutate(seed = seed, method = method)
     return(sensspec)
 }
 sensspec_dat <- purrr::map_dfr(seq(1, dim(results_mtx)[2]),
                                get_sensspec_seed)
 ```
 
-Plot ROC and PRC 
+###### Plot curves for a single model
+
+```{r plot_curves_one_model}
+sensspec_1 <- sensspec_dat %>% filter(seed == 100, method == 'glmnet')
+sensspec_1  %>%
+        ggplot(aes(x = specificity, y = sensitivity,
+        )) +
+        geom_line() +
+        geom_abline(intercept = 1, slope = 1, 
+                    linetype = "dashed", color = "grey50") +
+        coord_equal() +
+        scale_x_reverse(expand = c(0, 0), limits = c(1.01, -0.01)) +
+        scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        labs(x = "Specificity", y = "Sensitivity") +
+        theme_bw() +
+        theme(legend.title = element_blank())
+
+sensspec_1  %>%
+        rename(recall = sensitivity) %>% 
+        ggplot(aes(x = recall, y = precision,
+        )) +
+        geom_line() +
+        geom_hline(yintercept = baseline_precision_otu, 
+                   linetype = "dashed", color = "grey50") +
+        coord_equal() +
+        scale_x_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+        labs(x = "Recall", y = "Precision") +
+        theme_bw() +
+        theme(legend.title = element_blank())
+```
+
+###### Plot mean ROC and PRC for all models
 
 ```{r plot_roc_prc}
 sensspec_dat %>% 
     calc_mean_roc() %>% 
-    plot_roc()
+    plot_mean_roc()
 
+baseline_precision_otu <- calc_baseline_precision(otu_data_preproc, 'dx', 'cancer')
 sensspec_dat %>% 
     calc_mean_prc() %>% 
-    plot_prc(baseline_precision = calc_baseline_precision(otu_data_preproc, 'dx', 'cancer'))
+    plot_mean_prc(baseline_precision = baseline_precision_otu)
 ```
 
 
