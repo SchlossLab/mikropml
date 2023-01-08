@@ -2,9 +2,9 @@
 % Please edit documentation in R/performance.R
 \name{calc_baseline_precision}
 \alias{calc_baseline_precision}
-\title{Calculate the fraction of positives, i.e. baseline precision}
+\title{Calculate the fraction of positives, i.e. baseline precision for a PRC curve}
 \usage{
-calc_baseline_precision(dataset, outcome_colname, pos_outcome)
+calc_baseline_precision(dataset, outcome_colname = NULL, pos_outcome = NULL)
 }
 \arguments{
 \item{dataset}{Dataframe with an outcome variable and other columns as features.}
@@ -19,13 +19,25 @@ e.g. "cancer" for the \code{otu_mini_bin} dataset.}
 the baseline precision based on the fraction of positives
 }
 \description{
-Calculate the fraction of positives, i.e. baseline precision
+Calculate the fraction of positives, i.e. baseline precision for a PRC curve
 }
 \examples{
+# calculate the baseline precision
+data.frame(y = c("a", "b", "a", "b")) \%>\%
+  calc_baseline_precision("y", "a")
 
-calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 
-data.frame(y = c("a", "b", "a", "b")) \%>\% calc_baseline_precision("y", "a")
+calc_baseline_precision(otu_mini_bin,
+                        outcome_colname = "dx",
+                        pos_outcome = "cancer")
+
+
+# if you're not sure which outcome was used as the 'positive' outcome during
+# model training, you can access it from the trained model and pass it along:
+calc_baseline_precision(otu_mini_bin,
+                        outcome_colname = "dx"
+                        pos_outcome = otu_mini_bin_results$trained_model$levels[1])
+
 
 }
 \author{

@@ -7,7 +7,7 @@
 \alias{sensspec}
 \title{Calculate and summarize performance for ROC and PRC plots}
 \usage{
-calc_model_sensspec(trained_model, test_data, outcome_colname, pos_outcome)
+calc_model_sensspec(trained_model, test_data, outcome_colname = NULL)
 
 calc_mean_roc(sensspec_dat)
 
@@ -20,9 +20,6 @@ calc_mean_prc(sensspec_dat)
 
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
-
-\item{pos_outcome}{the positive outcome from \code{outcome_colname},
-e.g. "cancer" for the \code{otu_mini_bin} dataset.}
 
 \item{sensspec_dat}{data frame created by concatenating results of
 \code{calc_model_sensspec()} for multiple models.}
