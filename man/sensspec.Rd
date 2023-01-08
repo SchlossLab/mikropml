@@ -49,7 +49,7 @@ library(dplyr)
 sensspec_1 <- calc_model_sensspec(
   otu_mini_bin_results_glmnet$trained_model,
   otu_mini_bin_results_glmnet$test_data,
-  "dx", "cancer"
+  "dx"
 )
 head(sensspec_1)
 
@@ -59,7 +59,7 @@ get_sensspec_seed <- function(seed) {
   sensspec <- calc_model_sensspec(
     ml_result$trained_model,
     ml_result$test_data,
-    "dx", "cancer"
+    "dx"
   ) \%>\%
     mutate(seed = seed)
   return(sensspec)

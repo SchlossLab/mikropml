@@ -313,7 +313,7 @@ plot_mean_prc <- function(dat, baseline_precision = NULL,
 #'   sensspec <- calc_model_sensspec(
 #'     ml_result$trained_model,
 #'     ml_result$test_data,
-#'     "dx", "cancer"
+#'     "dx"
 #'   ) %>%
 #'     mutate(seed = seed)
 #'   return(sensspec)

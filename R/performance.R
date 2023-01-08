@@ -337,7 +337,7 @@ calc_mean_prc <- function(sensspec_dat) {
 #' sensspec_1 <- calc_model_sensspec(
 #'   otu_mini_bin_results_glmnet$trained_model,
 #'   otu_mini_bin_results_glmnet$test_data,
-#'   "dx", "cancer"
+#'   "dx"
 #' )
 #' head(sensspec_1)
 #'
@@ -347,7 +347,7 @@ calc_mean_prc <- function(sensspec_dat) {
 #'   sensspec <- calc_model_sensspec(
 #'     ml_result$trained_model,
 #'     ml_result$test_data,
-#'     "dx", "cancer"
+#'     "dx"
 #'   ) %>%
 #'     mutate(seed = seed)
 #'   return(sensspec)
@@ -396,8 +396,8 @@ NULL
 #' # if you're not sure which outcome was used as the 'positive' outcome during
 #' # model training, you can access it from the trained model and pass it along:
 #' calc_baseline_precision(otu_mini_bin,
-#'                         outcome_colname = "dx"
-#'                         pos_outcome = otu_mini_bin_results$trained_model$levels[1])
+#'                         outcome_colname = "dx",
+#'                         pos_outcome = otu_mini_bin_results_glmnet$trained_model$levels[1])
 #'
 #'
 calc_baseline_precision <- function(dataset,
