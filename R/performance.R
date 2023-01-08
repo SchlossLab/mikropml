@@ -210,13 +210,12 @@ get_performance_tbl <- function(trained_model,
 #'
 #' @inheritParams calc_perf_metrics
 #' @inheritParams run_ml
-#' @param pos_outcome the positive outcome from `outcome_colname`,
-#'   e.g. "cancer" for the `otu_mini_bin` dataset.
 #'
 #' @export
-calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_outcome) {
+calc_model_sensspec <- function(trained_model, test_data, outcome_colname = NULL) {
   # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
-
+  outcome_colname = check_outcome_column(test_data, outcome_colname)
+  pos_outcome = trained_model$levels[1]
   actual <- is_pos <- tp <- fp <- fpr <- NULL
   probs <- stats::predict(trained_model,
     newdata = test_data,
@@ -371,23 +370,40 @@ calc_mean_prc <- function(sensspec_dat) {
 #'
 NULL
 
-#' Calculate the fraction of positives, i.e. baseline precision
+#' Calculate the fraction of positives, i.e. baseline precision for a PRC curve
 #'
 #' @inheritParams get_outcome_type
 #' @inheritParams run_ml
 #' @inheritParams calc_model_sensspec
+#' @param pos_outcome the positive outcome from `outcome_colname`,
+#'   e.g. "cancer" for the `otu_mini_bin` dataset.
 #'
 #' @return the baseline precision based on the fraction of positives
 #' @export
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' # calculate the baseline precision
+#' data.frame(y = c("a", "b", "a", "b")) %>%
+#'   calc_baseline_precision("y", "a")
 #'
-#' calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 #'
-#' data.frame(y = c("a", "b", "a", "b")) %>% calc_baseline_precision("y", "a")
+#' calc_baseline_precision(otu_mini_bin,
+#'                         outcome_colname = "dx",
+#'                         pos_outcome = "cancer")
 #'
-calc_baseline_precision <- function(dataset, outcome_colname, pos_outcome) {
+#'
+#' # if you're not sure which outcome was used as the 'positive' outcome during
+#' # model training, you can access it from the trained model and pass it along:
+#' calc_baseline_precision(otu_mini_bin,
+#'                         outcome_colname = "dx"
+#'                         pos_outcome = otu_mini_bin_results$trained_model$levels[1])
+#'
+#'
+calc_baseline_precision <- function(dataset,
+                                    outcome_colname = NULL,
+                                    pos_outcome = NULL) {
+  outcome_colname = check_outcome_column(dataset, outcome_colname)
   npos <- dataset %>%
     dplyr::filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
     nrow()

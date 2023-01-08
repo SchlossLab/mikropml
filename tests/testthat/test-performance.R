@@ -81,8 +81,7 @@ test_that("sensspec calculations work", {
     calc_model_sensspec(
       otu_mini_bin_results_glmnet$trained_model,
       otu_mini_bin_results_glmnet$test_data,
-      "dx",
-      "cancer"
+      "dx"
     ),
     readRDS(
       testthat::test_path("fixtures", "otu_mini_bin_results_glmnet_sensspec.Rds")
@@ -113,14 +112,14 @@ test_that("calc_baseline_precision works", {
       calc_baseline_precision("y", "a"),
     0.50
   )
-  expect_equal(
+  expect_error(
     data.frame(y = c("a")) %>%
       calc_baseline_precision("y", "a"),
-    1
+    "A binary or multi-class outcome variable is required"
   )
-  expect_equal(
+  expect_error(
     data.frame(y = c("b")) %>%
       calc_baseline_precision("y", "a"),
-    0
+    "A binary or multi-class outcome variable is required"
   )
 })
