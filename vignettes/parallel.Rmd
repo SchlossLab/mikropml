@@ -9,13 +9,13 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-#NOT_CRAN <- !identical(tolower(Sys.getenv("NOT_CRAN")), "false")
+NOT_CRAN <- !identical(tolower(Sys.getenv("NOT_CRAN")), "false")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  warning = FALSE
-  #purl = NOT_CRAN,
-  #eval = NOT_CRAN
+  warning = FALSE,
+  purl = NOT_CRAN,
+  eval = NOT_CRAN
 )
 ```
 
