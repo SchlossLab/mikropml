@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   purl = NOT_CRAN,
   eval = NOT_CRAN
 )
+eval_big_chunks <- TRUE # whether to evaluate long-running chunks or "cheat" by just loading the data
 ```
 
 In this tutorial, we show how you can speed up pre-processing, model training,
@@ -54,11 +55,11 @@ instead in those cases.
 After registering a future plan, you can call `preprocess_data()` and `run_ml()`
 as usual, and they will run certain tasks in parallel.
 
-```{r run_single, eval = FALSE}
+```{r run_single, eval = eval_big_chunks}
 otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")$dat_transformed
 result1 <- run_ml(otu_data_preproc, "glmnet", seed = 2019)
 ```
-```{r run_single_load, echo = FALSE}
+```{r run_single_load, echo = FALSE, eval = !eval_big_chunks}
 otu_data_preproc <- otu_data_preproc$dat_transformed
 result1 <- otu_mini_bin_results_glmnet
 ```
@@ -74,14 +75,14 @@ multiple times in parallel with different parameters. You will first need to run
 `future::plan()` as above if you haven't already. Then, call `run_ml()` with
 multiple seeds using `future_lapply()`:
 
-```{r multi_seeds, eval = FALSE}
+```{r multi_seeds, eval = eval_big_chunks}
 # NOTE: use more seeds for real-world data
 results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
   run_ml(otu_data_preproc, "glmnet", seed = seed)
 }, future.seed = TRUE)
 ```
 
-```{r multi_seeds_load, echo = FALSE}
+```{r multi_seeds_load, echo = FALSE, eval = !eval_big_chunks}
 results_multi <- readRDS(system.file("tests", "testthat", "fixtures",
   "results_list.Rds",
   package = "mikropml"
@@ -124,10 +125,10 @@ You may also wish to compare performance for different ML methods. `mapply()`
 can iterate over multiple lists or vectors, and `future_mapply()` works the same
 way:
 
-```{r multi_methods_seeds, eval = FALSE}
+```{r multi_methods_seeds, eval = eval_big_chunks}
 # NOTE: use more seeds for real-world data
 param_grid <- expand.grid(
-  seeds = seq(100, 110),
+  seeds = seq(100, 103),
   methods = c("glmnet", "rf")
 )
 results_mtx <- future.apply::future_mapply(
@@ -139,7 +140,7 @@ results_mtx <- future.apply::future_mapply(
   future.seed = TRUE
 )
 ```
-```{r results_mtx, echo = FALSE}
+```{r results_mtx, echo = FALSE, eval = !eval_big_chunks}
 results_mtx <- readRDS(system.file("tests", "testthat", "fixtures",
   "results_mtx.Rds",
   package = "mikropml"
