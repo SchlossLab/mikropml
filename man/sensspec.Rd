@@ -5,7 +5,7 @@
 \alias{calc_model_sensspec}
 \alias{calc_mean_roc}
 \alias{calc_mean_prc}
-\title{Calculate and summarize performance for ROC and PRC plots.}
+\title{Calculate and summarize performance for ROC and PRC plots}
 \usage{
 calc_model_sensspec(trained_model, test_data, outcome_colname, pos_outcome)
 
@@ -30,7 +30,11 @@ e.g. "cancer" for the \code{otu_mini_bin} dataset.}
 data frame with summarized performance
 }
 \description{
-These functions assume a binary outcome
+Use these functions to calculate cumulative sensitivity,
+specificity, recall, etc. on single models, concatenate the results
+together from multiple models, and compute mean ROC and PRC.
+You can then plot mean ROC and PRC curves to visualize the results.
+Note: These functions assume a binary outcome.
 }
 \section{Functions}{
 \itemize{
@@ -44,19 +48,22 @@ These functions assume a binary outcome
 \examples{
 library(dplyr)
 # get cumulative performance for a single model
-sensspec_1 <- calc_model_sensspec(otu_mini_bin_results_glmnet$trained_model,
-                   otu_mini_bin_results_glmnet$test_data,
-                   'dx', 'cancer'
+sensspec_1 <- calc_model_sensspec(
+  otu_mini_bin_results_glmnet$trained_model,
+  otu_mini_bin_results_glmnet$test_data,
+  "dx", "cancer"
 )
 head(sensspec_1)
 
 # get performance for multiple models
 get_sensspec_seed <- function(seed) {
-  ml_result <- run_ml(otu_mini_bin, 'glmnet', seed = seed)
-  sensspec <- calc_model_sensspec(ml_result$trained_model,
-                                 ml_result$test_data,
-                                 'dx', 'cancer') \%>\%
-                                 mutate(seed = seed)
+  ml_result <- run_ml(otu_mini_bin, "glmnet", seed = seed)
+  sensspec <- calc_model_sensspec(
+    ml_result$trained_model,
+    ml_result$test_data,
+    "dx", "cancer"
+  ) \%>\%
+    mutate(seed = seed)
   return(sensspec)
 }
 sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
@@ -71,7 +78,7 @@ head(prc_dat)
 
 # plot ROC & PRC
 roc_dat \%>\% plot_mean_roc()
-baseline_prec <- calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 prc_dat \%>\%
   plot_mean_prc(baseline_precision = baseline_prec)
 

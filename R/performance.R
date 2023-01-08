@@ -207,8 +207,12 @@ get_performance_tbl <- function(trained_model,
 }
 
 #' @name sensspec
-#' @title Calculate and summarize performance for ROC and PRC plots.
-#' @description These functions assume a binary outcome
+#' @title Calculate and summarize performance for ROC and PRC plots
+#' @description Use these functions to calculate cumulative sensitivity,
+#'   specificity, recall, etc. on single models, concatenate the results
+#'   together from multiple models, and compute mean ROC and PRC.
+#'   You can then plot mean ROC and PRC curves to visualize the results.
+#'   Note: These functions assume a binary outcome.
 #'
 #' @return data frame with summarized performance
 #'

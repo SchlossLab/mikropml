@@ -305,7 +305,7 @@ plot_mean_prc <- function(dat, baseline_precision = NULL,
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
+#'
 #' library(dplyr)
 #' # get performance for multiple models
 #' get_sensspec_seed <- function(seed) {
@@ -328,5 +328,5 @@ plot_mean_prc <- function(dat, baseline_precision = NULL,
 #' sensspec_dat %>%
 #'   calc_mean_prc() %>%
 #'   plot_mean_prc(baseline_precision = baseline_prec)
-#' }
+#'
 NULL

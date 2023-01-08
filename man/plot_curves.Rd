@@ -35,26 +35,30 @@ Plot ROC and PRC curves
 
 }}
 \examples{
-\dontrun{
+
 library(dplyr)
 # get performance for multiple models
 get_sensspec_seed <- function(seed) {
-  ml_result <- run_ml(otu_mini_bin, 'glmnet', seed = seed)
-  sensspec <- calc_model_sensspec(ml_result$trained_model,
-                                 ml_result$test_data,
-                                 'dx', 'cancer') \%>\%
-                                 mutate(seed = seed)
+  ml_result <- run_ml(otu_mini_bin, "glmnet", seed = seed)
+  sensspec <- calc_model_sensspec(
+    ml_result$trained_model,
+    ml_result$test_data,
+    "dx", "cancer"
+  ) \%>\%
+    mutate(seed = seed)
   return(sensspec)
 }
 sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
 
 # plot ROC & PRC
-sensspec_dat \%>\% calc_mean_roc \%>\% plot_mean_roc()
-baseline_prec <- calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+sensspec_dat \%>\%
+  calc_mean_roc() \%>\%
+  plot_mean_roc()
+baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 sensspec_dat \%>\%
   calc_mean_prc() \%>\%
   plot_mean_prc(baseline_precision = baseline_prec)
-}
+
 }
 \author{
 Courtney Armour

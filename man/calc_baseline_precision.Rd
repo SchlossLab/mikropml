@@ -23,9 +23,9 @@ Calculate the fraction of positives, i.e. baseline precision
 }
 \examples{
 
-calc_baseline_precision(otu_mini_bin, 'dx', 'cancer')
+calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 
-data.frame(y = c('a','b','a','b')) \%>\% calc_baseline_precision('y', 'a')
+data.frame(y = c("a", "b", "a", "b")) \%>\% calc_baseline_precision("y", "a")
 
 }
 \author{
