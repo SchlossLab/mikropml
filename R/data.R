@@ -20,6 +20,11 @@
 #' All other columns are OTU relative abundances.
 "otu_mini_bin"
 
+#' Mini OTU abundance dataset - preprocessed
+#'
+#' This is the result of running `preprocess_data("otu_mini_bin")`
+"otu_data_preproc"
+
 #' Mini OTU abundance dataset with 3 categorical variables
 #'
 #' A dataset containing relatives abundances of OTUs for human stool samples
