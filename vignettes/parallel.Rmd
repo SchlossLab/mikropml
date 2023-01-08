@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 In this tutorial, we show how you can speed up pre-processing, model training,
 and feature importance steps for individual runs, as well as how to train
-multiple models in parallel within R.
+multiple models in parallel within R and visualize the results.
 However, we highly recommend using a workflow manager such as Snakemake rather
 than parallelizing within a single R session.
 Jump to the section [Parallelizing with Snakemake](#parallelizing-with-snakemake)
@@ -54,9 +54,13 @@ instead in those cases.
 After registering a future plan, you can call `preprocess_data()` and `run_ml()`
 as usual, and they will run certain tasks in parallel.
 
-```{r run_single}
+```{r run_single, eval = FALSE}
 otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")$dat_transformed
-result1 <- run_ml(otu_data_preproc, "glmnet")
+result1 <- run_ml(otu_data_preproc, "glmnet", seed = 2019)
+```
+```{r run_single_load, echo = FALSE}
+otu_data_preproc <- otu_data_preproc$dat_transformed
+result1 <- otu_mini_bin_results_glmnet
 ```
 
 There's a also a parallel version of the `rf` engine called `parRF` which trains
@@ -70,12 +74,20 @@ multiple times in parallel with different parameters. You will first need to run
 `future::plan()` as above if you haven't already. Then, call `run_ml()` with
 multiple seeds using `future_lapply()`:
 
-```{r multi_seeds}
+```{r multi_seeds, eval = FALSE}
 # NOTE: use more seeds for real-world data
 results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
   run_ml(otu_data_preproc, "glmnet", seed = seed)
 }, future.seed = TRUE)
 ```
+
+```{r multi_seeds_load, echo = FALSE}
+results_multi <- readRDS(system.file("tests", "testthat", "fixtures",
+  "results_list.Rds",
+  package = "mikropml"
+))
+```
+
 
 Each call to `run_ml()` with a different seed uses a different random split of
 the data into training and testing sets. Since we are using seeds, we must set
@@ -112,10 +124,10 @@ You may also wish to compare performance for different ML methods. `mapply()`
 can iterate over multiple lists or vectors, and `future_mapply()` works the same
 way:
 
-```{r multi_methods_seeds}
+```{r multi_methods_seeds, eval = FALSE}
 # NOTE: use more seeds for real-world data
 param_grid <- expand.grid(
-  seeds = seq(100, 102),
+  seeds = seq(100, 110),
   methods = c("glmnet", "rf")
 )
 results_mtx <- future.apply::future_mapply(
@@ -127,10 +139,25 @@ results_mtx <- future.apply::future_mapply(
   future.seed = TRUE
 )
 ```
+```{r results_mtx, echo = FALSE}
+results_mtx <- readRDS(system.file("tests", "testthat", "fixtures",
+  "results_mtx.Rds",
+  package = "mikropml"
+))
+```
 
-Extract and combine the results for all seeds and methods:
+### Visualize the results
 
-```{r bind_multi_methods}
+`ggplot2` is required to use our plotting functions below. 
+You can also create your own plots however you like using the results data.
+
+#### Performance
+
+##### Mean AUC
+
+```{r plot_perf}
+library(ggplot2)
+
 perf_df <- lapply(
   results_mtx["performance", ],
   function(x) {
@@ -138,18 +165,7 @@ perf_df <- lapply(
   }
 ) %>%
   dplyr::bind_rows()
-feat_df <- results_mtx["feature_importance", ] %>%
-  dplyr::bind_rows()
-```
 
-### Visualize the results
-
-`ggplot2` is required to use our plotting functions below. 
-You can also create your own plots however you like using the results.
-
-#### Performance
-
-```{r plot_perf}
 perf_boxplot <- plot_model_performance(perf_df)
 perf_boxplot
 ```
@@ -163,6 +179,83 @@ perf_boxplot +
   scale_color_brewer(palette = "Dark2") +
   coord_flip()
 ```
+
+
+##### ROC and PRC curves
+
+First calculate the sensitivity, specificity, and precision for all models.
+
+```{r predict}
+get_sensspec_seed <- function(colnum) {
+  result <- results_mtx[, colnum]
+  trained_model <- result$trained_model
+  test_data <- result$test_data
+  seed <- result$performance$seed
+  method <- result$trained_model$method
+  sensspec <- calc_model_sensspec(
+    trained_model,
+    test_data,
+    "dx", "cancer"
+  ) %>%
+    mutate(seed = seed, method = method)
+  return(sensspec)
+}
+sensspec_dat <- purrr::map_dfr(
+  seq(1, dim(results_mtx)[2]),
+  get_sensspec_seed
+)
+```
+
+###### Plot curves for a single model
+
+```{r plot_curves_one_model}
+sensspec_1 <- sensspec_dat %>% filter(seed == 100, method == "glmnet")
+sensspec_1 %>%
+  ggplot(aes(x = specificity, y = sensitivity, )) +
+  geom_line() +
+  geom_abline(
+    intercept = 1, slope = 1,
+    linetype = "dashed", color = "grey50"
+  ) +
+  coord_equal() +
+  scale_x_reverse(expand = c(0, 0), limits = c(1.01, -0.01)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+  labs(x = "Specificity", y = "Sensitivity") +
+  theme_bw() +
+  theme(legend.title = element_blank())
+
+baseline_precision_otu <- calc_baseline_precision(
+  otu_data_preproc,
+  "dx", "cancer"
+)
+sensspec_1 %>%
+  rename(recall = sensitivity) %>%
+  ggplot(aes(x = recall, y = precision, )) +
+  geom_line() +
+  geom_hline(
+    yintercept = baseline_precision_otu,
+    linetype = "dashed", color = "grey50"
+  ) +
+  coord_equal() +
+  scale_x_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
+  labs(x = "Recall", y = "Precision") +
+  theme_bw() +
+  theme(legend.title = element_blank())
+```
+
+###### Plot mean ROC and PRC for all models
+
+```{r plot_roc_prc}
+sensspec_dat %>%
+  calc_mean_roc() %>%
+  plot_mean_roc()
+
+sensspec_dat %>%
+  calc_mean_prc() %>%
+  plot_mean_prc(baseline_precision = baseline_precision_otu)
+```
+
 
 #### Feature importance
 
@@ -178,6 +271,9 @@ You can select the top n most important features for your models and plot them
 like so:
 
 ```{r feat_imp_plot}
+feat_df <- results_mtx["feature_importance", ] %>%
+  dplyr::bind_rows()
+
 top_n <- 5
 top_feats <- feat_df %>%
   group_by(method, names) %>%
