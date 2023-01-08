@@ -9,13 +9,13 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-#NOT_CRAN <- !identical(tolower(Sys.getenv("NOT_CRAN")), "false")
+# NOT_CRAN <- !identical(tolower(Sys.getenv("NOT_CRAN")), "false")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE
-  #purl = NOT_CRAN,
-  #eval = NOT_CRAN
+  # purl = NOT_CRAN,
+  # eval = NOT_CRAN
 )
 ```
 
@@ -82,9 +82,9 @@ results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
 ```
 
 ```{r multi_seeds_load, echo = FALSE}
-results_multi <- readRDS(system.file("tests", "testthat", "fixtures", 
-                                     "results_list.Rds",
-                                     package = "mikropml"
+results_multi <- readRDS(system.file("tests", "testthat", "fixtures",
+  "results_list.Rds",
+  package = "mikropml"
 ))
 ```
 
@@ -140,9 +140,9 @@ results_mtx <- future.apply::future_mapply(
 )
 ```
 ```{r results_mtx, echo = FALSE}
-results_mtx <-  readRDS(system.file("tests", "testthat", "fixtures", 
-                                     "results_mtx.Rds",
-                                     package = "mikropml"
+results_mtx <- readRDS(system.file("tests", "testthat", "fixtures",
+  "results_mtx.Rds",
+  package = "mikropml"
 ))
 ```
 
@@ -224,8 +224,10 @@ sensspec_1 %>%
   theme_bw() +
   theme(legend.title = element_blank())
 
-baseline_precision_otu <- calc_baseline_precision(otu_data_preproc, 
-                                                  "dx", "cancer")
+baseline_precision_otu <- calc_baseline_precision(
+  otu_data_preproc,
+  "dx", "cancer"
+)
 sensspec_1 %>%
   rename(recall = sensitivity) %>%
   ggplot(aes(x = recall, y = precision, )) +
