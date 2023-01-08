@@ -73,6 +73,7 @@ reference:
   - otu_mini_bin
   - otu_mini_multi
   - otu_mini_multi_group
+  - otu_data_preproc
 - subtitle: ML results
   contents:
   - contains("results")
