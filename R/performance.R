@@ -206,58 +206,6 @@ get_performance_tbl <- function(trained_model,
     change_to_num())
 }
 
-#' @name sensspec
-#' @title Calculate and summarize performance for ROC and PRC plots
-#' @description Use these functions to calculate cumulative sensitivity,
-#'   specificity, recall, etc. on single models, concatenate the results
-#'   together from multiple models, and compute mean ROC and PRC.
-#'   You can then plot mean ROC and PRC curves to visualize the results.
-#'   Note: These functions assume a binary outcome.
-#'
-#' @return data frame with summarized performance
-#'
-#' @author Courtney Armour
-#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-#'
-#' @examples
-#' library(dplyr)
-#' # get cumulative performance for a single model
-#' sensspec_1 <- calc_model_sensspec(
-#'   otu_mini_bin_results_glmnet$trained_model,
-#'   otu_mini_bin_results_glmnet$test_data,
-#'   "dx", "cancer"
-#' )
-#' head(sensspec_1)
-#'
-#' # get performance for multiple models
-#' get_sensspec_seed <- function(seed) {
-#'   ml_result <- run_ml(otu_mini_bin, "glmnet", seed = seed)
-#'   sensspec <- calc_model_sensspec(
-#'     ml_result$trained_model,
-#'     ml_result$test_data,
-#'     "dx", "cancer"
-#'   ) %>%
-#'     mutate(seed = seed)
-#'   return(sensspec)
-#' }
-#' sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
-#'
-#' # calculate mean sensitivity over specificity
-#' roc_dat <- calc_mean_roc(sensspec_dat)
-#' head(roc_dat)
-#'
-#' # calculate mean precision over recall
-#' prc_dat <- calc_mean_prc(sensspec_dat)
-#' head(prc_dat)
-#'
-#' # plot ROC & PRC
-#' roc_dat %>% plot_mean_roc()
-#' baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
-#' prc_dat %>%
-#'   plot_mean_prc(baseline_precision = baseline_prec)
-#'
-NULL
-
 #' @describeIn sensspec Get sensitivity, specificity, and precision for a model.
 #'
 #' @inheritParams calc_perf_metrics
@@ -307,7 +255,8 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname, pos_o
 
 #' Generic function to calculate mean performance curves for multiple models
 #'
-#' @param sensspec_dat data frame by concatenating results of `calc_model_sensspec()` for multiple models.
+#' @param sensspec_dat data frame created by concatenating results of
+#'   `calc_model_sensspec()` for multiple models.
 #' @param group_var variable to group by (e.g. specificity or recall).
 #' @param sum_var variable to summarize (e.g. sensitivity or precision).
 #'
@@ -369,6 +318,58 @@ calc_mean_prc <- function(sensspec_dat) {
     sum_var = precision
   ))
 }
+
+#' @name sensspec
+#' @title Calculate and summarize performance for ROC and PRC plots
+#' @description Use these functions to calculate cumulative sensitivity,
+#'   specificity, recall, etc. on single models, concatenate the results
+#'   together from multiple models, and compute mean ROC and PRC.
+#'   You can then plot mean ROC and PRC curves to visualize the results.
+#'   **Note**: These functions assume a binary outcome.
+#'
+#' @return data frame with summarized performance
+#'
+#' @author Courtney Armour
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' library(dplyr)
+#' # get cumulative performance for a single model
+#' sensspec_1 <- calc_model_sensspec(
+#'   otu_mini_bin_results_glmnet$trained_model,
+#'   otu_mini_bin_results_glmnet$test_data,
+#'   "dx", "cancer"
+#' )
+#' head(sensspec_1)
+#'
+#' # get performance for multiple models
+#' get_sensspec_seed <- function(seed) {
+#'   ml_result <- run_ml(otu_mini_bin, "glmnet", seed = seed)
+#'   sensspec <- calc_model_sensspec(
+#'     ml_result$trained_model,
+#'     ml_result$test_data,
+#'     "dx", "cancer"
+#'   ) %>%
+#'     mutate(seed = seed)
+#'   return(sensspec)
+#' }
+#' sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
+#'
+#' # calculate mean sensitivity over specificity
+#' roc_dat <- calc_mean_roc(sensspec_dat)
+#' head(roc_dat)
+#'
+#' # calculate mean precision over recall
+#' prc_dat <- calc_mean_prc(sensspec_dat)
+#' head(prc_dat)
+#'
+#' # plot ROC & PRC
+#' roc_dat %>% plot_mean_roc()
+#' baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
+#' prc_dat %>%
+#'   plot_mean_prc(baseline_precision = baseline_prec)
+#'
+NULL
 
 #' Calculate the fraction of positives, i.e. baseline precision
 #'
