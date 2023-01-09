@@ -1,8 +1,12 @@
 # mikropml development version
 
-- Created an example showing how to plot feature importances in the `parallel` vignette (#310, @kelly-sovacool).
+- New example showing how to plot feature importances in the `parallel` vignette (#310, @kelly-sovacool).
 - You can now use `parRF`, a parallel implementation of the `rf` method, with
   the same default hyperparameters as `rf` set automatically (#306, @kelly-sovacool).
+- New functions to calculate and plot ROC and PRC curves: (#321, @kelly-sovacool)
+  - `calc_model_sensspec()` - calculate sensitivity, specificity, and precision for a model.
+  - `calc_mean_roc()` & `plot_mean_roc()` - calculate & plot specificity and mean sensitivity for multiple models.
+  - `calc_mean_prc()` & `plot_mean_prc()` - calculate & plot recall and mean precision for multiple models.
 
 # mikropml 1.4.0
 

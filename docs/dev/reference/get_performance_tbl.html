@@ -54,7 +54,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get model performance metrics as a one-row tibble</h1>
-      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/HEAD/R/performance_metrics.R" class="external-link"><code>R/performance_metrics.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/HEAD/R/performance.R" class="external-link"><code>R/performance.R</code></a></small>
       <div class="d-none name"><code>get_performance_tbl.Rd</code></div>
     </div>
 
@@ -131,7 +131,9 @@ Your results will only be reproducible if you set a seed.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A one-row tibble with columns <code>cv_auroc</code>, column for each of the performance metrics for the test data <code>method</code>, and <code>seed</code>.</p>
+<p>A one-row tibble with a column for the cross-validation performance,
+columns for each of the performance metrics for the test data,
+plus the <code>method</code>, and <code>seed</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

@@ -1,9 +1,13 @@
 set.seed(2019)
 library(dplyr)
+library(usethis)
 
 ## code to prepare `otu_mini` dataset
 otu_mini_bin <- otu_small[, 1:11]
 usethis::use_data(otu_mini_bin, overwrite = TRUE)
+
+otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")
+use_data(otu_data_preproc)
 
 ## code to prepare `otu_mini_results`
 # includes grouping functionality & feature importance
@@ -105,4 +109,4 @@ otu_mini_bin_results_rpart2 <- mikropml::run_ml(otu_mini_bin,
   seed = 2019,
   cv_times = 2
 )
-usethis::use_data(otu_mini_bin_results_rpart2, overwrite = TRUE)
+use_data(otu_mini_bin_results_rpart2, overwrite = TRUE)
