@@ -196,7 +196,7 @@ get_sensspec_seed <- function(colnum) {
   sensspec <- calc_model_sensspec(
     trained_model,
     test_data,
-    "dx", "cancer"
+    "dx"
   ) %>%
     mutate(seed = seed, method = method)
   return(sensspec)
