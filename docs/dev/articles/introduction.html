@@ -385,12 +385,13 @@ we think the defaults are a good starting point <span class="citation">(Topçuo�
 </h4>
 <p>When <code>training_frac</code> is a fraction between 0 and 1, a
 random sample of observations in the dataset are chosen for the training
-set to satisfy the <code>training_frac</code>. However, in some cases
-you might wish to control exactly which observations are in the training
-set. You can instead assign <code>training_frac</code> a vector of
-indices that correspond to which rows of the dataset should go in the
-training set (all remaining sequences will go in the testing set).
-Here’s an example with ~80% of the data in the training set:</p>
+set to satisfy the <code>training_frac</code> using
+<code><a href="../reference/get_partition_indices.html">get_partition_indices()</a></code>. However, in some cases you might
+wish to control exactly which observations are in the training set. You
+can instead assign <code>training_frac</code> a vector of indices that
+correspond to which rows of the dataset should go in the training set
+(all remaining sequences will go in the testing set). Here’s an example
+with ~80% of the data in the training set:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">training_size</span> <span class="op">&lt;-</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="va">n_obs</span></span>
@@ -585,7 +586,11 @@ Here’s one way to do this with the weights calculated from the
 proportion of each class in the data set, with ~70% of the data in the
 training set:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20221016</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">train_set_indices</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_partition_indices.html">get_partition_indices</a></span><span class="op">(</span><span class="va">otu_mini_bin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">dx</span><span class="op">)</span>,</span>
+<span>  training_frac <span class="op">=</span> <span class="fl">0.70</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">case_weights_dat</span> <span class="op">&lt;-</span> <span class="va">otu_mini_bin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">dx</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -593,23 +598,28 @@ training set:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, by <span class="op">=</span> <span class="st">"dx"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Otu"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    in_train <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>      size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span>,</span>
-<span>      replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.70</span>, <span class="fl">0.30</span><span class="op">)</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    row_num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    row_num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    in_train <span class="op">=</span> <span class="va">row_num</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">train_set_indices</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">in_train</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">case_weights_dat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       dx    p in_train row_num</span></span>
-<span><span class="co">#&gt; 1 cancer 0.49     TRUE       3</span></span>
-<span><span class="co">#&gt; 2 cancer 0.49     TRUE       4</span></span>
-<span><span class="co">#&gt; 3 cancer 0.49     TRUE       5</span></span>
-<span><span class="co">#&gt; 4 cancer 0.49     TRUE       6</span></span>
-<span><span class="co">#&gt; 5 cancer 0.49     TRUE       8</span></span>
-<span><span class="co">#&gt; 6 cancer 0.49     TRUE       9</span></span>
+<span><span class="co">#&gt;       dx    p row_num in_train</span></span>
+<span><span class="co">#&gt; 1 cancer 0.49       1     TRUE</span></span>
+<span><span class="co">#&gt; 2 cancer 0.49       2     TRUE</span></span>
+<span><span class="co">#&gt; 3 cancer 0.49       3     TRUE</span></span>
+<span><span class="co">#&gt; 4 cancer 0.49       4     TRUE</span></span>
+<span><span class="co">#&gt; 5 cancer 0.49       5     TRUE</span></span>
+<span><span class="co">#&gt; 6 cancer 0.49       6     TRUE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">case_weights_dat</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         dx    p row_num in_train</span></span>
+<span><span class="co">#&gt; 136 normal 0.51     194     TRUE</span></span>
+<span><span class="co">#&gt; 137 normal 0.51     195     TRUE</span></span>
+<span><span class="co">#&gt; 138 normal 0.51     196     TRUE</span></span>
+<span><span class="co">#&gt; 139 normal 0.51     197     TRUE</span></span>
+<span><span class="co">#&gt; 140 normal 0.51     198     TRUE</span></span>
+<span><span class="co">#&gt; 141 normal 0.51     200     TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">case_weights_dat</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">otu_mini_bin</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.75</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.705</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_weighted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>,</span>
 <span>  <span class="st">"glmnet"</span>,</span>
