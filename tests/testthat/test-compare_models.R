@@ -1,4 +1,3 @@
-
 # get_difference
 test_that("get_difference works", {
   expect_equal(

@@ -1,4 +1,3 @@
-
 test_that("get_outcome_type works", {
   expect_equal(get_outcome_type(c(1, 2, 1)), "continuous")
   expect_equal(get_outcome_type(c("a", "b", "b")), "binary")
