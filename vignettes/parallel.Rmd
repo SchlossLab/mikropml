@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
   purl = NOT_CRAN,
   eval = NOT_CRAN
 )
-eval_big_chunks <- TRUE # whether to evaluate long-running chunks or "cheat" by just loading the data
 ```
 
 In this tutorial, we show how you can speed up pre-processing, model training,
@@ -40,7 +39,7 @@ If you'd like to parallelize various steps of the pipeline to make them run
 faster, install `foreach`, `future`, `future.apply`, and `doFuture`. Then,
 register a future plan prior to calling these functions:
 
-```{r register, eval = FALSE}
+```{r register}
 doFuture::registerDoFuture()
 future::plan(future::multicore, workers = 2)
 ```
@@ -55,11 +54,11 @@ instead in those cases.
 After registering a future plan, you can call `preprocess_data()` and `run_ml()`
 as usual, and they will run certain tasks in parallel.
 
-```{r run_single, eval = eval_big_chunks}
+```{r run_single, eval = FALSE}
 otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")$dat_transformed
 result1 <- run_ml(otu_data_preproc, "glmnet", seed = 2019)
 ```
-```{r run_single_load, echo = FALSE, eval = !eval_big_chunks}
+```{r run_single_load, echo = FALSE, eval = TRUE}
 otu_data_preproc <- otu_data_preproc$dat_transformed
 result1 <- otu_mini_bin_results_glmnet
 ```
@@ -75,18 +74,11 @@ multiple times in parallel with different parameters. You will first need to run
 `future::plan()` as above if you haven't already. Then, call `run_ml()` with
 multiple seeds using `future_lapply()`:
 
-```{r multi_seeds, eval = eval_big_chunks}
+```{r multi_seeds}
 # NOTE: use more seeds for real-world data
 results_multi <- future.apply::future_lapply(seq(100, 102), function(seed) {
   run_ml(otu_data_preproc, "glmnet", seed = seed)
 }, future.seed = TRUE)
-```
-
-```{r multi_seeds_load, echo = FALSE, eval = !eval_big_chunks}
-results_multi <- readRDS(system.file("tests", "testthat", "fixtures",
-  "results_list.Rds",
-  package = "mikropml"
-))
 ```
 
 
@@ -125,7 +117,7 @@ You may also wish to compare performance for different ML methods. `mapply()`
 can iterate over multiple lists or vectors, and `future_mapply()` works the same
 way:
 
-```{r multi_methods_seeds, eval = eval_big_chunks}
+```{r multi_methods_seeds}
 # NOTE: use more seeds for real-world data
 param_grid <- expand.grid(
   seeds = seq(100, 103),
@@ -139,12 +131,6 @@ results_mtx <- future.apply::future_mapply(
   param_grid$methods %>% as.character(),
   future.seed = TRUE
 )
-```
-```{r results_mtx, echo = FALSE, eval = !eval_big_chunks}
-results_mtx <- readRDS(system.file("tests", "testthat", "fixtures",
-  "results_mtx.Rds",
-  package = "mikropml"
-))
 ```
 
 ### Visualize the results
