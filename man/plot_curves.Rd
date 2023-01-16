@@ -35,7 +35,7 @@ Plot ROC and PRC curves
 
 }}
 \examples{
-
+\dontrun{
 library(dplyr)
 # get performance for multiple models
 get_sensspec_seed <- function(seed) {
@@ -58,7 +58,7 @@ baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 sensspec_dat \%>\%
   calc_mean_prc() \%>\%
   plot_mean_prc(baseline_precision = baseline_prec)
-
+}
 }
 \author{
 Courtney Armour

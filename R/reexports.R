@@ -1,4 +1,3 @@
-
 #' caret contr.ltfr
 #' @importFrom caret contr.ltfr
 #' @export

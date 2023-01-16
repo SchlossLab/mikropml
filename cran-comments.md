@@ -1,7 +1,9 @@
+This is a resubmission.
+I reduced the package tarball size, it should now be 2.2 MB.
 
 ## Test environments
 
-* local macOS install: R 4.2.1
+* local macOS install: R 4.2.2
 * GitHub Actions (ubuntu-16.04): devel, release, oldrel
 * GitHub Actions (windows): release
 * GitHub Actions (macOS): release
@@ -19,16 +21,6 @@ Found the following (possibly) invalid URLs:
           README.md
     Status: 400
     Message: Bad Request
-  URL: https://doi.org/10.1128/mBio.00434-20
-    From: inst/doc/introduction.html
-          inst/doc/paper.html
-          README.md
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1128/mBio.01680-20
-    From: inst/doc/paper.html
-    Status: 503
-    Message: Service Unavailable
   URL: https://doi.org/doi:10.1128/mBio.00434-20
     From: README.md
     Status: 503
@@ -37,12 +29,6 @@ Found the following (possibly) invalid URLs:
     From: man/otu_small.Rd
     Status: 503
     Message: Service Unavailable
-
-Found the following (possibly) invalid DOIs:
-  DOI: 10.1128/mBio.00434-20
-    From: DESCRIPTION
-    Status: Service Unavailable
-    Message: 503
 ```
 
 This is a spurious note as these URLs work in my local browser, and the DOIs are

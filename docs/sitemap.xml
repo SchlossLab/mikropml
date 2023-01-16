@@ -55,6 +55,12 @@
     <loc>http://www.schlosslab.org/mikropml/reference/calc_aucs.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/calc_baseline_precision.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/calc_mean_perf.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/calc_perf_metrics.html</loc>
   </url>
   <url>
@@ -166,6 +172,9 @@
     <loc>http://www.schlosslab.org/mikropml/reference/mutate_all_types.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/otu_data_preproc.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/otu_large.html</loc>
   </url>
   <url>
@@ -244,6 +253,9 @@
     <loc>http://www.schlosslab.org/mikropml/reference/permute_p_value.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/plot_curves.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/plot_hp_performance.html</loc>
   </url>
   <url>
@@ -286,10 +298,16 @@
     <loc>http://www.schlosslab.org/mikropml/reference/run_ml.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/sensspec.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/reference/set_hparams_regLogistic.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/setup_parallel.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/reference/shared_ggprotos.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/reference/shuffle_group.html</loc>

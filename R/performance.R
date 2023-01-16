@@ -332,6 +332,7 @@ calc_mean_prc <- function(sensspec_dat) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' # get cumulative performance for a single model
 #' sensspec_1 <- calc_model_sensspec(
@@ -367,7 +368,7 @@ calc_mean_prc <- function(sensspec_dat) {
 #' baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 #' prc_dat %>%
 #'   plot_mean_prc(baseline_precision = baseline_prec)
-#'
+#' }
 NULL
 
 #' Calculate the fraction of positives, i.e. baseline precision for a PRC curve

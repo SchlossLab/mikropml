@@ -44,6 +44,7 @@ You can then plot mean ROC and PRC curves to visualize the results.
 
 }}
 \examples{
+\dontrun{
 library(dplyr)
 # get cumulative performance for a single model
 sensspec_1 <- calc_model_sensspec(
@@ -79,7 +80,7 @@ roc_dat \%>\% plot_mean_roc()
 baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 prc_dat \%>\%
   plot_mean_prc(baseline_precision = baseline_prec)
-
+}
 }
 \author{
 Courtney Armour
