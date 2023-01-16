@@ -28,16 +28,17 @@ data.frame(y = c("a", "b", "a", "b")) \%>\%
 
 
 calc_baseline_precision(otu_mini_bin,
-                        outcome_colname = "dx",
-                        pos_outcome = "cancer")
+  outcome_colname = "dx",
+  pos_outcome = "cancer"
+)
 
 
 # if you're not sure which outcome was used as the 'positive' outcome during
 # model training, you can access it from the trained model and pass it along:
 calc_baseline_precision(otu_mini_bin,
-                        outcome_colname = "dx",
-                        pos_outcome = otu_mini_bin_results_glmnet$trained_model$levels[1])
-
+  outcome_colname = "dx",
+  pos_outcome = otu_mini_bin_results_glmnet$trained_model$levels[1]
+)
 
 }
 \author{
