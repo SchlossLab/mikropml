@@ -8,6 +8,7 @@ otu_data_preproc <- mikropml::otu_data_preproc$dat_transformed
 results_list <- future.apply::future_lapply(seq(100, 102), function(seed) {
   run_ml(otu_data_preproc, "glmnet", seed = seed)
 }, future.seed = TRUE)
+# this file is too big for CRAN, don't keep it around when submitting
 saveRDS(results_list, testthat::test_path("fixtures", "results_list.Rds"))
 
 param_grid <- expand.grid(
@@ -22,4 +23,5 @@ results_mtx <- future.apply::future_mapply(
   param_grid$methods %>% as.character(),
   future.seed = TRUE
 )
+# this file is too big for CRAN, don't keep it around when submitting
 saveRDS(results_mtx, testthat::test_path("fixtures", "results_mtx.Rds"))

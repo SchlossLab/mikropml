@@ -1,4 +1,3 @@
-
 hparams_list <- list(lambda = c("1e-3", "1e-2", "1e-1"), alpha = "0.01")
 outcome_type <- get_outcome_type(otu_mini_bin %>% dplyr::pull("dx"))
 class_probs <- outcome_type != "numeric"

@@ -1,4 +1,3 @@
-
 sample_groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 
 test_that("get_partition_indices() works", {
