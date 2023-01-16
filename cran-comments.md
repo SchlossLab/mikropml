@@ -1,5 +1,5 @@
 This is a resubmission.
-I fixed the long-running examples.
+I reduced the package tarball size, it should now be 2.2 MB.
 
 ## Test environments
 
