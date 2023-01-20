@@ -16,7 +16,7 @@ preprocess_data(
 )
 }
 \arguments{
-\item{dataset}{Dataframe with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as features.}
 
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
