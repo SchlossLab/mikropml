@@ -7,7 +7,7 @@
 get_hyperparams_list(dataset, method)
 }
 \arguments{
-\item{dataset}{Dataframe with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as features.}
 
 \item{method}{ML method.
 Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
