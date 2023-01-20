@@ -1,6 +1,6 @@
 # mikropml development version
 
-- Minor documentation improvements (#322, @kelly-sovacool).
+- Minor documentation improvements (#323, @kelly-sovacool).
 
 # mikropml 1.5.0
 
