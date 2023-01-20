@@ -1,3 +1,7 @@
+# mikropml development version
+
+- Minor documentation improvements (#322, @kelly-sovacool).
+
 # mikropml 1.5.0
 
 - New example showing how to plot feature importances in the `parallel` vignette (#310, @kelly-sovacool).
