@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.4.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.5.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,6 +57,19 @@
       <small>Source: <a href="https://github.com/SchlossLab/mikropml/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.5.0" id="mikropml-150">mikropml 1.5.0<a class="anchor" aria-label="anchor" href="#mikropml-150"></a></h2><p class="text-muted">CRAN release: 2023-01-16</p>
+<ul><li>New example showing how to plot feature importances in the <code>parallel</code> vignette (<a href="https://github.com/SchlossLab/mikropml/issues/310" class="external-link">#310</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
+<li>You can now use <code>parRF</code>, a parallel implementation of the <code>rf</code> method, with the same default hyperparameters as <code>rf</code> set automatically (<a href="https://github.com/SchlossLab/mikropml/issues/306" class="external-link">#306</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
+<li>New functions to calculate and plot ROC and PRC curves: (<a href="https://github.com/SchlossLab/mikropml/issues/321" class="external-link">#321</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>)
+<ul><li>
+<code><a href="../reference/sensspec.html">calc_model_sensspec()</a></code> - calculate sensitivity, specificity, and precision for a model.</li>
+<li>
+<code><a href="../reference/sensspec.html">calc_mean_roc()</a></code> &amp; <code><a href="../reference/plot_curves.html">plot_mean_roc()</a></code> - calculate &amp; plot specificity and mean sensitivity for multiple models.</li>
+<li>
+<code><a href="../reference/sensspec.html">calc_mean_prc()</a></code> &amp; <code><a href="../reference/plot_curves.html">plot_mean_prc()</a></code> - calculate &amp; plot recall and mean precision for multiple models.</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.0" id="mikropml-140">mikropml 1.4.0<a class="anchor" aria-label="anchor" href="#mikropml-140"></a></h2><p class="text-muted">CRAN release: 2022-10-16</p>
 <ul><li>Extra arguments given to <code><a href="../reference/run_ml.html">run_ml()</a></code> are now forwarded to <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code> (<a href="https://github.com/SchlossLab/mikropml/issues/304" class="external-link">#304</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).

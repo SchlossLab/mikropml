@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.4.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.5.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,18 +139,7 @@ cases.</p>
 they will run certain tasks in parallel.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">otu_data_preproc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocess_data.html">preprocess_data</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">"dx"</span><span class="op">)</span><span class="op">$</span><span class="va">dat_transformed</span></span>
-<span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
-<span><span class="va">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">"glmnet"</span>, seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
-<span><span class="co">#&gt; Training the model...</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span><span class="co">#&gt; Loading required package: lattice</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     compare_models</span></span>
-<span><span class="co">#&gt; Training complete.</span></span></code></pre></div>
+<span><span class="va">result1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">"glmnet"</span>, seed <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></code></pre></div>
 <p>There’s a also a parallel version of the <code>rf</code> engine
 called <code>parRF</code> which trains the trees in the forest in
 parallel. See the <a href="https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest" class="external-link">caret
@@ -171,9 +160,23 @@ multiple seeds using <code>future_lapply()</code>:</p>
 <span><span class="op">}</span>, future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: lattice</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: lattice</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
@@ -232,6 +235,13 @@ all seeds:</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: lattice</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Finding feature importance...</span></span>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
@@ -252,6 +262,13 @@ all seeds:</p>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: lattice</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Finding feature importance...</span></span>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
