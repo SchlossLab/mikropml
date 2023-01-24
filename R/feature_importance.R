@@ -203,7 +203,9 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       perf_metric_function, perf_metric_name,
                                       class_probs, feat,
                                       test_perf_value,
-                                      nperms = 100, progbar = NULL) {
+                                      nperms = 100,
+                                      alpha = 0.05,
+                                      progbar = NULL) {
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
   # but for now this is a temporary fix.
@@ -235,6 +237,31 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
   return(c(
     perf_metric = mean_perm_perf,
     perf_metric_diff = test_perf_value - mean_perm_perf,
-    pvalue = calc_pvalue(perm_perfs, test_perf_value)
+    pvalue = calc_pvalue(perm_perfs, test_perf_value),
+    lower = lower_bound(perm_perfs, alpha),
+    upper = upper_bound(perm_perfs, alpha)
   ))
+}
+
+#' Get the lower and upper bound for an empirical confidence interval
+#'
+#' @param x vector of statistics
+#' @param alpha alpha level, e.g. 0.05 to get a 95% confidence interval
+#'
+#' @return
+#' @keywords internal
+#'
+#' @examples
+#' x <- 1:10000
+#' lower_bound(x, 0.05)
+#' upper_bound(x, 0.05)
+lower_bound <- function(x, alpha) {
+    x <- sort(x)
+    return(x[length(x) * alpha / 2])
+}
+#' @describeIn lower_bound
+#' @keywords internal
+upper_bound <- function(x, alpha) {
+    x <- sort(x)
+    return(x[length(x) - length(x) * alpha / 2])
 }

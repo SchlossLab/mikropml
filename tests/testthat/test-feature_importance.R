@@ -193,3 +193,8 @@ test_that("custom grouped features works", {
     tolerance = 10e-3
   )
 })
+test_that("empirical confidence interval works", {
+    x <- 1:10000
+    expect_equal(lower_bound(x, 0.05), 250)
+    expect_equal(upper_bound(x, 0.05), 9750)
+})
