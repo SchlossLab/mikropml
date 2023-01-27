@@ -13,7 +13,7 @@
 #'   grouped together based on `corr_thresh`.
 #'
 #' @return Data frame with performance metrics for when each feature (or group
-#'   of correlated features; `names`) is permuted (`perf_metric`), differences
+#'   of correlated features; `feat`) is permuted (`perf_metric`), differences
 #'   between the actual test performance metric on and the permuted performance
 #'   metric (`perf_metric_diff`; test minus permuted performance), and the
 #'   p-value (`pvalue`: the probability of obtaining the actual performance
@@ -173,7 +173,7 @@ get_feature_importance <- function(trained_model, test_data,
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
-      names = factor(groups),
+      feat = factor(groups),
       method = method,
       perf_metric_name = perf_metric_name,
       seed = seed
