@@ -266,7 +266,9 @@ upper_bound <- function(x, alpha) {
 #' @return the value of the lower or upper bound for the confidence interval
 #'
 #' @examples
+#' \dontrun{
 #' x <- 1:10000
 #' lower_bound(x, 0.05)
 #' upper_bound(x, 0.05)
+#' }
 NULL

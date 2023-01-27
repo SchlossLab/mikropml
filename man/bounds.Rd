@@ -29,8 +29,10 @@ Get the lower and upper bounds for an empirical confidence interval
 
 }}
 \examples{
+\dontrun{
 x <- 1:10000
 lower_bound(x, 0.05)
 upper_bound(x, 0.05)
+}
 }
 \keyword{internal}
