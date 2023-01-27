@@ -201,7 +201,7 @@ get_performance_tbl <- function(trained_model,
   )) %>%
     dplyr::rename_with(
       function(x) paste0("cv_metric_", perf_metric_name),
-      .data$cv_metric
+      all_of("cv_metric")
     ) %>%
     change_to_num())
 }
