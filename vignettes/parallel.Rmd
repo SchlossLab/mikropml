@@ -254,6 +254,8 @@ be positive.
 In other words, the features that resulted in the largest **decrease** in
 performance when permuted are the most important features.
 
+##### Feature importance for multiple models
+
 You can select the top n most important features for your models and plot them
 like so:
 
@@ -263,14 +265,14 @@ feat_df <- results_mtx["feature_importance", ] %>%
 
 top_n <- 5
 top_feats <- feat_df %>%
-  group_by(method, names) %>%
+  group_by(method, feat) %>%
   summarize(median_diff = median(perf_metric_diff)) %>%
   filter(median_diff > 0) %>%
   slice_max(order_by = median_diff, n = top_n)
 
 feat_df %>%
-  right_join(top_feats, by = c("method", "names")) %>%
-  mutate(features = factor(names, levels = rev(unique(top_feats$names)))) %>%
+  right_join(top_feats, by = c("method", "feat")) %>%
+  mutate(features = factor(feat, levels = rev(unique(top_feats$feat)))) %>%
   ggplot(aes(x = perf_metric_diff, y = features, color = method)) +
   geom_boxplot() +
   theme_bw()
@@ -278,6 +280,38 @@ feat_df %>%
 
 See the docs for `get_feature_importance()` for more details on how these values
 are computed.
+
+##### Feature importance for a single model
+
+You can also plot feature importance for a single model.
+Here we report the actual performance, the permutation performance, and the 
+empirical 95% confidence interval for the permutation performance.
+
+```{r feat_imp_single}
+feat_imp_1 <- results_mtx[, 1][['feature_importance']]
+perf_metric_name <- results_mtx[, 1][['trained_model']]$metric
+perf_actual <- results_mtx[, 1][['performance']] %>% pull(perf_metric_name) 
+
+feat_imp_1 %>% 
+    arrange(perf_metric_diff) %>% 
+    mutate(feat = if_else(pvalue < 0.05, paste0("*", feat), feat) %>% 
+               as.factor() %>% 
+               forcats::fct_reorder(perf_metric_diff)
+           ) %>% 
+    ggplot(aes(x = perf_metric, xmin = lower, xmax = upper, y = feat)) +
+    geom_pointrange() +
+    geom_vline(xintercept = perf_actual, linetype = 'dashed') +
+    labs(x = 'Permutation performance', y = 'Feature',
+         caption = paste('The dashed line represents the actual performance on the test set.',
+             'Features which have a lower performance when permuted are important for model performance.',
+             'Significant features (pvalue < 0.05) are marked with an asterisk (*).',
+             'Error bars represent the 95% confidence interval.', sep = '\n')
+         ) +
+    theme_bw()
+```
+
+
+
 
 ## Live progress updates
 
