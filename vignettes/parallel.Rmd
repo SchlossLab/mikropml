@@ -288,26 +288,28 @@ Here we report the actual performance, the permutation performance, and the
 empirical 95% confidence interval for the permutation performance.
 
 ```{r feat_imp_single}
-feat_imp_1 <- results_mtx[, 1][['feature_importance']]
-perf_metric_name <- results_mtx[, 1][['trained_model']]$metric
-perf_actual <- results_mtx[, 1][['performance']] %>% pull(perf_metric_name) 
+feat_imp_1 <- results_mtx[, 1][["feature_importance"]]
+perf_metric_name <- results_mtx[, 1][["trained_model"]]$metric
+perf_actual <- results_mtx[, 1][["performance"]] %>% pull(perf_metric_name)
 
-feat_imp_1 %>% 
-    arrange(perf_metric_diff) %>% 
-    mutate(feat = if_else(pvalue < 0.05, paste0("*", feat), feat) %>% 
-               as.factor() %>% 
-               forcats::fct_reorder(perf_metric_diff)
-           ) %>% 
-    ggplot(aes(x = perf_metric, xmin = lower, xmax = upper, y = feat)) +
-    geom_pointrange() +
-    geom_vline(xintercept = perf_actual, linetype = 'dashed') +
-    labs(x = 'Permutation performance', y = 'Feature',
-         caption = paste('The dashed line represents the actual performance on the test set.',
-             'Features which have a lower performance when permuted are important for model performance.',
-             'Significant features (pvalue < 0.05) are marked with an asterisk (*).',
-             'Error bars represent the 95% confidence interval.', sep = '\n')
-         ) +
-    theme_bw()
+feat_imp_1 %>%
+  arrange(perf_metric_diff) %>%
+  mutate(feat = if_else(pvalue < 0.05, paste0("*", feat), feat) %>%
+    as.factor() %>%
+    forcats::fct_reorder(perf_metric_diff)) %>%
+  ggplot(aes(x = perf_metric, xmin = lower, xmax = upper, y = feat)) +
+  geom_pointrange() +
+  geom_vline(xintercept = perf_actual, linetype = "dashed") +
+  labs(
+    x = "Permutation performance", y = "Feature",
+    caption = paste("The dashed line represents the actual performance on the test set.",
+      "Features which have a lower performance when permuted are important for model performance.",
+      "Significant features (pvalue < 0.05) are marked with an asterisk (*).",
+      "Error bars represent the 95% confidence interval.",
+      sep = "\n"
+    )
+  ) +
+  theme_bw()
 ```
 
 
