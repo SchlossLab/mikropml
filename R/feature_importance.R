@@ -191,10 +191,13 @@ get_feature_importance <- function(trained_model, test_data,
 #' @param progbar optional progress bar (default: `NULL`)
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
+#' @param alpha alpha level for the confidence interval
+#'   (default: `0.05` to obtain a 95% confidence interval)
 #'
 #' @return vector of mean permuted performance and mean difference between test
 #'   and permuted performance (test minus permuted performance)
-#' @noRd
+#' @keywords internal
+#'
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -261,7 +264,7 @@ upper_bound <- function(x, alpha) {
 #' @title Get the lower and upper bounds for an empirical confidence interval
 #'
 #' @param x vector of test statistics, such as from permutation tests or bootstraps
-#' @param alpha alpha level, e.g. 0.05 to get a 95% confidence interval
+#' @inheritParams find_permuted_perf_metric
 #'
 #' @return the value of the lower or upper bound for the confidence interval
 #'

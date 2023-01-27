@@ -13,7 +13,8 @@ upper_bound(x, alpha)
 \arguments{
 \item{x}{vector of test statistics, such as from permutation tests or bootstraps}
 
-\item{alpha}{alpha level, e.g. 0.05 to get a 95\% confidence interval}
+\item{alpha}{alpha level for the confidence interval
+(default: \code{0.05} to obtain a 95\% confidence interval)}
 }
 \value{
 the value of the lower or upper bound for the confidence interval
