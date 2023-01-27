@@ -175,10 +175,10 @@ run_ml <-
     }
 
     dataset <- dataset %>%
-        randomize_feature_order(outcome_colname) %>%
-        # convert tibble to dataframe to silence warning from caret::train():
-        # "Warning: Setting row names on a tibble is deprecated.."
-        as.data.frame()
+      randomize_feature_order(outcome_colname) %>%
+      # convert tibble to dataframe to silence warning from caret::train():
+      # "Warning: Setting row names on a tibble is deprecated.."
+      as.data.frame()
 
     outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
 
