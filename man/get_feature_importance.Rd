@@ -70,7 +70,7 @@ by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
 Data frame with performance metrics for when each feature (or group
-of correlated features; \code{names}) is permuted (\code{perf_metric}), differences
+of correlated features; \code{feat}) is permuted (\code{perf_metric}), differences
 between the actual test performance metric on and the permuted performance
 metric (\code{perf_metric_diff}; test minus permuted performance), and the
 p-value (\code{pvalue}: the probability of obtaining the actual performance
