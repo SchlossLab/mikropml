@@ -249,15 +249,15 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
 #' @describeIn bounds Get the lower bound for an empirical confidence interval
 #' @keywords internal
 lower_bound <- function(x, alpha) {
-    x <- sort(x)
-    return(x[length(x) * alpha / 2])
+  x <- sort(x)
+  return(x[length(x) * alpha / 2])
 }
 
 #' @describeIn bounds Get the upper bound for an empirical confidence interval
 #' @keywords internal
 upper_bound <- function(x, alpha) {
-    x <- sort(x)
-    return(x[length(x) - length(x) * alpha / 2])
+  x <- sort(x)
+  return(x[length(x) - length(x) * alpha / 2])
 }
 
 #' @name bounds
