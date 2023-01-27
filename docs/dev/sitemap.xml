@@ -46,6 +46,9 @@
     <loc>http://www.schlosslab.org/mikropml/dev/pull_request_template.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/bounds.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_baseline_precision.html</loc>
   </url>
   <url>
@@ -62,6 +65,9 @@
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/define_cv.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/find_permuted_perf_metric.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_caret_processed_df.html</loc>
