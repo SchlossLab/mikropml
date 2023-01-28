@@ -75,6 +75,7 @@ Imports:
     xgboost
 Suggests:
     doFuture,
+    forcats,
     foreach,
     future,
     future.apply,
