@@ -656,7 +656,7 @@ features are important in predicting your outcome.</p>
 <p>Now, we can check out the feature importances:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span></span>
-<span><span class="co">#&gt;    perf_metric perf_metric_diff     pvalue   lower   upper    names method</span></span>
+<span><span class="co">#&gt;    perf_metric perf_metric_diff     pvalue   lower   upper     feat method</span></span>
 <span><span class="co">#&gt; 1    0.5459125        0.0003375 0.51485149 0.49125 0.60250 Otu00001     rf</span></span>
 <span><span class="co">#&gt; 2    0.5682625       -0.0220125 0.73267327 0.50625 0.63125 Otu00002     rf</span></span>
 <span><span class="co">#&gt; 3    0.5482875       -0.0020375 0.56435644 0.50500 0.59000 Otu00003     rf</span></span>
@@ -692,11 +692,21 @@ minus permuted performance). Features with a larger
 <code>pvalue</code>: the probability of obtaining the actual
 performance value under the null hypothesis.</li>
 <li>
-<code>names</code>: The feature that was permuted.</li>
+<code>lower</code>: the lower bound for the 95% confidence interval
+of <code>perf_metric</code>.</li>
 <li>
-<code>method</code>: The ML method used.</li>
+<code>upper</code>: the upper bound for the 95% confidence interval
+of <code>perf_metric</code>.</li>
 <li>
-<code>perf_metric_name</code>: The performance metric used.</li>
+<code>feat</code>: The feature (or group of correlated features)
+that was permuted.</li>
+<li>
+<code>method</code>: The <a href="#the-methods-we-support">ML
+method</a> used.</li>
+<li>
+<code>perf_metric_name</code>: The <a href="#id_-changing-the-performance-metric">name of the performance
+metric</a> represented by <code>perf_metric</code> &amp;
+<code>perf_metric_diff</code>.</li>
 <li>
 <code>seed</code>: The seed (if set).</li>
 </ol>
@@ -730,12 +740,12 @@ features are permuted together when using the default value.</p>
 <span><span class="va">results_imp_corr</span><span class="op">$</span><span class="va">feature_importance</span></span>
 <span><span class="co">#&gt;   perf_metric perf_metric_diff     pvalue     lower     upper</span></span>
 <span><span class="co">#&gt; 1   0.4941842        0.1531842 0.05940594 0.3236842 0.6473684</span></span>
-<span><span class="co">#&gt;                                                                                       names</span></span>
+<span><span class="co">#&gt;                                                                                        feat</span></span>
 <span><span class="co">#&gt; 1 Otu00001|Otu00002|Otu00003|Otu00004|Otu00005|Otu00006|Otu00007|Otu00008|Otu00009|Otu00010</span></span>
 <span><span class="co">#&gt;   method perf_metric_name seed</span></span>
 <span><span class="co">#&gt; 1 glmnet              AUC 2019</span></span></code></pre></div>
 <p>You can see which features were permuted together in the
-<code>names</code> column. Here all 3 features were permuted together
+<code>feat</code> column. Here all 3 features were permuted together
 (which doesn’t really make sense, but it’s just an example).</p>
 <p>If you previously executed <code><a href="../reference/run_ml.html">run_ml()</a></code> without feature
 importance but now wish to find feature importance after the fact, see
