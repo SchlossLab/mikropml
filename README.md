@@ -56,8 +56,8 @@ mamba install -c conda-forge r-mikropml
 
 - Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics,
   randomForest, rlang, rpart, stats, utils, xgboost
-- Suggests: doFuture, foreach, future, future.apply, ggplot2, knitr,
-  progress, progressr, purrr, rmarkdown, testthat, tidyr
+- Suggests: doFuture, forcats, foreach, future, future.apply, ggplot2,
+  knitr, progress, progressr, purrr, rmarkdown, testthat, tidyr
 
 ## Usage
 
