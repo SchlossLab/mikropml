@@ -174,7 +174,11 @@ run_ml <-
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
     }
 
-    dataset <- randomize_feature_order(dataset, outcome_colname)
+    dataset <- dataset %>%
+      randomize_feature_order(outcome_colname) %>%
+      # convert tibble to dataframe to silence warning from caret::train():
+      # "Warning: Setting row names on a tibble is deprecated.."
+      as.data.frame()
 
     outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
 
