@@ -75,6 +75,15 @@ test_that("get_performance_tbl works", {
   )
 })
 
+test_that('bootstrap_performance warns for tiny bootstraps', {
+    set.seed(20230129) # TODO: rsample::bootstraps() not respecting seed??
+    expect_warning(bootstrap_performance(otu_mini_bin_results_glmnet, 'dx',
+                                       bootstrap_times = 1, alpha = 1
+                                       ),
+                 "Recommend at least 1000 non-missing bootstrap resamples for terms"
+    )
+})
+
 test_that("sensspec calculations work", {
   expect_equal(
     calc_model_sensspec(
