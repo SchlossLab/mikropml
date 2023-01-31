@@ -80,8 +80,10 @@ speed, but it is recommended to generate `10000` bootstraps for a more precise
 estimation of the confidence interval.
 
 ```{r bootstrap, warning=FALSE}
-boot_perf <- bootstrap_performance(result1, outcome_colname = 'dx', 
-                                   bootstrap_times = 100, alpha = 0.05)
+boot_perf <- bootstrap_performance(result1,
+  outcome_colname = "dx",
+  bootstrap_times = 100, alpha = 0.05
+)
 boot_perf
 ```
 

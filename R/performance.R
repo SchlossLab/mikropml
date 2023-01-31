@@ -222,47 +222,48 @@ get_performance_tbl <- function(trained_model,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' bootstrap_performance(otu_mini_bin_results_glmnet, 'dx',
-#'                       bootstrap_times = 10, alpha = 0.10)
+#' bootstrap_performance(otu_mini_bin_results_glmnet, "dx",
+#'   bootstrap_times = 10, alpha = 0.10
+#' )
 #' \dontrun{
-#'   outcome_colname <- 'dx'
-#'   run_ml(otu_mini_bin, 'rf', outcome_colname = 'dx') %>%
-#'     bootstrap_performance(outcome_colname,
-#'                           bootstrap_times = 10000,
-#'                           alpha = 0.05
-#'     )
+#' outcome_colname <- "dx"
+#' run_ml(otu_mini_bin, "rf", outcome_colname = "dx") %>%
+#'   bootstrap_performance(outcome_colname,
+#'     bootstrap_times = 10000,
+#'     alpha = 0.05
+#'   )
 #' }
 bootstrap_performance <- function(ml_result,
                                   outcome_colname,
                                   bootstrap_times = 10000,
                                   alpha = 0.05) {
-    abort_packages_not_installed('assertthat', 'rsample', 'furrr')
-    splits <- perf <- NULL
+  abort_packages_not_installed("assertthat", "rsample", "furrr")
+  splits <- perf <- NULL
 
-    model <- ml_result$trained_model
-    test_dat <- ml_result$test_data
-    outcome_type <- get_outcome_type(test_dat %>% dplyr::pull(outcome_colname))
-    class_probs <- outcome_type != "continuous"
-    method <- model$modelInfo$label
-    seed <- ml_result$performance %>% dplyr::pull(seed)
-    assertthat::are_equal(length(seed), 1)
-    return(
-        rsample::bootstraps(test_dat, times = bootstrap_times) %>%
-            dplyr::mutate(perf = furrr::future_map(
-                splits,
-                ~ calc_perf_bootstrap_split(
-                    .x,
-                    trained_model = model,
-                    outcome_colname = outcome_colname,
-                    perf_metric_function = get_perf_metric_fn(outcome_type),
-                    perf_metric_name = model$metric,
-                    class_probs = outcome_type != "continuous",
-                    method = model$trained_model$modelInfo$label,
-                    seed = seed
-                )
-            )) %>%
-            rsample::int_pctl(perf, alpha = alpha)
-    )
+  model <- ml_result$trained_model
+  test_dat <- ml_result$test_data
+  outcome_type <- get_outcome_type(test_dat %>% dplyr::pull(outcome_colname))
+  class_probs <- outcome_type != "continuous"
+  method <- model$modelInfo$label
+  seed <- ml_result$performance %>% dplyr::pull(seed)
+  assertthat::are_equal(length(seed), 1)
+  return(
+    rsample::bootstraps(test_dat, times = bootstrap_times) %>%
+      dplyr::mutate(perf = furrr::future_map(
+        splits,
+        ~ calc_perf_bootstrap_split(
+          .x,
+          trained_model = model,
+          outcome_colname = outcome_colname,
+          perf_metric_function = get_perf_metric_fn(outcome_type),
+          perf_metric_name = model$metric,
+          class_probs = outcome_type != "continuous",
+          method = model$trained_model$modelInfo$label,
+          seed = seed
+        )
+      )) %>%
+      rsample::int_pctl(perf, alpha = alpha)
+  )
 }
 
 #' Calculate performance for a single split from [rsample::bootstraps()]
@@ -284,26 +285,26 @@ calc_perf_bootstrap_split <- function(test_data_split,
                                       class_probs,
                                       method,
                                       seed) {
-    abort_packages_not_installed('rsample')
-    return(
-        get_performance_tbl(
-            trained_model,
-            rsample::analysis(test_data_split),
-            outcome_colname,
-            perf_metric_function,
-            perf_metric_name,
-            class_probs,
-            method,
-            seed
-        ) %>%
-            dplyr::select(-dplyr::all_of(c(method)), -seed) %>%
-            dplyr::mutate(dplyr::across(dplyr::everything(), as.numeric)) %>%
-            tidyr::pivot_longer(
-                dplyr::everything(),
-                names_to = 'term',
-                values_to = 'estimate'
-            )
-    )
+  abort_packages_not_installed("rsample")
+  return(
+    get_performance_tbl(
+      trained_model,
+      rsample::analysis(test_data_split),
+      outcome_colname,
+      perf_metric_function,
+      perf_metric_name,
+      class_probs,
+      method,
+      seed
+    ) %>%
+      dplyr::select(-dplyr::all_of(c(method)), -seed) %>%
+      dplyr::mutate(dplyr::across(dplyr::everything(), as.numeric)) %>%
+      tidyr::pivot_longer(
+        dplyr::everything(),
+        names_to = "term",
+        values_to = "estimate"
+      )
+  )
 }
 
 
