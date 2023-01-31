@@ -168,6 +168,7 @@ get_performance_tbl <- function(trained_model,
                                 class_probs,
                                 method,
                                 seed = NA) {
+  cv_metric <- NULL
   test_perf_metrics <- calc_perf_metrics(
     test_data,
     trained_model,
@@ -201,7 +202,7 @@ get_performance_tbl <- function(trained_model,
   )) %>%
     dplyr::rename_with(
       function(x) paste0("cv_metric_", perf_metric_name),
-      .data$cv_metric
+      cv_metric
     ) %>%
     change_to_num())
 }
@@ -236,7 +237,7 @@ bootstrap_performance <- function(ml_result,
                                   bootstrap_times = 10000,
                                   alpha = 0.05) {
     abort_packages_not_installed('assertthat', 'rsample', 'furrr')
-    #splits <- perf <- NULL
+    splits <- perf <- NULL
 
     model <- ml_result$trained_model
     test_dat <- ml_result$test_data
@@ -248,7 +249,7 @@ bootstrap_performance <- function(ml_result,
     return(
         rsample::bootstraps(test_dat, times = bootstrap_times) %>%
             dplyr::mutate(perf = furrr::future_map(
-                .data$splits,
+                splits,
                 ~ calc_perf_bootstrap_split(
                     .x,
                     trained_model = model,
@@ -260,7 +261,7 @@ bootstrap_performance <- function(ml_result,
                     seed = seed
                 )
             )) %>%
-            rsample::int_pctl(.data$perf, alpha = alpha)
+            rsample::int_pctl(perf, alpha = alpha)
     )
 }
 
@@ -295,7 +296,7 @@ calc_perf_bootstrap_split <- function(test_data_split,
             method,
             seed
         ) %>%
-            dplyr::select(-c(method, seed)) %>%
+            dplyr::select(-dplyr::all_of(c(method)), -seed) %>%
             dplyr::mutate(dplyr::across(dplyr::everything(), as.numeric)) %>%
             tidyr::pivot_longer(
                 dplyr::everything(),
