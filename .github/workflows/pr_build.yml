@@ -26,11 +26,10 @@ jobs:
         run: |
           git config --local user.email "noreply@github.com"
           git config --local user.name "GitHub"
-      - name: Check
+      - name: Document
         run: |
-          Rscript -e 'devtools::check()'
-          git add man/ NAMESPACE
-          git commit \
+          Rscript -e 'devtools::document()'
+          git commit -a \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
           -m '📚 Render Roxygen documentation' || echo "No changes to commit"
       - name: Style
@@ -54,7 +53,7 @@ jobs:
           branch: ${{ github.head_ref }}
       - name: Docs
         run: |
-          Rscript -e "pkgdown::build_reference(); devtools::build_site()"
+          Rscript -e "devtools::build_site(lazy = TRUE)"
           git add docs
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \

@@ -57,6 +57,7 @@ reference:
   - sensspec
   - compare_models
   - permute_p_value
+  - bootstrap_performance
 - title: Plotting helpers
   desc: >
     Visualize results to help you tune hyperparameters and choose model methods.

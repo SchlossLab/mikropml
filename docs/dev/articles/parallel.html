@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Parallel processing">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Parallel processing">
 <meta property="og:description" content="mikropml">
 <meta property="og:image" content="http://www.schlosslab.org/mikropml/logo.png">
 <meta name="robots" content="noindex">
@@ -115,7 +115,8 @@ recommendation.</p>
 <span><span class="co">#&gt;     filter, lag</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="speed-up-single-runs">Speed up single runs<a class="anchor" aria-label="anchor" href="#speed-up-single-runs"></a>
 </h2>
@@ -144,6 +145,40 @@ they will run certain tasks in parallel.</p>
 called <code>parRF</code> which trains the trees in the forest in
 parallel. See the <a href="https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest" class="external-link">caret
 docs</a> for more information.</p>
+<div class="section level3">
+<h3 id="bootstrap-performance">Bootstrap performance<a class="anchor" aria-label="anchor" href="#bootstrap-performance"></a>
+</h3>
+<p>If you only intend to call <code><a href="../reference/run_ml.html">run_ml()</a></code> once to generate one
+train/test split (e.g. such as for a temporal split of the dataset), you
+can evaluate the model performance by bootstrapping the test set.</p>
+<p>Here we show how to generate <code>100</code> bootstraps and
+calculate a confidence interval for the model performance. We only use
+<code>100</code> here for computation speed, but it is recommended to
+generate <code>10000</code> bootstraps for a more precise estimation of
+the confidence interval.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">boot_perf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bootstrap_performance.html">bootstrap_performance</a></span><span class="op">(</span><span class="va">result1</span>, outcome_colname <span class="op">=</span> <span class="st">'dx'</span>, </span>
+<span>                                   bootstrap_times <span class="op">=</span> <span class="fl">100</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="va">boot_perf</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 6</span></span></span>
+<span><span class="co">#&gt;    term              .lower .estimate .upper .alpha .method   </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Accuracy           0.436     0.584  0.718   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> AUC                0.492     0.636  0.773   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Balanced_Accuracy  0.438     0.584  0.726   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> cv_metric_AUC      0.622     0.622  0.622   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Detection_Rate     0.179     0.300  0.410   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> F1                 0.421     0.585  0.744   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Kappa             -<span style="color: #BB0000;">0.122</span>     0.164  0.428   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> logLoss            0.661     0.686  0.716   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Neg_Pred_Value     0.372     0.572  0.826   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Pos_Pred_Value     0.4       0.595  0.812   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> prAUC              0.463     0.579  0.707   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Precision          0.4       0.595  0.812   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Recall             0.378     0.586  0.776   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Sensitivity        0.378     0.586  0.776   0.05 percentile</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Specificity        0.393     0.582  0.778   0.05 percentile</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="call-run_ml-multiple-times-in-parallel-in-r">Call <code>run_ml()</code> multiple times in parallel in R<a class="anchor" aria-label="anchor" href="#call-run_ml-multiple-times-in-parallel-in-r"></a>
@@ -153,30 +188,25 @@ call <code><a href="../reference/run_ml.html">run_ml()</a></code> multiple times
 parameters. You will first need to run <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code> as
 above if you haven’t already. Then, call <code><a href="../reference/run_ml.html">run_ml()</a></code> with
 multiple seeds using <code>future_lapply()</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
 <span><span class="va">results_multi</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">102</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">seed</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_data_preproc</span>, <span class="st">"glmnet"</span>, seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span></span>
 <span><span class="op">}</span>, future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
 <span><span class="co">#&gt; Loading required package: lattice</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'caret'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:purrr':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     lift</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span><span class="co">#&gt; Loading required package: lattice</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
@@ -194,10 +224,10 @@ performance.</p>
 <code>future.apply</code> package to <code><a href="../reference/run_ml.html">run_ml()</a></code> in parallel,
 but you can accomplish the same thing with parallel versions of the
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> functions using the <code>furrr</code> package
-(e.g. <code>furrr::future_map_dfr()</code>).</p>
+(e.g. <code><a href="https://furrr.futureverse.org/reference/future_map.html" class="external-link">furrr::future_map_dfr()</a></code>).</p>
 <p>Extract the performance results and combine into one dataframe for
 all seeds:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span><span class="va">results_multi</span>,</span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">result</span><span class="op">[[</span><span class="st">"performance"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -219,7 +249,7 @@ all seeds:</p>
 <p>You may also wish to compare performance for different ML methods.
 <code><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply()</a></code> can iterate over multiple lists or vectors, and
 <code>future_mapply()</code> works the same way:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
 <span><span class="va">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
 <span>  seeds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">103</span><span class="op">)</span>,</span>
@@ -235,13 +265,6 @@ all seeds:</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span><span class="co">#&gt; Loading required package: lattice</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Finding feature importance...</span></span>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
@@ -262,13 +285,6 @@ all seeds:</p>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="co">#&gt; Using 'dx' as the outcome column.</span></span>
 <span><span class="co">#&gt; Training the model...</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span><span class="co">#&gt; Loading required package: lattice</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'caret'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:mikropml':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     compare_models</span></span>
 <span><span class="co">#&gt; Training complete.</span></span>
 <span><span class="co">#&gt; Finding feature importance...</span></span>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
@@ -300,10 +316,8 @@ data.</p>
 <div class="section level5">
 <h5 id="mean-auc">Mean AUC<a class="anchor" aria-label="anchor" href="#mean-auc"></a>
 </h5>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
 <span>  <span class="va">results_mtx</span><span class="op">[</span><span class="st">"performance"</span>, <span class="op">]</span>,</span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">cv_metric_AUC</span>, <span class="va">AUC</span>, <span class="va">method</span><span class="op">)</span></span>
@@ -316,7 +330,7 @@ data.</p>
 <p><img src="parallel_files/figure-html/plot_perf-1.png" width="700"></p>
 <p><code><a href="../reference/plot_model_performance.html">plot_model_performance()</a></code> returns a ggplot2 object. You
 can add layers to customize the plot:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">perf_boxplot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -328,7 +342,7 @@ can add layers to customize the plot:</p>
 </h5>
 <p>First calculate the sensitivity, specificity, and precision for all
 models.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">get_sensspec_seed</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">colnum</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="va">results_mtx</span><span class="op">[</span>, <span class="va">colnum</span><span class="op">]</span></span>
 <span>  <span class="va">trained_model</span> <span class="op">&lt;-</span> <span class="va">result</span><span class="op">$</span><span class="va">trained_model</span></span>
@@ -358,7 +372,7 @@ models.</p>
 <div class="section level6">
 <h6 id="plot-curves-for-a-single-model">Plot curves for a single model<a class="anchor" aria-label="anchor" href="#plot-curves-for-a-single-model"></a>
 </h6>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sensspec_1</span> <span class="op">&lt;-</span> <span class="va">sensspec_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">seed</span> <span class="op">==</span> <span class="fl">100</span>, <span class="va">method</span> <span class="op">==</span> <span class="st">"glmnet"</span><span class="op">)</span></span>
 <span><span class="va">sensspec_1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">specificity</span>, y <span class="op">=</span> <span class="va">sensitivity</span>, <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -374,7 +388,7 @@ models.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="parallel_files/figure-html/plot_curves_one_model-1.png" width="700"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">baseline_precision_otu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_baseline_precision.html">calc_baseline_precision</a></span><span class="op">(</span></span>
 <span>  <span class="va">otu_data_preproc</span>,</span>
@@ -400,12 +414,12 @@ models.</p>
 <div class="section level6">
 <h6 id="plot-mean-roc-and-prc-for-all-models">Plot mean ROC and PRC for all models<a class="anchor" aria-label="anchor" href="#plot-mean-roc-and-prc-for-all-models"></a>
 </h6>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sensspec_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/sensspec.html">calc_mean_roc</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/plot_curves.html">plot_mean_roc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="parallel_files/figure-html/plot_roc_prc-1.png" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sensspec_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/sensspec.html">calc_mean_prc</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -427,7 +441,7 @@ features that resulted in the largest <strong>decrease</strong> in
 performance when permuted are the most important features.</p>
 <p>You can select the top n most important features for your models and
 plot them like so:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feat_df</span> <span class="op">&lt;-</span> <span class="va">results_mtx</span><span class="op">[</span><span class="st">"feature_importance"</span>, <span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -459,7 +473,7 @@ details on how these values are computed.</p>
 <code><a href="../reference/get_feature_importance.html">get_feature_importance()</a></code> support reporting live progress
 updates using the <code>progressr</code> package. The format is up to
 you, but we recommend using a progress bar like this:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># optionally, specify the progress bar format with the `progress` package.</span></span>
 <span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handler_progress.html" class="external-link">handler_progress</a></span><span class="op">(</span></span>
 <span>  format <span class="op">=</span> <span class="st">":message :bar :percent | elapsed: :elapsed | eta: :eta"</span>,</span>
@@ -519,7 +533,7 @@ point for your ML project.</p>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
