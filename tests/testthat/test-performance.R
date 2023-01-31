@@ -75,13 +75,79 @@ test_that("get_performance_tbl works", {
   )
 })
 
-test_that('bootstrap_performance warns for tiny bootstraps', {
-    set.seed(20230129) # TODO: rsample::bootstraps() not respecting seed??
-    expect_warning(bootstrap_performance(otu_mini_bin_results_glmnet, 'dx',
-                                       bootstrap_times = 1, alpha = 1
-                                       ),
-                 "Recommend at least 1000 non-missing bootstrap resamples for terms"
+test_that('calc_perf_bootstrap_split returns consistent results', {
+    ml_result <- otu_mini_bin_results_glmnet
+    outcome_colname <- 'dx'
+    model <- ml_result$trained_model
+    test_dat <- ml_result$test_data
+    outcome_type <- get_outcome_type(test_dat %>% dplyr::pull(outcome_colname))
+    class_probs <- outcome_type != "continuous"
+    method <- model$modelInfo$label
+    seed <- ml_result$performance %>% dplyr::pull(seed)
+    perf_metric_function <- get_perf_metric_fn(outcome_type)
+    perf_metric_name <- model$metric
+    class_probs <- outcome_type != "continuous"
+    method <- model$trained_model$modelInfo$label
+
+    set.seed(20230129)
+    split_1 <- rsample::bootstraps(test_dat, times = 3) %>% dplyr::pull(splits) %>% .[[1]]
+    perf_1 <- calc_perf_bootstrap_split(split_1, model, outcome_colname,
+                                        perf_metric_function,
+                                        perf_metric_name,
+                                        class_probs,
+                                        method,
+                                        seed)
+    set.seed(20230129)
+    split_2 <- rsample::bootstraps(test_dat, times = 3) %>% dplyr::pull(splits) %>% .[[1]]
+    perf_2 <- calc_perf_bootstrap_split(split_2, model, outcome_colname,
+                                        perf_metric_function,
+                                        perf_metric_name,
+                                        class_probs,
+                                        method,
+                                        seed)
+
+    expect_equal(perf_1, perf_2)
+})
+
+test_that('bootstrap_performance returns consistent results', {
+    set.seed(20230129)
+    expect_warning(
+        boot_1 <- bootstrap_performance(
+            otu_mini_bin_results_glmnet,
+            'dx',
+            bootstrap_times = 1,
+            alpha = 1
+        ),
+        "Recommend at least 1000 non-missing bootstrap resamples for terms"
     )
+    boot_2 <- structure(list(term = c("Accuracy", "AUC", "Balanced_Accuracy",
+                                      "cv_metric_AUC", "Detection_Rate", "F1", "Kappa", "logLoss",
+                                      "Neg_Pred_Value", "Pos_Pred_Value", "prAUC", "Precision", "Recall",
+                                      "Sensitivity", "Specificity"),
+                             .lower = c(0.512820512820513,
+                                        0.592391304347826, 0.520380434782609, 0.622173713235294, 0.282051282051282,
+                                        0.536585365853659, 0.0389105058365759, 0.688040379015192, 0.428571428571429,
+                                        0.611111111111111, 0.524734824159823, 0.611111111111111, 0.478260869565217,
+                                        0.478260869565217, 0.5625),
+                             .estimate = c(0.512820512820513,
+                                           0.592391304347826, 0.520380434782609, 0.622173713235294, 0.282051282051282,
+                                           0.536585365853659, 0.0389105058365759, 0.688040379015192, 0.428571428571429,
+                                           0.611111111111111, 0.524734824159823, 0.611111111111111, 0.478260869565217,
+                                           0.478260869565217, 0.5625),
+                             .upper = c(0.512820512820513, 0.592391304347826,
+                                        0.520380434782609, 0.622173713235294, 0.282051282051282, 0.536585365853659,
+                                        0.0389105058365759, 0.688040379015192, 0.428571428571429, 0.611111111111111,
+                                        0.524734824159823, 0.611111111111111, 0.478260869565217, 0.478260869565217,
+                                        0.5625),
+                             .alpha = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                        1),
+                             .method = c("percentile", "percentile", "percentile", "percentile",
+                                         "percentile", "percentile", "percentile", "percentile", "percentile",
+                                         "percentile", "percentile", "percentile", "percentile", "percentile",
+                                         "percentile")),
+                        class = c("tbl_df", "tbl", "data.frame"),
+                        row.names = c(NA, -15L))
+    expect_equal(boot_1 %>% dplyr::arrange(term), boot_2 %>% dplyr::arrange(term))
 })
 
 test_that("sensspec calculations work", {
