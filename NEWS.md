@@ -1,5 +1,8 @@
 # mikropml development version
 
+- New function `bootstrap_performance()` allows you to calculate confidence 
+  intervals for the model performance from a single train/test split by
+  bootstrapping the test set (#329, @kelly-sovacool).
 - Minor documentation improvements (#323, @kelly-sovacool).
 
 # mikropml 1.5.0
