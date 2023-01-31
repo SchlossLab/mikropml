@@ -284,7 +284,7 @@ calc_perf_bootstrap_split <- function(test_data_split,
                                       class_probs,
                                       method,
                                       seed) {
-    abort_packages_not_installed('bootstrap')
+    abort_packages_not_installed('rsample')
     return(
         get_performance_tbl(
             trained_model,
