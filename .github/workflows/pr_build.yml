@@ -26,9 +26,9 @@ jobs:
         run: |
           git config --local user.email "noreply@github.com"
           git config --local user.name "GitHub"
-      - name: Check
+      - name: Document
         run: |
-          Rscript -e 'devtools::check()'
+          Rscript -e 'devtools::document()'
           git add man/ NAMESPACE
           git commit \
           --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
