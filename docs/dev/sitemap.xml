@@ -46,10 +46,16 @@
     <loc>http://www.schlosslab.org/mikropml/dev/pull_request_template.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/bootstrap_performance.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_baseline_precision.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_mean_perf.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_perf_bootstrap_split.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_perf_metrics.html</loc>

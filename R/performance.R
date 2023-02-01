@@ -168,6 +168,7 @@ get_performance_tbl <- function(trained_model,
                                 class_probs,
                                 method,
                                 seed = NA) {
+  cv_metric <- NULL
   test_perf_metrics <- calc_perf_metrics(
     test_data,
     trained_model,
@@ -201,10 +202,111 @@ get_performance_tbl <- function(trained_model,
   )) %>%
     dplyr::rename_with(
       function(x) paste0("cv_metric_", perf_metric_name),
-      .data$cv_metric
+      cv_metric
     ) %>%
     change_to_num())
 }
+
+#' Calculate a bootstrap confidence interval for the performance on a single train/test split
+#'
+#' Uses [rsample::bootstraps()], [rsample::int_pctl()], and [furrr::future_map()]
+#'
+#' @param ml_result result returned from a single [run_ml()] call
+#' @inheritParams run_ml
+#' @param bootstrap_times the number of boostraps to create (default: `10000`)
+#' @param alpha the alpha level for the confidence interval (default `0.05` to create a 95% confidence interval)
+#'
+#' @return a data frame with an estimate (`.estimate`), lower bound (`.lower`),
+#'  and upper bound (`.upper`) for each performance metric (`term`).
+#' @export
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' bootstrap_performance(otu_mini_bin_results_glmnet, "dx",
+#'   bootstrap_times = 10, alpha = 0.10
+#' )
+#' \dontrun{
+#' outcome_colname <- "dx"
+#' run_ml(otu_mini_bin, "rf", outcome_colname = "dx") %>%
+#'   bootstrap_performance(outcome_colname,
+#'     bootstrap_times = 10000,
+#'     alpha = 0.05
+#'   )
+#' }
+bootstrap_performance <- function(ml_result,
+                                  outcome_colname,
+                                  bootstrap_times = 10000,
+                                  alpha = 0.05) {
+  abort_packages_not_installed("assertthat", "rsample", "furrr")
+  splits <- perf <- NULL
+
+  model <- ml_result$trained_model
+  test_dat <- ml_result$test_data
+  outcome_type <- get_outcome_type(test_dat %>% dplyr::pull(outcome_colname))
+  class_probs <- outcome_type != "continuous"
+  method <- model$modelInfo$label
+  seed <- ml_result$performance %>% dplyr::pull(seed)
+  assertthat::are_equal(length(seed), 1)
+  return(
+    rsample::bootstraps(test_dat, times = bootstrap_times) %>%
+      dplyr::mutate(perf = furrr::future_map(
+        splits,
+        ~ calc_perf_bootstrap_split(
+          .x,
+          trained_model = model,
+          outcome_colname = outcome_colname,
+          perf_metric_function = get_perf_metric_fn(outcome_type),
+          perf_metric_name = model$metric,
+          class_probs = outcome_type != "continuous",
+          method = model$trained_model$modelInfo$label,
+          seed = seed
+        )
+      )) %>%
+      rsample::int_pctl(perf, alpha = alpha)
+  )
+}
+
+#' Calculate performance for a single split from [rsample::bootstraps()]
+#'
+#' Used by [bootstrap_performance()].
+#'
+#' @param test_data_split a single bootstrap of the test set from [rsample::bootstraps()]
+#' @inheritParams get_performance_tbl
+#' @return a long data frame of performance metrics for [rsample::int_pctl()]
+#'
+#' @keywords internal
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
+#'
+calc_perf_bootstrap_split <- function(test_data_split,
+                                      trained_model,
+                                      outcome_colname,
+                                      perf_metric_function,
+                                      perf_metric_name,
+                                      class_probs,
+                                      method,
+                                      seed) {
+  abort_packages_not_installed("rsample")
+  return(
+    get_performance_tbl(
+      trained_model,
+      rsample::analysis(test_data_split),
+      outcome_colname,
+      perf_metric_function,
+      perf_metric_name,
+      class_probs,
+      method,
+      seed
+    ) %>%
+      dplyr::select(-dplyr::all_of(c(method)), -seed) %>%
+      dplyr::mutate(dplyr::across(dplyr::everything(), as.numeric)) %>%
+      tidyr::pivot_longer(
+        dplyr::everything(),
+        names_to = "term",
+        values_to = "estimate"
+      )
+  )
+}
+
 
 #' @describeIn sensspec Get sensitivity, specificity, and precision for a model.
 #'

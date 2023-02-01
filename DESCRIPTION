@@ -74,16 +74,19 @@ Imports:
     utils,
     xgboost
 Suggests:
+    assertthat,
     doFuture,
     foreach,
     future,
     future.apply,
+    furrr,
     ggplot2,
     knitr,
     progress,
     progressr,
     purrr,
     rmarkdown,
+    rsample,
     testthat,
     tidyr
 VignetteBuilder: 
@@ -91,5 +94,5 @@ VignetteBuilder:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Config/testthat/edition: 3

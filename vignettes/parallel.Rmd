@@ -30,6 +30,7 @@ below if you're interested in skipping right to our best recommendation.
 ```{r setup}
 library(mikropml)
 library(dplyr)
+library(ggplot2)
 ```
 
 ## Speed up single runs
@@ -66,6 +67,25 @@ result1 <- otu_mini_bin_results_glmnet
 There's a also a parallel version of the `rf` engine called `parRF` which trains
 the trees in the forest in parallel. See the [caret docs](https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest) 
 for more information.
+
+### Bootstrap performance
+
+If you only intend to call `run_ml()` once to generate one train/test split 
+(e.g. such as for a temporal split of the dataset), you can evaluate the
+model performance by bootstrapping the test set.
+
+Here we show how to generate `100` bootstraps and calculate a confidence 
+interval for the model performance. We only use `100` here for computation 
+speed, but it is recommended to generate `10000` bootstraps for a more precise 
+estimation of the confidence interval.
+
+```{r bootstrap, warning=FALSE}
+boot_perf <- bootstrap_performance(result1,
+  outcome_colname = "dx",
+  bootstrap_times = 100, alpha = 0.05
+)
+boot_perf
+```
 
 ## Call `run_ml()` multiple times in parallel in R
 
@@ -143,8 +163,6 @@ You can also create your own plots however you like using the results data.
 ##### Mean AUC
 
 ```{r plot_perf}
-library(ggplot2)
-
 perf_df <- lapply(
   results_mtx["performance", ],
   function(x) {
