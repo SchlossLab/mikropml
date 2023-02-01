@@ -13,7 +13,7 @@
 #'   grouped together based on `corr_thresh`.
 #'
 #' @return Data frame with performance metrics for when each feature (or group
-#'   of correlated features; `names`) is permuted (`perf_metric`), differences
+#'   of correlated features; `feat`) is permuted (`perf_metric`), differences
 #'   between the actual test performance metric on and the permuted performance
 #'   metric (`perf_metric_diff`; test minus permuted performance), and the
 #'   p-value (`pvalue`: the probability of obtaining the actual performance
@@ -173,7 +173,7 @@ get_feature_importance <- function(trained_model, test_data,
 
   return(as.data.frame(imps) %>%
     dplyr::mutate(
-      names = factor(groups),
+      feat = factor(groups),
       method = method,
       perf_metric_name = perf_metric_name,
       seed = seed
@@ -191,10 +191,13 @@ get_feature_importance <- function(trained_model, test_data,
 #' @param progbar optional progress bar (default: `NULL`)
 #' @inheritParams run_ml
 #' @inheritParams get_feature_importance
+#' @param alpha alpha level for the confidence interval
+#'   (default: `0.05` to obtain a 95% confidence interval)
 #'
 #' @return vector of mean permuted performance and mean difference between test
 #'   and permuted performance (test minus permuted performance)
-#' @noRd
+#' @keywords internal
+#'
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
@@ -203,7 +206,9 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
                                       perf_metric_function, perf_metric_name,
                                       class_probs, feat,
                                       test_perf_value,
-                                      nperms = 100, progbar = NULL) {
+                                      nperms = 100,
+                                      alpha = 0.05,
+                                      progbar = NULL) {
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
   # but for now this is a temporary fix.
@@ -235,6 +240,38 @@ find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
   return(c(
     perf_metric = mean_perm_perf,
     perf_metric_diff = test_perf_value - mean_perm_perf,
-    pvalue = calc_pvalue(perm_perfs, test_perf_value)
+    pvalue = calc_pvalue(perm_perfs, test_perf_value),
+    lower = lower_bound(perm_perfs, alpha),
+    upper = upper_bound(perm_perfs, alpha)
   ))
 }
+
+#' @describeIn bounds Get the lower bound for an empirical confidence interval
+#' @keywords internal
+lower_bound <- function(x, alpha) {
+  x <- sort(x)
+  return(x[length(x) * alpha / 2])
+}
+
+#' @describeIn bounds Get the upper bound for an empirical confidence interval
+#' @keywords internal
+upper_bound <- function(x, alpha) {
+  x <- sort(x)
+  return(x[length(x) - length(x) * alpha / 2])
+}
+
+#' @name bounds
+#' @title Get the lower and upper bounds for an empirical confidence interval
+#'
+#' @param x vector of test statistics, such as from permutation tests or bootstraps
+#' @inheritParams find_permuted_perf_metric
+#'
+#' @return the value of the lower or upper bound for the confidence interval
+#'
+#' @examples
+#' \dontrun{
+#' x <- 1:10000
+#' lower_bound(x, 0.05)
+#' upper_bound(x, 0.05)
+#' }
+NULL
