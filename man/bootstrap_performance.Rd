@@ -29,15 +29,16 @@ and upper bound (\code{.upper}) for each performance metric (\code{term}).
 Uses \code{\link[rsample:bootstraps]{rsample::bootstraps()}}, \code{\link[rsample:int_pctl]{rsample::int_pctl()}}, and \code{\link[furrr:future_map]{furrr::future_map()}}
 }
 \examples{
-bootstrap_performance(otu_mini_bin_results_glmnet, 'dx',
-                      bootstrap_times = 10, alpha = 0.10)
+bootstrap_performance(otu_mini_bin_results_glmnet, "dx",
+  bootstrap_times = 10, alpha = 0.10
+)
 \dontrun{
-  outcome_colname <- 'dx'
-  run_ml(otu_mini_bin, 'rf', outcome_colname = 'dx') \%>\%
-    bootstrap_performance(outcome_colname,
-                          bootstrap_times = 10000,
-                          alpha = 0.05
-    )
+outcome_colname <- "dx"
+run_ml(otu_mini_bin, "rf", outcome_colname = "dx") \%>\%
+  bootstrap_performance(outcome_colname,
+    bootstrap_times = 10000,
+    alpha = 0.05
+  )
 }
 }
 \author{
