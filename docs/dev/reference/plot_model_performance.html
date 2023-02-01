@@ -96,7 +96,7 @@
 <span class="r-in"><span><span class="va">perf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">results_lst</span>, <span class="kw">function</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">result</span><span class="op">[[</span><span class="st">"performance"</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># plot the performance results</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">plot_model_performance</span><span class="op">(</span><span class="va">perf_df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -113,7 +113,7 @@
 <span class="r-in"><span>  <span class="va">param_grid</span><span class="op">$</span><span class="va">seeds</span>, <span class="va">param_grid</span><span class="op">$</span><span class="va">methods</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># extract and combine the performance results</span></span></span>
-<span class="r-in"><span><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">results_mtx</span><span class="op">[</span><span class="st">"performance"</span>, <span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">perf_df2</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">results_mtx</span><span class="op">[</span><span class="st">"performance"</span>, <span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># plot the performance results</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">plot_model_performance</span><span class="op">(</span><span class="va">perf_df2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
