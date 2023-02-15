@@ -145,7 +145,11 @@ param_grid <- expand.grid(
 )
 results_mtx <- future.apply::future_mapply(
   function(seed, method) {
-    run_ml(otu_data_preproc, method, seed = seed, find_feature_importance = TRUE)
+    run_ml(otu_data_preproc,
+      method,
+      seed = seed,
+      find_feature_importance = TRUE
+    )
   },
   param_grid$seeds,
   param_grid$methods %>% as.character(),
@@ -272,6 +276,8 @@ be positive.
 In other words, the features that resulted in the largest **decrease** in
 performance when permuted are the most important features.
 
+##### Feature importance for multiple models
+
 You can select the top n most important features for your models and plot them
 like so:
 
@@ -281,21 +287,66 @@ feat_df <- results_mtx["feature_importance", ] %>%
 
 top_n <- 5
 top_feats <- feat_df %>%
-  group_by(method, names) %>%
-  summarize(median_diff = median(perf_metric_diff)) %>%
-  filter(median_diff > 0) %>%
-  slice_max(order_by = median_diff, n = top_n)
+  group_by(method, feat) %>%
+  summarize(mean_diff = median(perf_metric_diff)) %>%
+  filter(mean_diff > 0) %>%
+  slice_max(order_by = mean_diff, n = top_n)
 
 feat_df %>%
-  right_join(top_feats, by = c("method", "names")) %>%
-  mutate(features = factor(names, levels = rev(unique(top_feats$names)))) %>%
+  right_join(top_feats, by = c("method", "feat")) %>%
+  mutate(features = forcats::fct_reorder(factor(feat), mean_diff)) %>%
   ggplot(aes(x = perf_metric_diff, y = features, color = method)) +
   geom_boxplot() +
-  theme_bw()
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(
+    x = "Decrease in performance (actual minus permutation)",
+    y = "Features",
+    caption = "Features which have a lower performance when permuted have a
+       difference in performance above zero. The features with the greatest
+       decrease are the most important for model performance." %>%
+      stringr::str_wrap(width = 100)
+  ) +
+  theme_bw() +
+  theme(plot.caption = element_text(hjust = 0))
 ```
 
 See the docs for `get_feature_importance()` for more details on how these values
 are computed.
+
+##### Feature importance for a single model
+
+You can also plot feature importance for a single model.
+Here we report the actual performance, the permutation performance, and the 
+empirical 95% confidence interval for the permutation performance.
+
+```{r feat_imp_single}
+feat_imp_1 <- results_mtx[, 1][["feature_importance"]]
+perf_metric_name <- results_mtx[, 1][["trained_model"]]$metric
+perf_actual <- results_mtx[, 1][["performance"]] %>% pull(perf_metric_name)
+
+feat_imp_1 %>%
+  filter(perf_metric_diff > 0) %>%
+  mutate(feat = if_else(pvalue < 0.05, paste0("*", feat), as.character(feat)) %>%
+    as.factor() %>%
+    forcats::fct_reorder(perf_metric_diff)) %>%
+  ggplot(aes(x = perf_metric, xmin = lower, xmax = upper, y = feat)) +
+  geom_pointrange() +
+  geom_vline(xintercept = perf_actual, linetype = "dashed") +
+  labs(
+    x = "Permutation performance",
+    y = "Features",
+    caption = "The dashed line represents the actual performance on the
+         test set. Features which have a lower performance when permuted are
+         important for model performance. Significant features (pvalue < 0.05)
+         are marked with an asterisk (*). Error bars represent the 95%
+         confidence interval." %>% stringr::str_wrap(width = 110)
+  ) +
+  theme_bw() +
+  theme(plot.caption = element_text(hjust = 0))
+```
+
+
+
 
 ## Live progress updates
 

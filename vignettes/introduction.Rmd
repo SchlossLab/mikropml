@@ -484,9 +484,11 @@ There are several columns:
 1. `perf_metric`: The performance value of the permuted feature.
 1. `perf_metric_diff`: The difference between the performance for the actual and permuted data (i.e. test performance minus permuted performance). Features with a larger `perf_metric_diff` are more important.
 1. `pvalue`: the probability of obtaining the actual performance value under the null hypothesis.
-1. `names`: The feature that was permuted.
-1. `method`: The ML method used.
-1. `perf_metric_name`: The performance metric used.
+1. `lower`: the lower bound for the 95% confidence interval of `perf_metric`.
+1. `upper`: the upper bound for the 95% confidence interval of `perf_metric`.
+1. `feat`: The feature (or group of correlated features) that was permuted.
+1. `method`: The [ML method](#the-methods-we-support) used.
+1. `perf_metric_name`: The [name of the performance metric](#-changing-the-performance-metric) represented by `perf_metric` & `perf_metric_diff`.
 1. `seed`: The seed (if set).
 
 As you can see here, the differences are negligible (close to zero), which makes
@@ -511,7 +513,7 @@ results_imp_corr <- run_ml(otu_mini_bin,
 results_imp_corr$feature_importance
 ```
 
-You can see which features were permuted together in the `names` column. Here
+You can see which features were permuted together in the `feat` column. Here
 all 3 features were permuted together (which doesn't really make sense, but it's
 just an example).
 

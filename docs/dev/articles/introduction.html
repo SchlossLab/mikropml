@@ -660,28 +660,28 @@ features are important in predicting your outcome.</p>
 <p>Now, we can check out the feature importances:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_imp</span><span class="op">$</span><span class="va">feature_importance</span></span>
-<span><span class="co">#&gt;    perf_metric perf_metric_diff     pvalue    names method perf_metric_name</span></span>
-<span><span class="co">#&gt; 1    0.5459125        0.0003375 0.51485149 Otu00001     rf              AUC</span></span>
-<span><span class="co">#&gt; 2    0.5682625       -0.0220125 0.73267327 Otu00002     rf              AUC</span></span>
-<span><span class="co">#&gt; 3    0.5482875       -0.0020375 0.56435644 Otu00003     rf              AUC</span></span>
-<span><span class="co">#&gt; 4    0.6314375       -0.0851875 1.00000000 Otu00004     rf              AUC</span></span>
-<span><span class="co">#&gt; 5    0.4991750        0.0470750 0.08910891 Otu00005     rf              AUC</span></span>
-<span><span class="co">#&gt; 6    0.5364875        0.0097625 0.28712871 Otu00006     rf              AUC</span></span>
-<span><span class="co">#&gt; 7    0.5382875        0.0079625 0.39603960 Otu00007     rf              AUC</span></span>
-<span><span class="co">#&gt; 8    0.5160500        0.0302000 0.09900990 Otu00008     rf              AUC</span></span>
-<span><span class="co">#&gt; 9    0.5293375        0.0169125 0.17821782 Otu00009     rf              AUC</span></span>
-<span><span class="co">#&gt; 10   0.4976500        0.0486000 0.12871287 Otu00010     rf              AUC</span></span>
-<span><span class="co">#&gt;    seed</span></span>
-<span><span class="co">#&gt; 1  2019</span></span>
-<span><span class="co">#&gt; 2  2019</span></span>
-<span><span class="co">#&gt; 3  2019</span></span>
-<span><span class="co">#&gt; 4  2019</span></span>
-<span><span class="co">#&gt; 5  2019</span></span>
-<span><span class="co">#&gt; 6  2019</span></span>
-<span><span class="co">#&gt; 7  2019</span></span>
-<span><span class="co">#&gt; 8  2019</span></span>
-<span><span class="co">#&gt; 9  2019</span></span>
-<span><span class="co">#&gt; 10 2019</span></span></code></pre></div>
+<span><span class="co">#&gt;    perf_metric perf_metric_diff     pvalue   lower   upper     feat method</span></span>
+<span><span class="co">#&gt; 1    0.5459125        0.0003375 0.51485149 0.49125 0.60250 Otu00001     rf</span></span>
+<span><span class="co">#&gt; 2    0.5682625       -0.0220125 0.73267327 0.50625 0.63125 Otu00002     rf</span></span>
+<span><span class="co">#&gt; 3    0.5482875       -0.0020375 0.56435644 0.50500 0.59000 Otu00003     rf</span></span>
+<span><span class="co">#&gt; 4    0.6314375       -0.0851875 1.00000000 0.55250 0.71250 Otu00004     rf</span></span>
+<span><span class="co">#&gt; 5    0.4991750        0.0470750 0.08910891 0.44125 0.57125 Otu00005     rf</span></span>
+<span><span class="co">#&gt; 6    0.5364875        0.0097625 0.28712871 0.50125 0.57375 Otu00006     rf</span></span>
+<span><span class="co">#&gt; 7    0.5382875        0.0079625 0.39603960 0.47500 0.58750 Otu00007     rf</span></span>
+<span><span class="co">#&gt; 8    0.5160500        0.0302000 0.09900990 0.46750 0.55750 Otu00008     rf</span></span>
+<span><span class="co">#&gt; 9    0.5293375        0.0169125 0.17821782 0.49500 0.55625 Otu00009     rf</span></span>
+<span><span class="co">#&gt; 10   0.4976500        0.0486000 0.12871287 0.41000 0.56250 Otu00010     rf</span></span>
+<span><span class="co">#&gt;    perf_metric_name seed</span></span>
+<span><span class="co">#&gt; 1               AUC 2019</span></span>
+<span><span class="co">#&gt; 2               AUC 2019</span></span>
+<span><span class="co">#&gt; 3               AUC 2019</span></span>
+<span><span class="co">#&gt; 4               AUC 2019</span></span>
+<span><span class="co">#&gt; 5               AUC 2019</span></span>
+<span><span class="co">#&gt; 6               AUC 2019</span></span>
+<span><span class="co">#&gt; 7               AUC 2019</span></span>
+<span><span class="co">#&gt; 8               AUC 2019</span></span>
+<span><span class="co">#&gt; 9               AUC 2019</span></span>
+<span><span class="co">#&gt; 10              AUC 2019</span></span></code></pre></div>
 <p>There are several columns:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -696,11 +696,21 @@ minus permuted performance). Features with a larger
 <code>pvalue</code>: the probability of obtaining the actual
 performance value under the null hypothesis.</li>
 <li>
-<code>names</code>: The feature that was permuted.</li>
+<code>lower</code>: the lower bound for the 95% confidence interval
+of <code>perf_metric</code>.</li>
 <li>
-<code>method</code>: The ML method used.</li>
+<code>upper</code>: the upper bound for the 95% confidence interval
+of <code>perf_metric</code>.</li>
 <li>
-<code>perf_metric_name</code>: The performance metric used.</li>
+<code>feat</code>: The feature (or group of correlated features)
+that was permuted.</li>
+<li>
+<code>method</code>: The <a href="#the-methods-we-support">ML
+method</a> used.</li>
+<li>
+<code>perf_metric_name</code>: The <a href="#id_-changing-the-performance-metric">name of the performance
+metric</a> represented by <code>perf_metric</code> &amp;
+<code>perf_metric_diff</code>.</li>
 <li>
 <code>seed</code>: The seed (if set).</li>
 </ol>
@@ -732,14 +742,14 @@ features are permuted together when using the default value.</p>
 <span><span class="co">#&gt; Finding feature importance...</span></span>
 <span><span class="co">#&gt; Feature importance complete.</span></span>
 <span><span class="va">results_imp_corr</span><span class="op">$</span><span class="va">feature_importance</span></span>
-<span><span class="co">#&gt;   perf_metric perf_metric_diff     pvalue</span></span>
-<span><span class="co">#&gt; 1   0.4941842        0.1531842 0.05940594</span></span>
-<span><span class="co">#&gt;                                                                                       names</span></span>
+<span><span class="co">#&gt;   perf_metric perf_metric_diff     pvalue     lower     upper</span></span>
+<span><span class="co">#&gt; 1   0.4941842        0.1531842 0.05940594 0.3236842 0.6473684</span></span>
+<span><span class="co">#&gt;                                                                                        feat</span></span>
 <span><span class="co">#&gt; 1 Otu00001|Otu00002|Otu00003|Otu00004|Otu00005|Otu00006|Otu00007|Otu00008|Otu00009|Otu00010</span></span>
 <span><span class="co">#&gt;   method perf_metric_name seed</span></span>
 <span><span class="co">#&gt; 1 glmnet              AUC 2019</span></span></code></pre></div>
 <p>You can see which features were permuted together in the
-<code>names</code> column. Here all 3 features were permuted together
+<code>feat</code> column. Here all 3 features were permuted together
 (which doesn’t really make sense, but it’s just an example).</p>
 <p>If you previously executed <code><a href="../reference/run_ml.html">run_ml()</a></code> without feature
 importance but now wish to find feature importance after the fact, see

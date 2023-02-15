@@ -4,7 +4,7 @@ library(usethis)
 
 ## code to prepare `otu_mini` dataset
 otu_mini_bin <- otu_small[, 1:11]
-usethis::use_data(otu_mini_bin, overwrite = TRUE)
+use_data(otu_mini_bin, overwrite = TRUE)
 
 otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")
 use_data(otu_data_preproc)
@@ -39,7 +39,7 @@ otu_mini_bin_results_glmnet <- mikropml::run_ml(otu_mini_bin, # use built-in hyp
   seed = 2019,
   cv_times = 2
 )
-usethis::use_data(otu_mini_bin_results_glmnet, overwrite = TRUE)
+use_data(otu_mini_bin_results_glmnet, overwrite = TRUE)
 
 # cv_group <- sample(LETTERS[1:5], nrow(otu_mini_bin_results_glmnet$trained_model$trainingData), replace = TRUE)
 cv_group <- c(
@@ -71,7 +71,7 @@ otu_mini_cv <- define_cv(otu_mini_bin_results_glmnet$trained_model$trainingData,
   cv_times = 2,
   groups = cv_group
 )
-usethis::use_data(otu_mini_cv, overwrite = TRUE)
+use_data(otu_mini_cv, overwrite = TRUE)
 
 # use built-in hyperparams function for this one
 otu_mini_bin_results_rf <- mikropml::run_ml(otu_mini_bin,
@@ -82,7 +82,7 @@ otu_mini_bin_results_rf <- mikropml::run_ml(otu_mini_bin,
   cv_times = 2,
   groups = otu_mini_group
 )
-usethis::use_data(otu_mini_bin_results_rf, overwrite = TRUE)
+use_data(otu_mini_bin_results_rf, overwrite = TRUE)
 
 otu_mini_bin_results_svmRadial <- mikropml::run_ml(otu_mini_bin,
   "svmRadial",
@@ -91,7 +91,7 @@ otu_mini_bin_results_svmRadial <- mikropml::run_ml(otu_mini_bin,
   seed = 2019,
   cv_times = 2
 )
-usethis::use_data(otu_mini_bin_results_svmRadial, overwrite = TRUE)
+use_data(otu_mini_bin_results_svmRadial, overwrite = TRUE)
 
 otu_mini_bin_results_xgbTree <- mikropml::run_ml(otu_mini_bin,
   "xgbTree",
@@ -100,7 +100,7 @@ otu_mini_bin_results_xgbTree <- mikropml::run_ml(otu_mini_bin,
   seed = 2019,
   cv_times = 2
 )
-usethis::use_data(otu_mini_bin_results_xgbTree, overwrite = TRUE)
+use_data(otu_mini_bin_results_xgbTree, overwrite = TRUE)
 
 otu_mini_bin_results_rpart2 <- mikropml::run_ml(otu_mini_bin,
   "rpart2",
