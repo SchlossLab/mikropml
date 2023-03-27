@@ -7,7 +7,7 @@
     - Renamed the column `names` to `feat` to represent each feature or group of correlated features.
     - New column `lower` and `upper` to report the bounds of the empirical 95% confidence interval from the permutation test.
       See `vignette('parallel')` for an example of plotting feature importance with confidence intervals.
-- Minor documentation improvements (#323, @kelly-sovacool).
+- Minor documentation improvements (#323, #332, @kelly-sovacool).
 
 # mikropml 1.5.0
 
