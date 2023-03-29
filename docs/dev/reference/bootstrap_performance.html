@@ -112,21 +112,21 @@ and upper bound (<code>.upper</code>) for each performance metric (<code>term</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    term              .lower .estimate .upper .alpha .method   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> AUC                0.483     0.650  0.824    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Accuracy           0.405     0.587  0.695    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Balanced_Accuracy  0.432     0.592  0.700    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Detection_Rate     0.205     0.310  0.413    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> F1                 0.422     0.597  0.684    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Kappa             -<span style="color: #BB0000;">0.139</span>     0.180  0.389    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Neg_Pred_Value     0.387     0.603  0.752    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Pos_Pred_Value     0.354     0.579  0.730    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Precision          0.354     0.579  0.730    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Recall             0.489     0.634  0.75     0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Sensitivity        0.489     0.634  0.75     0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Specificity        0.321     0.550  0.706    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> cv_metric_AUC      0.622     0.622  0.622    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> logLoss            0.667     0.688  0.712    0.1 percentile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> prAUC              0.468     0.602  0.740    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> AUC               0.536      0.667  0.801    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Accuracy          0.536      0.608  0.681    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Balanced_Accuracy 0.536      0.609  0.686    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Detection_Rate    0.254      0.328  0.415    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> F1                0.534      0.622  0.720    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Kappa             0.071<span style="text-decoration: underline;">6</span>     0.213  0.353    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Neg_Pred_Value    0.511      0.568  0.646    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Pos_Pred_Value    0.482      0.648  0.804    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Precision         0.482      0.648  0.804    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Recall            0.524      0.607  0.667    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Sensitivity       0.524      0.607  0.667    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Specificity       0.475      0.612  0.776    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> cv_metric_AUC     0.622      0.622  0.622    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> logLoss           0.657      0.681  0.700    0.1 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> prAUC             0.510      0.599  0.689    0.1 percentile</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">outcome_colname</span> <span class="op">&lt;-</span> <span class="st">"dx"</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_ml.html">run_ml</a></span><span class="op">(</span><span class="va">otu_mini_bin</span>, <span class="st">"rf"</span>, outcome_colname <span class="op">=</span> <span class="st">"dx"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
