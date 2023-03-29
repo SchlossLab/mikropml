@@ -65,8 +65,8 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #' Cluster a matrix of correlated features
 #'
 #' @param bin_corr_mat a binary correlation matrix created by `get_binary_corr_mat()`.
-#' @param hclust_method the `method` to use in `stats::hclust()` [default: 'single'].
-#' @param cut_height the cut height (`h`) to use in `stats::cutree()` [default: 0].
+#' @param hclust_method the `method` to use in `stats::hclust()` (default: 'single').
+#' @param cut_height the cut height (`h`) to use in `stats::cutree()` (default: 0).
 #'
 #' @return a named vector from `stats::cutree()`. Each element is a cluster and
 #'   the name is a feature in that cluster.

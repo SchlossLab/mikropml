@@ -309,8 +309,8 @@ check_packages_installed <- function(...) {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' abort_packages_not_installed("base")
 #' \dontrun{
+#' abort_packages_not_installed("base")
 #' abort_packages_not_installed("not-a-package-name", "caret", "dplyr", "non_package")
 #' }
 abort_packages_not_installed <- function(...) {

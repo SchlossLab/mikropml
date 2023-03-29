@@ -9,9 +9,9 @@ cluster_corr_mat(bin_corr_mat, hclust_method = "single", cut_height = 0)
 \arguments{
 \item{bin_corr_mat}{a binary correlation matrix created by \code{get_binary_corr_mat()}.}
 
-\item{hclust_method}{the \code{method} to use in \code{stats::hclust()} \link{default: 'single'}.}
+\item{hclust_method}{the \code{method} to use in \code{stats::hclust()} (default: 'single').}
 
-\item{cut_height}{the cut height (\code{h}) to use in \code{stats::cutree()} \link{default: 0}.}
+\item{cut_height}{the cut height (\code{h}) to use in \code{stats::cutree()} (default: 0).}
 }
 \value{
 a named vector from \code{stats::cutree()}. Each element is a cluster and

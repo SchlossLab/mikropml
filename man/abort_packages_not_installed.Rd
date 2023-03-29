@@ -15,8 +15,8 @@ See \url{https://stackoverflow.com/questions/15595478/how-to-get-the-name-of-the
 This is only intended to be used inside a function. It will error otherwise.
 }
 \examples{
-abort_packages_not_installed("base")
 \dontrun{
+abort_packages_not_installed("base")
 abort_packages_not_installed("not-a-package-name", "caret", "dplyr", "non_package")
 }
 }

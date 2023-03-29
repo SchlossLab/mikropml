@@ -50,7 +50,8 @@ groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 set.seed(0)
 create_grouped_data_partition(groups, training_frac = 0.8)
 groups <- rep.int(c("A", "B", "C"), 3)
-create_grouped_data_partition(groups, group_partitions = list(train = c("A"), test = c("A", "B", "C")))
+create_grouped_data_partition(groups,
+    group_partitions = list(train = c("A"), test = c("A", "B", "C")))
 }
 \author{
 Zena Lapp, {zenalapp@umich.edu}
