@@ -6,7 +6,7 @@
 #'
 #' @return numeric difference in the average metric between the two groups
 #'
-#' @noRd
+#' @keywords internal
 #' @author Courtney Armour, \email{armourc@@umich.edu}
 #'
 #' @examples
@@ -37,7 +37,7 @@ get_difference <- function(sub_data, group_name, metric) {
 #' @param col_name column name to shuffle
 #'
 #' @return `dat` with the rows of `col_name` shuffled
-#' @noRd
+#' @keywords internal
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
 #'
 #' @examples

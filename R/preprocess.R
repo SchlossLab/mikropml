@@ -140,7 +140,7 @@ preprocess_data <- function(dataset, outcome_colname,
 #' @inheritParams run_ml
 #'
 #' @return dataset with no missing outcomes
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -166,7 +166,7 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @param features dataframe of features for machine learning
 #'
 #' @return dataframe with numeric columns where possible
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -224,7 +224,7 @@ remove_singleton_columns <- function(dat, threshold = 1) {
 #' @param progbar optional progress bar (default: `NULL`)
 #'
 #' @return list of two dataframes: features with variability (unprocessed) and without (processed)
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -291,7 +291,7 @@ process_novar_feats <- function(features, progbar = NULL) {
 #' @inheritParams process_novar_feats
 #'
 #' @return list of two dataframes: categorical (processed) and continuous features (unprocessed)
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -359,7 +359,7 @@ process_cat_feats <- function(features, progbar = NULL) {
 #' @inheritParams get_caret_processed_df
 #'
 #' @return dataframe of preprocessed features
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -440,7 +440,7 @@ get_caret_processed_df <- function(features, method) {
 #' @inheritParams process_novar_feats
 #' @param full_rank whether matrix should be full rank or not (see `[caret::dummyVars])
 #' @return design matrix
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -469,7 +469,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' @inheritParams group_correlated_features
 #'
 #' @return features where perfectly correlated ones are collapsed
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples

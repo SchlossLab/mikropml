@@ -2,7 +2,7 @@
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 check_all <- function(dataset, method, permute, kfold, training_frac,
                       perf_metric_function, perf_metric_name, groups,
@@ -25,7 +25,7 @@ check_all <- function(dataset, method, permute, kfold, training_frac,
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -48,7 +48,7 @@ check_dataset <- function(dataset) {
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -72,7 +72,7 @@ check_method <- function(method, hyperparameters) {
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -91,7 +91,7 @@ check_permute <- function(permute) {
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -113,7 +113,7 @@ check_kfold <- function(kfold, dataset) {
 #'
 #' @param frac fraction (numeric)
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -134,7 +134,7 @@ check_training_frac <- function(frac) {
 #' @param training_inds vector of integers corresponding to samples for the training set
 #' @param dataset data frame containing the entire dataset
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -176,7 +176,7 @@ check_training_indices <- function(training_inds, dataset) {
 #'
 #' @param seed random seed
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -198,7 +198,7 @@ check_seed <- function(seed) {
 #' @inheritParams run_ml
 #'
 #' @return outcome colname
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -235,7 +235,7 @@ check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, 
 #' @inheritParams run_ml
 #'
 #' @return outcome value
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
@@ -285,7 +285,7 @@ check_outcome_value <- function(dataset, outcome_colname) {
 #'
 #' @param ... names of packages to check
 #' @return named vector with status of each packages; installed (`TRUE`) or not (`FALSE`)
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -305,12 +305,12 @@ check_packages_installed <- function(...) {
 #' This is only intended to be used inside a function. It will error otherwise.
 #'
 #' @inheritParams check_packages_installed
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' abort_packages_not_installed("base")
 #' \dontrun{
+#' abort_packages_not_installed("base")
 #' abort_packages_not_installed("not-a-package-name", "caret", "dplyr", "non_package")
 #' }
 abort_packages_not_installed <- function(...) {
@@ -332,7 +332,7 @@ abort_packages_not_installed <- function(...) {
 #' @param features features for machine learning
 #' @param check_missing check whether the features have missing data (default: TRUE)
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -361,7 +361,7 @@ check_features <- function(features, check_missing = TRUE) {
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -402,7 +402,7 @@ check_groups <- function(dataset, groups, kfold) {
 #' @inheritParams check_groups
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
@@ -442,7 +442,7 @@ check_group_partitions <- function(dataset, groups, group_partitions) {
 #'
 #' @param corr_thresh correlation threshold
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -469,7 +469,7 @@ check_corr_thresh <- function(corr_thresh) {
 #'
 #' @param perf_metric_function performance metric function
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -484,7 +484,7 @@ check_perf_metric_function <- function(perf_metric_function) {
 #'
 #' @param perf_metric_name performance metric function
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -499,7 +499,7 @@ check_perf_metric_name <- function(perf_metric_name) {
 #'
 #' @param feats features
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -514,7 +514,7 @@ check_cat_feats <- function(feats) {
 #'
 #' @inheritParams preprocess_data
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
@@ -531,7 +531,7 @@ check_remove_var <- function(remove_var) {
 #'
 #' @inheritParams run_ml
 #'
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
