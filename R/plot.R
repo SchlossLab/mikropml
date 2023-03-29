@@ -274,6 +274,7 @@ plot_mean_roc <- function(dat,
 #' @inheritParams shared_ggprotos
 #' @inheritParams plot_mean_roc
 #' @param baseline_precision baseline precision from `calc_baseline_precision()`
+#' @param ycol column for the y axis (Default: `mean_precision`)
 #'
 #' @export
 plot_mean_prc <- function(dat, baseline_precision = NULL, ycol = mean_precision,
