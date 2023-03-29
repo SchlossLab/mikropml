@@ -30,7 +30,8 @@ otu_mini_bin_results_rf$performance \%>\%
   dplyr::mutate(
     balanced_precision = calc_balanced_precision(Precision, prior),
     aubprc = calc_balanced_precision(prAUC, prior)
-  )
+  ) \%>\%
+  dplyr::select(AUC, Precision, balanced_precision, aubprc)
 
 # cumulative performance for a single model
 sensspec_1 <- calc_model_sensspec(
