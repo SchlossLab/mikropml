@@ -27,8 +27,9 @@ prior <- calc_baseline_precision(otu_mini_bin,
 calc_balanced_precision(otu_mini_bin_results_rf$performance$Precision, prior)
 
 otu_mini_bin_results_rf$performance \%>\%
-  dplyr::mutate(balanced_precision = calc_balanced_precision(Precision, prior),
-                aubprc = calc_balanced_precision(prAUC, prior)
+  dplyr::mutate(
+    balanced_precision = calc_balanced_precision(Precision, prior),
+    aubprc = calc_balanced_precision(prAUC, prior)
   )
 
 # cumulative performance for a single model
@@ -40,7 +41,8 @@ sensspec_1 <- calc_model_sensspec(
 head(sensspec_1)
 prior <- calc_baseline_precision(otu_mini_bin,
   outcome_colname = "dx",
-  pos_outcome = "cancer")
+  pos_outcome = "cancer"
+)
 sensspec_1 \%>\%
   dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) \%>\%
   dplyr::rename(recall = sensitivity) \%>\%
