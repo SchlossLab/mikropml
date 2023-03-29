@@ -55,11 +55,12 @@ reference:
   - get_feature_importance
   - get_performance_tbl
   - sensspec
+  - calc_mean_perf
+  - calc_baseline_precision
+  - calc_balanced_precision
   - compare_models
   - permute_p_value
   - bootstrap_performance
-  - calc_baseline_precision
-  - calc_balanced_precision
 - title: Plotting helpers
   desc: >
     Visualize results to help you tune hyperparameters and choose model methods.

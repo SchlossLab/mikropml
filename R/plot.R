@@ -279,7 +279,7 @@ plot_mean_roc <- function(dat,
 #' @export
 plot_mean_prc <- function(dat, baseline_precision = NULL, ycol = mean_precision,
                           ribbon_fill = "#C7E9C0", line_color = "#00441B") {
-  recall <- ycol <- lower <- upper <- NULL
+  recall <- mean_precision <- lower <- upper <- NULL
   abort_packages_not_installed("ggplot2")
   prc_plot <- dat %>%
     ggplot2::ggplot(ggplot2::aes(

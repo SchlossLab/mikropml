@@ -356,13 +356,15 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname = NULL
 
 #' Generic function to calculate mean performance curves for multiple models
 #'
+#' Used by `calc_mean_roc()` and `calc_mean_prc()`.
+#'
 #' @param sensspec_dat data frame created by concatenating results of
 #'   `calc_model_sensspec()` for multiple models.
 #' @param group_var variable to group by (e.g. specificity or recall).
 #' @param sum_var variable to summarize (e.g. sensitivity or precision).
 #'
 #' @return data frame with mean & standard deviation of `sum_var` summarized over `group_var`
-#' @keywords internal
+#' @export
 #'
 #' @author Courtney Armour
 #' @author Kelly Sovacool
