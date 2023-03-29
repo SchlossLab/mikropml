@@ -50,7 +50,7 @@ get_partition_indices <- function(outcomes,
 #' @inheritParams run_ml
 #'
 #' @return vector of row indices for the training set
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #' @author Kelly Sovacool, {sovacool@@umich.edu}
 #'
