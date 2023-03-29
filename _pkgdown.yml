@@ -58,12 +58,13 @@ reference:
   - compare_models
   - permute_p_value
   - bootstrap_performance
+  - calc_baseline_precision
+  - calc_balanced_precision
 - title: Plotting helpers
   desc: >
     Visualize results to help you tune hyperparameters and choose model methods.
   contents:
   - starts_with('plot')
-  - calc_baseline_precision
   - tidy_perf_data
   - get_hp_performance
   - combine_hp_performance
