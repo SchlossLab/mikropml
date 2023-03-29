@@ -210,9 +210,11 @@ test_that("calc_baseline_precision works", {
       calc_baseline_precision("y", "a"),
     0.50
   )
-  expect_equal(data.frame(y = c("a", rep.int('b', 4))) %>%
-                   calc_baseline_precision(outcome_colname = "y", pos_outcome = "a"),
-               0.2)
+  expect_equal(
+    data.frame(y = c("a", rep.int("b", 4))) %>%
+      calc_baseline_precision(outcome_colname = "y", pos_outcome = "a"),
+    0.2
+  )
   expect_error(
     data.frame(y = c("a")) %>%
       calc_baseline_precision("y", "a"),
@@ -224,11 +226,11 @@ test_that("calc_baseline_precision works", {
     "A binary or multi-class outcome variable is required"
   )
 })
-test_that('calc_balanced_precision', {
-    # when precision is already balanced
-    expect_equal(calc_balanced_precision(0.3, 0.5), 0.3)
-    expect_equal(calc_balanced_precision(0.9, 0.5), 0.9)
+test_that("calc_balanced_precision", {
+  # when precision is already balanced
+  expect_equal(calc_balanced_precision(0.3, 0.5), 0.3)
+  expect_equal(calc_balanced_precision(0.9, 0.5), 0.9)
 
-    # other situations
-    expect_equal(calc_balanced_precision(0.2, 0.2), 0.5)
+  # other situations
+  expect_equal(calc_balanced_precision(0.2, 0.2), 0.5)
 })

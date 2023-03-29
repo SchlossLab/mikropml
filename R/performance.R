@@ -474,12 +474,13 @@ calc_mean_prc <- function(sensspec_dat) {
 #' # balanced precision
 #' prior <- calc_baseline_precision(otu_mini_bin,
 #'   outcome_colname = "dx",
-#'   pos_outcome = "cancer")
+#'   pos_outcome = "cancer"
+#' )
 #' bprc_dat <- sensspec_dat %>%
 #'   dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) %>%
 #'   dplyr::rename(recall = sensitivity) %>%
 #'   calc_mean_perf(group_var = recall, sum_var = balanced_precision)
-#' bprc_dat %>% plot_mean_prc(ycol = mean_balanced_precision) + ylab('Mean Bal. Precision')
+#' bprc_dat %>% plot_mean_prc(ycol = mean_balanced_precision) + ylab("Mean Bal. Precision")
 #' }
 NULL
 
@@ -545,8 +546,9 @@ calc_baseline_precision <- function(dataset,
 #' calc_balanced_precision(otu_mini_bin_results_rf$performance$Precision, prior)
 #'
 #' otu_mini_bin_results_rf$performance %>%
-#'   dplyr::mutate(balanced_precision = calc_balanced_precision(Precision, prior),
-#'                 aubprc = calc_balanced_precision(prAUC, prior)
+#'   dplyr::mutate(
+#'     balanced_precision = calc_balanced_precision(Precision, prior),
+#'     aubprc = calc_balanced_precision(prAUC, prior)
 #'   )
 #'
 #' # cumulative performance for a single model
@@ -558,17 +560,18 @@ calc_baseline_precision <- function(dataset,
 #' head(sensspec_1)
 #' prior <- calc_baseline_precision(otu_mini_bin,
 #'   outcome_colname = "dx",
-#'   pos_outcome = "cancer")
+#'   pos_outcome = "cancer"
+#' )
 #' sensspec_1 %>%
 #'   dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) %>%
 #'   dplyr::rename(recall = sensitivity) %>%
 #'   calc_mean_perf(group_var = recall, sum_var = balanced_precision) %>%
 #'   plot_mean_prc(ycol = mean_balanced_precision)
 calc_balanced_precision <-
-    function(precision, prior) {
-        return(
-            precision * (1 - prior) / (
-                precision * (1 - prior) + (1 - precision) * prior
-            )
-        )
-    }
+  function(precision, prior) {
+    return(
+      precision * (1 - prior) / (
+        precision * (1 - prior) + (1 - precision) * prior
+      )
+    )
+  }
