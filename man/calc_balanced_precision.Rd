@@ -50,3 +50,6 @@ sensspec_1 \%>\%
   calc_mean_perf(group_var = recall, sum_var = balanced_precision) \%>\%
   plot_mean_prc(ycol = mean_balanced_precision)
 }
+\author{
+Kelly Sovacool \email{sovacool@umich.edu}
+}

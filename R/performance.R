@@ -540,6 +540,8 @@ calc_baseline_precision <- function(dataset,
 #'
 #' @return the expected precision if the data were balanced
 #' @export
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
 #' @examples
 #' prior <- calc_baseline_precision(otu_mini_bin,
 #'   outcome_colname = "dx",
