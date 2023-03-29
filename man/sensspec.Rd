@@ -62,7 +62,7 @@ get_sensspec_seed <- function(seed) {
     ml_result$test_data,
     "dx"
   ) \%>\%
-    mutate(seed = seed)
+    dplyr::mutate(seed = seed)
   return(sensspec)
 }
 sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
@@ -80,6 +80,17 @@ roc_dat \%>\% plot_mean_roc()
 baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 prc_dat \%>\%
   plot_mean_prc(baseline_precision = baseline_prec)
+
+# balanced precision
+prior <- calc_baseline_precision(otu_mini_bin,
+  outcome_colname = "dx",
+  pos_outcome = "cancer"
+)
+bprc_dat <- sensspec_dat \%>\%
+  dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) \%>\%
+  dplyr::rename(recall = sensitivity) \%>\%
+  calc_mean_perf(group_var = recall, sum_var = balanced_precision)
+bprc_dat \%>\% plot_mean_prc(ycol = mean_balanced_precision) + ylab("Mean Bal. Precision")
 }
 }
 \author{
