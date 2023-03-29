@@ -562,7 +562,8 @@ calc_baseline_precision <- function(dataset,
 #' sensspec_1 %>%
 #'   dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) %>%
 #'   dplyr::rename(recall = sensitivity) %>%
-#'   calc_mean_perf(group_var = recall, sum_var = balanced_precision)
+#'   calc_mean_perf(group_var = recall, sum_var = balanced_precision) %>%
+#'   plot_mean_prc(ycol = mean_balanced_precision)
 calc_balanced_precision <-
     function(precision, prior) {
         return(
