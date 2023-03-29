@@ -11,6 +11,7 @@ plot_mean_roc(dat, ribbon_fill = "#C6DBEF", line_color = "#08306B")
 plot_mean_prc(
   dat,
   baseline_precision = NULL,
+  ycol = mean_precision,
   ribbon_fill = "#C7E9C0",
   line_color = "#00441B"
 )
