@@ -70,7 +70,7 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
 #' @inheritParams define_cv
 #'
 #' @return seeds for `caret::trainControl()`
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -95,7 +95,7 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' @inheritParams define_cv
 #'
 #' @return `TRUE` if possible, `FALSE` otherwise
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
@@ -111,7 +111,7 @@ keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
 #' @param cv_times equivalent to cv_times in caret::createMultiFolds
 #'
 #' @return indices of folds for CV
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #'
 #' @examples
