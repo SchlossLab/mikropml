@@ -61,7 +61,8 @@ get_partition_indices <- function(outcomes,
 #' create_grouped_data_partition(groups, training_frac = 0.8)
 #' groups <- rep.int(c("A", "B", "C"), 3)
 #' create_grouped_data_partition(groups,
-#'     group_partitions = list(train = c("A"), test = c("A", "B", "C")))
+#'   group_partitions = list(train = c("A"), test = c("A", "B", "C"))
+#' )
 #' }
 create_grouped_data_partition <- function(groups, group_partitions = NULL, training_frac = 0.8) {
   # get indices
