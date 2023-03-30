@@ -10,7 +10,9 @@ check_ntree(ntree)
 Check ntree
 }
 \examples{
+\dontrun{
 check_ntree(NULL)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

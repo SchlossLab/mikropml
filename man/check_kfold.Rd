@@ -15,7 +15,9 @@ check_kfold(kfold, dataset)
 Check that kfold is an integer of reasonable size
 }
 \examples{
+\dontrun{
 check_kfold(5, otu_small)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

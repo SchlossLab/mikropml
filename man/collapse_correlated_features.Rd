@@ -21,7 +21,9 @@ features where perfectly correlated ones are collapsed
 Collapse correlated features
 }
 \examples{
+\dontrun{
 collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

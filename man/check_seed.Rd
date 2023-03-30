@@ -13,8 +13,10 @@ check_seed(seed)
 check that the seed is either NA or a number
 }
 \examples{
+\dontrun{
 check_seed(2019)
 check_seed(NULL)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

@@ -16,7 +16,9 @@ output of apply function
 Use future apply if available
 }
 \examples{
+\dontrun{
 select_apply(fun = "sapply")
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

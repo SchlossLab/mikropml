@@ -18,12 +18,14 @@ shuffle_group(dat, col_name)
 Shuffle the rows in a column
 }
 \examples{
+\dontrun{
 set.seed(123)
 df <- dplyr::tibble(
   condition = c("a", "a", "b", "b"),
   AUC = c(.2, 0.3, 0.8, 0.9)
 )
 shuffle_group(df, "condition")
+}
 }
 \author{
 Courtney R Armour, \email{armourc@umich.edu}

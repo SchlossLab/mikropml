@@ -20,9 +20,11 @@ indices of folds for CV
 Like \link[caret]{createMultiFolds} but still splitting by groups using \link[caret]{groupKFold}. Code modified from \link[caret]{createMultiFolds}.
 }
 \examples{
+\dontrun{
 set.seed(0)
 groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 folds <- create_grouped_k_multifolds(groups, kfold = 2, cv_times = 2)
+}
 }
 \author{
 Zena Lapp, {zenalapp@umich.edu}

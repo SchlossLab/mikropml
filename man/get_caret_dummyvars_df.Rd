@@ -20,6 +20,7 @@ design matrix
 Get dummyvars dataframe (i.e. design matrix)
 }
 \examples{
+\dontrun{
 df <- data.frame(
   outcome = c("normal", "normal", "cancer"),
   var1 = 1:3,
@@ -28,6 +29,7 @@ df <- data.frame(
   var4 = c(0, 1, 0)
 )
 get_caret_dummyvars_df(df, TRUE)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

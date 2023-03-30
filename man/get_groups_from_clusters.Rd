@@ -18,6 +18,7 @@ separated by pipes (\code{|})
 Assign features to groups
 }
 \examples{
+\dontrun{
 corr_mat <- matrix(
   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
   nrow = 4,
@@ -28,6 +29,7 @@ corr_mat <- matrix(
 )
 corr_mat
 get_groups_from_clusters(cluster_corr_mat(corr_mat))
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

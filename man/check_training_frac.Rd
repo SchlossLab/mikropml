@@ -13,7 +13,9 @@ check_training_frac(frac)
 Check that the training fraction is between 0 and 1
 }
 \examples{
+\dontrun{
 check_training_frac(0.8)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

@@ -19,7 +19,9 @@ outcome value
 Check that the outcome variable is valid. Pick outcome value if necessary.
 }
 \examples{
+\dontrun{
 check_outcome_value(otu_small, "dx", "cancer")
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

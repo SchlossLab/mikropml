@@ -13,7 +13,9 @@ check_cat_feats(feats)
 Check if any features are categorical
 }
 \examples{
+\dontrun{
 check_cat_feats(otu_mini_bin)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

@@ -20,12 +20,13 @@ numeric difference in the average metric between the two groups
 Calculate the difference in the mean of the metric for two groups
 }
 \examples{
+\dontrun{
 df <- dplyr::tibble(
   condition = c("a", "a", "b", "b"),
   AUC = c(.2, 0.3, 0.8, 0.9)
 )
 get_difference(df, "condition", "AUC")
-
+}
 }
 \author{
 Courtney Armour, \email{armourc@umich.edu}

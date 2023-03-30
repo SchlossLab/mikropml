@@ -24,7 +24,9 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 Check if the method is supported. If not, throws error.
 }
 \examples{
+\dontrun{
 check_method("rf")
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

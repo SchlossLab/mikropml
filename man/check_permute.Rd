@@ -10,8 +10,10 @@ check_permute(permute)
 Check that permute is a logical
 }
 \examples{
+\dontrun{
 do_permute <- TRUE
 check_permute(do_permute)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

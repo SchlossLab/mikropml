@@ -31,12 +31,14 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' hparams_df <- dplyr::tibble(
 #'   param = c("alpha", "lambda", "lambda"),
 #'   value = c(1, 0, 1),
 #'   method = rep("glmnet", 3)
 #' )
 #' get_hyperparams_from_df(hparams_df, "glmnet")
+#' }
 get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
   hyperparams_df_filt <- hyperparams_df %>% dplyr::filter(.data$method == ml_method)
   return(split(hyperparams_df_filt$value, hyperparams_df_filt$param))
@@ -97,9 +99,11 @@ set_hparams_glmnet <- function() {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_rf(16)
 #' set_hparams_rf(2000)
 #' set_hparams_rf(1)
+#' }
 set_hparams_rf <- function(n_features) {
   sqrt_features <- round(sqrt(n_features))
   if (n_features == 1) {
@@ -125,8 +129,10 @@ set_hparams_rf <- function(n_features) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_rpart2(100)
 #' set_hparams_rpart2(20)
+#' }
 set_hparams_rpart2 <- function(n_samples) {
   return(list(maxdepth = c(1, 2, 4, 8, 16, 30) %>% .[. < n_samples]))
 }
@@ -138,7 +144,9 @@ set_hparams_rpart2 <- function(n_samples) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_svmRadial()
+#' }
 set_hparams_svmRadial <- function() {
   return(list(
     C = 10^seq(-3, 2, 1),
@@ -155,7 +163,9 @@ set_hparams_svmRadial <- function() {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_xgbTree()
+#' }
 set_hparams_xgbTree <- function(n_samples) {
   return(list(
     nrounds = c(100),

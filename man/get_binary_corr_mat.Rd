@@ -30,11 +30,13 @@ A binary matrix of correlated features
 Identify correlated features as a binary matrix
 }
 \examples{
+\dontrun{
 features <- data.frame(
   a = 1:3, b = 2:4, c = c(1, 0, 1),
   d = (5:7), e = c(5, 1, 4)
 )
 get_binary_corr_mat(features)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

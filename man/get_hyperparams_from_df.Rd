@@ -18,12 +18,14 @@ named list of lists of hyperparameters
 Using \code{\link{get_hyperparams_list}} is preferred over this function.
 }
 \examples{
+\dontrun{
 hparams_df <- dplyr::tibble(
   param = c("alpha", "lambda", "lambda"),
   value = c(1, 0, 1),
   method = rep("glmnet", 3)
 )
 get_hyperparams_from_df(hparams_df, "glmnet")
+}
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

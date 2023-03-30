@@ -16,7 +16,9 @@ named list of hyperparameters
 Set hyperparameters for SVM with radial kernel
 }
 \examples{
+\dontrun{
 set_hparams_xgbTree()
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

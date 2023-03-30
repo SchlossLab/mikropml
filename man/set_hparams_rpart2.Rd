@@ -16,8 +16,10 @@ named list of hyperparameters
 Set hyperparameters for decision tree models
 }
 \examples{
+\dontrun{
 set_hparams_rpart2(100)
 set_hparams_rpart2(20)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

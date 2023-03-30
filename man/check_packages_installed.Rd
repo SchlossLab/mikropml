@@ -16,9 +16,11 @@ named vector with status of each packages; installed (\code{TRUE}) or not (\code
 Check whether package(s) are installed
 }
 \examples{
+\dontrun{
 check_packages_installed("base")
 check_packages_installed("not-a-package-name")
 all(check_packages_installed("parallel", "doFuture"))
+}
 }
 \author{
 Kelly Sovacool \email{sovacool@umich.edu}

@@ -75,7 +75,10 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"), 5, 100, 60)
+#' \dontrun{
+#' get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"),
+#'                        5, 100, 60)
+#' }
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000
@@ -115,9 +118,11 @@ keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set.seed(0)
 #' groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' folds <- create_grouped_k_multifolds(groups, kfold = 2, cv_times = 2)
+#' }
 create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   # we're not doing anything with survival in caret (i.e. copied from caret, but not useful for us)
   # if (class(groups)[1] == "Surv") {

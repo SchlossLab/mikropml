@@ -13,7 +13,9 @@ check_perf_metric_name(perf_metric_name)
 Check perf_metric_name is NULL or a function
 }
 \examples{
+\dontrun{
 check_perf_metric_name(NULL)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

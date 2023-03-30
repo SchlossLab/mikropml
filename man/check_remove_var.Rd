@@ -14,7 +14,9 @@ check_remove_var(remove_var)
 Check remove_var
 }
 \examples{
+\dontrun{
 check_remove_var(NULL)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

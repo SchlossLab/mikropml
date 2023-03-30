@@ -15,10 +15,12 @@ check_training_indices(training_inds, dataset)
 Check the validity of the training indices
 }
 \examples{
+\dontrun{
 training_indices <- otu_small \%>\%
   nrow() \%>\%
   sample(., size = 160)
 check_training_indices(training_indices, otu_small)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

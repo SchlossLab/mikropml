@@ -16,6 +16,7 @@ This allows for flexible code that only initializes a progress bar if the
 \code{progressr} package is installed.
 }
 \examples{
+\dontrun{
 f <- function() {
   if (isTRUE(check_packages_installed("progressr"))) {
     pb <- progressr::progressor(steps = 5, message = "looping")
@@ -30,6 +31,7 @@ f <- function() {
 progressr::with_progress(
   f()
 )
+}
 }
 \author{
 Kelly Sovacool \email{sovacool@umich.edu}

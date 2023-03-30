@@ -16,9 +16,11 @@ named list of hyperparameters
 Set hyparameters for random forest models
 }
 \examples{
+\dontrun{
 set_hparams_rf(16)
 set_hparams_rf(2000)
 set_hparams_rf(1)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

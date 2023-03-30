@@ -13,10 +13,12 @@ check_corr_thresh(corr_thresh)
 check that corr_thresh is either NULL or a number between 0 and 1
 }
 \examples{
+\dontrun{
 check_corr_thresh(1)
 check_corr_thresh(0.8)
 check_corr_thresh(2019)
 check_corr_thresh(NULL)
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

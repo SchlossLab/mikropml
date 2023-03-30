@@ -19,6 +19,8 @@ list of length two: outcome, features (as dataframes)
 Split dataset into outcome and features
 }
 \examples{
+\dontrun{
 split_outcome_features(mikropml::otu_mini_bin, "dx")
+}
 }
 \keyword{internal}

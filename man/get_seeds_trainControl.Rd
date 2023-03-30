@@ -23,7 +23,10 @@ Adapted from \href{https://stackoverflow.com/a/32598959}{this Stack Overflow pos
 and the \link[caret]{trainControl} documentation.
 }
 \examples{
-get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"), 5, 100, 60)
+\dontrun{
+get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"),
+                       5, 100, 60)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

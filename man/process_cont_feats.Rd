@@ -20,7 +20,9 @@ dataframe of preprocessed features
 Preprocess continuous features
 }
 \examples{
+\dontrun{
 process_cont_feats(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

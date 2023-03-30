@@ -20,10 +20,12 @@ Length matches the number of rows in the dataset (default: \code{NULL}).}
 Check grouping vector
 }
 \examples{
+\dontrun{
 check_groups(mikropml::otu_mini_bin,
   sample(LETTERS, nrow(mikropml::otu_mini_bin), replace = TRUE),
   kfold = 2
 )
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

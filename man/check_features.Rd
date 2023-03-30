@@ -15,7 +15,9 @@ check_features(features, check_missing = TRUE)
 Check features
 }
 \examples{
+\dontrun{
 check_features(otu_mini_bin[, 2:11])
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

@@ -28,8 +28,10 @@ outcome colname
 Check that outcome column exists. Pick outcome column if not specified.
 }
 \examples{
+\dontrun{
 check_outcome_column(otu_small, NULL)
 check_outcome_column(otu_small, "dx")
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

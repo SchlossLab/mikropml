@@ -16,7 +16,9 @@ dataframe with numeric columns where possible
 Change columns to numeric if possible
 }
 \examples{
+\dontrun{
 class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
+}
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

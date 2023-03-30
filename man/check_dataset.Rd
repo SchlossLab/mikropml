@@ -13,7 +13,9 @@ check_dataset(dataset)
 Errors if there are no rows or fewer than 2 columns.
 }
 \examples{
+\dontrun{
 check_dataset(otu_small)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

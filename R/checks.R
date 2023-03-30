@@ -29,7 +29,9 @@ check_all <- function(dataset, method, permute, kfold, training_frac,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_dataset(otu_small)
+#' }
 check_dataset <- function(dataset) {
   if (!any(class(dataset) == "data.frame")) {
     stop(paste("The dataset must be a `data.frame` or `tibble`, but you supplied:", class(dataset)))
@@ -52,7 +54,9 @@ check_dataset <- function(dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_method("rf")
+#' }
 check_method <- function(method, hyperparameters) {
   methods <- c("glmnet", "svmRadial", "rpart2", "rf", "xgbTree")
   if (!(method %in% methods) & is.null(hyperparameters)) {
@@ -76,8 +80,10 @@ check_method <- function(method, hyperparameters) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' do_permute <- TRUE
 #' check_permute(do_permute)
+#' }
 check_permute <- function(permute) {
   if (!is.logical(permute)) {
     stop(paste0(
@@ -95,7 +101,9 @@ check_permute <- function(permute) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_kfold(5, otu_small)
+#' }
 check_kfold <- function(kfold, dataset) {
   not_a_number <- !is.integer(kfold) & !is.numeric(kfold)
   not_an_int <- kfold != as.integer(kfold)
@@ -117,7 +125,9 @@ check_kfold <- function(kfold, dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_training_frac(0.8)
+#' }
 check_training_frac <- function(frac) {
   if (!is.numeric(frac) | (frac <= 0 | frac >= 1)) {
     stop(paste0(
@@ -138,10 +148,12 @@ check_training_frac <- function(frac) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' training_indices <- otu_small %>%
 #'   nrow() %>%
 #'   sample(., size = 160)
 #' check_training_indices(training_indices, otu_small)
+#' }
 check_training_indices <- function(training_inds, dataset) {
   if (!all(is_whole_number(training_inds))) {
     warning(
@@ -180,8 +192,10 @@ check_training_indices <- function(training_inds, dataset) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_seed(2019)
 #' check_seed(NULL)
+#' }
 check_seed <- function(seed) {
   if (!is.na(seed) & !is.numeric(seed)) {
     stop(paste0(
@@ -202,8 +216,10 @@ check_seed <- function(seed) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_outcome_column(otu_small, NULL)
 #' check_outcome_column(otu_small, "dx")
+#' }
 check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, show_message = TRUE) {
   # If no outcome colname specified, use first column in data
   if (is.null(outcome_colname)) {
@@ -240,7 +256,9 @@ check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, 
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_outcome_value(otu_small, "dx", "cancer")
+#' }
 check_outcome_value <- function(dataset, outcome_colname) {
   # check no NA's
   outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
@@ -290,9 +308,11 @@ check_outcome_value <- function(dataset, outcome_colname) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_packages_installed("base")
 #' check_packages_installed("not-a-package-name")
 #' all(check_packages_installed("parallel", "doFuture"))
+#' }
 check_packages_installed <- function(...) {
   return(sapply(c(...), requireNamespace, quietly = TRUE))
 }
@@ -336,7 +356,9 @@ abort_packages_not_installed <- function(...) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_features(otu_mini_bin[, 2:11])
+#' }
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
     stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
@@ -365,10 +387,12 @@ check_features <- function(features, check_missing = TRUE) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_groups(mikropml::otu_mini_bin,
 #'   sample(LETTERS, nrow(mikropml::otu_mini_bin), replace = TRUE),
 #'   kfold = 2
 #' )
+#' }
 check_groups <- function(dataset, groups, kfold) {
   # check that groups is a vector or NULL
   isvec <- is.vector(groups)
@@ -406,6 +430,7 @@ check_groups <- function(dataset, groups, kfold) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_group_partitions(
 #'   otu_mini_bin,
 #'   sample(LETTERS[1:8],
@@ -414,6 +439,7 @@ check_groups <- function(dataset, groups, kfold) {
 #'   ),
 #'   list(train = c("A", "B"), test = c("C", "D"))
 #' )
+#' }
 check_group_partitions <- function(dataset, groups, group_partitions) {
   if (is.null(group_partitions)) {
     return()
@@ -446,10 +472,12 @@ check_group_partitions <- function(dataset, groups, group_partitions) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_corr_thresh(1)
 #' check_corr_thresh(0.8)
 #' check_corr_thresh(2019)
 #' check_corr_thresh(NULL)
+#' }
 check_corr_thresh <- function(corr_thresh) {
   err <- paste0(
     "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.\n",
@@ -473,7 +501,9 @@ check_corr_thresh <- function(corr_thresh) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_perf_metric_function(NULL)
+#' }
 check_perf_metric_function <- function(perf_metric_function) {
   if (!is.function(perf_metric_function) & !is.null(perf_metric_function)) {
     stop(paste0("`perf_metric_function` must be `NULL` or a function.\n    You provided: ", class(perf_metric_function)))
@@ -488,7 +518,9 @@ check_perf_metric_function <- function(perf_metric_function) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_perf_metric_name(NULL)
+#' }
 check_perf_metric_name <- function(perf_metric_name) {
   if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
     stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
@@ -503,7 +535,9 @@ check_perf_metric_name <- function(perf_metric_name) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_cat_feats(otu_mini_bin)
+#' }
 check_cat_feats <- function(feats) {
   if (any(sapply(feats, class) %in% c("factor", "character"))) {
     stop("No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
@@ -518,7 +552,9 @@ check_cat_feats <- function(feats) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_remove_var(NULL)
+#' }
 check_remove_var <- function(remove_var) {
   if (!is.null(remove_var)) {
     if (!(remove_var %in% c("nzv", "zv"))) {
@@ -535,7 +571,9 @@ check_remove_var <- function(remove_var) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' check_ntree(NULL)
+#' }
 check_ntree <- function(ntree) {
   .Deprecated("The `ntree` parameter is no longer checked.")
   if (!is.null(ntree)) {

@@ -41,11 +41,13 @@ group_correlated_features <- function(features, corr_thresh = 1,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' features <- data.frame(
 #'   a = 1:3, b = 2:4, c = c(1, 0, 1),
 #'   d = (5:7), e = c(5, 1, 4)
 #' )
 #' get_binary_corr_mat(features)
+#' }
 get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
                                 corr_method = "spearman") {
   corr_mat <- features %>%
@@ -76,6 +78,7 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #' @author Pat Schloss, \email{pschloss@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' corr_mat <- matrix(
 #'   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
 #'   nrow = 4,
@@ -86,6 +89,7 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #' )
 #' corr_mat
 #' cluster_corr_mat(corr_mat)
+#' }
 cluster_corr_mat <- function(bin_corr_mat,
                              hclust_method = "single",
                              cut_height = 0) {
@@ -112,6 +116,7 @@ cluster_corr_mat <- function(bin_corr_mat,
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' corr_mat <- matrix(
 #'   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
 #'   nrow = 4,
@@ -122,6 +127,7 @@ cluster_corr_mat <- function(bin_corr_mat,
 #' )
 #' corr_mat
 #' get_groups_from_clusters(cluster_corr_mat(corr_mat))
+#' }
 get_groups_from_clusters <- function(cluster_ids) {
   feat_groups <- character(length = max(cluster_ids))
   for (feat in radix_sort(names(cluster_ids))) { # assign each feature to its group/cluster

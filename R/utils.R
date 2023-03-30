@@ -36,7 +36,9 @@ randomize_feature_order <- function(dataset, outcome_colname) {
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' split_outcome_features(mikropml::otu_mini_bin, "dx")
+#' }
 split_outcome_features <- function(dataset, outcome_colname) {
   # input validation
   check_dataset(dataset)
@@ -56,7 +58,9 @@ split_outcome_features <- function(dataset, outcome_colname) {
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' select_apply(fun = "sapply")
+#' }
 select_apply <- function(fun = "apply") {
   pkg <- "base"
   if (all(check_packages_installed("future.apply"))) {
@@ -78,6 +82,7 @@ select_apply <- function(fun = "apply") {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' dat <- data.frame(
 #'   c1 = as.factor(c("a", "b", "c")),
 #'   c2 = as.factor(1:3)
@@ -87,6 +92,7 @@ select_apply <- function(fun = "apply") {
 #' dat <- mutate_all_types(dat)
 #' class(dat$c1)
 #' class(dat$c2)
+#' }
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
 }
@@ -126,6 +132,7 @@ replace_spaces <- function(x, new_char = "_") {
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' f <- function() {
 #'   if (isTRUE(check_packages_installed("progressr"))) {
 #'     pb <- progressr::progressor(steps = 5, message = "looping")
@@ -140,6 +147,7 @@ replace_spaces <- function(x, new_char = "_") {
 #' progressr::with_progress(
 #'   f()
 #' )
+#' }
 pbtick <- function(pb, message = NULL) {
   if (!is.null(pb)) {
     if (!is.null(message)) {
@@ -183,10 +191,12 @@ radix_sort <- function(...) {
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' is_whole_number(c(1, 2, 3))
 #' is.integer(c(1, 2, 3))
 #' is_whole_number(c(1.0, 2.0, 3.0))
 #' is_whole_number(1.2)
+#' }
 is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }

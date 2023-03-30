@@ -21,6 +21,7 @@ the name is a feature in that cluster.
 Cluster a matrix of correlated features
 }
 \examples{
+\dontrun{
 corr_mat <- matrix(
   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
   nrow = 4,
@@ -31,6 +32,7 @@ corr_mat <- matrix(
 )
 corr_mat
 cluster_corr_mat(corr_mat)
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

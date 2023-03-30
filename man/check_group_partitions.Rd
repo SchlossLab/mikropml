@@ -29,6 +29,7 @@ cross-validation.}
 Check the validity of the group_partitions list
 }
 \examples{
+\dontrun{
 check_group_partitions(
   otu_mini_bin,
   sample(LETTERS[1:8],
@@ -37,6 +38,7 @@ check_group_partitions(
   ),
   list(train = c("A", "B"), test = c("C", "D"))
 )
+}
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}
