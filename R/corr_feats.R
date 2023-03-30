@@ -37,15 +37,17 @@ group_correlated_features <- function(features, corr_thresh = 1,
 #'
 #' @return A binary matrix of correlated features
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' features <- data.frame(
 #'   a = 1:3, b = 2:4, c = c(1, 0, 1),
 #'   d = (5:7), e = c(5, 1, 4)
 #' )
 #' get_binary_corr_mat(features)
+#' }
 get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
                                 corr_method = "spearman") {
   corr_mat <- features %>%
@@ -65,17 +67,18 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #' Cluster a matrix of correlated features
 #'
 #' @param bin_corr_mat a binary correlation matrix created by `get_binary_corr_mat()`.
-#' @param hclust_method the `method` to use in `stats::hclust()` [default: 'single'].
-#' @param cut_height the cut height (`h`) to use in `stats::cutree()` [default: 0].
+#' @param hclust_method the `method` to use in `stats::hclust()` (default: 'single').
+#' @param cut_height the cut height (`h`) to use in `stats::cutree()` (default: 0).
 #'
 #' @return a named vector from `stats::cutree()`. Each element is a cluster and
 #'   the name is a feature in that cluster.
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @author Pat Schloss, \email{pschloss@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' corr_mat <- matrix(
 #'   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
 #'   nrow = 4,
@@ -86,6 +89,7 @@ get_binary_corr_mat <- function(features, corr_thresh = 1, group_neg_corr = TRUE
 #' )
 #' corr_mat
 #' cluster_corr_mat(corr_mat)
+#' }
 cluster_corr_mat <- function(bin_corr_mat,
                              hclust_method = "single",
                              cut_height = 0) {
@@ -108,10 +112,11 @@ cluster_corr_mat <- function(bin_corr_mat,
 #' @return a vector where each element is a group of correlated features
 #'   separated by pipes (`|`)
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' corr_mat <- matrix(
 #'   data = c(1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
 #'   nrow = 4,
@@ -122,6 +127,7 @@ cluster_corr_mat <- function(bin_corr_mat,
 #' )
 #' corr_mat
 #' get_groups_from_clusters(cluster_corr_mat(corr_mat))
+#' }
 get_groups_from_clusters <- function(cluster_ids) {
   feat_groups <- character(length = max(cluster_ids))
   for (feat in radix_sort(names(cluster_ids))) { # assign each feature to its group/cluster
@@ -150,7 +156,7 @@ get_groups_from_clusters <- function(cluster_ids) {
 #' @return Dataframe of correlated features where the columns are feature1,
 #'   feature2, and the correlation between those two features
 #'   (anything exceeding corr_thresh).
-#' @noRd
+#' @keywords internal
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
@@ -176,7 +182,7 @@ get_corr_feats <- function(features, corr_thresh = 1, group_neg_corr = TRUE,
 #' @param cormat correlation matrix computed with stats::cor
 #'
 #' @return flattened correlation matrix (pairs of features their correlation)
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 flatten_corr_mat <- function(cormat) {
