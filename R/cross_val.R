@@ -76,8 +76,10 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
 #'
 #' @examples
 #' \dontrun{
-#' get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"),
-#'                        5, 100, 60)
+#' get_seeds_trainControl(
+#'   get_hyperparams_list(otu_small, "glmnet"),
+#'   5, 100, 60
+#' )
 #' }
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
