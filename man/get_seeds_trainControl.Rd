@@ -24,8 +24,10 @@ and the \link[caret]{trainControl} documentation.
 }
 \examples{
 \dontrun{
-get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"),
-                       5, 100, 60)
+get_seeds_trainControl(
+  get_hyperparams_list(otu_small, "glmnet"),
+  5, 100, 60
+)
 }
 }
 \author{
