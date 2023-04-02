@@ -501,8 +501,10 @@ NULL
 #' @examples
 #' # calculate the baseline precision
 #' data.frame(y = c("a", "b", "a", "b")) %>%
-#'   calc_baseline_precision(outcome_colname = "y",
-#'                           pos_outcome = "a")
+#'   calc_baseline_precision(
+#'     outcome_colname = "y",
+#'     pos_outcome = "a"
+#'   )
 #'
 #'
 #' calc_baseline_precision(otu_mini_bin,
