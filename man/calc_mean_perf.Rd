@@ -18,11 +18,10 @@ calc_mean_perf(sensspec_dat, group_var = specificity, sum_var = sensitivity)
 data frame with mean & standard deviation of \code{sum_var} summarized over \code{group_var}
 }
 \description{
-Generic function to calculate mean performance curves for multiple models
+Used by \code{calc_mean_roc()} and \code{calc_mean_prc()}.
 }
 \author{
 Courtney Armour
 
 Kelly Sovacool
 }
-\keyword{internal}
