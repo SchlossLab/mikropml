@@ -6,16 +6,16 @@
 #'
 #' @return numeric difference in the average metric between the two groups
 #'
-#' @noRd
+#' @keywords internal
 #' @author Courtney Armour, \email{armourc@@umich.edu}
-#'
 #' @examples
+#' \dontrun{
 #' df <- dplyr::tibble(
 #'   condition = c("a", "a", "b", "b"),
 #'   AUC = c(.2, 0.3, 0.8, 0.9)
 #' )
 #' get_difference(df, "condition", "AUC")
-#'
+#' }
 get_difference <- function(sub_data, group_name, metric) {
   meanVal <- NULL # suppresses R CMD check Note "no visible binding for global variable"
   if (!is.numeric(sub_data %>% dplyr::pull(metric))) {
@@ -37,16 +37,17 @@ get_difference <- function(sub_data, group_name, metric) {
 #' @param col_name column name to shuffle
 #'
 #' @return `dat` with the rows of `col_name` shuffled
-#' @noRd
+#' @keywords internal
 #' @author Courtney R Armour, \email{armourc@@umich.edu}
-#'
 #' @examples
+#' \dontrun{
 #' set.seed(123)
 #' df <- dplyr::tibble(
 #'   condition = c("a", "a", "b", "b"),
 #'   AUC = c(.2, 0.3, 0.8, 0.9)
 #' )
 #' shuffle_group(df, "condition")
+#' }
 shuffle_group <- function(dat, col_name) {
   if (!(col_name %in% colnames(dat))) {
     stop(paste0("The col_name `", col_name, "` does not exist in the data frame."))
