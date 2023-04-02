@@ -399,5 +399,5 @@ maximize the scalability and reproducibility of computational analyses.
 We created [a template Snakemake workflow here](https://github.com/SchlossLab/mikropml-snakemake-workflow)
 which you can use as a starting point for your ML project.
 
-[![snakemake-dag](https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/dag.png)](https://github.com/SchlossLab/mikropml-snakemake-workflow)
+[![snakemake-dag](https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/graphviz/dag.png)](https://github.com/SchlossLab/mikropml-snakemake-workflow)
 
