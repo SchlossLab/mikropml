@@ -1,3 +1,5 @@
+# TODO: add call to the function, add the option
+# TODO: figure out if there's a way to only specify option in one place
 #' Run the machine learning pipeline
 #'
 #' This function splits the data set into a train & test set,
@@ -144,6 +146,7 @@ run_ml <-
            group_partitions = NULL,
            corr_thresh = 1,
            seed = NA,
+           impute_in_training = FALSE,
            ...) {
     check_all(
       dataset,
@@ -162,7 +165,7 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-
+    
     # `future.apply` is required for `find_feature_importance()`.
     # check it here to adhere to the fail fast principle.
     if (find_feature_importance) {
@@ -173,20 +176,20 @@ run_ml <-
     if (find_feature_importance) {
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
     }
-
+    
     dataset <- dataset %>%
       randomize_feature_order(outcome_colname) %>%
       # convert tibble to dataframe to silence warning from caret::train():
       # "Warning: Setting row names on a tibble is deprecated.."
       as.data.frame()
-
+    
     outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
-
+    
     if (length(training_frac) == 1) {
       training_inds <- get_partition_indices(outcomes_vctr,
-        training_frac = training_frac,
-        groups = groups,
-        group_partitions = group_partitions
+                                             training_frac = training_frac,
+                                             groups = groups,
+                                             group_partitions = group_partitions
       )
     } else {
       training_inds <- training_frac
@@ -201,30 +204,95 @@ run_ml <-
     }
     check_training_frac(training_frac)
     check_training_indices(training_inds, dataset)
-
+    
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
+    if (impute_in_training == TRUE) {
+      source("preprocess.R")
+      train_data[[outcome_colname]] <- replace_spaces(train_data[[outcome_colname]])
+      train_data <- rm_missing_outcome(train_data, outcome_colname)
+      split_dat <- split_outcome_features(train_data, outcome_colname)
+      
+      features <- split_dat$features
+      removed_feats <- character(0)
+      if (to_numeric) {
+        feats <- change_to_num(features) %>%
+          remove_singleton_columns(threshold = prefilter_threshold)
+        removed_feats <- feats$removed_feats
+        features <- feats$dat
+      }
+      pbtick(progbar)
+      
+      nv_feats <- process_novar_feats(features, progbar = progbar)
+      pbtick(progbar)
+      split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
+      pbtick(progbar)
+      cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
+      pbtick(progbar)
+      # repeat with test data
+      test_data[[outcome_colname]] <- replace_spaces(test_data[[outcome_colname]])
+      test_data <- rm_missing_outcome(test_data, outcome_colname)
+      split_dat <- split_outcome_features(test_data, outcome_colname)
+      
+      features <- split_dat$features
+      removed_feats <- character(0)
+      if (to_numeric) {
+        feats <- change_to_num(features) %>%
+          remove_singleton_columns(threshold = prefilter_threshold)
+        removed_feats <- feats$removed_feats
+        features <- feats$dat
+      }
+      pbtick(progbar)
+      
+      nv_feats <- process_novar_feats(features, progbar = progbar)
+      pbtick(progbar)
+      split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
+      pbtick(progbar)
+      cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
+      pbtick(progbar)
+      
+      
+      
+      
+      #source("impute.R")
+      #sapply_fn <- select_apply("sapply")
+      #cl_train <- sapply_fn(train_data, function(x) {
+      #  class(x)
+      #})
+      #cl_test <- sapply_fn(test_data, function(x) {
+      #  class(x)
+      #})
+      #missing_train <-
+      #  is.na(train_data[, cl_train %in% c("integer", "numeric")])
+      #missing_test <-
+      #  is.na(test_data[, cl_test %in% c("integer", "numeric")])
+      #n_missing_train <- sum(missing_train)
+      #n_missing_test <- sum(missing_test)
+      # do imputation
+      #impute_missing_vals(train_data, n_missing_train)
+      #impute_missing_vals(test_data, n_missing_test)
+    }
     # train_groups & test_groups will be NULL if groups is NULL
     train_groups <- groups[training_inds]
     test_groups <- groups[-training_inds]
-
+    
     if (is.null(hyperparameters)) {
       hyperparameters <- get_hyperparams_list(dataset, method)
     }
     tune_grid <- get_tuning_grid(hyperparameters, method)
-
-
+    
+    
     outcome_type <- get_outcome_type(outcomes_vctr)
     class_probs <- outcome_type != "continuous"
-
+    
     if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
     }
-
+    
     if (is.null(perf_metric_name)) {
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
-
+    
     if (is.null(cross_val)) {
       cross_val <- define_cv(
         train_data,
@@ -238,8 +306,8 @@ run_ml <-
         group_partitions = group_partitions
       )
     }
-
-
+    
+    
     message("Training the model...")
     trained_model_caret <- train_model(
       train_data = train_data,
@@ -254,7 +322,7 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-
+    
     if (calculate_performance) {
       performance_tbl <- get_performance_tbl(
         trained_model_caret,
@@ -269,7 +337,7 @@ run_ml <-
     } else {
       performance_tbl <- "Skipped calculating performance"
     }
-
+    
     if (find_feature_importance) {
       message("Finding feature importance...")
       feature_importance_tbl <- get_feature_importance(
@@ -287,7 +355,7 @@ run_ml <-
     } else {
       feature_importance_tbl <- "Skipped feature importance"
     }
-
+    
     return(
       list(
         trained_model = trained_model_caret,
