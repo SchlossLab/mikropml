@@ -1,5 +1,4 @@
 # TODO: test if calling these functions works
-# TODO: combine calls into its own function and call it w train and test set (more readable)
 # TODO: figure out if there's a way to only specify option in one place (for runml and for preprocess)
 #' Run the machine learning pipeline
 #'
@@ -209,69 +208,11 @@ run_ml <-
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
     if (impute_in_training == TRUE) {
-      source("preprocess.R")
-      train_data[[outcome_colname]] <- replace_spaces(train_data[[outcome_colname]])
-      train_data <- rm_missing_outcome(train_data, outcome_colname)
-      split_dat <- split_outcome_features(train_data, outcome_colname)
-      
-      features <- split_dat$features
-      removed_feats <- character(0)
-      if (to_numeric) {
-        feats <- change_to_num(features) %>%
-          remove_singleton_columns(threshold = prefilter_threshold)
-        removed_feats <- feats$removed_feats
-        features <- feats$dat
-      }
-      pbtick(progbar)
-      
-      nv_feats <- process_novar_feats(features, progbar = progbar)
-      pbtick(progbar)
-      split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
-      pbtick(progbar)
-      cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
-      pbtick(progbar)
-      # repeat with test data
-      test_data[[outcome_colname]] <- replace_spaces(test_data[[outcome_colname]])
-      test_data <- rm_missing_outcome(test_data, outcome_colname)
-      split_dat <- split_outcome_features(test_data, outcome_colname)
-      
-      features <- split_dat$features
-      removed_feats <- character(0)
-      if (to_numeric) {
-        feats <- change_to_num(features) %>%
-          remove_singleton_columns(threshold = prefilter_threshold)
-        removed_feats <- feats$removed_feats
-        features <- feats$dat
-      }
-      pbtick(progbar)
-      
-      nv_feats <- process_novar_feats(features, progbar = progbar)
-      pbtick(progbar)
-      split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
-      pbtick(progbar)
-      cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
-      pbtick(progbar)
-      
-      
-      
-      
-      #source("impute.R")
-      #sapply_fn <- select_apply("sapply")
-      #cl_train <- sapply_fn(train_data, function(x) {
-      #  class(x)
-      #})
-      #cl_test <- sapply_fn(test_data, function(x) {
-      #  class(x)
-      #})
-      #missing_train <-
-      #  is.na(train_data[, cl_train %in% c("integer", "numeric")])
-      #missing_test <-
-      #  is.na(test_data[, cl_test %in% c("integer", "numeric")])
-      #n_missing_train <- sum(missing_train)
-      #n_missing_test <- sum(missing_test)
-      # do imputation
-      #impute_missing_vals(train_data, n_missing_train)
-      #impute_missing_vals(test_data, n_missing_test)
+      source("impute_during_training.R")
+      train_data <- impute_during_training(train_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
+      train_data <- train_data$transformed_cont
+      test_data <- impute_during_training(test_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
+      test_data <- test_data$transformed_cont
     }
     # train_groups & test_groups will be NULL if groups is NULL
     train_groups <- groups[training_inds]
