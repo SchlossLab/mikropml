@@ -60,7 +60,7 @@ preprocess_data <- function(dataset, outcome_colname,
                             method = c("center", "scale"),
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
-                            prefilter_threshold = 1) {
+                            prefilter_threshold = 1, impute_in_preprocessing = TRUE) {
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 20, message = "preprocessing")
@@ -88,7 +88,7 @@ preprocess_data <- function(dataset, outcome_colname,
   pbtick(progbar)
   split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
   pbtick(progbar)
-  cont_feats <- process_cont_feats(split_feats$cont_feats, method)
+  cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
   pbtick(progbar)
 
   # combine all processed features
@@ -364,7 +364,7 @@ process_cat_feats <- function(features, progbar = NULL) {
 #'
 #' @examples
 #' process_cont_feats(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
-process_cont_feats <- function(features, method) {
+process_cont_feats <- function(features, method, impute_in_preprocessing) {
   transformed_cont <- NULL
   removed_cont <- NULL
 
@@ -388,19 +388,10 @@ process_cont_feats <- function(features, method) {
       n_missing <- sum(missing)
       if (n_missing > 0) {
         # impute missing data using the median value
-        transformed_cont <- sapply_fn(transformed_cont, function(x) {
-          if (class(x) %in% c("integer", "numeric")) {
-            m <- is.na(x)
-            x[m] <- stats::median(x, na.rm = TRUE)
-          }
-          return(x)
-        }) %>% dplyr::as_tibble()
-        message(
-          paste0(
-            n_missing,
-            " missing continuous value(s) were imputed using the median value of the feature."
-          )
-        )
+        if (impute_in_preprocessing) {
+          source("impute.R")
+          transformed_cont <- impute(transformed_cont, n_missing)
+        }
       }
     }
   }
