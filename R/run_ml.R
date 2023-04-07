@@ -1,5 +1,6 @@
-# TODO: add call to the function, add the option
-# TODO: figure out if there's a way to only specify option in one place
+# TODO: test if calling these functions works
+# TODO: combine calls into its own function and call it w train and test set (more readable)
+# TODO: figure out if there's a way to only specify option in one place (for runml and for preprocess)
 #' Run the machine learning pipeline
 #'
 #' This function splits the data set into a train & test set,
