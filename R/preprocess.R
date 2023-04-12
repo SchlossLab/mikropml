@@ -140,15 +140,17 @@ preprocess_data <- function(dataset, outcome_colname,
 #' @inheritParams run_ml
 #'
 #' @return dataset with no missing outcomes
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' rm_missing_outcome(mikropml::otu_mini_bin, "dx")
 #'
 #' test_df <- mikropml::otu_mini_bin
 #' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
+#' }
 rm_missing_outcome <- function(dataset, outcome_colname) {
   n_outcome_na <- sum(is.na(dataset %>% dplyr::pull(outcome_colname)))
   total_outcomes <- nrow(dataset)
@@ -166,11 +168,13 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @param features dataframe of features for machine learning
 #'
 #' @return dataframe with numeric columns where possible
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
+#' }
 change_to_num <- function(features) {
   lapply_fn <- select_apply(fun = "lapply")
   check_features(features, check_missing = FALSE)
@@ -224,11 +228,13 @@ remove_singleton_columns <- function(dat, threshold = 1) {
 #' @param progbar optional progress bar (default: `NULL`)
 #'
 #' @return list of two dataframes: features with variability (unprocessed) and without (processed)
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' process_novar_feats(mikropml::otu_small[, 2:ncol(otu_small)])
+#' }
 process_novar_feats <- function(features, progbar = NULL) {
   novar_feats <- NULL
   var_feats <- NULL
@@ -291,11 +297,13 @@ process_novar_feats <- function(features, progbar = NULL) {
 #' @inheritParams process_novar_feats
 #'
 #' @return list of two dataframes: categorical (processed) and continuous features (unprocessed)
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' process_cat_feats(mikropml::otu_small[, 2:ncol(otu_small)])
+#' }
 process_cat_feats <- function(features, progbar = NULL) {
   feature_design_cat_mat <- NULL
   cont_feats <- NULL
@@ -359,11 +367,13 @@ process_cat_feats <- function(features, progbar = NULL) {
 #' @inheritParams get_caret_processed_df
 #'
 #' @return dataframe of preprocessed features
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' process_cont_feats(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
+#' }
 process_cont_feats <- function(features, method) {
   transformed_cont <- NULL
   removed_cont <- NULL
@@ -440,10 +450,11 @@ get_caret_processed_df <- function(features, method) {
 #' @inheritParams process_novar_feats
 #' @param full_rank whether matrix should be full rank or not (see `[caret::dummyVars])
 #' @return design matrix
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'   outcome = c("normal", "normal", "cancer"),
 #'   var1 = 1:3,
@@ -452,6 +463,7 @@ get_caret_processed_df <- function(features, method) {
 #'   var4 = c(0, 1, 0)
 #' )
 #' get_caret_dummyvars_df(df, TRUE)
+#' }
 get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) {
   check_features(features, check_missing = FALSE)
   if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
@@ -469,11 +481,13 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' @inheritParams group_correlated_features
 #'
 #' @return features where perfectly correlated ones are collapsed
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
+#' }
 collapse_correlated_features <- function(features, group_neg_corr = TRUE, progbar = NULL) {
   feats_nocorr <- features
   grp_feats <- NULL
