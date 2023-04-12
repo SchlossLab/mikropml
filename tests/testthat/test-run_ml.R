@@ -310,3 +310,74 @@ test_that("models use case weights when provided", {
   expect_true("weights" %in% colnames(results_custom_train$trained_model$pred))
   expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })
+
+
+
+# TODO: fix errors
+test_that("make sure impute function on train data set works", {
+  train_data <- data.frame(outcome = c("normal", "normal", "cancer", NA),
+                           var1 = 1:4,
+                           var2 = c("a", "b", "c", "d"),
+                           var3 = c("no", "yes", "no", "no"),
+                           var4 = c(0, 1, 0, 0),
+                           var5 = c(0, 0, 0, 0),
+                           var6 = c("no", "no", "no", "no"),
+                           var7 = c(1, 1, 0, 0),
+                           var8 = c(5, 6, NA, 7),
+                           var9 = c(NA, "x", "y", "z"),
+                           var10 = c(1, 0, NA, NA))
+  test_data <- data.frame(outcome = c("normal", "normal", "cancer", NA), var11 = c(1, 1, NA, NA),
+                          var12 = c("1", "2", "3", "4"))
+  train_data_output <- data.frame(
+      outcome = c("normal", "normal", "cancer"),
+      var1 = c(-1, 0, 1), var8 = c(-0.70710678, 0.70710678, 0), var3_yes = c(0, 1, 0), var7_1=c(1, 1, 0), var2_a = c(1, 0, 0), var2_b=c(0, 1, 0), var2_c=c(0, 0, 1), var9_x=c(0, 1, 0), var9_y = c(0, 0, 1), var6=c(0, 0, 0))
+  results_output <- prep_data(train_data, 'outcome', 1, c("center", "scale"), TRUE, TRUE)
+  final_results <- results_output$processed_feats
+  split_dat <- results_output$split_dat
+  train_df <- dplyr::bind_cols(split_dat$outcome, final_results) %>%
+    dplyr::as_tibble()
+  expect_equal(train_df, train_data_output)
+})
+test_that("make sure impute function on test data set works", {
+  train_data <- data.frame(outcome = c("normal", "normal", "cancer", NA),
+                           var1 = 1:4,
+                           var2 = c("a", "b", "c", "d"),
+                           var3 = c("no", "yes", "no", "no"),
+                           var4 = c(0, 1, 0, 0),
+                           var5 = c(0, 0, 0, 0),
+                           var6 = c("no", "no", "no", "no"),
+                           var7 = c(1, 1, 0, 0),
+                           var8 = c(5, 6, NA, 7),
+                           var9 = c(NA, "x", "y", "z"),
+                           var10 = c(1, 0, NA, NA))
+  test_data <- data.frame(outcome = c("normal", "normal", "cancer", NA), var11 = c(1, 1, NA, NA),
+                          var12 = c("1", "2", "3", "4"))
+  test_data_output <- data.frame(
+    outcome = c("normal", "normal", "cancer"),
+    var12 = c(-1, 0, 1), var11 = c(1, 1, 1))
+  results_output <- prep_data(test_data, 'outcome', 1, c("center", "scale"), TRUE, TRUE)
+  final_results <- results_output$processed_feats
+  split_dat <- results_output$split_dat
+  test_df <- dplyr::bind_cols(split_dat$outcome, final_results) %>%
+    dplyr::as_tibble()
+  expect_equal(test_df, test_data_output)
+})
+
+temp_df <- otu_mini_bin
+Otu00011 <- c(6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 
+              6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 
+              5, 5)
+bin2 <- otu_mini_bin %>% mutate(Otu00011)
+# TODO: how to test? DOES OUR FUNC GET CALLED IF FLAG SET TO TRUE, NOT CALLED WHEN SET TO FALSE
+
+#expect_equal(run_ml(test_df, "glmnet", 'outcome', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, NA), run_ml(test_df, "glmnet", 'outcome', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, NA, FALSE))
+
+#run_ml(bin2, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)
+#run_ml(otu_mini_bin, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)

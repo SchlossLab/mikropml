@@ -208,11 +208,17 @@ run_ml <-
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
     if (impute_in_training == TRUE) {
-      source("impute_during_training.R")
-      train_data <- impute_during_training(train_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
-      train_data <- train_data$transformed_cont
-      test_data <- impute_during_training(test_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
-      test_data <- test_data$transformed_cont
+      
+      train_processed_data <- prep_data(train_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
+      train_processed_feats <- train_processed_data$processed_feats
+      split_dat <- train_processed_data$split_dat
+      train_data <- dplyr::bind_cols(split_dat$outcome, train_processed_feats) %>%
+        dplyr::as_tibble()
+      test_processed_data <- prep_data(test_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
+      test_processed_feats <- test_processed_data$processed_feats
+      split_dat <- test_processed_data$split_dat
+      test_data <- dplyr::bind_cols(split_dat$outcome, test_processed_feats) %>%
+        dplyr::as_tibble()
     }
     # train_groups & test_groups will be NULL if groups is NULL
     train_groups <- groups[training_inds]

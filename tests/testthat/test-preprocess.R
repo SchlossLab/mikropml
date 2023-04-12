@@ -442,14 +442,14 @@ test_that("process_cat_feats works", {
 
 test_that("process_cont_feats works", {
   expect_equal(
-    process_cont_feats(dplyr::as_tibble(test_df[1:3, 2]), method = c("center", "scale")),
+    process_cont_feats(dplyr::as_tibble(test_df[1:3, 2]), method = c("center", "scale"), impute_in_preprocessing = TRUE),
     list(transformed_cont = structure(list(value = c(-1, 0, 1)), row.names = c(
       NA,
       -3L
     ), class = c("tbl_df", "tbl", "data.frame")), removed_cont = character(0))
   ) %>% suppressMessages()
   expect_message(expect_equal(
-    process_cont_feats(test_df[1:3, c(2, 9)], method = c("center", "scale")),
+    process_cont_feats(test_df[1:3, c(2, 9)], method = c("center", "scale"), impute_in_preprocessing = TRUE),
     list(transformed_cont = structure(list(var1 = c(-1, 0, 1), var8 = c(
       -0.707106781186547,
       0.707106781186547, 0
@@ -950,5 +950,18 @@ test_that("setting impute param to false doesn't impute data", {
   )) %>% suppressMessages()
 })
 
+
+test_that("default parameter for impute_in_preprocessing is TRUE", {
+  expect_message(
+    expect_equal(
+      preprocess_data(test_df, "outcome",
+                      prefilter_threshold = -1
+      ),
+      preprocess_data(test_df, "outcome",
+                      prefilter_threshold = -1, impute_in_preprocessing = TRUE))
+    ,
+    "Removed "
+  ) %>% suppressMessages()
+})
 
 

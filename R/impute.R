@@ -14,3 +14,36 @@ impute <- function(transformed_cont, n_missing) {
   )
   return (transformed_cont)
 }
+
+prep_data <- function(dataset, outcome_colname, prefilter_threshold, method, impute_in_preprocessing, to_numeric) {
+  dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
+  dataset <- rm_missing_outcome(dataset, outcome_colname)
+  split_dat <- split_outcome_features(dataset, outcome_colname)
+  
+  features <- split_dat$features
+  removed_feats <- character(0)
+  if (to_numeric) {
+    feats <- change_to_num(features) %>%
+      remove_singleton_columns(threshold = prefilter_threshold)
+    removed_feats <- feats$removed_feats
+    features <- feats$dat
+  }
+  pbtick(progbar)
+  
+  nv_feats <- process_novar_feats(features, progbar = progbar)
+  pbtick(progbar)
+  split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
+  pbtick(progbar)
+  cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
+  pbtick(progbar)
+  # combine all processed features
+  processed_feats <- dplyr::bind_cols(
+    cont_feats$transformed_cont,
+    split_feats$cat_feats,
+    nv_feats$novar_feats
+  )
+  pbtick(progbar)
+  
+  processed_data <- list(cont_feats = cont_feats, removed_feats = removed_feats, split_dat = split_dat, processed_feats = processed_feats)
+  return(processed_data)
+}
