@@ -33,10 +33,12 @@ randomize_feature_order <- function(dataset, outcome_colname) {
 #' @inheritParams run_ml
 #'
 #' @return list of length two: outcome, features (as dataframes)
-#' @noRd
+#' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' split_outcome_features(mikropml::otu_mini_bin, "dx")
+#' }
 split_outcome_features <- function(dataset, outcome_colname) {
   # input validation
   check_dataset(dataset)
@@ -52,11 +54,13 @@ split_outcome_features <- function(dataset, outcome_colname) {
 #' @param fun apply function to use (apply, lapply, sapply, etc.)
 #'
 #' @return output of apply function
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' select_apply(fun = "sapply")
+#' }
 select_apply <- function(fun = "apply") {
   pkg <- "base"
   if (all(check_packages_installed("future.apply"))) {
@@ -73,11 +77,12 @@ select_apply <- function(fun = "apply") {
 #' @param dat data.frame to convert
 #'
 #' @return data.frame with no factors
-#' @noRd
+#' @keywords internal
 #'
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' dat <- data.frame(
 #'   c1 = as.factor(c("a", "b", "c")),
 #'   c2 = as.factor(1:3)
@@ -87,6 +92,7 @@ select_apply <- function(fun = "apply") {
 #' dat <- mutate_all_types(dat)
 #' class(dat$c1)
 #' class(dat$c2)
+#' }
 mutate_all_types <- function(dat) {
   return(dat %>% dplyr::mutate_all(utils::type.convert, as.is = TRUE))
 }
@@ -122,10 +128,11 @@ replace_spaces <- function(x, new_char = "_") {
 #' @param pb a progress bar created with `progressr`.
 #' @param message optional message to report (default: `NULL`).
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' f <- function() {
 #'   if (isTRUE(check_packages_installed("progressr"))) {
 #'     pb <- progressr::progressor(steps = 5, message = "looping")
@@ -140,6 +147,7 @@ replace_spaces <- function(x, new_char = "_") {
 #' progressr::with_progress(
 #'   f()
 #' )
+#' }
 pbtick <- function(pb, message = NULL) {
   if (!is.null(pb)) {
     if (!is.null(message)) {
@@ -163,7 +171,7 @@ pbtick <- function(pb, message = NULL) {
 #'
 #' @param ... All arguments forwarded to `sort()`.
 #' @return Whatever you passed in, now in a stable sorted order regardless of your locale.
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
 radix_sort <- function(...) {
@@ -180,13 +188,15 @@ radix_sort <- function(...) {
 #' @param tol tolerance (default: `.Machine$double.eps^0.5`)
 #'
 #' @return logical vector
-#' @noRd
+#' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' is_whole_number(c(1, 2, 3))
 #' is.integer(c(1, 2, 3))
 #' is_whole_number(c(1.0, 2.0, 3.0))
 #' is_whole_number(1.2)
+#' }
 is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
@@ -203,7 +213,7 @@ is_whole_number <- function(x, tol = .Machine$double.eps^0.5) {
 #' @return the number of observations in `vctr` that are greater than
 #'   `test_stat` divided by the number of observations in `vctr`
 #'
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 calc_pvalue <- function(vctr, test_stat) {
   return((sum(vctr >= test_stat) + 1) / (length(vctr) + 1))

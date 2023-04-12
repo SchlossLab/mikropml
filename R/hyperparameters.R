@@ -26,17 +26,19 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' @param ml_method machine learning method
 #'
 #' @return named list of lists of hyperparameters
-#' @noRd
+#' @keywords internal
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' hparams_df <- dplyr::tibble(
 #'   param = c("alpha", "lambda", "lambda"),
 #'   value = c(1, 0, 1),
 #'   method = rep("glmnet", 3)
 #' )
 #' get_hyperparams_from_df(hparams_df, "glmnet")
+#' }
 get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
   hyperparams_df_filt <- hyperparams_df %>% dplyr::filter(.data$method == ml_method)
   return(split(hyperparams_df_filt$value, hyperparams_df_filt$param))
@@ -79,7 +81,7 @@ get_hyperparams_list <- function(dataset, method) {
 #' Alpha is set to `0` for ridge (L2). An alpha of `1` would make it lasso (L1).
 #'
 #' @return default lambda & alpha values
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 set_hparams_glmnet <- function() {
   return(list(
@@ -93,13 +95,15 @@ set_hparams_glmnet <- function() {
 #' @param n_features number of features in the dataset
 #'
 #' @return named list of hyperparameters
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_rf(16)
 #' set_hparams_rf(2000)
 #' set_hparams_rf(1)
+#' }
 set_hparams_rf <- function(n_features) {
   sqrt_features <- round(sqrt(n_features))
   if (n_features == 1) {
@@ -121,12 +125,14 @@ set_hparams_rf <- function(n_features) {
 #' @param n_samples number of samples in the dataset
 #'
 #' @return named list of hyperparameters
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_rpart2(100)
 #' set_hparams_rpart2(20)
+#' }
 set_hparams_rpart2 <- function(n_samples) {
   return(list(maxdepth = c(1, 2, 4, 8, 16, 30) %>% .[. < n_samples]))
 }
@@ -134,11 +140,13 @@ set_hparams_rpart2 <- function(n_samples) {
 #' Set hyperparameters for SVM with radial kernel
 #'
 #' @return named list of hyperparameters
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_svmRadial()
+#' }
 set_hparams_svmRadial <- function() {
   return(list(
     C = 10^seq(-3, 2, 1),
@@ -151,11 +159,13 @@ set_hparams_svmRadial <- function() {
 #' @inheritParams set_hparams_rpart2
 #'
 #' @return named list of hyperparameters
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set_hparams_xgbTree()
+#' }
 set_hparams_xgbTree <- function(n_samples) {
   return(list(
     nrounds = c(100),

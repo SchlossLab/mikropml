@@ -70,12 +70,17 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
 #' @inheritParams define_cv
 #'
 #' @return seeds for `caret::trainControl()`
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' get_seeds_trainControl(get_hyperparams_list(otu_small, "glmnet"), 5, 100, 60)
+#' \dontrun{
+#' get_seeds_trainControl(
+#'   get_hyperparams_list(otu_small, "glmnet"),
+#'   5, 100, 60
+#' )
+#' }
 get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000
@@ -95,7 +100,7 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' @inheritParams define_cv
 #'
 #' @return `TRUE` if possible, `FALSE` otherwise
-#' @noRd
+#' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
@@ -111,13 +116,15 @@ keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
 #' @param cv_times equivalent to cv_times in caret::createMultiFolds
 #'
 #' @return indices of folds for CV
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' set.seed(0)
 #' groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' folds <- create_grouped_k_multifolds(groups, kfold = 2, cv_times = 2)
+#' }
 create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   # we're not doing anything with survival in caret (i.e. copied from caret, but not useful for us)
   # if (class(groups)[1] == "Surv") {
