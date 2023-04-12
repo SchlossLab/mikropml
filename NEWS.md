@@ -8,6 +8,9 @@
     - New column `lower` and `upper` to report the bounds of the empirical 95% confidence interval from the permutation test.
       See `vignette('parallel')` for an example of plotting feature importance with confidence intervals.
 - Minor documentation improvements (#323, @kelly-sovacool).
+- Added option to impute missing data during training rather than preprocessing (#301, @megancoden and @shah-priyal).
+  - Added impute_in_training option to `run_ml()`, which defaults to FALSE.
+  - Added impute_in_preprocessing option to `preprocess()`, which defaults to TRUE.
 
 # mikropml 1.5.0
 
