@@ -311,9 +311,6 @@ test_that("models use case weights when provided", {
   expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })
 
-
-
-# TODO: fix errors
 test_that("make sure impute function on train data set works", {
   train_data <- data.frame(outcome = c("normal", "normal", "cancer", NA),
                            var1 = 1:4,
@@ -328,7 +325,7 @@ test_that("make sure impute function on train data set works", {
                            var10 = c(1, 0, NA, NA))
   test_data <- data.frame(outcome = c("normal", "normal", "cancer", NA), var11 = c(1, 1, NA, NA),
                           var12 = c("1", "2", "3", "4"))
-  train_data_output <- data.frame(
+  train_data_output <- dplyr::tibble(
       outcome = c("normal", "normal", "cancer"),
       var1 = c(-1, 0, 1), var8 = c(-0.70710678, 0.70710678, 0), var3_yes = c(0, 1, 0), var7_1=c(1, 1, 0), var2_a = c(1, 0, 0), var2_b=c(0, 1, 0), var2_c=c(0, 0, 1), var9_x=c(0, 1, 0), var9_y = c(0, 0, 1), var6=c(0, 0, 0))
   results_output <- prep_data(train_data, 'outcome', 1, c("center", "scale"), TRUE, TRUE)
@@ -338,6 +335,7 @@ test_that("make sure impute function on train data set works", {
     dplyr::as_tibble()
   expect_equal(train_df, train_data_output)
 })
+
 test_that("make sure impute function on test data set works", {
   train_data <- data.frame(outcome = c("normal", "normal", "cancer", NA),
                            var1 = 1:4,
@@ -352,7 +350,7 @@ test_that("make sure impute function on test data set works", {
                            var10 = c(1, 0, NA, NA))
   test_data <- data.frame(outcome = c("normal", "normal", "cancer", NA), var11 = c(1, 1, NA, NA),
                           var12 = c("1", "2", "3", "4"))
-  test_data_output <- data.frame(
+  test_data_output <- dplyr::tibble(
     outcome = c("normal", "normal", "cancer"),
     var12 = c(-1, 0, 1), var11 = c(1, 1, 1))
   results_output <- prep_data(test_data, 'outcome', 1, c("center", "scale"), TRUE, TRUE)
@@ -374,10 +372,22 @@ Otu00011 <- c(6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6
               6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
               6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 
               5, 5)
-bin2 <- otu_mini_bin %>% mutate(Otu00011)
-# TODO: how to test? DOES OUR FUNC GET CALLED IF FLAG SET TO TRUE, NOT CALLED WHEN SET TO FALSE
+mini_bin_with_nas <- otu_mini_bin %>% mutate(Otu00011)
 
-#expect_equal(run_ml(test_df, "glmnet", 'outcome', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, NA), run_ml(test_df, "glmnet", 'outcome', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, NA, FALSE))
+test_that("data gets imputed when impute_in_training is set to TRUE", {
+  results <- run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)
+  temp <- colSums(is.na(results$test_data)) 
+  num_nas <- sum(temp)
+  expect_equal(0, num_nas) %>% suppressMessages() 
+  temp <- colSums(is.na(results$trained_model$trainingData)) 
+  num_nas <- sum(temp)
+  expect_equal(0, num_nas) %>% suppressMessages()
+})
 
-#run_ml(bin2, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)
-#run_ml(otu_mini_bin, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)
+test_that("data is not imputed when impute_in_training is set to FALSE", {
+  expect_error(run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, FALSE),NULL) %>% suppressMessages()
+})
+
+test_that("data is not imputed when impute_in_training is not set", {
+  expect_error(run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019),NULL) %>% suppressMessages()
+})
