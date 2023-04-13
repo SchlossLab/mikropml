@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,6 +69,7 @@
 <span><span class="fu">plot_mean_prc</span><span class="op">(</span></span>
 <span>  <span class="va">dat</span>,</span>
 <span>  baseline_precision <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ycol <span class="op">=</span> <span class="va">mean_precision</span>,</span>
 <span>  ribbon_fill <span class="op">=</span> <span class="st">"#C7E9C0"</span>,</span>
 <span>  line_color <span class="op">=</span> <span class="st">"#00441B"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -90,6 +91,10 @@
 
 <dt>baseline_precision</dt>
 <dd><p>baseline precision from <code><a href="calc_baseline_precision.html">calc_baseline_precision()</a></code></p></dd>
+
+
+<dt>ycol</dt>
+<dd><p>column for the y axis (Default: <code>mean_precision</code>)</p></dd>
 
 </dl></div>
     <div class="section level2">
