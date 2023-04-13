@@ -274,15 +274,16 @@ plot_mean_roc <- function(dat,
 #' @inheritParams shared_ggprotos
 #' @inheritParams plot_mean_roc
 #' @param baseline_precision baseline precision from `calc_baseline_precision()`
+#' @param ycol column for the y axis (Default: `mean_precision`)
 #'
 #' @export
-plot_mean_prc <- function(dat, baseline_precision = NULL,
+plot_mean_prc <- function(dat, baseline_precision = NULL, ycol = mean_precision,
                           ribbon_fill = "#C7E9C0", line_color = "#00441B") {
   recall <- mean_precision <- lower <- upper <- NULL
   abort_packages_not_installed("ggplot2")
   prc_plot <- dat %>%
     ggplot2::ggplot(ggplot2::aes(
-      x = recall, y = mean_precision,
+      x = recall, y = {{ ycol }},
       ymin = lower, ymax = upper
     )) +
     shared_ggprotos(ribbon_fill = ribbon_fill, line_color = line_color) +

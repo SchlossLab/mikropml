@@ -50,16 +50,20 @@ get_partition_indices <- function(outcomes,
 #' @inheritParams run_ml
 #'
 #' @return vector of row indices for the training set
-#' @noRd
+#' @keywords internal
 #' @author Zena Lapp, {zenalapp@@umich.edu}
 #' @author Kelly Sovacool, {sovacool@@umich.edu}
 #'
 #' @examples
+#' \dontrun{
 #' groups <- c("A", "B", "A", "B", "C", "C", "A", "A", "D")
 #' set.seed(0)
 #' create_grouped_data_partition(groups, training_frac = 0.8)
 #' groups <- rep.int(c("A", "B", "C"), 3)
-#' create_grouped_data_partition(groups, group_partitions = list(train = c("A"), test = c("A", "B", "C")))
+#' create_grouped_data_partition(groups,
+#'   group_partitions = list(train = c("A"), test = c("A", "B", "C"))
+#' )
+#' }
 create_grouped_data_partition <- function(groups, group_partitions = NULL, training_frac = 0.8) {
   # get indices
   indices <- seq(along = groups)

@@ -356,13 +356,15 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname = NULL
 
 #' Generic function to calculate mean performance curves for multiple models
 #'
+#' Used by `calc_mean_roc()` and `calc_mean_prc()`.
+#'
 #' @param sensspec_dat data frame created by concatenating results of
 #'   `calc_model_sensspec()` for multiple models.
 #' @param group_var variable to group by (e.g. specificity or recall).
 #' @param sum_var variable to summarize (e.g. sensitivity or precision).
 #'
 #' @return data frame with mean & standard deviation of `sum_var` summarized over `group_var`
-#' @keywords internal
+#' @export
 #'
 #' @author Courtney Armour
 #' @author Kelly Sovacool
@@ -452,7 +454,7 @@ calc_mean_prc <- function(sensspec_dat) {
 #'     ml_result$test_data,
 #'     "dx"
 #'   ) %>%
-#'     mutate(seed = seed)
+#'     dplyr::mutate(seed = seed)
 #'   return(sensspec)
 #' }
 #' sensspec_dat <- purrr::map_dfr(seq(100, 102), get_sensspec_seed)
@@ -470,6 +472,17 @@ calc_mean_prc <- function(sensspec_dat) {
 #' baseline_prec <- calc_baseline_precision(otu_mini_bin, "dx", "cancer")
 #' prc_dat %>%
 #'   plot_mean_prc(baseline_precision = baseline_prec)
+#'
+#' # balanced precision
+#' prior <- calc_baseline_precision(otu_mini_bin,
+#'   outcome_colname = "dx",
+#'   pos_outcome = "cancer"
+#' )
+#' bprc_dat <- sensspec_dat %>%
+#'   dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) %>%
+#'   dplyr::rename(recall = sensitivity) %>%
+#'   calc_mean_perf(group_var = recall, sum_var = balanced_precision)
+#' bprc_dat %>% plot_mean_prc(ycol = mean_balanced_precision) + ylab("Mean Bal. Precision")
 #' }
 NULL
 
@@ -488,7 +501,10 @@ NULL
 #' @examples
 #' # calculate the baseline precision
 #' data.frame(y = c("a", "b", "a", "b")) %>%
-#'   calc_baseline_precision("y", "a")
+#'   calc_baseline_precision(
+#'     outcome_colname = "y",
+#'     pos_outcome = "a"
+#'   )
 #'
 #'
 #' calc_baseline_precision(otu_mini_bin,
@@ -515,3 +531,55 @@ calc_baseline_precision <- function(dataset,
   baseline_prec <- npos / ntot
   return(baseline_prec)
 }
+
+#' Calculate balanced precision given actual and baseline precision
+#'
+#' Implements Equation 1 from Wu _et al._ 2021 \doi{10.1016/j.ajhg.2021.08.012}.
+#' It is the same as Equation 7 if `AUPRC` (aka `prAUC`) is used in place of `precision`.
+#'
+#' @param precision actual precision of the model.
+#' @param prior baseline precision, aka frequency of positives.
+#'   Can be calculated with [calc_baseline_precision]
+#'
+#' @return the expected precision if the data were balanced
+#' @export
+#' @author Kelly Sovacool \email{sovacool@@umich.edu}
+#'
+#' @examples
+#' prior <- calc_baseline_precision(otu_mini_bin,
+#'   outcome_colname = "dx",
+#'   pos_outcome = "cancer"
+#' )
+#' calc_balanced_precision(otu_mini_bin_results_rf$performance$Precision, prior)
+#'
+#' otu_mini_bin_results_rf$performance %>%
+#'   dplyr::mutate(
+#'     balanced_precision = calc_balanced_precision(Precision, prior),
+#'     aubprc = calc_balanced_precision(prAUC, prior)
+#'   ) %>%
+#'   dplyr::select(AUC, Precision, balanced_precision, aubprc)
+#'
+#' # cumulative performance for a single model
+#' sensspec_1 <- calc_model_sensspec(
+#'   otu_mini_bin_results_glmnet$trained_model,
+#'   otu_mini_bin_results_glmnet$test_data,
+#'   "dx"
+#' )
+#' head(sensspec_1)
+#' prior <- calc_baseline_precision(otu_mini_bin,
+#'   outcome_colname = "dx",
+#'   pos_outcome = "cancer"
+#' )
+#' sensspec_1 %>%
+#'   dplyr::mutate(balanced_precision = calc_balanced_precision(precision, prior)) %>%
+#'   dplyr::rename(recall = sensitivity) %>%
+#'   calc_mean_perf(group_var = recall, sum_var = balanced_precision) %>%
+#'   plot_mean_prc(ycol = mean_balanced_precision)
+calc_balanced_precision <-
+  function(precision, prior) {
+    return(
+      precision * (1 - prior) / (
+        precision * (1 - prior) + (1 - precision) * prior
+      )
+    )
+  }
