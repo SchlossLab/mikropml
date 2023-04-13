@@ -55,6 +55,9 @@ reference:
   - get_feature_importance
   - get_performance_tbl
   - sensspec
+  - calc_mean_perf
+  - calc_baseline_precision
+  - calc_balanced_precision
   - compare_models
   - permute_p_value
   - bootstrap_performance
@@ -63,7 +66,6 @@ reference:
     Visualize results to help you tune hyperparameters and choose model methods.
   contents:
   - starts_with('plot')
-  - calc_baseline_precision
   - tidy_perf_data
   - get_hp_performance
   - combine_hp_performance
