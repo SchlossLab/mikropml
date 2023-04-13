@@ -11,6 +11,7 @@ plot_mean_roc(dat, ribbon_fill = "#C6DBEF", line_color = "#08306B")
 plot_mean_prc(
   dat,
   baseline_precision = NULL,
+  ycol = mean_precision,
   ribbon_fill = "#C7E9C0",
   line_color = "#00441B"
 )
@@ -23,6 +24,8 @@ plot_mean_prc(
 \item{line_color}{line color (default: "#000000")}
 
 \item{baseline_precision}{baseline precision from \code{calc_baseline_precision()}}
+
+\item{ycol}{column for the y axis (Default: \code{mean_precision})}
 }
 \description{
 Plot ROC and PRC curves

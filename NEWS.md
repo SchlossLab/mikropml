@@ -3,6 +3,8 @@
 - New function `bootstrap_performance()` allows you to calculate confidence 
   intervals for the model performance from a single train/test split by
   bootstrapping the test set (#329, @kelly-sovacool).
+- New function `calc_balanced_precision()` allows you to calculate balanced
+  precision and balanced area under the precision-recall curve (#333, @kelly-sovacool).
 - Improved output from `find_feature_importance()` (#326, @kelly-sovacool).
     - Renamed the column `names` to `feat` to represent each feature or group of correlated features.
     - New column `lower` and `upper` to report the bounds of the empirical 95% confidence interval from the permutation test.

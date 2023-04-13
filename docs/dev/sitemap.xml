@@ -46,10 +46,16 @@
     <loc>http://www.schlosslab.org/mikropml/dev/pull_request_template.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/abort_packages_not_installed.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/bootstrap_performance.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/bounds.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_balanced_precision.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_baseline_precision.html</loc>
@@ -64,10 +70,88 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_perf_metrics.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/calc_pvalue.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/change_to_num.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_all.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_cat_feats.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_corr_thresh.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_dataset.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_features.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_group_partitions.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_groups.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_kfold.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_method.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_ntree.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_outcome_column.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_outcome_value.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_packages_installed.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_perf_metric_function.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_perf_metric_name.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_permute.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_remove_var.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_seed.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_training_frac.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/check_training_indices.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/cluster_corr_mat.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/collapse_correlated_features.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/combine_hp_performance.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/compare_models.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/create_grouped_data_partition.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/create_grouped_k_multifolds.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/define_cv.html</loc>
@@ -76,13 +160,34 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/find_permuted_perf_metric.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/flatten_corr_mat.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_binary_corr_mat.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_caret_dummyvars_df.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_caret_processed_df.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_corr_feats.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_difference.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_feature_importance.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_groups_from_clusters.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_hp_performance.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_hyperparams_from_df.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_hyperparams_list.html</loc>
@@ -103,6 +208,9 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_performance_tbl.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/get_seeds_trainControl.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/get_tuning_grid.html</loc>
   </url>
   <url>
@@ -112,7 +220,16 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/index.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/is_whole_number.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/keep_groups_in_cv_partitions.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/mikropml.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/mutate_all_types.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/otu_data_preproc.html</loc>
@@ -157,6 +274,9 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/otu_small.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/pbtick.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/permute_p_value.html</loc>
   </url>
   <url>
@@ -172,6 +292,18 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/preprocess_data.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/process_cat_feats.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/process_cont_feats.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/process_novar_feats.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/radix_sort.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/randomize_feature_order.html</loc>
   </url>
   <url>
@@ -184,13 +316,40 @@
     <loc>http://www.schlosslab.org/mikropml/dev/reference/replace_spaces.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/rm_missing_outcome.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/run_ml.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/select_apply.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/sensspec.html</loc>
   </url>
   <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/set_hparams_glmnet.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/set_hparams_rf.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/set_hparams_rpart2.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/set_hparams_svmRadial.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/set_hparams_xgbTree.html</loc>
+  </url>
+  <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/shared_ggprotos.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/shuffle_group.html</loc>
+  </url>
+  <url>
+    <loc>http://www.schlosslab.org/mikropml/dev/reference/split_outcome_features.html</loc>
   </url>
   <url>
     <loc>http://www.schlosslab.org/mikropml/dev/reference/tidy_perf_data.html</loc>
