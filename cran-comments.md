@@ -23,12 +23,12 @@ Found the following (possibly) invalid URLs:
     Message: Bad Request
   URL: https://doi.org/doi:10.1128/mBio.00434-20
     From: README.md
-    Status: 503
-    Message: Service Unavailable
+    Status: 403
+    Message: Forbidden
   URL: https://journals.asm.org/doi/10.1128/mbio.00434-20
     From: man/otu_small.Rd
-    Status: 503
-    Message: Service Unavailable
+    Status: 403
+    Message: Forbidden
 ```
 
 This is a spurious note as these URLs work in my local browser, and the DOIs are
