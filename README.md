@@ -130,7 +130,6 @@ A BibTeX entry for LaTeX users is:
       author = {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},
       journal = {Journal of Open Source Software},
       year = {2021},
-      month = {May},
       volume = {6},
       number = {61},
       pages = {3073},
