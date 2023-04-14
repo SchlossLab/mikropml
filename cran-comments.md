@@ -1,3 +1,5 @@
+This is a re-submission.
+Fixed the CITATION file to use bibentry() instead of the old-style citEntry().
 
 ## Test environments
 
