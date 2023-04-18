@@ -1,4 +1,3 @@
-# TODO: add tests for if impution param is set to true
 library(dplyr)
 options(
   warnPartialMatchArgs = FALSE,
@@ -312,7 +311,7 @@ test_that("models use case weights when provided", {
 })
 
 test_that("make sure impute function on train data set works", {
-  train_data <- data.frame(outcome = c("normal", "normal", "cancer", NA),
+  train_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"),
                            var1 = 1:4,
                            var2 = c("a", "b", "c", "d"),
                            var3 = c("no", "yes", "no", "no"),
@@ -321,45 +320,47 @@ test_that("make sure impute function on train data set works", {
                            var6 = c("no", "no", "no", "no"),
                            var7 = c(1, 1, 0, 0),
                            var8 = c(5, 6, NA, 7),
-                           var9 = c(NA, "x", "y", "z"),
+                           var9 = c(NA, 1, 1, 0),
                            var10 = c(1, 0, NA, NA))
-  test_data <- data.frame(outcome = c("normal", "normal", "cancer", NA), var11 = c(1, 1, NA, NA),
-                          var12 = c("1", "2", "3", "4"))
+  test_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"), var11 = c(1, 1, NA, NA),
+                          var12 = c(1, 2, NA, 4))
   train_data_output <- dplyr::tibble(
-      outcome = c("normal", "normal", "cancer"),
-      var1 = c(-1, 0, 1), var8 = c(-0.70710678, 0.70710678, 0), var3_yes = c(0, 1, 0), var7_1=c(1, 1, 0), var2_a = c(1, 0, 0), var2_b=c(0, 1, 0), var2_c=c(0, 0, 1), var9_x=c(0, 1, 0), var9_y = c(0, 0, 1), var6=c(0, 0, 0))
-  results_output <- prep_data(train_data, 'outcome', 1, c("center", "scale"), TRUE, TRUE)
-  final_results <- results_output$processed_feats
-  split_dat <- results_output$split_dat
-  train_df <- dplyr::bind_cols(split_dat$outcome, final_results) %>%
-    dplyr::as_tibble()
-  expect_equal(train_df, train_data_output)
+    outcome = c("normal", "normal", "cancer", "cancer"),
+    var1 = c('1', '2', '3', '4'),
+    var2 = c("a", "b", "c", "d"),
+    var3 = c("no", "yes", "no", "no"),
+    var4 = c('0', '1', '0', '0'),
+    var5 = c('0', '0', '0', '0'),
+    var6 = c("no", "no", "no", "no"),
+    var7 = c('1', '1', '0', '0'),
+    var8 = c('5', '6', '6', '7'),
+    var9 = c('1', '1', '1', '0'),
+    var10 = c('1', '0', '0.5', '0.5'))
+  results_output <- impute(train_data)
+  expect_equal(train_data_output, results_output)
 })
 
 test_that("make sure impute function on test data set works", {
-  train_data <- data.frame(outcome = c("normal", "normal", "cancer", NA),
-                           var1 = 1:4,
-                           var2 = c("a", "b", "c", "d"),
-                           var3 = c("no", "yes", "no", "no"),
-                           var4 = c(0, 1, 0, 0),
-                           var5 = c(0, 0, 0, 0),
-                           var6 = c("no", "no", "no", "no"),
-                           var7 = c(1, 1, 0, 0),
-                           var8 = c(5, 6, NA, 7),
-                           var9 = c(NA, "x", "y", "z"),
-                           var10 = c(1, 0, NA, NA))
-  test_data <- data.frame(outcome = c("normal", "normal", "cancer", NA), var11 = c(1, 1, NA, NA),
-                          var12 = c("1", "2", "3", "4"))
-  test_data_output <- dplyr::tibble(
-    outcome = c("normal", "normal", "cancer"),
-    var12 = c(-1, 0, 1), var11 = c(1, 1, 1))
-  results_output <- prep_data(test_data, 'outcome', 1, c("center", "scale"), TRUE, TRUE)
-  final_results <- results_output$processed_feats
-  split_dat <- results_output$split_dat
-  test_df <- dplyr::bind_cols(split_dat$outcome, final_results) %>%
-    dplyr::as_tibble()
-  expect_equal(test_df, test_data_output)
-})
+    train_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"),
+                             var1 = 1:4,
+                             var2 = c("a", "b", "c", "d"),
+                             var3 = c("no", "yes", "no", "no"),
+                             var4 = c(0, 1, 0, 0),
+                             var5 = c(0, 0, 0, 0),
+                             var6 = c("no", "no", "no", "no"),
+                             var7 = c(1, 1, 0, 0),
+                             var8 = c(5, 6, NA, 7),
+                             var9 = c(NA, 1, 1, 0),
+                             var10 = c(1, 0, NA, NA))
+    test_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"), var11 = c(1, 1, NA, NA),
+                            var12 = c(1, 2, NA, 4))
+    test_data_output <- dplyr::tibble(
+      outcome = c("normal", "normal", "cancer", "cancer"), var11 = c('1', '1', '1', '1'),
+      var12 = c('1', '2', '2', '4'))
+    results_output <- impute(test_data)
+    expect_equal(test_data_output, results_output)
+  })
+  
 
 temp_df <- otu_mini_bin
 Otu00011 <- c(6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 
@@ -374,7 +375,7 @@ Otu00011 <- c(6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6
               5, 5)
 mini_bin_with_nas <- otu_mini_bin %>% mutate(Otu00011)
 
-test_that("data gets imputed when impute_in_training is set to TRUE", {
+test_that("data gets imputed when impute_after_split is set to TRUE", {
   results <- run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)
   temp <- colSums(is.na(results$test_data)) 
   num_nas <- sum(temp)
@@ -384,10 +385,10 @@ test_that("data gets imputed when impute_in_training is set to TRUE", {
   expect_equal(0, num_nas) %>% suppressMessages()
 })
 
-test_that("data is not imputed when impute_in_training is set to FALSE", {
+test_that("data is not imputed when impute_after_split is set to FALSE", {
   expect_error(run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, FALSE),NULL) %>% suppressMessages()
 })
 
-test_that("data is not imputed when impute_in_training is not set", {
+test_that("data is not imputed when impute_after_split is not set", {
   expect_error(run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019),NULL) %>% suppressMessages()
 })
