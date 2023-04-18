@@ -370,6 +370,13 @@ going on (i.e. the median value is used):
 preprocess_data(dataset = miss_cont_df, outcome_colname = "outcome", method = NULL)
 ```
 
+To delay this step until after the train/test split in run_ml.R, set the impute_in_preprocessing option to FALSE as shown here:
+
+```{r}
+# preprocess raw dataset with missing value in continuous feature
+preprocess_data(dataset = miss_cont_df, outcome_colname = "outcome", method = NULL, impute_in_preprocessing=FALSE)
+```
+
 ## Putting it all together
 
 Here's some more complicated example raw data that puts everything we discussed together:
