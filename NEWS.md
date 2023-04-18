@@ -1,5 +1,9 @@
 # development version
 
+- New option to impute missing data after the train/test split rather than before (#301, @megancoden and @shah-priyal).
+  - Added `impute_in_training` option to `run_ml()`, which defaults to FALSE.
+  - Added `impute_in_preprocessing` option to `preprocess()`, which defaults to TRUE.
+  
 # mikropml 1.6.0
 
 - New functions:
@@ -13,7 +17,6 @@
     - Renamed the column `names` to `feat` to represent each feature or group of correlated features.
     - New column `lower` and `upper` to report the bounds of the empirical 95% confidence interval from the permutation test.
       See `vignette('parallel')` for an example of plotting feature importance with confidence intervals.
-- Minor documentation improvements (#323, #332, @kelly-sovacool).
 
 # mikropml 1.5.0
 

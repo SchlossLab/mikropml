@@ -60,7 +60,7 @@ preprocess_data <- function(dataset, outcome_colname,
                             method = c("center", "scale"),
                             remove_var = "nzv", collapse_corr_feats = TRUE,
                             to_numeric = TRUE, group_neg_corr = TRUE,
-                            prefilter_threshold = 1) {
+                            prefilter_threshold = 1, impute_in_preprocessing = TRUE) {
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 20, message = "preprocessing")
@@ -70,10 +70,11 @@ preprocess_data <- function(dataset, outcome_colname,
   check_outcome_column(dataset, outcome_colname, check_values = FALSE)
   check_remove_var(remove_var)
   pbtick(progbar)
+  
   dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
   dataset <- rm_missing_outcome(dataset, outcome_colname)
   split_dat <- split_outcome_features(dataset, outcome_colname)
-
+  
   features <- split_dat$features
   removed_feats <- character(0)
   if (to_numeric) {
@@ -83,14 +84,14 @@ preprocess_data <- function(dataset, outcome_colname,
     features <- feats$dat
   }
   pbtick(progbar)
-
+  
   nv_feats <- process_novar_feats(features, progbar = progbar)
   pbtick(progbar)
   split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
   pbtick(progbar)
-  cont_feats <- process_cont_feats(split_feats$cont_feats, method)
+  cont_feats <- process_cont_feats(split_feats$cont_feats, method, impute_in_preprocessing)
   pbtick(progbar)
-
+  
   # combine all processed features
   processed_feats <- dplyr::bind_cols(
     cont_feats$transformed_cont,
@@ -98,7 +99,7 @@ preprocess_data <- function(dataset, outcome_colname,
     nv_feats$novar_feats
   )
   pbtick(progbar)
-
+  
   # remove features with (near-)zero variance
   feats <- get_caret_processed_df(processed_feats, remove_var)
   processed_feats <- feats$processed
@@ -140,17 +141,15 @@ preprocess_data <- function(dataset, outcome_colname,
 #' @inheritParams run_ml
 #'
 #' @return dataset with no missing outcomes
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' rm_missing_outcome(mikropml::otu_mini_bin, "dx")
 #'
 #' test_df <- mikropml::otu_mini_bin
 #' test_df[1:100, "dx"] <- NA
 #' rm_missing_outcome(test_df, "dx")
-#' }
 rm_missing_outcome <- function(dataset, outcome_colname) {
   n_outcome_na <- sum(is.na(dataset %>% dplyr::pull(outcome_colname)))
   total_outcomes <- nrow(dataset)
@@ -168,13 +167,11 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
 #' @param features dataframe of features for machine learning
 #'
 #' @return dataframe with numeric columns where possible
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' class(change_to_num(data.frame(val = c("1", "2", "3")))[[1]])
-#' }
 change_to_num <- function(features) {
   lapply_fn <- select_apply(fun = "lapply")
   check_features(features, check_missing = FALSE)
@@ -228,13 +225,11 @@ remove_singleton_columns <- function(dat, threshold = 1) {
 #' @param progbar optional progress bar (default: `NULL`)
 #'
 #' @return list of two dataframes: features with variability (unprocessed) and without (processed)
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' process_novar_feats(mikropml::otu_small[, 2:ncol(otu_small)])
-#' }
 process_novar_feats <- function(features, progbar = NULL) {
   novar_feats <- NULL
   var_feats <- NULL
@@ -297,13 +292,11 @@ process_novar_feats <- function(features, progbar = NULL) {
 #' @inheritParams process_novar_feats
 #'
 #' @return list of two dataframes: categorical (processed) and continuous features (unprocessed)
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' process_cat_feats(mikropml::otu_small[, 2:ncol(otu_small)])
-#' }
 process_cat_feats <- function(features, progbar = NULL) {
   feature_design_cat_mat <- NULL
   cont_feats <- NULL
@@ -367,14 +360,12 @@ process_cat_feats <- function(features, progbar = NULL) {
 #' @inheritParams get_caret_processed_df
 #'
 #' @return dataframe of preprocessed features
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' process_cont_feats(mikropml::otu_small[, 2:ncol(otu_small)], c("center", "scale"))
-#' }
-process_cont_feats <- function(features, method) {
+process_cont_feats <- function(features, method, impute_in_preprocessing) {
   transformed_cont <- NULL
   removed_cont <- NULL
 
@@ -389,31 +380,12 @@ process_cont_feats <- function(features, method) {
         transformed_cont <- feats$processed
         removed_cont <- feats$removed
       }
-      sapply_fn <- select_apply("sapply")
-      cl <- sapply_fn(transformed_cont, function(x) {
-        class(x)
-      })
-      missing <-
-        is.na(transformed_cont[, cl %in% c("integer", "numeric")])
-      n_missing <- sum(missing)
-      if (n_missing > 0) {
         # impute missing data using the median value
-        transformed_cont <- sapply_fn(transformed_cont, function(x) {
-          if (class(x) %in% c("integer", "numeric")) {
-            m <- is.na(x)
-            x[m] <- stats::median(x, na.rm = TRUE)
-          }
-          return(x)
-        }) %>% dplyr::as_tibble()
-        message(
-          paste0(
-            n_missing,
-            " missing continuous value(s) were imputed using the median value of the feature."
-          )
-        )
+        if (impute_in_preprocessing) {
+          transformed_cont <- impute(transformed_cont)
+        }
       }
     }
-  }
   return(list(transformed_cont = transformed_cont, removed_cont = removed_cont))
 }
 
@@ -450,11 +422,10 @@ get_caret_processed_df <- function(features, method) {
 #' @inheritParams process_novar_feats
 #' @param full_rank whether matrix should be full rank or not (see `[caret::dummyVars])
 #' @return design matrix
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' df <- data.frame(
 #'   outcome = c("normal", "normal", "cancer"),
 #'   var1 = 1:3,
@@ -463,7 +434,6 @@ get_caret_processed_df <- function(features, method) {
 #'   var4 = c(0, 1, 0)
 #' )
 #' get_caret_dummyvars_df(df, TRUE)
-#' }
 get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) {
   check_features(features, check_missing = FALSE)
   if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
@@ -481,13 +451,11 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' @inheritParams group_correlated_features
 #'
 #' @return features where perfectly correlated ones are collapsed
-#' @keywords internal
+#' @noRd
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
-#' \dontrun{
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
-#' }
 collapse_correlated_features <- function(features, group_neg_corr = TRUE, progbar = NULL) {
   feats_nocorr <- features
   grp_feats <- NULL

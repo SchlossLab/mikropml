@@ -369,6 +369,21 @@ going on (i.e. the median value is used):
 # preprocess raw dataset with missing value in continuous feature
 preprocess_data(dataset = miss_cont_df, outcome_colname = "outcome", method = NULL)
 ```
+#### Impute after the train/test split in run_ml.R
+To delay this step until after the train/test split in run_ml.R, set the impute_in_preprocessing option to FALSE as shown here:
+
+```{r}
+# preprocess raw dataset with missing value in continuous feature
+preprocess_data(dataset = miss_cont_df, outcome_colname = "outcome", method = NULL, impute_in_preprocessing=FALSE)
+```
+To impute the data after the train/test split in run_ml.R, set the impute_after_split option to TRUE as shown here:
+```{r, eval = FALSE}
+results <- run_ml(otu_mini_bin,
+  "glmnet",
+  outcome_colname = "dx",
+  seed = 2019, impute_after_split = TRUE
+)
+```
 
 ## Putting it all together
 

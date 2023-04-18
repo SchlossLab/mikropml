@@ -144,6 +144,7 @@ run_ml <-
            group_partitions = NULL,
            corr_thresh = 1,
            seed = NA,
+           impute_after_split = FALSE,
            ...) {
     check_all(
       dataset,
@@ -162,7 +163,7 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-
+    
     # `future.apply` is required for `find_feature_importance()`.
     # check it here to adhere to the fail fast principle.
     if (find_feature_importance) {
@@ -173,20 +174,20 @@ run_ml <-
     if (find_feature_importance) {
       check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
     }
-
+    
     dataset <- dataset %>%
       randomize_feature_order(outcome_colname) %>%
       # convert tibble to dataframe to silence warning from caret::train():
       # "Warning: Setting row names on a tibble is deprecated.."
       as.data.frame()
-
+    
     outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
-
+    
     if (length(training_frac) == 1) {
       training_inds <- get_partition_indices(outcomes_vctr,
-        training_frac = training_frac,
-        groups = groups,
-        group_partitions = group_partitions
+                                             training_frac = training_frac,
+                                             groups = groups,
+                                             group_partitions = group_partitions
       )
     } else {
       training_inds <- training_frac
@@ -201,30 +202,34 @@ run_ml <-
     }
     check_training_frac(training_frac)
     check_training_indices(training_inds, dataset)
-
+    
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
+    if (impute_after_split == TRUE) {
+      train_data <- impute(train_data)
+      test_data <- impute(test_data)
+    }
     # train_groups & test_groups will be NULL if groups is NULL
     train_groups <- groups[training_inds]
     test_groups <- groups[-training_inds]
-
+    
     if (is.null(hyperparameters)) {
       hyperparameters <- get_hyperparams_list(dataset, method)
     }
     tune_grid <- get_tuning_grid(hyperparameters, method)
-
-
+    
+    
     outcome_type <- get_outcome_type(outcomes_vctr)
     class_probs <- outcome_type != "continuous"
-
+    
     if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
     }
-
+    
     if (is.null(perf_metric_name)) {
       perf_metric_name <- get_perf_metric_name(outcome_type)
     }
-
+    
     if (is.null(cross_val)) {
       cross_val <- define_cv(
         train_data,
@@ -238,8 +243,8 @@ run_ml <-
         group_partitions = group_partitions
       )
     }
-
-
+    
+    
     message("Training the model...")
     trained_model_caret <- train_model(
       train_data = train_data,
@@ -254,7 +259,7 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
-
+    
     if (calculate_performance) {
       performance_tbl <- get_performance_tbl(
         trained_model_caret,
@@ -269,7 +274,7 @@ run_ml <-
     } else {
       performance_tbl <- "Skipped calculating performance"
     }
-
+    
     if (find_feature_importance) {
       message("Finding feature importance...")
       feature_importance_tbl <- get_feature_importance(
@@ -287,7 +292,7 @@ run_ml <-
     } else {
       feature_importance_tbl <- "Skipped feature importance"
     }
-
+    
     return(
       list(
         trained_model = trained_model_caret,

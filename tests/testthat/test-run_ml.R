@@ -309,3 +309,86 @@ test_that("models use case weights when provided", {
   expect_true("weights" %in% colnames(results_custom_train$trained_model$pred))
   expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })
+
+test_that("make sure impute function on train data set works", {
+  train_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"),
+                           var1 = 1:4,
+                           var2 = c("a", "b", "c", "d"),
+                           var3 = c("no", "yes", "no", "no"),
+                           var4 = c(0, 1, 0, 0),
+                           var5 = c(0, 0, 0, 0),
+                           var6 = c("no", "no", "no", "no"),
+                           var7 = c(1, 1, 0, 0),
+                           var8 = c(5, 6, NA, 7),
+                           var9 = c(NA, 1, 1, 0),
+                           var10 = c(1, 0, NA, NA))
+  test_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"), var11 = c(1, 1, NA, NA),
+                          var12 = c(1, 2, NA, 4))
+  train_data_output <- dplyr::tibble(
+    outcome = c("normal", "normal", "cancer", "cancer"),
+    var1 = c('1', '2', '3', '4'),
+    var2 = c("a", "b", "c", "d"),
+    var3 = c("no", "yes", "no", "no"),
+    var4 = c('0', '1', '0', '0'),
+    var5 = c('0', '0', '0', '0'),
+    var6 = c("no", "no", "no", "no"),
+    var7 = c('1', '1', '0', '0'),
+    var8 = c('5', '6', '6', '7'),
+    var9 = c('1', '1', '1', '0'),
+    var10 = c('1', '0', '0.5', '0.5'))
+  results_output <- impute(train_data)
+  expect_equal(train_data_output, results_output)
+})
+
+test_that("make sure impute function on test data set works", {
+    train_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"),
+                             var1 = 1:4,
+                             var2 = c("a", "b", "c", "d"),
+                             var3 = c("no", "yes", "no", "no"),
+                             var4 = c(0, 1, 0, 0),
+                             var5 = c(0, 0, 0, 0),
+                             var6 = c("no", "no", "no", "no"),
+                             var7 = c(1, 1, 0, 0),
+                             var8 = c(5, 6, NA, 7),
+                             var9 = c(NA, 1, 1, 0),
+                             var10 = c(1, 0, NA, NA))
+    test_data <- data.frame(outcome = c("normal", "normal", "cancer", "cancer"), var11 = c(1, 1, NA, NA),
+                            var12 = c(1, 2, NA, 4))
+    test_data_output <- dplyr::tibble(
+      outcome = c("normal", "normal", "cancer", "cancer"), var11 = c('1', '1', '1', '1'),
+      var12 = c('1', '2', '2', '4'))
+    results_output <- impute(test_data)
+    expect_equal(test_data_output, results_output)
+  })
+  
+
+temp_df <- otu_mini_bin
+Otu00011 <- c(6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 
+              6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, NA, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+              6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 
+              5, 5)
+mini_bin_with_nas <- otu_mini_bin %>% mutate(Otu00011)
+
+test_that("data gets imputed when impute_after_split is set to TRUE", {
+  results <- run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, TRUE)
+  temp <- colSums(is.na(results$test_data)) 
+  num_nas <- sum(temp)
+  expect_equal(0, num_nas) %>% suppressMessages() 
+  temp <- colSums(is.na(results$trained_model$trainingData)) 
+  num_nas <- sum(temp)
+  expect_equal(0, num_nas) %>% suppressMessages()
+})
+
+test_that("data is not imputed when impute_after_split is set to FALSE", {
+  expect_error(run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019, FALSE),NULL) %>% suppressMessages()
+})
+
+test_that("data is not imputed when impute_after_split is not set", {
+  expect_error(run_ml(mini_bin_with_nas, "glmnet", 'dx', NULL, FALSE, TRUE, 5, 100, NULL, 0.5, NULL, NULL, NULL, NULL, 1, 2019),NULL) %>% suppressMessages()
+})
