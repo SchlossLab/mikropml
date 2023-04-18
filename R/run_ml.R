@@ -1,5 +1,3 @@
-# TODO: test if calling these functions works
-# TODO: figure out if there's a way to only specify option in one place (for runml and for preprocess)
 #' Run the machine learning pipeline
 #'
 #' This function splits the data set into a train & test set,
@@ -146,7 +144,7 @@ run_ml <-
            group_partitions = NULL,
            corr_thresh = 1,
            seed = NA,
-           impute_in_training = FALSE,
+           impute_after_split = FALSE,
            ...) {
     check_all(
       dataset,
@@ -207,18 +205,9 @@ run_ml <-
     
     train_data <- dataset[training_inds, ]
     test_data <- dataset[-training_inds, ]
-    if (impute_in_training == TRUE) {
-      
-      train_processed_data <- prep_data(train_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
-      train_processed_feats <- train_processed_data$processed_feats
-      split_dat <- train_processed_data$split_dat
-      train_data <- dplyr::bind_cols(split_dat$outcome, train_processed_feats) %>%
-        dplyr::as_tibble()
-      test_processed_data <- prep_data(test_data, outcome_colname, prefilter_threshold=1, method=c("center", "scale"), impute_in_preprocessing=TRUE, to_numeric=TRUE)
-      test_processed_feats <- test_processed_data$processed_feats
-      split_dat <- test_processed_data$split_dat
-      test_data <- dplyr::bind_cols(split_dat$outcome, test_processed_feats) %>%
-        dplyr::as_tibble()
+    if (impute_after_split == TRUE) {
+      train_data <- impute(train_data)
+      test_data <- impute(test_data)
     }
     # train_groups & test_groups will be NULL if groups is NULL
     train_groups <- groups[training_inds]
