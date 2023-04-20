@@ -671,3 +671,25 @@ test_that("preprocess_data replaces spaces in outcome column values (class label
     dat_proc
   ) %>% suppressMessages()
 })
+
+test_that("preprocess_data imputes medians for missing numeric values", {
+    test_dat <- data.frame(
+        outcome = c("normal", "normal", "cancer", "cancer"),
+        var1 = 1:4,
+        var2 = c(1, 0, NA, 0.5),
+        var3 = c(0, 1, 2, NA)
+    )
+    preproc_dat <- preprocess_data(test_dat,
+                                   outcome_colname = 'outcome',
+                                   method = NULL)$dat_transformed
+    expect_equal(
+        preproc_dat,
+        structure(list(outcome = c("normal", "normal", "cancer", "cancer"
+        ), var1 = c(1, 2, 3, 4), var2 = c(1, 0, 0.5, 0.5), var3 = c(0,
+                                                                    1, 2, 1)), class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA,
+                                                                                                                                       -4L))
+    )
+    # imputing missing values does not type cast numerics to doubles
+    expect_equal(class(preproc_dat$var2), 'numeric')
+    expect_equal(class(preproc_dat$var3), 'numeric')
+})
