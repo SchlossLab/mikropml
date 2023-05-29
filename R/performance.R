@@ -122,12 +122,14 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
   preds <- stats::predict(trained_model, test_data, type = pred_type)
   if (class_probs) {
     if (is.factor(test_data %>% dplyr::pull(outcome_colname))) {
-        uniq_obs <- test_data %>% dplyr::pull(outcome_colname) %>% levels()
+      uniq_obs <- test_data %>%
+        dplyr::pull(outcome_colname) %>%
+        levels()
     } else {
-        uniq_obs <- unique(c(test_data %>% dplyr::pull(outcome_colname),
-                             as.character(trained_model$pred$obs)
-                             )
-                           )
+      uniq_obs <- unique(c(
+        test_data %>% dplyr::pull(outcome_colname),
+        as.character(trained_model$pred$obs)
+      ))
     }
     obs <- factor(test_data %>% dplyr::pull(outcome_colname), levels = uniq_obs)
     pred_class <- factor(names(preds)[apply(preds, 1, which.max)], levels = uniq_obs)
