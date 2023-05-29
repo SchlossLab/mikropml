@@ -1,6 +1,6 @@
 Package: mikropml
 Title: User-Friendly R Package for Supervised Machine Learning Pipelines
-Version: 1.6.0.9000
+Version: 1.6.0.9001
 Date: 2023-04-14
 Authors@R: 
     c(person(given = "Begüm",
