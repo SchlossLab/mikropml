@@ -305,42 +305,49 @@ check_outcome_value <- function(dataset, outcome_colname, pos_outcome = NULL) {
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
-#' dat <- data.frame('dx' = c('a','b','a','b','b','a'), feat = 1:6)
-#' dat %>% set_outcome_factor('dx', 'a')
-#' dat %>% set_outcome_factor('dx', 'b')
+#' dat <- data.frame("dx" = c("a", "b", "a", "b", "b", "a"), feat = 1:6)
+#' dat %>% set_outcome_factor("dx", "a")
+#' dat %>% set_outcome_factor("dx", "b")
 set_outcome_factor <- function(dataset, outcome_colname, pos_class) {
-    relevel_outcome <- FALSE
-    outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
-    # make sure it's either a factor or pos_class is set.
-    # the first factor level is used as the positive class by caret
-    if (!is.factor(outcomes_vctr)) {
-        if (is.null(pos_class)) {
-            stop(paste0("Either the outcome column `", outcome_colname,
-                        "` must be a factor with the first factor level being the positive class,\n",
-                        "or you must specify `pos_class`."))
-        }
-        relevel_outcome <- TRUE
-    } else {
-        first_lvl <- levels(outcomes_vctr)[1]
-        if (!is.null(pos_class) & pos_class != first_lvl) {
-            warning(paste0('`pos_class` is set, but it is not the first level in the outcome column. ',
-                           'Releveling the outcome column to set ',
-                           '`pos_class`=', pos_class, ' as the first level.'))
-            relevel_outcome <- TRUE
-        }
+  relevel_outcome <- FALSE
+  outcomes_vctr <- dataset %>% dplyr::pull(outcome_colname)
+  # make sure it's either a factor or pos_class is set.
+  # the first factor level is used as the positive class by caret
+  if (!is.factor(outcomes_vctr)) {
+    if (is.null(pos_class)) {
+      stop(paste0(
+        "Either the outcome column `", outcome_colname,
+        "` must be a factor with the first factor level being the positive class,\n",
+        "or you must specify `pos_class`."
+      ))
     }
-    if (isTRUE(relevel_outcome)) {
-        if (!(pos_class %in% outcomes_vctr)) {
-            stop(paste0('pos_class `', pos_class,
-                        '` not found in outcome column.'))
-        }
-        dataset[outcome_colname] <- factor(outcomes_vctr,
-                                           levels = unique(c(pos_class,
-                                                             outcomes_vctr
-                                                             ))
-                                           )
+    relevel_outcome <- TRUE
+  } else {
+    first_lvl <- levels(outcomes_vctr)[1]
+    if (!is.null(pos_class) & pos_class != first_lvl) {
+      warning(paste0(
+        "`pos_class` is set, but it is not the first level in the outcome column. ",
+        "Releveling the outcome column to set ",
+        "`pos_class`=", pos_class, " as the first level."
+      ))
+      relevel_outcome <- TRUE
     }
-    return(dataset)
+  }
+  if (isTRUE(relevel_outcome)) {
+    if (!(pos_class %in% outcomes_vctr)) {
+      stop(paste0(
+        "pos_class `", pos_class,
+        "` not found in outcome column."
+      ))
+    }
+    dataset[outcome_colname] <- factor(outcomes_vctr,
+      levels = unique(c(
+        pos_class,
+        outcomes_vctr
+      ))
+    )
+  }
+  return(dataset)
 }
 
 #' Check whether package(s) are installed

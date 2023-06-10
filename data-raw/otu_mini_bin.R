@@ -35,7 +35,7 @@ otu_mini_group <- c(
 otu_mini_bin_results_glmnet <- mikropml::run_ml(otu_mini_bin, # use built-in hyperparams
   "glmnet",
   outcome_colname = "dx",
-  pos_class = 'cancer',
+  pos_class = "cancer",
   find_feature_importance = FALSE,
   seed = 2019,
   cv_times = 2
@@ -78,7 +78,7 @@ use_data(otu_mini_cv, overwrite = TRUE)
 otu_mini_bin_results_rf <- mikropml::run_ml(otu_mini_bin,
   "rf",
   outcome_colname = "dx",
-  pos_class = 'cancer',
+  pos_class = "cancer",
   find_feature_importance = TRUE,
   seed = 2019,
   cv_times = 2,
@@ -89,7 +89,7 @@ use_data(otu_mini_bin_results_rf, overwrite = TRUE)
 otu_mini_bin_results_svmRadial <- mikropml::run_ml(otu_mini_bin,
   "svmRadial",
   outcome_colname = "dx",
-  pos_class = 'cancer',
+  pos_class = "cancer",
   find_feature_importance = FALSE,
   seed = 2019,
   cv_times = 2
@@ -99,7 +99,7 @@ use_data(otu_mini_bin_results_svmRadial, overwrite = TRUE)
 otu_mini_bin_results_xgbTree <- mikropml::run_ml(otu_mini_bin,
   "xgbTree",
   outcome_colname = "dx",
-  pos_class = 'cancer',
+  pos_class = "cancer",
   find_feature_importance = FALSE,
   seed = 2019,
   cv_times = 2
@@ -109,7 +109,7 @@ use_data(otu_mini_bin_results_xgbTree, overwrite = TRUE)
 otu_mini_bin_results_rpart2 <- mikropml::run_ml(otu_mini_bin,
   "rpart2",
   outcome_colname = "dx",
-  pos_class = 'cancer',
+  pos_class = "cancer",
   find_feature_importance = FALSE,
   seed = 2019,
   cv_times = 2

@@ -125,13 +125,13 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname,
   obs <- test_data %>% dplyr::pull(outcome_colname)
   if (class_probs) {
     if (is.factor(obs)) {
-        uniq_obs <- obs %>% levels()
+      uniq_obs <- obs %>% levels()
     } else {
-      uniq_obs <- unique(c(pos_class,
-                           test_data %>% dplyr::pull(outcome_colname),
-                           as.character(trained_model$pred$obs)
-                           )
-                         )
+      uniq_obs <- unique(c(
+        pos_class,
+        test_data %>% dplyr::pull(outcome_colname),
+        as.character(trained_model$pred$obs)
+      ))
       obs <- factor(test_data %>% dplyr::pull(outcome_colname), levels = uniq_obs)
     }
     # TODO refactor this line

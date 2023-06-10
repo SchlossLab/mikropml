@@ -221,9 +221,9 @@ run_ml <-
 
     outcome_type <- get_outcome_type(outcomes_vctr)
     class_probs <- outcome_type != "continuous"
-    if (outcome_type == 'binary') {
-        # enforce factor levels
-        dataset <- dataset %>% set_outcome_factor(outcome_colname, pos_class)
+    if (outcome_type == "binary") {
+      # enforce factor levels
+      dataset <- dataset %>% set_outcome_factor(outcome_colname, pos_class)
     }
 
     if (is.null(perf_metric_function)) {
