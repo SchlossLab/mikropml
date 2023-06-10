@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.5.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.6.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,6 +57,20 @@
       <small>Source: <a href="https://github.com/SchlossLab/mikropml/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.6.0" id="mikropml-160">mikropml 1.6.0<a class="anchor" aria-label="anchor" href="#mikropml-160"></a></h2><p class="text-muted">CRAN release: 2023-04-14</p>
+<ul><li>New functions:
+<ul><li>
+<code><a href="../reference/bootstrap_performance.html">bootstrap_performance()</a></code> allows you to calculate confidence intervals for the model performance from a single train/test split by bootstrapping the test set (<a href="https://github.com/SchlossLab/mikropml/issues/329" class="external-link">#329</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
+<li>
+<code><a href="../reference/calc_balanced_precision.html">calc_balanced_precision()</a></code> allows you to calculate balanced precision and balanced area under the precision-recall curve (<a href="https://github.com/SchlossLab/mikropml/issues/333" class="external-link">#333</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
+</ul></li>
+<li>Improved output from <code>find_feature_importance()</code> (<a href="https://github.com/SchlossLab/mikropml/issues/326" class="external-link">#326</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).
+<ul><li>Renamed the column <code>names</code> to <code>feat</code> to represent each feature or group of correlated features.</li>
+<li>New column <code>lower</code> and <code>upper</code> to report the bounds of the empirical 95% confidence interval from the permutation test. See <code><a href="../articles/parallel.html">vignette('parallel')</a></code> for an example of plotting feature importance with confidence intervals.</li>
+</ul></li>
+<li>Minor documentation improvements (<a href="https://github.com/SchlossLab/mikropml/issues/323" class="external-link">#323</a>, <a href="https://github.com/SchlossLab/mikropml/issues/332" class="external-link">#332</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.5.0" id="mikropml-150">mikropml 1.5.0<a class="anchor" aria-label="anchor" href="#mikropml-150"></a></h2><p class="text-muted">CRAN release: 2023-01-16</p>
 <ul><li>New example showing how to plot feature importances in the <code>parallel</code> vignette (<a href="https://github.com/SchlossLab/mikropml/issues/310" class="external-link">#310</a>, <a href="https://github.com/kelly-sovacool" class="external-link">@kelly-sovacool</a>).</li>

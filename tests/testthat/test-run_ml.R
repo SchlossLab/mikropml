@@ -50,6 +50,7 @@ test_that("run_ml works for logistic regression", {
       # use built-in hyperparameters
       "glmnet",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       find_feature_importance = FALSE,
       seed = 2019,
       cv_times = 2
@@ -84,6 +85,7 @@ test_that("run_ml works for random forest with grouping & feature importance", {
     mikropml::run_ml(otu_mini_bin,
       "rf",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       find_feature_importance = TRUE,
       seed = 2019,
       cv_times = 2,
@@ -102,6 +104,7 @@ test_that("run_ml works for svmRadial", {
     mikropml::run_ml(otu_mini_bin,
       "svmRadial",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       find_feature_importance = FALSE,
       seed = 2019,
       cv_times = 2
@@ -120,6 +123,7 @@ test_that("run_ml works for xgbTree", {
       otu_mini_bin,
       "xgbTree",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       find_feature_importance = FALSE,
       seed = 2019,
       cv_times = 2
@@ -137,6 +141,7 @@ test_that("run_ml works for rpart2", {
     mikropml::run_ml(otu_mini_bin,
       "rpart2",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       find_feature_importance = FALSE,
       seed = 2019,
       cv_times = 2
@@ -210,6 +215,7 @@ test_that("run_ml uses custom training indices when provided", {
   expect_warning(
     results_custom_train <- run_ml(otu_mini_bin,
       "glmnet",
+      pos_class = 'cancer',
       kfold = 2,
       cv_times = 5,
       training_frac = training_rows,
@@ -230,6 +236,7 @@ test_that("run_ml uses custom group partitions", {
     expect_message(
       results_grp_part <- run_ml(otu_mini_bin,
         "glmnet",
+        pos_class = 'cancer',
         cv_times = 2,
         training_frac = 0.8,
         groups = grps,
@@ -255,6 +262,7 @@ test_that("run_ml catches bad training_frac values", {
     run_ml(otu_mini_bin,
       "glmnet",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       training_frac = 0
     ),
     "`training_frac` must be a numeric between 0 and 1."
@@ -263,6 +271,7 @@ test_that("run_ml catches bad training_frac values", {
     run_ml(otu_mini_bin,
       "glmnet",
       outcome_colname = "dx",
+      pos_class = 'cancer',
       training_frac = 1
     ),
     "`training_frac` must be a numeric between 0 and 1."
@@ -298,6 +307,7 @@ test_that("models use case weights when provided", {
     results_custom_train <- run_ml(
       otu_mini_bin,
       "glmnet",
+      pos_class = 'cancer',
       kfold = 2,
       cv_times = 5,
       training_frac = train_weights %>% pull(row_num),
