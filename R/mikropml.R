@@ -22,6 +22,5 @@
 #' - [Parallel processing](http://www.schlosslab.org/mikropml/articles/parallel.html)
 #' - [The mikropml paper](http://www.schlosslab.org/mikropml/articles/paper.html)
 #'
-#' @docType package
-#' @name mikropml
-NULL
+#' @keywords internal
+"_PACKAGE"
