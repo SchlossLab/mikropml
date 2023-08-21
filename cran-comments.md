@@ -1,5 +1,4 @@
-This is a re-submission.
-Fixed the CITATION file to use bibentry() instead of the old-style citEntry().
+This is a resubmission: I fixed the date.
 
 ## Test environments
 
