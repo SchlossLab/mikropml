@@ -55,5 +55,5 @@ train_data <- otu_mini_bin[training_inds, ]
 test_data <- otu_mini_bin[-training_inds, ]
 }
 \author{
-Kelly Sovacool, {sovacool@umich.edu}
+Kelly Sovacool, \email{sovacool@umich.edu}
 }

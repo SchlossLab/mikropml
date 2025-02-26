@@ -13,6 +13,6 @@ default lambda & alpha values
 Alpha is set to \code{0} for ridge (L2). An alpha of \code{1} would make it lasso (L1).
 }
 \author{
-Zena Lapp, {zenalapp@umich.edu}
+Zena Lapp, \email{zenalapp@umich.edu}
 }
 \keyword{internal}
