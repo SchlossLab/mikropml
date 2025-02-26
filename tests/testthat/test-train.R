@@ -106,9 +106,9 @@ test_that("case weights work", {
     dplyr::distinct() %>%
     dplyr::rename(dx = obs, p = weights)
 
-  expect_true(dplyr::all_equal(
-    model_weights,
-    case_weights_dat
+  expect_true(all.equal(
+    model_weights %>% dplyr::arrange(dplyr::desc(dx)),
+    case_weights_dat %>% dplyr::arrange(dplyr::desc(dx))
   ))
   expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })
