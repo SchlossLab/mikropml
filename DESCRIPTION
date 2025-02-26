@@ -45,7 +45,11 @@ Authors@R:
              family = "Lucas",
              role = "ctb",
              email = "salucas@umich.edu",
-             comment = c(ORCID = "0000-0003-1676-5801")))
+             comment = c(ORCID = "0000-0003-1676-5801")),
+      person(given = "Tuomas",
+             family = "Borman",
+             role = "ctb",
+             comment = c(ORCID = "0000-0002-8563-8884")))
 Description: An interface to build machine learning models for
     classification and regression problems. 'mikropml' implements the ML
     pipeline described by Topçuoğlu et al. (2020)
@@ -71,6 +75,10 @@ Imports:
     rlang,
     rpart,
     stats,
+    S4Vectors,
+    SingleCellExperiment,
+    SummarizedExperiment,
+    TreeSummarizedExperiment,
     utils,
     xgboost
 Suggests:
@@ -95,5 +103,5 @@ VignetteBuilder:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3

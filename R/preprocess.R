@@ -56,11 +56,93 @@
 #' ## run the function and watch the live progress udpates
 #' dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
 #' }
-preprocess_data <- function(dataset, outcome_colname,
-                            method = c("center", "scale"),
-                            remove_var = "nzv", collapse_corr_feats = TRUE,
-                            to_numeric = TRUE, group_neg_corr = TRUE,
-                            prefilter_threshold = 1) {
+#' 
+setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
+  standardGeneric("preprocess_data"))
+
+#' @importFrom SummarizedExperiment assayNames assay colData
+#' @importFrom SingleCellExperiment altExpNames altExp
+setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment"),
+    function(dataset, outcome_colname, assay.type = "counts", altexp = NULL,
+             name = "preprocessed", ...){
+  if( !(is.null(altexp) || (is.character(altexp) &&
+      length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
+    stop("'altexp' must be NULL or specify alternative experiment from ",
+         "altExpNames(x).", call. = FALSE)
+  }
+  if( !is.null(altexp) ){
+    dataset <- altExp(dataset, altexp)
+  }
+  if( !(is.character(assay.type) && length(assay.type) == 1L &&
+        assay.type %in% assayNames(dataset) ) ){
+    stop("'assay.type' must specify assay from assayNames(x).", call. = FALSE)
+  }
+  if( !(is.character(outcome_colname) && length(outcome_colname) == 1L &&
+        outcome_colname %in% colnames(colData(dataset)) ) ){
+    stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
+  }
+  if( !(is.character(name) && length(name) == 1L ) ){
+    stop("'name' must be single character value.", call. = FALSE)
+  }
+  # Get assay and specified column
+  mat <- assay(dataset, assay.type) |> t()
+  col <- colData(dataset)[ , outcome_colname, drop = FALSE]
+  df <- cbind(mat, col) |> as.data.frame()
+  # Preprocess data
+  res <- preprocess_data(dataset = df, outcome_colname = outcome_colname, ...)
+  # Add data back to SE
+  dataset <- .add_data_to_se(dataset, res, outcome_colname, name)
+  return(dataset)
+  }
+)
+
+#' @importFrom S4Vectors SimpleList DataFrame
+#' @importFrom SummarizedExperiment assay
+#' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
+add_data_to_se <- function(tse, res, outcome_colname, name){
+  # Remove samples if the outcome value was missing
+  if( nrow(res[[1L]]) != ncol(tse) ){
+    tse <- tse[ , !is.na(tse[[ outcome_colname ]])]
+  }
+  # Get assay data
+  mat <- res[[1]]
+  mat <- mat[ , !colnames(mat) %in% outcome_colname, drop = FALSE] |> t()
+  # If the features do not match, add preprocessed data to altExp
+  if( length(setdiff( rownames(mat), rownames(tse))) > 0L ){
+    message("Adding preprocessed data to altExp(dataset, '", name, "').")
+    # Create new TreeSE
+    assays <- setNames(SimpleList(mat), name)
+    # If features were grouped, we add the grouping info to rowData
+    rd <- NULL
+    if( !is.null(res[[2]]) ){
+      rd <- res[[2]]
+      rd <- rd[ match(rownames(mat), names(rd)) ]
+      rd <- rd |> I() |> DataFrame()
+      colnames(rd) <- names(res)[[2]]
+      rownames(rd) <- rownames(mat)
+    }
+    # Create TreeSE
+    tse_add <- TreeSummarizedExperiment(
+      assays = assays, colData = colData(tse), rowData = rd)
+    # Add info on remvoed featrues to metadata
+    metadata(tse_add)[["remove_feats"]] <- res[["removed_feats"]]
+    # Add new TreeSE to altExp of old one
+    altExp(tse, name) <- tse_add
+  } else{
+    # If all features match, we can add the matrix back to original TreeSE as
+    # new assay
+    mat <- mat[rownames(tse), , drop = FALSE]
+    assay(tse, name, withDimnames = FALSE) <- mat
+    metadata(tse)[["remove_feats"]] <- res[["removed_feats"]]
+  }
+  return(tse)
+}
+
+setMethod("preprocess_data", signature = c(dataset = "ANY"),
+    function(dataset, outcome_colname, method = c("center", "scale"),
+             remove_var = "nzv", collapse_corr_feats = TRUE,
+             to_numeric = TRUE, group_neg_corr = TRUE, prefilter_threshold = 1
+             , ...) {
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 20, message = "preprocessing")
@@ -133,7 +215,7 @@ preprocess_data <- function(dataset, outcome_colname,
     grp_feats = grp_feats,
     removed_feats = removed_feats
   ))
-}
+})
 
 #' Remove missing outcome values
 #'

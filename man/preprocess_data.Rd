@@ -4,22 +4,14 @@
 \alias{preprocess_data}
 \title{Preprocess data prior to running machine learning}
 \usage{
-preprocess_data(
-  dataset,
-  outcome_colname,
-  method = c("center", "scale"),
-  remove_var = "nzv",
-  collapse_corr_feats = TRUE,
-  to_numeric = TRUE,
-  group_neg_corr = TRUE,
-  prefilter_threshold = 1
-)
+preprocess_data(dataset, ...)
 }
 \arguments{
 \item{dataset}{Data frame with an outcome variable and other columns as features.}
 
-\item{outcome_colname}{Column name as a string of the outcome variable
-(default \code{NULL}; the first column will be chosen automatically).}
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
+case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
+See the \code{caret::train()} docs for more details.}
 
 \item{method}{Methods to preprocess the data, described in
 \code{\link[caret:preProcess]{caret::preProcess()}} (default: \code{c("center","scale")}, use \code{NULL} for
@@ -32,9 +24,6 @@ no normalization).}
 features.}
 
 \item{to_numeric}{Whether to change features to numeric where possible.}
-
-\item{group_neg_corr}{Whether to group negatively correlated features
-together (e.g. c(0,1) and c(1,0)).}
 
 \item{prefilter_threshold}{Remove features which only have non-zero & non-NA
 values N rows or fewer (default: 1). Set this to -1 to keep all columns at
@@ -81,6 +70,7 @@ progressr::handlers(global = TRUE)
 ## run the function and watch the live progress udpates
 dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
 }
+
 }
 \author{
 Zena Lapp, \email{zenalapp@umich.edu}

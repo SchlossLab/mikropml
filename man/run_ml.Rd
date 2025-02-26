@@ -4,28 +4,14 @@
 \alias{run_ml}
 \title{Run the machine learning pipeline}
 \usage{
-run_ml(
-  dataset,
-  method,
-  outcome_colname = NULL,
-  hyperparameters = NULL,
-  find_feature_importance = FALSE,
-  calculate_performance = TRUE,
-  kfold = 5,
-  cv_times = 100,
-  cross_val = NULL,
-  training_frac = 0.8,
-  perf_metric_function = NULL,
-  perf_metric_name = NULL,
-  groups = NULL,
-  group_partitions = NULL,
-  corr_thresh = 1,
-  seed = NA,
-  ...
-)
+run_ml(dataset, ...)
 }
 \arguments{
 \item{dataset}{Data frame with an outcome variable and other columns as features.}
+
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
+case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
+See the \code{caret::train()} docs for more details.}
 
 \item{method}{ML method.
 Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
@@ -42,6 +28,9 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 
 \item{hyperparameters}{Dataframe of hyperparameters
 (default \code{NULL}; sensible defaults will be chosen automatically).}
+
+\item{seed}{Random seed (default: \code{NA}).
+Your results will only be reproducible if you set a seed.}
 
 \item{find_feature_importance}{Run permutation importance (default: \code{FALSE}).
 \code{TRUE} is recommended if you would like to identify features important for
@@ -96,13 +85,6 @@ cross-validation.}
 
 \item{corr_thresh}{For feature importance, group correlations
 above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
-
-\item{seed}{Random seed (default: \code{NA}).
-Your results will only be reproducible if you set a seed.}
-
-\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
-case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
-See the \code{caret::train()} docs for more details.}
 }
 \value{
 Named list with results:
