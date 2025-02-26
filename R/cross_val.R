@@ -117,7 +117,7 @@ keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
 #'
 #' @return indices of folds for CV
 #' @keywords internal
-#' @author Zena Lapp, {zenalapp@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #'
 #' @examples
 #' \dontrun{

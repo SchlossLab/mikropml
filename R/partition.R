@@ -13,7 +13,7 @@
 #'
 #' @return Vector of row indices for the training set.
 #' @export
-#' @author Kelly Sovacool, {sovacool@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
 #' training_inds <- get_partition_indices(otu_mini_bin$dx)
@@ -51,8 +51,8 @@ get_partition_indices <- function(outcomes,
 #'
 #' @return vector of row indices for the training set
 #' @keywords internal
-#' @author Zena Lapp, {zenalapp@@umich.edu}
-#' @author Kelly Sovacool, {sovacool@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
+#' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 #' @examples
 #' \dontrun{
