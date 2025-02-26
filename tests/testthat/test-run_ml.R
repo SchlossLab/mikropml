@@ -216,8 +216,8 @@ test_that("run_ml uses custom training indices when provided", {
       seed = 2019
     )
   ) %>% suppressMessages()
-  expect_true(dplyr::all_equal(
-    results_custom_train$test_data,
+  expect_true(all.equal(
+    results_custom_train$test_data[, colnames(otu_mini_bin)],
     otu_mini_bin[-training_rows, ]
   ))
 })
@@ -244,8 +244,9 @@ test_that("run_ml uses custom group partitions", {
     group_partitions = group_part,
     training_frac = 0.8
   )
-  expect_true(dplyr::all_equal(
-    results_grp_part$test_data,
+  col_names <- colnames(otu_mini_bin)
+  expect_true(all.equal(
+    results_grp_part$test_data[, col_names],
     otu_mini_bin[-train_ind, ]
   ))
 })
