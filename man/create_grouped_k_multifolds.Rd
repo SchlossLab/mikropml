@@ -27,6 +27,6 @@ folds <- create_grouped_k_multifolds(groups, kfold = 2, cv_times = 2)
 }
 }
 \author{
-Zena Lapp, {zenalapp@umich.edu}
+Zena Lapp, \email{zenalapp@umich.edu}
 }
 \keyword{internal}

@@ -82,7 +82,7 @@ get_hyperparams_list <- function(dataset, method) {
 #'
 #' @return default lambda & alpha values
 #' @keywords internal
-#' @author Zena Lapp, {zenalapp@@umich.edu}
+#' @author Zena Lapp, \email{zenalapp@@umich.edu}
 set_hparams_glmnet <- function() {
   return(list(
     lambda = 10^seq(-4, 1, 1),
