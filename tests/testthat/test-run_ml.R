@@ -246,7 +246,7 @@ test_that("run_ml uses custom group partitions", {
   )
   col_names <- colnames(otu_mini_bin)
   expect_true(all.equal(
-    results_grp_part$test_data[,col_names],
+    results_grp_part$test_data[, col_names],
     otu_mini_bin[-train_ind, ]
   ))
 })
