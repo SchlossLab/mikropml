@@ -134,7 +134,7 @@ setGeneric("run_ml", signature = "dataset", function(dataset, ...)
 #' @importFrom SingleCellExperiment altExpNames altExp
 setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
   function(dataset, method, outcome_colname, assay.type = "counts",
-           altexp = NULL, ...){
+           col.var = NULL, altexp = NULL, ...){
     if( !(is.null(altexp) || (is.character(altexp) &&
           length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
       stop("'altexp' must be NULL or specify alternative experiment from ",
@@ -151,9 +151,13 @@ setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
           outcome_colname %in% colnames(colData(dataset)) ) ){
       stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
     }
-    # Get assay and specified column
+    if( !(is.null(col.var) ||
+          (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))) ) ){
+      stop("'col.var' must be NULL or specify columns from colData(x).", call. = FALSE)
+    }
+    # Get assay and specified columns
     mat <- assay(dataset, assay.type) |> t()
-    col <- colData(dataset)[ , outcome_colname, drop = FALSE]
+    col <- colData(dataset)[ , c(outcome_colname, col.var), drop = FALSE]
     df <- cbind(mat, col) |> as.data.frame()
     # Train model
     res <- run_ml(dataset = df, method = method, outcome_colname = outcome_colname, ...)

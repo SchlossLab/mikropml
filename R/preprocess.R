@@ -63,8 +63,8 @@ setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
 #' @importFrom SummarizedExperiment assayNames assay colData
 #' @importFrom SingleCellExperiment altExpNames altExp
 setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment"),
-    function(dataset, outcome_colname, assay.type = "counts", altexp = NULL,
-             name = "preprocessed", ...){
+    function(dataset, outcome_colname, assay.type = "counts", col.var = NULL,
+             altexp = NULL, name = "preprocessed", ...){
   if( !(is.null(altexp) || (is.character(altexp) &&
       length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
     stop("'altexp' must be NULL or specify alternative experiment from ",
@@ -81,17 +81,21 @@ setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment")
         outcome_colname %in% colnames(colData(dataset)) ) ){
     stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
   }
+  if( !(is.null(col.var) ||
+        (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))) ) ){
+    stop("'col.var' must be NULL or specify columns from colData(x).", call. = FALSE)
+  }
   if( !(is.character(name) && length(name) == 1L ) ){
     stop("'name' must be single character value.", call. = FALSE)
   }
-  # Get assay and specified column
+  # Get assay and specified columns
   mat <- assay(dataset, assay.type) |> t()
-  col <- colData(dataset)[ , outcome_colname, drop = FALSE]
+  col <- colData(dataset)[ , c(outcome_colname, col.var), drop = FALSE]
   df <- cbind(mat, col) |> as.data.frame()
   # Preprocess data
   res <- preprocess_data(dataset = df, outcome_colname = outcome_colname, ...)
   # Add data back to SE
-  dataset <- .add_data_to_se(dataset, res, outcome_colname, name)
+  dataset <- add_data_to_se(dataset, res, outcome_colname, name)
   return(dataset)
   }
 )
