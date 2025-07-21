@@ -126,7 +126,8 @@ test_that("plot_mean_roc uses geom ribbon, line, and abline", {
         return(x$geom %>% class() %>% as.vector())
       }
     ) %>%
-      unlist(),
+      unlist() %>%
+      unname(),
     c(
       "GeomRibbon", "Geom", "ggproto", "gg", "GeomLine", "GeomPath",
       "Geom", "ggproto", "gg", "GeomAbline", "Geom", "ggproto", "gg"
@@ -144,7 +145,8 @@ test_that("plot_mean_prc uses geom ribbon, line, and hline", {
         return(x$geom %>% class() %>% as.vector())
       }
     ) %>%
-      unlist(),
+      unlist() %>%
+      unname(),
     c(
       "GeomRibbon", "Geom", "ggproto", "gg", "GeomLine", "GeomPath",
       "Geom", "ggproto", "gg", "GeomHline", "Geom", "ggproto", "gg"
