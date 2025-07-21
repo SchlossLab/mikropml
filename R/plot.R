@@ -90,7 +90,7 @@ tidy_perf_data <- function(performance_df) {
   test_colname <- cv_colname %>%
     gsub("cv_metric_", "", .)
   return(performance_df %>%
-    dplyr::select(tidyselect::all_of("method", cv_colname, test_colname)) %>%
+    dplyr::select(tidyselect::all_of(c("method", cv_colname, test_colname))) %>%
     tidyr::pivot_longer(
       cols = c(.data[[cv_colname]], .data[[test_colname]]),
       names_to = "metric"
