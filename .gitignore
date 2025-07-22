@@ -6,5 +6,6 @@
 inst/doc
 .snakemake
 /doc/
+/docs
 /Meta/
 README.html

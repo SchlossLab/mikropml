@@ -56,15 +56,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
-      - name: Docs
-        run: |
-          Rscript -e "devtools::build_site(lazy = TRUE)"
-          git add docs
-          git commit \
-          --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
-          -m "📑 Build docs site" || echo "No changes to commit"
-      - name: Push final
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
