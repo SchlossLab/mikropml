@@ -57,8 +57,8 @@ create_grouped_data_partition(groups,
 }
 }
 \author{
-Zena Lapp, {zenalapp@umich.edu}
+Zena Lapp, \email{zenalapp@umich.edu}
 
-Kelly Sovacool, {sovacool@umich.edu}
+Kelly Sovacool, \email{sovacool@umich.edu}
 }
 \keyword{internal}

@@ -71,6 +71,7 @@ Imports:
     rlang,
     rpart,
     stats,
+    tidyselect,
     utils,
     xgboost
 Suggests:
