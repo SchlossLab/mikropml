@@ -1,0 +1,6 @@
+overrides:
+  - files:
+      - "citation.cff"
+      - ".prettierrc"
+    options:
+      tabWidth: 2
