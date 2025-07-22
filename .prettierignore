@@ -1,0 +1,6 @@
+# .gitignore
+data/
+.DS_Store
+*.code-workspace
+data-raw/*.txt
+man/*
