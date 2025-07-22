@@ -63,6 +63,7 @@ Suggests:
     progressr,
     purrr,
     rmarkdown,
+    roxygen2,
     rsample,
     styler,
     testthat,
