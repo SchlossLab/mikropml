@@ -28,7 +28,7 @@ jobs:
 
       - name: Document
         run: |
-          roxygen2::document()
+          roxygen2::roxygenize()
         shell: Rscript {0}
 
       - name: Style
