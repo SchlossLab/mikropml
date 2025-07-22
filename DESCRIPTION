@@ -78,6 +78,7 @@ Imports:
     S4Vectors,
     SingleCellExperiment,
     SummarizedExperiment,
+    tidyselect,
     TreeSummarizedExperiment,
     utils,
     xgboost

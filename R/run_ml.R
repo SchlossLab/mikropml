@@ -209,7 +209,7 @@ setMethod("run_ml", signature = c(dataset = "ANY"),
     # can't have categorical features for feature importance because have to find correlations
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     if (find_feature_importance) {
-      check_cat_feats(dataset %>% dplyr::select(-outcome_colname))
+      check_cat_feats(dataset %>% dplyr::select(-tidyselect::all_of(outcome_colname)))
     }
 
     dataset <- dataset %>%
