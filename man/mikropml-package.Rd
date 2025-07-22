@@ -60,6 +60,7 @@ Other contributors:
   \item Nick Lesniak \email{nlesniak@umich.edu} (\href{https://orcid.org/0000-0001-9359-5194}{ORCID}) [contributor]
   \item Courtney Armour \email{armourc@umich.edu} (\href{https://orcid.org/0000-0002-5250-1224}{ORCID}) [contributor]
   \item Sarah Lucas \email{salucas@umich.edu} (\href{https://orcid.org/0000-0003-1676-5801}{ORCID}) [contributor]
+  \item Tuomas Borman (\href{https://orcid.org/0000-0002-8563-8884}{ORCID}) [contributor]
 }
 
 }
