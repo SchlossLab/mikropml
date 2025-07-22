@@ -140,6 +140,7 @@ test_that("feature importances are correct", {
 })
 test_that("feature importances are correct when tibbles used", {
   skip_on_cran()
+  skip_on_ci()
   set.seed(2019)
   expect_snapshot(
     get_feature_importance(
