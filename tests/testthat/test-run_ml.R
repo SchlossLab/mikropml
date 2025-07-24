@@ -89,7 +89,8 @@ test_that("run_ml works for random forest with grouping & feature importance", {
       seed = 2019,
       cv_times = 2,
       groups = otu_mini_group
-    ))
+    )
+  )
 })
 
 test_that("run_ml works for svmRadial", {
@@ -263,7 +264,7 @@ test_that("run_ml catches bad training_frac values", {
     run_ml(otu_mini_bin,
       "glmnet",
       outcome_colname = "dx",
-      training_frac = 1
+      training_frac = 1.0000001
     ),
     "`training_frac` must be a numeric between 0 and 1."
   )

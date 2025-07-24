@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-check_all <- function(dataset, method, permute, kfold, training_frac,
+check_all <- function(dataset, method, permute, kfold,
                       perf_metric_function, perf_metric_name, groups,
                       group_partitions, corr_thresh, seed, hyperparameters) {
   check_method(method, hyperparameters)
@@ -117,7 +117,7 @@ check_kfold <- function(kfold, dataset) {
   }
 }
 
-#' Check that the training fraction is between 0 and 1
+#' Check that the training fraction is greater than 0 and less than or equal to 1
 #'
 #' @param frac fraction (numeric)
 #'
@@ -129,9 +129,9 @@ check_kfold <- function(kfold, dataset) {
 #' check_training_frac(0.8)
 #' }
 check_training_frac <- function(frac) {
-  if (!is.numeric(frac) | (frac <= 0 | frac >= 1)) {
+  if (!is.numeric(frac) | (frac <= 0 | frac > 1)) {
     stop(paste0(
-      "`training_frac` must be a numeric between 0 and 1.\n",
+      "`training_frac` must be a numeric between 0 and 1 -- i.e. in (0,1].\n",
       "    You provided: ", frac
     ))
   } else if (frac < 0.5) {

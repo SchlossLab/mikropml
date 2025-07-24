@@ -2,7 +2,7 @@
 % Please edit documentation in R/checks.R
 \name{check_training_frac}
 \alias{check_training_frac}
-\title{Check that the training fraction is between 0 and 1}
+\title{Check that the training fraction is greater than 0 and less than or equal to 1}
 \usage{
 check_training_frac(frac)
 }
@@ -10,7 +10,7 @@ check_training_frac(frac)
 \item{frac}{fraction (numeric)}
 }
 \description{
-Check that the training fraction is between 0 and 1
+Check that the training fraction is greater than 0 and less than or equal to 1
 }
 \examples{
 \dontrun{
