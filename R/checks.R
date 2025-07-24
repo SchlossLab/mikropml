@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-check_all <- function(dataset, method, permute, kfold, training_frac,
+check_all <- function(dataset, method, permute, kfold,
                       perf_metric_function, perf_metric_name, groups,
                       group_partitions, corr_thresh, seed, hyperparameters) {
   check_method(method, hyperparameters)

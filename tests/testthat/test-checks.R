@@ -162,7 +162,7 @@ test_that("check_seed works", {
 
 test_that("check_all works", {
   expect_null(check_all(
-    otu_small, "glmnet", TRUE, as.integer(5), 0.8,
+    otu_small, "glmnet", TRUE, as.integer(5),
     NULL, NULL, NULL,
     NULL, NULL, NA, NULL
   ))
