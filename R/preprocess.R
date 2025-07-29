@@ -7,6 +7,9 @@
 #'   no normalization).
 #' @param remove_var Whether to remove variables with near-zero variance
 #'   (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
+#' @param corr_method method used to correlate features, described in
+#' [stats::cor()] 
+#' @param corr_thresh lower threshold used to collapse correlated features
 #' @param collapse_corr_feats Whether to keep only one of perfectly correlated
 #'   features.
 #' @param to_numeric Whether to change features to numeric where possible.
@@ -59,6 +62,8 @@
 preprocess_data <- function(dataset, outcome_colname,
                             method = c("center", "scale"),
                             remove_var = "nzv", collapse_corr_feats = TRUE,
+                            corr_method = "spearman",
+                            corr_thresh = 1,
                             to_numeric = TRUE, group_neg_corr = TRUE,
                             prefilter_threshold = 1) {
   progbar <- NULL
@@ -116,6 +121,8 @@ preprocess_data <- function(dataset, outcome_colname,
       pbtick(progbar)
     }
     feats_and_grps <- collapse_correlated_features(processed_feats,
+                                                   corr_method = corr_method, 
+                                                   corr_thresh = corr_thresh,
       group_neg_corr,
       progbar = progbar
     )
@@ -488,7 +495,10 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' \dontrun{
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 #' }
-collapse_correlated_features <- function(features, group_neg_corr = TRUE, progbar = NULL) {
+collapse_correlated_features <- function(features, group_neg_corr = TRUE, 
+                                         corr_method = corr_method, 
+                                         corr_thresh = corr_thresh,
+                                         progbar = NULL) {
   feats_nocorr <- features
   grp_feats <- NULL
   if (!is.null(features)) {
@@ -505,6 +515,8 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE, progba
     }
     if (ncol(features) != 1) {
       corr_feats <- group_correlated_features(features,
+                                              corr_method = corr_method, 
+                                              corr_thresh = corr_thresh,
         group_neg_corr = group_neg_corr
       )
       corr_cols <- gsub("\\|.*", "", corr_feats)

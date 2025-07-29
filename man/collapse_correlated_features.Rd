@@ -4,13 +4,25 @@
 \alias{collapse_correlated_features}
 \title{Collapse correlated features}
 \usage{
-collapse_correlated_features(features, group_neg_corr = TRUE, progbar = NULL)
+collapse_correlated_features(
+  features,
+  group_neg_corr = TRUE,
+  corr_method = corr_method,
+  corr_thresh = corr_thresh,
+  progbar = NULL
+)
 }
 \arguments{
 \item{features}{dataframe of features for machine learning}
 
 \item{group_neg_corr}{Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).}
+
+\item{corr_method}{correlation method. options or the same as those supported
+by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
+
+\item{corr_thresh}{For feature importance, group correlations
+above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
 \item{progbar}{optional progress bar (default: \code{NULL})}
 }

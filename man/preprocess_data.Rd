@@ -10,6 +10,8 @@ preprocess_data(
   method = c("center", "scale"),
   remove_var = "nzv",
   collapse_corr_feats = TRUE,
+  corr_method = "spearman",
+  corr_thresh = 1,
   to_numeric = TRUE,
   group_neg_corr = TRUE,
   prefilter_threshold = 1
@@ -30,6 +32,11 @@ no normalization).}
 
 \item{collapse_corr_feats}{Whether to keep only one of perfectly correlated
 features.}
+
+\item{corr_method}{method used to correlate features, described in
+\code{\link[stats:cor]{stats::cor()}}}
+
+\item{corr_thresh}{lower threshold used to collapse correlated features}
 
 \item{to_numeric}{Whether to change features to numeric where possible.}
 
