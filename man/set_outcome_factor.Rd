@@ -24,9 +24,9 @@ dataset, with the outcome column as a factor
 Check or set outcome column to be a factor with \code{pos_class} as the first level
 }
 \examples{
-dat <- data.frame('dx' = c('a','b','a','b','b','a'), feat = 1:6)
-dat \%>\% set_outcome_factor('dx', 'a')
-dat \%>\% set_outcome_factor('dx', 'b')
+dat <- data.frame("dx" = c("a", "b", "a", "b", "b", "a"), feat = 1:6)
+dat \%>\% set_outcome_factor("dx", "a")
+dat \%>\% set_outcome_factor("dx", "b")
 }
 \author{
 Kelly Sovacool, \email{sovacool@umich.edu}

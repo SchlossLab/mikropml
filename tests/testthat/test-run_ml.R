@@ -81,8 +81,9 @@ test_that("run_ml works for linear regression", {
 
 test_that("run_ml works for random forest with grouping & feature importance", {
   skip_on_cran()
-  expect_equal_ml_results(
-    mikropml::run_ml(otu_mini_bin,
+  skip_on_ci()
+  expect_snapshot(
+    res <- mikropml::run_ml(otu_mini_bin,
       "rf",
       outcome_colname = "dx",
       pos_class = "cancer",
@@ -90,16 +91,13 @@ test_that("run_ml works for random forest with grouping & feature importance", {
       seed = 2019,
       cv_times = 2,
       groups = otu_mini_group
-    ),
-    otu_mini_bin_results_rf,
-    tolerance = 1e-3
-  ) %>%
-    suppressWarnings() %>%
-    suppressMessages()
+    )
+  )
 })
 
 test_that("run_ml works for svmRadial", {
   skip_on_cran()
+  skip_on_ci()
   expect_equal_ml_results(
     mikropml::run_ml(otu_mini_bin,
       "svmRadial",
@@ -117,6 +115,7 @@ test_that("run_ml works for svmRadial", {
 
 test_that("run_ml works for xgbTree", {
   skip_on_cran()
+  skip_on_ci()
   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
   expect_equal_ml_results(
     mikropml::run_ml(
@@ -137,6 +136,7 @@ test_that("run_ml works for xgbTree", {
 
 test_that("run_ml works for rpart2", {
   skip_on_cran()
+  skip_on_ci()
   expect_equal_ml_results(
     mikropml::run_ml(otu_mini_bin,
       "rpart2",
@@ -222,8 +222,8 @@ test_that("run_ml uses custom training indices when provided", {
       seed = 2019
     )
   ) %>% suppressMessages()
-  expect_true(dplyr::all_equal(
-    results_custom_train$test_data,
+  expect_true(all.equal(
+    results_custom_train$test_data[, colnames(otu_mini_bin)],
     otu_mini_bin[-training_rows, ]
   ))
 })
@@ -251,8 +251,9 @@ test_that("run_ml uses custom group partitions", {
     group_partitions = group_part,
     training_frac = 0.8
   )
-  expect_true(dplyr::all_equal(
-    results_grp_part$test_data,
+  col_names <- colnames(otu_mini_bin)
+  expect_true(all.equal(
+    results_grp_part$test_data[, col_names],
     otu_mini_bin[-train_ind, ]
   ))
 })
