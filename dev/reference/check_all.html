@@ -55,7 +55,6 @@
 <span>  <span class="va">method</span>,</span>
 <span>  <span class="va">permute</span>,</span>
 <span>  <span class="va">kfold</span>,</span>
-<span>  <span class="va">training_frac</span>,</span>
 <span>  <span class="va">perf_metric_function</span>,</span>
 <span>  <span class="va">perf_metric_name</span>,</span>
 <span>  <span class="va">groups</span>,</span>
@@ -86,14 +85,6 @@ Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><u
 
 <dt id="arg-kfold">kfold<a class="anchor" aria-label="anchor" href="#arg-kfold"></a></dt>
 <dd><p>Fold number for k-fold cross-validation (default: <code>5</code>).</p></dd>
-
-
-<dt id="arg-training-frac">training_frac<a class="anchor" aria-label="anchor" href="#arg-training-frac"></a></dt>
-<dd><p>Fraction of data for training set (default: <code>0.8</code>). Rows
-from the dataset will be randomly selected for the training set, and all
-remaining rows will be used in the testing set. Alternatively, if you
-provide a vector of integers, these will be used as the row indices for the
-training set. All remaining rows will be used in the testing set.</p></dd>
 
 
 <dt id="arg-perf-metric-function">perf_metric_function<a class="anchor" aria-label="anchor" href="#arg-perf-metric-function"></a></dt>
