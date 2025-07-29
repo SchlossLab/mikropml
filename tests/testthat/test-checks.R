@@ -114,12 +114,13 @@ test_that("check_kfold works", {
 
 test_that("check_training_frac works", {
   expect_true(is.null(check_training_frac(0.8)))
+  expect_true(is.null(check_training_frac(1)))
   expect_error(
     check_training_frac("not_a_number"),
     "`training_frac` must be a numeric between 0 and 1."
   )
   expect_error(
-    check_training_frac(1),
+    check_training_frac(1.0001),
     "`training_frac` must be a numeric between 0 and 1."
   )
   expect_error(
@@ -161,7 +162,7 @@ test_that("check_seed works", {
 
 test_that("check_all works", {
   expect_null(check_all(
-    otu_small, "glmnet", TRUE, as.integer(5), 0.8,
+    otu_small, "glmnet", TRUE, as.integer(5),
     NULL, NULL, NULL,
     NULL, NULL, NA, NULL
   ))
