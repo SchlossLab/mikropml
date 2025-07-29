@@ -19,6 +19,6 @@ below to see their documentation.
 
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
 
-  \item{rlang}{\code{\link[rlang:dyn-dots]{:=}}, \code{\link[rlang:injection-operator]{!!}}, \code{\link[rlang:dot-data]{.data}}}
+  \item{rlang}{\code{\link[rlang:injection-operator]{!!}}, \code{\link[rlang:dot-data]{.data}}, \code{\link[rlang:dyn-dots]{:=}}}
 }}
 
