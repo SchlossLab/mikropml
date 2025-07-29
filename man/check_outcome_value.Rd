@@ -4,7 +4,7 @@
 \alias{check_outcome_value}
 \title{Check that the outcome variable is valid. Pick outcome value if necessary.}
 \usage{
-check_outcome_value(dataset, outcome_colname)
+check_outcome_value(dataset, outcome_colname, pos_outcome = NULL)
 }
 \arguments{
 \item{dataset}{Data frame with an outcome variable and other columns as features.}

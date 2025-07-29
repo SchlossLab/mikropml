@@ -9,7 +9,8 @@ calc_perf_metrics(
   trained_model,
   outcome_colname,
   perf_metric_function,
-  class_probs
+  class_probs,
+  pos_class = NULL
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ multi-class classification = \code{multiClassSummary},
 regression = \code{defaultSummary}.}
 
 \item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
+
+\item{pos_class}{The positive class, i.e. which level of \code{outcome_colname} is
+the event of interest. If the outcome is binary, either the
+\code{outcome_colname} must be a factor with the first level being the positive
+class, or \code{pos_class} must be set. (default: \code{NULL}).}
 }
 \value{
 Dataframe of performance metrics.

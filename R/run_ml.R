@@ -19,6 +19,10 @@
 #'   - xgbTree: xgboost
 #' @param outcome_colname Column name as a string of the outcome variable
 #'   (default `NULL`; the first column will be chosen automatically).
+#' @param pos_class The positive class, i.e. which level of `outcome_colname` is
+#'   the event of interest. If the outcome is binary, either the
+#'   `outcome_colname` must be a factor with the first level being the positive
+#'   class, or `pos_class` must be set. (default: `NULL`).
 #' @param hyperparameters Dataframe of hyperparameters
 #'   (default `NULL`; sensible defaults will be chosen automatically).
 #' @param seed Random seed (default: `NA`).
@@ -131,6 +135,7 @@ run_ml <-
   function(dataset,
            method,
            outcome_colname = NULL,
+           pos_class = NULL,
            hyperparameters = NULL,
            find_feature_importance = FALSE,
            calculate_performance = TRUE,
@@ -216,6 +221,10 @@ run_ml <-
 
     outcome_type <- get_outcome_type(outcomes_vctr)
     class_probs <- outcome_type != "continuous"
+    if (outcome_type == "binary") {
+      # enforce factor levels
+      dataset <- dataset %>% set_outcome_factor(outcome_colname, pos_class)
+    }
 
     if (is.null(perf_metric_function)) {
       perf_metric_function <- get_perf_metric_fn(outcome_type)
@@ -254,6 +263,8 @@ run_ml <-
     if (!is.na(seed)) {
       set.seed(seed)
     }
+    # verify that correct outcome level got used
+    trained_model_caret$levels[1]
 
     if (calculate_performance) {
       performance_tbl <- get_performance_tbl(

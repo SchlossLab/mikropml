@@ -116,17 +116,28 @@ get_perf_metric_name <- function(outcome_type) {
 #'   class_probs = TRUE
 #' )
 #' }
-calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function, class_probs) {
+calc_perf_metrics <- function(test_data, trained_model, outcome_colname,
+                              perf_metric_function, class_probs,
+                              pos_class = NULL) {
   pred_type <- "raw"
   if (class_probs) pred_type <- "prob"
   preds <- stats::predict(trained_model, test_data, type = pred_type)
+  obs <- test_data %>% dplyr::pull(outcome_colname)
   if (class_probs) {
-    uniq_obs <- unique(c(test_data %>% dplyr::pull(outcome_colname), as.character(trained_model$pred$obs)))
-    obs <- factor(test_data %>% dplyr::pull(outcome_colname), levels = uniq_obs)
+    if (is.factor(obs)) {
+      uniq_obs <- obs %>% levels()
+    } else {
+      uniq_obs <- unique(c(
+        pos_class,
+        test_data %>% dplyr::pull(outcome_colname),
+        as.character(trained_model$pred$obs)
+      ))
+      obs <- factor(test_data %>% dplyr::pull(outcome_colname), levels = uniq_obs)
+    }
+    # TODO refactor this line
     pred_class <- factor(names(preds)[apply(preds, 1, which.max)], levels = uniq_obs)
     perf_met <- perf_metric_function(data.frame(obs = obs, pred = pred_class, preds), lev = uniq_obs)
   } else {
-    obs <- test_data %>% dplyr::pull(outcome_colname)
     perf_met <- perf_metric_function(data.frame(obs = obs, pred = preds))
   }
   return(perf_met)

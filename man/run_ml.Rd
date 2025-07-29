@@ -8,6 +8,7 @@ run_ml(
   dataset,
   method,
   outcome_colname = NULL,
+  pos_class = NULL,
   hyperparameters = NULL,
   find_feature_importance = FALSE,
   calculate_performance = TRUE,
@@ -39,6 +40,11 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
+
+\item{pos_class}{The positive class, i.e. which level of \code{outcome_colname} is
+the event of interest. If the outcome is binary, either the
+\code{outcome_colname} must be a factor with the first level being the positive
+class, or \code{pos_class} must be set. (default: \code{NULL}).}
 
 \item{hyperparameters}{Dataframe of hyperparameters
 (default \code{NULL}; sensible defaults will be chosen automatically).}

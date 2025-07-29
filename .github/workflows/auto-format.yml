@@ -25,20 +25,15 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           needs: Suggests
-
+      - name: Render README
+        run: |
+          rmarkdown::render("README.Rmd")
+        shell: Rscript {0}
       - name: Document
         run: |
           roxygen2::roxygenize()
         shell: Rscript {0}
 
-      - name: Style
-        run: |
-          usethis::use_tidy_style()
-        shell: Rscript {0}
-      - name: Render README
-        run: |
-          rmarkdown::render("README.Rmd")
-        shell: Rscript {0}
       - name: format
         uses: pre-commit/action@v3.0.1
         continue-on-error: true
