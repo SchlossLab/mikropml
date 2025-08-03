@@ -56,7 +56,7 @@
 #' ## run the function and watch the live progress udpates
 #' dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
 #' }
-#' 
+#'
 setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
   standardGeneric("preprocess_data"))
 
@@ -129,7 +129,7 @@ add_data_to_se <- function(tse, res, outcome_colname, name){
     tse_add <- TreeSummarizedExperiment(
       assays = assays, colData = colData(tse), rowData = rd)
     # Add info on remvoed featrues to metadata
-    metadata(tse_add)[["remove_feats"]] <- res[["removed_feats"]]
+    metadata(tse_add)[["removed_feats"]] <- res[["removed_feats"]]
     # Add new TreeSE to altExp of old one
     altExp(tse, name) <- tse_add
   } else{
@@ -137,7 +137,7 @@ add_data_to_se <- function(tse, res, outcome_colname, name){
     # new assay
     mat <- mat[rownames(tse), , drop = FALSE]
     assay(tse, name, withDimnames = FALSE) <- mat
-    metadata(tse)[["remove_feats"]] <- res[["removed_feats"]]
+    metadata(tse)[["removed_feats"]] <- res[["removed_feats"]]
   }
   return(tse)
 }
