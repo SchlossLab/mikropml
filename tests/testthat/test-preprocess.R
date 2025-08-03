@@ -671,3 +671,51 @@ test_that("preprocess_data replaces spaces in outcome column values (class label
     dat_proc
   ) %>% suppressMessages()
 })
+
+test_that("preprocess_data works with TreeSE", {
+  library(TreeSummarizedExperiment)
+  tse <- makeTSE(nrow = 100, ncol = 50)
+  assayNames(tse) <- "my_assay"
+  # Wrong assay name
+  preprocess_data(dataset = tse, assay.type = "wrong_name", outcome_colname = "group") |> expect_error()
+  # Preprocess data without grouping. The feature set in output should be the same as in input.
+  tse <- preprocess_data(
+    dataset = tse,
+    assay.type = "my_assay",
+    outcome_colname = "group",
+    remove_var = NULL,
+    collapse_corr_feats = FALSE
+  ) |> suppressMessages()
+  expect_s4_class(tse, "TreeSummarizedExperiment")
+  # There should be new assay with same set of features
+  expect_true( "preprocessed" %in% assayNames(tse) )
+
+  # When we group features, the output is stored to altExp
+  tse <- preprocess_data(
+    dataset = tse,
+    assay.type = "my_assay",
+    outcome_colname = "group",
+    name = "output"
+  ) |> suppressMessages()
+  expect_s4_class(tse, "TreeSummarizedExperiment")
+  # There should be new assay in generated altExp
+  expect_true( "output" %in% altExpNames(tse) )
+  expect_true( "output" %in% assayNames(altExp(tse, "output")) )
+
+  # Check that the values match with ones generated with simple data.frame
+  res <- altExp(tse, "output")
+  df <- assay(tse, "my_assay") |> t() |> as.data.frame()
+  df[["outcome"]] <- tse[["group"]]
+  ref <- preprocess_data(
+    dataset = df,
+    outcome_colname = "outcome"
+  ) |> suppressMessages()
+  values_ref <- ref[["dat_transformed"]]
+  values_ref <- values_ref[ , !colnames(values_ref) %in% "outcome", drop = FALSE] |> t() |> as.matrix()
+  values <- assay(res, "output")
+  colnames(values) <- NULL
+  expect_equal(values, values_ref)
+  #
+  expect_equal( metadata(res), ref[ "removed_feats" ] )
+  expect_equal( rowData(res)[["grp_feats"]], ref[["grp_feats" ]] )
+})

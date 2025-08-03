@@ -69,7 +69,14 @@
 #' @param ... All additional arguments are passed on to `caret::train()`, such as
 #'   case weights via the `weights` argument or `ntree` for `rf` models.
 #'   See the `caret::train()` docs for more details.
-#'
+#' @param assay.type The name of assay from \code{dataset} when the object is in
+#' \code{TreeSummarizedExperiment} format. This assay is used as an input.
+#' @param col.var The name of sample matdata variables from \code{colData} slot
+#' of \code{dataset} when the object is in \code{TreeSummarizedExperiment}
+#' format. These variables are used as predictors.
+#' @param altexp The name of alternative experiment (\code{altExp}) from
+#' \code{dataset} when the object is in \code{TreeSummarizedExperiment} format.
+#' This can be used to select an experiment for the input.
 #'
 #' @return Named list with results:
 #'
@@ -126,9 +133,69 @@
 #'   cross_val = caret::trainControl(method = "none"),
 #'   calculate_performance = FALSE
 #' )
+#'
+#' # Create TreeSE dataset
+#' library(TreeSummarizedExperiment)
+#' df <- mikropml::otu_small
+#' assay <- df[, !colnames(df) %in% c("dx"), drop = FALSE] |> t() |> as.matrix()
+#' tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+#' colData(tse)[["dx"]] <- otu_mini_multi[["dx"]]
+#'
+#' # Train model
+#' res <- run_ml(
+#'   tse,
+#'   assay.type = "counts",
+#'   method = "rf",
+#'   outcome_colname = "dx"
+#' )
 #' }
-run_ml <-
-  function(dataset,
+#'
+#' @rdname run_ml
+#' @export
+setGeneric("run_ml", signature = "dataset", function(dataset, ...)
+  standardGeneric("run_ml"))
+
+#' @rdname run_ml
+#' @export
+#' @importFrom SummarizedExperiment assayNames assay colData
+#' @importFrom SingleCellExperiment altExpNames altExp
+setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
+  function(dataset, method, outcome_colname, assay.type = "counts",
+           col.var = NULL, altexp = NULL, ...){
+    if( !(is.null(altexp) || (is.character(altexp) &&
+          length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
+      stop("'altexp' must be NULL or specify alternative experiment from ",
+           "altExpNames(x).", call. = FALSE)
+    }
+    if( !is.null(altexp) ){
+      dataset <- altExp(dataset, altexp)
+    }
+    if( !(is.character(assay.type) && length(assay.type) == 1L &&
+          assay.type %in% assayNames(dataset) ) ){
+      stop("'assay.type' must specify assay from assayNames(x).", call. = FALSE)
+    }
+    if( !(is.character(outcome_colname) && length(outcome_colname) == 1L &&
+          outcome_colname %in% colnames(colData(dataset)) ) ){
+      stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
+    }
+    if( !(is.null(col.var) ||
+          (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))) ) ){
+      stop("'col.var' must be NULL or specify columns from colData(x).", call. = FALSE)
+    }
+    # Get assay and specified columns
+    mat <- assay(dataset, assay.type) |> t()
+    col <- colData(dataset)[ , c(outcome_colname, col.var), drop = FALSE]
+    df <- cbind(mat, col) |> as.data.frame()
+    # Train model
+    res <- run_ml(dataset = df, method = method, outcome_colname = outcome_colname, ...)
+    return(res)
+  }
+)
+
+#' @rdname run_ml
+#' @export
+setMethod("run_ml", signature = c(dataset = "ANY"),
+          function(dataset,
            method,
            outcome_colname = NULL,
            hyperparameters = NULL,
@@ -297,3 +364,4 @@ run_ml <-
       )
     )
   }
+)
