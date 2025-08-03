@@ -2,9 +2,41 @@
 % Please edit documentation in R/run_ml.R
 \name{run_ml}
 \alias{run_ml}
+\alias{run_ml,TreeSummarizedExperiment-method}
+\alias{run_ml,ANY-method}
 \title{Run the machine learning pipeline}
 \usage{
 run_ml(dataset, ...)
+
+\S4method{run_ml}{TreeSummarizedExperiment}(
+  dataset,
+  method,
+  outcome_colname,
+  assay.type = "counts",
+  col.var = NULL,
+  altexp = NULL,
+  ...
+)
+
+\S4method{run_ml}{ANY}(
+  dataset,
+  method,
+  outcome_colname = NULL,
+  hyperparameters = NULL,
+  find_feature_importance = FALSE,
+  calculate_performance = TRUE,
+  kfold = 5,
+  cv_times = 100,
+  cross_val = NULL,
+  training_frac = 0.8,
+  perf_metric_function = NULL,
+  perf_metric_name = NULL,
+  groups = NULL,
+  group_partitions = NULL,
+  corr_thresh = 1,
+  seed = NA,
+  ...
+)
 }
 \arguments{
 \item{dataset}{Data frame with an outcome variable and other columns as features.}
@@ -26,11 +58,19 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
 
+\item{assay.type}{The name of assay from \code{dataset} when the object is in
+\code{TreeSummarizedExperiment} format. This assay is used as an input.}
+
+\item{col.var}{The name of sample matdata variables from \code{colData} slot
+of \code{dataset} when the object is in \code{TreeSummarizedExperiment}
+format. These variables are used as predictors.}
+
+\item{altexp}{The name of alternative experiment (\code{altExp}) from
+\code{dataset} when the object is in \code{TreeSummarizedExperiment} format.
+This can be used to select an experiment for the input.}
+
 \item{hyperparameters}{Dataframe of hyperparameters
 (default \code{NULL}; sensible defaults will be chosen automatically).}
-
-\item{seed}{Random seed (default: \code{NA}).
-Your results will only be reproducible if you set a seed.}
 
 \item{find_feature_importance}{Run permutation importance (default: \code{FALSE}).
 \code{TRUE} is recommended if you would like to identify features important for
@@ -85,6 +125,9 @@ cross-validation.}
 
 \item{corr_thresh}{For feature importance, group correlations
 above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
+
+\item{seed}{Random seed (default: \code{NA}).
+Your results will only be reproducible if you set a seed.}
 }
 \value{
 Named list with results:
@@ -150,7 +193,23 @@ run_ml(otu_mini_bin[, 2:11],
   cross_val = caret::trainControl(method = "none"),
   calculate_performance = FALSE
 )
+
+# Create TreeSE dataset
+library(TreeSummarizedExperiment)
+df <- mikropml::otu_small
+assay <- df[, !colnames(df) \%in\% c("dx"), drop = FALSE] |> t() |> as.matrix()
+tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+colData(tse)[["dx"]] <- otu_mini_multi[["dx"]]
+
+# Train model
+res <- run_ml(
+  tse,
+  assay.type = "counts",
+  method = "rf",
+  outcome_colname = "dx"
+)
 }
+
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

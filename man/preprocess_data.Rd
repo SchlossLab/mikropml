@@ -2,16 +2,59 @@
 % Please edit documentation in R/preprocess.R
 \name{preprocess_data}
 \alias{preprocess_data}
+\alias{preprocess_data,TreeSummarizedExperiment-method}
+\alias{preprocess_data,ANY-method}
 \title{Preprocess data prior to running machine learning}
 \usage{
 preprocess_data(dataset, ...)
+
+\S4method{preprocess_data}{TreeSummarizedExperiment}(
+  dataset,
+  outcome_colname,
+  assay.type = "counts",
+  col.var = NULL,
+  altexp = NULL,
+  name = "preprocessed",
+  ...
+)
+
+\S4method{preprocess_data}{ANY}(
+  dataset,
+  outcome_colname,
+  method = c("center", "scale"),
+  remove_var = "nzv",
+  collapse_corr_feats = TRUE,
+  to_numeric = TRUE,
+  group_neg_corr = TRUE,
+  prefilter_threshold = 1,
+  ...
+)
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as features.
+Alternatively, the input can be in \code{TreeSummarizedExperiment} format.}
 
 \item{...}{All additional arguments are passed on to \code{caret::train()}, such as
 case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
 See the \code{caret::train()} docs for more details.}
+
+\item{outcome_colname}{Column name as a string of the outcome variable
+(default \code{NULL}; the first column will be chosen automatically).}
+
+\item{assay.type}{The name of assay from \code{dataset} when the object is in
+\code{TreeSummarizedExperiment} format. This assay is used as an input.}
+
+\item{col.var}{The name of sample matdata variables from \code{colData} slot
+of \code{dataset} when the object is in \code{TreeSummarizedExperiment}
+format. These variables are used as predictors.}
+
+\item{altexp}{The name of alternative experiment (\code{altExp}) from
+\code{dataset} when the object is in \code{TreeSummarizedExperiment} format.
+This can be used to select an experiment for the input.}
+
+\item{name}{Name of results used when the input is
+\code{TreeSummarizedExperiment}. This same name is used for \code{assay} and
+\code{altExp}.}
 
 \item{method}{Methods to preprocess the data, described in
 \code{\link[caret:preProcess]{caret::preProcess()}} (default: \code{c("center","scale")}, use \code{NULL} for
@@ -25,6 +68,9 @@ features.}
 
 \item{to_numeric}{Whether to change features to numeric where possible.}
 
+\item{group_neg_corr}{Whether to group negatively correlated features
+together (e.g. c(0,1) and c(1,0)).}
+
 \item{prefilter_threshold}{Remove features which only have non-zero & non-NA
 values N rows or fewer (default: 1). Set this to -1 to keep all columns at
 this step. This step will also be skipped if \code{to_numeric} is set to
@@ -37,6 +83,11 @@ Named list including:
 \item \code{grp_feats}: If features were grouped together, a named list of the features corresponding to each group.
 \item \code{removed_feats}: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
 }
+
+If the input is \code{TreeSummarizedExperiment}, the output is added as an
+additional data to the input object. If the set of features match in output
+and input, the results are stored directly to \code{assay} slot. If they
+do not match, the output is stored to \code{altExp} slot of the object.
 
 If the \code{progressr} package is installed, a progress bar with time elapsed
 and estimated time to completion can be displayed.
@@ -69,6 +120,22 @@ progressr::handlers(progressr::handler_progress(
 progressr::handlers(global = TRUE)
 ## run the function and watch the live progress udpates
 dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
+
+# Create TreeSE object
+library(TreeSummarizedExperiment)
+df <- mikropml::otu_small
+assay <- df[, !colnames(df) \%in\% c("dx"), drop = FALSE] |> t() |> as.matrix()
+tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+colData(tse)[["dx"]] <- df[["dx"]]
+
+# Preprocess
+tse <- preprocess_data(
+  dataset = tse,
+  assay.type = "counts",
+  outcome_colname = "dx"
+)
+# The result is in assay slot
+tse
 }
 
 }

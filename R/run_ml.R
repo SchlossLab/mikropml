@@ -69,7 +69,14 @@
 #' @param ... All additional arguments are passed on to `caret::train()`, such as
 #'   case weights via the `weights` argument or `ntree` for `rf` models.
 #'   See the `caret::train()` docs for more details.
-#'
+#' @param assay.type The name of assay from \code{dataset} when the object is in
+#' \code{TreeSummarizedExperiment} format. This assay is used as an input.
+#' @param col.var The name of sample matdata variables from \code{colData} slot
+#' of \code{dataset} when the object is in \code{TreeSummarizedExperiment}
+#' format. These variables are used as predictors.
+#' @param altexp The name of alternative experiment (\code{altExp}) from
+#' \code{dataset} when the object is in \code{TreeSummarizedExperiment} format.
+#' This can be used to select an experiment for the input.
 #'
 #' @return Named list with results:
 #'
@@ -126,10 +133,30 @@
 #'   cross_val = caret::trainControl(method = "none"),
 #'   calculate_performance = FALSE
 #' )
+#'
+#' # Create TreeSE dataset
+#' library(TreeSummarizedExperiment)
+#' df <- mikropml::otu_small
+#' assay <- df[, !colnames(df) %in% c("dx"), drop = FALSE] |> t() |> as.matrix()
+#' tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+#' colData(tse)[["dx"]] <- otu_mini_multi[["dx"]]
+#'
+#' # Train model
+#' res <- run_ml(
+#'   tse,
+#'   assay.type = "counts",
+#'   method = "rf",
+#'   outcome_colname = "dx"
+#' )
 #' }
+#'
+#' @rdname run_ml
+#' @export
 setGeneric("run_ml", signature = "dataset", function(dataset, ...)
   standardGeneric("run_ml"))
 
+#' @rdname run_ml
+#' @export
 #' @importFrom SummarizedExperiment assayNames assay colData
 #' @importFrom SingleCellExperiment altExpNames altExp
 setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
@@ -165,6 +192,8 @@ setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
   }
 )
 
+#' @rdname run_ml
+#' @export
 setMethod("run_ml", signature = c(dataset = "ANY"),
           function(dataset,
            method,
