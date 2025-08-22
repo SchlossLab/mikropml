@@ -21,3 +21,4 @@
 ^revdep$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^\.pre.*$
