@@ -1,6 +1,7 @@
-# development version
+# mikropml 1.6.2
 
 - Allow `training_frac` equal to 1 (#347, @kelly-sovacool).
+- Fix for upcoming ggplot2 release (#352, @teunbrand).
 
 # mikropml 1.6.1
 
