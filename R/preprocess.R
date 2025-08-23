@@ -496,8 +496,8 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 #' }
 collapse_correlated_features <- function(features, group_neg_corr = TRUE, 
-                                         corr_method = corr_method, 
-                                         corr_thresh = corr_thresh,
+                                         corr_method = 'spearman', 
+                                         corr_thresh = 1,
                                          progbar = NULL) {
   feats_nocorr <- features
   grp_feats <- NULL
