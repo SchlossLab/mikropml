@@ -1,4 +1,9 @@
-# development version
+# mikropml development version
+
+# mikropml 1.6.2
+
+- Allow `training_frac` equal to 1 (#347, @kelly-sovacool).
+- Fix for upcoming ggplot2 release (#352, @teunbrand).
 
 - The correlation method and threshold used to collapse correlated features can
   now be set in `preprocess_data()` (#355, @Benjamin-Valderrama). 
@@ -90,7 +95,7 @@ The actual package code remains unchanged.
     - `groups` is `NULL` by default; in this case, correlated features above `corr_thresh` are grouped together.
 - `preprocess_data()` now replaces spaces in the outcome column with underscores (#247, @kelly-sovacool, @JonnyTran).
 - Clarify in the intro vignette that we do not support multi-label outcomes. (#254, @zenalapp)
-- Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/HenrikBengtsson/progressr) (#257, @kelly-sovacool, @JonnyTran, @FedericoComoglio).
+- Optional progress bar for `preprocess_data()` and `get_feature_importance()` using [the progressr package](https://github.com/futureverse/progressr) (#257, @kelly-sovacool, @JonnyTran, @FedericoComoglio).
 - The mikropml paper is soon to be published in [JOSS](https://joss.theoj.org/papers/10.21105/joss.03073)!
 
 # mikropml 0.0.2

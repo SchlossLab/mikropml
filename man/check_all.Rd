@@ -9,7 +9,6 @@ check_all(
   method,
   permute,
   kfold,
-  training_frac,
   perf_metric_function,
   perf_metric_name,
   groups,
@@ -33,12 +32,6 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 }}
 
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
-
-\item{training_frac}{Fraction of data for training set (default: \code{0.8}). Rows
-from the dataset will be randomly selected for the training set, and all
-remaining rows will be used in the testing set. Alternatively, if you
-provide a vector of integers, these will be used as the row indices for the
-training set. All remaining rows will be used in the testing set.}
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
