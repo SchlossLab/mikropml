@@ -21,3 +21,6 @@
 ^revdep$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^\.pre-commit-config\.yaml$
+^\.prettierignore$
+^\.prettierrc$
