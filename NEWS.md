@@ -1,5 +1,8 @@
 # development version
 
+- The correlation method and threshold used to collapse correlated features can
+  now be set in `preprocess_data()` (#355, @Benjamin-Valderrama). 
+
 # mikropml 1.6.1
 
 - Fix roxygen package doc syntax (https://github.com/r-lib/roxygen2/issues/1491, @kelly-sovacool).
