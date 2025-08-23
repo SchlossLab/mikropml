@@ -1,5 +1,7 @@
 # mikropml development version
 
+- mikropml now supports datasets in `TreeSummarizedExperiment` format (#349, @TuomasBorman).
+
 # mikropml 1.6.2
 
 - Allow `training_frac` equal to 1 (#347, @kelly-sovacool).
