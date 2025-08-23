@@ -56,6 +56,8 @@
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"scale"</span><span class="op">)</span>,</span>
 <span>  remove_var <span class="op">=</span> <span class="st">"nzv"</span>,</span>
 <span>  collapse_corr_feats <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  corr_method <span class="op">=</span> <span class="st">"spearman"</span>,</span>
+<span>  corr_thresh <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  to_numeric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  group_neg_corr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  prefilter_threshold <span class="op">=</span> <span class="fl">1</span></span>
@@ -87,8 +89,18 @@ no normalization).</p></dd>
 
 
 <dt id="arg-collapse-corr-feats">collapse_corr_feats<a class="anchor" aria-label="anchor" href="#arg-collapse-corr-feats"></a></dt>
-<dd><p>Whether to keep only one of perfectly correlated
-features.</p></dd>
+<dd><p>Whether to keep only one of correlated features
+(see <code>corr_method</code> and <code>corr_thresh</code>)</p></dd>
+
+
+<dt id="arg-corr-method">corr_method<a class="anchor" aria-label="anchor" href="#arg-corr-method"></a></dt>
+<dd><p>Correlation method. Options are the same as those supported
+by <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cor</a></code>: spearman, pearson, kendall. (default: spearman)</p></dd>
+
+
+<dt id="arg-corr-thresh">corr_thresh<a class="anchor" aria-label="anchor" href="#arg-corr-thresh"></a></dt>
+<dd><p>group correlations above or equal to <code>corr_thresh</code>
+(range <code>0</code> to <code>1</code>; default: <code>1</code>).</p></dd>
 
 
 <dt id="arg-to-numeric">to_numeric<a class="anchor" aria-label="anchor" href="#arg-to-numeric"></a></dt>
@@ -102,8 +114,8 @@ together (e.g. c(0,1) and c(1,0)).</p></dd>
 
 <dt id="arg-prefilter-threshold">prefilter_threshold<a class="anchor" aria-label="anchor" href="#arg-prefilter-threshold"></a></dt>
 <dd><p>Remove features which only have non-zero &amp; non-NA
-values N rows or fewer (default: 1). Set this to -1 to keep all columns at
-this step. This step will also be skipped if <code>to_numeric</code> is set to
+values in N rows or fewer (default: 1). Set this to -1 to keep all columns
+at this step. This step will also be skipped if <code>to_numeric</code> is set to
 <code>FALSE</code>.</p></dd>
 
 </dl></div>
