@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>User-Friendly R Package for Supervised Machine Learning Pipelines • mikropml</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -29,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mikropml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,14 +88,14 @@
 <p>or the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
 <p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html" class="external-link">conda</a> or <a href="https://mamba.readthedocs.io/en/latest/" class="external-link">mamba</a>: <img src="https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg" align="right"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
 <div class="section level3">
 <h3 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h3>
 <ul>
-<li>Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics, randomForest, rlang, rpart, stats, utils, xgboost</li>
+<li>Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics, randomForest, rlang, rpart, stats, tidyselect, utils, xgboost</li>
 <li>Suggests: assertthat, doFuture, forcats, foreach, future, future.apply, furrr, ggplot2, knitr, progress, progressr, purrr, rmarkdown, rsample, testthat, tidyr</li>
 </ul>
 </div>
@@ -191,15 +190,15 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://github.com/BTopcuoglu" class="external-link">Begüm Topçuoğlu</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3140-537X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/BTopcuoglu" class="external-link">Begüm Topçuoğlu</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3140-537X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>
-<a href="https://github.com/zenalapp" class="external-link">Zena Lapp</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4674-2176" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/zenalapp" class="external-link">Zena Lapp</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4674-2176" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>
-<a href="https://github.com/kelly-sovacool" class="external-link">Kelly Sovacool</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3283-829X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Evan Snitkin <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8409-278X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Jenna Wiens <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1057-7722" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/kelly-sovacool" class="external-link">Kelly Sovacool</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3283-829X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Evan Snitkin <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8409-278X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Jenna Wiens <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1057-7722" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>
-<a href="https://github.com/pschloss" class="external-link">Patrick Schloss</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6935-4275" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://github.com/pschloss" class="external-link">Patrick Schloss</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6935-4275" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -227,7 +226,7 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
