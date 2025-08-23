@@ -202,13 +202,30 @@ As you can see, we end up with only one variable, as all 3 are grouped together.
 Also, the second element in the list is no longer `NULL`. Instead, it tells you
 that `grp1` contains `var1`, `var2`, and `var3`.
 
+You can control the correlation method used by
+`stats::cor()`with `corr_method` and the correlation threshold with `corr_thresh`.
+
+```{r}
+preprocess_data(
+  dataset = corr_df,
+  outcome_colname = "outcome",
+  corr_method = 'pearson',
+  corr_thresh = 0.95
+)
+```
+
+
 If you want to group positively correlated features, but not negatively
 correlated features (e.g. for interpretability, or another downstream
 application), you can do that by using `group_neg_corr=FALSE`:
 
 ```{r}
 # preprocess raw correlated dataset; don't group negatively correlated features
-preprocess_data(dataset = corr_df, outcome_colname = "outcome", group_neg_corr = FALSE)
+preprocess_data(
+  dataset = corr_df,
+  outcome_colname = "outcome",
+  group_neg_corr = FALSE
+)
 ```
 
 Here, `var3` is kept on it's own because it's negatively correlated with `var1`
@@ -217,7 +234,11 @@ perfectly correlated, by using `collapse_corr_feats=FALSE`:
 
 ```{r}
 # preprocess raw correlated dataset; don't group negatively correlated features
-preprocess_data(dataset = corr_df, outcome_colname = "outcome", collapse_corr_feats = FALSE)
+preprocess_data(
+  dataset = corr_df,
+  outcome_colname = "outcome",
+  collapse_corr_feats = FALSE
+)
 ```
 
 In this case, `grp_feats` will always be `NULL`.

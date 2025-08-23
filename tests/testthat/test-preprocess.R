@@ -283,6 +283,44 @@ test_that("preprocess_data works", {
       "var11"
     ))
   )) %>% suppressMessages()
+  expect_equal(
+    preprocess_data(
+      test_df,
+      "outcome",
+      corr_thresh = .8,
+      corr_method = 'pearson',
+      prefilter_threshold = -1
+    ),
+    list(
+      dat_transformed = structure(
+        list(
+          outcome = c("normal", "normal", "cancer"),
+          grp1 = c(-1, 0, 1)
+        ),
+        class = c("tbl_df", "tbl", "data.frame"),
+        row.names = c(NA, -3L)
+      ),
+      grp_feats = list(
+        grp1 = c(
+          "var1",
+          "var10_0",
+          "var10_1",
+          "var12",
+          "var2_a",
+          "var2_b",
+          "var2_c",
+          "var3_yes",
+          "var4_1",
+          "var7_1",
+          "var8",
+          "var9_x",
+          "var9_y"
+        )
+      ),
+      removed_feats = c("var5", "var6", "var11")
+    )
+  ) %>% suppressMessages()
+  
 })
 
 test_that("rm_missing_outcome works", {

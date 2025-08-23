@@ -5,6 +5,9 @@
 - Allow `training_frac` equal to 1 (#347, @kelly-sovacool).
 - Fix for upcoming ggplot2 release (#352, @teunbrand).
 
+- The correlation method and threshold used to collapse correlated features can
+  now be set in `preprocess_data()` (#355, @Benjamin-Valderrama). 
+
 # mikropml 1.6.1
 
 - Fix roxygen package doc syntax (https://github.com/r-lib/roxygen2/issues/1491, @kelly-sovacool).

@@ -14,13 +14,13 @@ group_correlated_features(
 \arguments{
 \item{features}{a dataframe with each column as a feature for ML}
 
-\item{corr_thresh}{For feature importance, group correlations
-above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
+\item{corr_thresh}{group correlations above or equal to \code{corr_thresh}
+(range \code{0} to \code{1}; default: \code{1}).}
 
 \item{group_neg_corr}{Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).}
 
-\item{corr_method}{correlation method. options or the same as those supported
+\item{corr_method}{Correlation method. Options are the same as those supported
 by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 }
 \value{
