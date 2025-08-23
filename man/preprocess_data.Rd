@@ -31,12 +31,13 @@ preprocess_data(dataset, ...)
 )
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.
-Alternatively, the input can be in \code{TreeSummarizedExperiment} format.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 
-\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
-case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
-See the \code{caret::train()} docs for more details.}
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such
+as case weights via the \code{weights} argument or \code{ntree} for \code{rf} models. See
+the \code{caret::train()} docs for more details.}
 
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
@@ -44,13 +45,13 @@ See the \code{caret::train()} docs for more details.}
 \item{assay.type}{The name of assay from \code{dataset} when the object is in
 \code{TreeSummarizedExperiment} format. This assay is used as an input.}
 
-\item{col.var}{The name of sample matdata variables from \code{colData} slot
-of \code{dataset} when the object is in \code{TreeSummarizedExperiment}
-format. These variables are used as predictors.}
+\item{col.var}{The name of sample matdata variables from \code{colData} slot of
+\code{dataset} when the object is in \code{TreeSummarizedExperiment} format. These
+variables are used as predictors.}
 
-\item{altexp}{The name of alternative experiment (\code{altExp}) from
-\code{dataset} when the object is in \code{TreeSummarizedExperiment} format.
-This can be used to select an experiment for the input.}
+\item{altexp}{The name of alternative experiment (\code{altExp}) from \code{dataset}
+when the object is in \code{TreeSummarizedExperiment} format. This can be used
+to select an experiment for the input.}
 
 \item{name}{Name of results used when the input is
 \code{TreeSummarizedExperiment}. This same name is used for \code{assay} and

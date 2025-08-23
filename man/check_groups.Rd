@@ -7,7 +7,9 @@
 check_groups(dataset, groups, kfold)
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
 train and test sets. If the number of groups in the training set is larger

@@ -19,10 +19,11 @@ check_all(
 )
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest
@@ -35,16 +36,14 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}).
-Defaults: binary classification = \code{twoClassSummary},
-multi-class classification = \code{multiClassSummary},
-regression = \code{defaultSummary}.}
+provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary
+classification = \code{twoClassSummary}, multi-class classification =
+\code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{perf_metric_name}{The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = \code{"ROC"},
-multi-class classification = \code{"logLoss"},
-regression = \code{"RMSE"}.}
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = \code{"ROC"}, multi-class
+classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
 train and test sets. If the number of groups in the training set is larger
@@ -62,14 +61,14 @@ samples from \code{"B"} also in the training set, and the remaining samples from
 larger than \code{kfold}, the groups will also be kept together for
 cross-validation.}
 
-\item{corr_thresh}{For feature importance, group correlations
-above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
+\item{corr_thresh}{For feature importance, group correlations above or equal
+to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
-\item{seed}{Random seed (default: \code{NA}).
-Your results will only be reproducible if you set a seed.}
+\item{seed}{Random seed (default: \code{NA}). Your results will only be
+reproducible if you set a seed.}
 
-\item{hyperparameters}{Dataframe of hyperparameters
-(default \code{NULL}; sensible defaults will be chosen automatically).}
+\item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; sensible
+defaults will be chosen automatically).}
 }
 \description{
 Check all params that don't return a value

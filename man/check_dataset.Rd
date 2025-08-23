@@ -7,7 +7,9 @@
 check_dataset(dataset)
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 }
 \description{
 Errors if there are no rows or fewer than 2 columns.

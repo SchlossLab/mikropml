@@ -20,8 +20,7 @@ train_model(
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
 
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest
@@ -33,16 +32,15 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \item{cv}{Cross-validation caret scheme from \code{define_cv()}.}
 
 \item{perf_metric_name}{The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = \code{"ROC"},
-multi-class classification = \code{"logLoss"},
-regression = \code{"RMSE"}.}
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = \code{"ROC"}, multi-class
+classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{tune_grid}{Tuning grid from \code{get_tuning_grid()}.#'}
 
-\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
-case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
-See the \code{caret::train()} docs for more details.}
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such
+as case weights via the \code{weights} argument or \code{ntree} for \code{rf} models. See
+the \code{caret::train()} docs for more details.}
 }
 \value{
 Trained model from \code{\link[caret:train]{caret::train()}}.

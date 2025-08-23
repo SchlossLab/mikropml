@@ -2,8 +2,9 @@
 #'
 #' Function to preprocess your data for input into [run_ml()].
 #'
-#' @param dataset Data frame with an outcome variable and other columns as features.
-#' Alternatively, the input can be in \code{TreeSummarizedExperiment} format.
+#' @inheritParams run_ml
+#' @inheritParams group_correlated_features
+#'
 #' @param method Methods to preprocess the data, described in
 #'   [caret::preProcess()] (default: `c("center","scale")`, use `NULL` for
 #'   no normalization).
@@ -17,10 +18,8 @@
 #'   this step. This step will also be skipped if `to_numeric` is set to
 #'   `FALSE`.
 #' @param name Name of results used when the input is
-#' \code{TreeSummarizedExperiment}. This same name is used for \code{assay} and
-#' \code{altExp}.
-#' @inheritParams run_ml
-#' @inheritParams group_correlated_features
+#'   `TreeSummarizedExperiment`. This same name is used for `assay` and
+#'   `altExp`.
 #'
 #' @return
 #'
@@ -29,10 +28,10 @@
 #' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
 #' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
 #'
-#' If the input is \code{TreeSummarizedExperiment}, the output is added as an
+#' If the input is `TreeSummarizedExperiment`, the output is added as an
 #' additional data to the input object. If the set of features match in output
-#' and input, the results are stored directly to \code{assay} slot. If they
-#' do not match, the output is stored to \code{altExp} slot of the object.
+#' and input, the results are stored directly to `assay` slot. If they
+#' do not match, the output is stored to `altExp` slot of the object.
 #'
 #' If the `progressr` package is installed, a progress bar with time elapsed
 #' and estimated time to completion can be displayed.
@@ -84,14 +83,14 @@
 #'
 #' @rdname preprocess_data
 #' @export
-setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
+methods::setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
   standardGeneric("preprocess_data"))
 
 #' @rdname preprocess_data
 #' @export
 #' @importFrom SummarizedExperiment assayNames assay colData
 #' @importFrom SingleCellExperiment altExpNames altExp
-setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment"),
+methods::setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment"),
     function(dataset, outcome_colname, assay.type = "counts", col.var = NULL,
              altexp = NULL, name = "preprocessed", ...){
   if( !(is.null(altexp) || (is.character(altexp) &&
@@ -175,7 +174,7 @@ add_data_to_se <- function(tse, res, outcome_colname, name){
 
 #' @rdname preprocess_data
 #' @export
-setMethod("preprocess_data", signature = c(dataset = "ANY"),
+methods::setMethod("preprocess_data", signature = c(dataset = "ANY"),
     function(dataset, outcome_colname, method = c("center", "scale"),
              remove_var = "nzv", collapse_corr_feats = TRUE,
              to_numeric = TRUE, group_neg_corr = TRUE, prefilter_threshold = 1

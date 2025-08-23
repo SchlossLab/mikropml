@@ -9,8 +9,7 @@ get_tuning_grid(hyperparams_list, method)
 \arguments{
 \item{hyperparams_list}{Named list of lists of hyperparameters.}
 
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest

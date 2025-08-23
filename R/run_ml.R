@@ -9,9 +9,11 @@
 #' other columns as features) and the ML method.
 #' See `vignette('introduction')` for more details.
 #'
-#' @param dataset Data frame with an outcome variable and other columns as features.
-#' @param method ML method.
-#'   Options: `c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")`.
+#' @param dataset Data frame with an outcome variable and other columns as
+#'   features. Alternatively, the input can be in `TreeSummarizedExperiment`
+#'   format.
+#' @param method ML method. Options: `c("glmnet", "rf", "rpart2", "svmRadial",
+#'   "xgbTree")`.
 #'   - glmnet: linear, logistic, or multiclass regression
 #'   - rf: random forest
 #'   - rpart2: decision tree
@@ -19,21 +21,24 @@
 #'   - xgbTree: xgboost
 #' @param outcome_colname Column name as a string of the outcome variable
 #'   (default `NULL`; the first column will be chosen automatically).
-#' @param hyperparameters Dataframe of hyperparameters
-#'   (default `NULL`; sensible defaults will be chosen automatically).
-#' @param seed Random seed (default: `NA`).
-#'  Your results will only be reproducible if you set a seed.
+#' @param hyperparameters Dataframe of hyperparameters (default `NULL`; sensible
+#'   defaults will be chosen automatically).
+#' @param seed Random seed (default: `NA`). Your results will only be
+#'   reproducible if you set a seed.
 #' @param find_feature_importance Run permutation importance (default: `FALSE`).
 #'   `TRUE` is recommended if you would like to identify features important for
 #'   predicting your outcome, but it is resource-intensive.
-#' @param calculate_performance Whether to calculate performance metrics (default: `TRUE`).
-#'   You might choose to skip this if you do not perform cross-validation during model training.
+#' @param calculate_performance Whether to calculate performance metrics
+#'   (default: `TRUE`). You might choose to skip this if you do not perform
+#'   cross-validation during model training.
 #' @param kfold Fold number for k-fold cross-validation (default: `5`).
-#' @param cv_times Number of cross-validation partitions to create (default: `100`).
-#' @param cross_val a custom cross-validation scheme from `caret::trainControl()`
-#'   (default: `NULL`, uses `kfold` cross validation repeated `cv_times`).
-#'   `kfold` and `cv_times` are ignored if the user provides a custom cross-validation scheme.
-#'   See the `caret::trainControl()` docs for information on how to use it.
+#' @param cv_times Number of cross-validation partitions to create (default:
+#'   `100`).
+#' @param cross_val a custom cross-validation scheme from
+#'   `caret::trainControl()` (default: `NULL`, uses `kfold` cross validation
+#'   repeated `cv_times`). `kfold` and `cv_times` are ignored if the user
+#'   provides a custom cross-validation scheme. See the `caret::trainControl()`
+#'   docs for information on how to use it.
 #' @param training_frac Fraction of data for training set (default: `0.8`). Rows
 #'   from the dataset will be randomly selected for the training set, and all
 #'   remaining rows will be used in the testing set. Alternatively, if you
@@ -41,15 +46,13 @@
 #'   training set. All remaining rows will be used in the testing set.
 #' @param perf_metric_function Function to calculate the performance metric to
 #'   be used for cross-validation and test performance. Some functions are
-#'   provided by caret (see [caret::defaultSummary()]).
-#'   Defaults: binary classification = `twoClassSummary`,
-#'             multi-class classification = `multiClassSummary`,
-#'             regression = `defaultSummary`.
+#'   provided by caret (see [caret::defaultSummary()]). Defaults: binary
+#'   classification = `twoClassSummary`, multi-class classification =
+#'   `multiClassSummary`, regression = `defaultSummary`.
 #' @param perf_metric_name The column name from the output of the function
-#'   provided to perf_metric_function that is to be used as the performance metric.
-#'   Defaults: binary classification = `"ROC"`,
-#'             multi-class classification = `"logLoss"`,
-#'             regression = `"RMSE"`.
+#'   provided to perf_metric_function that is to be used as the performance
+#'   metric. Defaults: binary classification = `"ROC"`, multi-class
+#'   classification = `"logLoss"`, regression = `"RMSE"`.
 #' @param groups Vector of groups to keep together when splitting the data into
 #'   train and test sets. If the number of groups in the training set is larger
 #'   than `kfold`, the groups will also be kept together for cross-validation.
@@ -64,20 +67,20 @@
 #'   `training_frac` as possible. If the number of groups in the training set is
 #'   larger than `kfold`, the groups will also be kept together for
 #'   cross-validation.
-#' @param corr_thresh For feature importance, group correlations
-#'   above or equal to `corr_thresh` (range `0` to `1`; default: `1`).
-#' @param ... All additional arguments are passed on to `caret::train()`, such as
-#'   case weights via the `weights` argument or `ntree` for `rf` models.
-#'   See the `caret::train()` docs for more details.
-#' @param assay.type The name of assay from \code{dataset} when the object is in
-#' \code{TreeSummarizedExperiment} format. This assay is used as an input.
-#' @param col.var The name of sample matdata variables from \code{colData} slot
-#' of \code{dataset} when the object is in \code{TreeSummarizedExperiment}
-#' format. These variables are used as predictors.
-#' @param altexp The name of alternative experiment (\code{altExp}) from
-#' \code{dataset} when the object is in \code{TreeSummarizedExperiment} format.
-#' This can be used to select an experiment for the input.
-#'
+#' @param corr_thresh For feature importance, group correlations above or equal
+#'   to `corr_thresh` (range `0` to `1`; default: `1`).
+#' @param ... All additional arguments are passed on to `caret::train()`, such
+#'   as case weights via the `weights` argument or `ntree` for `rf` models. See
+#'   the `caret::train()` docs for more details.
+#' @param assay.type The name of assay from `dataset` when the object is in
+#'   `TreeSummarizedExperiment` format. This assay is used as an input.
+#' @param col.var The name of sample matdata variables from `colData` slot of
+#'   `dataset` when the object is in `TreeSummarizedExperiment` format. These
+#'   variables are used as predictors.
+#' @param altexp The name of alternative experiment (`altExp`) from `dataset`
+#'   when the object is in `TreeSummarizedExperiment` format. This can be used
+#'   to select an experiment for the input.
+#' 
 #' @return Named list with results:
 #'
 #' - `trained_model`: Output of [caret::train()], including the best model.
@@ -152,14 +155,14 @@
 #'
 #' @rdname run_ml
 #' @export
-setGeneric("run_ml", signature = "dataset", function(dataset, ...)
+methods::setGeneric("run_ml", signature = "dataset", function(dataset, ...)
   standardGeneric("run_ml"))
 
 #' @rdname run_ml
 #' @export
 #' @importFrom SummarizedExperiment assayNames assay colData
 #' @importFrom SingleCellExperiment altExpNames altExp
-setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
+methods::setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
   function(dataset, method, outcome_colname, assay.type = "counts",
            col.var = NULL, altexp = NULL, ...){
     if( !(is.null(altexp) || (is.character(altexp) &&
@@ -194,7 +197,7 @@ setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
 
 #' @rdname run_ml
 #' @export
-setMethod("run_ml", signature = c(dataset = "ANY"),
+methods::setMethod("run_ml", signature = c(dataset = "ANY"),
           function(dataset,
            method,
            outcome_colname = NULL,

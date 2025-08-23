@@ -22,10 +22,9 @@ calc_perf_metrics(
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}).
-Defaults: binary classification = \code{twoClassSummary},
-multi-class classification = \code{multiClassSummary},
-regression = \code{defaultSummary}.}
+provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary
+classification = \code{twoClassSummary}, multi-class classification =
+\code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
 }
