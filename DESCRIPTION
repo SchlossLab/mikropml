@@ -70,6 +70,7 @@ Imports:
     e1071,
     glmnet,
     kernlab,
+    methods,
     MLmetrics,
     randomForest,
     rlang,
