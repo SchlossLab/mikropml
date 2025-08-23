@@ -7,8 +7,7 @@
 check_method(method, hyperparameters)
 }
 \arguments{
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest
@@ -17,8 +16,8 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \item xgbTree: xgboost
 }}
 
-\item{hyperparameters}{Dataframe of hyperparameters
-(default \code{NULL}; sensible defaults will be chosen automatically).}
+\item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; sensible
+defaults will be chosen automatically).}
 }
 \description{
 Check if the method is supported. If not, throws error.

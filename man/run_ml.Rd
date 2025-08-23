@@ -2,9 +2,23 @@
 % Please edit documentation in R/run_ml.R
 \name{run_ml}
 \alias{run_ml}
+\alias{run_ml,TreeSummarizedExperiment-method}
+\alias{run_ml,ANY-method}
 \title{Run the machine learning pipeline}
 \usage{
-run_ml(
+run_ml(dataset, ...)
+
+\S4method{run_ml}{TreeSummarizedExperiment}(
+  dataset,
+  method,
+  outcome_colname,
+  assay.type = "counts",
+  col.var = NULL,
+  altexp = NULL,
+  ...
+)
+
+\S4method{run_ml}{ANY}(
   dataset,
   method,
   outcome_colname = NULL,
@@ -25,10 +39,15 @@ run_ml(
 )
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{...}{All additional arguments are passed on to \code{caret::train()}, such
+as case weights via the \code{weights} argument or \code{ntree} for \code{rf} models. See
+the \code{caret::train()} docs for more details.}
+
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest
@@ -40,24 +59,38 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \item{outcome_colname}{Column name as a string of the outcome variable
 (default \code{NULL}; the first column will be chosen automatically).}
 
-\item{hyperparameters}{Dataframe of hyperparameters
-(default \code{NULL}; sensible defaults will be chosen automatically).}
+\item{assay.type}{The name of assay from \code{dataset} when the object is in
+\code{TreeSummarizedExperiment} format. This assay is used as an input.}
+
+\item{col.var}{The name of sample matdata variables from \code{colData} slot of
+\code{dataset} when the object is in \code{TreeSummarizedExperiment} format. These
+variables are used as predictors.}
+
+\item{altexp}{The name of alternative experiment (\code{altExp}) from \code{dataset}
+when the object is in \code{TreeSummarizedExperiment} format. This can be used
+to select an experiment for the input.}
+
+\item{hyperparameters}{Dataframe of hyperparameters (default \code{NULL}; sensible
+defaults will be chosen automatically).}
 
 \item{find_feature_importance}{Run permutation importance (default: \code{FALSE}).
 \code{TRUE} is recommended if you would like to identify features important for
 predicting your outcome, but it is resource-intensive.}
 
-\item{calculate_performance}{Whether to calculate performance metrics (default: \code{TRUE}).
-You might choose to skip this if you do not perform cross-validation during model training.}
+\item{calculate_performance}{Whether to calculate performance metrics
+(default: \code{TRUE}). You might choose to skip this if you do not perform
+cross-validation during model training.}
 
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
-\item{cv_times}{Number of cross-validation partitions to create (default: \code{100}).}
+\item{cv_times}{Number of cross-validation partitions to create (default:
+\code{100}).}
 
-\item{cross_val}{a custom cross-validation scheme from \code{caret::trainControl()}
-(default: \code{NULL}, uses \code{kfold} cross validation repeated \code{cv_times}).
-\code{kfold} and \code{cv_times} are ignored if the user provides a custom cross-validation scheme.
-See the \code{caret::trainControl()} docs for information on how to use it.}
+\item{cross_val}{a custom cross-validation scheme from
+\code{caret::trainControl()} (default: \code{NULL}, uses \code{kfold} cross validation
+repeated \code{cv_times}). \code{kfold} and \code{cv_times} are ignored if the user
+provides a custom cross-validation scheme. See the \code{caret::trainControl()}
+docs for information on how to use it.}
 
 \item{training_frac}{Fraction of data for training set (default: \code{0.8}). Rows
 from the dataset will be randomly selected for the training set, and all
@@ -67,16 +100,14 @@ training set. All remaining rows will be used in the testing set.}
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}).
-Defaults: binary classification = \code{twoClassSummary},
-multi-class classification = \code{multiClassSummary},
-regression = \code{defaultSummary}.}
+provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary
+classification = \code{twoClassSummary}, multi-class classification =
+\code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{perf_metric_name}{The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = \code{"ROC"},
-multi-class classification = \code{"logLoss"},
-regression = \code{"RMSE"}.}
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = \code{"ROC"}, multi-class
+classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{groups}{Vector of groups to keep together when splitting the data into
 train and test sets. If the number of groups in the training set is larger
@@ -94,15 +125,11 @@ samples from \code{"B"} also in the training set, and the remaining samples from
 larger than \code{kfold}, the groups will also be kept together for
 cross-validation.}
 
-\item{corr_thresh}{For feature importance, group correlations
-above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
+\item{corr_thresh}{For feature importance, group correlations above or equal
+to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
-\item{seed}{Random seed (default: \code{NA}).
-Your results will only be reproducible if you set a seed.}
-
-\item{...}{All additional arguments are passed on to \code{caret::train()}, such as
-case weights via the \code{weights} argument or \code{ntree} for \code{rf} models.
-See the \code{caret::train()} docs for more details.}
+\item{seed}{Random seed (default: \code{NA}). Your results will only be
+reproducible if you set a seed.}
 }
 \value{
 Named list with results:
@@ -168,7 +195,23 @@ run_ml(otu_mini_bin[, 2:11],
   cross_val = caret::trainControl(method = "none"),
   calculate_performance = FALSE
 )
+
+# Create TreeSE dataset
+library(TreeSummarizedExperiment)
+df <- mikropml::otu_small
+assay <- df[, !colnames(df) \%in\% c("dx"), drop = FALSE] |> t() |> as.matrix()
+tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+colData(tse)[["dx"]] <- otu_mini_multi[["dx"]]
+
+# Train model
+res <- run_ml(
+  tse,
+  assay.type = "counts",
+  method = "rf",
+  outcome_colname = "dx"
+)
 }
+
 }
 \author{
 Begüm Topçuoğlu, \email{topcuoglu.begum@gmail.com}

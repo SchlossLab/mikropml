@@ -2,6 +2,9 @@
 #'
 #' Function to preprocess your data for input into [run_ml()].
 #'
+#' @inheritParams run_ml
+#' @inheritParams group_correlated_features
+#'
 #' @param method Methods to preprocess the data, described in
 #'   [caret::preProcess()] (default: `c("center","scale")`, use `NULL` for
 #'   no normalization).
@@ -14,9 +17,9 @@
 #'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at
 #'   this step. This step will also be skipped if `to_numeric` is set to
 #'   `FALSE`.
-#' @inheritParams run_ml
-#' @inheritParams group_correlated_features
-#'
+#' @param name Name of results used when the input is
+#'   `TreeSummarizedExperiment`. This same name is used for `assay` and
+#'   `altExp`.
 #'
 #' @return
 #'
@@ -24,6 +27,11 @@
 #' - `dat_transformed`: Preprocessed data.
 #' - `grp_feats`: If features were grouped together, a named list of the features corresponding to each group.
 #' - `removed_feats`: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).
+#'
+#' If the input is `TreeSummarizedExperiment`, the output is added as an
+#' additional data to the input object. If the set of features match in output
+#' and input, the results are stored directly to `assay` slot. If they
+#' do not match, the output is stored to `altExp` slot of the object.
 #'
 #' If the `progressr` package is installed, a progress bar with time elapsed
 #' and estimated time to completion can be displayed.
@@ -55,12 +63,122 @@
 #' progressr::handlers(global = TRUE)
 #' ## run the function and watch the live progress udpates
 #' dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
+#'
+#' # Create TreeSE object
+#' library(TreeSummarizedExperiment)
+#' df <- mikropml::otu_small
+#' assay <- df[, !colnames(df) %in% c("dx"), drop = FALSE] |> t() |> as.matrix()
+#' tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+#' colData(tse)[["dx"]] <- df[["dx"]]
+#'
+#' # Preprocess
+#' tse <- preprocess_data(
+#'   dataset = tse,
+#'   assay.type = "counts",
+#'   outcome_colname = "dx"
+#' )
+#' # The result is in assay slot
+#' tse
 #' }
-preprocess_data <- function(dataset, outcome_colname,
-                            method = c("center", "scale"),
-                            remove_var = "nzv", collapse_corr_feats = TRUE,
-                            to_numeric = TRUE, group_neg_corr = TRUE,
-                            prefilter_threshold = 1) {
+#'
+#' @rdname preprocess_data
+#' @export
+methods::setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
+  standardGeneric("preprocess_data"))
+
+#' @rdname preprocess_data
+#' @export
+#' @importFrom SummarizedExperiment assayNames assay colData
+#' @importFrom SingleCellExperiment altExpNames altExp
+methods::setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment"),
+    function(dataset, outcome_colname, assay.type = "counts", col.var = NULL,
+             altexp = NULL, name = "preprocessed", ...){
+  if( !(is.null(altexp) || (is.character(altexp) &&
+      length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
+    stop("'altexp' must be NULL or specify alternative experiment from ",
+         "altExpNames(x).", call. = FALSE)
+  }
+  if( !is.null(altexp) ){
+    dataset <- altExp(dataset, altexp)
+  }
+  if( !(is.character(assay.type) && length(assay.type) == 1L &&
+        assay.type %in% assayNames(dataset) ) ){
+    stop("'assay.type' must specify assay from assayNames(x).", call. = FALSE)
+  }
+  if( !(is.character(outcome_colname) && length(outcome_colname) == 1L &&
+        outcome_colname %in% colnames(colData(dataset)) ) ){
+    stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
+  }
+  if( !(is.null(col.var) ||
+        (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))) ) ){
+    stop("'col.var' must be NULL or specify columns from colData(x).", call. = FALSE)
+  }
+  if( !(is.character(name) && length(name) == 1L ) ){
+    stop("'name' must be single character value.", call. = FALSE)
+  }
+  # Get assay and specified columns
+  mat <- assay(dataset, assay.type) |> t()
+  col <- colData(dataset)[ , c(outcome_colname, col.var), drop = FALSE]
+  df <- cbind(mat, col) |> as.data.frame()
+  # Preprocess data
+  res <- preprocess_data(dataset = df, outcome_colname = outcome_colname, ...)
+  # Add data back to SE
+  dataset <- add_data_to_se(dataset, res, outcome_colname, name)
+  return(dataset)
+  }
+)
+
+#' @importFrom S4Vectors SimpleList DataFrame metadata
+#' @importFrom SummarizedExperiment assay `assay<-` `metadata<-`
+#' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
+#' @importFrom SingleCellExperiment altExp<-
+#' @importFrom stats setNames
+add_data_to_se <- function(tse, res, outcome_colname, name){
+  # Remove samples if the outcome value was missing
+  if( nrow(res[[1L]]) != ncol(tse) ){
+    tse <- tse[ , !is.na(tse[[ outcome_colname ]])]
+  }
+  # Get assay data
+  mat <- res[[1]]
+  mat <- mat[ , !colnames(mat) %in% outcome_colname, drop = FALSE] |> t()
+  # If the features do not match, add preprocessed data to altExp
+  if( length(setdiff( rownames(mat), rownames(tse))) > 0L ){
+    message("Adding preprocessed data to altExp(dataset, '", name, "').")
+    # Create new TreeSE
+    assays <- setNames(SimpleList(mat), name)
+    # If features were grouped, we add the grouping info to rowData
+    rd <- NULL
+    if( !is.null(res[[2]]) ){
+      rd <- res[[2]]
+      rd <- rd[ match(rownames(mat), names(rd)) ]
+      rd <- rd |> I() |> DataFrame()
+      colnames(rd) <- names(res)[[2]]
+      rownames(rd) <- rownames(mat)
+    }
+    # Create TreeSE
+    tse_add <- TreeSummarizedExperiment(
+      assays = assays, colData = colData(tse), rowData = rd)
+    # Add info on remvoed featrues to metadata
+    metadata(tse_add)[["removed_feats"]] <- res[["removed_feats"]]
+    # Add new TreeSE to altExp of old one
+    altExp(tse, name) <- tse_add
+  } else{
+    # If all features match, we can add the matrix back to original TreeSE as
+    # new assay
+    mat <- mat[rownames(tse), , drop = FALSE]
+    assay(tse, name, withDimnames = FALSE) <- mat
+    metadata(tse)[["removed_feats"]] <- res[["removed_feats"]]
+  }
+  return(tse)
+}
+
+#' @rdname preprocess_data
+#' @export
+methods::setMethod("preprocess_data", signature = c(dataset = "ANY"),
+    function(dataset, outcome_colname, method = c("center", "scale"),
+             remove_var = "nzv", collapse_corr_feats = TRUE,
+             to_numeric = TRUE, group_neg_corr = TRUE, prefilter_threshold = 1
+             , ...) {
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 20, message = "preprocessing")
@@ -133,7 +251,7 @@ preprocess_data <- function(dataset, outcome_colname,
     grp_feats = grp_feats,
     removed_feats = removed_feats
   ))
-}
+})
 
 #' Remove missing outcome values
 #'

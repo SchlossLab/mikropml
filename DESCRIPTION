@@ -2,26 +2,54 @@ Package: mikropml
 Title: User-Friendly R Package for Supervised Machine Learning Pipelines
 Version: 1.6.2.9000
 Date: 2025-08-22
-Authors@R: c(
-    person("Begüm", "Topçuoğlu", , "topcuoglu.begum@gmail.com", role = "aut",
-           comment = c(ORCID = "0000-0003-3140-537X")),
-    person("Zena", "Lapp", , "zenalapp@umich.edu", role = "aut",
-           comment = c(ORCID = "0000-0003-4674-2176")),
-    person("Kelly", "Sovacool", , "sovacool@umich.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-3283-829X")),
-    person("Evan", "Snitkin", role = "aut",
-           comment = c(ORCID = "0000-0001-8409-278X")),
-    person("Jenna", "Wiens", role = "aut",
-           comment = c(ORCID = "0000-0002-1057-7722")),
-    person("Patrick", "Schloss", , "pschloss@umich.edu", role = "aut",
-           comment = c(ORCID = "0000-0002-6935-4275")),
-    person("Nick", "Lesniak", , "nlesniak@umich.edu", role = "ctb",
-           comment = c(ORCID = "0000-0001-9359-5194")),
-    person("Courtney", "Armour", , "armourc@umich.edu", role = "ctb",
-           comment = c(ORCID = "0000-0002-5250-1224")),
-    person("Sarah", "Lucas", , "salucas@umich.edu", role = "ctb",
-           comment = c(ORCID = "0000-0003-1676-5801"))
-  )
+Authors@R: 
+    c(person(given = "Begüm",
+             family = "Topçuoğlu",
+             role = "aut",
+             email = "topcuoglu.begum@gmail.com",
+             comment = c(ORCID = "0000-0003-3140-537X")),
+      person(given = "Zena",
+             family = "Lapp",
+             role = "aut",
+             email = "zenalapp@umich.edu",
+             comment = c(ORCID = "0000-0003-4674-2176")),
+      person(given = "Kelly",
+             family = "Sovacool",
+             role = c("aut", "cre"),
+             email = "sovacool@umich.edu",
+             comment = c(ORCID = "0000-0003-3283-829X")),
+      person(given = "Evan",
+             family = "Snitkin",
+             role = "aut",
+             comment = c(ORCID = "0000-0001-8409-278X")),
+      person(given = "Jenna",
+             family = "Wiens",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-1057-7722")),
+      person(given = "Patrick",
+             family = "Schloss",
+             role = "aut",
+             email = "pschloss@umich.edu",
+             comment = c(ORCID = "0000-0002-6935-4275")),
+      person(given = "Nick",
+             family = "Lesniak",
+             role = "ctb",
+             email = "nlesniak@umich.edu",
+             comment = c(ORCID = "0000-0001-9359-5194")),
+      person(given = "Courtney",
+             family = "Armour",
+             role = "ctb",
+             email = "armourc@umich.edu",
+             comment = c(ORCID = "0000-0002-5250-1224")),
+      person(given = "Sarah",
+             family = "Lucas",
+             role = "ctb",
+             email = "salucas@umich.edu",
+             comment = c(ORCID = "0000-0003-1676-5801")),
+      person(given = "Tuomas",
+             family = "Borman",
+             role = "ctb",
+             comment = c(ORCID = "0000-0002-8563-8884")))
 Description: An interface to build machine learning models for
     classification and regression problems. 'mikropml' implements the ML
     pipeline described by Topçuoğlu et al. (2020)
@@ -42,12 +70,17 @@ Imports:
     e1071,
     glmnet,
     kernlab,
+    methods,
     MLmetrics,
     randomForest,
     rlang,
     rpart,
     stats,
+    S4Vectors,
+    SingleCellExperiment,
+    SummarizedExperiment,
     tidyselect,
+    TreeSummarizedExperiment,
     utils,
     xgboost
 Suggests:
@@ -70,6 +103,7 @@ Suggests:
     testthat,
     tidyr,
     usethis
+biocViews:
 VignetteBuilder:
     knitr
 Config/testthat/edition: 3

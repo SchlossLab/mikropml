@@ -14,8 +14,8 @@ group_correlated_features(
 \arguments{
 \item{features}{a dataframe with each column as a feature for ML}
 
-\item{corr_thresh}{For feature importance, group correlations
-above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
+\item{corr_thresh}{For feature importance, group correlations above or equal
+to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
 \item{group_neg_corr}{Whether to group negatively correlated features
 together (e.g. c(0,1) and c(1,0)).}
