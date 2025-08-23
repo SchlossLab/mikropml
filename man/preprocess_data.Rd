@@ -30,13 +30,14 @@ no normalization).}
 \item{remove_var}{Whether to remove variables with near-zero variance
 (\code{'nzv'}; default), zero variance (\code{'zv'}), or none (\code{NULL}).}
 
-\item{collapse_corr_feats}{Whether to keep only one of perfectly correlated
-features.}
+\item{collapse_corr_feats}{Whether to keep only one of correlated features
+(see \code{corr_method} and \code{corr_thresh})}
 
-\item{corr_method}{method used to correlate features, described in
-\code{\link[stats:cor]{stats::cor()}}}
+\item{corr_method}{Correlation method. Options are the same as those supported
+by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 
-\item{corr_thresh}{lower threshold used to collapse correlated features}
+\item{corr_thresh}{group correlations above or equal to \code{corr_thresh}
+(range \code{0} to \code{1}; default: \code{1}).}
 
 \item{to_numeric}{Whether to change features to numeric where possible.}
 
@@ -44,8 +45,8 @@ features.}
 together (e.g. c(0,1) and c(1,0)).}
 
 \item{prefilter_threshold}{Remove features which only have non-zero & non-NA
-values N rows or fewer (default: 1). Set this to -1 to keep all columns at
-this step. This step will also be skipped if \code{to_numeric} is set to
+values in N rows or fewer (default: 1). Set this to -1 to keep all columns
+at this step. This step will also be skipped if \code{to_numeric} is set to
 \code{FALSE}.}
 }
 \value{

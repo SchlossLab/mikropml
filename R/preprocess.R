@@ -1,21 +1,20 @@
 #' Preprocess data prior to running machine learning
 #'
 #' Function to preprocess your data for input into [run_ml()].
+#' 
+#' @inheritParams group_correlated_features
 #'
 #' @param method Methods to preprocess the data, described in
 #'   [caret::preProcess()] (default: `c("center","scale")`, use `NULL` for
 #'   no normalization).
 #' @param remove_var Whether to remove variables with near-zero variance
 #'   (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
-#' @param corr_method method used to correlate features, described in
-#' [stats::cor()] 
-#' @param corr_thresh lower threshold used to collapse correlated features
-#' @param collapse_corr_feats Whether to keep only one of perfectly correlated
-#'   features.
+#' @param collapse_corr_feats Whether to keep only one of correlated features
+#'   (see `corr_method` and `corr_thresh`)
 #' @param to_numeric Whether to change features to numeric where possible.
 #' @param prefilter_threshold Remove features which only have non-zero & non-NA
-#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at
-#'   this step. This step will also be skipped if `to_numeric` is set to
+#'   values in N rows or fewer (default: 1). Set this to -1 to keep all columns
+#'   at this step. This step will also be skipped if `to_numeric` is set to
 #'   `FALSE`.
 #' @inheritParams run_ml
 #' @inheritParams group_correlated_features
@@ -484,6 +483,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 
 
 #' Collapse correlated features
+#' 
 #' @inheritParams process_novar_feats
 #' @inheritParams group_correlated_features
 #'

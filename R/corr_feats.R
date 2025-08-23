@@ -1,9 +1,10 @@
 #' Group correlated features
 #'
-#' @inheritParams run_ml
 #' @param features a dataframe with each column as a feature for ML
-#' @param corr_method correlation method. options or the same as those supported
+#' @param corr_method Correlation method. Options are the same as those supported
 #'   by `stats::cor`: spearman, pearson, kendall. (default: spearman)
+#' @param corr_thresh group correlations above or equal to `corr_thresh`
+#'   (range `0` to `1`; default: `1`).
 #' @param group_neg_corr Whether to group negatively correlated features
 #'   together (e.g. c(0,1) and c(1,0)).
 #'

@@ -48,7 +48,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Begüm Topçuoglu \email{topcuoglu.begum@gmail.com} (\href{https://orcid.org/0000-0003-3140-537X}{ORCID})
+  \item Begüm Topçuoğlu \email{topcuoglu.begum@gmail.com} (\href{https://orcid.org/0000-0003-3140-537X}{ORCID})
   \item Zena Lapp \email{zenalapp@umich.edu} (\href{https://orcid.org/0000-0003-4674-2176}{ORCID})
   \item Evan Snitkin (\href{https://orcid.org/0000-0001-8409-278X}{ORCID})
   \item Jenna Wiens (\href{https://orcid.org/0000-0002-1057-7722}{ORCID})
