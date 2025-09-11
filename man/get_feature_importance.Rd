@@ -62,7 +62,7 @@ grouped together based on \code{corr_thresh}.}
 
 \item{nperms}{number of permutations to perform (default: \code{100}).}
 
-\item{corr_method}{correlation method. options or the same as those supported
+\item{corr_method}{Correlation method. Options are the same as those supported
 by \code{stats::cor}: spearman, pearson, kendall. (default: spearman)}
 }
 \value{

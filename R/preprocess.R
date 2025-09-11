@@ -1,6 +1,8 @@
 #' Preprocess data prior to running machine learning
 #'
 #' Function to preprocess your data for input into [run_ml()].
+#' 
+#' @inheritParams group_correlated_features
 #'
 #' @inheritParams run_ml
 #' @inheritParams group_correlated_features
@@ -10,12 +12,12 @@
 #'   no normalization).
 #' @param remove_var Whether to remove variables with near-zero variance
 #'   (`'nzv'`; default), zero variance (`'zv'`), or none (`NULL`).
-#' @param collapse_corr_feats Whether to keep only one of perfectly correlated
-#'   features.
+#' @param collapse_corr_feats Whether to keep only one of correlated features
+#'   (see `corr_method` and `corr_thresh`)
 #' @param to_numeric Whether to change features to numeric where possible.
 #' @param prefilter_threshold Remove features which only have non-zero & non-NA
-#'   values N rows or fewer (default: 1). Set this to -1 to keep all columns at
-#'   this step. This step will also be skipped if `to_numeric` is set to
+#'   values in N rows or fewer (default: 1). Set this to -1 to keep all columns
+#'   at this step. This step will also be skipped if `to_numeric` is set to
 #'   `FALSE`.
 #' @param name Name of results used when the input is
 #'   `TreeSummarizedExperiment`. This same name is used for `assay` and
@@ -175,10 +177,13 @@ add_data_to_se <- function(tse, res, outcome_colname, name){
 #' @rdname preprocess_data
 #' @export
 methods::setMethod("preprocess_data", signature = c(dataset = "ANY"),
-    function(dataset, outcome_colname, method = c("center", "scale"),
+    function(dataset, outcome_colname,
+             method = c("center", "scale"),
              remove_var = "nzv", collapse_corr_feats = TRUE,
-             to_numeric = TRUE, group_neg_corr = TRUE, prefilter_threshold = 1
-             , ...) {
+             corr_method = "spearman",
+             corr_thresh = 1,
+             to_numeric = TRUE, group_neg_corr = TRUE,
+             prefilter_threshold = 1, ...) {
   progbar <- NULL
   if (isTRUE(check_packages_installed("progressr"))) {
     progbar <- progressr::progressor(steps = 20, message = "preprocessing")
@@ -234,6 +239,8 @@ methods::setMethod("preprocess_data", signature = c(dataset = "ANY"),
       pbtick(progbar)
     }
     feats_and_grps <- collapse_correlated_features(processed_feats,
+                                                   corr_method = corr_method, 
+                                                   corr_thresh = corr_thresh,
       group_neg_corr,
       progbar = progbar
     )
@@ -595,6 +602,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 
 
 #' Collapse correlated features
+#' 
 #' @inheritParams process_novar_feats
 #' @inheritParams group_correlated_features
 #'
@@ -606,7 +614,10 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' \dontrun{
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 #' }
-collapse_correlated_features <- function(features, group_neg_corr = TRUE, progbar = NULL) {
+collapse_correlated_features <- function(features, group_neg_corr = TRUE, 
+                                         corr_method = 'spearman', 
+                                         corr_thresh = 1,
+                                         progbar = NULL) {
   feats_nocorr <- features
   grp_feats <- NULL
   if (!is.null(features)) {
@@ -623,6 +634,8 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE, progba
     }
     if (ncol(features) != 1) {
       corr_feats <- group_correlated_features(features,
+                                              corr_method = corr_method, 
+                                              corr_thresh = corr_thresh,
         group_neg_corr = group_neg_corr
       )
       corr_cols <- gsub("\\|.*", "", corr_feats)
