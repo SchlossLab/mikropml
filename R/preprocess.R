@@ -1,7 +1,7 @@
 #' Preprocess data prior to running machine learning
 #'
 #' Function to preprocess your data for input into [run_ml()].
-#' 
+#'
 #' @inheritParams group_correlated_features
 #'
 #' @param method Methods to preprocess the data, described in
@@ -55,7 +55,7 @@
 #' ## tell progressor to always report progress
 #' \dontrun{
 #' progressr::handlers(global = TRUE)
-#' ## run the function and watch the live progress udpates
+#' ## run the function and watch the live progress updates
 #' dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
 #' }
 preprocess_data <- function(dataset, outcome_colname,
@@ -120,8 +120,8 @@ preprocess_data <- function(dataset, outcome_colname,
       pbtick(progbar)
     }
     feats_and_grps <- collapse_correlated_features(processed_feats,
-                                                   corr_method = corr_method, 
-                                                   corr_thresh = corr_thresh,
+      corr_method = corr_method,
+      corr_thresh = corr_thresh,
       group_neg_corr,
       progbar = progbar
     )
@@ -483,7 +483,7 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 
 
 #' Collapse correlated features
-#' 
+#'
 #' @inheritParams process_novar_feats
 #' @inheritParams group_correlated_features
 #'
@@ -495,8 +495,8 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' \dontrun{
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 #' }
-collapse_correlated_features <- function(features, group_neg_corr = TRUE, 
-                                         corr_method = 'spearman', 
+collapse_correlated_features <- function(features, group_neg_corr = TRUE,
+                                         corr_method = "spearman",
                                          corr_thresh = 1,
                                          progbar = NULL) {
   feats_nocorr <- features
@@ -505,7 +505,7 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE,
     sapply_fn <- select_apply(fun = "sapply")
     if (any(sapply_fn(features, class) %in% c("character", "factor"))) {
       stop(
-        "Some features are charactors or factors. Please remove these before proceeding with `collapse_correlated_features`."
+        "Some features are characters or factors. Please remove these before proceeding with `collapse_correlated_features`."
       )
     }
     if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
@@ -515,8 +515,8 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE,
     }
     if (ncol(features) != 1) {
       corr_feats <- group_correlated_features(features,
-                                              corr_method = corr_method, 
-                                              corr_thresh = corr_thresh,
+        corr_method = corr_method,
+        corr_thresh = corr_thresh,
         group_neg_corr = group_neg_corr
       )
       corr_cols <- gsub("\\|.*", "", corr_feats)
