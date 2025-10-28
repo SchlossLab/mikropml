@@ -50,7 +50,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">preprocess_data</span><span class="op">(</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">preprocess_data</span><span class="op">(</span><span class="va">dataset</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'TreeSummarizedExperiment'</span></span>
+<span><span class="fu">preprocess_data</span><span class="op">(</span></span>
+<span>  <span class="va">dataset</span>,</span>
+<span>  <span class="va">outcome_colname</span>,</span>
+<span>  assay.type <span class="op">=</span> <span class="st">"counts"</span>,</span>
+<span>  col.var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  altexp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"preprocessed"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'ANY'</span></span>
+<span><span class="fu">preprocess_data</span><span class="op">(</span></span>
 <span>  <span class="va">dataset</span>,</span>
 <span>  <span class="va">outcome_colname</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"scale"</span><span class="op">)</span>,</span>
@@ -60,7 +74,8 @@
 <span>  corr_thresh <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  to_numeric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  group_neg_corr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  prefilter_threshold <span class="op">=</span> <span class="fl">1</span></span>
+<span>  prefilter_threshold <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -69,12 +84,43 @@
 
 
 <dl><dt id="arg-dataset">dataset<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
-<dd><p>Data frame with an outcome variable and other columns as features.</p></dd>
+<dd><p>Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in <code>TreeSummarizedExperiment</code>
+format.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>All additional arguments are passed on to <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, such
+as case weights via the <code>weights</code> argument or <code>ntree</code> for <code>rf</code> models. See
+the <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code> docs for more details.</p></dd>
 
 
 <dt id="arg-outcome-colname">outcome_colname<a class="anchor" aria-label="anchor" href="#arg-outcome-colname"></a></dt>
 <dd><p>Column name as a string of the outcome variable
 (default <code>NULL</code>; the first column will be chosen automatically).</p></dd>
+
+
+<dt id="arg-assay-type">assay.type<a class="anchor" aria-label="anchor" href="#arg-assay-type"></a></dt>
+<dd><p>The name of assay from <code>dataset</code> when the object is in
+<code>TreeSummarizedExperiment</code> format. This assay is used as an input.</p></dd>
+
+
+<dt id="arg-col-var">col.var<a class="anchor" aria-label="anchor" href="#arg-col-var"></a></dt>
+<dd><p>The name of sample matdata variables from <code>colData</code> slot of
+<code>dataset</code> when the object is in <code>TreeSummarizedExperiment</code> format. These
+variables are used as predictors.</p></dd>
+
+
+<dt id="arg-altexp">altexp<a class="anchor" aria-label="anchor" href="#arg-altexp"></a></dt>
+<dd><p>The name of alternative experiment (<code>altExp</code>) from <code>dataset</code>
+when the object is in <code>TreeSummarizedExperiment</code> format. This can be used
+to select an experiment for the input.</p></dd>
+
+
+<dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
+<dd><p>Name of results used when the input is
+<code>TreeSummarizedExperiment</code>. This same name is used for <code>assay</code> and
+<code>altExp</code>.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
@@ -124,7 +170,11 @@ at this step. This step will also be skipped if <code>to_numeric</code> is set t
     <p>Named list including:</p><ul><li><p><code>dat_transformed</code>: Preprocessed data.</p></li>
 <li><p><code>grp_feats</code>: If features were grouped together, a named list of the features corresponding to each group.</p></li>
 <li><p><code>removed_feats</code>: Any features that were removed during preprocessing (e.g. because there was zero variance or near-zero variance for those features).</p></li>
-</ul><p>If the <code>progressr</code> package is installed, a progress bar with time elapsed
+</ul><p>If the input is <code>TreeSummarizedExperiment</code>, the output is added as an
+additional data to the input object. If the set of features match in output
+and input, the results are stored directly to <code>assay</code> slot. If they
+do not match, the output is stored to <code>altExp</code> slot of the object.</p>
+<p>If the <code>progressr</code> package is installed, a progress bar with time elapsed
 and estimated time to completion can be displayed.</p>
     </div>
     <div class="section level2">
@@ -188,7 +238,24 @@ converted to underscores for compatibility with <code>caret</code>.</p>
 <span class="r-in"><span><span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## run the function and watch the live progress udpates</span></span></span>
 <span class="r-in"><span><span class="va">dat_preproc</span> <span class="op">&lt;-</span> <span class="fu">preprocess_data</span><span class="op">(</span><span class="fu">mikropml</span><span class="fu">::</span><span class="va"><a href="otu_small.html">otu_small</a></span>, <span class="st">"dx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create TreeSE object</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">TreeSummarizedExperiment</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">mikropml</span><span class="fu">::</span><span class="va"><a href="otu_small.html">otu_small</a></span></span></span>
+<span class="r-in"><span><span class="va">assay</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dx"</span><span class="op">)</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TreeSummarizedExperiment/man/TreeSummarizedExperiment-constructor.html" class="external-link">TreeSummarizedExperiment</a></span><span class="op">(</span>assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/SimpleList-class.html" class="external-link">SimpleList</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">assay</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">colData</span><span class="op">(</span><span class="va">tse</span><span class="op">)</span><span class="op">[[</span><span class="st">"dx"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[[</span><span class="st">"dx"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Preprocess</span></span></span>
+<span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu">preprocess_data</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  dataset <span class="op">=</span> <span class="va">tse</span>,</span></span>
+<span class="r-in"><span>  assay.type <span class="op">=</span> <span class="st">"counts"</span>,</span></span>
+<span class="r-in"><span>  outcome_colname <span class="op">=</span> <span class="st">"dx"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># The result is in assay slot</span></span></span>
+<span class="r-in"><span><span class="va">tse</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -245,7 +245,7 @@ all seeds:</p>
 <code>future_mapply()</code> works the same way:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: use more seeds for real-world data</span></span>
-<span><span class="va">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
+<span><span class="va">param_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
 <span>  seeds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">103</span><span class="op">)</span>,</span>
 <span>  methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"glmnet"</span>, <span class="st">"rf"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>

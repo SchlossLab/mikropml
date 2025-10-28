@@ -75,8 +75,7 @@
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>ML method.
-Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul><li><p>glmnet: linear, logistic, or multiclass regression</p></li>
+<dd><p>ML method. Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul><li><p>glmnet: linear, logistic, or multiclass regression</p></li>
 <li><p>rf: random forest</p></li>
 <li><p>rpart2: decision tree</p></li>
 <li><p>svmRadial: support vector machine</p></li>
@@ -90,10 +89,9 @@ Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><u
 
 <dt id="arg-perf-metric-name">perf_metric_name<a class="anchor" aria-label="anchor" href="#arg-perf-metric-name"></a></dt>
 <dd><p>The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = <code>"ROC"</code>,
-multi-class classification = <code>"logLoss"</code>,
-regression = <code>"RMSE"</code>.</p></dd>
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = <code>"ROC"</code>, multi-class
+classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></dd>
 
 
 <dt id="arg-tune-grid">tune_grid<a class="anchor" aria-label="anchor" href="#arg-tune-grid"></a></dt>
@@ -101,9 +99,9 @@ regression = <code>"RMSE"</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>All additional arguments are passed on to <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, such as
-case weights via the <code>weights</code> argument or <code>ntree</code> for <code>rf</code> models.
-See the <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code> docs for more details.</p></dd>
+<dd><p>All additional arguments are passed on to <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code>, such
+as case weights via the <code>weights</code> argument or <code>ntree</code> for <code>rf</code> models. See
+the <code><a href="https://rdrr.io/pkg/caret/man/train.html" class="external-link">caret::train()</a></code> docs for more details.</p></dd>
 
 </dl></div>
     <div class="section level2">
