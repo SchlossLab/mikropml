@@ -1,12 +1,13 @@
 # mikropml development version
 
+- The correlation method and threshold used to collapse correlated features can
+  now be set in `preprocess_data()` (#355, @Benjamin-Valderrama).
+
+
 # mikropml 1.6.2
 
 - Allow `training_frac` equal to 1 (#347, @kelly-sovacool).
 - Fix for upcoming ggplot2 release (#352, @teunbrand).
-
-- The correlation method and threshold used to collapse correlated features can
-  now be set in `preprocess_data()` (#355, @Benjamin-Valderrama). 
 
 # mikropml 1.6.1
 
@@ -15,11 +16,11 @@
 # mikropml 1.6.0
 
 - New functions:
-    - `bootstrap_performance()` allows you to calculate confidence 
+    - `bootstrap_performance()` allows you to calculate confidence
       intervals for the model performance from a single train/test split by
       bootstrapping the test set (#329, @kelly-sovacool).
     - `calc_balanced_precision()` allows you to calculate balanced
-      precision and balanced area under the precision-recall curve 
+      precision and balanced area under the precision-recall curve
       (#333, @kelly-sovacool).
 - Improved output from `find_feature_importance()` (#326, @kelly-sovacool).
     - Renamed the column `names` to `feat` to represent each feature or group of correlated features.
@@ -46,7 +47,7 @@
 
 # mikropml 1.3.0
 
-- mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package (#292). 
+- mikropml now requires R version 4.1.0 or greater due to an update in the randomForest package (#292).
 - New function `compare_models()` compares the performance of two models with a permutation test (#295, @courtneyarmour).
 - Fixed a bug where `cv_times` did not affect the reported repeats for cross-validation (#291, @kelly-sovacool).
 - Made minor documentation improvements (#293, @kelly-sovacool)
@@ -59,7 +60,7 @@ The actual package code remains unchanged.
 # mikropml 1.2.1
 
 - Allow `kfold >= length(groups)` (#285, @kelly-sovacool).
-    - When using the groups parameter, groups are kept together in cross-validation partitions when `kfold` <= the number of groups in the training set. Previously, an error was thrown if this condition was not met. Now, if there are not enough groups in the training set for groups to be kept together during CV, groups are allowed to be split up across CV partitions. 
+    - When using the groups parameter, groups are kept together in cross-validation partitions when `kfold` <= the number of groups in the training set. Previously, an error was thrown if this condition was not met. Now, if there are not enough groups in the training set for groups to be kept together during CV, groups are allowed to be split up across CV partitions.
 - Report p-values for permutation feature importance (#288, @kelly-sovacool).
 
 # mikropml 1.2.0
