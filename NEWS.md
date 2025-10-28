@@ -1,5 +1,6 @@
 # mikropml development version
 
+- mikropml now supports datasets in `TreeSummarizedExperiment` format (#349, @TuomasBorman).
 - The correlation method and threshold used to collapse correlated features can
   now be set in `preprocess_data()` (#355, @Benjamin-Valderrama).
 

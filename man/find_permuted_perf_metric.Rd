@@ -29,16 +29,14 @@ find_permuted_perf_metric(
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}).
-Defaults: binary classification = \code{twoClassSummary},
-multi-class classification = \code{multiClassSummary},
-regression = \code{defaultSummary}.}
+provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary
+classification = \code{twoClassSummary}, multi-class classification =
+\code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{perf_metric_name}{The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = \code{"ROC"},
-multi-class classification = \code{"logLoss"},
-regression = \code{"RMSE"}.}
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = \code{"ROC"}, multi-class
+classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
 

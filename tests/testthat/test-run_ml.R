@@ -310,3 +310,29 @@ test_that("models use case weights when provided", {
   expect_true("weights" %in% colnames(results_custom_train$trained_model$pred))
   expect_false("weights" %in% colnames(otu_mini_bin_results_glmnet$trained_model$pred))
 })
+
+test_that("run_ml works with TreeSummarizedExperiment", {
+  skip_on_cran()
+  # Create TreeSummarizedExperimetn dataset
+  library(TreeSummarizedExperiment)
+  assay <- otu_mini_multi[, !colnames(otu_mini_multi) %in% c("dx"), drop = FALSE] |> t() |> as.matrix()
+  tse <- TreeSummarizedExperiment(assays = SimpleList(counts = assay))
+  colData(tse)[["dx"]] <- otu_mini_multi[["dx"]]
+
+  # Run analysis
+  expect_equal_ml_results(
+    run_ml(
+      tse,
+      assay.type = "counts",
+      method = "glmnet",
+      outcome_colname = "dx",
+      find_feature_importance = TRUE,
+      seed = 2019,
+      cv_times = 2,
+      groups = otu_mini_multi_group
+    ),
+    otu_mini_multi_results_glmnet
+  ) %>%
+    expect_warning() %>%
+    suppressMessages()
+})

@@ -7,10 +7,11 @@
 get_hyperparams_list(dataset, method)
 }
 \arguments{
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest
