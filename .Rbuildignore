@@ -12,8 +12,6 @@
 ^doc$
 ^Meta$
 ^data-raw$
-^doc$
-^Meta$
 ^vignettes/preprocess\.Rmd$
 ^vignettes/parallel\.Rmd$
 ^vignettes/tuning\.Rmd$
@@ -24,3 +22,5 @@
 ^\.pre-commit-config\.yaml$
 ^\.prettierignore$
 ^\.prettierrc$
+^CITATION\.cff$
+^codemeta\.json$
