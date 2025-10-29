@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get model performance metrics as a one-row tibble</h1>
-      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/v1.6.2/R/performance.R" class="external-link"><code>R/performance.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/main/R/performance.R" class="external-link"><code>R/performance.R</code></a></small>
       <div class="d-none name"><code>get_performance_tbl.Rd</code></div>
     </div>
 
@@ -82,18 +82,16 @@
 <dt id="arg-perf-metric-function">perf_metric_function<a class="anchor" aria-label="anchor" href="#arg-perf-metric-function"></a></dt>
 <dd><p>Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see <code><a href="https://rdrr.io/pkg/caret/man/postResample.html" class="external-link">caret::defaultSummary()</a></code>).
-Defaults: binary classification = <code>twoClassSummary</code>,
-multi-class classification = <code>multiClassSummary</code>,
-regression = <code>defaultSummary</code>.</p></dd>
+provided by caret (see <code><a href="https://rdrr.io/pkg/caret/man/postResample.html" class="external-link">caret::defaultSummary()</a></code>). Defaults: binary
+classification = <code>twoClassSummary</code>, multi-class classification =
+<code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></dd>
 
 
 <dt id="arg-perf-metric-name">perf_metric_name<a class="anchor" aria-label="anchor" href="#arg-perf-metric-name"></a></dt>
 <dd><p>The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = <code>"ROC"</code>,
-multi-class classification = <code>"logLoss"</code>,
-regression = <code>"RMSE"</code>.</p></dd>
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = <code>"ROC"</code>, multi-class
+classification = <code>"logLoss"</code>, regression = <code>"RMSE"</code>.</p></dd>
 
 
 <dt id="arg-class-probs">class_probs<a class="anchor" aria-label="anchor" href="#arg-class-probs"></a></dt>
@@ -101,8 +99,7 @@ regression = <code>"RMSE"</code>.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>ML method.
-Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul><li><p>glmnet: linear, logistic, or multiclass regression</p></li>
+<dd><p>ML method. Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><ul><li><p>glmnet: linear, logistic, or multiclass regression</p></li>
 <li><p>rf: random forest</p></li>
 <li><p>rpart2: decision tree</p></li>
 <li><p>svmRadial: support vector machine</p></li>
@@ -111,8 +108,8 @@ Options: <code>c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")</code>.</p><u
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>Random seed (default: <code>NA</code>).
-Your results will only be reproducible if you set a seed.</p></dd>
+<dd><p>Random seed (default: <code>NA</code>). Your results will only be
+reproducible if you set a seed.</p></dd>
 
 </dl></div>
     <div class="section level2">

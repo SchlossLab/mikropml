@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mikropml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get performance metrics for test data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/v1.6.2/R/performance.R" class="external-link"><code>R/performance.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SchlossLab/mikropml/blob/main/R/performance.R" class="external-link"><code>R/performance.R</code></a></small>
       <div class="d-none name"><code>calc_perf_metrics.Rd</code></div>
     </div>
 
@@ -79,10 +79,9 @@
 <dt id="arg-perf-metric-function">perf_metric_function<a class="anchor" aria-label="anchor" href="#arg-perf-metric-function"></a></dt>
 <dd><p>Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see <code><a href="https://rdrr.io/pkg/caret/man/postResample.html" class="external-link">caret::defaultSummary()</a></code>).
-Defaults: binary classification = <code>twoClassSummary</code>,
-multi-class classification = <code>multiClassSummary</code>,
-regression = <code>defaultSummary</code>.</p></dd>
+provided by caret (see <code><a href="https://rdrr.io/pkg/caret/man/postResample.html" class="external-link">caret::defaultSummary()</a></code>). Defaults: binary
+classification = <code>twoClassSummary</code>, multi-class classification =
+<code>multiClassSummary</code>, regression = <code>defaultSummary</code>.</p></dd>
 
 
 <dt id="arg-class-probs">class_probs<a class="anchor" aria-label="anchor" href="#arg-class-probs"></a></dt>
