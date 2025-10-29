@@ -11,7 +11,8 @@ get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol_train)
 
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
-\item{cv_times}{Number of cross-validation partitions to create (default: \code{100}).}
+\item{cv_times}{Number of cross-validation partitions to create (default:
+\code{100}).}
 
 \item{ncol_train}{number of columns in training data}
 }

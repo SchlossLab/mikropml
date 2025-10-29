@@ -19,7 +19,9 @@ Authors@R: c(
     person("Courtney", "Armour", , "armourc@umich.edu", role = "ctb",
            comment = c(ORCID = "0000-0002-5250-1224")),
     person("Sarah", "Lucas", , "salucas@umich.edu", role = "ctb",
-           comment = c(ORCID = "0000-0003-1676-5801"))
+           comment = c(ORCID = "0000-0003-1676-5801")),
+    person("Tuomas", "Borman", role = "ctb",
+           comment = c(ORCID = "0000-0002-8563-8884"))
   )
 Description: An interface to build machine learning models for
     classification and regression problems. 'mikropml' implements the ML
@@ -41,12 +43,17 @@ Imports:
     e1071,
     glmnet,
     kernlab,
+    methods,
     MLmetrics,
     randomForest,
     rlang,
     rpart,
+    S4Vectors,
+    SingleCellExperiment,
     stats,
+    SummarizedExperiment,
     tidyselect,
+    TreeSummarizedExperiment,
     utils,
     xgboost
 Suggests:
@@ -71,6 +78,7 @@ Suggests:
     usethis
 VignetteBuilder:
     knitr
+biocViews:
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

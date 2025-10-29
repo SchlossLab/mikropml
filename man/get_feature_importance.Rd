@@ -29,21 +29,18 @@ get_feature_importance(
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}).
-Defaults: binary classification = \code{twoClassSummary},
-multi-class classification = \code{multiClassSummary},
-regression = \code{defaultSummary}.}
+provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary
+classification = \code{twoClassSummary}, multi-class classification =
+\code{multiClassSummary}, regression = \code{defaultSummary}.}
 
 \item{perf_metric_name}{The column name from the output of the function
-provided to perf_metric_function that is to be used as the performance metric.
-Defaults: binary classification = \code{"ROC"},
-multi-class classification = \code{"logLoss"},
-regression = \code{"RMSE"}.}
+provided to perf_metric_function that is to be used as the performance
+metric. Defaults: binary classification = \code{"ROC"}, multi-class
+classification = \code{"logLoss"}, regression = \code{"RMSE"}.}
 
 \item{class_probs}{Whether to use class probabilities (TRUE for categorical outcomes, FALSE for numeric outcomes).}
 
-\item{method}{ML method.
-Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
+\item{method}{ML method. Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \itemize{
 \item glmnet: linear, logistic, or multiclass regression
 \item rf: random forest
@@ -52,11 +49,11 @@ Options: \code{c("glmnet", "rf", "rpart2", "svmRadial", "xgbTree")}.
 \item xgbTree: xgboost
 }}
 
-\item{seed}{Random seed (default: \code{NA}).
-Your results will only be reproducible if you set a seed.}
+\item{seed}{Random seed (default: \code{NA}). Your results will only be
+reproducible if you set a seed.}
 
-\item{corr_thresh}{For feature importance, group correlations
-above or equal to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
+\item{corr_thresh}{For feature importance, group correlations above or equal
+to \code{corr_thresh} (range \code{0} to \code{1}; default: \code{1}).}
 
 \item{groups}{Vector of feature names to group together during permutation.
 Each element should be a string with feature names separated by a pipe

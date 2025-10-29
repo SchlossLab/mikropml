@@ -9,7 +9,9 @@ check_kfold(kfold, dataset)
 \arguments{
 \item{kfold}{Fold number for k-fold cross-validation (default: \code{5}).}
 
-\item{dataset}{Data frame with an outcome variable and other columns as features.}
+\item{dataset}{Data frame with an outcome variable and other columns as
+features. Alternatively, the input can be in \code{TreeSummarizedExperiment}
+format.}
 }
 \description{
 Check that kfold is an integer of reasonable size
