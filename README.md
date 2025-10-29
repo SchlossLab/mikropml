@@ -13,6 +13,7 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 [![codecov](https://codecov.io/gh/SchlossLab/mikropml/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SchlossLab/mikropml)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md)
 [![CRAN](https://img.shields.io/cran/v/mikropml?color=blue&label=CRAN&logo=R)](https://CRAN.R-project.org/package=mikropml)
+[![r-universe](https://schlosslab.r-universe.dev/mikropml/badges/version)](https://schlosslab.r-universe.dev/mikropml)
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.03073/status.svg)](https://doi.org/10.21105/joss.03073)
 <!-- badges: end -->
@@ -27,6 +28,8 @@ information, documentation, and examples.
 
 ## Installation
 
+### CRAN
+
 You can install the latest release from
 [CRAN](https://cran.r-project.org/package=mikropml):
 <img src='https://cranlogs.r-pkg.org/badges/grand-total/mikropml' align='right'/>
@@ -35,12 +38,18 @@ You can install the latest release from
 install.packages('mikropml')
 ```
 
-or the development version from
+or from [r-universe](https://schlosslab.r-universe.dev/mikropml):
+
+``` r
+install.packages('mikropml', repos = c('https://schlosslab.r-universe.dev'))
+```
+
+or install the development version from
 [GitHub](https://github.com/SchlossLab/mikRopML):
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("SchlossLab/mikropml")
+# install.packages("remotes")
+remotes::install_github("SchlossLab/mikropml")
 ```
 
 or install from a terminal using
