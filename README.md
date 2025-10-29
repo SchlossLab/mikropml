@@ -55,10 +55,12 @@ mamba install -c conda-forge r-mikropml
 ### Dependencies
 
 - Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics,
-  randomForest, rlang, rpart, stats, tidyselect, utils, xgboost
-- Suggests: assertthat, doFuture, forcats, foreach, future,
-  future.apply, furrr, ggplot2, knitr, progress, progressr, purrr,
-  rmarkdown, rsample, testthat, tidyr
+  randomForest, rlang, rpart, stats, S4Vectors, SingleCellExperiment,
+  SummarizedExperiment, tidyselect, TreeSummarizedExperiment, utils,
+  xgboost
+- Suggests: assertthat, doFuture, forcats, foreach, furrr, future,
+  future.apply, ggplot2, knitr, progress, progressr, purrr, rmarkdown,
+  roxygen2, rsample, styler, testthat, tidyr, usethis
 
 ## Usage
 
@@ -80,14 +82,14 @@ running `mikropml` locally or on an HPC. We highly recommend running
 reproducibility and scalability of ML analyses.
 
 <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow">
-<img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/mikropml-snakemake-workflow.png" 
+<img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/mikropml-snakemake-workflow.png"
 height="120" align="center" /> </a>
 
 ## Help & Contributing
 
 If you come across a bug, [open an
 issue](https://github.com/SchlossLab/mikropml/issues) and include a
-[minimal reproducible example](https://www.tidyverse.org/help/).
+[minimal reproducible example](https://tidyverse.org/help/).
 
 If you have questions, create a new post in
 [Discussions](https://github.com/SchlossLab/mikropml/discussions).
@@ -115,6 +117,7 @@ license](https://creativecommons.org/licenses/by/4.0/).
 To cite mikropml in publications, use:
 
 > <p>
+>
 > Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD
 > (2021). “mikropml: User-Friendly R Package for Supervised Machine
 > Learning Pipelines.” <em>Journal of Open Source Software</em>,
@@ -135,7 +138,7 @@ A BibTeX entry for LaTeX users is:
       pages = {3073},
       doi = {10.21105/joss.03073},
       url = {https://joss.theoj.org/papers/10.21105/joss.03073},
-    } 
+    }
 
 ## Why the name?
 
