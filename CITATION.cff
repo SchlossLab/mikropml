@@ -1,0 +1,82 @@
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+
+cff-version: 1.2.0
+message: 'To cite package "mikropml" in publications use:'
+type: software
+license: MIT
+title: 'mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines'
+doi: 10.21105/joss.03073
+identifiers:
+- type: doi
+  value: 10.21105/joss.03073
+abstract: An interface to build machine learning models for classification and regression
+  problems. 'mikropml' implements the ML pipeline described by Topçuoğlu et al. (2020)
+  <https://doi.org/10.1128/mBio.00434-20> with reasonable default options for data
+  preprocessing, hyperparameter tuning, cross-validation, testing, model evaluation,
+  and interpretation steps. See the website <https://www.schlosslab.org/mikropml/>
+  for more information, documentation, and examples.
+authors:
+- family-names: Topçuoğlu
+  given-names: Begüm
+  email: topcuoglu.begum@gmail.com
+  orcid: https://orcid.org/0000-0003-3140-537X
+- family-names: Lapp
+  given-names: Zena
+  email: zenalapp@umich.edu
+  orcid: https://orcid.org/0000-0003-4674-2176
+- family-names: Sovacool
+  given-names: Kelly
+  email: sovacool@umich.edu
+  orcid: https://orcid.org/0000-0003-3283-829X
+- family-names: Snitkin
+  given-names: Evan
+  orcid: https://orcid.org/0000-0001-8409-278X
+- family-names: Wiens
+  given-names: Jenna
+  orcid: https://orcid.org/0000-0002-1057-7722
+- family-names: Schloss
+  given-names: Patrick
+  email: pschloss@umich.edu
+  orcid: https://orcid.org/0000-0002-6935-4275
+preferred-citation:
+  type: article
+  title: 'mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines'
+  authors:
+  - family-names: Topçuoğlu
+    given-names: Begüm D.
+  - family-names: Lapp
+    given-names: Zena
+    email: zenalapp@umich.edu
+    orcid: https://orcid.org/0000-0003-4674-2176
+  - family-names: Sovacool
+    given-names: Kelly L.
+  - family-names: Snitkin
+    given-names: Evan
+    orcid: https://orcid.org/0000-0001-8409-278X
+  - family-names: Wiens
+    given-names: Jenna
+    orcid: https://orcid.org/0000-0002-1057-7722
+  - family-names: Schloss
+    given-names: Patrick D.
+  journal: Journal of Open Source Software
+  year: '2021'
+  volume: '6'
+  issue: '61'
+  doi: 10.21105/joss.03073
+  url: https://joss.theoj.org/papers/10.21105/joss.03073
+  start: '3073'
+repository: https://CRAN.R-project.org/package=mikropml
+repository-code: https://github.com/SchlossLab/mikropml
+url: https://www.schlosslab.org/mikropml/
+contact:
+- family-names: Sovacool
+  given-names: Kelly
+  email: sovacool@umich.edu
+  orcid: https://orcid.org/0000-0003-3283-829X
+keywords:
+- machine-learning
+- r-package
+- rstats

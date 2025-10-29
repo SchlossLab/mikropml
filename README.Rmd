@@ -47,7 +47,7 @@ You can install the latest release from
 install.packages('mikropml')
 ```
 
-or the development version from 
+or the development version from
 [GitHub](https://github.com/SchlossLab/mikRopML):
 
 ```{r install_github, eval = FALSE}
@@ -69,15 +69,15 @@ mamba install -c conda-forge r-mikropml
 
 ```{r deps, echo = FALSE, message = FALSE, warning = FALSE}
 library(dplyr)
-description <- utils::packageDescription('mikropml', 
+description <- utils::packageDescription('mikropml',
                                          fields = c('Imports', 'Suggests'))
-deps <- lapply(names(description), 
+deps <- lapply(names(description),
                function (x) {
-                 paste0('- ', x, ': ', 
-                        description[[x]] %>% 
+                 paste0('- ', x, ': ',
+                        description[[x]] %>%
                           gsub("\n", " ", .))}
-               ) %>% 
-  unlist() %>% 
+               ) %>%
+  unlist() %>%
   paste(., collapse = '\n')
 ```
 
@@ -90,31 +90,31 @@ vignette](http://www.schlosslab.org/mikropml/articles/introduction.html) for a
 quick start tutorial. For a more in-depth discussion, read [all the
 vignettes](http://www.schlosslab.org/mikropml/articles/index.html) and/or take a
 look at the [reference
-documentation](http://www.schlosslab.org/mikropml/reference/index.html). 
+documentation](http://www.schlosslab.org/mikropml/reference/index.html).
 
-You can watch the Riffomonas Project series of 
-[video tutorials](https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg) 
+You can watch the Riffomonas Project series of
+[video tutorials](https://www.youtube.com/playlist?list=PLmNrK_nkqBpKpzb9-vI4V7SdXC-jXEcmg)
 covering mikropml and other skills related to machine learning.
 
-We also provide a 
-[Snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow) 
+We also provide a
+[Snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow)
 for running `mikropml` locally or on an HPC.
-We highly recommend running `mikropml` with Snakemake or another workflow 
+We highly recommend running `mikropml` with Snakemake or another workflow
 management system for reproducibility and scalability of ML analyses.
 
 <a href="https://github.com/SchlossLab/mikropml-snakemake-workflow">
-<img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/mikropml-snakemake-workflow.png" 
+<img src="https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/mikropml-snakemake-workflow.png"
 height="120" align="center" />
 </a>
 
 ## Help & Contributing
 
-If you come across a bug, 
-[open an issue](https://github.com/SchlossLab/mikropml/issues) 
-and include a 
-[minimal reproducible example](https://www.tidyverse.org/help/).
+If you come across a bug,
+[open an issue](https://github.com/SchlossLab/mikropml/issues)
+and include a
+[minimal reproducible example](https://tidyverse.org/help/).
 
-If you have questions, create a new post in 
+If you have questions, create a new post in
 [Discussions](https://github.com/SchlossLab/mikropml/discussions).
 
 If you'd like to contribute, see our guidelines
@@ -128,9 +128,9 @@ contributing to this project, you agree to abide by its terms.
 
 ## License
 
-The mikropml package is licensed under 
+The mikropml package is licensed under
 [the MIT license](https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md).
-Text and images included in this repository, including the mikropml logo, 
+Text and images included in this repository, including the mikropml logo,
 are licensed under the [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/).
 
 ## Citation

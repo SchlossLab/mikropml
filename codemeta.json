@@ -1,0 +1,53 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "@id": "https://orcid.org/0000-0003-3140-537X",
+      "@type": "Person",
+      "familyName": "Topçuoğlu",
+      "givenName": "Begüm"
+    },
+    {
+      "@id": "https://orcid.org/0000-0003-4674-2176",
+      "@type": "Person",
+      "familyName": "Lapp",
+      "givenName": "Zena"
+    },
+    {
+      "@id": "https://orcid.org/0000-0003-3283-829X",
+      "@type": "Person",
+      "familyName": "Sovacool",
+      "givenName": "Kelly"
+    },
+    {
+      "@id": "https://orcid.org/0000-0001-8409-278X",
+      "@type": "Person",
+      "familyName": "Snitkin",
+      "givenName": "Evan"
+    },
+    {
+      "@id": "https://orcid.org/0000-0002-1057-7722",
+      "@type": "Person",
+      "familyName": "Wiens",
+      "givenName": "Jenna"
+    },
+    {
+      "@id": "https://orcid.org/0000-0002-6935-4275",
+      "@type": "Person",
+      "familyName": "Schloss",
+      "givenName": "Patrick"
+    }
+  ],
+  "codeRepository": "https://github.com/SchlossLab/mikropml",
+  "description": "An interface to build machine learning models for classification and regression problems. 'mikropml' implements the ML pipeline described by Topçuoğlu et al. (2020) <https://doi.org/10.1128/mBio.00434-20> with reasonable default options for data preprocessing, hyperparameter tuning, cross-validation, testing, model evaluation, and interpretation steps. See the website <https://www.schlosslab.org/mikropml/> for more information, documentation, and examples.",
+  "identifier": "https://doi.org/10.21105/joss.03073",
+  "keywords": [
+    "machine-learning",
+    "r-package",
+    "rstats"
+  ],
+  "license": "https://spdx.org/licenses/MIT",
+  "name": "mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines",
+  "url": "https://www.schlosslab.org/mikropml/"
+}

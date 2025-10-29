@@ -33,7 +33,7 @@ follows:
 - Normalize continuous features using `caret::preProcess()` based on the method provided.
 - Convert categorical features with more than 2 categories to 0 and 1 in multiple columns (one for each category, so each category has it's own column).
 - Replace missing categorical data with 0.
-- Impute missing continuous values with the median of the feature. 
+- Impute missing continuous values with the median of the feature.
 - By default, remove all features with near-zero variance (option to also remove only features with zero variance).
 - By default, collapse correlated features.
 
@@ -79,17 +79,17 @@ In addition to the dataframe itself, you have to provide the name of the outcome
 preprocess_data(dataset = bin_df, outcome_colname = "outcome")
 ```
 
-The output is a list: `dat_transformed` which has the transformed data, 
-`grp_feats` which is a list of grouped features, and `removed_feats` which is a 
-list of features that were removed. Here, `grp_feats` is `NULL` because there 
-are no perfectly correlated features (e.g. `c(0,1,0)` and `c(0,1,0)`, or 
-`c(0,1,0)` and `c(1,0,1)` - see below for more details). 
+The output is a list: `dat_transformed` which has the transformed data,
+`grp_feats` which is a list of grouped features, and `removed_feats` which is a
+list of features that were removed. Here, `grp_feats` is `NULL` because there
+are no perfectly correlated features (e.g. `c(0,1,0)` and `c(0,1,0)`, or
+`c(0,1,0)` and `c(1,0,1)` - see below for more details).
 
-The first column (`var1`) in `dat_transformed` is a character and is changed to 
-`var1_yes` that has zeros (no) and ones (yes). The values in the second column 
-(`var2`) stay the same because it's already binary, but the name changes to 
-`var2_1`. The third column (`var3`) is a factor and is also changed to binary 
-where b is 1 and a is 0, as denoted by the new column name `var3_b`. 
+The first column (`var1`) in `dat_transformed` is a character and is changed to
+`var1_yes` that has zeros (no) and ones (yes). The values in the second column
+(`var2`) stay the same because it's already binary, but the name changes to
+`var2_1`. The third column (`var3`) is a factor and is also changed to binary
+where b is 1 and a is 0, as denoted by the new column name `var3_b`.
 
 ## Categorical data
 
@@ -130,10 +130,10 @@ cont_df
 preprocess_data(dataset = cont_df, outcome_colname = "outcome")
 ```
 
-Wow! Why did the numbers change? This is because the default is to normalize the 
-data using `"center"` and `"scale"`. While this is often best practice, you may 
-not want to normalize the data, or you may want to normalize the data in a 
-different way. If you don't want to normalize the data, you can use 
+Wow! Why did the numbers change? This is because the default is to normalize the
+data using `"center"` and `"scale"`. While this is often best practice, you may
+not want to normalize the data, or you may want to normalize the data in a
+different way. If you don't want to normalize the data, you can use
 `method=NULL`:
 
 ```{r, eval = FALSE}
@@ -141,12 +141,12 @@ different way. If you don't want to normalize the data, you can use
 preprocess_data(dataset = cont_df, outcome_colname = "outcome", method = NULL)
 ```
 
-You can also normalize the data in different ways. You can choose any method 
-supported by the `method` argument of `caret::preProcess()` (see the 
-`caret::preProcess()` docs for details). Note that these methods are only 
-applied to continuous variables. 
+You can also normalize the data in different ways. You can choose any method
+supported by the `method` argument of `caret::preProcess()` (see the
+`caret::preProcess()` docs for details). Note that these methods are only
+applied to continuous variables.
 
-Another feature of `preprocess_data()` is that if you provide continuous 
+Another feature of `preprocess_data()` is that if you provide continuous
 variables as characters, they will be converted to numeric:
 
 ```{r}
@@ -163,8 +163,8 @@ cont_char_df
 preprocess_data(dataset = cont_char_df, outcome_colname = "outcome")
 ```
 
-If you don't want this to happen, and you want character data to remain 
-character data even if it can be converted to numeric, you can use 
+If you don't want this to happen, and you want character data to remain
+character data even if it can be converted to numeric, you can use
 `to_numeric=FALSE` and they will be kept as categorical:
 
 ```{r}
@@ -172,14 +172,14 @@ character data even if it can be converted to numeric, you can use
 preprocess_data(dataset = cont_char_df, outcome_colname = "outcome", to_numeric = FALSE)
 ```
 
-As you can see from this output, in this case the features are treated as groups 
-rather than numbers (e.g. they are not normalized). 
+As you can see from this output, in this case the features are treated as groups
+rather than numbers (e.g. they are not normalized).
 
 ## Collapse perfectly correlated features
 
-By default, `preprocess_data()` collapses features that are perfectly positively 
-or negatively correlated. This is because having multiple copies of those 
-features does not add information to machine learning, and it makes `run_ml` 
+By default, `preprocess_data()` collapses features that are perfectly positively
+or negatively correlated. This is because having multiple copies of those
+features does not add information to machine learning, and it makes `run_ml`
 faster.
 
 ```{r}
@@ -209,7 +209,7 @@ You can control the correlation method used by
 preprocess_data(
   dataset = corr_df,
   outcome_colname = "outcome",
-  corr_method = 'pearson',
+  corr_method = "pearson",
   corr_thresh = 0.95
 )
 ```
@@ -424,7 +424,7 @@ As you can see, we got several messages:
 
 - One of the samples (row 4) was removed because the outcome value was missing.
 - One of the variables in a feature with no variation had a missing value that was replaced with the the non-varying value (`var11`).
-- Four categorical missing values were replaced with zero (`var9`). 
+- Four categorical missing values were replaced with zero (`var9`).
 There are 4 missing rather than just 1 (like in the raw data) because we split the categorical variable into 4 different columns first.
 - One missing continuous value was imputed using the median value of that feature (`var8`).
 
@@ -436,5 +436,5 @@ grouped together. The variables in each group can be found in `grp_feats`.
 
 After you preprocess your data (either using `preprocess_data()` or by
 preprocessing the data on your own),
-you're ready to train and evaluate machine learning models! 
-Please see `run_ml()` information about training models. 
+you're ready to train and evaluate machine learning models!
+Please see `run_ml()` information about training models.

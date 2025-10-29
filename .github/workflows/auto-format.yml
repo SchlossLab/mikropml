@@ -41,6 +41,7 @@ jobs:
       - name: format
         uses: pre-commit/action@v3.0.1
         continue-on-error: true
+
       - name: commit & push
         run: |
           git config --global user.name "github-actions[bot]"

@@ -288,7 +288,7 @@ test_that("preprocess_data works", {
       test_df,
       "outcome",
       corr_thresh = .8,
-      corr_method = 'pearson',
+      corr_method = "pearson",
       prefilter_threshold = -1
     ),
     list(
@@ -320,7 +320,6 @@ test_that("preprocess_data works", {
       removed_feats = c("var5", "var6", "var11")
     )
   ) %>% suppressMessages()
-  
 })
 
 test_that("rm_missing_outcome works", {
@@ -613,7 +612,7 @@ test_that("collapse_correlated_features works", {
   ) %>% suppressMessages()
   expect_error(
     collapse_correlated_features(test_df[1:3, c(2, 5, 6, 7)]),
-    "Some features are charactors or factors. Please remove these before proceeding with `collapse_correlated_features`."
+    "Some features are characters or factors. Please remove these before proceeding with `collapse_correlated_features`."
   ) %>% suppressMessages()
   expect_error(
     collapse_correlated_features(test_df[1:3, c(2, 5, 6, 8)]),
