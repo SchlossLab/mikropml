@@ -40,8 +40,6 @@ documentation, and examples.
 
 ## Installation
 
-### CRAN
-
 You can install the latest release from
 [CRAN](https://cran.r-project.org/package=mikropml):
 <img src='https://cranlogs.r-pkg.org/badges/grand-total/mikropml' align='right'/>
