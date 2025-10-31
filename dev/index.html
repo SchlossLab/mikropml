@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mikropml</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.6.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.7.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,21 +83,28 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<div class="section level3">
+<h3 id="cran">CRAN<a class="anchor" aria-label="anchor" href="#cran"></a>
+</h3>
 <p>You can install the latest release from <a href="https://cran.r-project.org/package=mikropml" class="external-link">CRAN</a>: <img src="https://cranlogs.r-pkg.org/badges/grand-total/mikropml" align="right"></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span><span class="op">)</span></span></code></pre></div>
-<p>or the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
+<p>or from <a href="https://schlosslab.r-universe.dev/mikropml" class="external-link">r-universe</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://schlosslab.r-universe.dev'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>or install the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
 <p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html" class="external-link">conda</a> or <a href="https://mamba.readthedocs.io/en/latest/" class="external-link">mamba</a>: <img src="https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg" align="right"></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h3>
 <ul>
-<li>Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics, randomForest, rlang, rpart, stats, tidyselect, utils, xgboost</li>
-<li>Suggests: assertthat, doFuture, forcats, foreach, future, future.apply, furrr, ggplot2, knitr, progress, progressr, purrr, rmarkdown, rsample, testthat, tidyr</li>
+<li>Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics, randomForest, rlang, rpart, stats, S4Vectors, SingleCellExperiment, SummarizedExperiment, tidyselect, TreeSummarizedExperiment, utils, xgboost</li>
+<li>Suggests: assertthat, doFuture, forcats, foreach, furrr, future, future.apply, ggplot2, knitr, progress, progressr, purrr, rmarkdown, roxygen2, rsample, styler, testthat, tidyr, usethis</li>
 </ul>
 </div>
 </div>
@@ -112,7 +119,7 @@
 <div class="section level2">
 <h2 id="help--contributing">Help &amp; Contributing<a class="anchor" aria-label="anchor" href="#help--contributing"></a>
 </h2>
-<p>If you come across a bug, <a href="https://github.com/SchlossLab/mikropml/issues" class="external-link">open an issue</a> and include a <a href="https://www.tidyverse.org/help/" class="external-link">minimal reproducible example</a>.</p>
+<p>If you come across a bug, <a href="https://github.com/SchlossLab/mikropml/issues" class="external-link">open an issue</a> and include a <a href="https://tidyverse.org/help/" class="external-link">minimal reproducible example</a>.</p>
 <p>If you have questions, create a new post in <a href="https://github.com/SchlossLab/mikropml/discussions" class="external-link">Discussions</a>.</p>
 <p>If you’d like to contribute, see our guidelines <a href="http://www.schlosslab.org/mikropml/CONTRIBUTING.html">here</a>.</p>
 </div>
@@ -136,17 +143,17 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 </p>
 </blockquote>
 <p>A BibTeX entry for LaTeX users is:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a> <span class="sc">@</span>Article{,</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  title <span class="ot">=</span> {{mikropml}<span class="sc">:</span> User<span class="sc">-</span>Friendly R Package <span class="cf">for</span> Supervised Machine Learning Pipelines},</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  author <span class="ot">=</span> {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  journal <span class="ot">=</span> {Journal of Open Source Software},</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  volume <span class="ot">=</span> {<span class="dv">6</span>},</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  number <span class="ot">=</span> {<span class="dv">61</span>},</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  pages <span class="ot">=</span> {<span class="dv">3073</span>},</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>joss.theoj.org<span class="sc">/</span>papers<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>} </span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a> <span class="sc">@</span>Article{,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  title <span class="ot">=</span> {{mikropml}<span class="sc">:</span> User<span class="sc">-</span>Friendly R Package <span class="cf">for</span> Supervised Machine Learning Pipelines},</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  author <span class="ot">=</span> {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  journal <span class="ot">=</span> {Journal of Open Source Software},</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  volume <span class="ot">=</span> {<span class="dv">6</span>},</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  number <span class="ot">=</span> {<span class="dv">61</span>},</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  pages <span class="ot">=</span> {<span class="dv">3073</span>},</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>joss.theoj.org<span class="sc">/</span>papers<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="why-the-name">Why the name?<a class="anchor" aria-label="anchor" href="#why-the-name"></a>
@@ -211,6 +218,7 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 <li><a href="https://app.codecov.io/gh/SchlossLab/mikropml" class="external-link"><img src="https://codecov.io/gh/SchlossLab/mikropml/branch/main/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="https://github.com/SchlossLab/mikropml/blob/main/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a></li>
 <li><a href="https://CRAN.R-project.org/package=mikropml" class="external-link"><img src="https://img.shields.io/cran/v/mikropml?color=blue&amp;label=CRAN&amp;logo=R" alt="CRAN"></a></li>
+<li><a href="https://schlosslab.r-universe.dev/mikropml" class="external-link"><img src="https://schlosslab.r-universe.dev/mikropml/badges/version" alt="r-universe"></a></li>
 <li><a href="https://anaconda.org/conda-forge/r-mikropml" class="external-link"><img src="https://img.shields.io/conda/vn/conda-forge/r-mikropml" alt="Conda"></a></li>
 <li><a href="https://doi.org/10.21105/joss.03073" class="external-link"><img src="https://joss.theoj.org/papers/10.21105/joss.03073/status.svg" alt="DOI"></a></li>
 </ul>
