@@ -52,7 +52,11 @@ or from [r-universe](https://schlosslab.r-universe.dev/mikropml):
 
 
 ```{r install_universe, eval = FALSE}
-install.packages('mikropml', repos = c('https://schlosslab.r-universe.dev'))
+install.packages('mikropml', repos = c('https://schlosslab.r-universe.dev',
+                                       'https://cloud.r-project.org',
+                                       'https://bioc.r-universe.dev'
+                                       )
+)
 ```
 
 or install the development version from

@@ -28,8 +28,6 @@ information, documentation, and examples.
 
 ## Installation
 
-### CRAN
-
 You can install the latest release from
 [CRAN](https://cran.r-project.org/package=mikropml):
 <img src='https://cranlogs.r-pkg.org/badges/grand-total/mikropml' align='right'/>
@@ -41,7 +39,11 @@ install.packages('mikropml')
 or from [r-universe](https://schlosslab.r-universe.dev/mikropml):
 
 ``` r
-install.packages('mikropml', repos = c('https://schlosslab.r-universe.dev'))
+install.packages('mikropml', repos = c('https://schlosslab.r-universe.dev',
+                                       'https://cloud.r-project.org',
+                                       'https://bioc.r-universe.dev'
+                                       )
+)
 ```
 
 or install the development version from
@@ -63,8 +65,8 @@ mamba install -c conda-forge r-mikropml
 
 ### Dependencies
 
-- Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics,
-  randomForest, rlang, rpart, stats, S4Vectors, SingleCellExperiment,
+- Imports: caret, dplyr, e1071, glmnet, kernlab, methods, MLmetrics,
+  randomForest, rlang, rpart, S4Vectors, SingleCellExperiment, stats,
   SummarizedExperiment, tidyselect, TreeSummarizedExperiment, utils,
   xgboost
 - Suggests: assertthat, doFuture, forcats, foreach, furrr, future,
