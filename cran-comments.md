@@ -2,7 +2,7 @@ This is a resubmission.
 
 ## Test environments
 
-* local macOS install: R 4.5.1
+* local macOS install: R 4.6.1
 * GitHub Actions (ubuntu): devel, release, oldrel
 * GitHub Actions (windows): release
 * GitHub Actions (macOS): release

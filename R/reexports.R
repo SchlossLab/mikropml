@@ -36,4 +36,8 @@ utils::globalVariables(c("."))
 #' @importFrom randomForest getTree
 #' @importFrom rpart rpart
 #' @importFrom xgboost xgboost
+#' 
+#' @importFrom tidyselect all_of
+#' @importFrom utils type.convert getFromNamespace globalVariables
+#' @importFrom methods setGeneric setMethod
 NULL

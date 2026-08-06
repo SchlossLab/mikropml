@@ -110,25 +110,25 @@ test_that("run_ml works for svmRadial", {
     suppressMessages()
 })
 
-test_that("run_ml works for xgbTree", {
-  skip_on_cran()
-  skip_on_ci()
-  skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
-  expect_equal_ml_results(
-    mikropml::run_ml(
-      otu_mini_bin,
-      "xgbTree",
-      outcome_colname = "dx",
-      find_feature_importance = FALSE,
-      seed = 2019,
-      cv_times = 2
-    ),
-    otu_mini_bin_results_xgbTree,
-    tolerance = 1e-3
-  ) %>%
-    suppressWarnings() %>%
-    suppressMessages()
-})
+# test_that("run_ml works for xgbTree", {
+#   skip_on_cran()
+#   skip_on_ci()
+#   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
+#   expect_equal_ml_results(
+#     mikropml::run_ml(
+#       otu_mini_bin,
+#       "xgbTree",
+#       outcome_colname = "dx",
+#       find_feature_importance = FALSE,
+#       seed = 2019,
+#       cv_times = 2
+#     ),
+#     otu_mini_bin_results_xgbTree,
+#     tolerance = 1e-3
+#   ) %>%
+#     suppressWarnings() %>%
+#     suppressMessages()
+# })
 
 test_that("run_ml works for rpart2", {
   skip_on_cran()

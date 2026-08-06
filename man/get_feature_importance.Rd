@@ -29,7 +29,7 @@ get_feature_importance(
 
 \item{perf_metric_function}{Function to calculate the performance metric to
 be used for cross-validation and test performance. Some functions are
-provided by caret (see \code{\link[caret:postResample]{caret::defaultSummary()}}). Defaults: binary
+provided by caret (see \code{\link[caret:defaultSummary]{caret::defaultSummary()}}). Defaults: binary
 classification = \code{twoClassSummary}, multi-class classification =
 \code{multiClassSummary}, regression = \code{defaultSummary}.}
 

@@ -1,6 +1,6 @@
 Package: mikropml
 Title: User-Friendly R Package for Supervised Machine Learning Pipelines
-Version: 1.7.0.9000
+Version: 1.7.1
 Authors@R: c(
     person("Begüm", "Topçuoğlu", , "topcuoglu.begum@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0003-3140-537X")),
@@ -83,4 +83,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

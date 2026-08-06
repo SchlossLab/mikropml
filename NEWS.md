@@ -1,4 +1,7 @@
 # mikropml development version
+# mikropml 1.7.1
+- Allow `training_frac` equal to 1 (#360, @patschloss).
+
 
 # mikropml 1.7.0
 
