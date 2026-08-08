@@ -65,18 +65,18 @@ result1 <- otu_mini_bin_results_glmnet
 ```
 
 There's a also a parallel version of the `rf` engine called `parRF` which trains
-the trees in the forest in parallel. See the [caret docs](https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest) 
+the trees in the forest in parallel. See the [caret docs](https://topepo.github.io/caret/train-models-by-tag.html#Random_Forest)
 for more information.
 
 ### Bootstrap performance
 
-If you only intend to call `run_ml()` once to generate one train/test split 
+If you only intend to call `run_ml()` once to generate one train/test split
 (e.g. such as for a temporal split of the dataset), you can evaluate the
 model performance by bootstrapping the test set.
 
-Here we show how to generate `100` bootstraps and calculate a confidence 
-interval for the model performance. We only use `100` here for computation 
-speed, but it is recommended to generate `10000` bootstraps for a more precise 
+Here we show how to generate `100` bootstraps and calculate a confidence
+interval for the model performance. We only use `100` here for computation
+speed, but it is recommended to generate `10000` bootstraps for a more precise
 estimation of the confidence interval.
 
 ```{r bootstrap, warning=FALSE}
@@ -159,7 +159,7 @@ results_mtx <- future.apply::future_mapply(
 
 ### Visualize the results
 
-`ggplot2` is required to use our plotting functions below. 
+`ggplot2` is required to use our plotting functions below.
 You can also create your own plots however you like using the results data.
 
 #### Performance
@@ -179,7 +179,7 @@ perf_boxplot <- plot_model_performance(perf_df)
 perf_boxplot
 ```
 
-`plot_model_performance()` returns a ggplot2 object. 
+`plot_model_performance()` returns a ggplot2 object.
 You can add layers to customize the plot:
 
 ```{r customize_perf_plot}
@@ -268,8 +268,8 @@ sensspec_dat %>%
 
 #### Feature importance
 
-The `perf_metric_diff` from the feature importance data frame contains the 
-differences between the performance on the actual test data and the performance 
+The `perf_metric_diff` from the feature importance data frame contains the
+differences between the performance on the actual test data and the performance
 on the permuted test data (i.e. **test** minus **permuted**).
 If a feature is important for model performance, we expect `perf_metric_diff` to
 be positive.
@@ -316,7 +316,7 @@ are computed.
 ##### Feature importance for a single model
 
 You can also plot feature importance for a single model.
-Here we report the actual performance, the permutation performance, and the 
+Here we report the actual performance, the permutation performance, and the
 empirical 95% confidence interval for the permutation performance.
 
 ```{r feat_imp_single}
@@ -392,7 +392,7 @@ When parallelizing multiple calls to `run_ml()` in R as in the examples above,
 all of the results objects are held in memory. This isn't a big deal for a small
 dataset run with only a few seeds. However, for large datasets run in parallel
 with, say, 100 seeds (recommended), you may run into problems trying to store
-all of those objects in memory at once. 
+all of those objects in memory at once.
 
 Using a workflow manager such as Snakemake or Nextflow is highly recommend to
 maximize the scalability and reproducibility of computational analyses.
@@ -400,4 +400,3 @@ We created [a template Snakemake workflow here](https://github.com/SchlossLab/mi
 which you can use as a starting point for your ML project.
 
 [![snakemake-dag](https://raw.githubusercontent.com/SchlossLab/mikropml-snakemake-workflow/main/figures/graphviz/dag.png)](https://github.com/SchlossLab/mikropml-snakemake-workflow)
-

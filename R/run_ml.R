@@ -80,7 +80,7 @@
 #' @param altexp The name of alternative experiment (`altExp`) from `dataset`
 #'   when the object is in `TreeSummarizedExperiment` format. This can be used
 #'   to select an experiment for the input.
-#' 
+#'
 #' @return Named list with results:
 #'
 #' - `trained_model`: Output of [caret::train()], including the best model.

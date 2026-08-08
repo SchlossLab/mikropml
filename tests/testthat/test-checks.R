@@ -151,7 +151,7 @@ test_that("check_training_indices works", {
     "The training indices vector contains too many values for the size of the dataset."
   )
   expect_no_error(check_training_indices(1:3, dat))
-  
+
 })
 test_that("check_seed works", {
   expect_true(is.null(check_seed(NA)))

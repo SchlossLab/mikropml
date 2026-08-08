@@ -1,6 +1,6 @@
 ---
 title: "mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines"
-output: 
+output:
   rmarkdown::html_vignette:
     keep_md: true
 tags:
