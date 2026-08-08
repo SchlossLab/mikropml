@@ -52,6 +52,12 @@ or install from a terminal using
 mamba install -c conda-forge r-mikropml
 ```
 
+### xgboost \<= v1.7 is required
+
+There is a bug in later versions of xgboost with caret. You will need to
+downgrade your xgboost version to \<= 1.7 if you wish to use xgbTree.
+See \#352 for more details.
+
 ### Dependencies
 
 - Imports: caret, dplyr, e1071, glmnet, kernlab, methods, MLmetrics,
@@ -116,7 +122,7 @@ To cite mikropml in publications, use:
 > Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD
 > (2021). “mikropml: User-Friendly R Package for Supervised Machine
 > Learning Pipelines.” *Journal of Open Source Software*, **6**(61),
-> 3073. [doi:10.21105/joss.03073](https://doi.org/10.21105/joss.03073),
+> 3073. [doi:10.21105/joss.03073](https://doi.org/10.21105/joss.03073).
 > <https://joss.theoj.org/papers/10.21105/joss.03073>.
 
 A BibTeX entry for LaTeX users is:

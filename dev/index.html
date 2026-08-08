@@ -100,6 +100,11 @@
 <p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html" class="external-link">conda</a> or <a href="https://mamba.readthedocs.io/en/latest/" class="external-link">mamba</a>: <img src="https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg" align="right"></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
 <div class="section level3">
+<h3 id="xgboost--v17-is-required">xgboost &lt;= v1.7 is required<a class="anchor" aria-label="anchor" href="#xgboost--v17-is-required"></a>
+</h3>
+<p>There is a bug in later versions of xgboost with caret. You will need to downgrade your xgboost version to &lt;= 1.7 if you wish to use xgbTree. See #352 for more details.</p>
+</div>
+<div class="section level3">
 <h3 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h3>
 <ul>
@@ -139,7 +144,7 @@
 <p>To cite mikropml in publications, use:</p>
 <blockquote>
 <p>
-Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines.” <em>Journal of Open Source Software</em>, <b>6</b>(61), 3073. <a href="https://doi.org/10.21105/joss.03073" class="external-link">doi:10.21105/joss.03073</a>, <a href="https://joss.theoj.org/papers/10.21105/joss.03073" class="external-link">https://joss.theoj.org/papers/10.21105/joss.03073</a>.
+Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines.” <em>Journal of Open Source Software</em>, <b>6</b>(61), 3073. <a href="https://doi.org/10.21105/joss.03073" class="external-link">doi:10.21105/joss.03073</a>. <a href="https://joss.theoj.org/papers/10.21105/joss.03073" class="external-link">https://joss.theoj.org/papers/10.21105/joss.03073</a>.
 </p>
 </blockquote>
 <p>A BibTeX entry for LaTeX users is:</p>
