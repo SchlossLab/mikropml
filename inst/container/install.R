@@ -7,6 +7,8 @@ remotes::install_version('xgboost','<= 1.7')
 
 # install all dependencies, but do not upgrade already-installed pkg versions
 remotes::install_local('/opt/mikropml', dependencies=TRUE, upgrade=FALSE)
+# raise an error if mikropml was not actually installed
+packageVersion('mikropml')
 
 dir.create('/data')
 readr::write_csv(tibble::as_tibble(installed.packages()), '/data/r-packages.csv')
