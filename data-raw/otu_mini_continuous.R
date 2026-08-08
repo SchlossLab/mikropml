@@ -1,4 +1,5 @@
-otu_mini_cont_results_glmnet <- mikropml::run_ml(otu_mini_bin[, 2:11],
+otu_mini_cont_results_glmnet <- mikropml::run_ml(
+  otu_mini_bin[, 2:11],
   "glmnet",
   outcome_colname = "Otu00001",
   find_feature_importance = TRUE,

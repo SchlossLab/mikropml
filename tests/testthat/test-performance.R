@@ -23,25 +23,35 @@ test_that("get_perf_metric_fn works", {
   expect_equal(get_perf_metric_fn("continuous"), caret::defaultSummary)
   expect_equal(get_perf_metric_fn("binary"), caret::multiClassSummary)
   expect_equal(get_perf_metric_fn("multiclass"), caret::multiClassSummary)
-  expect_error(get_perf_metric_fn("asdf"), "Outcome type of outcome must be one of:")
+  expect_error(
+    get_perf_metric_fn("asdf"),
+    "Outcome type of outcome must be one of:"
+  )
 })
 
 test_that("get_perf_metric_name works", {
   expect_equal(get_perf_metric_name("continuous"), "RMSE")
   expect_equal(get_perf_metric_name("binary"), "AUC")
   expect_equal(get_perf_metric_name("multiclass"), "logLoss")
-  expect_error(get_perf_metric_name("asdf"), "Outcome type of outcome must be one of:")
+  expect_error(
+    get_perf_metric_name("asdf"),
+    "Outcome type of outcome must be one of:"
+  )
 })
 
 test_that("calc_perf_metrics works", {
   expect_equal(
-    calc_perf_metrics(otu_mini_bin_results_glmnet$test_data,
+    calc_perf_metrics(
+      otu_mini_bin_results_glmnet$test_data,
       otu_mini_bin_results_glmnet$trained_model,
       "dx",
       caret::multiClassSummary,
       class_probs = TRUE
     ),
-    unlist(c(otu_mini_bin_results_glmnet$performance[, !(colnames(otu_mini_bin_results_glmnet$performance) %in% c("cv_metric_AUC", "method", "seed"))]))
+    unlist(c(otu_mini_bin_results_glmnet$performance[,
+      !(colnames(otu_mini_bin_results_glmnet$performance) %in%
+        c("cv_metric_AUC", "method", "seed"))
+    ]))
   )
 })
 
@@ -94,7 +104,9 @@ test_that("calc_perf_bootstrap_split returns consistent results", {
     dplyr::pull(splits) %>%
     .[[1]]
   perf_1 <- calc_perf_bootstrap_split(
-    split_1, model, outcome_colname,
+    split_1,
+    model,
+    outcome_colname,
     perf_metric_function,
     perf_metric_name,
     class_probs,
@@ -106,7 +118,9 @@ test_that("calc_perf_bootstrap_split returns consistent results", {
     dplyr::pull(splits) %>%
     .[[1]]
   perf_2 <- calc_perf_bootstrap_split(
-    split_2, model, outcome_colname,
+    split_2,
+    model,
+    outcome_colname,
     perf_metric_function,
     perf_metric_name,
     class_probs,
@@ -131,40 +145,105 @@ test_that("bootstrap_performance returns consistent results", {
   boot_2 <- structure(
     list(
       term = c(
-        "Accuracy", "AUC", "Balanced_Accuracy",
-        "cv_metric_AUC", "Detection_Rate", "F1", "Kappa", "logLoss",
-        "Neg_Pred_Value", "Pos_Pred_Value", "prAUC", "Precision", "Recall",
-        "Sensitivity", "Specificity"
+        "Accuracy",
+        "AUC",
+        "Balanced_Accuracy",
+        "cv_metric_AUC",
+        "Detection_Rate",
+        "F1",
+        "Kappa",
+        "logLoss",
+        "Neg_Pred_Value",
+        "Pos_Pred_Value",
+        "prAUC",
+        "Precision",
+        "Recall",
+        "Sensitivity",
+        "Specificity"
       ),
       .lower = c(
         0.512820512820513,
-        0.592391304347826, 0.520380434782609, 0.622173713235294, 0.282051282051282,
-        0.536585365853659, 0.0389105058365759, 0.688040379015192, 0.428571428571429,
-        0.611111111111111, 0.524734824159823, 0.611111111111111, 0.478260869565217,
-        0.478260869565217, 0.5625
+        0.592391304347826,
+        0.520380434782609,
+        0.622173713235294,
+        0.282051282051282,
+        0.536585365853659,
+        0.0389105058365759,
+        0.688040379015192,
+        0.428571428571429,
+        0.611111111111111,
+        0.524734824159823,
+        0.611111111111111,
+        0.478260869565217,
+        0.478260869565217,
+        0.5625
       ),
       .estimate = c(
         0.512820512820513,
-        0.592391304347826, 0.520380434782609, 0.622173713235294, 0.282051282051282,
-        0.536585365853659, 0.0389105058365759, 0.688040379015192, 0.428571428571429,
-        0.611111111111111, 0.524734824159823, 0.611111111111111, 0.478260869565217,
-        0.478260869565217, 0.5625
+        0.592391304347826,
+        0.520380434782609,
+        0.622173713235294,
+        0.282051282051282,
+        0.536585365853659,
+        0.0389105058365759,
+        0.688040379015192,
+        0.428571428571429,
+        0.611111111111111,
+        0.524734824159823,
+        0.611111111111111,
+        0.478260869565217,
+        0.478260869565217,
+        0.5625
       ),
       .upper = c(
-        0.512820512820513, 0.592391304347826,
-        0.520380434782609, 0.622173713235294, 0.282051282051282, 0.536585365853659,
-        0.0389105058365759, 0.688040379015192, 0.428571428571429, 0.611111111111111,
-        0.524734824159823, 0.611111111111111, 0.478260869565217, 0.478260869565217,
+        0.512820512820513,
+        0.592391304347826,
+        0.520380434782609,
+        0.622173713235294,
+        0.282051282051282,
+        0.536585365853659,
+        0.0389105058365759,
+        0.688040379015192,
+        0.428571428571429,
+        0.611111111111111,
+        0.524734824159823,
+        0.611111111111111,
+        0.478260869565217,
+        0.478260869565217,
         0.5625
       ),
       .alpha = c(
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
         1
       ),
       .method = c(
-        "percentile", "percentile", "percentile", "percentile",
-        "percentile", "percentile", "percentile", "percentile", "percentile",
-        "percentile", "percentile", "percentile", "percentile", "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
+        "percentile",
         "percentile"
       )
     ),
@@ -182,7 +261,10 @@ test_that("sensspec calculations work", {
       "dx"
     ),
     readRDS(
-      testthat::test_path("fixtures", "otu_mini_bin_results_glmnet_sensspec.Rds")
+      testthat::test_path(
+        "fixtures",
+        "otu_mini_bin_results_glmnet_sensspec.Rds"
+      )
     )
   )
   sensspec_dat <- readRDS(test_path("fixtures", "sensspec_dat.Rds"))

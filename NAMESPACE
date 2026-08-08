@@ -54,7 +54,6 @@ importFrom(SingleCellExperiment,
 )
 importFrom(SummarizedExperiment,
   `assay<-`,
-  `metadata<-`,
   assay,
   assayNames,
   colData

@@ -155,66 +155,106 @@
 #'
 #' @rdname run_ml
 #' @export
-methods::setGeneric("run_ml", signature = "dataset", function(dataset, ...)
-  standardGeneric("run_ml"))
+methods::setGeneric("run_ml", signature = "dataset", function(dataset, ...) {
+  standardGeneric("run_ml")
+})
 
 #' @rdname run_ml
 #' @export
 #' @importFrom SummarizedExperiment assayNames assay colData
 #' @importFrom SingleCellExperiment altExpNames altExp
-methods::setMethod("run_ml", signature = c(dataset = "TreeSummarizedExperiment"),
-  function(dataset, method, outcome_colname, assay.type = "counts",
-           col.var = NULL, altexp = NULL, ...){
-    if( !(is.null(altexp) || (is.character(altexp) &&
-          length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
-      stop("'altexp' must be NULL or specify alternative experiment from ",
-           "altExpNames(x).", call. = FALSE)
+methods::setMethod(
+  "run_ml",
+  signature = c(dataset = "TreeSummarizedExperiment"),
+  function(
+    dataset,
+    method,
+    outcome_colname,
+    assay.type = "counts",
+    col.var = NULL,
+    altexp = NULL,
+    ...
+  ) {
+    if (
+      !(is.null(altexp) ||
+        (is.character(altexp) &&
+          length(altexp) == 1L &&
+          altexp %in% altExpNames(dataset)))
+    ) {
+      stop(
+        "'altexp' must be NULL or specify alternative experiment from ",
+        "altExpNames(x).",
+        call. = FALSE
+      )
     }
-    if( !is.null(altexp) ){
+    if (!is.null(altexp)) {
       dataset <- altExp(dataset, altexp)
     }
-    if( !(is.character(assay.type) && length(assay.type) == 1L &&
-          assay.type %in% assayNames(dataset) ) ){
+    if (
+      !(is.character(assay.type) &&
+        length(assay.type) == 1L &&
+        assay.type %in% assayNames(dataset))
+    ) {
       stop("'assay.type' must specify assay from assayNames(x).", call. = FALSE)
     }
-    if( !(is.character(outcome_colname) && length(outcome_colname) == 1L &&
-          outcome_colname %in% colnames(colData(dataset)) ) ){
-      stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
+    if (
+      !(is.character(outcome_colname) &&
+        length(outcome_colname) == 1L &&
+        outcome_colname %in% colnames(colData(dataset)))
+    ) {
+      stop(
+        "'outcome_colname' must specify column from colData(x).",
+        call. = FALSE
+      )
     }
-    if( !(is.null(col.var) ||
-          (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))) ) ){
-      stop("'col.var' must be NULL or specify columns from colData(x).", call. = FALSE)
+    if (
+      !(is.null(col.var) ||
+        (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))))
+    ) {
+      stop(
+        "'col.var' must be NULL or specify columns from colData(x).",
+        call. = FALSE
+      )
     }
     # Get assay and specified columns
     mat <- assay(dataset, assay.type) |> t()
-    col <- colData(dataset)[ , c(outcome_colname, col.var), drop = FALSE]
+    col <- colData(dataset)[, c(outcome_colname, col.var), drop = FALSE]
     df <- cbind(mat, col) |> as.data.frame()
     # Train model
-    res <- run_ml(dataset = df, method = method, outcome_colname = outcome_colname, ...)
+    res <- run_ml(
+      dataset = df,
+      method = method,
+      outcome_colname = outcome_colname,
+      ...
+    )
     return(res)
   }
 )
 
 #' @rdname run_ml
 #' @export
-methods::setMethod("run_ml", signature = c(dataset = "ANY"),
-          function(dataset,
-           method,
-           outcome_colname = NULL,
-           hyperparameters = NULL,
-           find_feature_importance = FALSE,
-           calculate_performance = TRUE,
-           kfold = 5,
-           cv_times = 100,
-           cross_val = NULL,
-           training_frac = 0.8,
-           perf_metric_function = NULL,
-           perf_metric_name = NULL,
-           groups = NULL,
-           group_partitions = NULL,
-           corr_thresh = 1,
-           seed = NA,
-           ...) {
+methods::setMethod(
+  "run_ml",
+  signature = c(dataset = "ANY"),
+  function(
+    dataset,
+    method,
+    outcome_colname = NULL,
+    hyperparameters = NULL,
+    find_feature_importance = FALSE,
+    calculate_performance = TRUE,
+    kfold = 5,
+    cv_times = 100,
+    cross_val = NULL,
+    training_frac = 0.8,
+    perf_metric_function = NULL,
+    perf_metric_name = NULL,
+    groups = NULL,
+    group_partitions = NULL,
+    corr_thresh = 1,
+    seed = NA,
+    ...
+  ) {
     check_all(
       dataset,
       method,
@@ -240,7 +280,9 @@ methods::setMethod("run_ml", signature = c(dataset = "ANY"),
     # can't have categorical features for feature importance because have to find correlations
     outcome_colname <- check_outcome_column(dataset, outcome_colname)
     if (find_feature_importance) {
-      check_cat_feats(dataset %>% dplyr::select(-tidyselect::all_of(outcome_colname)))
+      check_cat_feats(
+        dataset %>% dplyr::select(-tidyselect::all_of(outcome_colname))
+      )
     }
 
     dataset <- dataset %>%
@@ -253,7 +295,8 @@ methods::setMethod("run_ml", signature = c(dataset = "ANY"),
 
     if (length(training_frac) == 1) {
       check_training_frac(training_frac)
-      training_inds <- get_partition_indices(outcomes_vctr,
+      training_inds <- get_partition_indices(
+        outcomes_vctr,
         training_frac = training_frac,
         groups = groups,
         group_partitions = group_partitions
@@ -283,7 +326,6 @@ methods::setMethod("run_ml", signature = c(dataset = "ANY"),
     }
     tune_grid <- get_tuning_grid(hyperparameters, method)
 
-
     outcome_type <- get_outcome_type(outcomes_vctr)
     class_probs <- outcome_type != "continuous"
 
@@ -308,7 +350,6 @@ methods::setMethod("run_ml", signature = c(dataset = "ANY"),
         group_partitions = group_partitions
       )
     }
-
 
     message("Training the model...")
     trained_model_caret <- train_model(

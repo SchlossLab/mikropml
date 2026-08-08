@@ -20,7 +20,8 @@ get_difference <- function(sub_data, group_name, metric) {
   meanVal <- NULL # suppresses R CMD check Note "no visible binding for global variable"
   if (!is.numeric(sub_data %>% dplyr::pull(metric))) {
     stop(paste0(
-      "The metric `", metric,
+      "The metric `",
+      metric,
       "` is not numeric, please check that you specified the right column."
     ))
   }
@@ -50,7 +51,11 @@ get_difference <- function(sub_data, group_name, metric) {
 #' }
 shuffle_group <- function(dat, col_name) {
   if (!(col_name %in% colnames(dat))) {
-    stop(paste0("The col_name `", col_name, "` does not exist in the data frame."))
+    stop(paste0(
+      "The col_name `",
+      col_name,
+      "` does not exist in the data frame."
+    ))
   }
   group_vals <- dat %>%
     dplyr::pull({{ col_name }})
@@ -80,13 +85,24 @@ shuffle_group <- function(dat, col_name) {
 #' )
 #' set.seed(123)
 #' permute_p_value(df, "AUC", "model", "rf", "glmnet", nperm = 100)
-permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, nperm = 10000) {
+permute_p_value <- function(
+  merged_data,
+  metric,
+  group_name,
+  group_1,
+  group_2,
+  nperm = 10000
+) {
   # check that the metric and group exist in data
   if (!(metric %in% colnames(merged_data))) {
     stop(paste0("The metric `", metric, "` does not exist in the data."))
   }
   if (!(group_name %in% colnames(merged_data))) {
-    stop(paste0("The group_name `", group_name, "` does not exist in the data."))
+    stop(paste0(
+      "The group_name `",
+      group_name,
+      "` does not exist in the data."
+    ))
   }
   # check that group_1 and group_2 exist in the data
   if (!(group_1 %in% (merged_data %>% dplyr::pull(group_name)))) {
@@ -100,7 +116,10 @@ permute_p_value <- function(merged_data, metric, group_name, group_1, group_2, n
   # filter to only the two groups of interest
   sub_data <- merged_data %>%
     dplyr::select({{ metric }}, {{ group_name }}) %>%
-    dplyr::filter(.data[[group_name]] == {{ group_1 }} | .data[[group_name]] == {{ group_2 }})
+    dplyr::filter(
+      .data[[group_name]] == {{ group_1 }} |
+        .data[[group_name]] == {{ group_2 }}
+    )
 
   # observed difference: quantify the absolute value of the difference
   # in metric between the two groups
@@ -173,7 +192,14 @@ compare_models <- function(merged_data, metric, group_name, nperm = 10000) {
     dplyr::select(-x, -y) %>%
     dplyr::group_by(group1, group2) %>%
     dplyr::summarize(
-      p_value = permute_p_value(merged_data, metric, group_name, group1, group2, nperm),
+      p_value = permute_p_value(
+        merged_data,
+        metric,
+        group_name,
+        group1,
+        group2,
+        nperm
+      ),
       .groups = "drop"
     )
 

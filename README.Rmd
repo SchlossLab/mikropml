@@ -76,11 +76,12 @@ or [mamba](https://mamba.readthedocs.io/en/latest/):
 mamba install -c conda-forge r-mikropml
 ```
 
-> ![note] xgboost <= v1.7 required
->
-> There is a bug in later versions of xgboost with caret.
-> You will need to downgrade your xgboost version to <= 1.7 if you wish
-> to use xgbTree. See #352 for more details.
+### xgboost <= v1.7 is required
+
+There is a bug in later versions of xgboost with caret.
+You will need to downgrade your xgboost version to <= 1.7 if you wish to use
+xgbTree.
+See #352 for more details.
 
 ### Dependencies
 

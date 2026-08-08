@@ -3,14 +3,16 @@ test_that("get_difference works", {
   expect_equal(
     get_difference(
       data.frame(AUC = c(0.5, 0.8), type = c("a", "b")),
-      "type", "AUC"
+      "type",
+      "AUC"
     ),
     0.3
   )
   expect_error(
     get_difference(
       data.frame(AUC = c(0.5, 0.8), type = c("a", "b")),
-      "type", "type"
+      "type",
+      "type"
     ),
     "The metric `type` is not numeric, please check that you specified the right column."
   )

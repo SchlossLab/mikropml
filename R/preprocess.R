@@ -85,86 +85,124 @@
 #'
 #' @rdname preprocess_data
 #' @export
-methods::setGeneric("preprocess_data", signature = "dataset", function(dataset, ...)
-  standardGeneric("preprocess_data"))
+methods::setGeneric(
+  "preprocess_data",
+  signature = "dataset",
+  function(dataset, ...) {
+    standardGeneric("preprocess_data")
+  }
+)
 
 #' @rdname preprocess_data
 #' @export
 #' @importFrom SummarizedExperiment assayNames assay colData
 #' @importFrom SingleCellExperiment altExpNames altExp
-methods::setMethod("preprocess_data", signature = c(dataset = "TreeSummarizedExperiment"),
-    function(dataset, outcome_colname, assay.type = "counts", col.var = NULL,
-             altexp = NULL, name = "preprocessed", ...){
-  if( !(is.null(altexp) || (is.character(altexp) &&
-      length(altexp) == 1L && altexp %in% altExpNames(dataset)) ) ){
-    stop("'altexp' must be NULL or specify alternative experiment from ",
-         "altExpNames(x).", call. = FALSE)
-  }
-  if( !is.null(altexp) ){
-    dataset <- altExp(dataset, altexp)
-  }
-  if( !(is.character(assay.type) && length(assay.type) == 1L &&
-        assay.type %in% assayNames(dataset) ) ){
-    stop("'assay.type' must specify assay from assayNames(x).", call. = FALSE)
-  }
-  if( !(is.character(outcome_colname) && length(outcome_colname) == 1L &&
-        outcome_colname %in% colnames(colData(dataset)) ) ){
-    stop("'outcome_colname' must specify column from colData(x).", call. = FALSE)
-  }
-  if( !(is.null(col.var) ||
-        (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))) ) ){
-    stop("'col.var' must be NULL or specify columns from colData(x).", call. = FALSE)
-  }
-  if( !(is.character(name) && length(name) == 1L ) ){
-    stop("'name' must be single character value.", call. = FALSE)
-  }
-  # Get assay and specified columns
-  mat <- assay(dataset, assay.type) |> t()
-  col <- colData(dataset)[ , c(outcome_colname, col.var), drop = FALSE]
-  df <- cbind(mat, col) |> as.data.frame()
-  # Preprocess data
-  res <- preprocess_data(dataset = df, outcome_colname = outcome_colname, ...)
-  # Add data back to SE
-  dataset <- add_data_to_se(dataset, res, outcome_colname, name)
-  return(dataset)
+methods::setMethod(
+  "preprocess_data",
+  signature = c(dataset = "TreeSummarizedExperiment"),
+  function(
+    dataset,
+    outcome_colname,
+    assay.type = "counts",
+    col.var = NULL,
+    altexp = NULL,
+    name = "preprocessed",
+    ...
+  ) {
+    if (
+      !(is.null(altexp) ||
+        (is.character(altexp) &&
+          length(altexp) == 1L &&
+          altexp %in% altExpNames(dataset)))
+    ) {
+      stop(
+        "'altexp' must be NULL or specify alternative experiment from ",
+        "altExpNames(x).",
+        call. = FALSE
+      )
+    }
+    if (!is.null(altexp)) {
+      dataset <- altExp(dataset, altexp)
+    }
+    if (
+      !(is.character(assay.type) &&
+        length(assay.type) == 1L &&
+        assay.type %in% assayNames(dataset))
+    ) {
+      stop("'assay.type' must specify assay from assayNames(x).", call. = FALSE)
+    }
+    if (
+      !(is.character(outcome_colname) &&
+        length(outcome_colname) == 1L &&
+        outcome_colname %in% colnames(colData(dataset)))
+    ) {
+      stop(
+        "'outcome_colname' must specify column from colData(x).",
+        call. = FALSE
+      )
+    }
+    if (
+      !(is.null(col.var) ||
+        (is.character(col.var) && all(col.var %in% colnames(colData(dataset)))))
+    ) {
+      stop(
+        "'col.var' must be NULL or specify columns from colData(x).",
+        call. = FALSE
+      )
+    }
+    if (!(is.character(name) && length(name) == 1L)) {
+      stop("'name' must be single character value.", call. = FALSE)
+    }
+    # Get assay and specified columns
+    mat <- assay(dataset, assay.type) |> t()
+    col <- colData(dataset)[, c(outcome_colname, col.var), drop = FALSE]
+    df <- cbind(mat, col) |> as.data.frame()
+    # Preprocess data
+    res <- preprocess_data(dataset = df, outcome_colname = outcome_colname, ...)
+    # Add data back to SE
+    dataset <- add_data_to_se(dataset, res, outcome_colname, name)
+    return(dataset)
   }
 )
 
 #' @importFrom S4Vectors SimpleList DataFrame metadata
-#' @importFrom SummarizedExperiment assay `assay<-` `metadata<-`
+#' @importFrom SummarizedExperiment assay `assay<-`
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #' @importFrom SingleCellExperiment altExp<-
 #' @importFrom stats setNames
-add_data_to_se <- function(tse, res, outcome_colname, name){
+add_data_to_se <- function(tse, res, outcome_colname, name) {
   # Remove samples if the outcome value was missing
-  if( nrow(res[[1L]]) != ncol(tse) ){
-    tse <- tse[ , !is.na(tse[[ outcome_colname ]])]
+  if (nrow(res[[1L]]) != ncol(tse)) {
+    tse <- tse[, !is.na(tse[[outcome_colname]])]
   }
   # Get assay data
   mat <- res[[1]]
-  mat <- mat[ , !colnames(mat) %in% outcome_colname, drop = FALSE] |> t()
+  mat <- mat[, !colnames(mat) %in% outcome_colname, drop = FALSE] |> t()
   # If the features do not match, add preprocessed data to altExp
-  if( length(setdiff( rownames(mat), rownames(tse))) > 0L ){
+  if (length(setdiff(rownames(mat), rownames(tse))) > 0L) {
     message("Adding preprocessed data to altExp(dataset, '", name, "').")
     # Create new TreeSE
     assays <- setNames(SimpleList(mat), name)
     # If features were grouped, we add the grouping info to rowData
     rd <- NULL
-    if( !is.null(res[[2]]) ){
+    if (!is.null(res[[2]])) {
       rd <- res[[2]]
-      rd <- rd[ match(rownames(mat), names(rd)) ]
+      rd <- rd[match(rownames(mat), names(rd))]
       rd <- rd |> I() |> DataFrame()
       colnames(rd) <- names(res)[[2]]
       rownames(rd) <- rownames(mat)
     }
     # Create TreeSE
     tse_add <- TreeSummarizedExperiment(
-      assays = assays, colData = colData(tse), rowData = rd)
+      assays = assays,
+      colData = colData(tse),
+      rowData = rd
+    )
     # Add info on remvoed featrues to metadata
     metadata(tse_add)[["removed_feats"]] <- res[["removed_feats"]]
     # Add new TreeSE to altExp of old one
     altExp(tse, name) <- tse_add
-  } else{
+  } else {
     # If all features match, we can add the matrix back to original TreeSE as
     # new assay
     mat <- mat[rownames(tse), , drop = FALSE]
@@ -176,89 +214,101 @@ add_data_to_se <- function(tse, res, outcome_colname, name){
 
 #' @rdname preprocess_data
 #' @export
-methods::setMethod("preprocess_data", signature = c(dataset = "ANY"),
-    function(dataset, outcome_colname,
-             method = c("center", "scale"),
-             remove_var = "nzv", collapse_corr_feats = TRUE,
-             corr_method = "spearman",
-             corr_thresh = 1,
-             to_numeric = TRUE, group_neg_corr = TRUE,
-             prefilter_threshold = 1, ...) {
-  progbar <- NULL
-  if (isTRUE(check_packages_installed("progressr"))) {
-    progbar <- progressr::progressor(steps = 20, message = "preprocessing")
-  }
-
-  check_dataset(dataset)
-  check_outcome_column(dataset, outcome_colname, check_values = FALSE)
-  check_remove_var(remove_var)
-  pbtick(progbar)
-  dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
-  dataset <- rm_missing_outcome(dataset, outcome_colname)
-  split_dat <- split_outcome_features(dataset, outcome_colname)
-
-  features <- split_dat$features
-  removed_feats <- character(0)
-  if (to_numeric) {
-    feats <- change_to_num(features) %>%
-      remove_singleton_columns(threshold = prefilter_threshold)
-    removed_feats <- feats$removed_feats
-    features <- feats$dat
-  }
-  pbtick(progbar)
-
-  nv_feats <- process_novar_feats(features, progbar = progbar)
-  pbtick(progbar)
-  split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
-  pbtick(progbar)
-  cont_feats <- process_cont_feats(split_feats$cont_feats, method)
-  pbtick(progbar)
-
-  # combine all processed features
-  processed_feats <- dplyr::bind_cols(
-    cont_feats$transformed_cont,
-    split_feats$cat_feats,
-    nv_feats$novar_feats
-  )
-  pbtick(progbar)
-
-  # remove features with (near-)zero variance
-  feats <- get_caret_processed_df(processed_feats, remove_var)
-  processed_feats <- feats$processed
-  removed_feats <- c(removed_feats, cont_feats$removed_cont, feats$removed)
-  pbtick(progbar)
-
-  # remove perfectly correlated features
-  grp_feats <- NULL
-  if (collapse_corr_feats) {
-    if (is.null(remove_var)) {
-      message("Removing features with zero variance prior to collapsing correlated features.")
-      feats <- get_caret_processed_df(processed_feats, "zv")
-      processed_feats <- feats$processed
-      removed_feats <- c(removed_feats, feats$removed)
-      pbtick(progbar)
+methods::setMethod(
+  "preprocess_data",
+  signature = c(dataset = "ANY"),
+  function(
+    dataset,
+    outcome_colname,
+    method = c("center", "scale"),
+    remove_var = "nzv",
+    collapse_corr_feats = TRUE,
+    corr_method = "spearman",
+    corr_thresh = 1,
+    to_numeric = TRUE,
+    group_neg_corr = TRUE,
+    prefilter_threshold = 1,
+    ...
+  ) {
+    progbar <- NULL
+    if (isTRUE(check_packages_installed("progressr"))) {
+      progbar <- progressr::progressor(steps = 20, message = "preprocessing")
     }
-    feats_and_grps <- collapse_correlated_features(processed_feats,
-      corr_method = corr_method,
-      corr_thresh = corr_thresh,
-      group_neg_corr,
-      progbar = progbar
+
+    check_dataset(dataset)
+    check_outcome_column(dataset, outcome_colname, check_values = FALSE)
+    check_remove_var(remove_var)
+    pbtick(progbar)
+    dataset[[outcome_colname]] <- replace_spaces(dataset[[outcome_colname]])
+    dataset <- rm_missing_outcome(dataset, outcome_colname)
+    split_dat <- split_outcome_features(dataset, outcome_colname)
+
+    features <- split_dat$features
+    removed_feats <- character(0)
+    if (to_numeric) {
+      feats <- change_to_num(features) %>%
+        remove_singleton_columns(threshold = prefilter_threshold)
+      removed_feats <- feats$removed_feats
+      features <- feats$dat
+    }
+    pbtick(progbar)
+
+    nv_feats <- process_novar_feats(features, progbar = progbar)
+    pbtick(progbar)
+    split_feats <- process_cat_feats(nv_feats$var_feats, progbar = progbar)
+    pbtick(progbar)
+    cont_feats <- process_cont_feats(split_feats$cont_feats, method)
+    pbtick(progbar)
+
+    # combine all processed features
+    processed_feats <- dplyr::bind_cols(
+      cont_feats$transformed_cont,
+      split_feats$cat_feats,
+      nv_feats$novar_feats
     )
-    processed_feats <- feats_and_grps$features
-    grp_feats <- feats_and_grps$grp_feats
+    pbtick(progbar)
+
+    # remove features with (near-)zero variance
+    feats <- get_caret_processed_df(processed_feats, remove_var)
+    processed_feats <- feats$processed
+    removed_feats <- c(removed_feats, cont_feats$removed_cont, feats$removed)
+    pbtick(progbar)
+
+    # remove perfectly correlated features
+    grp_feats <- NULL
+    if (collapse_corr_feats) {
+      if (is.null(remove_var)) {
+        message(
+          "Removing features with zero variance prior to collapsing correlated features."
+        )
+        feats <- get_caret_processed_df(processed_feats, "zv")
+        processed_feats <- feats$processed
+        removed_feats <- c(removed_feats, feats$removed)
+        pbtick(progbar)
+      }
+      feats_and_grps <- collapse_correlated_features(
+        processed_feats,
+        corr_method = corr_method,
+        corr_thresh = corr_thresh,
+        group_neg_corr,
+        progbar = progbar
+      )
+      processed_feats <- feats_and_grps$features
+      grp_feats <- feats_and_grps$grp_feats
+    }
+    pbtick(progbar)
+
+    # combine outcome and features
+    dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
+      dplyr::as_tibble()
+
+    return(list(
+      dat_transformed = dat_transformed,
+      grp_feats = grp_feats,
+      removed_feats = removed_feats
+    ))
   }
-  pbtick(progbar)
-
-  # combine outcome and features
-  dat_transformed <- dplyr::bind_cols(split_dat$outcome, processed_feats) %>%
-    dplyr::as_tibble()
-
-  return(list(
-    dat_transformed = dat_transformed,
-    grp_feats = grp_feats,
-    removed_feats = removed_feats
-  ))
-})
+)
 
 #' Remove missing outcome values
 #'
@@ -282,7 +332,15 @@ rm_missing_outcome <- function(dataset, outcome_colname) {
   perc_na <- round(n_outcome_na / total_outcomes * 100, 2)
   dataset <- dataset %>% dplyr::filter(!is.na(!!(dplyr::sym(outcome_colname))))
   if (n_outcome_na != 0) {
-    message(paste0("Removed ", n_outcome_na, "/", total_outcomes, " (", perc_na, "%) of samples because of missing outcome value (NA)."))
+    message(paste0(
+      "Removed ",
+      n_outcome_na,
+      "/",
+      total_outcomes,
+      " (",
+      perc_na,
+      "%) of samples because of missing outcome value (NA)."
+    ))
   }
   return(dataset)
 }
@@ -381,7 +439,8 @@ process_novar_feats <- function(features, progbar = NULL) {
       } else {
         x
       }
-    }) %>% dplyr::as_tibble()
+    }) %>%
+      dplyr::as_tibble()
 
     if (ncol(novar_feats) == 0) {
       novar_feats <- NULL
@@ -453,34 +512,52 @@ process_cat_feats <- function(features, progbar = NULL) {
     cont_feats <- features %>%
       dplyr::select_if(!cat_feats_bool) %>%
       dplyr::as_tibble()
-    if (ncol(cont_feats) == 0) cont_feats <- NULL
-
+    if (ncol(cont_feats) == 0) {
+      cont_feats <- NULL
+    }
 
     feature_design_cat_mat <- NULL
     if (ncol(cat_feats) != 0) {
-      no_missing_bin <- sapply_fn(cat_feats, function(x) !any(is.na(x)) & length(unique(x[!is.na(x)])) == 2)
+      no_missing_bin <- sapply_fn(cat_feats, function(x) {
+        !any(is.na(x)) & length(unique(x[!is.na(x)])) == 2
+      })
       no_missing_bin_mat <- cat_feats[, no_missing_bin] %>% dplyr::as_tibble()
       missing_nonbin_mat <- cat_feats[, !no_missing_bin] %>% dplyr::as_tibble()
 
       # full rank for binary features with no missing data (i.e. one column for each binary feature with no missing data)
       feature_design_no_missing_bin <- NULL
       if (ncol(no_missing_bin_mat) > 0) {
-        feature_design_no_missing_bin <- get_caret_dummyvars_df(no_missing_bin_mat, full_rank = TRUE, progbar = progbar)
+        feature_design_no_missing_bin <- get_caret_dummyvars_df(
+          no_missing_bin_mat,
+          full_rank = TRUE,
+          progbar = progbar
+        )
       }
       # change categorical binary variables to 0 and 1 (not full rank, i.e. one column for each unique element in the column)
       feature_design_missing_nonbin <- NULL
       if (ncol(missing_nonbin_mat) > 0) {
-        feature_design_missing_nonbin <- get_caret_dummyvars_df(missing_nonbin_mat, full_rank = FALSE, progbar = progbar)
+        feature_design_missing_nonbin <- get_caret_dummyvars_df(
+          missing_nonbin_mat,
+          full_rank = FALSE,
+          progbar = progbar
+        )
       }
 
       # combine binary no missing and other categorical features
-      feature_design_cat_mat <- dplyr::bind_cols(feature_design_no_missing_bin, feature_design_missing_nonbin) %>% dplyr::as_tibble()
+      feature_design_cat_mat <- dplyr::bind_cols(
+        feature_design_no_missing_bin,
+        feature_design_missing_nonbin
+      ) %>%
+        dplyr::as_tibble()
 
       missing <- is.na(feature_design_cat_mat)
       n_missing <- sum(missing)
       feature_design_cat_mat[missing] <- 0
       if (n_missing > 0) {
-        message(paste0(n_missing, " categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns."))
+        message(paste0(
+          n_missing,
+          " categorical missing value(s) (NA) were replaced with 0. Note that the matrix is not full rank so missing values may be duplicated in separate columns."
+        ))
       }
     }
   }
@@ -529,7 +606,8 @@ process_cont_feats <- function(features, method) {
             x[m] <- stats::median(x, na.rm = TRUE)
           }
           return(x)
-        }) %>% dplyr::as_tibble()
+        }) %>%
+          dplyr::as_tibble()
         message(
           paste0(
             n_missing,
@@ -589,12 +667,22 @@ get_caret_processed_df <- function(features, method) {
 #' )
 #' get_caret_dummyvars_df(df, TRUE)
 #' }
-get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) {
+get_caret_dummyvars_df <- function(
+  features,
+  full_rank = FALSE,
+  progbar = NULL
+) {
   check_features(features, check_missing = FALSE)
   if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
-    stop("Some variables have no variation. Please remove prior to running this function.")
+    stop(
+      "Some variables have no variation. Please remove prior to running this function."
+    )
   }
-  feature_design <- caret::dummyVars(" ~ .", data = features, fullRank = full_rank)
+  feature_design <- caret::dummyVars(
+    " ~ .",
+    data = features,
+    fullRank = full_rank
+  )
   feature_design_mat <- stats::predict(feature_design, features) %>%
     dplyr::as_tibble()
   return(feature_design_mat)
@@ -614,10 +702,13 @@ get_caret_dummyvars_df <- function(features, full_rank = FALSE, progbar = NULL) 
 #' \dontrun{
 #' collapse_correlated_features(mikropml::otu_small[, 2:ncol(otu_small)])
 #' }
-collapse_correlated_features <- function(features, group_neg_corr = TRUE,
-                                         corr_method = "spearman",
-                                         corr_thresh = 1,
-                                         progbar = NULL) {
+collapse_correlated_features <- function(
+  features,
+  group_neg_corr = TRUE,
+  corr_method = "spearman",
+  corr_thresh = 1,
+  progbar = NULL
+) {
   feats_nocorr <- features
   grp_feats <- NULL
   if (!is.null(features)) {
@@ -627,13 +718,16 @@ collapse_correlated_features <- function(features, group_neg_corr = TRUE,
         "Some features are characters or factors. Please remove these before proceeding with `collapse_correlated_features`."
       )
     }
-    if (!is.null(process_novar_feats(features, progbar = progbar)$novar_feats)) {
+    if (
+      !is.null(process_novar_feats(features, progbar = progbar)$novar_feats)
+    ) {
       stop(
         "Some features have no variation. Please remove these before proceeding with `collapse_correlated_features`."
       )
     }
     if (ncol(features) != 1) {
-      corr_feats <- group_correlated_features(features,
+      corr_feats <- group_correlated_features(
+        features,
         corr_method = corr_method,
         corr_thresh = corr_thresh,
         group_neg_corr = group_neg_corr

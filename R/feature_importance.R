@@ -120,11 +120,20 @@
 #' @author Begüm Topçuoğlu, \email{topcuoglu.begum@@gmail.com}
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-get_feature_importance <- function(trained_model, test_data,
-                                   outcome_colname, perf_metric_function,
-                                   perf_metric_name, class_probs, method,
-                                   seed = NA, corr_thresh = 1, groups = NULL,
-                                   nperms = 100, corr_method = "spearman") {
+get_feature_importance <- function(
+  trained_model,
+  test_data,
+  outcome_colname,
+  perf_metric_function,
+  perf_metric_name,
+  class_probs,
+  method,
+  seed = NA,
+  corr_thresh = 1,
+  groups = NULL,
+  nperms = 100,
+  corr_method = "spearman"
+) {
   abort_packages_not_installed("future.apply")
 
   # get outcome and features
@@ -133,7 +142,11 @@ get_feature_importance <- function(trained_model, test_data,
   features <- split_dat$features
 
   if (is.null(groups)) {
-    groups <- group_correlated_features(features, corr_thresh, corr_method = corr_method)
+    groups <- group_correlated_features(
+      features,
+      corr_thresh,
+      corr_method = corr_method
+    )
   }
 
   test_perf_value <- calc_perf_metrics(
@@ -153,31 +166,37 @@ get_feature_importance <- function(trained_model, test_data,
     )
   }
 
-  imps <- future.apply::future_lapply(groups, function(feat) {
-    return(
-      find_permuted_perf_metric(
-        test_data,
-        trained_model,
-        outcome_colname,
-        perf_metric_function,
-        perf_metric_name,
-        class_probs,
-        feat,
-        test_perf_value,
-        nperms = nperms,
-        progbar = progbar
+  imps <- future.apply::future_lapply(
+    groups,
+    function(feat) {
+      return(
+        find_permuted_perf_metric(
+          test_data,
+          trained_model,
+          outcome_colname,
+          perf_metric_function,
+          perf_metric_name,
+          class_probs,
+          feat,
+          test_perf_value,
+          nperms = nperms,
+          progbar = progbar
+        )
       )
-    )
-  }, future.seed = seed) %>%
+    },
+    future.seed = seed
+  ) %>%
     dplyr::bind_rows()
 
-  return(as.data.frame(imps) %>%
-    dplyr::mutate(
-      feat = factor(groups),
-      method = method,
-      perf_metric_name = perf_metric_name,
-      seed = seed
-    ))
+  return(
+    as.data.frame(imps) %>%
+      dplyr::mutate(
+        feat = factor(groups),
+        method = method,
+        perf_metric_name = perf_metric_name,
+        seed = seed
+      )
+  )
 }
 
 #' Get permuted performance metric difference for a single feature
@@ -202,13 +221,19 @@ get_feature_importance <- function(trained_model, test_data,
 #' @author Zena Lapp, \email{zenalapp@@umich.edu}
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
-find_permuted_perf_metric <- function(test_data, trained_model, outcome_colname,
-                                      perf_metric_function, perf_metric_name,
-                                      class_probs, feat,
-                                      test_perf_value,
-                                      nperms = 100,
-                                      alpha = 0.05,
-                                      progbar = NULL) {
+find_permuted_perf_metric <- function(
+  test_data,
+  trained_model,
+  outcome_colname,
+  perf_metric_function,
+  perf_metric_name,
+  class_probs,
+  feat,
+  test_perf_value,
+  nperms = 100,
+  alpha = 0.05,
+  progbar = NULL
+) {
   # The code below uses a bunch of base R subsetting that doesn't work with tibbles.
   # We should probably refactor those to use tidyverse functions instead,
   # but for now this is a temporary fix.

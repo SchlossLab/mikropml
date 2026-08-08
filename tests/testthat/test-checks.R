@@ -97,7 +97,10 @@ test_that("check_permute works", {
 
 test_that("check_kfold works", {
   expect_true(is.null(check_kfold(2, test_df)))
-  expect_error(check_kfold(1, test_df), "`kfold` must be an integer between 1 and the number of features in the data.")
+  expect_error(
+    check_kfold(1, test_df),
+    "`kfold` must be an integer between 1 and the number of features in the data."
+  )
   expect_error(
     check_kfold(10, test_df),
     "`kfold` must be an integer"
@@ -106,10 +109,13 @@ test_that("check_kfold works", {
     check_kfold(0, test_df),
     "`kfold` must be an integer"
   )
-  expect_warning(expect_error(
-    check_kfold("not_an_int", test_df),
-    "`kfold` must be an integer"
-  ), "NAs introduced by coercion")
+  expect_warning(
+    expect_error(
+      check_kfold("not_an_int", test_df),
+      "`kfold` must be an integer"
+    ),
+    "NAs introduced by coercion"
+  )
 })
 
 test_that("check_training_frac works", {
@@ -151,7 +157,6 @@ test_that("check_training_indices works", {
     "The training indices vector contains too many values for the size of the dataset."
   )
   expect_no_error(check_training_indices(1:3, dat))
-
 })
 test_that("check_seed works", {
   expect_true(is.null(check_seed(NA)))
@@ -164,17 +169,31 @@ test_that("check_seed works", {
 
 test_that("check_all works", {
   expect_null(check_all(
-    otu_small, "glmnet", TRUE, as.integer(5),
-    NULL, NULL, NULL,
-    NULL, NULL, NA, NULL
+    otu_small,
+    "glmnet",
+    TRUE,
+    as.integer(5),
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NA,
+    NULL
   ))
 })
 
 test_that("check_packages_installed works", {
   expect_equal(all(check_packages_installed("caret")), TRUE)
   expect_equal(all(check_packages_installed("this_is_not_a_package")), FALSE)
-  expect_equal(all(check_packages_installed("caret", "this_is_not_a_package")), FALSE)
-  expect_equal(all(check_packages_installed(c("caret", "this_is_not_a_package"))), FALSE)
+  expect_equal(
+    all(check_packages_installed("caret", "this_is_not_a_package")),
+    FALSE
+  )
+  expect_equal(
+    all(check_packages_installed(c("caret", "this_is_not_a_package"))),
+    FALSE
+  )
 })
 
 test_that("check_features works", {
@@ -194,11 +213,27 @@ test_that("check_features works", {
 
 test_that("check_groups works", {
   expect_null(check_groups(mikropml::otu_mini_bin, NULL, 2))
-  expect_null(check_groups(mikropml::otu_mini_bin, sample(LETTERS, nrow(mikropml::otu_mini_bin), replace = T), 2))
-  expect_error(check_groups(mikropml::otu_mini_bin, c(1, 2), 2), "group should be a vector that is the same length as the number of rows in the dataset")
-  expect_error(check_groups(mikropml::otu_mini_bin, data.frame(x = c(1, 2)), 2), "group should be either a vector or NULL, but group is class")
-  expect_error(check_groups(mikropml::otu_mini_bin, c(rep(1, 199), NA), 2), "No NA values are allowed in group, but ")
-  expect_error(check_groups(mikropml::otu_mini_bin, c(rep(1, 200)), 2), "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`")
+  expect_null(check_groups(
+    mikropml::otu_mini_bin,
+    sample(LETTERS, nrow(mikropml::otu_mini_bin), replace = T),
+    2
+  ))
+  expect_error(
+    check_groups(mikropml::otu_mini_bin, c(1, 2), 2),
+    "group should be a vector that is the same length as the number of rows in the dataset"
+  )
+  expect_error(
+    check_groups(mikropml::otu_mini_bin, data.frame(x = c(1, 2)), 2),
+    "group should be either a vector or NULL, but group is class"
+  )
+  expect_error(
+    check_groups(mikropml::otu_mini_bin, c(rep(1, 199), NA), 2),
+    "No NA values are allowed in group, but "
+  )
+  expect_error(
+    check_groups(mikropml::otu_mini_bin, c(rep(1, 200)), 2),
+    "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"
+  )
 })
 
 test_that("check_group_partitions works", {
@@ -208,12 +243,18 @@ test_that("check_group_partitions works", {
 
   expect_null(check_group_partitions(otu_mini_bin, sample_groups, group_part))
   expect_error(
-    check_group_partitions(otu_mini_bin, sample_groups, list(what = c("A", "B"))),
+    check_group_partitions(
+      otu_mini_bin,
+      sample_groups,
+      list(what = c("A", "B"))
+    ),
     "Unrecognized name\\(s\\) in `group_partitions`: what"
   )
   expect_error(
     check_group_partitions(
-      otu_mini_bin, sample_groups, list(train = c("X"))
+      otu_mini_bin,
+      sample_groups,
+      list(train = c("X"))
     ),
     "`group_partitions` contains group names not in groups vector"
   )
@@ -223,42 +264,74 @@ test_that("check_corr_thresh works", {
   expect_null(check_corr_thresh(1))
   expect_null(check_corr_thresh(0.8))
   expect_null(check_corr_thresh(NULL))
-  expect_error(check_corr_thresh(2019), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
-    You provided: ")
-  expect_error(check_corr_thresh(corr_thresh = "a"), "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
-    You provided:")
+  expect_error(
+    check_corr_thresh(2019),
+    "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
+    You provided: "
+  )
+  expect_error(
+    check_corr_thresh(corr_thresh = "a"),
+    "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.
+    You provided:"
+  )
 })
 
 test_that("check_perf_metric_function works", {
   expect_null(check_perf_metric_function(caret::defaultSummary))
   expect_null(check_perf_metric_function(NULL))
-  expect_error(check_perf_metric_function("a"), "`perf_metric_function` must be `NULL` or a function.
-    You provided:")
+  expect_error(
+    check_perf_metric_function("a"),
+    "`perf_metric_function` must be `NULL` or a function.
+    You provided:"
+  )
 })
 
 test_that("check_perf_metric_name works", {
   expect_null(check_perf_metric_name("a"))
   expect_null(check_perf_metric_name(NULL))
-  expect_error(check_perf_metric_name(1), "`perf_metric_name` must be `NULL` or a character\n    You provided: 1")
+  expect_error(
+    check_perf_metric_name(1),
+    "`perf_metric_name` must be `NULL` or a character\n    You provided: 1"
+  )
 })
 
 test_that("check_cat_feats works", {
   expect_null(check_cat_feats(test_df[, 2:3]))
-  expect_error(check_cat_feats(test_df), "No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
+  expect_error(
+    check_cat_feats(test_df),
+    "No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`."
+  )
 })
 
 test_that("check_remove_var works", {
   expect_null(check_remove_var(NULL))
   expect_null(check_remove_var("nzv"))
-  expect_error(check_remove_var("asdf"), "`remove_var` must be one of: NULL, 'nzv','zv'. You provided:")
+  expect_error(
+    check_remove_var("asdf"),
+    "`remove_var` must be one of: NULL, 'nzv','zv'. You provided:"
+  )
 })
 
 test_that("check_ntree works", {
-  expect_null(check_ntree(NULL)) %>% expect_warning("'check_ntree' is deprecated.")
-  expect_null(check_ntree(1000)) %>% expect_warning("'check_ntree' is deprecated.")
-  expect_error(check_ntree("asdf"), "`ntree` must be of length 1 and class numeric. You provided: ") %>% expect_warning("'check_ntree' is deprecated.")
-  expect_error(check_ntree(-10), "`ntree` must be greater than zero. You provided: ") %>% expect_warning("'check_ntree' is deprecated.")
-  expect_error(check_ntree(c(0, 1)), "`ntree` must be of length 1 and class numeric. You provided: ") %>% expect_warning("'check_ntree' is deprecated.")
+  expect_null(check_ntree(NULL)) %>%
+    expect_warning("'check_ntree' is deprecated.")
+  expect_null(check_ntree(1000)) %>%
+    expect_warning("'check_ntree' is deprecated.")
+  expect_error(
+    check_ntree("asdf"),
+    "`ntree` must be of length 1 and class numeric. You provided: "
+  ) %>%
+    expect_warning("'check_ntree' is deprecated.")
+  expect_error(
+    check_ntree(-10),
+    "`ntree` must be greater than zero. You provided: "
+  ) %>%
+    expect_warning("'check_ntree' is deprecated.")
+  expect_error(
+    check_ntree(c(0, 1)),
+    "`ntree` must be of length 1 and class numeric. You provided: "
+  ) %>%
+    expect_warning("'check_ntree' is deprecated.")
 })
 
 test_that("abort_packages_not_installed works", {
