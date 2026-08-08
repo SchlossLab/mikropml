@@ -166,7 +166,7 @@ methods::setMethod(
 )
 
 #' @importFrom S4Vectors SimpleList DataFrame metadata
-#' @importFrom SummarizedExperiment assay `assay<-` `metadata<-`
+#' @importFrom SummarizedExperiment assay `assay<-`
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #' @importFrom SingleCellExperiment altExp<-
 #' @importFrom stats setNames
