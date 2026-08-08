@@ -55,7 +55,7 @@ Imports:
     tidyselect,
     TreeSummarizedExperiment,
     utils,
-    xgboost (< 3.1.2.1)
+    xgboost
 Suggests:
     assertthat,
     doFuture,
