@@ -1,0 +1,86 @@
+name: build-docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_image_tag:
+        description: "Tag to apply to the built docker image (e.g. 'v0.3.0'). If not
+          specified, it will be determined from the DESCRIPTION file."
+        required: false
+        default: ""
+  release:
+    types: [ published ]
+
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
+env:
+  REGISTRY: ghcr.io
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { dockerfile_path: "inst/container/Dockerfile", image_name: "mikropml" }
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - name: prepare variables
+        id: vars
+        run: |
+          image_name="${{ matrix.config.image_name }}"
+
+          if [ "${{ github.event_name }}" = "release" ]; then
+            version="${{ github.ref_name }}"
+          elif [ -n "${{ github.event.inputs.docker_image_tag }}" ]; then
+            version="${{ github.event.inputs.docker_image_tag }}"
+          else
+            version="$(grep 'Version:' ./DESCRIPTION | sed 's/Version: /v/')"
+          fi
+
+          docker_tags="${NAMESPACE}/${image_name}:${version}"
+          if [ "${{ github.event_name }}" = "release" ]; then
+            docker_tags="${docker_tags},${NAMESPACE}/${image_name}:latest"
+          fi
+
+          echo "date=$(date +"%Y-%m-%d")" >> "$GITHUB_OUTPUT"
+          echo "dockerfile_path=${{ matrix.config.dockerfile_path }}" >> "$GITHUB_OUTPUT"
+          echo "image_name=${image_name}" >> "$GITHUB_OUTPUT"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "docker_tags=${docker_tags}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: ${{ env.Context }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.vars.outputs.docker_tags }}
+          file: ${{ steps.vars.outputs.dockerfile_path }}
+          #labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest@v4
+        if: ${{ steps.push.outcome == 'success' }}
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
