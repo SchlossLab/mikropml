@@ -52,12 +52,17 @@ get_outcome_type <- function(outcomes_vec) {
 #' get_perf_metric_fn("binary")
 #' get_perf_metric_fn("multiclass")
 get_perf_metric_fn <- function(outcome_type) {
-  if (outcome_type == "continuous") { # regression
+  if (outcome_type == "continuous") {
+    # regression
     perf_metric_fn <- caret::defaultSummary
-  } else if (outcome_type %in% c("binary", "multiclass")) { # multi-class classification
+  } else if (outcome_type %in% c("binary", "multiclass")) {
+    # multi-class classification
     perf_metric_fn <- caret::multiClassSummary
   } else {
-    stop(paste0('Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ', outcome_type))
+    stop(paste0(
+      'Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ',
+      outcome_type
+    ))
   }
   return(perf_metric_fn)
 }
@@ -78,15 +83,21 @@ get_perf_metric_fn <- function(outcome_type) {
 #' get_perf_metric_name("binary")
 #' get_perf_metric_name("multiclass")
 get_perf_metric_name <- function(outcome_type) {
-  if (outcome_type == "continuous") { # regression
+  if (outcome_type == "continuous") {
+    # regression
     perf_metric_name <- "RMSE"
   } else {
-    if (outcome_type == "binary") { # binary classification
+    if (outcome_type == "binary") {
+      # binary classification
       perf_metric_name <- "AUC"
-    } else if (outcome_type == "multiclass") { # multi-class classification
+    } else if (outcome_type == "multiclass") {
+      # multi-class classification
       perf_metric_name <- "logLoss"
     } else {
-      stop(paste0('Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ', outcome_type))
+      stop(paste0(
+        'Outcome type of outcome must be one of: `"continuous"`,`"binary"`,`"multiclass`), but you provided: ',
+        outcome_type
+      ))
     }
   }
   return(perf_metric_name)
@@ -116,15 +127,32 @@ get_perf_metric_name <- function(outcome_type) {
 #'   class_probs = TRUE
 #' )
 #' }
-calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_metric_function, class_probs) {
+calc_perf_metrics <- function(
+  test_data,
+  trained_model,
+  outcome_colname,
+  perf_metric_function,
+  class_probs
+) {
   pred_type <- "raw"
-  if (class_probs) pred_type <- "prob"
+  if (class_probs) {
+    pred_type <- "prob"
+  }
   preds <- stats::predict(trained_model, test_data, type = pred_type)
   if (class_probs) {
-    uniq_obs <- unique(c(test_data %>% dplyr::pull(outcome_colname), as.character(trained_model$pred$obs)))
+    uniq_obs <- unique(c(
+      test_data %>% dplyr::pull(outcome_colname),
+      as.character(trained_model$pred$obs)
+    ))
     obs <- factor(test_data %>% dplyr::pull(outcome_colname), levels = uniq_obs)
-    pred_class <- factor(names(preds)[apply(preds, 1, which.max)], levels = uniq_obs)
-    perf_met <- perf_metric_function(data.frame(obs = obs, pred = pred_class, preds), lev = uniq_obs)
+    pred_class <- factor(
+      names(preds)[apply(preds, 1, which.max)],
+      levels = uniq_obs
+    )
+    perf_met <- perf_metric_function(
+      data.frame(obs = obs, pred = pred_class, preds),
+      lev = uniq_obs
+    )
   } else {
     obs <- test_data %>% dplyr::pull(outcome_colname)
     perf_met <- perf_metric_function(data.frame(obs = obs, pred = preds))
@@ -160,14 +188,16 @@ calc_perf_metrics <- function(test_data, trained_model, outcome_colname, perf_me
 #' )
 #' }
 #'
-get_performance_tbl <- function(trained_model,
-                                test_data,
-                                outcome_colname,
-                                perf_metric_function,
-                                perf_metric_name,
-                                class_probs,
-                                method,
-                                seed = NA) {
+get_performance_tbl <- function(
+  trained_model,
+  test_data,
+  outcome_colname,
+  perf_metric_function,
+  perf_metric_name,
+  class_probs,
+  method,
+  seed = NA
+) {
   cv_metric <- NULL
   test_perf_metrics <- calc_perf_metrics(
     test_data,
@@ -184,27 +214,29 @@ get_performance_tbl <- function(trained_model,
   if (!(cv_metric_name %in% cv_metric_options)) {
     warning(
       "The performance metric provided does not match the metric used to train the data.\n",
-      "You provided: `", perf_metric_name, "`\n",
+      "You provided: `",
+      perf_metric_name,
+      "`\n",
       "The options are: \n    ",
-      paste(gsub("Train|method", "", cv_metric_options),
-        collapse = ", "
-      )
+      paste(gsub("Train|method", "", cv_metric_options), collapse = ", ")
     )
     cv_metric_value <- NA
   } else {
     cv_metric_value <- train_perf[[cv_metric_name]]
   }
-  return(dplyr::bind_rows(c(
-    cv_metric = cv_metric_value,
-    test_perf_metrics,
-    method = method,
-    seed = seed
-  )) %>%
-    dplyr::rename_with(
-      function(x) paste0("cv_metric_", perf_metric_name),
-      cv_metric
-    ) %>%
-    change_to_num())
+  return(
+    dplyr::bind_rows(c(
+      cv_metric = cv_metric_value,
+      test_perf_metrics,
+      method = method,
+      seed = seed
+    )) %>%
+      dplyr::rename_with(
+        function(x) paste0("cv_metric_", perf_metric_name),
+        cv_metric
+      ) %>%
+      change_to_num()
+  )
 }
 
 #' Calculate a bootstrap confidence interval for the performance on a single train/test split
@@ -233,10 +265,12 @@ get_performance_tbl <- function(trained_model,
 #'     alpha = 0.05
 #'   )
 #' }
-bootstrap_performance <- function(ml_result,
-                                  outcome_colname,
-                                  bootstrap_times = 10000,
-                                  alpha = 0.05) {
+bootstrap_performance <- function(
+  ml_result,
+  outcome_colname,
+  bootstrap_times = 10000,
+  alpha = 0.05
+) {
   abort_packages_not_installed("assertthat", "rsample", "furrr")
   splits <- perf <- NULL
 
@@ -249,19 +283,21 @@ bootstrap_performance <- function(ml_result,
   assertthat::are_equal(length(seed), 1)
   return(
     rsample::bootstraps(test_dat, times = bootstrap_times) %>%
-      dplyr::mutate(perf = furrr::future_map(
-        splits,
-        ~ calc_perf_bootstrap_split(
-          .x,
-          trained_model = model,
-          outcome_colname = outcome_colname,
-          perf_metric_function = get_perf_metric_fn(outcome_type),
-          perf_metric_name = model$metric,
-          class_probs = outcome_type != "continuous",
-          method = model$trained_model$modelInfo$label,
-          seed = seed
+      dplyr::mutate(
+        perf = furrr::future_map(
+          splits,
+          ~ calc_perf_bootstrap_split(
+            .x,
+            trained_model = model,
+            outcome_colname = outcome_colname,
+            perf_metric_function = get_perf_metric_fn(outcome_type),
+            perf_metric_name = model$metric,
+            class_probs = outcome_type != "continuous",
+            method = model$trained_model$modelInfo$label,
+            seed = seed
+          )
         )
-      )) %>%
+      ) %>%
       rsample::int_pctl(perf, alpha = alpha)
   )
 }
@@ -277,14 +313,16 @@ bootstrap_performance <- function(ml_result,
 #' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
-calc_perf_bootstrap_split <- function(test_data_split,
-                                      trained_model,
-                                      outcome_colname,
-                                      perf_metric_function,
-                                      perf_metric_name,
-                                      class_probs,
-                                      method,
-                                      seed) {
+calc_perf_bootstrap_split <- function(
+  test_data_split,
+  trained_model,
+  outcome_colname,
+  perf_metric_function,
+  perf_metric_name,
+  class_probs,
+  method,
+  seed
+) {
   abort_packages_not_installed("rsample")
   return(
     get_performance_tbl(
@@ -314,17 +352,20 @@ calc_perf_bootstrap_split <- function(test_data_split,
 #' @inheritParams run_ml
 #'
 #' @export
-calc_model_sensspec <- function(trained_model, test_data, outcome_colname = NULL) {
+calc_model_sensspec <- function(
+  trained_model,
+  test_data,
+  outcome_colname = NULL
+) {
   # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L95-L109
   outcome_colname <- check_outcome_column(test_data, outcome_colname)
   pos_outcome <- trained_model$levels[1]
   actual <- is_pos <- tp <- fp <- fpr <- NULL
-  probs <- stats::predict(trained_model,
-    newdata = test_data,
-    type = "prob"
-  ) %>%
-    dplyr::mutate(actual = test_data %>%
-      dplyr::pull(outcome_colname))
+  probs <- stats::predict(trained_model, newdata = test_data, type = "prob") %>%
+    dplyr::mutate(
+      actual = test_data %>%
+        dplyr::pull(outcome_colname)
+    )
 
   total <- probs %>%
     dplyr::count(actual) %>%
@@ -333,9 +374,12 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname = NULL
 
   neg_outcome <- names(total) %>%
     # assumes binary outcome
-    Filter(function(x) {
-      x != pos_outcome
-    }, .)
+    Filter(
+      function(x) {
+        x != pos_outcome
+      },
+      .
+    )
 
   sensspec <- probs %>%
     dplyr::arrange(dplyr::desc(!!rlang::sym(pos_outcome))) %>%
@@ -368,9 +412,11 @@ calc_model_sensspec <- function(trained_model, test_data, outcome_colname = NULL
 #'
 #' @author Courtney Armour
 #' @author Kelly Sovacool
-calc_mean_perf <- function(sensspec_dat,
-                           group_var = specificity,
-                           sum_var = sensitivity) {
+calc_mean_perf <- function(
+  sensspec_dat,
+  group_var = specificity,
+  sum_var = sensitivity
+) {
   # adapted from https://github.com/SchlossLab/2021-08-09_ROCcurves/blob/8e62ff8b6fe1b691450c953a9d93b2c11ce3369a/ROCcurves.Rmd#L166-L209
   specificity <- sensitivity <- sd <- NULL
   sensspec_dat %>%
@@ -403,7 +449,8 @@ calc_mean_perf <- function(sensspec_dat,
 #' @export
 calc_mean_roc <- function(sensspec_dat) {
   specificity <- sensitivity <- NULL
-  return(calc_mean_perf(sensspec_dat,
+  return(calc_mean_perf(
+    sensspec_dat,
     group_var = specificity,
     sum_var = sensitivity
   ))
@@ -520,9 +567,11 @@ NULL
 #'   pos_outcome = otu_mini_bin_results_glmnet$trained_model$levels[1]
 #' )
 #'
-calc_baseline_precision <- function(dataset,
-                                    outcome_colname = NULL,
-                                    pos_outcome = NULL) {
+calc_baseline_precision <- function(
+  dataset,
+  outcome_colname = NULL,
+  pos_outcome = NULL
+) {
   outcome_colname <- check_outcome_column(dataset, outcome_colname)
   npos <- dataset %>%
     dplyr::filter(!!rlang::sym(outcome_colname) == pos_outcome) %>%
@@ -578,8 +627,8 @@ calc_baseline_precision <- function(dataset,
 calc_balanced_precision <-
   function(precision, prior) {
     return(
-      precision * (1 - prior) / (
-        precision * (1 - prior) + (1 - precision) * prior
-      )
+      precision *
+        (1 - prior) /
+        (precision * (1 - prior) + (1 - precision) * prior)
     )
   }

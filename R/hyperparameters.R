@@ -13,9 +13,11 @@
 #' hparams_list <- get_hyperparams_list(otu_small, ml_method)
 #' get_tuning_grid(hparams_list, ml_method)
 get_tuning_grid <- function(hyperparams_list, method) {
-  return(hyperparams_list %>%
-    expand.grid() %>%
-    mutate_all_types())
+  return(
+    hyperparams_list %>%
+      expand.grid() %>%
+      mutate_all_types()
+  )
 }
 
 #' Split hyperparameters dataframe into named lists for each parameter
@@ -40,7 +42,8 @@ get_tuning_grid <- function(hyperparams_list, method) {
 #' get_hyperparams_from_df(hparams_df, "glmnet")
 #' }
 get_hyperparams_from_df <- function(hyperparams_df, ml_method) {
-  hyperparams_df_filt <- hyperparams_df %>% dplyr::filter(.data$method == ml_method)
+  hyperparams_df_filt <- hyperparams_df %>%
+    dplyr::filter(.data$method == ml_method)
   return(split(hyperparams_df_filt$value, hyperparams_df_filt$param))
 }
 

@@ -11,7 +11,8 @@ get_sensspec_seed <- function(colnum) {
   sensspec <- calc_model_sensspec(
     trained_model,
     test_data,
-    "dx", "cancer"
+    "dx",
+    "cancer"
   ) %>%
     mutate(seed = seed, method = method)
   return(sensspec)
@@ -21,8 +22,14 @@ sensspec_dat <- purrr::map_dfr(
   get_sensspec_seed
 )
 saveRDS(sensspec_dat, testthat::test_path("fixtures", "sensspec_dat.Rds"))
-saveRDS(calc_mean_prc(sensspec_dat), testthat::test_path("fixtures", "sensspec_prc.Rds"))
-saveRDS(calc_mean_roc(sensspec_dat), testthat::test_path("fixtures", "sensspec_roc.Rds"))
+saveRDS(
+  calc_mean_prc(sensspec_dat),
+  testthat::test_path("fixtures", "sensspec_prc.Rds")
+)
+saveRDS(
+  calc_mean_roc(sensspec_dat),
+  testthat::test_path("fixtures", "sensspec_roc.Rds")
+)
 
 saveRDS(
   calc_model_sensspec(

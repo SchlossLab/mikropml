@@ -24,26 +24,46 @@
 #'   class_probs = TRUE,
 #'   kfold = 5
 #' )
-define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric_function, class_probs, kfold = 5, cv_times = 100, groups = NULL, group_partitions = NULL) {
+define_cv <- function(
+  train_data,
+  outcome_colname,
+  hyperparams_list,
+  perf_metric_function,
+  class_probs,
+  kfold = 5,
+  cv_times = 100,
+  groups = NULL,
+  group_partitions = NULL
+) {
   if (keep_groups_in_cv_partitions(groups, group_partitions, kfold)) {
-    cvIndex <- create_grouped_k_multifolds(groups,
+    cvIndex <- create_grouped_k_multifolds(
+      groups,
       kfold = kfold,
       cv_times = cv_times
     )
     message("Groups will be kept together in CV partitions")
   } else {
     cvIndex <- caret::createMultiFolds(
-      factor(train_data %>%
-        dplyr::pull(outcome_colname)),
+      factor(
+        train_data %>%
+          dplyr::pull(outcome_colname)
+      ),
       kfold,
       times = cv_times
     )
     if (!is.null(groups)) {
-      message("Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`")
+      message(
+        "Groups will not be kept together in CV partitions because the number of groups in the training set is not larger than `kfold`"
+      )
     }
   }
 
-  seeds <- get_seeds_trainControl(hyperparams_list, kfold, cv_times, ncol(train_data))
+  seeds <- get_seeds_trainControl(
+    hyperparams_list,
+    kfold,
+    cv_times,
+    ncol(train_data)
+  )
 
   cv <- caret::trainControl(
     method = "repeatedcv",
@@ -81,7 +101,12 @@ define_cv <- function(train_data, outcome_colname, hyperparams_list, perf_metric
 #'   5, 100, 60
 #' )
 #' }
-get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train) {
+get_seeds_trainControl <- function(
+  hyperparams_list,
+  kfold,
+  cv_times,
+  ncol_train
+) {
   seeds <- vector(mode = "list", length = kfold * cv_times + 1)
   sample_from <- ncol_train * 1000
   n_tuning_combos <- hyperparams_list %>%
@@ -104,7 +129,11 @@ get_seeds_trainControl <- function(hyperparams_list, kfold, cv_times, ncol_train
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
 #'
 keep_groups_in_cv_partitions <- function(groups, group_partitions, kfold) {
-  return(!is.null(groups) & ((is.null(group_partitions) & length(unique(groups)) >= kfold) | (length(group_partitions[["train"]]) >= kfold)))
+  return(
+    !is.null(groups) &
+      ((is.null(group_partitions) & length(unique(groups)) >= kfold) |
+        (length(group_partitions[["train"]]) >= kfold))
+  )
 }
 
 #' Splitting into folds for cross-validation when using groups
@@ -130,13 +159,14 @@ create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   # if (class(groups)[1] == "Surv") {
   #   groups <- groups[, "time"]
   # }
-  prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)),
-    sep = ""
-  )
+  prettyNums <- paste("Rep", gsub(" ", "0", format(1:cv_times)), sep = "")
   for (i in 1:cv_times) {
     tmp <- caret::groupKFold(groups, k = kfold)
-    names(tmp) <- paste("Fold", gsub(" ", "0", format(seq(along = tmp))),
-      ".", prettyNums[i],
+    names(tmp) <- paste(
+      "Fold",
+      gsub(" ", "0", format(seq(along = tmp))),
+      ".",
+      prettyNums[i],
       sep = ""
     )
     out <- if (i == 1) {
@@ -147,7 +177,9 @@ create_grouped_k_multifolds <- function(groups, kfold = 10, cv_times = 5) {
   }
   sapply_fn <- select_apply("sapply")
   if (any(sapply_fn(out, length) == 0)) {
-    stop("Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the groupsing functionality. Alternatively, you can try another seed, or decrease kfold or cv_times.")
+    stop(
+      "Could not split the data into train and validate folds. This could mean you do not have enough samples or groups to perform an ML analysis using the groupsing functionality. Alternatively, you can try another seed, or decrease kfold or cv_times."
+    )
   }
   return(out)
 }

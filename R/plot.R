@@ -51,7 +51,11 @@ plot_model_performance <- function(performance_df) {
   abort_packages_not_installed("ggplot2", "tidyr")
   performance_df %>%
     tidy_perf_data() %>%
-    ggplot2::ggplot(ggplot2::aes(x = .data$method, y = .data$value, color = .data$metric)) +
+    ggplot2::ggplot(ggplot2::aes(
+      x = .data$method,
+      y = .data$value,
+      color = .data$metric
+    )) +
     ggplot2::geom_boxplot() +
     ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed") +
     ggplot2::ylim(0, 1) +
@@ -89,16 +93,24 @@ tidy_perf_data <- function(performance_df) {
     colnames()
   test_colname <- cv_colname %>%
     gsub("cv_metric_", "", .)
-  return(performance_df %>%
-    dplyr::select(tidyselect::all_of(c("method", cv_colname, test_colname))) %>%
-    tidyr::pivot_longer(
-      cols = tidyselect::all_of(c(cv_colname, test_colname)),
-      names_to = "metric"
-    ) %>%
-    dplyr::mutate(metric = dplyr::case_when(
-      startsWith(metric, "cv_metric_") ~ gsub("cv_metric_", "CV ", metric),
-      TRUE ~ paste("Test", metric)
-    )))
+  return(
+    performance_df %>%
+      dplyr::select(tidyselect::all_of(c(
+        "method",
+        cv_colname,
+        test_colname
+      ))) %>%
+      tidyr::pivot_longer(
+        cols = tidyselect::all_of(c(cv_colname, test_colname)),
+        names_to = "metric"
+      ) %>%
+      dplyr::mutate(
+        metric = dplyr::case_when(
+          startsWith(metric, "cv_metric_") ~ gsub("cv_metric_", "CV ", metric),
+          TRUE ~ paste("Test", metric)
+        )
+      )
+  )
 }
 
 #' Get hyperparameter performance metrics
@@ -203,26 +215,29 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
   sd_colname <- paste0("sd_", rlang::as_name(rlang::enquo(metric_col)))
   dat_sum <- dat %>%
     dplyr::group_by({{ param_col }}) %>%
-    dplyr::summarise("mean_{{ metric_col }}" := mean({{ metric_col }}),
+    dplyr::summarise(
+      "mean_{{ metric_col }}" := mean({{ metric_col }}),
       "sd_{{ metric_col }}" := stats::sd({{ metric_col }}),
       # is there a less repetitive way to do this cleanly?
       ymin_metric = !!rlang::sym(mean_colname) - !!rlang::sym(sd_colname),
       ymax_metric = !!rlang::sym(mean_colname) + !!rlang::sym(sd_colname)
     )
-  return(dat_sum %>%
-    ggplot2::ggplot(ggplot2::aes(
-      x = {{ param_col }},
-      y = !!rlang::sym(mean_colname)
-    )) +
-    ggplot2::geom_line() +
-    ggplot2::geom_point() +
-    ggplot2::geom_errorbar(
-      ggplot2::aes(
-        ymin = .data$ymin_metric,
-        ymax = .data$ymax_metric
-      ),
-      width = .001
-    ))
+  return(
+    dat_sum %>%
+      ggplot2::ggplot(ggplot2::aes(
+        x = {{ param_col }},
+        y = !!rlang::sym(mean_colname)
+      )) +
+      ggplot2::geom_line() +
+      ggplot2::geom_point() +
+      ggplot2::geom_errorbar(
+        ggplot2::aes(
+          ymin = .data$ymin_metric,
+          ymax = .data$ymax_metric
+        ),
+        width = .001
+      )
+  )
 }
 
 
@@ -236,8 +251,7 @@ plot_hp_performance <- function(dat, param_col, metric_col) {
 #' @keywords internal
 #' @author Kelly Sovacool \email{sovacool@@umich.edu}
 #'
-shared_ggprotos <- function(ribbon_fill = "#D9D9D9",
-                            line_color = "#000000") {
+shared_ggprotos <- function(ribbon_fill = "#D9D9D9", line_color = "#000000") {
   return(list(
     ggplot2::geom_ribbon(fill = ribbon_fill),
     ggplot2::geom_line(color = line_color),
@@ -254,17 +268,27 @@ shared_ggprotos <- function(ribbon_fill = "#D9D9D9",
 #' @param dat sensitivity, specificity, and precision data calculated by `calc_mean_roc()`
 #'
 #' @export
-plot_mean_roc <- function(dat,
-                          ribbon_fill = "#C6DBEF", line_color = "#08306B") {
+plot_mean_roc <- function(
+  dat,
+  ribbon_fill = "#C6DBEF",
+  line_color = "#08306B"
+) {
   specificity <- mean_sensitivity <- lower <- upper <- NULL
   abort_packages_not_installed("ggplot2")
   dat %>%
     ggplot2::ggplot(ggplot2::aes(
-      x = specificity, y = mean_sensitivity,
-      ymin = lower, ymax = upper
+      x = specificity,
+      y = mean_sensitivity,
+      ymin = lower,
+      ymax = upper
     )) +
     shared_ggprotos(ribbon_fill = ribbon_fill, line_color = line_color) +
-    ggplot2::geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
+    ggplot2::geom_abline(
+      intercept = 1,
+      slope = 1,
+      linetype = "dashed",
+      color = "grey50"
+    ) +
     ggplot2::scale_x_reverse(expand = c(0, 0), limits = c(1.01, -0.01)) +
     ggplot2::labs(x = "Specificity", y = "Mean Sensitivity")
 }
@@ -277,14 +301,21 @@ plot_mean_roc <- function(dat,
 #' @param ycol column for the y axis (Default: `mean_precision`)
 #'
 #' @export
-plot_mean_prc <- function(dat, baseline_precision = NULL, ycol = mean_precision,
-                          ribbon_fill = "#C7E9C0", line_color = "#00441B") {
+plot_mean_prc <- function(
+  dat,
+  baseline_precision = NULL,
+  ycol = mean_precision,
+  ribbon_fill = "#C7E9C0",
+  line_color = "#00441B"
+) {
   recall <- mean_precision <- lower <- upper <- NULL
   abort_packages_not_installed("ggplot2")
   prc_plot <- dat %>%
     ggplot2::ggplot(ggplot2::aes(
-      x = recall, y = {{ ycol }},
-      ymin = lower, ymax = upper
+      x = recall,
+      y = {{ ycol }},
+      ymin = lower,
+      ymax = upper
     )) +
     shared_ggprotos(ribbon_fill = ribbon_fill, line_color = line_color) +
     ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(-0.01, 1.01)) +
@@ -293,7 +324,8 @@ plot_mean_prc <- function(dat, baseline_precision = NULL, ycol = mean_precision,
     prc_plot <- prc_plot +
       ggplot2::geom_hline(
         yintercept = baseline_precision,
-        linetype = "dashed", color = "grey50"
+        linetype = "dashed",
+        color = "grey50"
       )
   }
   return(prc_plot)
