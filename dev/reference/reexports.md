@@ -5,14 +5,14 @@ to see their documentation.
 
 - caret:
 
-  [`contr.ltfr`](https://rdrr.io/pkg/caret/man/dummyVars.html)
+  [`contr.ltfr()`](https://rdrr.io/pkg/caret/man/dummyVars.html)
 
 - dplyr:
 
-  [`%>%`](https://dplyr.tidyverse.org/reference/reexports.html)
+  [`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)
 
 - rlang:
 
-  [`:=`](https://rlang.r-lib.org/reference/dyn-dots.html),
-  [`!!`](https://rlang.r-lib.org/reference/injection-operator.html),
+  [`:=()`](https://rlang.r-lib.org/reference/dyn-dots.html),
+  [`!!()`](https://rlang.r-lib.org/reference/injection-operator.html),
   [`.data`](https://rlang.r-lib.org/reference/dot-data.html)

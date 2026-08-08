@@ -55,6 +55,9 @@ Useful links:
 
 Authors:
 
+- Kelly Sovacool <sovacool@umich.edu>
+  ([ORCID](https://orcid.org/0000-0003-3283-829X))
+
 - Begüm Topçuoğlu <topcuoglu.begum@gmail.com>
   ([ORCID](https://orcid.org/0000-0003-3140-537X))
 

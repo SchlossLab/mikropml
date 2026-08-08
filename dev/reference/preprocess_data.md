@@ -199,7 +199,7 @@ progressr::handlers(progressr::handler_progress(
 ## tell progressor to always report progress
 if (FALSE) { # \dontrun{
 progressr::handlers(global = TRUE)
-## run the function and watch the live progress udpates
+## run the function and watch the live progress updates
 dat_preproc <- preprocess_data(mikropml::otu_small, "dx")
 
 # Create TreeSE object
