@@ -3,7 +3,7 @@
 install.packages('remotes', repos = "https://cloud.r-project.org")
 
 # see issue #352
-remotes::install_version('xgboost','v1.7')
+remotes::install_version('xgboost','<= 1.7')
 
 # install all dependencies, but do not upgrade already-installed pkg versions
 remotes::install_local('/opt/mikropml', dependencies=TRUE, upgrade=FALSE)
