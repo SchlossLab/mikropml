@@ -1,6 +1,6 @@
 # mikropml development version
 - Allow `training_frac` equal to 1 (#360, @patschloss).
-- Note: the maximum `xgbTree` version supported is `1.7`. (see #362)
+- Note: the maximum `xgboost` version supported is `1.7` (see #362).
 
 # mikropml 1.7.0
 
