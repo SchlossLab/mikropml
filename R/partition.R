@@ -19,18 +19,23 @@
 #' training_inds <- get_partition_indices(otu_mini_bin$dx)
 #' train_data <- otu_mini_bin[training_inds, ]
 #' test_data <- otu_mini_bin[-training_inds, ]
-get_partition_indices <- function(outcomes,
-                                  training_frac = 0.8,
-                                  groups = NULL,
-                                  group_partitions = NULL) {
+get_partition_indices <- function(
+  outcomes,
+  training_frac = 0.8,
+  groups = NULL,
+  group_partitions = NULL
+) {
   if (is.null(groups)) {
-    training_inds <- caret::createDataPartition(outcomes,
+    training_inds <- caret::createDataPartition(
+      outcomes,
       p = training_frac,
       list = FALSE
-    ) %>% .[, 1]
+    ) %>%
+      .[, 1]
   } else {
     training_inds <-
-      create_grouped_data_partition(groups,
+      create_grouped_data_partition(
+        groups,
         group_partitions = group_partitions,
         training_frac = training_frac
       )
@@ -64,7 +69,11 @@ get_partition_indices <- function(outcomes,
 #'   group_partitions = list(train = c("A"), test = c("A", "B", "C"))
 #' )
 #' }
-create_grouped_data_partition <- function(groups, group_partitions = NULL, training_frac = 0.8) {
+create_grouped_data_partition <- function(
+  groups,
+  group_partitions = NULL,
+  training_frac = 0.8
+) {
   # get indices
   indices <- seq(along = groups)
   # get unique groups
@@ -91,7 +100,10 @@ create_grouped_data_partition <- function(groups, group_partitions = NULL, train
     in_train_only <- setdiff(group_partitions$train, group_partitions$test)
     in_test_only <- setdiff(group_partitions$test, group_partitions$train)
     in_both <- intersect(group_partitions$test, group_partitions$train)
-    in_neither <- setdiff(unique_groups, union(group_partitions$test, group_partitions$train))
+    in_neither <- setdiff(
+      unique_groups,
+      union(group_partitions$test, group_partitions$train)
+    )
 
     # initialize train & test sets with samples that must be in one or the other
     train_set <- indices[groups %in% in_train_only]

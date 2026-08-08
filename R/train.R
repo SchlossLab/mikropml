@@ -36,13 +36,15 @@
 #' )
 #' rf_model$results %>% dplyr::select(mtry, AUC, prAUC)
 #' }
-train_model <- function(train_data,
-                        outcome_colname,
-                        method,
-                        cv,
-                        perf_metric_name,
-                        tune_grid,
-                        ...) {
+train_model <- function(
+  train_data,
+  outcome_colname,
+  method,
+  cv,
+  perf_metric_name,
+  tune_grid,
+  ...
+) {
   withCallingHandlers(
     {
       if (startsWith(method, "svm")) {
@@ -77,7 +79,10 @@ train_model <- function(train_data,
       }
     },
     warning = function(w) {
-      if (conditionMessage(w) == "There were missing values in resampled performance measures.") {
+      if (
+        conditionMessage(w) ==
+          "There were missing values in resampled performance measures."
+      ) {
         warning(
           "`caret::train()` issued the following warning:\n \n",
           w,

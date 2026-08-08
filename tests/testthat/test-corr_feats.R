@@ -1,4 +1,5 @@
-options( # for compatibility with R < 4.0
+options(
+  # for compatibility with R < 4.0
   stringsAsFactors = FALSE
 )
 tol <- 1e-5
@@ -30,11 +31,14 @@ test_that("get_corr_feats works", {
     corr = c(0.8)
   )
   expect_equal(
-    get_corr_feats(data.frame(
-      a = c(0.8966972, 0.2655087, 0.37212390, 0.5728534),
-      b = c(0.9082078, 0.2016819, 0.89838968, 0.9446753),
-      c = c(0.6607978, 0.6291140, 0.06178627, 0.2059746)
-    ), 0.6),
+    get_corr_feats(
+      data.frame(
+        a = c(0.8966972, 0.2655087, 0.37212390, 0.5728534),
+        b = c(0.9082078, 0.2016819, 0.89838968, 0.9446753),
+        c = c(0.6607978, 0.6291140, 0.06178627, 0.2059746)
+      ),
+      0.6
+    ),
     cor_feats,
     tolerance = tol,
     ignore_attr = TRUE
@@ -42,11 +46,15 @@ test_that("get_corr_feats works", {
     expect_warning("deprecated") %>%
     expect_warning("deprecated")
   expect_equal(
-    get_corr_feats(data.frame(
-      a = c(0.3607978, 0.2911404, 0.36178627, 0.6059746),
-      b = c(0.2099978, 0.3013719, 0.59891969, 0.6442003),
-      c = c(0.9066972, 0.6655073, 0.37212390, 0.0728404)
-    ), 0.9, corr_method = "pearson"),
+    get_corr_feats(
+      data.frame(
+        a = c(0.3607978, 0.2911404, 0.36178627, 0.6059746),
+        b = c(0.2099978, 0.3013719, 0.59891969, 0.6442003),
+        c = c(0.9066972, 0.6655073, 0.37212390, 0.0728404)
+      ),
+      0.9,
+      corr_method = "pearson"
+    ),
     data.frame(
       feature1 = c("b"),
       feature2 = c("c"),
@@ -63,31 +71,44 @@ test_that("get_corr_feats works", {
       b = c(1, 1, 0, 0),
       c = c(0, 0, 1, 1)
     )),
-    structure(list(
-      feature1 = c("a", "a", "b"), feature2 = c(
-        "b",
-        "c", "c"
+    structure(
+      list(
+        feature1 = c("a", "a", "b"),
+        feature2 = c(
+          "b",
+          "c",
+          "c"
+        ),
+        corr = c(1, -1, -1)
       ),
-      corr = c(1, -1, -1)
-    ), class = "data.frame", row.names = c(
-      NA,
-      -3L
-    )),
+      class = "data.frame",
+      row.names = c(
+        NA,
+        -3L
+      )
+    ),
     tolerance = tol,
     ignore_attr = TRUE
   ) %>%
     expect_warning("deprecated") %>%
     expect_warning("deprecated")
   expect_equal(
-    get_corr_feats(data.frame(
-      a = c(1, 1, 0, 0),
-      b = c(1, 1, 0, 0),
-      c = c(0, 0, 1, 1)
-    ), group_neg_corr = FALSE),
-    structure(list(feature1 = "a", feature2 = "b", corr = 1), class = "data.frame", row.names = c(
-      NA,
-      -1L
-    )),
+    get_corr_feats(
+      data.frame(
+        a = c(1, 1, 0, 0),
+        b = c(1, 1, 0, 0),
+        c = c(0, 0, 1, 1)
+      ),
+      group_neg_corr = FALSE
+    ),
+    structure(
+      list(feature1 = "a", feature2 = "b", corr = 1),
+      class = "data.frame",
+      row.names = c(
+        NA,
+        -1L
+      )
+    ),
     tolerance = tol,
     ignore_attr = TRUE
   ) %>%
@@ -118,8 +139,12 @@ test_that("group_correlated_features works", {
   )
 
   features <- dplyr::tibble(
-    a = 1:3, b = 2:4, c = c(1, 0, 1),
-    d = (5:7), e = c(5, 1, 4), f = c(-1, 0, -1)
+    a = 1:3,
+    b = 2:4,
+    c = c(1, 0, 1),
+    d = (5:7),
+    e = c(5, 1, 4),
+    f = c(-1, 0, -1)
   )
   expect_equal(
     group_correlated_features(features),
@@ -133,12 +158,20 @@ test_that("group_correlated_features works", {
 })
 test_that("groups are the same even when column order changes", {
   feats1 <- data.frame(
-    a = 1:3, b = 2:4, c = c(1, 0, 1),
-    d = (5:7), e = c(5, 1, 4), f = c(-1, 0, -1)
+    a = 1:3,
+    b = 2:4,
+    c = c(1, 0, 1),
+    d = (5:7),
+    e = c(5, 1, 4),
+    f = c(-1, 0, -1)
   )
   feats2 <- data.frame(
-    a = 1:3, d = (5:7), e = c(5, 1, 4),
-    b = 2:4, c = c(1, 0, 1), f = c(-1, 0, -1)
+    a = 1:3,
+    d = (5:7),
+    e = c(5, 1, 4),
+    b = 2:4,
+    c = c(1, 0, 1),
+    f = c(-1, 0, -1)
   )
   expect_equal(
     group_correlated_features(feats1),
@@ -147,18 +180,42 @@ test_that("groups are the same even when column order changes", {
 })
 test_that("correlation clustering helper functions work", {
   features <- data.frame(
-    a = 1:3, b = 2:4, c = c(1, 0, 1),
-    d = (5:7), e = c(5, 1, 4)
+    a = 1:3,
+    b = 2:4,
+    c = c(1, 0, 1),
+    d = (5:7),
+    e = c(5, 1, 4)
   )
   corr_mat <- matrix(
     c(
-      1, 1, 0, 1, 0,
-      1, 1, 0, 1, 0,
-      0, 0, 1, 0, 0,
-      1, 1, 0, 1, 0,
-      0, 0, 0, 0, 1
+      1,
+      1,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
     ),
-    nrow = 5, ncol = 5,
+    nrow = 5,
+    ncol = 5,
     dimnames = list(
       c("a", "b", "c", "d", "e"),
       c("a", "b", "c", "d", "e")
