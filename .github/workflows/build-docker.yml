@@ -54,6 +54,8 @@ jobs:
           if [ "${{ github.event_name }}" = "release" ]; then
             docker_tags="${docker_tags},${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${image_name}:latest"
           fi
+          # image name must be lowercase
+          docker_tags=$(echo $docker_tags | tr '[:upper:]' '[:lower:]')
 
           echo "date=$(date +"%Y-%m-%d")" >> "$GITHUB_OUTPUT"
           echo "dockerfile_path=${{ matrix.config.dockerfile_path }}" >> "$GITHUB_OUTPUT"
