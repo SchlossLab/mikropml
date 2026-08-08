@@ -50,9 +50,9 @@ jobs:
             version="$(grep 'Version:' ./DESCRIPTION | sed 's/Version: /v/')"
           fi
 
-          docker_tags="${NAMESPACE}/${image_name}:${version}"
+          docker_tags="${{ env.NAMESPACE }}/${image_name}:${version}"
           if [ "${{ github.event_name }}" = "release" ]; then
-            docker_tags="${docker_tags},${NAMESPACE}/${image_name}:latest"
+            docker_tags="${docker_tags},${{ env.NAMESPACE }}/${image_name}:latest"
           fi
 
           echo "date=$(date +"%Y-%m-%d")" >> "$GITHUB_OUTPUT"
