@@ -4,9 +4,19 @@
 #'
 #' @keywords internal
 #' @author Kelly Sovacool, \email{sovacool@@umich.edu}
-check_all <- function(dataset, method, permute, kfold,
-                      perf_metric_function, perf_metric_name, groups,
-                      group_partitions, corr_thresh, seed, hyperparameters) {
+check_all <- function(
+  dataset,
+  method,
+  permute,
+  kfold,
+  perf_metric_function,
+  perf_metric_name,
+  groups,
+  group_partitions,
+  corr_thresh,
+  seed,
+  hyperparameters
+) {
   check_method(method, hyperparameters)
   check_dataset(dataset)
   check_permute(permute)
@@ -34,7 +44,10 @@ check_all <- function(dataset, method, permute, kfold,
 #' }
 check_dataset <- function(dataset) {
   if (!any(class(dataset) == "data.frame")) {
-    stop(paste("The dataset must be a `data.frame` or `tibble`, but you supplied:", class(dataset)))
+    stop(paste(
+      "The dataset must be a `data.frame` or `tibble`, but you supplied:",
+      class(dataset)
+    ))
   }
   if (nrow(dataset) == 0) {
     stop("No rows detected in dataset.")
@@ -112,7 +125,11 @@ check_kfold <- function(kfold, dataset) {
   if (not_a_number | not_an_int | out_of_range) {
     stop(paste0(
       "`kfold` must be an integer between 1 and the number of features in the data.\n",
-      "  You provided ", kfold, " folds and your dataset has ", nfeats, " features."
+      "  You provided ",
+      kfold,
+      " folds and your dataset has ",
+      nfeats,
+      " features."
     ))
   }
 }
@@ -132,10 +149,13 @@ check_training_frac <- function(frac) {
   if (!is.numeric(frac) | (frac <= 0 | frac > 1)) {
     stop(paste0(
       "`training_frac` must be a numeric between 0 and 1 -- i.e. in (0,1].\n",
-      "    You provided: ", frac
+      "    You provided: ",
+      frac
     ))
   } else if (frac < 0.5) {
-    warning("`training_frac` is less than 0.5. The training set will be smaller than the testing set.")
+    warning(
+      "`training_frac` is less than 0.5. The training set will be smaller than the testing set."
+    )
   }
 }
 
@@ -162,19 +182,22 @@ check_training_indices <- function(training_inds, dataset) {
   }
   stop_msg <- character(0)
   if (min(training_inds) < 1) {
-    stop_msg <- paste0(stop_msg,
+    stop_msg <- paste0(
+      stop_msg,
       "The training indices vector contains a value less than 1.",
       sep = "\n"
     )
   }
   if (max(training_inds) > nrow(dataset)) {
-    stop_msg <- paste0(stop_msg,
+    stop_msg <- paste0(
+      stop_msg,
       "The training indices vector contains a value that is too large for the number of rows in the dataset.",
       sep = "\n"
     )
   }
   if (length(training_inds) > nrow(dataset)) {
-    stop_msg <- paste0(stop_msg,
+    stop_msg <- paste0(
+      stop_msg,
       "The training indices vector contains too many values for the size of the dataset.",
       sep = "\n"
     )
@@ -200,7 +223,8 @@ check_seed <- function(seed) {
   if (!is.na(seed) & !is.numeric(seed)) {
     stop(paste0(
       "`seed` must be `NA` or numeric.\n",
-      "    You provided: ", seed
+      "    You provided: ",
+      seed
     ))
   }
 }
@@ -220,18 +244,29 @@ check_seed <- function(seed) {
 #' check_outcome_column(otu_small, NULL)
 #' check_outcome_column(otu_small, "dx")
 #' }
-check_outcome_column <- function(dataset, outcome_colname, check_values = TRUE, show_message = TRUE) {
+check_outcome_column <- function(
+  dataset,
+  outcome_colname,
+  check_values = TRUE,
+  show_message = TRUE
+) {
   # If no outcome colname specified, use first column in data
   if (is.null(outcome_colname)) {
     outcome_colname <- colnames(dataset)[1]
   } else {
     # check to see if outcome is in column names of data
     if (!outcome_colname %in% colnames(dataset)) {
-      stop(paste0("Outcome '", outcome_colname, "' not in column names of data."))
+      stop(paste0(
+        "Outcome '",
+        outcome_colname,
+        "' not in column names of data."
+      ))
     }
   }
 
-  if (check_values) check_outcome_value(dataset, outcome_colname)
+  if (check_values) {
+    check_outcome_value(dataset, outcome_colname)
+  }
 
   if (show_message) {
     message(
@@ -264,13 +299,21 @@ check_outcome_value <- function(dataset, outcome_colname) {
   outcomes_vec <- dataset %>% dplyr::pull(outcome_colname)
   num_missing <- sum(is.na(outcomes_vec))
   if (num_missing != 0) {
-    stop(paste0("Missing data in the output variable is not allowed, but the outcome variable has ", num_missing, " missing value(s) (NA)."))
+    stop(paste0(
+      "Missing data in the output variable is not allowed, but the outcome variable has ",
+      num_missing,
+      " missing value(s) (NA)."
+    ))
   }
 
   # check for empty strings
   num_empty <- sum(outcomes_vec == "")
   if (num_empty != 0) {
-    warning(paste0("Possible missing data in the output variable: ", num_empty, " empty value(s)."))
+    warning(paste0(
+      "Possible missing data in the output variable: ",
+      num_empty,
+      " empty value(s)."
+    ))
   }
 
   outcomes_all <- dataset %>%
@@ -281,7 +324,9 @@ check_outcome_value <- function(dataset, outcome_colname) {
   if (isnum) {
     # check if it might actually be categorical
     if (all(floor(outcomes_all) == outcomes_all)) {
-      warning("Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values.")
+      warning(
+        "Data is being considered numeric, but all outcome values are integers. If you meant to code your values as categorical, please use character values."
+      )
     }
   }
 
@@ -293,7 +338,9 @@ check_outcome_value <- function(dataset, outcome_colname) {
     stop(
       paste0(
         "A binary or multi-class outcome variable is required, but this dataset has ",
-        num_outcomes, " outcome(s): ", paste(outcomes, collapse = ", ")
+        num_outcomes,
+        " outcome(s): ",
+        paste(outcomes, collapse = ", ")
       )
     )
   }
@@ -335,11 +382,16 @@ check_packages_installed <- function(...) {
 #' }
 abort_packages_not_installed <- function(...) {
   package_status <- check_packages_installed(...)
-  parent_fcn_name <- sub("\\(.*$", "\\(\\)", deparse(sys.calls()[[sys.nframe() - 1]]))
+  parent_fcn_name <- sub(
+    "\\(.*$",
+    "\\(\\)",
+    deparse(sys.calls()[[sys.nframe() - 1]])
+  )
   packages_not_installed <- Filter(isFALSE, package_status)
   if (length(packages_not_installed) > 0) {
     msg <- paste0(
-      "The following package(s) are required for `", parent_fcn_name,
+      "The following package(s) are required for `",
+      parent_fcn_name,
       "` but are not installed: \n  ",
       paste0(names(packages_not_installed), collapse = ", ")
     )
@@ -361,20 +413,31 @@ abort_packages_not_installed <- function(...) {
 #' }
 check_features <- function(features, check_missing = TRUE) {
   if (!class(features)[1] %in% c("data.frame", "tbl_df")) {
-    stop(paste("Argument `features` must be a `data.frame` or `tibble`, but you provided:", class(features)))
+    stop(paste(
+      "Argument `features` must be a `data.frame` or `tibble`, but you provided:",
+      class(features)
+    ))
   }
 
   # check for empty strings
   num_empty <- sum(features == "", na.rm = TRUE)
   if (num_empty != 0) {
-    warning(paste0("Possible missing data in the features: ", num_empty, " empty value(s)."))
+    warning(paste0(
+      "Possible missing data in the features: ",
+      num_empty,
+      " empty value(s)."
+    ))
   }
 
   if (check_missing) {
     # check no NA's
     num_missing <- sum(is.na(features))
     if (num_missing != 0) {
-      stop(paste0("Missing data in the features is not allowed, but the features have ", num_missing, " missing value(s) (NA)."))
+      stop(paste0(
+        "Missing data in the features is not allowed, but the features have ",
+        num_missing,
+        " missing value(s) (NA)."
+      ))
     }
   }
 }
@@ -398,25 +461,41 @@ check_groups <- function(dataset, groups, kfold) {
   isvec <- is.vector(groups)
   isnull <- is.null(groups)
   if (!(isvec | isnull)) {
-    stop(paste0("group should be either a vector or NULL, but group is class ", class(groups), "."))
+    stop(paste0(
+      "group should be either a vector or NULL, but group is class ",
+      class(groups),
+      "."
+    ))
   }
   # if group is a vector, check that it's the correct length
   if (isvec) {
     ndat <- nrow(dataset)
     ngrp <- length(groups)
     if (ndat != ngrp) {
-      stop(paste0("group should be a vector that is the same length as the number of rows in the dataset (", ndat, "), but it is of length ", ngrp, "."))
+      stop(paste0(
+        "group should be a vector that is the same length as the number of rows in the dataset (",
+        ndat,
+        "), but it is of length ",
+        ngrp,
+        "."
+      ))
     }
     # check that there are no NAs in group
     nas <- is.na(groups)
     nnas <- sum(nas)
     if (any(nas)) {
-      stop(paste0("No NA values are allowed in group, but ", nnas, " NA(s) are present."))
+      stop(paste0(
+        "No NA values are allowed in group, but ",
+        nnas,
+        " NA(s) are present."
+      ))
     }
     # check that there is more than 1 group
     ngrp <- length(unique(groups))
     if (ngrp < 2) {
-      stop(paste0("The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"))
+      stop(paste0(
+        "The total number of groups should be greater than 1. If all samples are from the same group, use `group=NULL`"
+      ))
     }
   }
 }
@@ -455,7 +534,8 @@ check_group_partitions <- function(dataset, groups, group_partitions) {
   groups_unrecognized <- setdiff(
     group_partitions %>% unlist(),
     groups %>% unique()
-  ) %>% sort()
+  ) %>%
+    sort()
   if (length(groups_unrecognized) > 0) {
     stop(paste(
       "`group_partitions` contains group names not in groups vector:",
@@ -481,7 +561,8 @@ check_group_partitions <- function(dataset, groups, group_partitions) {
 check_corr_thresh <- function(corr_thresh) {
   err <- paste0(
     "`corr_thresh` must be `NULL` or numeric between 0 and 1 inclusive.\n",
-    "    You provided: ", corr_thresh
+    "    You provided: ",
+    corr_thresh
   )
   if (!is.null(corr_thresh) & !is.numeric(corr_thresh)) {
     stop(err)
@@ -506,7 +587,10 @@ check_corr_thresh <- function(corr_thresh) {
 #' }
 check_perf_metric_function <- function(perf_metric_function) {
   if (!is.function(perf_metric_function) & !is.null(perf_metric_function)) {
-    stop(paste0("`perf_metric_function` must be `NULL` or a function.\n    You provided: ", class(perf_metric_function)))
+    stop(paste0(
+      "`perf_metric_function` must be `NULL` or a function.\n    You provided: ",
+      class(perf_metric_function)
+    ))
   }
 }
 
@@ -523,7 +607,10 @@ check_perf_metric_function <- function(perf_metric_function) {
 #' }
 check_perf_metric_name <- function(perf_metric_name) {
   if (!is.character(perf_metric_name) & !is.null(perf_metric_name)) {
-    stop(paste0("`perf_metric_name` must be `NULL` or a character\n    You provided: ", perf_metric_name))
+    stop(paste0(
+      "`perf_metric_name` must be `NULL` or a character\n    You provided: ",
+      perf_metric_name
+    ))
   }
 }
 
@@ -540,7 +627,9 @@ check_perf_metric_name <- function(perf_metric_name) {
 #' }
 check_cat_feats <- function(feats) {
   if (any(sapply(feats, class) %in% c("factor", "character"))) {
-    stop("No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`.")
+    stop(
+      "No categorical features can be used when performing permutation importance. Please change these features to numeric. One option is to use `preprocess_data`."
+    )
   }
 }
 
@@ -558,7 +647,10 @@ check_cat_feats <- function(feats) {
 check_remove_var <- function(remove_var) {
   if (!is.null(remove_var)) {
     if (!(remove_var %in% c("nzv", "zv"))) {
-      stop(paste0("`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ", remove_var))
+      stop(paste0(
+        "`remove_var` must be one of: NULL, 'nzv','zv'. You provided: ",
+        remove_var
+      ))
     }
   }
 }
@@ -578,7 +670,10 @@ check_ntree <- function(ntree) {
   .Deprecated("The `ntree` parameter is no longer checked.")
   if (!is.null(ntree)) {
     if (!is.numeric(ntree) | length(ntree) > 1) {
-      stop(paste0("`ntree` must be of length 1 and class numeric. You provided: ", class(ntree)))
+      stop(paste0(
+        "`ntree` must be of length 1 and class numeric. You provided: ",
+        class(ntree)
+      ))
     } else if (ntree < 1) {
       stop(paste0("`ntree` must be greater than zero. You provided: ", ntree))
     }

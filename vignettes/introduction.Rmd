@@ -233,8 +233,8 @@ results_custom <- run_ml(otu_mini_bin,
 ```
 
 You might have noticed that this one ran faster — that's because we reduced `kfold` and `cv_times`.
-This is okay for testing things out and may even be necessary for smaller datasets. 
-But in general it may be better to have larger numbers for these parameters; 
+This is okay for testing things out and may even be necessary for smaller datasets.
+But in general it may be better to have larger numbers for these parameters;
 we think the defaults are a good starting point [@topcuoglu_framework_2020].
 
 ### Custom training indices
@@ -393,15 +393,15 @@ results_grp_trainA <- run_ml(otu_mini_bin,
 )
 ```
 
-If you need even more control than this, take a look at 
-[setting custom training indices](#custom-training-indices). 
+If you need even more control than this, take a look at
+[setting custom training indices](#custom-training-indices).
 You might also prefer to  provide your own train control scheme with the
 `cross_val` parameter in `run_ml()`.
 
 ## More arguments
 
 Some ML methods take optional arguments, such as `ntree` for
-`randomForest`-based models or 
+`randomForest`-based models or
 [case weights](https://topepo.github.io/caret/train-models-by-tag.html#Accepts_Case_Weights).
 Any additional arguments you give to `run_ml()` are forwarded along to
 `caret::train()` so you can leverage those options.
@@ -409,9 +409,9 @@ Any additional arguments you give to `run_ml()` are forwarded along to
 ### Case weights
 
 If you want to use case weights, you will also need to use custom indices
-for the training data (i.e. perform the partition before `run_ml(`) as 
+for the training data (i.e. perform the partition before `run_ml(`) as
 [above](#custom-training-indices)). Here's one way to do this with the weights
-calculated from the proportion of each class in the data set, with ~70% of the 
+calculated from the proportion of each class in the data set, with ~70% of the
 data in the training set:
 
 ```{r calc-case-weights, message = FALSE}
@@ -494,7 +494,7 @@ There are several columns:
 As you can see here, the differences are negligible (close to zero), which makes
 sense since our model isn't great. If you're interested in feature importance,
 it's especially useful to run multiple different train/test splits, as shown in
-our 
+our
 [example snakemake workflow](https://github.com/SchlossLab/mikropml-snakemake-workflow/).
 
 You can also choose to permute correlated features together using `corr_thresh`
@@ -546,10 +546,10 @@ results_rf <- run_ml(otu_mini_bin,
 )
 ```
 
-The `rf` engine takes an optional argument `ntree`: the number of trees to use 
+The `rf` engine takes an optional argument `ntree`: the number of trees to use
 for random forest.
-This can't be tuned using the `rf` package implementation of random forest. 
-Please refer to `caret` documentation if you are interested in 
+This can't be tuned using the `rf` package implementation of random forest.
+Please refer to `caret` documentation if you are interested in
 other packages with random forest implementations.
 
 ```{r, eval = FALSE}
@@ -587,7 +587,7 @@ If you get a message "maximum number of iterations reached", see [this issue](ht
 
 ## Multiclass data
 
-We provide `otu_mini_multi` with a multiclass outcome (three or more outcomes): 
+We provide `otu_mini_multi` with a multiclass outcome (three or more outcomes):
 
 ```{r}
 otu_mini_multi %>%
@@ -617,7 +617,7 @@ results_multi$performance
 
 ## Continuous data
 
-And here's an example for running continuous data, 
+And here's an example for running continuous data,
 where the outcome column is numerical:
 
 ```{r, eval = FALSE}
