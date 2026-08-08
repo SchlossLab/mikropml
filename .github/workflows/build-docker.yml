@@ -19,6 +19,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
+  NAMESPACE: ${{ github.repository_owner }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
