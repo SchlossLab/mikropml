@@ -19,7 +19,7 @@ jobs:
     env:
       R_CHECK_DONTTEST_EXAMPLES: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
           fetch-depth: 0
