@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_image_tag:
-        description: "Tag to apply to the built docker image (e.g. 'v0.3.0'). If not
+        description: "Tag to apply to the built docker image (e.g. 'v1.7.0.9001'). If not
           specified, it will be determined from the DESCRIPTION file."
         required: false
         default: ""

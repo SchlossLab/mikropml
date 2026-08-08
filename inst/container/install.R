@@ -1,5 +1,7 @@
 #!/usr/bin/env Rscript
 
+install.packages('remotes', repos = "https://cloud.r-project.org")
+
 # see issue #352
 remotes::install_version('xgboost','v1.7')
 
