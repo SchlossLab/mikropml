@@ -22,12 +22,18 @@ repos:
       - id: codespell
         args: ["--ignore-words-list=entrace"]
   # R formatting
-  - repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.1.3
+  - repo: https://github.com/posit-dev/air-pre-commit
+    rev: 0.11.0
     hooks:
-      - id: style-files
-      - id: readme-rmd-rendered
+      - id: air-format
+  - repo: https://github.com/lorenzwalthert/precommit
+    rev: v0.4.3.9029
+    hooks:
+      - id: parsable-R
       - id: use-tidy-description
+      - id: lintr
+        args: [--warn_only]
+        verbose: true
   # enforce commit format
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v2.3.0
