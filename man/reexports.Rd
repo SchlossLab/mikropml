@@ -15,10 +15,10 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{caret}{\code{\link[caret:dummyVars]{contr.ltfr}}}
+  \item{caret}{\code{\link[caret:contr.ltfr]{contr.ltfr()}}}
 
-  \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
+  \item{dplyr}{\code{\link[dplyr:\%>\%]{\%>\%}}}
 
-  \item{rlang}{\code{\link[rlang:dyn-dots]{:=}}, \code{\link[rlang:injection-operator]{!!}}, \code{\link[rlang:dot-data]{.data}}}
+  \item{rlang}{\code{\link[rlang::=]{:=()}}, \code{\link[rlang:!!]{!!()}}, \code{\link[rlang:.data]{.data}}}
 }}
 
