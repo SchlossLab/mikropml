@@ -111,6 +111,9 @@ test_that("run_ml works for svmRadial", {
 })
 
 test_that("run_ml works for xgbTree", {
+  # xgbTree <= 1.7 is required: https://github.com/SchlossLab/mikropml/issues/362
+  # compareVersion returns -1 if lhs is less than rhs.
+  skip_if_not(compareVersion(installed.packages()['xgboost','Version'], '1.8') == -1)
   skip_on_cran()
   skip_on_ci()
   skip_on_os(c("linux", "windows")) # bug in xgboost package: https://discuss.xgboost.ai/t/colsample-by-tree-leads-to-not-reproducible-model-across-machines-mac-os-windows/1709
