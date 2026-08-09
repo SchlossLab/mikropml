@@ -63,6 +63,19 @@ or install from a terminal using
 mamba install -c conda-forge r-mikropml
 ```
 
+A container with mikropml and all of its dependencies is available in
+the [GitHub container
+registry](https://github.com/SchlossLab/mikropml/pkgs/container/mikropml).
+You can pull it with your preferred container engine such as docker,
+podman, or singularity/apptainer:
+<a href='https://github.com/SchlossLab/mikropml/pkgs/container/mikropml'>
+<img src='https://github.com/SchlossLab/mikropml/actions/workflows/build-docker.yml/badge.svg' align='right'/>
+</a>
+
+``` bash
+docker pull ghcr.io/schlosslab/mikropml:latest
+```
+
 ### xgboost \<= v1.7 is required
 
 There is a bug in later versions of xgboost with caret. You will need to
