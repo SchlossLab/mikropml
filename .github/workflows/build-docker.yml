@@ -51,6 +51,9 @@ jobs:
           fi
 
           docker_tags="${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${image_name}:${version}"
+          echo "subject_name=${docker_tags}" >> "$GITHUB_OUTPUT"
+
+          # also tag latest version if release
           if [ "${{ github.event_name }}" = "release" ]; then
             docker_tags="${docker_tags},${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${image_name}:latest"
           fi
@@ -84,6 +87,6 @@ jobs:
         uses: actions/attest@v4
         if: ${{ steps.push.outcome == 'success' }}
         with:
-          subject-name: ${{ env.NAMESPACE }}/${{ steps.vars.outputs.image_name }}:${{ steps.vars.outputs.version }}
+          subject-name: ${{ steps.vars.outputs.subject_name }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
