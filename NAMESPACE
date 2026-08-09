@@ -42,11 +42,6 @@ export(train_model)
 exportMethods(preprocess_data)
 exportMethods(run_ml)
 importFrom(MLmetrics,AUC)
-importFrom(S4Vectors,
-  DataFrame,
-  SimpleList,
-  metadata
-)
 importFrom(SingleCellExperiment,
   "altExp<-",
   altExp,
