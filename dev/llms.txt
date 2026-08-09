@@ -52,11 +52,12 @@ or install from a terminal using
 mamba install -c conda-forge r-mikropml
 ```
 
-### xgboost \<= v1.7 is required
+### ⚠️ xgboost error
 
 There is a bug in later versions of xgboost with caret. You will need to
 downgrade your xgboost version to \<= 1.7 if you wish to use xgbTree.
-See \#352 for more details.
+See [\#362](https://github.com/SchlossLab/mikropml/issues/362) for more
+details.
 
 ### Dependencies
 
