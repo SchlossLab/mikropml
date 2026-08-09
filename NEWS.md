@@ -1,6 +1,9 @@
 # mikropml development version
-- Allow `training_frac` equal to 1 (#360, @pschloss).
+
+- Allow `training_frac` equal to 1... really this time! (#360, @pschloss)
 - Note: the maximum `xgboost` version supported is `1.7` (see #362).
+- A container is now available in ghcr (#364, #366, @kelly-sovacool).
+  - see <https://github.com/SchlossLab/mikropml/pkgs/container/mikropml>.
 
 # mikropml 1.7.0
 
