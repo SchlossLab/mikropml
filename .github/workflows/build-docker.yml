@@ -54,7 +54,7 @@ jobs:
           if [ "${{ github.event_name }}" = "release" ]; then
             docker_tags="${docker_tags},${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${image_name}:latest"
           fi
-          # image name must be lowercase
+          # full image name must be lowercase
           docker_tags=$(echo $docker_tags | tr '[:upper:]' '[:lower:]')
 
           echo "date=$(date +"%Y-%m-%d")" >> "$GITHUB_OUTPUT"
@@ -84,6 +84,6 @@ jobs:
         uses: actions/attest@v4
         if: ${{ steps.push.outcome == 'success' }}
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-name: ${{ env.NAMESPACE }}/${{ steps.vars.outputs.image_name }}:${{ steps.vars.outputs.version }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
