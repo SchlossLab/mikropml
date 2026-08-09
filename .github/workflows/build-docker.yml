@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_image_tag:
-        description: "Tag to apply to the built docker image (e.g. 'v0.3.0'). If not
+        description: "Tag to apply to the built docker image (e.g. 'v1.7.0.9001'). If not
           specified, it will be determined from the DESCRIPTION file."
         required: false
         default: ""
@@ -15,10 +15,12 @@ permissions:
   contents: read
   packages: write
   attestations: write
+  artifact-metadata: write
   id-token: write
 
 env:
   REGISTRY: ghcr.io
+  NAMESPACE: ${{ github.repository_owner }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -49,10 +51,15 @@ jobs:
             version="$(grep 'Version:' ./DESCRIPTION | sed 's/Version: /v/')"
           fi
 
-          docker_tags="${NAMESPACE}/${image_name}:${version}"
+          docker_tags="${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${image_name}:${version}"
+          echo "subject_name=${docker_tags}" >> "$GITHUB_OUTPUT"
+
+          # also tag latest version if release
           if [ "${{ github.event_name }}" = "release" ]; then
-            docker_tags="${docker_tags},${NAMESPACE}/${image_name}:latest"
+            docker_tags="${docker_tags},${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${image_name}:latest"
           fi
+          # full image name must be lowercase
+          docker_tags=$(echo $docker_tags | tr '[:upper:]' '[:lower:]')
 
           echo "date=$(date +"%Y-%m-%d")" >> "$GITHUB_OUTPUT"
           echo "dockerfile_path=${{ matrix.config.dockerfile_path }}" >> "$GITHUB_OUTPUT"
@@ -71,7 +78,7 @@ jobs:
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
-          context: ${{ env.Context }}
+          context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.vars.outputs.docker_tags }}
           file: ${{ steps.vars.outputs.dockerfile_path }}
@@ -81,6 +88,6 @@ jobs:
         uses: actions/attest@v4
         if: ${{ steps.push.outcome == 'success' }}
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-name: ${{ steps.vars.outputs.subject_name }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
