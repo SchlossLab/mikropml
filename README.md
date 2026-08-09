@@ -15,6 +15,7 @@ User-Friendly R Package for Supervised Machine Learning Pipelines
 [![CRAN](https://img.shields.io/cran/v/mikropml?color=blue&label=CRAN&logo=R)](https://CRAN.R-project.org/package=mikropml)
 [![r-universe](https://schlosslab.r-universe.dev/mikropml/badges/version)](https://schlosslab.r-universe.dev/mikropml)
 [![Conda](https://img.shields.io/conda/vn/conda-forge/r-mikropml)](https://anaconda.org/conda-forge/r-mikropml)
+[![build-docker](https://github.com/SchlossLab/mikropml/actions/workflows/build-docker.yml/badge.svg)](https://github.com/SchlossLab/mikropml/actions/workflows/build-docker.yml)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.03073/status.svg)](https://doi.org/10.21105/joss.03073)
 <!-- badges: end -->
 
@@ -61,6 +62,19 @@ or install from a terminal using
 
 ``` bash
 mamba install -c conda-forge r-mikropml
+```
+
+A container with mikropml and all of its dependencies is available in
+the [GitHub container
+registry](https://github.com/SchlossLab/mikropml/pkgs/container/mikropml).
+You can pull it with your preferred container engine such as docker,
+podman, or singularity/apptainer:
+<a href='https://github.com/SchlossLab/mikropml/pkgs/container/mikropml'>
+<img src='https://github.com/SchlossLab/mikropml/actions/workflows/build-docker.yml/badge.svg' align='right'/>
+</a>
+
+``` bash
+docker pull ghcr.io/schlosslab/mikropml:latest
 ```
 
 ### ⚠️ xgboost error
