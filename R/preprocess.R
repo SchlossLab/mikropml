@@ -165,7 +165,6 @@ methods::setMethod(
   }
 )
 
-#' @importFrom S4Vectors SimpleList DataFrame metadata
 #' @importFrom SummarizedExperiment assay `assay<-`
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #' @importFrom SingleCellExperiment altExp<-
@@ -182,13 +181,13 @@ add_data_to_se <- function(tse, res, outcome_colname, name) {
   if (length(setdiff(rownames(mat), rownames(tse))) > 0L) {
     message("Adding preprocessed data to altExp(dataset, '", name, "').")
     # Create new TreeSE
-    assays <- setNames(SimpleList(mat), name)
+    assays <- setNames(S4Vectors::SimpleList(mat), name)
     # If features were grouped, we add the grouping info to rowData
     rd <- NULL
     if (!is.null(res[[2]])) {
       rd <- res[[2]]
       rd <- rd[match(rownames(mat), names(rd))]
-      rd <- rd |> I() |> DataFrame()
+      rd <- rd |> I() |> S4Vectors::DataFrame()
       colnames(rd) <- names(res)[[2]]
       rownames(rd) <- rownames(mat)
     }
@@ -198,8 +197,8 @@ add_data_to_se <- function(tse, res, outcome_colname, name) {
       colData = colData(tse),
       rowData = rd
     )
-    # Add info on remvoed featrues to metadata
-    metadata(tse_add)[["removed_feats"]] <- res[["removed_feats"]]
+    # Add info on removed features to metadata
+    S4Vectors::metadata(tse_add)[["removed_feats"]] <- res[["removed_feats"]]
     # Add new TreeSE to altExp of old one
     altExp(tse, name) <- tse_add
   } else {
@@ -207,7 +206,7 @@ add_data_to_se <- function(tse, res, outcome_colname, name) {
     # new assay
     mat <- mat[rownames(tse), , drop = FALSE]
     assay(tse, name, withDimnames = FALSE) <- mat
-    metadata(tse)[["removed_feats"]] <- res[["removed_feats"]]
+    S4Vectors::metadata(tse)[["removed_feats"]] <- res[["removed_feats"]]
   }
   return(tse)
 }

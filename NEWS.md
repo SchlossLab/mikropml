@@ -1,4 +1,4 @@
-# mikropml development version
+# mikropml 1.7.1
 
 - Allow `training_frac` equal to 1... really this time! (#360, @pschloss)
 - Note: the maximum `xgboost` version supported is `1.7` (see #362).

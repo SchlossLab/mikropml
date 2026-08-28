@@ -26,7 +26,7 @@ test_that("shuffle_group works", {
       condition = c("a", "a", "b", "b"),
       AUC = c(0.2, 0.3, 0.8, 0.9)
     ),
-    .Names = c("condition", "AUC"),
+    names = c("condition", "AUC"),
     row.names = c(NA, -4L),
     class = "data.frame"
   )
@@ -48,7 +48,7 @@ test_that("permute_p_value works", {
       model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
       AUC = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
     ),
-    .Names = c("model", "AUC"),
+    names = c("model", "AUC"),
     row.names = c(NA, -6L),
     class = "data.frame"
   )
@@ -82,7 +82,7 @@ test_that("compare_models works", {
       model = c("rf", "rf", "glmnet", "glmnet", "svmRadial", "svmRadial"),
       AUC = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
     ),
-    .Names = c("model", "AUC"),
+    names = c("model", "AUC"),
     row.names = c(NA, -6L),
     class = "data.frame"
   )
@@ -94,7 +94,7 @@ test_that("compare_models works", {
         group2 = c("svmRadial", "glmnet", "svmRadial"),
         p_value = c(1, 1, 1)
       ),
-      .Names = c("group1", "group2", "p_value"),
+      names = c("group1", "group2", "p_value"),
       row.names = c(NA, -3L),
       class = "data.frame"
     )
