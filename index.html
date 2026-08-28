@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="User-Friendly R Package for Supervised Machine Learning Pipelines">
 <meta name="description" content="An interface to build machine learning models for classification and regression problems. mikropml implements the ML pipeline described by Topçuoğlu et al. (2020) &lt;doi:10.1128/mBio.00434-20&gt; with reasonable default options for data preprocessing, hyperparameter tuning, cross-validation, testing, model evaluation, and interpretation steps. See the website &lt;https://www.schlosslab.org/mikropml/&gt; for more information, documentation, and examples.">
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mikropml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,17 +85,31 @@
 <p>You can install the latest release from <a href="https://cran.r-project.org/package=mikropml" class="external-link">CRAN</a>: <img src="https://cranlogs.r-pkg.org/badges/grand-total/mikropml" align="right"></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span><span class="op">)</span></span></code></pre></div>
-<p>or the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
+<p>or from <a href="https://schlosslab.r-universe.dev/mikropml" class="external-link">r-universe</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mikropml'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://schlosslab.r-universe.dev'</span>,</span>
+<span>                                       <span class="st">'https://cloud.r-project.org'</span>,</span>
+<span>                                       <span class="st">'https://bioc.r-universe.dev'</span></span>
+<span>                                       <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>or install the development version from <a href="https://github.com/SchlossLab/mikRopML" class="external-link">GitHub</a>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SchlossLab/mikropml"</span><span class="op">)</span></span></code></pre></div>
 <p>or install from a terminal using <a href="https://docs.conda.io/projects/conda/en/latest/index.html" class="external-link">conda</a> or <a href="https://mamba.readthedocs.io/en/latest/" class="external-link">mamba</a>: <img src="https://anaconda.org/conda-forge/r-mikropml/badges/downloads.svg" align="right"></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-mikropml</span></code></pre></div>
+<p>A container with mikropml and all of its dependencies is available in the <a href="https://github.com/SchlossLab/mikropml/pkgs/container/mikropml" class="external-link">GitHub container registry</a>. You can pull it with your preferred container engine such as docker, podman, or singularity/apptainer: <a href="https://github.com/SchlossLab/mikropml/pkgs/container/mikropml" class="external-link"> <img src="https://github.com/SchlossLab/mikropml/actions/workflows/build-docker.yml/badge.svg" align="right"></a></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">docker</span> pull ghcr.io/schlosslab/mikropml:latest</span></code></pre></div>
+<div class="section level3">
+<h3 id="warning-xgboost-error">⚠️ xgboost error<a class="anchor" aria-label="anchor" href="#warning-xgboost-error"></a>
+</h3>
+<p>There is a bug in later versions of xgboost with caret. You will need to downgrade your xgboost version to &lt;= 1.7 if you wish to use xgbTree. See <a href="https://github.com/SchlossLab/mikropml/issues/362" class="external-link">#362</a> for more details.</p>
+</div>
 <div class="section level3">
 <h3 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h3>
 <ul>
-<li>Imports: caret, dplyr, e1071, glmnet, kernlab, MLmetrics, randomForest, rlang, rpart, stats, S4Vectors, SingleCellExperiment, SummarizedExperiment, tidyselect, TreeSummarizedExperiment, utils, xgboost</li>
+<li>Imports: caret, dplyr, e1071, glmnet, kernlab, methods, MLmetrics, randomForest, rlang, rpart, S4Vectors, SingleCellExperiment, stats, SummarizedExperiment, tidyselect, TreeSummarizedExperiment, utils, xgboost</li>
 <li>Suggests: assertthat, doFuture, forcats, foreach, furrr, future, future.apply, ggplot2, knitr, progress, progressr, purrr, rmarkdown, roxygen2, rsample, styler, testthat, tidyr, usethis</li>
 </ul>
 </div>
@@ -131,21 +145,21 @@
 <p>To cite mikropml in publications, use:</p>
 <blockquote>
 <p>
-Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines.” <em>Journal of Open Source Software</em>, <b>6</b>(61), 3073. <a href="https://doi.org/10.21105/joss.03073" class="external-link">doi:10.21105/joss.03073</a>, <a href="https://joss.theoj.org/papers/10.21105/joss.03073" class="external-link">https://joss.theoj.org/papers/10.21105/joss.03073</a>.
+Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “mikropml: User-Friendly R Package for Supervised Machine Learning Pipelines.” <em>Journal of Open Source Software</em>, <b>6</b>(61), 3073. <a href="https://doi.org/10.21105/joss.03073" class="external-link">doi:10.21105/joss.03073</a>. <a href="https://joss.theoj.org/papers/10.21105/joss.03073" class="external-link">https://joss.theoj.org/papers/10.21105/joss.03073</a>.
 </p>
 </blockquote>
 <p>A BibTeX entry for LaTeX users is:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a> <span class="sc">@</span>Article{,</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  title <span class="ot">=</span> {{mikropml}<span class="sc">:</span> User<span class="sc">-</span>Friendly R Package <span class="cf">for</span> Supervised Machine Learning Pipelines},</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  author <span class="ot">=</span> {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  journal <span class="ot">=</span> {Journal of Open Source Software},</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  volume <span class="ot">=</span> {<span class="dv">6</span>},</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  number <span class="ot">=</span> {<span class="dv">61</span>},</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  pages <span class="ot">=</span> {<span class="dv">3073</span>},</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>joss.theoj.org<span class="sc">/</span>papers<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a> <span class="sc">@</span>Article{,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  title <span class="ot">=</span> {{mikropml}<span class="sc">:</span> User<span class="sc">-</span>Friendly R Package <span class="cf">for</span> Supervised Machine Learning Pipelines},</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  author <span class="ot">=</span> {Begüm D. Topçuoğlu and Zena Lapp and Kelly L. Sovacool and Evan Snitkin and Jenna Wiens and Patrick D. Schloss},</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  journal <span class="ot">=</span> {Journal of Open Source Software},</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  volume <span class="ot">=</span> {<span class="dv">6</span>},</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  number <span class="ot">=</span> {<span class="dv">61</span>},</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  pages <span class="ot">=</span> {<span class="dv">3073</span>},</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>joss.theoj.org<span class="sc">/</span>papers<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.03073</span>},</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="why-the-name">Why the name?<a class="anchor" aria-label="anchor" href="#why-the-name"></a>
@@ -226,7 +240,7 @@ Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD (2021). “m
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
