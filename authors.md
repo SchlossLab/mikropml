@@ -33,7 +33,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/SchlossLab/mikropml/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/SchlossLab/mikropml/blob/v1.7.1/inst/CITATION)
 
 Topçuoğlu BD, Lapp Z, Sovacool KL, Snitkin E, Wiens J, Schloss PD
 (2021). “mikropml: User-Friendly R Package for Supervised Machine
