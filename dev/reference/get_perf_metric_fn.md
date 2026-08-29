@@ -32,7 +32,7 @@ get_perf_metric_fn("continuous")
 #>         data$obs <- factor(data$obs, levels = lev)
 #>     postResample(data[, "pred"], data[, "obs"])
 #> }
-#> <bytecode: 0x5606254a51d0>
+#> <bytecode: 0x5632e04b4288>
 #> <environment: namespace:caret>
 get_perf_metric_fn("binary")
 #> function (data, lev = NULL, model = NULL) 
@@ -90,7 +90,7 @@ get_perf_metric_fn("binary")
 #>     stats <- stats[c(stat_list)]
 #>     return(stats)
 #> }
-#> <bytecode: 0x56062a9ec618>
+#> <bytecode: 0x5632e8bb6e30>
 #> <environment: namespace:caret>
 get_perf_metric_fn("multiclass")
 #> function (data, lev = NULL, model = NULL) 
@@ -148,6 +148,6 @@ get_perf_metric_fn("multiclass")
 #>     stats <- stats[c(stat_list)]
 #>     return(stats)
 #> }
-#> <bytecode: 0x56062a9ec618>
+#> <bytecode: 0x5632e8bb6e30>
 #> <environment: namespace:caret>
 ```

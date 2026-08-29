@@ -1,5 +1,23 @@
 # Changelog
 
+## mikropml 1.7.1
+
+- Allow `training_frac` equal to 1… really this time!
+  ([\#360](https://github.com/SchlossLab/mikropml/issues/360),
+  [@pschloss](https://github.com/pschloss))
+- Note: the maximum `xgboost` version supported is `1.7` (see
+  [\#362](https://github.com/SchlossLab/mikropml/issues/362)).
+- Fix SummarizedExperiment export
+  ([\#368](https://github.com/SchlossLab/mikropml/issues/368),
+  [\#370](https://github.com/SchlossLab/mikropml/issues/370),
+  [@kelly-sovacool](https://github.com/kelly-sovacool)).
+- A container is now available in ghcr
+  ([\#364](https://github.com/SchlossLab/mikropml/issues/364),
+  [\#366](https://github.com/SchlossLab/mikropml/issues/366),
+  [@kelly-sovacool](https://github.com/kelly-sovacool)).
+  - see
+    <https://github.com/SchlossLab/mikropml/pkgs/container/mikropml>.
+
 ## mikropml 1.7.0
 
 CRAN release: 2025-10-29
