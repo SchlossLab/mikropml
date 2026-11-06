@@ -38,7 +38,7 @@ BugReports: https://github.com/SchlossLab/mikropml/issues
 Depends:
     R (>= 4.1.0)
 Imports:
-    caret,
+    caret (>= 7.1.0),
     dplyr,
     e1071,
     glmnet,
@@ -76,6 +76,8 @@ Suggests:
     testthat,
     tidyr,
     usethis
+Remotes:
+    topepo/caret#1545
 VignetteBuilder:
     knitr
 biocViews:
