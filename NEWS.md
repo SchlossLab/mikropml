@@ -1,5 +1,7 @@
 # development version
 
+- Update stored example results and test expectations for the next caret release, which computes performance metrics with yardstick. `prAUC` values are now higher because the precision-recall curve starts at recall 0. Other changes: `logLoss` for models with hard 0/1 probabilities, multiclass `Mean_F1` and `Mean_Precision` (previously `NA` when a class had no predictions), and some feature importance p-values (#373, @topepo).
+
 # mikropml 1.7.1
 
 - Allow `training_frac` equal to 1... really this time! (#360, @pschloss)
