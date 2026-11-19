@@ -77,19 +77,12 @@ podman, or singularity/apptainer:
 docker pull ghcr.io/schlosslab/mikropml:latest
 ```
 
-### ⚠️ xgboost error
-
-There is a bug in later versions of xgboost with caret. You will need to
-downgrade your xgboost version to \<= 1.7 if you wish to use xgbTree.
-See [\#362](https://github.com/SchlossLab/mikropml/issues/362) for more
-details.
-
 ### Dependencies
 
-- Imports: caret, dplyr, e1071, glmnet, kernlab, methods, MLmetrics,
-  randomForest, rlang, rpart, S4Vectors, SingleCellExperiment, stats,
-  SummarizedExperiment, tidyselect, TreeSummarizedExperiment, utils,
-  xgboost
+- Imports: caret (\>= 7.1.0), dplyr, e1071, glmnet, kernlab, methods,
+  MLmetrics, randomForest, rlang, rpart, S4Vectors,
+  SingleCellExperiment, stats, SummarizedExperiment, tidyselect,
+  TreeSummarizedExperiment, utils, xgboost (\>= 3.0.0)
 - Suggests: assertthat, doFuture, forcats, foreach, furrr, future,
   future.apply, ggplot2, knitr, progress, progressr, purrr, rmarkdown,
   roxygen2, rsample, styler, testthat, tidyr, usethis

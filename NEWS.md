@@ -1,6 +1,9 @@
 # development version
 
-- Update stored example results and test expectations for the next caret release, which computes performance metrics with yardstick. `prAUC` values are now higher because the precision-recall curve starts at recall 0. Other changes: `logLoss` for models with hard 0/1 probabilities, multiclass `Mean_F1` and `Mean_Precision` (previously `NA` when a class had no predictions), and some feature importance p-values (#373, @topepo).
+- `caret` >= 7.1.0 is now required. (#373, @topepo)
+  - `caret` now computes performance metrics with yardstick. `prAUC` values are now higher because the precision-recall curve starts at recall 0. Other changes: `logLoss` for models with hard 0/1 probabilities, multiclass `Mean_F1` and `Mean_Precision` (previously `NA` when a class had no predictions), and some feature importance p-values.
+  - Due to the `caret` upgrade, `xgboost` >= 3.0.0 is now supported and required.
+  - See the `caret` changelog for more details: https://github.com/topepo/caret/blob/main/NEWS.md#changes-in-version-71-0.
 
 # mikropml 1.7.1
 
