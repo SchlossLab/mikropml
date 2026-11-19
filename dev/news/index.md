@@ -2,6 +2,8 @@
 
 ## mikropml 1.7.1
 
+CRAN release: 2026-08-28
+
 - Allow `training_frac` equal to 1… really this time!
   ([\#360](https://github.com/SchlossLab/mikropml/issues/360),
   [@pschloss](https://github.com/pschloss))

@@ -75,7 +75,7 @@ bootstrap_performance(otu_mini_bin_results_glmnet, "dx",
 #> 12 Specificity        0.349     0.574  0.737    0.1 percentile
 #> 13 cv_metric_AUC      0.622     0.622  0.622    0.1 percentile
 #> 14 logLoss            0.672     0.687  0.705    0.1 percentile
-#> 15 prAUC              0.444     0.574  0.690    0.1 percentile
+#> 15 prAUC              0.492     0.617  0.728    0.1 percentile
 if (FALSE) { # \dontrun{
 outcome_colname <- "dx"
 run_ml(otu_mini_bin, "rf", outcome_colname = "dx") %>%

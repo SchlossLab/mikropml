@@ -227,7 +227,7 @@ results$performance
 #> # A tibble: 1 × 17
 #>   cv_metric_AUC logLoss   AUC prAUC Accuracy Kappa    F1 Sensitivity Specificity
 #>           <dbl>   <dbl> <dbl> <dbl>    <dbl> <dbl> <dbl>       <dbl>       <dbl>
-#> 1         0.622   0.684 0.647 0.606    0.590 0.179   0.6         0.6       0.579
+#> 1         0.622   0.684 0.647 0.633    0.590 0.179   0.6         0.6       0.579
 #> # ℹ 8 more variables: Pos_Pred_Value <dbl>, Neg_Pred_Value <dbl>,
 #> #   Precision <dbl>, Recall <dbl>, Detection_Rate <dbl>,
 #> #   Balanced_Accuracy <dbl>, method <chr>, seed <dbl>
@@ -412,7 +412,7 @@ results_pr$performance
 #> # A tibble: 1 × 17
 #>   cv_metric_prAUC logLoss   AUC prAUC Accuracy  Kappa    F1 Sensitivity
 #>             <dbl>   <dbl> <dbl> <dbl>    <dbl>  <dbl> <dbl>       <dbl>
-#> 1           0.577   0.691 0.663 0.605    0.538 0.0539 0.690           1
+#> 1           0.624   0.691 0.663 0.631    0.538 0.0539 0.690           1
 #> # ℹ 9 more variables: Specificity <dbl>, Pos_Pred_Value <dbl>,
 #> #   Neg_Pred_Value <dbl>, Precision <dbl>, Recall <dbl>, Detection_Rate <dbl>,
 #> #   Balanced_Accuracy <dbl>, method <chr>, seed <dbl>
@@ -638,15 +638,15 @@ Now, we can check out the feature importances:
 
 results_imp$feature_importance
 #>    perf_metric perf_metric_diff     pvalue   lower   upper     feat method
-#> 1    0.5459125        0.0003375 0.51485149 0.49125 0.60250 Otu00001     rf
-#> 2    0.5682625       -0.0220125 0.72277228 0.50625 0.63125 Otu00002     rf
-#> 3    0.5482875       -0.0020375 0.55445545 0.50500 0.59000 Otu00003     rf
+#> 1    0.5459125        0.0003375 0.48514851 0.49125 0.60250 Otu00001     rf
+#> 2    0.5682625       -0.0220125 0.71287129 0.50625 0.63125 Otu00002     rf
+#> 3    0.5482875       -0.0020375 0.54455446 0.50500 0.59000 Otu00003     rf
 #> 4    0.6314375       -0.0851875 1.00000000 0.55250 0.71250 Otu00004     rf
 #> 5    0.4991750        0.0470750 0.08910891 0.44125 0.57125 Otu00005     rf
-#> 6    0.5364875        0.0097625 0.28712871 0.50125 0.57375 Otu00006     rf
-#> 7    0.5382875        0.0079625 0.39603960 0.47500 0.58750 Otu00007     rf
+#> 6    0.5364875        0.0097625 0.27722772 0.50125 0.57375 Otu00006     rf
+#> 7    0.5382875        0.0079625 0.38613861 0.47500 0.58750 Otu00007     rf
 #> 8    0.5160500        0.0302000 0.09900990 0.46750 0.55750 Otu00008     rf
-#> 9    0.5293375        0.0169125 0.16831683 0.49500 0.55625 Otu00009     rf
+#> 9    0.5293375        0.0169125 0.13861386 0.49500 0.55625 Otu00009     rf
 #> 10   0.4976500        0.0486000 0.12871287 0.41000 0.56250 Otu00010     rf
 #>    perf_metric_name seed
 #> 1               AUC 2019
@@ -836,10 +836,10 @@ everything else is the same:
 results_multi$performance
 #> # A tibble: 1 × 17
 #>   cv_metric_logLoss logLoss   AUC prAUC Accuracy  Kappa Mean_F1 Mean_Sensitivity
-#>               <dbl>   <dbl> <dbl> <dbl>    <dbl>  <dbl> <chr>              <dbl>
-#> 1              1.07    1.11 0.506 0.353    0.382 0.0449 NA                 0.360
+#>               <dbl>   <dbl> <dbl> <dbl>    <dbl>  <dbl>   <dbl>            <dbl>
+#> 1              1.07    1.11 0.506 0.372    0.382 0.0449   0.342            0.360
 #> # ℹ 9 more variables: Mean_Specificity <dbl>, Mean_Pos_Pred_Value <chr>,
-#> #   Mean_Neg_Pred_Value <dbl>, Mean_Precision <chr>, Mean_Recall <dbl>,
+#> #   Mean_Neg_Pred_Value <dbl>, Mean_Precision <dbl>, Mean_Recall <dbl>,
 #> #   Mean_Detection_Rate <dbl>, Mean_Balanced_Accuracy <dbl>, method <chr>,
 #> #   seed <dbl>
 ```

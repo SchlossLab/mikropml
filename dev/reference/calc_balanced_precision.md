@@ -50,7 +50,7 @@ otu_mini_bin_results_rf$performance %>%
 #> # A tibble: 1 × 4
 #>     AUC Precision balanced_precision aubprc
 #>   <dbl>     <dbl>              <dbl>  <dbl>
-#> 1 0.546     0.588              0.598  0.517
+#> 1 0.546     0.588              0.598  0.542
 
 # cumulative performance for a single model
 sensspec_1 <- calc_model_sensspec(

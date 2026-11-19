@@ -103,7 +103,7 @@ boot_perf
 #> 12 Specificity        0.308     0.577  0.805   0.05 percentile
 #> 13 cv_metric_AUC      0.622     0.622  0.622   0.05 percentile
 #> 14 logLoss            0.661     0.687  0.708   0.05 percentile
-#> 15 prAUC              0.447     0.576  0.715   0.05 percentile
+#> 15 prAUC              0.493     0.628  0.785   0.05 percentile
 ```
 
 ## Call `run_ml()` multiple times in parallel in R
