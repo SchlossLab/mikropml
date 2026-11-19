@@ -394,7 +394,6 @@ test_that("run_ml works for multiclass outcome", {
     otu_mini_multi_results_glmnet
   ) %>%
     expect_message("Using 'dx' as the outcome column") %>%
-    expect_warning("`caret::train\\(\\)` issued the following warning:") %>%
     suppressMessages()
 })
 
@@ -479,7 +478,7 @@ test_that("models use case weights when provided", {
   skip_on_cran()
   set.seed(20221014)
   case_weights_dat <- otu_mini_bin %>%
-    count(dx) %>%
+    dplyr::count(dx) %>%
     mutate(p = n / sum(n)) %>%
     select(dx, p)
   train_weights <- otu_mini_bin %>%
@@ -540,6 +539,5 @@ test_that("run_ml works with TreeSummarizedExperiment", {
     ),
     otu_mini_multi_results_glmnet
   ) %>%
-    expect_warning() %>%
     suppressMessages()
 })

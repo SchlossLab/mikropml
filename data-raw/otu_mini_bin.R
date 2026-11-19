@@ -7,7 +7,7 @@ otu_mini_bin <- otu_small[, 1:11]
 use_data(otu_mini_bin, overwrite = TRUE)
 
 otu_data_preproc <- preprocess_data(otu_mini_bin, "dx")
-use_data(otu_data_preproc)
+use_data(otu_data_preproc, overwrite = TRUE)
 
 ## code to prepare `otu_mini_results`
 # includes grouping functionality & feature importance
